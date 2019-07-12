@@ -37,13 +37,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.API.FunctionalTests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Core.Service.Tests", "Tests\Backend.Core.Service.Tests\Backend.Core.Service.Tests.csproj", "{38897644-19F8-4AA7-822A-8B63DB664935}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Infrastructure", "Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj", "{EB4C38BD-3318-4F90-A262-4E9D9B023DF4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.PushNotifications", "Core\Services\Backend.Service.PushNotifications\Backend.Service.PushNotifications.csproj", "{4DC63014-4521-414E-804F-6356533541EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Chat", "Core\Services\Backend.Service.Chat\Backend.Service.Chat.csproj", "{3043F469-AAEF-43C1-B363-DEF74FE9BD55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Service.AmazonS3", "Core\Services\Backend.Service.AmazonS3\Backend.Service.AmazonS3.csproj", "{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.AmazonS3", "Core\Services\Backend.Service.AmazonS3\Backend.Service.AmazonS3.csproj", "{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Infrastructure", "Core\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj", "{387B8450-77F0-434D-B90D-113477715553}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,10 +91,6 @@ Global
 		{38897644-19F8-4AA7-822A-8B63DB664935}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38897644-19F8-4AA7-822A-8B63DB664935}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38897644-19F8-4AA7-822A-8B63DB664935}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB4C38BD-3318-4F90-A262-4E9D9B023DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB4C38BD-3318-4F90-A262-4E9D9B023DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB4C38BD-3318-4F90-A262-4E9D9B023DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB4C38BD-3318-4F90-A262-4E9D9B023DF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4DC63014-4521-414E-804F-6356533541EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4DC63014-4521-414E-804F-6356533541EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DC63014-4521-414E-804F-6356533541EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -107,6 +103,10 @@ Global
 		{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{387B8450-77F0-434D-B90D-113477715553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{387B8450-77F0-434D-B90D-113477715553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{387B8450-77F0-434D-B90D-113477715553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{387B8450-77F0-434D-B90D-113477715553}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,10 +127,10 @@ Global
 		{E7C49F44-2DC5-4BB8-B3DE-CF91596E7DF8} = {DAA38FFC-572C-4548-86BF-52ED14782186}
 		{BDF316C4-6997-4B3F-A979-CE7833AFD5A5} = {53F44026-C4BE-443B-8485-20A523C061E9}
 		{38897644-19F8-4AA7-822A-8B63DB664935} = {53F44026-C4BE-443B-8485-20A523C061E9}
-		{EB4C38BD-3318-4F90-A262-4E9D9B023DF4} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 		{4DC63014-4521-414E-804F-6356533541EE} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 		{3043F469-AAEF-43C1-B363-DEF74FE9BD55} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 		{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
+		{387B8450-77F0-434D-B90D-113477715553} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DD0AB68-A97C-455D-82B6-014536CC5B59}
