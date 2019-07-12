@@ -1,0 +1,51 @@
+.plan-card {
+ 
+  border-radius: 10px !important;
+
+  & .plan-card-header {
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    color: white;
+    width: 100%;
+
+    & .plan-name {
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+
+  & .plan-card-body {
+    text-align: center;
+
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    & .plan-price {
+        font-weight: bold;
+        font-size: 2.5rem;
+    }
+
+    & .plan-interval {
+        font-size:  10px;
+    }
+
+    & .plan-trial {
+        font-size:  14px;
+        margin-top: 3rem;
+    }
+
+    & .plan-users {
+        font-size: 14px;
+    }
+  }
+
+  & .plan-card-footer {
+    color: white;
+    margin-bottom: 1rem;
+  }
+}

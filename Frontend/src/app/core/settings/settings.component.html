@@ -1,0 +1,75 @@
+<mat-sidenav-container class="settings-sidenav-container">
+
+  <mat-sidenav class="settings-sidenav" (closed)="sidebarService.showSettingsMenuButton = true">
+    <mat-toolbar>
+      <mat-toolbar-row class="justify-content-between">
+        <h2 class="toolbar-title float-left"> {{ data.title }} </h2>
+
+        <button mat-icon-button color="accent" (click)="toggleSidenav()">
+          <i class="fas fa-bars"></i>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+
+    <mat-nav-list class="navlist">
+      <mat-accordion [displayMode]="'flat'">
+
+        <a mat-list-item (click)="openTab('General')">
+          General
+        </a>
+        <mat-divider></mat-divider>
+        <a mat-list-item (click)="openTab('Account')">
+          Account
+        </a>
+        <mat-divider></mat-divider>
+        <a mat-list-item (click)="openTab('Billing')" *ngIf="isUser">
+          Billing
+        </a>
+
+      </mat-accordion>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="container-fluid d-flex flex-column">
+
+      <!-- menu button for settings sidenav -->
+      <div class="row mt-1" [class.mb-3]='!sidebarService.settingsToggled'>
+        <div class="col-12">
+          <button class="float-left" *ngIf="sidebarService.showSettingsMenuButton" mat-icon-button color="accent"
+            (click)="toggleSidenav()">
+            <i class="fas fa-bars"></i>
+          </button>
+
+          <button class="float-right" mat-icon-button color="accent" (click)="onClose()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- settings content -->
+      <div class="row" [class.pl-3]='!sidebarService.settingsToggled'>
+        <div class="col-12">
+          <ng-container [ngSwitch]="activeTab">
+            <app-general [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'General'"></app-general>
+            <app-account [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Account'"></app-account>
+            <ng-container *ngIf="isUser">
+              <app-billing [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Billing'"></app-billing>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- loader -->
+      <ng-container *ngIf="isLoading">
+        <div class="spinner-center">
+          <mat-progress-spinner class="settings-spinner" [color]="'accent'" [mode]="'indeterminate'" [value]="50">
+          </mat-progress-spinner>
+        </div>
+      </ng-container>
+
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

@@ -1,0 +1,21 @@
+// core theme
+@import "./application-content.theme.scss";
+
+
+.settings-dialog-container .mat-dialog-container  {
+    padding: 0px;
+    height: 30rem;
+    overflow-x: hidden;
+}
+.settings-dialog-container .mat-drawer-content {
+    overflow-x: hidden;
+}
+
+.navlist {
+    padding-top: 0 !important;
+}
+
+mat-form-field {
+    margin-bottom: 1rem;
+    width: 100%;
+}

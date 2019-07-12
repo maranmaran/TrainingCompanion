@@ -1,0 +1,7 @@
+<ng-container *ngIf="subscriptionValid && currentUser.subscriptionInfo">
+    <app-current-subscription [subscription]="currentUser.subscriptionInfo" (cancelSubscription)="onCancelSubscription($event)"></app-current-subscription>
+  </ng-container>
+  
+  <ng-container *ngIf="!currentUser.subscriptionInfo">
+        <app-plans [plans]="plans" (subscribe)="onSubscribe($event)"></app-plans>
+  </ng-container>

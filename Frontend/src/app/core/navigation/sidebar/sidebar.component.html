@@ -1,0 +1,33 @@
+<mat-toolbar>
+  <mat-toolbar-row class="justify-content-between">
+    <h2 class="toolbar-title float-left"> Menu </h2>
+
+    <button mat-icon-button color="accent" (click)="close()">
+      <i class="fas fa-times"></i>
+    </button>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<mat-nav-list class="navlist">
+  <mat-accordion class="headers-align" [displayMode]="'flat'">
+
+    <a mat-list-item>
+      Manage all users
+    </a>
+
+    <a mat-list-item>
+      Manage videos
+    </a>
+
+    <a mat-list-item>
+      Manage photos
+    </a>
+
+    <a mat-list-item>
+      Import excel file
+    </a>
+
+  </mat-accordion>
+</mat-nav-list>

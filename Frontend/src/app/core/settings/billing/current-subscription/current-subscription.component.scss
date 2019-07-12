@@ -1,0 +1,32 @@
+span {
+  margin-left: 1rem;
+}
+
+#actions {
+    margin-top: 2rem;
+}
+
+.spinner-center {
+  position: absolute;
+  left: 43%;
+  top: 43%;
+}
+
+@media (max-width: 600px) {
+
+  #current-subscription {
+    padding-top: 0;
+
+    & #body {
+      margin-top: 2rem;
+
+      & #actions {
+        justify-content: space-between !important;
+
+        & #cancel {
+          padding-right: 0;
+        }
+      }
+    }
+  }
+}
