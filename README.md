@@ -1,1 +1,1 @@
-# TrainingCompanion1
+# Training companion
