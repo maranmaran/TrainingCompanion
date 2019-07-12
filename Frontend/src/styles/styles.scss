@@ -1,0 +1,42 @@
+@import "./bootstrap/bootstrap.styles.scss";
+@import "./material/material.styles.scss";
+@import "./mobile.scss";
+
+html,
+body {
+  height: 100%;
+}
+
+.container-fluid {
+  height: 100% !important;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+i {
+  cursor: pointer;
+}
+
+.visible {
+  visibility: visible !important;
+}
+.not-visible {
+  visibility: hidden !important;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+.no-margin {
+  margin: 0 !important;
+}
+
+.center-margin{
+  margin-top: auto;
+  margin-bottom: auto;
+}

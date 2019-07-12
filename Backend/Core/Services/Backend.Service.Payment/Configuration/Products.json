@@ -1,0 +1,38 @@
+{
+	"Products": [
+		{
+			"Name": "Template app",
+			"StatementDescription": "Template app",
+			"Type": "service", 
+			"Metadata": {
+
+			},
+			"Plans": [
+				{
+					"Name": "Basic",
+					"PricePerUnit": 2000,
+					"Metadata": {
+						"MaxUsers": "5",
+						"EmailSupport": "false"
+					}
+				},
+				{
+					"Name": "Professional",
+					"PricePerUnit": 4000,
+					"Metadata": {
+						"MaxUsers": "10",
+						"EmailSupport": "true"
+					}
+				},
+				{
+					"Name": "Enterprise",
+					"PricePerUnit": 5000,
+					"Metadata": {
+						"MaxUsers": "15",
+						"EmailSupport": "true"
+					}
+				}
+			]
+		}
+	]
+}

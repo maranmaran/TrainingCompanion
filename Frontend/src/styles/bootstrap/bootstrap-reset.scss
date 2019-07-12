@@ -1,0 +1,11 @@
+* {
+    &:active,
+    :focus {
+      outline: none !important;  // 1
+    }
+  }
+  
+  label {
+    margin-bottom: 0; // 2
+  }
+  

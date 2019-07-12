@@ -1,0 +1,26 @@
+<div *ngIf="subscription" id="current-subscription"  class="row pt-5 align-items-center">
+  <div id="subscription-placeholder" class="col-sm-5 col-12">
+    <app-plan [plan]="subscription.plan" [showSubscribeButton]="false"
+      [color]="'linear-gradient(45deg, #da4453, #89216b)'"></app-plan>
+  </div>
+  <div id="body" class="col-sm-6 offset-sm-1 col-12">
+    <div id="details" class="row">
+      <div class="col-12">
+        <label><b>Status:</b></label>
+        <span>{{ subscription.status | titlecase }}</span>
+      </div>
+      <div class="col-12" *ngIf="SubscriptionStatus[subscription.status.toLowerCase()] == SubscriptionStatus.trialing">
+        <label><b>Trial is ending on:</b></label>
+        <span>{{ subscription.trial_end * 1000 | date:'mediumDate' }}</span>
+      </div>
+    </div>
+    <div id="actions" class="row">
+      <div id="cancel" class="col-auto mb-1">
+        <button mat-button color="accent" (click)="cancelSubscription.emit(subscription.id)">Cancel</button>
+      </div>
+      <div id="change" class="col-auto">
+        <button mat-stroked-button color="primary" (click)="onUpgrade(subscription.id)">Change</button>
+      </div>
+    </div>
+  </div>
+</div>
