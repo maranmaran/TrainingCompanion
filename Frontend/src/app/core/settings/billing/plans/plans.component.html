@@ -1,0 +1,7 @@
+<div class="row no-gutters mt-5">
+  <ng-container *ngFor="let plan of plans; let i = index">
+    <div class="col-md-4 offset-md-0 col-sm-6 offset-sm-3 col-10 offset-1 pr-1 mb-2 plan-column">
+      <app-plan class="" [plan]="plan" [color]="colors[i]" (subscribe)=onSubscribe($event)></app-plan>
+    </div>
+  </ng-container>
+</div>

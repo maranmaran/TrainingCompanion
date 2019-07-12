@@ -1,0 +1,13 @@
+<mat-sidenav-container class="sidenav-container">
+
+  <mat-sidenav class="sidenav" [autoFocus]="false">
+      <app-sidebar></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+      <app-toolbar></app-toolbar>
+      <router-outlet></router-outlet>
+      <ng-chat [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

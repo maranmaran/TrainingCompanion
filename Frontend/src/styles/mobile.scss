@@ -1,0 +1,23 @@
+@media (max-width: 600px) {
+  .settings-sidenav {
+    width: 8rem !important;
+  }
+
+  app-current-subscription {
+    #current-subscription {
+      padding-top: 0 !important;
+
+      & #body {
+        margin-top: 2rem !important;
+
+        & .actions {
+          margin-top: 2rem !important;
+
+          & #cancel {
+              padding-right: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+<mat-toolbar color="primary" class="toolbar-navigation-bar no-padding">
+
+  <div id="toolbar-row" class="row justify-content-between">
+
+    <div class="col-auto d-flex align-items-center">
+      <button mat-icon-button (click)="toggleSidebar()">
+        <i class="fas fa-bars fa-lg"></i>
+      </button>
+      <span class="toolbar-title">{{ fullName }}</span>
+    </div>
+
+    <div class="col-auto d-flex align-items-center">
+      <i id="messaging" routerLink="chat" class="fas fa-comments mr-4"></i>
+      <i id="notifications" class="fas fa-bell mr-4"></i>
+      <ngx-avatar size="40" [matMenuTriggerFor]="userMenu" name="{{ fullName }}"></ngx-avatar>
+
+      <mat-menu #userMenu="matMenu">
+
+        <div class="container-fluid">
+
+          <div id="avatar-settings-row" class="row justify-content-end">
+            <button mat-icon-button (click)="openSettings()">
+              <i id="settings" class="fas fa-cog"></i>
+            </button>
+          </div>
+
+          <div id="avatar-content-row" class="row justify-content-center">
+            <ngx-avatar id="content-avatar" size="80" name="{{ fullName }}"></ngx-avatar>
+          </div>
+
+          <div id="avatar-actions-row" class="row align-items-end justify-content-between">
+            <div class="col">
+              <button mat-stroked-button routerLink="">
+                Homepage
+              </button>
+            </div>
+            <div class="col">
+              <button id="logout" (click)="logout()" mat-button color="accent">
+                Sign out
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </mat-menu>
+    </div>
+
+  </div>
+
+</mat-toolbar>
+
+<ng-container *ngIf="(loading$ | async) && notificationService.showAppLoadingBar">
+  <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
+</ng-container>
