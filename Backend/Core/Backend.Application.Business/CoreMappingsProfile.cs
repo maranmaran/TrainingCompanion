@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Backend.Application.Business.Business.Authorization.CurrentUser;
 using Backend.Application.Business.Business.Authorization.SignIn;
 using Backend.Application.Business.Business.Billing.AddPayment;
 using Backend.Application.Business.Business.Billing.Subscribe;
@@ -11,7 +12,6 @@ using Backend.Domain.Entities;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
-using Backend.Application.Business.Business.Authorization.CurrentUser;
 
 namespace Backend.Application.Business
 {
@@ -74,7 +74,7 @@ namespace Backend.Application.Business
         {
             // subscribe
             CreateMap<SubscribeRequest, PaymentModel>();
-            CreateMap<AddPaymentRequest, PaymentModel>();
+            CreateMap<AddPaymentRequest, PaymentOption>();
         }
 
         private void ChatMappings()

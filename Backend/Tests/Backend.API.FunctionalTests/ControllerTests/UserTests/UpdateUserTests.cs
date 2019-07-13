@@ -1,12 +1,11 @@
 ﻿using Backend.API.FunctionalTests.Common;
-using Backend.Application.Business.Business.Users.Commands.Update;
+using Backend.API.FunctionalTests.Common.ClientAPI;
 using Backend.Domain.Entities;
+using Backend.Domain.Enum;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Users.Queries.Get;
-using Backend.API.FunctionalTests.Common.ClientAPI;
-using Backend.Domain.Enum;
+using Backend.Application.Business.Business.Users.UpdateUser;
 using Xunit;
 
 namespace Backend.API.FunctionalTests.ControllerTests.UserTests

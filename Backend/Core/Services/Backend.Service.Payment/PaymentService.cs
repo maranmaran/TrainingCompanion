@@ -15,12 +15,6 @@ namespace Backend.Service.Payment
 {
     public class PaymentService : IPaymentService
     {
-        private readonly StripeSettings _stripeSettings;
-
-        public PaymentService(StripeSettings stripeSettings)
-        {
-            _stripeSettings = stripeSettings;
-        }
 
         public async Task AddPaymentOption(PaymentOption paymentOption)
         {
