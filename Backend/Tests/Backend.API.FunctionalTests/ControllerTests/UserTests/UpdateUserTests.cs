@@ -24,7 +24,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.UserTests
         public async Task Update_Successful()
         {
             // arrange
-            var updateUserCommand = new UpdateUserCommand()
+            var updateUserCommand = new UpdateUserRequest()
             {
                 Id = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D"),
                 FirstName = "Marko",
@@ -53,7 +53,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.UserTests
         public async Task Update_Fails()
         {
             // email validation is wrong
-            var updateUserCommand = new UpdateUserCommand()
+            var updateUserCommand = new UpdateUserRequest()
             {
                 Id = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D"),
                 FirstName = "Marko",

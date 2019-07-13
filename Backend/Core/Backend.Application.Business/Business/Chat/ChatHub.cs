@@ -106,7 +106,7 @@ namespace Backend.Application.Business.Business.Chat
                         SenderId = Guid.Parse(message.FromId),
                         ReceiverId = Guid.Parse(message.ToId),
                         SentAt = DateTime.UtcNow,
-                        Type = MessageType.PrivateChat,
+                        Type = (MessageType)Enum.Parse(typeof(MessageType), message.Type.ToString()),
                         SeenAt = message.DateSeen,
                         DownloadUrl = message.DownloadUrl,
                         FileSizeInBytes = message.FileSizeInBytes,

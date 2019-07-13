@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Backend.Application.Business.Business.Authorization.SignIn;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Authorization.Commands.SignIn;
-using Backend.Application.Business.Business.Authorization.Queries;
+using Backend.Application.Business.Business.Authorization.CurrentUser;
 
 namespace Backend.API.Controllers
 {
@@ -10,9 +10,9 @@ namespace Backend.API.Controllers
     {
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> SignIn([FromBody] SignInCommand command)
+        public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
         {
-            var viewModel = await Mediator.Send(command);
+            var viewModel = await Mediator.Send(request);
             Response.Cookies.Append("jwt", viewModel.token);
 
             return Ok(viewModel.response);
@@ -21,7 +21,7 @@ namespace Backend.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> CurrentUserInformation(string id)
         {
-            var response = await Mediator.Send(new CurrentUserQuery(id));
+            var response = await Mediator.Send(new CurrentUserRequest(id));
 
             return Ok(response);
         }

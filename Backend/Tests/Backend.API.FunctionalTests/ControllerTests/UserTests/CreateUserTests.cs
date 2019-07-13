@@ -21,7 +21,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.UserTests
         [Fact]
         public async Task Create_Successful()
         {
-            var createUserCommand = new CreateUserCommand()
+            var createUserCommand = new CreateUserRequest()
             {
                 FirstName = "Marko",
                 LastName = "Urh",
@@ -34,8 +34,8 @@ namespace Backend.API.FunctionalTests.ControllerTests.UserTests
             var response = await _client.CreateUser(createUserCommand);
             response.EnsureSuccessStatusCode();
 
-            var vm = await Utilities.GetResponseContent<CreateUserResponse>(response);
-            Assert.IsAssignableFrom<CreateUserResponse>(vm);
+            var vm = await Utilities.GetResponseContent<CreateUserRequestResponse>(response);
+            Assert.IsAssignableFrom<CreateUserRequestResponse>(vm);
             Assert.NotNull(vm);
             vm.FirstName.ShouldBe(createUserCommand.FirstName);
             vm.LastName.ShouldBe(createUserCommand.LastName);
@@ -49,7 +49,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.UserTests
         public async Task Create_Fails()
         {
             // password validation is wrong
-            var createUserCommand = new CreateUserCommand()
+            var createUserCommand = new CreateUserRequest()
             {
                 FirstName = "Marko",
                 LastName = "Urh",

@@ -1,11 +1,11 @@
-﻿using Backend.Application.Business.Business.Billing.Commands.AddPayment;
-using Backend.Application.Business.Business.Billing.Commands.CancelSubscription;
-using Backend.Application.Business.Business.Billing.Commands.Subscribe;
+﻿using Backend.Application.Business.Business.Billing.AddPayment;
+using Backend.Application.Business.Business.Billing.CancelSubscription;
+using Backend.Application.Business.Business.Billing.GetPlans;
+using Backend.Application.Business.Business.Billing.GetSubscription;
+using Backend.Application.Business.Business.Billing.GetSubscriptionStatus;
+using Backend.Application.Business.Business.Billing.Subscribe;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Billing.Queries.GetPlans;
-using Backend.Application.Business.Business.Billing.Queries.GetSubscription;
-using Backend.Application.Business.Business.Billing.Queries.GetSubscriptionStatus;
 
 namespace Backend.API.Controllers
 {
@@ -14,37 +14,37 @@ namespace Backend.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSubscriptionForCustomer(string id)
         {
-            return Ok(await Mediator.Send(new GetSubscriptionQuery(id)));
+            return Ok(await Mediator.Send(new GetSubscriptionRequest(id)));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAvailablePlans()
         {
-            return Ok(await Mediator.Send(new GetPlansQuery()));
+            return Ok(await Mediator.Send(new GetPlansRequest()));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomerSubscriptionStatus(string id)
         {
-            return Ok(await Mediator.Send(new GetSubscriptionStatusQuery(id)));
+            return Ok(await Mediator.Send(new GetSubscriptionStatusRequest(id)));
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPaymentOption([FromBody] AddPaymentCommand command)
+        public async Task<IActionResult> AddPaymentOption([FromBody] AddPaymentRequest request)
         {
-            return await Create(async () => await Mediator.Send(command));
+            return await Create(async () => await Mediator.Send(request));
         }
 
         [HttpPost]
-        public async Task<IActionResult> SubscribeCustomer([FromBody] SubscribeCommand command)
+        public async Task<IActionResult> SubscribeCustomer([FromBody] SubscribeRequest request)
         {
-            return await Create(async () => await Mediator.Send(command));
+            return await Create(async () => await Mediator.Send(request));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> CancelSubscription(string id)
         {
-            return await Delete(async () => await Mediator.Send(new CancelSubscriptionCommand(id)));
+            return await Delete(async () => await Mediator.Send(new CancelSubscriptionRequest(id)));
         }
     }
 }

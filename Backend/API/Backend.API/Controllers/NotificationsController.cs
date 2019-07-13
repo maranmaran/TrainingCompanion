@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Backend.Service.Infrastructure;
-using Backend.Service.PushNotifications;
+﻿using Backend.Service.PushNotifications;
 using Backend.Service.PushNotifications.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {

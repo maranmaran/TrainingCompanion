@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
-using Backend.Application.Business.Business.Authorization.Commands.SignIn;
-using Backend.Application.Business.Business.Authorization.Queries;
-using Backend.Application.Business.Business.Billing.Commands.AddPayment;
-using Backend.Application.Business.Business.Billing.Commands.Subscribe;
-using Backend.Application.Business.Business.Subusers.Commands.Create;
-using Backend.Application.Business.Business.Users.Commands.Create;
-using Backend.Application.Business.Business.Users.Commands.Update;
+using Backend.Application.Business.Business.Authorization.SignIn;
+using Backend.Application.Business.Business.Billing.AddPayment;
+using Backend.Application.Business.Business.Billing.Subscribe;
+using Backend.Application.Business.Business.Chat.SendChatMessage;
+using Backend.Application.Business.Business.Subusers.CreateSubuser;
+using Backend.Application.Business.Business.Users.CreateUser;
+using Backend.Application.Business.Business.Users.UpdateUser;
 using Backend.Application.Business.Extensions;
 using Backend.Domain.Entities;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
-using Backend.Application.Business.Business.Chat.Commands.SendChatMessageCommand;
+using Backend.Application.Business.Business.Authorization.CurrentUser;
 
 namespace Backend.Application.Business
 {
@@ -28,11 +28,11 @@ namespace Backend.Application.Business
 
         private void AuthorizationMappings()
         {
-            CreateMap<ApplicationUser, SignInResponse>()
+            CreateMap<ApplicationUser, SignInRequestResponse>()
                 .ForMember(x => x.SubscriptionStatus, o => o.Ignore())
                 .ForMember(x => x.TrialDaysRemaining, opt => opt.MapFrom(user => CalculateTrial(user)));
 
-            CreateMap<ApplicationUser, CurrentUserQueryResponse>()
+            CreateMap<ApplicationUser, CurrentUserRequestResponse>()
                 .ForMember(x => x.SubscriptionStatus, o => o.Ignore())
                 .ForMember(x => x.TrialDaysRemaining, opt => opt.MapFrom(user => CalculateTrial(user)));
 
@@ -50,11 +50,11 @@ namespace Backend.Application.Business
         private void UserMappings()
         {
             // create
-            CreateMap<CreateUserCommand, ApplicationUser>();
-            CreateMap<ApplicationUser, CreateUserResponse>();
+            CreateMap<CreateUserRequest, ApplicationUser>();
+            CreateMap<ApplicationUser, CreateUserRequestResponse>();
 
             // update
-            CreateMap<UpdateUserCommand, ApplicationUser>()
+            CreateMap<UpdateUserRequest, ApplicationUser>()
                 .ForMember(x => x.CreatedOn, o => o.Ignore())
                 .ForMember(x => x.AccountType, o => o.Ignore())
                 .ForMember(x => x.ParentId, o => o.Ignore())
@@ -65,22 +65,22 @@ namespace Backend.Application.Business
         private void SubuserMappings()
         {
             // create
-            CreateMap<CreateSubuserCommand, ApplicationUser>()
+            CreateMap<CreateSubuserRequest, ApplicationUser>()
                 .ForMember(x => x.PasswordHash, o => o.Ignore());
-            CreateMap<ApplicationUser, CreateSubuserResponse>();
+            CreateMap<ApplicationUser, CreateSubuserRequestResponse>();
         }
 
         private void BillingMappings()
         {
             // subscribe
-            CreateMap<SubscribeCommand, PaymentModel>();
-            CreateMap<AddPaymentCommand, PaymentModel>();
+            CreateMap<SubscribeRequest, PaymentModel>();
+            CreateMap<AddPaymentRequest, PaymentModel>();
         }
 
         private void ChatMappings()
         {
             // subscribe
-            CreateMap<SendChatMessageCommand, ChatMessage>();
+            CreateMap<SendChatMessageRequest, ChatMessage>();
             CreateMap<ChatMessage, MessageViewModel>()
                 .ForMember(x => x.FromId, y => y.MapFrom(z => z.SenderId))
                 .ForMember(x => x.ToId, y => y.MapFrom(z => z.ReceiverId))

@@ -2,14 +2,9 @@
 {
     public enum MessageType
     {
-        PrivateChat,
-        GroupChat,
-        Notification,
-    }
-
-    public enum MessageContentType
-    {
         Text = 1,
-        File = 2
+        File = 2,
+        Image = 3,
+        Video = 4,
     }
 }

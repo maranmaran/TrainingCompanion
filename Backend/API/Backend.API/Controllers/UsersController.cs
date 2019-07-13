@@ -1,15 +1,15 @@
-﻿using Backend.Application.Business.Business.Users.Commands.Create;
-using Backend.Application.Business.Business.Users.Commands.Delete;
-using Backend.Application.Business.Business.Users.Commands.SaveUserSettings;
-using Backend.Application.Business.Business.Users.Commands.Update;
-using Backend.Application.Business.Business.Users.Queries.Get;
-using Backend.Application.Business.Business.Users.Queries.GetAll;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Authorization.Commands.ChangePassword;
+using Backend.Application.Business.Business.Authorization.ChangePassword;
+using Backend.Application.Business.Business.Users.CreateUser;
+using Backend.Application.Business.Business.Users.DeleteUser;
+using Backend.Application.Business.Business.Users.GetAllUsers;
+using Backend.Application.Business.Business.Users.GetUser;
+using Backend.Application.Business.Business.Users.SaveUserSettings;
+using Backend.Application.Business.Business.Users.UpdateUser;
 
 namespace Backend.API.Controllers
 {
@@ -18,46 +18,46 @@ namespace Backend.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery]SieveModel sieveModel)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllUsersQuery()), sieveModel);
+            return await GetQuery(async () => await Mediator.Send(new GetAllUsersRequest()), sieveModel);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            return await GetSingle(async () => await Mediator.Send(new GetUserQuery(id)));
+            return await GetSingle(async () => await Mediator.Send(new GetUserRequest(id)));
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
+        public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
         {
-            return await Create(async () => await Mediator.Send(command));
+            return await Create(async () => await Mediator.Send(request));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody] UpdateUserCommand command)
+        public async Task<IActionResult> Update([FromBody] UpdateUserRequest request)
         {
-            return await Update(async () => await Mediator.Send(command));
+            return await Update(async () => await Mediator.Send(request));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return await Delete(async () => await Mediator.Send(new DeleteUserCommand(id)));
+            return await Delete(async () => await Mediator.Send(new DeleteUserRequest(id)));
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
         {
-            await Mediator.Send(command);
+            await Mediator.Send(request);
 
             return Accepted();
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveUserSettings([FromBody] SaveUserSettingsCommand command)
+        public async Task<IActionResult> SaveUserSettings([FromBody] SaveUserSettingsRequest request)
         {
-            await Mediator.Send(command);
+            await Mediator.Send(request);
 
             return Accepted();
         }

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Business\Subusers\Commands\Create\registrationEmailTemplate.html">
+    <None Update="Business\Subusers\CreateSubuser\registrationEmailTemplate.html">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
