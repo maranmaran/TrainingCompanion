@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Backend.Application.Business.Business.Users.Queries.Get;
-using Backend.API.FunctionalTests.Common;
+﻿using Backend.API.FunctionalTests.Common;
 using Backend.API.FunctionalTests.Common.ClientAPI;
-using Backend.Application.Business.Business.Authorization.Commands.ChangePassword;
 using Backend.Domain.Entities;
 using Backend.Domain.Enum;
-using Backend.Service.Authorization;
 using Backend.Service.Authorization.Interfaces;
 using Backend.Service.Authorization.Utils;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using Shouldly;
+using System;
+using System.Net;
+using System.Threading.Tasks;
+using Backend.Application.Business.Business.Authorization.ChangePassword;
 using Xunit;
 
 namespace Backend.API.FunctionalTests.ControllerTests.UserTests
 {
-    public class ChangePasswordTests: IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class ChangePasswordTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly UserClient _client;
         private readonly IPasswordHasher _passwordHasher;

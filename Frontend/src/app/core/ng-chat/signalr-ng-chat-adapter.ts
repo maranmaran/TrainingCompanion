@@ -6,7 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { environment } from 'src/environments/environment';
 import { SubSink } from 'subsink';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../../business/services/auth.service';
 import { ChatAdapter } from 'src/app/core/ng-chat/core/chat-adapter';
 import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-response';
 import { Message } from 'src/app/core/ng-chat/core/message';

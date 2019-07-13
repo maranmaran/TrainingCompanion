@@ -1,11 +1,10 @@
 ﻿using Backend.API.FunctionalTests.Common;
-using Backend.Application.Business.Business.Users.Queries.Get;
+using Backend.API.FunctionalTests.Common.ClientAPI;
+using Backend.Domain.Entities;
 using Shouldly;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Backend.API.FunctionalTests.Common.ClientAPI;
-using Backend.Domain.Entities;
 using Xunit;
 
 namespace Backend.API.FunctionalTests.ControllerTests.UserTests
