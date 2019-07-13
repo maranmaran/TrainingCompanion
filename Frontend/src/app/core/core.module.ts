@@ -18,8 +18,6 @@ import { ErrorSnackbarComponent } from '../shared/error-snackbar/error-snackbar.
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { MessageDialogComponent } from './../shared/message-dialog/message-dialog.component';
 import { AppContainerComponent } from './app-container/app-container.component';
-import { LoginComponent } from './authorization/login/login.component';
-import { RegisterComponent } from './authorization/register/register.component';
 import { CoreRoutingModule } from './core-routing.module';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
@@ -46,9 +44,6 @@ import { SettingsComponent } from './settings/settings.component';
         NgChatModule,
     ],
     declarations: [
-        LoginComponent,
-        RegisterComponent,
-
         AppContainerComponent,
         SidebarComponent,
         ToolbarComponent,

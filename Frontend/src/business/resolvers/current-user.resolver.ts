@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/shared/notification.service';
 import { CurrentUserStore } from '../stores/current-user.store';
 
-@Injectable({ providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class CurrentUserResolver implements Resolve<CurrentUser> {
 
     constructor(
@@ -19,9 +19,9 @@ export class CurrentUserResolver implements Resolve<CurrentUser> {
 
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CurrentUser> | Observable<never> {
-        
-        if(!this.currentUserStore.state) {
-            
+
+        if (!this.currentUserStore.state) {
+
             this.notificationService.showErrorSnackbar = !this.notificationService.showErrorSnackbar;
             this.notificationService.showSplash = !this.notificationService.showSplash;
 
@@ -29,7 +29,7 @@ export class CurrentUserResolver implements Resolve<CurrentUser> {
                 .pipe(
                     take(1),
                     catchError(() => {
-                        this.router.navigate(['/login']);
+                        this.router.navigate(['/auth/login']);
                         return EMPTY;
                     }),
                     map((res: CurrentUser) => {
@@ -44,7 +44,7 @@ export class CurrentUserResolver implements Resolve<CurrentUser> {
                         }
                     )
                 );
-        } 
+        }
 
         this.showDialog();
         return of(this.currentUserStore.state);
