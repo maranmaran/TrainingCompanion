@@ -1,6 +1,6 @@
 ﻿using Backend.API.FunctionalTests.Common;
 using Backend.API.FunctionalTests.Common.ClientAPI;
-using Backend.Application.Business.Business.Subusers.Commands.Create;
+using Backend.Application.Business.Business.Subusers.CreateSubuser;
 using Shouldly;
 using System;
 using System.Net;

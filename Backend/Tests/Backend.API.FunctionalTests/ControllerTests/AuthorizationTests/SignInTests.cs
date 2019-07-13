@@ -2,7 +2,7 @@
 using Backend.API.FunctionalTests.Common.ClientAPI;
 using System.Net;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Authorization.Commands.SignIn;
+using Backend.Application.Business.Business.Authorization.SignIn;
 using Xunit;
 
 namespace Backend.API.FunctionalTests.ControllerTests.AuthorizationTests

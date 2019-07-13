@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { SignalrNgChatAdapter } from 'src/business/ng-chat/signalr-ng-chat-adapter';
+import { SignalrNgChatAdapter } from 'src/app/core/ng-chat/signalr-ng-chat-adapter';
 import { ChatService } from 'src/business/services/chat.service';
 import { PushNotificationsService } from 'src/business/services/push-notification.service';
 import { ThemeService } from 'src/business/services/shared/theme.service';
