@@ -1,12 +1,11 @@
-import { AppContainerComponent } from './app-container/app-container.component';
-import { LoginComponent } from './authorization/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/business/guards/auth.guard';
 import { CurrentUserResolver } from 'src/business/resolvers/current-user.resolver';
+import { AppContainerComponent } from './app-container/app-container.component';
 
 const routes: Routes = [
-    { path: 'login', component: LoginComponent },
+    { path: 'auth', loadChildren: () => import('src/app/features/authorization/auth.module').then(mod => mod.AuthModule) },    
     {
         path: '', resolve: { currentUser: CurrentUserResolver }, component: AppContainerComponent, canActivate: [AuthGuard], children: [
             {
