@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
-import { ChatAdapter, Message, ParticipantResponse } from 'ng-chat';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { environment } from 'src/environments/environment';
 import { SubSink } from 'subsink';
 import { AuthService } from '../services/auth.service';
+import { ChatAdapter } from 'src/app/core/ng-chat/core/chat-adapter';
+import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-response';
+import { Message } from 'src/app/core/ng-chat/core/message';
 
 Injectable()
 export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {

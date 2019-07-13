@@ -11,6 +11,13 @@
     overflow-x: hidden;
 }
 
+.media-dialog-container .mat-dialog-container {
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+
 .navlist {
     padding-top: 0 !important;
 }

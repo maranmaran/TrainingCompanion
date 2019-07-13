@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Theme } from 'ng-chat';
 import { Element as StripeElement, ElementOptions, ElementsOptions, StripeCardComponent, StripeService } from 'ngx-stripe';
 import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
 import { ThemeService } from 'src/business/services/shared/theme.service';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { SubSink } from 'subsink';
+import { Theme } from 'src/app/core/ng-chat/core/theme.enum';
 
 @Component({
   selector: 'app-stripe-checkout',

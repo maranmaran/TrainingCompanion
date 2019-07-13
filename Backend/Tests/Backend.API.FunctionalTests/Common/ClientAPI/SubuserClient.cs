@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Subusers.Commands.Create;
+using Backend.Application.Business.Business.Subusers.CreateSubuser;
 
 namespace Backend.API.FunctionalTests.Common.ClientAPI
 {
@@ -11,9 +11,9 @@ namespace Backend.API.FunctionalTests.Common.ClientAPI
         {
         }
 
-        public async Task<HttpResponseMessage> CreateSubuser(CreateSubuserCommand command)
+        public async Task<HttpResponseMessage> CreateSubuser(CreateSubuserRequest request)
         {
-            var content = Utilities.GetRequestContent(command);
+            var content = Utilities.GetRequestContent(request);
             return await _client.PostAsync($"api/subusers/create", content);
         }
 

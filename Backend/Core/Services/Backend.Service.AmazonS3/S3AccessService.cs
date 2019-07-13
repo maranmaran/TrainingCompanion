@@ -21,7 +21,7 @@ namespace Backend.Service.AmazonS3
         public S3AccessService(S3Settings s3Settings)
         {
             this._s3Settings = s3Settings;
-            region = Amazon.RegionEndpoint.USEast1;
+            region = Amazon.RegionEndpoint.EUCentral1;
         }
 
 
@@ -119,8 +119,9 @@ namespace Backend.Service.AmazonS3
 
                         return Task.FromResult(client.GetPreSignedURL(preSignedUrlRequest));
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        Console.WriteLine(e.Message);
                         if (triedTimes < _s3Settings.MaxRetryTimes)
                         {
                             Thread.Sleep(_s3Settings.MilisecondsBeforeRetry);
@@ -159,7 +160,7 @@ namespace Backend.Service.AmazonS3
 
             Thread.CurrentThread.CurrentCulture = enCulture;
 
-            var dt = DateTime.Now.AddDays(8); // get date
+            var dt = DateTime.Now.AddDays(7); // get date
             Thread.CurrentThread.CurrentCulture = oldCulture; // return culture
 
             return dt; // return date

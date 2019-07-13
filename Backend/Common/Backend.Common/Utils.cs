@@ -10,5 +10,7 @@ namespace Backend.Common
             return $"{(useHash ? "#" : "")}{random.Next(0x1000000):X6}"; // = "#A197B9"
         }
 
+     
+
     }
 }

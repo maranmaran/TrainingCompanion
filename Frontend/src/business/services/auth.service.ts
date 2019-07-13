@@ -56,7 +56,7 @@ export class AuthService extends BaseService {
     this.currentUserStore.setState(undefined);
     localStorage.removeItem('id');
     this.cookieService.delete('jwt');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   public isAuthenticated() {

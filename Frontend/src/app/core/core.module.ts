@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { NgChatModule } from 'ng-chat';
 import { AvatarModule } from 'ngx-avatar';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxStripeModule } from 'ngx-stripe';
@@ -29,6 +28,7 @@ import { PlansComponent } from './settings/billing/plans/plans.component';
 import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stripe-checkout.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
+import { NgChatModule } from './ng-chat/ng-chat.module';
 
 
 @NgModule({
@@ -60,8 +60,6 @@ import { SettingsComponent } from './settings/settings.component';
         ErrorSnackbarComponent,
         MessageDialogComponent,
         ConfirmDialogComponent,
-        
-        SanitizeHtmlPipe
     ],
     exports: [
         AvatarModule,
@@ -69,6 +67,7 @@ import { SettingsComponent } from './settings/settings.component';
         ReactiveFormsModule,
         MaterialModule,
         RouterModule,
+        SanitizeHtmlPipe
     ],
     providers: [
         CookieService,

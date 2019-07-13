@@ -1,9 +1,9 @@
-﻿using Backend.Application.Business.Business.Users.Commands.Create;
-using Backend.Application.Business.Business.Users.Commands.Update;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Authorization.Commands.ChangePassword;
+using Backend.Application.Business.Business.Authorization.ChangePassword;
+using Backend.Application.Business.Business.Users.CreateUser;
+using Backend.Application.Business.Business.Users.UpdateUser;
 
 namespace Backend.API.FunctionalTests.Common.ClientAPI
 {
@@ -13,9 +13,9 @@ namespace Backend.API.FunctionalTests.Common.ClientAPI
         {
         }
 
-        public async Task<HttpResponseMessage> CreateUser(CreateUserCommand command)
+        public async Task<HttpResponseMessage> CreateUser(CreateUserRequest request)
         {
-            var content = Utilities.GetRequestContent(command);
+            var content = Utilities.GetRequestContent(request);
             return await _client.PostAsync($"api/users/create", content);
         }
 
@@ -29,9 +29,9 @@ namespace Backend.API.FunctionalTests.Common.ClientAPI
             return await _client.GetAsync($"/api/users/get/{id}");
         }
 
-        public async Task<HttpResponseMessage> UpdateUser(UpdateUserCommand command)
+        public async Task<HttpResponseMessage> UpdateUser(UpdateUserRequest request)
         {
-            var content = Utilities.GetRequestContent(command);
+            var content = Utilities.GetRequestContent(request);
             return await _client.PostAsync($"api/users/update", content);
         }
 
@@ -40,9 +40,9 @@ namespace Backend.API.FunctionalTests.Common.ClientAPI
             return await _client.GetAsync($"/api/users/delete/{id}");
         }
 
-        public async Task<HttpResponseMessage> ChangePassword(ChangePasswordCommand command)
+        public async Task<HttpResponseMessage> ChangePassword(ChangePasswordRequest request)
         {
-            var content = Utilities.GetRequestContent(command);
+            var content = Utilities.GetRequestContent(request);
             return await _client.PostAsync($"api/users/changepassword", content);
         }
     }

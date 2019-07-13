@@ -20,7 +20,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.AuthorizationTests
         [Fact]
         public async Task SignIn_Successful()
         {
-            var signInCommand = new SignInCommand()
+            var signInCommand = new SignInRequest()
             {
                 Username = "adamcogan",
                 Password = "12345",
@@ -30,9 +30,9 @@ namespace Backend.API.FunctionalTests.ControllerTests.AuthorizationTests
             var response = await _client.SignIn(signInCommand);
 
             response.EnsureSuccessStatusCode();
-            var vm = await Utilities.GetResponseContent<SignInResponse>(response);
+            var vm = await Utilities.GetResponseContent<SignInRequestResponse>(response);
 
-            Assert.IsAssignableFrom<SignInResponse>(vm);
+            Assert.IsAssignableFrom<SignInRequestResponse>(vm);
             Assert.NotNull(vm);
         }
 
@@ -41,7 +41,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.AuthorizationTests
         public async Task SignIn_Fails()
         {
             // password validation is wrong
-            var signInCommand = new SignInCommand()
+            var signInCommand = new SignInRequest()
             {
                 Username = "maran",
                 Password = "1235",

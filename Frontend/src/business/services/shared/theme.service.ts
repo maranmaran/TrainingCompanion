@@ -1,7 +1,7 @@
+import { Theme } from 'src/app/core/ng-chat/core/theme.enum';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CurrentUserStore } from './../../stores/current-user.store';
-import { Theme } from 'ng-chat';
 
 @Injectable({ providedIn: 'root'})
 export class ThemeService {
