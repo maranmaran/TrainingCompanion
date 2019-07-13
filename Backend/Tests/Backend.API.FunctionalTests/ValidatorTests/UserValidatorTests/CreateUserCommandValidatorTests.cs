@@ -1,18 +1,18 @@
-﻿using Backend.Application.Business.Business.Users.Commands.Create;
-using Shouldly;
+﻿using Shouldly;
 using System.Linq;
+using Backend.Application.Business.Business.Users.CreateUser;
 using Xunit;
 
 namespace Backend.API.FunctionalTests.ValidatorTests.UserValidatorTests
 {
     public class CreateUserCommandValidatorTests
     {
-        private CreateUserCommand Model { get; set; }
-        private readonly CreateUserCommandValidator _validator;
+        private CreateUserRequest Model { get; set; }
+        private readonly CreateUserRequestValidator _validator;
 
         public CreateUserCommandValidatorTests()
         {
-            Model = new CreateUserCommand()
+            Model = new CreateUserRequest()
             {
                 Username = "Test",
                 FirstName = "Marko",
@@ -22,7 +22,7 @@ namespace Backend.API.FunctionalTests.ValidatorTests.UserValidatorTests
                 ConfirmPassword = "12345"
             };
 
-            _validator = new CreateUserCommandValidator();
+            _validator = new CreateUserRequestValidator();
         }
 
         #region EMAIL

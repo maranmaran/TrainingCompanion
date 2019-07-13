@@ -1,6 +1,6 @@
 ﻿using Backend.API.Filters;
 using Backend.API.LibraryConfigurations.Sieve;
-using Backend.Application.Business.Business.Users.Commands.Create;
+using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Domain;
 using Backend.Persistance;
 using Backend.Service.Authorization;
@@ -53,7 +53,7 @@ namespace Backend.API.Extensions
                     options.Filters.Add(typeof(ExceptionFilter));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>())
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());

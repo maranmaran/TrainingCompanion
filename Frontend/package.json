@@ -29,7 +29,6 @@
     "hammerjs": "^2.0.8",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
-    "ng-chat": "^2.0.4",
     "ngx-avatar": "^3.7.0",
     "ngx-cookie-service": "^2.2.0",
     "ngx-stripe": "^7.4.3",

@@ -33,7 +33,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.UserTests
         [Fact]
         public async Task ChangePassword_Success()
         {
-            var command = new ChangePasswordCommand()
+            var command = new ChangePasswordRequest()
             {
                 Id = Guid.Parse("62FA647C-AD54-4BCC-A860-E5A2664B019D"),
                 Password = "1234567",
@@ -56,7 +56,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.UserTests
         public async void ChangePassword_Fails()
         {
             // validation failure
-            var command = new ChangePasswordCommand()
+            var command = new ChangePasswordRequest()
             {
                 Id = Guid.Parse("62FA647C-AD54-4BCC-A860-E5A2664B019D"),
                 Password = "12367",

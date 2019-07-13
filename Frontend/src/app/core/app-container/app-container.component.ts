@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
-import { Message, Theme } from 'ng-chat';
 import { map } from 'rxjs/operators';
 import { SignalrNgChatAdapter } from 'src/business/ng-chat/signalr-ng-chat-adapter';
 import { ChatService } from 'src/business/services/chat.service';
@@ -10,6 +9,8 @@ import { ThemeService } from 'src/business/services/shared/theme.service';
 import { SubSink } from 'subsink';
 import { ToolbarComponent } from '../navigation/toolbar/toolbar.component';
 import { SidebarService } from './../../../business/services/shared/sidebar.service';
+import { Theme } from '../ng-chat/core/theme.enum';
+import { Message } from '../ng-chat/core/message';
 
 @Component({
   selector: 'app-app-container',

@@ -21,7 +21,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.SubusersTests
         [Fact]
         public async Task Create_Successful()
         {
-            var createSubuserCommand = new CreateSubuserCommand()
+            var createSubuserCommand = new CreateSubuserRequest()
             {
                 FirstName = "Marko",
                 LastName = "Urh",
@@ -33,9 +33,9 @@ namespace Backend.API.FunctionalTests.ControllerTests.SubusersTests
             var response = await _client.CreateSubuser(createSubuserCommand);
 
             response.EnsureSuccessStatusCode();
-            var vm = await Utilities.GetResponseContent<CreateSubuserResponse>(response);
+            var vm = await Utilities.GetResponseContent<CreateSubuserRequestResponse>(response);
 
-            Assert.IsAssignableFrom<CreateSubuserResponse>(vm);
+            Assert.IsAssignableFrom<CreateSubuserRequestResponse>(vm);
             Assert.NotNull(vm);
             vm.FirstName.ShouldBe(createSubuserCommand.FirstName);
             vm.LastName.ShouldBe(createSubuserCommand.LastName);
@@ -50,7 +50,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.SubusersTests
         public async Task Create_Fails()
         {
             // email validation is wrong
-            var createSubuserCommand = new CreateSubuserCommand()
+            var createSubuserCommand = new CreateSubuserRequest()
             {
                 FirstName = "Marko",
                 LastName = "Urh",
