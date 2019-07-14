@@ -1,5 +1,6 @@
-  <form fxFlex fxLayout="column wrap" fxLayoutAlign.xs="center center" [formGroup]="accountForm" (ngSubmit)="onSubmit()"
-    autocomplete="off">
+<div class="container" fxFlex fxLayout="column wrap" fxLayoutAlign.xs="center center" >
+
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()"  autocomplete="off">
 
     <mat-form-field>
       <input matInput formControlName="username" [readonly]="editUsername" placeholder="Username">
@@ -16,4 +17,8 @@
     </mat-form-field>
 
     <button mat-stroked-button color="accent">Change password</button>
+    
   </form>
+</div>
+
+  
