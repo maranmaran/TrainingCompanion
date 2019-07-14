@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { take } from 'rxjs/operators';
+import { take, finalize } from 'rxjs/operators';
 import { NotificationService } from 'src/business/services/shared/notification.service';
 import { UsersService } from 'src/business/services/user.service';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
@@ -77,7 +77,15 @@ export class AccountComponent implements OnInit, OnDestroy {
       this.loading.emit(true);
       
       this.usersService.update(command)
-        .pipe(take(1))
+        .pipe(
+          take(1),
+          finalize(() => { 
+            this.loading.emit(false);
+            this.notificationService.showAppLoadingBar = true;
+            
+            this.editUsername = true;
+            this.editMail = true;
+          }))
         .subscribe(
           () => {
             this.currentUser.username = this.username.value;
@@ -86,13 +94,6 @@ export class AccountComponent implements OnInit, OnDestroy {
             this.currentUserStore.setState(this.currentUser);
           },
           err => console.log(err),
-          () => {
-            this.loading.emit(false);
-            this.notificationService.showAppLoadingBar = true;
-            
-            this.editUsername = true;
-            this.editMail = true;
-          }
         );
     }
   }
