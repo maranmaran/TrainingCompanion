@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
-import { GetSubscriptionQuery } from 'src/server-models/cqrs/billing/queries/get-subscription.query';
-import { Subscription } from 'src/server-models/stripe/subscription.model';
-import { GetPlansResponse } from 'src/server-models/cqrs/billing/responses/get-plans.response';
 import { PlanAdapter } from 'src/business/adapters/plan.adapter';
-import { SubscribeCommand } from 'src/server-models/cqrs/billing/commands/subscribe.command';
-import { BaseService } from './base.service';
+import { GetPlansResponse } from 'src/server-models/cqrs/billing/responses/get-plans.response';
+import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { SubscriptionAdapter } from '../adapters/subscription.adapter';
-import { AddPaymentOptionCommand } from 'src/server-models/cqrs/billing/commands/add-payment-option.command';
+import { BaseService } from './base.service';
+import { SubscribeRequest } from 'src/server-models/cqrs/billing/requests/subscribe.request';
+import { GetSubscriptionRequest } from 'src/server-models/cqrs/billing/requests/get-subscription.request';
+import { AddPaymentOptionRequest } from 'src/server-models/cqrs/billing/requests/add-payment-option.request';
 
 @Injectable()
 export class BillingService extends BaseService {
@@ -22,7 +22,7 @@ export class BillingService extends BaseService {
     super();
   }
 
-  public getSubscriptionInformation(query: GetSubscriptionQuery) {
+  public getSubscriptionInformation(query: GetSubscriptionRequest) {
 
     return this.http
       .get<Subscription>(
@@ -49,7 +49,7 @@ export class BillingService extends BaseService {
   }
 
   public subscribeCustomer(customerId: string, planId: string) {
-    const command = new SubscribeCommand(customerId, planId);
+    const command = new SubscribeRequest(customerId, planId);
     return this.http.post<Subscription>(this.url + 'SubscribeCustomer', command)
       .pipe(
         map((res: Subscription) => this.subscriptionAdapter.adaptToModel(res)),
@@ -58,7 +58,7 @@ export class BillingService extends BaseService {
   }
 
   public addPaymentOption(customerId: string, token) {
-    const command = new AddPaymentOptionCommand(customerId, token.token.id);
+    const command = new AddPaymentOptionRequest(customerId, token.token.id);
     return this.http.post<void>(this.url + 'AddPaymentOption', command)
       .pipe(
         catchError(this.handleError)

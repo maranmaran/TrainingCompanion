@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using SystemException = Backend.Domain.Entities.SystemException;
 
 namespace Backend.API.Filters
@@ -22,6 +23,12 @@ namespace Backend.API.Filters
 
         public override async void OnException(ExceptionContext context)
         {
+            var code = HttpStatusCode.InternalServerError;
+            var exceptionMessage = context.Exception.Message;
+            var innerExceptionMessage = context.Exception.InnerException.Message;
+
+            await SaveExceptionToDb((int)code, exceptionMessage, innerExceptionMessage);
+
             if (context.Exception is ValidationException exception)
             {
                 context.HttpContext.Response.ContentType = "application/json";
@@ -32,7 +39,6 @@ namespace Backend.API.Filters
                 return;
             }
 
-            var code = HttpStatusCode.InternalServerError;
 
             if (context.Exception is NotFoundException || context.Exception is DeleteFailureException)
             {
@@ -47,12 +53,15 @@ namespace Backend.API.Filters
                 Message = $"{context.Exception.Message}",
                 InnerException = context.Exception.InnerException
             });
+        }
 
+        private async Task SaveExceptionToDb(int code, string exceptionMessage, string innerExceptionMessage)
+        {
             _context.SystemExceptions.Add(new SystemException()
             {
-                StatusCode = (int)code,
-                Message = context.Exception.Message,
-                InnerException = context.Exception.InnerException.Message,
+                StatusCode = code,
+                Message = exceptionMessage,
+                InnerException = innerExceptionMessage,
             });
 
             await _context.SaveChangesAsync(CancellationToken.None);

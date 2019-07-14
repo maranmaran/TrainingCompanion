@@ -1,6 +1,5 @@
-import { Token } from 'ngx-stripe';
 
-export class AddPaymentOptionCommand {
+export class AddPaymentOptionRequest {
     customerId: string;
     token: string;
 

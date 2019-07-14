@@ -5,10 +5,13 @@
 html,
 body {
   height: 100%;
+  // margin: 0;
 }
 
-.container-fluid {
-  height: 100% !important;
+.container {
+  height: 100%;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .flex-center {
@@ -39,4 +42,12 @@ i {
 .center-margin{
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.position-absolute {
+  position: absolute !important;
+}
+
+.position-relative {
+  position: relative !important;
 }
