@@ -1,4 +1,4 @@
-export class SignInCommand {
+export class SignInRequest {
     username: string;
     password: string;
     rememberMe: boolean;

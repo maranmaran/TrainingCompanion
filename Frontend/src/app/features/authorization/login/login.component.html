@@ -1,56 +1,38 @@
-<div class="container-fluid flex-center">
+<div class="container" fxLayout="column wrap" fxLayoutAlign="center center">
 
-      <div class="login-header">
-          <div class="row">
-            <div class="col">
-              <img class="img-fluid" src="../../../../assets/images/logo-transparent.png">
-            </div>
-          </div>
-        </div>
-        <div class="login-body">
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="row mb-3">
-              <div class="col">
-                <div class="input-group">
-                  <input formControlName="username" autocomplete="username" type="text" class="form-control" id="username"
-                    placeholder="Username">
-                  <div class="input-group-append">
-                    <div class="input-group-text">
-                      <i class="fas fa-user"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col">
-                <div class="input-group">
-                  <input formControlName="password" autocomplete="current-password" type="password" class="form-control"
-                    id="password" placeholder="Password">
-                  <div class="input-group-append">
-                    <div class="input-group-text">
-                      <i class="fas fa-lock"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col">
-                <div class="row justify-content-between">
-                  <div class="col">
-                    <mat-checkbox formControlName="rememberMe" id="checkbox" color="primary">Remember me</mat-checkbox>
-                  </div>
-                  <div class="col">
-                    <button mat-flat-button color="primary" id="signin" type="submit" class="float-right"
-                      [disabled]="!loginForm.valid">Sign in</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+  <div id="login-header">
+    <img class="img-fluid" src="../../../../assets/images/logo-transparent.png">
+  </div>
 
+  <div id="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" #form="ngForm" fxLayout="column wrap" fxLayoutGap="5px">
+
+      <mat-form-field>
+        <input matInput formControlName="username" autocomplete="username" type="text" id="username"
+          placeholder="Username">
+        <i matSuffix class="fas fa-user"></i>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput formControlName="password" autocomplete="current-password"
+          [type]="hidePassword ? 'password' : 'text'" class="form-control" id="password" placeholder="Password">
+        <button mat-icon-button matSuffix (mousedown)="hidePassword = false" (mouseup)="hidePassword = true">
+          <i class="fas" [ngClass]="{'fa-eye-slash': hidePassword, 'fa-eye': !hidePassword}"></i>
+        </button>
+      </mat-form-field>
+
+      <mat-error *ngIf="error">Username or password are invalid</mat-error>
+
+      <div id="actions" fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-checkbox formControlName="rememberMe" id="checkbox" color="primary">Remember me</mat-checkbox>
+
+        <button mat-flat-button color="primary" id="signin" type="submit" class="float-right"
+          [disabled]="!loginForm.valid">Sign in</button>
+      </div>
+
+    </form>
+
+  </div>
 </div>
 
 <div *ngIf="(loading$ | async)" class="login-spinner-container flex-center">

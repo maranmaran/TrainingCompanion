@@ -1,7 +1,7 @@
-import { IBaseAdapter } from './base.adapter.interface';
-import {plainToClass} from "class-transformer";
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { Injectable } from '@angular/core';
+import { plainToClass } from "class-transformer";
+import { IBaseAdapter } from './base.adapter.interface';
 
 @Injectable({
     providedIn: 'root'

@@ -1,7 +1,5 @@
-<div class="row no-gutters mt-5">
+<div fxFlex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column"  fxLayoutGap="10px">
   <ng-container *ngFor="let plan of plans; let i = index">
-    <div class="col-md-4 offset-md-0 col-sm-6 offset-sm-3 col-10 offset-1 pr-1 mb-2 plan-column">
-      <app-plan class="" [plan]="plan" [color]="colors[i]" (subscribe)=onSubscribe($event)></app-plan>
-    </div>
+    <app-plan fxFlex [plan]="plan" [color]="colors[i]" (subscribe)=onSubscribe($event)></app-plan>
   </ng-container>
 </div>

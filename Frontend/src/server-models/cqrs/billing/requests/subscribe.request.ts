@@ -1,4 +1,4 @@
-export class SubscribeCommand {
+export class SubscribeRequest {
     customerId: string;
     planId: string;
 

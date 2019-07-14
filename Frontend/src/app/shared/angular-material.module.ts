@@ -30,9 +30,11 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
     imports: [
+        FlexLayoutModule,
         OverlayModule,
         MatCheckboxModule,
         MatCheckboxModule,
@@ -67,6 +69,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         MatPaginatorModule
     ],
     exports: [
+        FlexLayoutModule,
         MatCheckboxModule,
         MatCheckboxModule,
         MatButtonModule,

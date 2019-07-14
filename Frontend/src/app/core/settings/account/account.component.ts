@@ -1,12 +1,12 @@
-import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
+import { NotificationService } from 'src/business/services/shared/notification.service';
 import { UsersService } from 'src/business/services/user.service';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { UpdateUserCommand } from 'src/server-models/cqrs/users/commands/update-user.command';
-import { NotificationService } from 'src/business/services/shared/notification.service';
 import { validateForm } from 'src/business/utils/form.utils';
+import { UpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 
 @Component({
   selector: 'app-account',
@@ -64,7 +64,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   public onSubmit() {
     if (validateForm(this.accountForm, this.notificationService)) {
 
-      const command = new UpdateUserCommand(
+      const command = new UpdateUserRequest(
         this.currentUser.id,
         this.username.value,
         this.email.value,

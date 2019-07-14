@@ -13,13 +13,15 @@
 
   .spinner-center {
     position: absolute;
-    left: 43%;
-    top: 43%;
+  }
+
+  #spinner-container{
+    left: 0 !important;
   }
   
   @media (max-width: 600px) {
     .settings-sidenav {
-      width: 8rem;
+      width: 70% !important;
     }
 
   }

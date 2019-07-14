@@ -2,8 +2,7 @@ import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
 import { CookieService } from 'ngx-cookie-service';
-import { SignInCommand } from 'src/server-models/cqrs/authorization/commands/sign-in.command';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { CurrentUserAdapter } from '../adapters/current-user.adapter';
 import { CurrentUserStore } from '../stores/current-user.store';
 import { BaseService } from './base.service';
@@ -11,6 +10,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 
 @Injectable({ providedIn: 'root'})
 export class AuthService extends BaseService {
@@ -28,7 +28,7 @@ export class AuthService extends BaseService {
     super();
   }
 
-  public signIn(command: SignInCommand) {
+  public signIn(command: SignInRequest) {
     return this.http.post<CurrentUser>(this.url + 'SignIn', command)
       .pipe(
         map((res: CurrentUser) => this.currentUserAdapter.adaptToModel(res)),

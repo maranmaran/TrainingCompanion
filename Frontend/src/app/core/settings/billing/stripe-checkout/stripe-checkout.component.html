@@ -1,25 +1,18 @@
 <h2>Payment information: </h2>
 
-<div class="checkout-form">
+<div class="checkout-form" fxLayout="column">
     <form [formGroup]="checkoutForm">
-        <div class="row ">
-          <div class="col">
+      
             <mat-form-field>
               <input matInput formControlName="name" placeholder="Name">
               <mat-error *ngIf="name.invalid">*</mat-error>
             </mat-form-field>
-          </div>
-        </div>
-        <div class="row ">
-          <div class="col">
+
             <mat-form-field>
               <input matInput formControlName="phone" placeholder="Phone">
               <mat-error *ngIf="phone.invalid">{{ getErrorMessage }}</mat-error>
             </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
+
             <mat-form-field>
               <input matInput placeholder="Select a country" formControlName="country" [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete">
@@ -28,27 +21,18 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-          </div>
-        </div>
-        <div class="row ">
-          <div class="col">
+
             <mat-form-field>
               <input matInput formControlName="address" placeholder="Address">
             </mat-form-field>
-          </div>
-        </div>
-        <div class="row ">
-          <div class="col-6">
+
             <mat-form-field>
               <input matInput formControlName="city" placeholder="City">
             </mat-form-field>
-          </div>
-          <div class="col-6">
+
             <mat-form-field>
               <input matInput formControlName="state" placeholder="State">
             </mat-form-field>
-          </div>
-        </div>
       </form>
 </div>
 
@@ -58,10 +42,9 @@
 <div *ngIf="error" class="alert alert-danger" style="font-size: 13px">
   {{error}}
 </div>
-<div class="row mt-5">
-  <div class="col-12">
-    <button class="float-left" mat-button color="accent" (click)="onClose()">Go back</button>
-    <button class="float-right" mat-stroked-button color="primary" (click)="getCardToken()"
-      [disabled]="!complete && !checkoutForm.valid">Finish</button>
-  </div>
+
+<div id="actions" class="mt-2" fxLayout="row" fxLayoutAlign="space-between">
+  <button  mat-button color="accent" (click)="onClose()">Go back</button>
+  <button  mat-stroked-button color="primary" (click)="getCardToken()"
+    [disabled]="!complete && !checkoutForm.valid">Finish</button>
 </div>

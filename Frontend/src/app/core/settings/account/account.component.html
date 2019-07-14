@@ -1,29 +1,19 @@
-<form [formGroup]="accountForm" (ngSubmit)="onSubmit()" autocomplete="off">
-  <div class="row">
-    <div class="col-auto">
-      <mat-form-field>
-        <input matInput formControlName="username" [readonly]="editUsername" placeholder="Username">
-        <mat-error *ngIf="username.invalid">{{ getErrorMessage }}</mat-error>
-        <i matSuffix class="fas fa-pen" *ngIf="editUsername" (click)="editUsername = !editUsername"></i>
-        <i matSuffix class="fas fa-save" (click)="onSubmit()"
-          *ngIf="!editUsername && username.valid"></i>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-auto">
-      <mat-form-field>
-        <input matInput formControlName="email" [readonly]="editMail" placeholder="Email">
-        <mat-error *ngIf="email.invalid">{{ getErrorMessage }}</mat-error>
-        <i matSuffix class="fas fa-pen" (click)="editMail = !editMail" *ngIf="editMail"></i>
-        <i matSuffix class="fas fa-save" (click)="onSubmit()" 
-          *ngIf="!editMail && email.valid"></i>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-auto">
-      <button mat-stroked-button color="accent">Change password</button>
-    </div>
-  </div>
-</form>
+  <form fxFlex fxLayout="column wrap" fxLayoutAlign.xs="center center" [formGroup]="accountForm" (ngSubmit)="onSubmit()"
+    autocomplete="off">
+
+    <mat-form-field>
+      <input matInput formControlName="username" [readonly]="editUsername" placeholder="Username">
+      <mat-error *ngIf="username.invalid">{{ getErrorMessage }}</mat-error>
+      <i matSuffix class="fas fa-pen" *ngIf="editUsername" (click)="editUsername = !editUsername"></i>
+      <i matSuffix class="fas fa-save" (click)="onSubmit()" *ngIf="!editUsername && username.valid"></i>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="email" [readonly]="editMail" placeholder="Email">
+      <mat-error *ngIf="email.invalid">{{ getErrorMessage }}</mat-error>
+      <i matSuffix class="fas fa-pen" (click)="editMail = !editMail" *ngIf="editMail"></i>
+      <i matSuffix class="fas fa-save" (click)="onSubmit()" *ngIf="!editMail && email.valid"></i>
+    </mat-form-field>
+
+    <button mat-stroked-button color="accent">Change password</button>
+  </form>
