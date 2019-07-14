@@ -3,22 +3,16 @@
 // }
 
 
- .login-header {
-
-    // margin-top: 2em;
-    // margin-bottom: 2rem;
-
-    & img {
-      height: 13rem;
-      user-select: none;
-      -moz-user-select: none;
-      -webkit-user-drag: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-    }
+img {
+    height: 13rem;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
   }
 
- .login-body {
+ #login-form {
    max-width: 400px;
    width: 100%;
   }

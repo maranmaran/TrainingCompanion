@@ -1,10 +1,10 @@
+import { UpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { ApplicationUserAdapter } from '../adapters/application-user.adapter';
-import { UpdateUserCommand } from './../../server-models/cqrs/users/commands/update-user.command';
 import { BaseService } from './base.service';
 
 @Injectable({ providedIn: 'root'})
@@ -43,7 +43,7 @@ export class UsersService extends BaseService {
         // );
     }
 
-    public update(command: UpdateUserCommand) {
+    public update(command: UpdateUserRequest) {
         return this.http.post<void>(this.url + 'Update/', command)
             .pipe(
                 catchError(this.handleError)

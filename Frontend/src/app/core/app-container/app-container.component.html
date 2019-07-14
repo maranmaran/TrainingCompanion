@@ -7,7 +7,7 @@
   <mat-sidenav-content>
       <app-toolbar></app-toolbar>
       <router-outlet></router-outlet>
-      <ng-chat [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>
+      <ng-chat *ngIf="!(sidebarService.isMobile | async)" [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>
   </mat-sidenav-content>
 
 </mat-sidenav-container>

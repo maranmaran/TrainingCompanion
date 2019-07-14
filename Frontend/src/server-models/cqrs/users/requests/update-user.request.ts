@@ -1,5 +1,5 @@
 import { AccountStatus } from 'src/server-models/enums/account-status.enum';
-export class UpdateUserCommand {
+export class UpdateUserRequest {
     id: string;
     username: string;
     email: string;

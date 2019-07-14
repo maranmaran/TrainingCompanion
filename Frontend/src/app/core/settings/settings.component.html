@@ -32,11 +32,10 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <div class="container-fluid d-flex flex-column">
+    <div class="container" fxLayout="column">
 
       <!-- menu button for settings sidenav -->
-      <div class="row mt-1" [class.mb-3]='!sidebarService.settingsToggled'>
-        <div class="col-12">
+      <div [class.mb-3]='!sidebarService.settingsToggled'>
           <button class="float-left" *ngIf="sidebarService.showSettingsMenuButton" mat-icon-button color="accent"
             (click)="toggleSidenav()">
             <i class="fas fa-bars"></i>
@@ -45,25 +44,20 @@
           <button class="float-right" mat-icon-button color="accent" (click)="onClose()">
             <i class="fas fa-times"></i>
           </button>
-        </div>
       </div>
 
       <!-- settings content -->
-      <div class="row" [class.pl-3]='!sidebarService.settingsToggled'>
-        <div class="col-12">
-          <ng-container [ngSwitch]="activeTab">
-            <app-general [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'General'"></app-general>
-            <app-account [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Account'"></app-account>
-            <ng-container *ngIf="isUser">
-              <app-billing [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Billing'"></app-billing>
-            </ng-container>
-          </ng-container>
-        </div>
-      </div>
+      <ng-container [ngSwitch]="activeTab">
+        <app-general [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'General'"></app-general>
+        <app-account [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Account'"></app-account>
+        <ng-container *ngIf="isUser">
+          <app-billing [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Billing'"></app-billing>
+        </ng-container>
+      </ng-container>
 
       <!-- loader -->
       <ng-container *ngIf="isLoading">
-        <div class="spinner-center">
+        <div id="spinner-container" class="position-absolute h-100 w-100" fxLayout="column" fxLayoutAlign="center center">
           <mat-progress-spinner class="settings-spinner" [color]="'accent'" [mode]="'indeterminate'" [value]="50">
           </mat-progress-spinner>
         </div>

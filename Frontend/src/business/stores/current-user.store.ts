@@ -1,10 +1,10 @@
+import { Injectable } from '@angular/core';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { UserSettings } from './../../server-models/entities/user-settings.model';
 import { BaseStore } from './base.store';
-import { AccountType } from 'src/server-models/enums/account-type.enum';
-import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserStore extends BaseStore<CurrentUser> {
@@ -27,7 +27,7 @@ export class CurrentUserStore extends BaseStore<CurrentUser> {
 
     public get isUser(): boolean {
         const accountType = AccountType[this.state.accountType];
-        return  accountType == AccountType.User || accountType == AccountType.Admin;
+        return accountType == AccountType.User || accountType == AccountType.Admin;
     }
 
     public get trialDaysRemaining(): number {
