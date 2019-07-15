@@ -1,4 +1,4 @@
-import { NotificationService } from './../services/shared/notification.service';
+import { UIService } from './../services/shared/notification.service';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
@@ -10,7 +10,7 @@ export class HttpInterceptor implements HttpInterceptor {
 
     constructor(
         private appSettingsService: AppSettingsService,
-        private notificationService: NotificationService
+        private notificationService: UIService
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

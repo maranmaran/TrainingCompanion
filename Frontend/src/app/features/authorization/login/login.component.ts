@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, Form, NgForm } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/business/services/auth.service';
-import { NotificationService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/notification.service';
 import { ThemeService } from 'src/business/services/shared/theme.service';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private themeService: ThemeService,
-    private notificationService: NotificationService,
+    private notificationService: UIService,
     private authService: AuthService,
   ) { }
 

@@ -1,4 +1,4 @@
-import { NotificationService } from '../services/shared/notification.service';
+import { UIService } from '../services/shared/notification.service';
 import { FormGroup } from '@angular/forms';
 import { genericErrorMessage } from './messages.utils';
 
@@ -26,7 +26,7 @@ import { genericErrorMessage } from './messages.utils';
 
 // }
 
-export const validateForm = (form: FormGroup, notificationService: NotificationService) => {
+export const validateForm = (form: FormGroup, notificationService: UIService) => {
 
   if(form.invalid) {
     this.notificationService.fadeOutMessage(genericErrorMessage());

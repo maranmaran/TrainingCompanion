@@ -4,7 +4,7 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, take, finalize } from 'rxjs/operators';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { AuthService } from '../services/auth.service';
-import { NotificationService } from '../services/shared/notification.service';
+import { UIService } from '../services/shared/notification.service';
 import { CurrentUserStore } from '../stores/current-user.store';
 
 @Injectable({ providedIn: 'root' })
@@ -14,7 +14,7 @@ export class CurrentUserResolver implements Resolve<CurrentUser> {
         private authService: AuthService,
         private currentUserStore: CurrentUserStore,
         private router: Router,
-        private notificationService: NotificationService
+        private notificationService: UIService
     ) { }
 
 

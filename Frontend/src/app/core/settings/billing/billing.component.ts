@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Token } from 'ngx-stripe';
 import { concatMap, take } from 'rxjs/operators';
 import { BillingService } from 'src/business/services/billing.service';
-import { NotificationService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/notification.service';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { Plan } from 'src/server-models/stripe/plan.model';
@@ -30,7 +30,7 @@ export class BillingComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private billingService: BillingService,
     private currentUserStore: CurrentUserStore,
-    private notificationService: NotificationService
+    private notificationService: UIService
   ) { }
 
   ngOnInit() {

@@ -4,13 +4,13 @@ import { Observable } from 'rxjs/internal/Observable';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ErrorService } from '../services/shared/error.service';
-import { NotificationService } from '../services/shared/notification.service';
+import { UIService } from '../services/shared/notification.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        private notificationService: NotificationService,
+        private notificationService: UIService,
         private errorService: ErrorService
     ) { }
 
