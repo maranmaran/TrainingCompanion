@@ -19,7 +19,7 @@ interface SnackBarConfig {
 }
 
 @Injectable({ providedIn: 'root'})
-export class NotificationService {
+export class UIService {
 
     private _loading$: BehaviorSubject<boolean>;
     public loading$ = new Observable<boolean>();

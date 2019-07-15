@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { take } from 'rxjs/operators';
-import { NotificationService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/notification.service';
 import { ThemeService } from 'src/business/services/shared/theme.service';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { UsersService } from './../../../../business/services/user.service';
@@ -21,7 +21,7 @@ export class GeneralComponent implements OnInit {
   constructor(
     private themeService: ThemeService,
     private currentUserStore: CurrentUserStore,
-    private notificationService: NotificationService,
+    private notificationService: UIService,
     private usersService: UsersService,
   ) { }
 
