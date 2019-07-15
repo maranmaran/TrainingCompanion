@@ -1,7 +1,7 @@
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { ThemeService } from './../business/services/shared/theme.service';
 import { Component, HostListener, OnDestroy, OnInit, HostBinding } from '@angular/core';
-import { NotificationService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/notification.service';
 import { SidebarService } from 'src/business/services/shared/sidebar.service';
 import { SubSink } from 'subsink';
 import { OverlayContainer, Overlay } from '@angular/cdk/overlay';
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private themeService: ThemeService,
     private overlayContainer: OverlayContainer,
-    private notificationService: NotificationService,
+    private notificationService: UIService,
     private sidebarService: SidebarService
   ) {
   }

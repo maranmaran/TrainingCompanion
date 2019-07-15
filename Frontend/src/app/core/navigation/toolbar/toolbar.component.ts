@@ -2,7 +2,7 @@ import { CurrentUserStore } from './../../../../business/stores/current-user.sto
 import { Component, OnInit, Input, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SidebarService } from 'src/business/services/shared/sidebar.service';
-import { NotificationService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/notification.service';
 import { delay, take } from 'rxjs/operators';
 import { SettingsComponent } from '../../settings/settings.component';
 import { AuthService } from 'src/business/services/auth.service';
@@ -26,7 +26,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private authService: AuthService,
     private sidebarService: SidebarService,
-    protected notificationService: NotificationService,
+    protected notificationService: UIService,
     private currentUserStore: CurrentUserStore
   ) { }
 

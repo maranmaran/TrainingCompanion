@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { take, finalize } from 'rxjs/operators';
-import { NotificationService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/notification.service';
 import { UsersService } from 'src/business/services/user.service';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { validateForm } from 'src/business/utils/form.utils';
@@ -25,7 +25,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   @Output() loading = new EventEmitter<boolean>(true);
 
   constructor(
-    private notificationService: NotificationService,
+    private notificationService: UIService,
     private currentUserStore: CurrentUserStore,
     private usersService: UsersService
   ) { }
