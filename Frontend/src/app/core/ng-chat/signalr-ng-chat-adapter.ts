@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { environment } from 'src/environments/environment';
 import { SubSink } from 'subsink';
@@ -10,6 +10,8 @@ import { AuthService } from '../../../business/services/auth.service';
 import { ChatAdapter } from 'src/app/core/ng-chat/core/chat-adapter';
 import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-response';
 import { Message } from 'src/app/core/ng-chat/core/message';
+import { AppState } from 'src/ngrx/global-reducers';
+import { Store } from '@ngrx/store';
 
 Injectable()
 export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
@@ -20,7 +22,8 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private currentUserStore: CurrentUserStore,
+    // private currentUserStore: CurrentUserStore,
+    private store: Store<AppState>,
     private http: HttpClient) {
     super();
 
@@ -28,7 +31,8 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
       () => this.stopConnection()
     ));
 
-    this.userId = this.currentUserStore.state.id;
+    this.store.pipe(take(1))
+    .subscribe(state => this.userId = state.auth.currentUser.id);
     this.initializeConnection();
   }
 

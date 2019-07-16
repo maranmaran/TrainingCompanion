@@ -1,53 +1,63 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, map, take, finalize } from 'rxjs/operators';
+import { catchError, map, take, finalize, tap } from 'rxjs/operators';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { AuthService } from '../services/auth.service';
 import { UIService } from '../services/shared/notification.service';
 import { CurrentUserStore } from '../stores/current-user.store';
+import { AppState } from 'src/ngrx/global-reducers';
+import { Store } from '@ngrx/store';
+import { AuthState } from 'src/ngrx/auth/auth.state';
 
 @Injectable({ providedIn: 'root' })
-export class CurrentUserResolver implements Resolve<CurrentUser> {
+export class CurrentUserResolver implements Resolve<void> {
 
     constructor(
         private authService: AuthService,
         private currentUserStore: CurrentUserStore,
         private router: Router,
-        private notificationService: UIService
+        private notificationService: UIService,
+        private store: Store<AppState>
     ) { }
 
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<CurrentUser> | Observable<never> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): void {
 
-        if (!this.currentUserStore.state) {
+         this.store.pipe(
+            map((authState) => authState),
+            tap(currentUser => {
+                if (!currentUser) {
 
-            this.notificationService.showErrorSnackbar = !this.notificationService.showErrorSnackbar;
-            this.notificationService.showSplash = !this.notificationService.showSplash;
-
-            return this.authService.getCurrentUserInfo()
-                .pipe(
-                    take(1),
-                    catchError(() => {
-                        this.router.navigate(['/auth/login']);
-                        return EMPTY;
-                    }),
-                    map((res: CurrentUser) => {
-                        this.currentUserStore.setState(res);
-                        this.showDialog();
-                        return res;
-                    }),
-                    finalize(
-                        () => {
-                            this.notificationService.showErrorSnackbar = !this.notificationService.showErrorSnackbar;
-                            this.notificationService.showSplash = !this.notificationService.showSplash;
-                        }
-                    )
-                );
-        }
-
-        this.showDialog();
-        return of(this.currentUserStore.state);
+                    this.notificationService.showErrorSnackbar = !this.notificationService.showErrorSnackbar;
+                    this.notificationService.showSplash = !this.notificationService.showSplash;
+        
+                    return this.authService.getCurrentUserInfo()
+                        .pipe(
+                            take(1),
+                            catchError(() => {
+                                this.router.navigate(['/auth/login']);
+                                return EMPTY;
+                            }),
+                            map((res: CurrentUser) => {
+                                this.currentUserStore.setState(res);
+                                this.showDialog();
+                                return res;
+                            }),
+                            finalize(
+                                () => {
+                                    this.notificationService.showErrorSnackbar = !this.notificationService.showErrorSnackbar;
+                                    this.notificationService.showSplash = !this.notificationService.showSplash;
+                                }
+                            )
+                        );
+                }
+        
+                this.showDialog();
+                return of(currentUser);
+            })
+        )
+   
     }
 
     trialMessageHtml = (trialDaysRemaining) => `

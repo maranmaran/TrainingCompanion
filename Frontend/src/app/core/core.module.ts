@@ -57,10 +57,10 @@ import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
             }}),
         StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
         EffectsModule.forRoot([]),
-        StoreRouterConnectingModule.forRoot({
-            stateKey: 'router',
-            routerState: RouterState.Minimal
-        })
+        // StoreRouterConnectingModule.forRoot({
+        //     stateKey: 'router',
+        //     routerState: RouterState.Minimal
+        // })
     ],
     declarations: [
         AppContainerComponent,

@@ -41,19 +41,19 @@ export class AuthService extends BaseService {
       );
   }
 
-  public setSession(user: CurrentUser) {
-    this.currentUserStore.setState(user);
-    localStorage.setItem('id', user.id.toString());
-    this.router.navigate(['']);
-  }
+  // public setSession(user: CurrentUser) {
+  //   this.currentUserStore.setState(user);
+  //   localStorage.setItem('id', user.id.toString());
+  //   this.router.navigate(['']);
+  // }
 
-  public signOut() {
-    this.signOutEvent.next();
-    this.currentUserStore.setState(undefined);
-    localStorage.removeItem('id');
-    this.cookieService.delete('jwt');
-    this.router.navigate(['/auth/login']);
-  }
+  // public signOut() {
+  //   this.signOutEvent.next();
+  //   this.currentUserStore.setState(undefined);
+  //   localStorage.removeItem('id');
+  //   this.cookieService.delete('jwt');
+  //   this.router.navigate(['/auth/login']);
+  // }
 
   public isAuthenticated() {
     const token = this.getToken();
