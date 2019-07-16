@@ -1,6 +1,6 @@
+import { Plan } from 'src/server-models/stripe/plan.model';
 import { AppSettingsService } from './../../../../../business/services/shared/app-settings.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Plan } from 'src/server-models/stripe/plan.model';
 
 @Component({
   selector: 'app-plans',

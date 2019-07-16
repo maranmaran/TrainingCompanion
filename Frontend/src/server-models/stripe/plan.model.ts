@@ -1,12 +1,12 @@
 import { Metadata } from './metadata.model';
 import { Expose } from 'class-transformer';
 
-export class Plan {
-  @Expose() id: string;
-  @Expose() currency: string;
-  @Expose() interval: string;
-  @Expose() livemode: boolean;
-  @Expose() nickname: string;
-  @Expose() metadata: Metadata;
-  @Expose() amount: number;
+export interface Plan {
+  id: string;
+  currency: string;
+  interval: string;
+  livemode: boolean;
+  nickname: string;
+  metadata: Metadata;
+  amount: number;
 }

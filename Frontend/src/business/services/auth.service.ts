@@ -3,7 +3,6 @@ import * as jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
 import { CookieService } from 'ngx-cookie-service';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
-import { CurrentUserAdapter } from '../adapters/current-user.adapter';
 import { CurrentUserStore } from '../stores/current-user.store';
 import { BaseService } from './base.service';
 import { Injectable } from '@angular/core';
@@ -22,7 +21,6 @@ export class AuthService extends BaseService {
     private http: HttpClient,
     private router: Router,
     private cookieService: CookieService,
-    private currentUserAdapter: CurrentUserAdapter,
     private currentUserStore: CurrentUserStore,
   ) {
     super();
@@ -31,7 +29,6 @@ export class AuthService extends BaseService {
   public signIn(command: SignInRequest) {
     return this.http.post<CurrentUser>(this.url + 'SignIn', command)
       .pipe(
-        map((res: CurrentUser) => this.currentUserAdapter.adaptToModel(res)),
         catchError(this.handleError)
       );
   }
@@ -40,7 +37,6 @@ export class AuthService extends BaseService {
     const userId = localStorage.getItem('id');
     return this.http.get<CurrentUser>(this.url + 'CurrentUserInformation' + `/${userId}`)
       .pipe(
-        map((res: CurrentUser) => this.currentUserAdapter.adaptToModel(res)),
         catchError(this.handleError)
       );
   }

@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
-import { ApplicationUserAdapter } from '../adapters/application-user.adapter';
 import { BaseService } from './base.service';
 
 @Injectable({ providedIn: 'root'})
@@ -13,7 +12,6 @@ export class UsersService extends BaseService {
 
     constructor(
         private http: HttpClient,
-        private userAdapter: ApplicationUserAdapter
     ) {
         super();
     }
@@ -22,7 +20,6 @@ export class UsersService extends BaseService {
     public getAll() {
         return this.http.get<ApplicationUser[]>(this.url + 'GetAll')
             .pipe(
-                map((res: ApplicationUser[]) => this.userAdapter.adaptToList(res)),
                 catchError(this.handleError)
             );
     }
@@ -30,7 +27,6 @@ export class UsersService extends BaseService {
     public getOne(userId: string) {
         return this.http.get<ApplicationUser>(this.url + 'Get/' + userId)
             .pipe(
-                map((res: ApplicationUser) => this.userAdapter.adaptToModel(res)),
                 catchError(this.handleError)
             );
     }
