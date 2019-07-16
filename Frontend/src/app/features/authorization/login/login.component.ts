@@ -7,6 +7,9 @@ import { UIService } from 'src/business/services/shared/notification.service';
 import { ThemeService } from 'src/business/services/shared/theme.service';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/ngrx/global-reducers';
+import { login } from 'src/ngrx/auth/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private notificationService: UIService,
     private authService: AuthService,
+    private store: Store<AppState>
   ) { }
 
   
@@ -56,8 +60,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.signIn(signInRequest)
         .pipe(take(1))
         .subscribe(
-          (res: CurrentUser) => {
-            this.authService.setSession(res);
+          (currentUser: CurrentUser) => {
+            this.store.dispatch(login({currentUser}))
+            this.authService.setSession(currentUser);
           },
           (err: HttpErrorResponse) => { 
             this.error = true;

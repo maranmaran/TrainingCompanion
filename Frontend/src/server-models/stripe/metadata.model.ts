@@ -1,4 +1,4 @@
 
-export class Metadata {
+export interface Metadata {
   MaxUsers: number;
   }

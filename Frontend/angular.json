@@ -27,7 +27,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/styles.scss",
+              "src/styles/styles.scss"
             ],
             "scripts": [],
             "es5BrowserSupport": true
@@ -139,5 +139,8 @@
       }
     }
   },
-  "defaultProject": "Frontend"
+  "defaultProject": "Frontend",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

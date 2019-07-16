@@ -2,7 +2,7 @@ import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { AccountStatus } from '../../../enums/account-status.enum';
 import { SubscriptionStatus } from '../../../enums/subscription-status.enum';
 
-export class SignInResponse {
+export interface SignInResponse {
      id: string;
      customerId: string;
      username: string;

@@ -29,6 +29,11 @@ import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stri
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NgChatModule } from './ng-chat/ng-chat.module';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducers, metaReducers } from 'src/ngrx/global-reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 
 
 @NgModule({
@@ -42,6 +47,20 @@ import { NgChatModule } from './ng-chat/ng-chat.module';
         AvatarModule,
         NgxStripeModule.forRoot(environment.stripePublishableKey),
         NgChatModule,
+        StoreModule.forRoot(reducers, {
+            metaReducers,
+            runtimeChecks : {
+                strictStateImmutability: true,
+                strictActionImmutability: true,
+                // strictActionSerializability: true,
+                // strictStateSerializability:true
+            }}),
+        StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+        EffectsModule.forRoot([]),
+        StoreRouterConnectingModule.forRoot({
+            stateKey: 'router',
+            routerState: RouterState.Minimal
+        })
     ],
     declarations: [
         AppContainerComponent,

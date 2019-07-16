@@ -3,7 +3,7 @@ import { AccountType } from '../enums/account-type.enum';
 import { SubscriptionStatus } from '../enums/subscription-status.enum';
 import { UserSettings } from './user-settings.model';
 
-export class ApplicationUser {
+export interface ApplicationUser {
      id: string;
      customerId: string;
      username: string;
