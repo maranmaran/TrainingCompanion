@@ -1,4 +1,4 @@
-export class UserSettings {
+export interface UserSettings {
     id: string;
     theme: string;
 }

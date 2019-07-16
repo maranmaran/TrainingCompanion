@@ -7,9 +7,9 @@ import { BillingService } from 'src/business/services/billing.service';
 import { UIService } from 'src/business/services/shared/notification.service';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { Plan } from 'src/server-models/stripe/plan.model';
-import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { StripeCheckoutComponent } from './stripe-checkout/stripe-checkout.component';
+import { Subscription } from 'src/server-models/stripe/subscription.model';
+import { Plan } from 'src/server-models/stripe/plan.model';
 
 @Component({
   selector: "app-billing",
