@@ -2,10 +2,10 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 
 export interface AuthState {
     currentUser: CurrentUser,
-    error: string
+    // error: string
 }
 
 export const initialAuthState: AuthState = {
     currentUser: undefined,
-    error: undefined
+    // error: undefined
 };

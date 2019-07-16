@@ -7,6 +7,10 @@ import { delay, take } from 'rxjs/operators';
 import { SettingsComponent } from '../../settings/settings.component';
 import { AuthService } from 'src/business/services/auth.service';
 import { SubSink } from 'subsink';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/ngrx/global-reducers';
+import { AuthState } from 'src/ngrx/auth/auth.state';
+import { logout } from 'src/ngrx/auth/auth.actions';
 
 @Component({
   selector: 'app-toolbar',
@@ -27,7 +31,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private sidebarService: SidebarService,
     protected notificationService: UIService,
-    private currentUserStore: CurrentUserStore
+    private currentUserStore: CurrentUserStore,
+    private store: Store<AuthState>
   ) { }
 
   ngOnInit() {
@@ -39,7 +44,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   public logout() {
-    this.authService.signOut();
+    this.store.dispatch(logout());
+    //this.authService.signOut();
   }
 
   public toggleSidebar() {

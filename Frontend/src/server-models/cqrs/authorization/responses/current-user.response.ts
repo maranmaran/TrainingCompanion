@@ -1,11 +1,9 @@
-import { Expose } from 'class-transformer';
 import { Subscription } from '../../../stripe/subscription.model';
 import { Plan } from '../../../stripe/plan.model';
 import { UserSettings } from '../../../entities/user-settings.model';
 import { AccountStatus } from 'src/server-models/enums/account-status.enum';
 import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';
 import { StripeList } from 'src/server-models/stripe/stripe-list.model';
-import { Type } from 'class-transformer/decorators';
 
 export interface CurrentUser {
     id: string;
