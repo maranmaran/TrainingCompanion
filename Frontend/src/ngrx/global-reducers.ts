@@ -8,12 +8,15 @@ import {
 } from '@ngrx/store';
 import { environment } from '../environments/environment';
 import {routerReducer} from '@ngrx/router-store';
+import { authReducer } from './auth/auth.reducers';
 
 export interface AppState {
+  auth: AuthState
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-   router: routerReducer
+  //  router: routerReducer,
+  auth: authReducer
 };
 
 export function stateLogger(reducer:ActionReducer<any>)

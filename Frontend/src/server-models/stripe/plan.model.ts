@@ -1,5 +1,4 @@
 import { Metadata } from './metadata.model';
-import { Expose } from 'class-transformer';
 
 export interface Plan {
   id: string;

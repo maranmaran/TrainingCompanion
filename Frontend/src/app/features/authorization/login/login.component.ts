@@ -10,6 +10,7 @@ import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sig
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-reducers';
 import { login } from 'src/ngrx/auth/auth.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private notificationService: UIService,
     private authService: AuthService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) { }
 
   
@@ -61,8 +63,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         .pipe(take(1))
         .subscribe(
           (currentUser: CurrentUser) => {
-            this.store.dispatch(login({currentUser}))
-            this.authService.setSession(currentUser);
+            this.store.dispatch(login({currentUser}));
+            setTimeout(() => this.router.navigate(['/']), 5000);
+            // this.router.navigate(['/']);
+            //this.authService.setSession(currentUser);
           },
           (err: HttpErrorResponse) => { 
             this.error = true;
@@ -71,5 +75,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         );
     }
   }
+
 
 }
