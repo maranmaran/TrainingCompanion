@@ -1,3 +1,4 @@
+import { cancelSubscription } from './../../../../ngrx/auth/auth.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,6 +11,11 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 import { StripeCheckoutComponent } from './stripe-checkout/stripe-checkout.component';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { Plan } from 'src/server-models/stripe/plan.model';
+import { AppState } from 'src/ngrx/global-reducers';
+import { Store } from '@ngrx/store';
+import { currentUser, isSubscribed } from 'src/ngrx/auth/auth.selectors';
+import { forkJoin } from 'rxjs';
+import { addSubscription } from 'src/ngrx/auth/auth.actions';
 
 @Component({
   selector: "app-billing",
@@ -29,39 +35,45 @@ export class BillingComponent implements OnInit, OnDestroy {
   constructor(
     private dialog: MatDialog,
     private billingService: BillingService,
-    private currentUserStore: CurrentUserStore,
-    private notificationService: UIService
+    private UIService: UIService,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
-    this.currentUser = this.currentUserStore.state;
-    this.plans = this.currentUser.plans.data;
-    this.subscriptionValid = this.currentUserStore.isSubscribed;
+    forkJoin(this.store.select(currentUser), this.store.select(isSubscribed))
+      .pipe(take(1))
+      .subscribe(([user, isSubscribed]) => {
+        this.currentUser = user;
+        this.plans = this.currentUser.plans.data;
+        this.subscriptionValid = isSubscribed;
+      });
   }
 
   ngOnDestroy(): void {
     // reset loading bars back
     this.loading.emit(false);
-    this.notificationService.showAppLoadingBar = true;
+    this.UIService.showAppLoadingBar = true;
   }
 
   public onCancelSubscription(subscriptionId: string) {
 
-    this.notificationService.showAppLoadingBar = false;
+    this.UIService.showAppLoadingBar = false;
     this.loading.emit(true);
 
     this.billingService.cancelSubscription(subscriptionId)
       .pipe(take(1))
       .subscribe(
         () => {
-          this.currentUserStore.cancelSubscription();
+          // this.currentUserStore.cancelSubscription();
+          // dispatch cancel sub action
+          this.store.dispatch(cancelSubscription);
         },
         (err: HttpErrorResponse) => {
           console.log(err);
         },
         () => {
           this.loading.emit(false);
-          this.notificationService.showAppLoadingBar = true;
+          this.UIService.showAppLoadingBar = true;
         }
       );
   }
@@ -82,7 +94,7 @@ export class BillingComponent implements OnInit, OnDestroy {
       .afterClosed().pipe(take(1))
       .subscribe((token: any) => {
         if (token && token !== 'Closed') {
-          const customerId = this.currentUserStore.customerId;
+          const customerId = this.currentUser.customerId;
 
           this.subscribe(customerId, planId, token);
         }
@@ -91,7 +103,7 @@ export class BillingComponent implements OnInit, OnDestroy {
 
   private subscribe(customerId: string, planId: string, token: Token) {
 
-    this.notificationService.showAppLoadingBar = false;
+    this.UIService.showAppLoadingBar = false;
     this.loading.emit(true);
 
     this.billingService.addPaymentOption(customerId, token)
@@ -100,11 +112,15 @@ export class BillingComponent implements OnInit, OnDestroy {
         concatMap(() => this.billingService.subscribeCustomer(customerId, planId).pipe(take(1)))
       )
       .subscribe(
-        (res: Subscription) => this.currentUserStore.addSubscription(res),
+        (res: Subscription) => {
+          // this.currentUserStore.addSubscription(res);
+          // dispatch add subscription
+          this.store.dispatch(addSubscription(res));
+        },
         err => console.log(err),
         () => {
           this.loading.emit(false);
-          this.notificationService.showAppLoadingBar = true;
+          this.UIService.showAppLoadingBar = true;
         }
       );
   }

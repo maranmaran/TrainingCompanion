@@ -11,13 +11,13 @@ import { genericErrorMessage } from './messages.utils';
 // export class FormUtils {
 
 //   constructor(
-//     private notificationService: NotificationService
+//     private UIService: NotificationService
 //     ) { }
 
 //   public validateForm = (form: FormGroup) => {
 
 //     if(form.invalid) {
-//       this.notificationService.fadeOutMessage(genericErrorMessage());
+//       this.UIService.fadeOutMessage(genericErrorMessage());
 //       return false;
 //     }
 
@@ -26,10 +26,10 @@ import { genericErrorMessage } from './messages.utils';
 
 // }
 
-export const validateForm = (form: FormGroup, notificationService: UIService) => {
+export const validateForm = (form: FormGroup, UIService: UIService) => {
 
   if(form.invalid) {
-    this.notificationService.fadeOutMessage(genericErrorMessage());
+    this.UIService.fadeOutMessage(genericErrorMessage());
     return false;
   }
 

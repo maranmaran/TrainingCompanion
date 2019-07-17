@@ -7,10 +7,10 @@ import { UIService } from '../shared/notification.service';
 export class ErrorService {
 
     constructor(
-        private notificationService: UIService
+        private UIService: UIService
     ) { }
 
     public handleError(err: HttpErrorResponse) {
-        this.notificationService.openFromComponent(ErrorSnackbarComponent, { data: err, duration: 2000});
+        this.UIService.openFromComponent(ErrorSnackbarComponent, { data: err, duration: 2000});
     }
 }

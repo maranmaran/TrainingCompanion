@@ -16,7 +16,7 @@ export interface AppState {
 
 export const reducers: ActionReducerMap<AppState> = {
   //  router: routerReducer,
-  auth: authReducer
+   auth: authReducer
 };
 
 export function stateLogger(reducer:ActionReducer<any>)

@@ -10,12 +10,12 @@ export class HttpInterceptor implements HttpInterceptor {
 
     constructor(
         private appSettingsService: AppSettingsService,
-        private notificationService: UIService
+        private UIService: UIService
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       
-        this.notificationService.setLoading(true);
+        this.UIService.setLoading(true);
 
         req = req.clone({
             url: this.appSettingsService.apiUrl + req.url,
@@ -25,7 +25,7 @@ export class HttpInterceptor implements HttpInterceptor {
 
         return next.handle(req)
             .pipe(
-                finalize(() => this.notificationService.setLoading(false))
+                finalize(() => this.UIService.setLoading(false))
             );
     }
 }

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { BaseService } from './base.service';
+import { UserSettings } from 'src/server-models/entities/user-settings.model';
 
 @Injectable({ providedIn: 'root'})
 export class UsersService extends BaseService {
@@ -54,8 +55,8 @@ export class UsersService extends BaseService {
 
     }
 
-    public saveSettings(user: CurrentUser) {
-        const payload = { id: user.id, userSettings: user.userSettings };
+    public saveSettings(userSettings: UserSettings) {
+        const payload = { userSettings: userSettings };
         return this.http.post(this.url + 'SaveUserSettings/', payload)
             .pipe(
                 catchError(this.handleError)

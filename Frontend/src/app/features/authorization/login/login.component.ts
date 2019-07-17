@@ -21,13 +21,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   public loginForm: FormGroup;
-  public loading$ = this.notificationService.loading$;
+  public loading$ = this.UIService.loading$;
   public hidePassword = true;
   public error = false;
 
   constructor(
     private themeService: ThemeService,
-    private notificationService: UIService,
+    private UIService: UIService,
     private authService: AuthService,
     private store: Store<AppState>,
     private router: Router
@@ -35,13 +35,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   
   ngOnInit() {
-    this.notificationService.showErrorSnackbar = !this.notificationService.showErrorSnackbar;
+    this.UIService.showErrorSnackbar = !this.UIService.showErrorSnackbar;
     this.themeService.resetToDefault();
     this.createForm();
   }
 
   ngOnDestroy(): void {
-    this.notificationService.showErrorSnackbar = !this.notificationService.showErrorSnackbar;
+    this.UIService.showErrorSnackbar = !this.UIService.showErrorSnackbar;
   }
 
   private createForm() {
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         .subscribe(
           (currentUser: CurrentUser) => {
             this.store.dispatch(login({currentUser}));
-            setTimeout(() => this.router.navigate(['/']), 5000);
+            // setTimeout(() => this.router.navigate(['/']), 5000);
             // this.router.navigate(['/']);
             //this.authService.setSession(currentUser);
           },

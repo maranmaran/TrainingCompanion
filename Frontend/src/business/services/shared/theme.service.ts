@@ -2,6 +2,10 @@ import { Theme } from 'src/app/core/ng-chat/core/theme.enum';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CurrentUserStore } from './../../stores/current-user.store';
+import { AppState } from 'src/ngrx/global-reducers';
+import { Store } from '@ngrx/store';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root'})
 export class ThemeService {
@@ -14,7 +18,7 @@ export class ThemeService {
     private themeDarkSelector = 'Dark';
 
     constructor(
-        private currentUserStore: CurrentUserStore
+        private store: Store<AppState>
     ) {
         this.theme$ = new BehaviorSubject<string>(this.themeLight);
     }
@@ -30,7 +34,10 @@ export class ThemeService {
     }
 
     public setCurrentUserTheme() {
-        this.setTheme(this.currentUserStore.state.userSettings.theme);
+        this.store
+            .select(currentUser)
+            .pipe(take(1))
+            .subscribe(currentUser => this.setTheme(currentUser.userSettings.theme));
     }
 
     public getChatTheme(theme: string): Theme {

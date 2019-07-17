@@ -15,7 +15,8 @@ export class AuthEffects {
             .pipe(
                 ofType(AuthActions.login),
                 tap(action =>{
-                    // this.router.navigate(['/']);
+                    localStorage.setItem('id', action.currentUser.id);
+                    this.router.navigate(['/']);
                 })
             )
         ,
