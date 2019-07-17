@@ -1,7 +1,7 @@
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { ThemeService } from './../business/services/shared/theme.service';
 import { Component, HostListener, OnDestroy, OnInit, HostBinding } from '@angular/core';
-import { UIService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { SidebarService } from 'src/business/services/shared/sidebar.service';
 import { SubSink } from 'subsink';
 import { OverlayContainer, Overlay } from '@angular/cdk/overlay';

@@ -1,13 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { take } from 'rxjs/operators';
-import { UIService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { ThemeService } from 'src/business/services/shared/theme.service';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { UsersService } from './../../../../business/services/user.service';
 import { CurrentUserStore } from './../../../../business/stores/current-user.store';
 import { UserSettings } from './../../../../server-models/entities/user-settings.model';
-import { AppState } from 'src/ngrx/global-reducers';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { updateUserSettings } from 'src/ngrx/auth/auth.actions';

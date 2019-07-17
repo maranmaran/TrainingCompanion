@@ -3,15 +3,15 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, of, EMPTY } from 'rxjs';
 import { map, take, tap, finalize, catchError, concatMap } from 'rxjs/operators';
-import { AppState } from 'src/ngrx/global-reducers';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { AuthService } from '../services/auth.service';
-import { UIService } from '../services/shared/notification.service';
+import { UIService } from '../services/shared/ui.service';
 import { isSubscribed, isTrialing, trialDaysRemaining, currentUser } from './../../ngrx/auth/auth.selectors';
 import { login, updateCurrentUser } from 'src/ngrx/auth/auth.actions';
 
 @Injectable({ providedIn: 'root' })
-export class CurrentUserResolver implements Resolve<void> {
+export class CurrentUserResolver implements Resolve<CurrentUser | void> {
 
     constructor(
         private router: Router,
@@ -38,11 +38,11 @@ export class CurrentUserResolver implements Resolve<void> {
                             take(1),
                             catchError(() => {
                                 this.router.navigate(['/auth/login']);
-                                return undefined;
+                                return EMPTY;
                             }),
                             map((currentUser: CurrentUser) => {
                                 this.store.dispatch(updateCurrentUser(currentUser));
-                                //this.showDialog(); // effecT?
+                                this.showDialog(); // effecT?
                             }),
                             finalize(
                                 () => {
@@ -54,6 +54,7 @@ export class CurrentUserResolver implements Resolve<void> {
                     }
 
                 this.showDialog();
+                return of(currentUser);
             })
         );
     }

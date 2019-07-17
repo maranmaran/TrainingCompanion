@@ -2,13 +2,13 @@ import { CurrentUserStore } from './../../../../business/stores/current-user.sto
 import { Component, OnInit, Input, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SidebarService } from 'src/business/services/shared/sidebar.service';
-import { UIService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { delay, take } from 'rxjs/operators';
 import { SettingsComponent } from '../../settings/settings.component';
 import { AuthService } from 'src/business/services/auth.service';
 import { SubSink } from 'subsink';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-reducers';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { AuthState } from 'src/ngrx/auth/auth.state';
 import { logout } from 'src/ngrx/auth/auth.actions';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';

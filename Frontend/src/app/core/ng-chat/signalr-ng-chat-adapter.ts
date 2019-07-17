@@ -10,7 +10,7 @@ import { AuthService } from '../../../business/services/auth.service';
 import { ChatAdapter } from 'src/app/core/ng-chat/core/chat-adapter';
 import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-response';
 import { Message } from 'src/app/core/ng-chat/core/message';
-import { AppState } from 'src/ngrx/global-reducers';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 
 Injectable()

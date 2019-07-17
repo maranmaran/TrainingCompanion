@@ -1,3 +1,4 @@
+import { CoreEffects } from './../../ngrx/global-setup.ngrx';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -31,9 +32,8 @@ import { SettingsComponent } from './settings/settings.component';
 import { NgChatModule } from './ng-chat/ng-chat.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { reducers, metaReducers } from 'src/ngrx/global-reducers';
+import { reducers, metaReducers } from 'src/ngrx/global-setup.ngrx';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 
 
 @NgModule({
@@ -52,11 +52,9 @@ import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
             runtimeChecks : {
                 strictStateImmutability: true,
                 strictActionImmutability: true,
-                // strictActionSerializability: true,
-                // strictStateSerializability:true
             }}),
         StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-        EffectsModule.forRoot([]),
+        EffectsModule.forRoot(CoreEffects),
         // StoreRouterConnectingModule.forRoot({
         //     stateKey: 'router',
         //     routerState: RouterState.Minimal
