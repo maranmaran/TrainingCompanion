@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MessageDialogComponent } from 'src/app/shared/message-dialog/message-dialog.component';
-import { ConfirmDialogComponent } from './../../../app/shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../app/shared/confirm-dialog/confirm-dialog.component';
 
 const snackBarDefaultConfig = {
     duration: 5000,

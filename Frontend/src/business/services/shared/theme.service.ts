@@ -2,7 +2,7 @@ import { Theme } from 'src/app/core/ng-chat/core/theme.enum';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CurrentUserStore } from './../../stores/current-user.store';
-import { AppState } from 'src/ngrx/global-reducers';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { take } from 'rxjs/operators';

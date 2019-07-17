@@ -11,10 +11,10 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 export const authReducer: ActionReducer<AuthState, Action> = createReducer(
     initialAuthState,
 
-    on(AuthActions.login, (state: AuthState, action) => {
+    on(AuthActions.login, (state: AuthState, currentUser: CurrentUser) => {
         return {
             ...state,
-            currentUser: action.currentUser
+            currentUser: currentUser
         }
     }),
 

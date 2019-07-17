@@ -6,7 +6,7 @@ import { Subscription } from 'src/server-models/stripe/subscription.model';
 
 export const login = createAction(
     '[Auth API] Login',
-    props<AuthState>()
+    props<CurrentUser>()
 )
 
 export const logout = createAction(
