@@ -1,63 +1,61 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
-import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, map, take, finalize, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { forkJoin, Observable, of, EMPTY } from 'rxjs';
+import { map, take, tap, finalize, catchError, concatMap } from 'rxjs/operators';
+import { AppState } from 'src/ngrx/global-reducers';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { AuthService } from '../services/auth.service';
 import { UIService } from '../services/shared/notification.service';
-import { CurrentUserStore } from '../stores/current-user.store';
-import { AppState } from 'src/ngrx/global-reducers';
-import { Store } from '@ngrx/store';
-import { AuthState } from 'src/ngrx/auth/auth.state';
+import { isSubscribed, isTrialing, trialDaysRemaining, currentUser } from './../../ngrx/auth/auth.selectors';
+import { login, updateCurrentUser } from 'src/ngrx/auth/auth.actions';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserResolver implements Resolve<void> {
 
     constructor(
-        private authService: AuthService,
-        private currentUserStore: CurrentUserStore,
         private router: Router,
-        private notificationService: UIService,
+        private authService: AuthService,
+        private UIService: UIService,
         private store: Store<AppState>
     ) { }
 
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): void {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-         this.store.pipe(
-            map((authState) => authState),
-            tap(currentUser => {
+       return this.store
+        .select(currentUser)
+        .pipe(
+            take(1), 
+            concatMap((currentUser: CurrentUser) => {
                 if (!currentUser) {
 
-                    this.notificationService.showErrorSnackbar = !this.notificationService.showErrorSnackbar;
-                    this.notificationService.showSplash = !this.notificationService.showSplash;
-        
+                    this.UIService.showErrorSnackbar = !this.UIService.showErrorSnackbar;
+                    this.UIService.showSplash = !this.UIService.showSplash;
+
                     return this.authService.getCurrentUserInfo()
                         .pipe(
                             take(1),
                             catchError(() => {
                                 this.router.navigate(['/auth/login']);
-                                return EMPTY;
+                                return undefined;
                             }),
-                            map((res: CurrentUser) => {
-                                this.currentUserStore.setState(res);
-                                this.showDialog();
-                                return res;
+                            map((currentUser: CurrentUser) => {
+                                this.store.dispatch(updateCurrentUser(currentUser));
+                                //this.showDialog(); // effecT?
                             }),
                             finalize(
                                 () => {
-                                    this.notificationService.showErrorSnackbar = !this.notificationService.showErrorSnackbar;
-                                    this.notificationService.showSplash = !this.notificationService.showSplash;
+                                    this.UIService.showErrorSnackbar = !this.UIService.showErrorSnackbar;
+                                    this.UIService.showSplash = !this.UIService.showSplash;
                                 }
                             )
                         );
-                }
-        
+                    }
+
                 this.showDialog();
-                return of(currentUser);
             })
-        )
-   
+        );
     }
 
     trialMessageHtml = (trialDaysRemaining) => `
@@ -76,9 +74,32 @@ export class CurrentUserResolver implements Resolve<void> {
     and review your subscription status or <a href="#" data-link="">Contact Us</a>.</p>`;
 
     showDialog() {
-        this.currentUserStore.isSubscribed && this.currentUserStore.isTrialing && this.authService.showSplashDialog && this.notificationService.openConfirmDialog(this.trialMessageHtml(this.currentUserStore.trialDaysRemaining), this.authService.setSplashDialogDate); // Trialing
-        !this.currentUserStore.isSubscribed && !this.currentUserStore.isTrialing && this.notificationService.openConfirmDialog(this.trialOverHtml, () => { }); // Must subscribe
-        this.currentUserStore.isSubscribed && !this.currentUserStore.isTrialing && this.authService.showSplashDialog && this.notificationService.openConfirmDialog(this.invalidSubscriptionHtml, this.authService.setSplashDialogDate); // Subscribed but something is wrong with subscription
+
+        forkJoin(this.store.select(isTrialing),
+            this.store.select(isSubscribed),
+            of(this.authService.showSplashDialog),
+            this.store.select(trialDaysRemaining))
+            .pipe(take(1))
+            .subscribe(([isTrialing, isSubscribed, showSplashDialog, trialDaysRemaining]) => {
+
+                let message: string;
+                let action: Function;
+
+                if (isTrialing && showSplashDialog) {  // TRIALING
+                    message = this.trialMessageHtml(trialDaysRemaining);
+                    action = this.authService.setSplashDialogDate;
+                }
+                else if (!isSubscribed && !isTrialing) {  // MUST SUBSCRIBE
+                    message = this.trialOverHtml;
+                    action = () => { };
+                }
+                else if (isSubscribed && isTrialing) {   // SUBSCRIPTION IS INVALID
+                    message = this.invalidSubscriptionHtml;
+                    action = this.authService.setSplashDialogDate;
+                }
+
+                this.UIService.openConfirmDialog(message, action);
+            })
     }
 
 }

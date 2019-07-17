@@ -7,6 +7,9 @@ import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { validateForm } from 'src/business/utils/form.utils';
 import { UpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { AppState } from 'src/ngrx/global-reducers';
+import { Store } from '@ngrx/store';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
 
 @Component({
   selector: 'app-account',
@@ -25,20 +28,24 @@ export class AccountComponent implements OnInit, OnDestroy {
   @Output() loading = new EventEmitter<boolean>(true);
 
   constructor(
-    private notificationService: UIService,
-    private currentUserStore: CurrentUserStore,
-    private usersService: UsersService
+    private UIService: UIService,
+    private usersService: UsersService,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
-    this.currentUser = this.currentUserStore.state;
-    this.createForm(this.currentUser)
+    this.store.select(currentUser)
+      .pipe(take(1))
+      .subscribe((user: CurrentUser) => { 
+        this.currentUser = user;
+        this.createForm(this.currentUser);
+      });
   }
 
   ngOnDestroy(): void {
     // reset loading bars back
     this.loading.emit(false);
-    this.notificationService.showAppLoadingBar = true;
+    this.UIService.showAppLoadingBar = true;
   }
 
   private createForm(model: CurrentUser) {
@@ -62,7 +69,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit() {
-    if (validateForm(this.accountForm, this.notificationService)) {
+    if (validateForm(this.accountForm, this.UIService)) {
 
       const command = new UpdateUserRequest(
         this.currentUser.id,
@@ -73,7 +80,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.currentUser.accountStatus
       );
 
-      this.notificationService.showAppLoadingBar = false;
+      this.UIService.showAppLoadingBar = false;
       this.loading.emit(true);
       
       this.usersService.update(command)
@@ -81,7 +88,7 @@ export class AccountComponent implements OnInit, OnDestroy {
           take(1),
           finalize(() => { 
             this.loading.emit(false);
-            this.notificationService.showAppLoadingBar = true;
+            this.UIService.showAppLoadingBar = true;
             
             this.editUsername = true;
             this.editMail = true;
@@ -91,7 +98,8 @@ export class AccountComponent implements OnInit, OnDestroy {
             this.currentUser.username = this.username.value;
             this.currentUser.email = this.email.value;
 
-            this.currentUserStore.setState(this.currentUser);
+            // set new state...
+            // this.currentUserStore.setState(this.currentUser);
           },
           err => console.log(err),
         );

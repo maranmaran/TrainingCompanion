@@ -7,6 +7,10 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 import { UsersService } from './../../../../business/services/user.service';
 import { CurrentUserStore } from './../../../../business/stores/current-user.store';
 import { UserSettings } from './../../../../server-models/entities/user-settings.model';
+import { AppState } from 'src/ngrx/global-reducers';
+import { Store } from '@ngrx/store';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { updateUserSettings } from 'src/ngrx/auth/auth.actions';
 
 @Component({
   selector: 'app-general',
@@ -16,23 +20,27 @@ import { UserSettings } from './../../../../server-models/entities/user-settings
 export class GeneralComponent implements OnInit {
 
   public userSettings: UserSettings;
+  public currentUser: CurrentUser;
   @Output() loading = new EventEmitter<boolean>();
 
   constructor(
     private themeService: ThemeService,
-    private currentUserStore: CurrentUserStore,
-    private notificationService: UIService,
+    private store: Store<AppState>,
+    private UIService: UIService,
     private usersService: UsersService,
   ) { }
 
   ngOnInit() {
-    this.userSettings = this.currentUserStore.state.userSettings;
+    this.store.select(currentUser).pipe(take(1))
+      .subscribe((user: CurrentUser) => {
+        this.userSettings = { ...user.userSettings };
+      });
   }
 
   ngOnDestroy(): void {
     // reset loading bars back
     this.loading.emit(false);
-    this.notificationService.showAppLoadingBar = true;
+    this.UIService.showAppLoadingBar = true;
   }
 
   get themeButtonChecked(): boolean { return this.userSettings.theme == 'Dark'; }
@@ -41,24 +49,26 @@ export class GeneralComponent implements OnInit {
     if (event.checked) this.userSettings.theme = 'Dark';
     if (!event.checked) this.userSettings.theme = 'Light';
 
-    this.currentUserStore.setSettings(this.userSettings);
+    // dispatch action set new user settings
+    this.store.dispatch(updateUserSettings(this.userSettings));
+    // this.currentUserStore.setSettings(this.userSettings);
     this.themeService.setTheme(this.userSettings.theme);
-    this.onSaveSettings(this.currentUserStore.state);
+    this.onSaveSettings(this.userSettings);
   }
 
-  private onSaveSettings(currentUser: CurrentUser) {
+  private onSaveSettings(userSettings: UserSettings) {
 
-    this.notificationService.showAppLoadingBar = false;
+    this.UIService.showAppLoadingBar = false;
     this.loading.emit(true);
 
-    this.usersService.saveSettings(currentUser)
+    this.usersService.saveSettings(userSettings)
       .pipe(take(1))
       .subscribe(
         () => { },
         err => console.log(err),
         () => {
           this.loading.emit(false);
-          this.notificationService.showAppLoadingBar = true;
+          this.UIService.showAppLoadingBar = true;
         }
       );
 

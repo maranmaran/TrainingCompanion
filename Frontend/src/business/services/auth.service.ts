@@ -35,6 +35,7 @@ export class AuthService extends BaseService {
 
   public getCurrentUserInfo() {
     const userId = localStorage.getItem('id');
+    if(!userId) this.router.navigate(['/auth/login']);
     return this.http.get<CurrentUser>(this.url + 'CurrentUserInformation' + `/${userId}`)
       .pipe(
         catchError(this.handleError)

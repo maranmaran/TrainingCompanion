@@ -23,7 +23,7 @@
           Account
         </a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="openTab('Billing')" *ngIf="isUser">
+        <a mat-list-item (click)="openTab('Billing')" *ngIf="(isUser | async)">
           Billing
         </a>
 
@@ -50,7 +50,7 @@
       <ng-container [ngSwitch]="activeTab">
         <app-general [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'General'"></app-general>
         <app-account [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Account'"></app-account>
-        <ng-container *ngIf="isUser">
+        <ng-container *ngIf="(isUser | async)">
           <app-billing [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Billing'"></app-billing>
         </ng-container>
       </ng-container>

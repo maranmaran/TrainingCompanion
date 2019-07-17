@@ -9,7 +9,7 @@ export class SubscriptionGuard implements CanActivate {
 
   constructor(
     private authService: AuthService,
-    private notificationService: UIService
+    private UIService: UIService
   ) {
   }
 
@@ -19,7 +19,7 @@ export class SubscriptionGuard implements CanActivate {
       return true;
     }
 
-    this.notificationService.warning('Please review your subscription in account setting billing section.')
+    this.UIService.warning('Please review your subscription in account setting billing section.')
   }
 
 }

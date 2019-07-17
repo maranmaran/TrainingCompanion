@@ -16,7 +16,7 @@
       <mat-form-field>
         <input matInput formControlName="password" autocomplete="current-password"
           [type]="hidePassword ? 'password' : 'text'" class="form-control" id="password" placeholder="Password">
-        <button mat-icon-button matSuffix (mousedown)="hidePassword = false" (mouseup)="hidePassword = true">
+        <button type="button" mat-icon-button matSuffix (mousedown)="hidePassword = false" (mouseup)="hidePassword = true">
           <i class="fas" [ngClass]="{'fa-eye-slash': hidePassword, 'fa-eye': !hidePassword}"></i>
         </button>
       </mat-form-field>

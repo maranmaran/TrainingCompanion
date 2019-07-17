@@ -13,8 +13,8 @@ import { AuthEffects } from 'src/ngrx/auth/auth.effects';
     imports: [
         AuthRoutingModule,
         SharedModule,
-        // StoreModule.forFeature('auth', authReducer),
-        // EffectsModule.forFeature([AuthEffects])
+        StoreModule.forFeature('auth', authReducer),
+        EffectsModule.forFeature([AuthEffects])
     ],
     declarations: [
         LoginComponent,

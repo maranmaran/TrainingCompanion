@@ -11,6 +11,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-reducers';
 import { AuthState } from 'src/ngrx/auth/auth.state';
 import { logout } from 'src/ngrx/auth/auth.actions';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
 
 @Component({
   selector: 'app-toolbar',
@@ -22,7 +24,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   public fullName: string;
   public loadingIndicatorVisible = false;
-  public loading$ = this.notificationService.loading$.pipe(delay(0));
+  public loading$ = this.UIService.loading$.pipe(delay(0));
 
   private subs = new SubSink();
 
@@ -30,13 +32,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private authService: AuthService,
     private sidebarService: SidebarService,
-    protected notificationService: UIService,
-    private currentUserStore: CurrentUserStore,
+    protected UIService: UIService,
     private store: Store<AuthState>
   ) { }
 
   ngOnInit() {
-    this.fullName = this.currentUserStore.userFullName;
+    this.store.select(currentUser).pipe(take(1)).subscribe((user: CurrentUser) => this.fullName = user.fullName);
   }
 
   ngOnDestroy(): void {
