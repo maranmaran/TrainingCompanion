@@ -6,7 +6,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { SidebarService } from 'src/business/services/shared/sidebar.service';
 import { UsersService } from './../../../business/services/user.service';
-import { AppState } from 'src/ngrx/global-reducers';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 import { isUser } from 'src/ngrx/auth/auth.selectors';
 import { take } from 'rxjs/operators';

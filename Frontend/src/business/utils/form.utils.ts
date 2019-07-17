@@ -1,4 +1,4 @@
-import { UIService } from '../services/shared/notification.service';
+import { UIService } from '../services/shared/ui.service';
 import { FormGroup } from '@angular/forms';
 import { genericErrorMessage } from './messages.utils';
 

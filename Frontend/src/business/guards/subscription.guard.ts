@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { UIService } from '../services/shared/notification.service';
+import { UIService } from '../services/shared/ui.service';
 
 @Injectable()
 export class SubscriptionGuard implements CanActivate {

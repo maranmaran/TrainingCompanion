@@ -3,14 +3,15 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, Form, NgForm } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/business/services/auth.service';
-import { UIService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { ThemeService } from 'src/business/services/shared/theme.service';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-reducers';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { login } from 'src/ngrx/auth/auth.actions';
 import { Router } from '@angular/router';
+import { disableErrorSnackbar } from 'src/ngrx/user-interface/ui.actions';
 
 @Component({
   selector: 'app-login',
@@ -30,12 +31,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     private UIService: UIService,
     private authService: AuthService,
     private store: Store<AppState>,
-    private router: Router
   ) { }
 
-  
   ngOnInit() {
-    this.UIService.showErrorSnackbar = !this.UIService.showErrorSnackbar;
+    this.store.dispatch(disableErrorSnackbar);
+    // this.UIService.showErrorSnackbar = !this.UIService.showErrorSnackbar;
+    
     this.themeService.resetToDefault();
     this.createForm();
   }
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public onSubmit() {
     if (this.loginForm.valid) {
+
       const username = this.loginForm.get('username').value;
       const password = this.loginForm.get('password').value;
       const rememberMe = this.loginForm.get('rememberMe').value;
@@ -63,10 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         .pipe(take(1))
         .subscribe(
           (currentUser: CurrentUser) => {
-            this.store.dispatch(login({currentUser}));
-            // setTimeout(() => this.router.navigate(['/']), 5000);
-            // this.router.navigate(['/']);
-            //this.authService.setSession(currentUser);
+            this.store.dispatch(login(currentUser));
           },
           (err: HttpErrorResponse) => { 
             this.error = true;

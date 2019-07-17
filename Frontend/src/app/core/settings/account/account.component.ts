@@ -1,13 +1,13 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { take, finalize } from 'rxjs/operators';
-import { UIService } from 'src/business/services/shared/notification.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { UsersService } from 'src/business/services/user.service';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { validateForm } from 'src/business/utils/form.utils';
 import { UpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { AppState } from 'src/ngrx/global-reducers';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 

@@ -1,4 +1,4 @@
-import { UIService } from './../services/shared/notification.service';
+import { UIService } from '../services/shared/ui.service';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
