@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -5,6 +6,11 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { SidebarService } from 'src/business/services/shared/sidebar.service';
 import { UsersService } from './../../../business/services/user.service';
+import { AppState } from 'src/ngrx/global-reducers';
+import { Store } from '@ngrx/store';
+import { isUser } from 'src/ngrx/auth/auth.selectors';
+import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -15,16 +21,16 @@ import { UsersService } from './../../../business/services/user.service';
 export class SettingsComponent implements OnInit, OnDestroy {
 
   public activeTab: 'General' | 'Account' | 'Billing' = 'General'
-  //public loading$ = this.notificationService.loading$.pipe(delay(0));
+  //public loading$ = this.UIService.loading$.pipe(delay(0));
   public isLoading: boolean = false;
-  public isUser = true;
+  public isUser: Observable<boolean>;
    
 
   @ViewChild(MatSidenav, {static: true}) sidenav: MatSidenav;
 
   constructor(
     private router: Router,
-    private currentUserStore: CurrentUserStore,
+    private store: Store<AppState>,
     protected sidebarService: SidebarService,
     protected dialogRef: MatDialogRef<SettingsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, section: 'General' | 'Account' | 'Billing' }
@@ -33,8 +39,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sidebarService.setSettingsSidenav(this.sidenav);
-  
-    this.isUser = this.currentUserStore.isUser;
+    this.isUser = this.store.select(isUser);
     // if there is any section wanted added open it
     this.data.section && this.openTab(this.data.section);
   }

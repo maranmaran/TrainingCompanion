@@ -8,6 +8,10 @@ import { ThemeService } from 'src/business/services/shared/theme.service';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { SubSink } from 'subsink';
 import { Theme } from 'src/app/core/ng-chat/core/theme.enum';
+import { AppState } from 'src/ngrx/global-reducers';
+import { Store } from '@ngrx/store';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
 
 @Component({
   selector: 'app-stripe-checkout',
@@ -68,13 +72,18 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy {
   };
   checkoutForm: FormGroup;
 
+  private currentUser: CurrentUser;
+
   subs = new SubSink();
   constructor(
-    private currentUserStore: CurrentUserStore,
     private _stripe: StripeService,
     protected dialogRef: MatDialogRef<StripeCheckoutComponent>,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private store: Store<AppState>
   ) {
+
+    this.store.select(currentUser).pipe(take(1))
+      .subscribe(user => this.currentUser = user);
 
     this.subs.add(this.themeService.theme$
       .pipe(map((theme: string) => this.themeService.getChatTheme(theme)))
@@ -107,7 +116,7 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.checkoutForm = new FormGroup({
-      name: new FormControl(this.currentUserStore.userFullName, Validators.required),
+      name: new FormControl(this.currentUser.fullName, Validators.required),
       phone: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Users.SaveUserSettings
 {
@@ -28,7 +28,7 @@ namespace Backend.Application.Business.Business.Users.SaveUserSettings
             }
             catch (Exception e)
             {
-                throw new UpdateFailureException($"Could not save user settings for user {request.Id}", e);
+                throw new UpdateFailureException($"Could not save user settings ({request.UserSettings.Id} for user.", e);
             }
         }
     }

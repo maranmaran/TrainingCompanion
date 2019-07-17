@@ -22,7 +22,6 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
 
   constructor(
     private authService: AuthService,
-    // private currentUserStore: CurrentUserStore,
     private store: Store<AppState>,
     private http: HttpClient) {
     super();
@@ -49,8 +48,6 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
     this.hubConnection
       .start()
       .then(() => {
-        //this.joinRoom();
-
         this.initializeListeners();
       })
       .catch(err => console.log(`Error while starting SignalR connection: ${err}`));

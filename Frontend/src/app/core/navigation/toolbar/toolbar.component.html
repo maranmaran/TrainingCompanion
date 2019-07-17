@@ -42,6 +42,6 @@
  
 </mat-toolbar>
 
-<ng-container *ngIf="(loading$ | async) && notificationService.showAppLoadingBar">
+<ng-container *ngIf="(loading$ | async) && UIService.showAppLoadingBar">
   <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
 </ng-container>

@@ -21,7 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private themeService: ThemeService,
     private overlayContainer: OverlayContainer,
-    private notificationService: UIService,
+    private UIService: UIService,
     private sidebarService: SidebarService
   ) {
   }
@@ -29,9 +29,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     window.dispatchEvent(new Event('resize'));
 
-    this.subs.add(this.notificationService.loading$
+    this.subs.add(this.UIService.loading$
       .pipe(
-        map((res: boolean) =>  res && this.notificationService.showSplash),
+        map((res: boolean) =>  res && this.UIService.showSplash),
         distinctUntilChanged())
       .subscribe(
         (showSplash: boolean) => { 

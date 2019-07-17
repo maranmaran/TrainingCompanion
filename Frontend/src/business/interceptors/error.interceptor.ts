@@ -10,7 +10,7 @@ import { UIService } from '../services/shared/notification.service';
 export class ErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        private notificationService: UIService,
+        private UIService: UIService,
         private errorService: ErrorService
     ) { }
 
@@ -20,9 +20,9 @@ export class ErrorInterceptor implements HttpInterceptor {
             .pipe(
                 catchError(
                     err => {
-                        if(this.notificationService.showErrorSnackbar) {
+                        if(this.UIService.showErrorSnackbar) {
                             this.errorService.handleError(err);
-                            this.notificationService.setLoading(false);
+                            this.UIService.setLoading(false);
                         }
                         
                         return throwError(err);
