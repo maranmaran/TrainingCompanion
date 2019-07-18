@@ -1,13 +1,16 @@
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Theme } from 'src/business/models/theme.enum';
 import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
+import { Dictionary } from 'src/business/utils/dictionary';
 
 export interface UIState {
     theme: Theme,
     showErrorSnackbar: boolean,
     httpRequestLoading: boolean,
     httpErrorMessage: string,
-    activeProgressBar: UIProgressBar
+    activeProgressBar: UIProgressBar,
+    sidenavs: Dictionary<MatSidenav>,
+    isMobile: boolean,
 }
 
 export const initialUIState: UIState = {
@@ -15,5 +18,7 @@ export const initialUIState: UIState = {
     showErrorSnackbar: true,
     httpRequestLoading: false,
     httpErrorMessage: undefined,
-    activeProgressBar: UIProgressBar.MainApp
+    activeProgressBar: UIProgressBar.MainAppScreen,
+    sidenavs: new Dictionary<MatSidenav>(),
+    isMobile: undefined
 };

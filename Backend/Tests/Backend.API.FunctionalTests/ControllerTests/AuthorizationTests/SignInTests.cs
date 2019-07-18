@@ -1,8 +1,8 @@
 ﻿using Backend.API.FunctionalTests.Common;
 using Backend.API.FunctionalTests.Common.ClientAPI;
+using Backend.Application.Business.Business.Authorization.SignIn;
 using System.Net;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Authorization.SignIn;
 using Xunit;
 
 namespace Backend.API.FunctionalTests.ControllerTests.AuthorizationTests
@@ -24,7 +24,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.AuthorizationTests
             {
                 Username = "adamcogan",
                 Password = "12345",
-                RememberMe = false
+                //RememberMe = false
             };
 
             var response = await _client.SignIn(signInCommand);
@@ -45,7 +45,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.AuthorizationTests
             {
                 Username = "maran",
                 Password = "1235",
-                RememberMe = false
+                //RememberMe = false
             };
 
             var response = await _client.SignIn(signInCommand);

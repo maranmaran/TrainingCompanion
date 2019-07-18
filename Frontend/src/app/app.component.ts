@@ -1,14 +1,14 @@
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { ThemeService } from './../business/services/shared/theme.service';
-import { Component, HostListener, OnDestroy, OnInit, HostBinding } from '@angular/core';
-import { UIService } from 'src/business/services/shared/ui.service';
-import { SidebarService } from 'src/business/services/shared/sidebar.service';
-import { SubSink } from 'subsink';
-import { OverlayContainer, Overlay } from '@angular/cdk/overlay';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { combineLatest, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { getThemeClass, Theme } from 'src/business/models/theme.enum';
+import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { Theme, getThemeClass } from 'src/business/models/theme.enum';
-import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
+import { setMobileScreenFlag, setWebScreenFlag } from 'src/ngrx/user-interface/ui.actions';
+import { activeProgressBar, activeTheme, isMobile, requestLoading } from 'src/ngrx/user-interface/ui.selectors';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-root',
@@ -19,38 +19,30 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   private subs = new SubSink();
-  public showSplash: boolean = true;
-
+  public loading$: Observable<boolean>;
 
   constructor(
-    private themeService: ThemeService,
+    private store: Store<AppState>,
     private overlayContainer: OverlayContainer,
-    private UIService: UIService,
-    private sidebarService: SidebarService,
-    private store: Store<AppState>
   ) {
   }
 
   ngOnInit(): void {
+    // set mobile/web screen state
     window.dispatchEvent(new Event('resize'));
 
-    this.subs.add(
+    // loading of splash screen
+    this.loading$ = combineLatest(
+      this.store.select(requestLoading),
+      this.store.select(activeProgressBar)
+    ).pipe(map(([isLoading, progressBar]) => isLoading && progressBar == UIProgressBar.SplashScreen));
 
-      this.UIService.loading$
-        .pipe(
-          map((res: boolean) =>  res && this.UIService.showSplash),
-          distinctUntilChanged())
-        .subscribe(
-          (showSplash: boolean) => { 
-            this.showSplash = showSplash;
-          },
-          err => console.log(err)
-      ),
+    // setup theme for app---> theme service ?
+    this.subs.add(
 
       this.store.select(activeTheme)
         .subscribe(
           (theme: Theme) => {
-            console.log(theme);
             this.setupTheme(theme);
           },
           err => console.log(err))
@@ -63,13 +55,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    //mobile
-    if (window.innerWidth <= 600) {
-      this.sidebarService.isMobile.next(true);
+
+    if (window.innerWidth <= 599) {
+
+      // only dispatch if the value different
+      this.store
+        .select(isMobile)
+        .pipe(take(1))
+        .subscribe((isMobile: boolean) => !isMobile && this.store.dispatch(setMobileScreenFlag({isMobile: true})))
+
       return;
     }
 
-    this.sidebarService.isMobile.next(false);
+    // only dispatch if the value different
+    this.store
+        .select(isMobile)
+        .pipe(take(1))
+        .subscribe((isMobile: boolean) => isMobile && this.store.dispatch(setWebScreenFlag({isWeb: true})))
   }
 
   private setupTheme(theme: Theme) {

@@ -7,6 +7,6 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        public bool RememberMe { get; set; }
+        //public bool RememberMe { get; set; }
     }
 }

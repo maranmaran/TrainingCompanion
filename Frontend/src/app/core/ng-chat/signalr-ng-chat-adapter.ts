@@ -1,17 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
+import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
-import { CurrentUserStore } from 'src/business/stores/current-user.store';
+import { ChatAdapter } from 'src/app/core/ng-chat/core/chat-adapter';
+import { Message } from 'src/app/core/ng-chat/core/message';
+import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-response';
 import { environment } from 'src/environments/environment';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { AuthService } from '../../../business/services/auth.service';
-import { ChatAdapter } from 'src/app/core/ng-chat/core/chat-adapter';
-import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-response';
-import { Message } from 'src/app/core/ng-chat/core/message';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { Store } from '@ngrx/store';
 
 Injectable()
 export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
@@ -36,6 +35,7 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.hubConnection.stop();
     this.subs.unsubscribe();
   }
 
@@ -70,11 +70,6 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
     });
   }
 
-  // joinRoom(): void {
-  //   if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected) {
-  //     this.hubConnection.send("join", this.userId);
-  //   }
-  // }
 
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list

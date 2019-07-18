@@ -1,3 +1,5 @@
+import { UISidenav } from './../../business/models/ui-sidenavs.enum';
+import { MatSidenav } from '@angular/material/sidenav';
 import { createAction, props } from '@ngrx/store';
 import { Theme } from 'src/business/models/theme.enum';
 import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
@@ -12,13 +14,9 @@ export const disableErrorSnackbar = createAction('[Error snackbar] Disable')
 
 export const setActiveProgressBar = createAction('[Progress bar] Set Active', props<{ progressBar: UIProgressBar}>())
 
-export const toggleSettingsSidenav = createAction('[Settings sidenav] Toggle')
-export const closeSettingsSidenav = createAction('[Settings sidenav] Close')
-export const openSettingsSidenav = createAction('[Settings sidenav] Open')
-
-export const toggleAppSidenav = createAction('[Settings sidenav] Toggle')
-export const closeAppSidenav = createAction('[Settings sidenav] Close')
-export const openAppSidenav = createAction('[Settings sidenav] Open')
-
 export const switchTheme = createAction('[Theme] Change theme', props<{theme: Theme}>() )
-export const mobileScreenWidthTriggered = createAction('[Screen] Mobile screen')
+
+export const addSidenav = createAction('[Sidenav] Add', props<{name: UISidenav, sidenav: MatSidenav}>());
+
+export const setMobileScreenFlag = createAction('[Screen width] Set mobile', props<{ isMobile: boolean}>());
+export const setWebScreenFlag = createAction('[Screen width] Set web', props<{ isWeb: boolean}>());

@@ -1,5 +1,6 @@
 export enum UIProgressBar {
     LoginScreen = 'LoginScreen',
-    MainApp = 'MainApp',
-    SettingsScreen = 'SettingsScreen'
+    MainAppScreen = 'MainAppScreen',
+    SettingsScreen = 'SettingsScreen',
+    SplashScreen = 'SplashScreen'
 }

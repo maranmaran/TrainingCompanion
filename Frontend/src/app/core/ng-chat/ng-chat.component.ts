@@ -17,7 +17,7 @@ import { IChatController } from './core/chat-controller';
 import { PagedHistoryChatAdapter } from './core/paged-history-chat-adapter';
 import { IFileUploadAdapter } from './core/file-upload-adapter';
 import { DefaultFileUploadAdapter } from './core/default-file-upload-adapter';
-import { Theme } from './core/theme.enum';
+import { NgChatTheme } from './core/ng-chat-theme.enum';
 import { IChatOption } from './core/chat-option';
 import { Group } from "./core/group";
 import { ChatParticipantType } from "./core/chat-participant-type.enum";
@@ -129,7 +129,7 @@ export class NgChat implements OnInit, IChatController {
     public fileUploadUrl: string;
 
     @Input()
-    public theme: Theme = Theme.Light;
+    public theme: NgChatTheme = NgChatTheme.Light;
 
     @Input()
     public customTheme: string;
@@ -363,9 +363,9 @@ export class NgChat implements OnInit, IChatController {
     {
         if (this.customTheme)
         {
-            this.theme = Theme.Custom;
+            this.theme = NgChatTheme.Custom;
         }
-        else if (this.theme != Theme.Light && this.theme != Theme.Dark)
+        else if (this.theme != NgChatTheme.Light && this.theme != NgChatTheme.Dark)
         {
             // TODO: Use es2017 in future with Object.values(Theme).includes(this.theme) to do this check
             throw new Error(`Invalid theme configuration for ng-chat. "${this.theme}" is not a valid theme value.`);
