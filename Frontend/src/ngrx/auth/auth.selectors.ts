@@ -9,7 +9,12 @@ export const selectAuthState = createFeatureSelector<AuthState>("auth");
 export const currentUser = createSelector(
     selectAuthState,
     (authState: AuthState) => authState.currentUser
-)
+);
+
+export const userSettings = createSelector(
+    currentUser,
+    (currentUser: CurrentUser) => currentUser.userSettings
+);
 
 export const isLoggedIn = createSelector(
     selectAuthState,
@@ -24,12 +29,12 @@ export const isLoggedOut = createSelector(
 export const trialDaysRemaining = createSelector(
     currentUser,
     (currentUser: CurrentUser) => currentUser.trialDaysRemaining
-)
+);
 
 export const subscriptionStatus = createSelector(
     currentUser,
     (currentUser: CurrentUser) => currentUser.subscriptionStatus
-)
+);
 
 export const isSubscribed = createSelector(
     trialDaysRemaining,
@@ -44,12 +49,12 @@ export const isSubscribed = createSelector(
                 return false;
         }
     }
-)
+);
 
 export const isTrialing = createSelector(
     trialDaysRemaining,
     (daysRemaining: number) => daysRemaining > 0 ? true : false
-)
+);
 
 export const isUser = createSelector(
     currentUser,
@@ -57,4 +62,4 @@ export const isUser = createSelector(
         const accountType = AccountType[user.accountType];
         return accountType == AccountType.User || accountType == AccountType.Admin;
     }
-)
+);

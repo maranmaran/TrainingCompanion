@@ -1,6 +1,6 @@
 export enum Theme {
-    Dark,
-    Light
+    Dark = 'Dark',
+    Light = 'Light'
 }
 
 export const themeLightClass = 'theme-light';

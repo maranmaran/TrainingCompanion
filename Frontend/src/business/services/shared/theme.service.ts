@@ -28,9 +28,8 @@ export class ThemeService {
         this.theme$.next(this.themeLight);
     }
 
-    public setTheme(theme: string) {
-        theme.toLowerCase() === this.themeLightSelector.toLowerCase() && this.theme$.next(this.themeLight);
-        theme.toLowerCase() === this.themeDarkSelector.toLowerCase() && this.theme$.next(this.themeDark);
+    public setTheme(theme: Theme) {
+        // this.theme$.next(theme);
     }
 
     public setCurrentUserTheme() {
