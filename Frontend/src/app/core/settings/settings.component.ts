@@ -1,16 +1,18 @@
+import { UISidenavAction } from './../../../business/models/ui-sidenavs.enum';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
-import { SidebarService } from 'src/business/services/shared/sidebar.service';
 import { isUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { UsersService } from './../../../business/services/user.service';
 import { requestLoading, activeProgressBar } from 'src/ngrx/user-interface/ui.selectors';
 import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
 import { map } from 'rxjs/operators';
+import { UISidenav } from 'src/business/models/ui-sidenavs.enum';
 
 @Component({
   selector: 'app-settings',
@@ -31,8 +33,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    private uiService: UIService,
     private store: Store<AppState>,
-    protected sidebarService: SidebarService,
     protected dialogRef: MatDialogRef<SettingsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, section: 'General' | 'Account' | 'Billing' }
   ) {
@@ -51,7 +53,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
 
 
-    this.sidebarService.setSettingsSidenav(this.sidenav);
+    this.uiService.addOrUpdateSidenav(UISidenav.Settings, this.sidenav);
 
     // if there is any section wanted added open it
     this.data.section && this.openTab(this.data.section);
@@ -63,9 +65,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   public onClose = () => this.dialogRef.close('Closed');
-  public openTab = (tab: 'General' | 'Account' | 'Billing') => {
-    this.activeTab = tab;
-    this.sidebarService.toggleSettings();
-  };
-  public toggleSidenav = () => this.sidebarService.toggleSettings();
+  public openTab = (tab: 'General' | 'Account' | 'Billing') => this.activeTab = tab;
+    // this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle);
+ 
+
+  public toggleSidenav = () => this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle);
 }

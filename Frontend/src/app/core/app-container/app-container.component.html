@@ -9,9 +9,9 @@
       <app-toolbar 
       [fullName]="userFullName" 
       [loading$]="loading$"
-      (openSettingsEvent)="openSettings($event)" 
-      (toggleSidenavEvent)="toggleSidenav($event)" 
-      (logoutEvent)="logout($event)" 
+      (openSettingsEvent)="onOpenSettings($event)" 
+      (toggleSidenavEvent)="onToggleSidebar($event)" 
+      (logoutEvent)="onLogout($event)" 
       ></app-toolbar>
 
       <router-outlet></router-outlet>

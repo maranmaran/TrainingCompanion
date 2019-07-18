@@ -9,7 +9,6 @@ export interface UIState {
     httpRequestLoading: boolean,
     httpErrorMessage: string,
     activeProgressBar: UIProgressBar,
-    sidenavs: Dictionary<MatSidenav>,
     isMobile: boolean,
 }
 
@@ -19,6 +18,5 @@ export const initialUIState: UIState = {
     httpRequestLoading: false,
     httpErrorMessage: undefined,
     activeProgressBar: UIProgressBar.MainAppScreen,
-    sidenavs: new Dictionary<MatSidenav>(),
     isMobile: undefined
 };

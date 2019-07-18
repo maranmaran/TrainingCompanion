@@ -23,7 +23,7 @@ import { addSubscription } from 'src/ngrx/auth/auth.actions';
   styleUrls: ["./billing.component.scss"],
   providers: [BillingService]
 })
-export class BillingComponent implements OnInit, OnDestroy {
+export class BillingComponent implements OnInit {
 
   public currentUser: CurrentUser;
   public subscriptionValid: boolean;
@@ -49,32 +49,18 @@ export class BillingComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    // reset loading bars back
-    this.loading.emit(false);
-    this.UIService.showAppLoadingBar = true;
-  }
 
   public onCancelSubscription(subscriptionId: string) {
-
-    this.UIService.showAppLoadingBar = false;
-    this.loading.emit(true);
 
     this.billingService.cancelSubscription(subscriptionId)
       .pipe(take(1))
       .subscribe(
         () => {
-          // this.currentUserStore.cancelSubscription();
-          // dispatch cancel sub action
           this.store.dispatch(cancelSubscription());
         },
         (err: HttpErrorResponse) => {
           console.log(err);
         },
-        () => {
-          this.loading.emit(false);
-          this.UIService.showAppLoadingBar = true;
-        }
       );
   }
 
@@ -103,9 +89,6 @@ export class BillingComponent implements OnInit, OnDestroy {
 
   private subscribe(customerId: string, planId: string, token: Token) {
 
-    this.UIService.showAppLoadingBar = false;
-    this.loading.emit(true);
-
     this.billingService.addPaymentOption(customerId, token)
       .pipe(
         take(1),
@@ -113,15 +96,9 @@ export class BillingComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (res: Subscription) => {
-          // this.currentUserStore.addSubscription(res);
-          // dispatch add subscription
           this.store.dispatch(addSubscription(res));
         },
         err => console.log(err),
-        () => {
-          this.loading.emit(false);
-          this.UIService.showAppLoadingBar = true;
-        }
       );
   }
 }

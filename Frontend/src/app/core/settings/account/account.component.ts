@@ -10,13 +10,16 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
+import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { updateCurrentUser } from 'src/ngrx/auth/auth.actions';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent implements OnInit, OnDestroy {
+export class AccountComponent implements OnInit {
 
   public accountForm: FormGroup;
   private currentUser: CurrentUser;
@@ -42,11 +45,6 @@ export class AccountComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    // reset loading bars back
-    this.loading.emit(false);
-    this.UIService.showAppLoadingBar = true;
-  }
 
   private createForm(model: CurrentUser) {
     this.accountForm = new FormGroup({
@@ -80,16 +78,10 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.currentUser.accountStatus
       );
 
-      this.UIService.showAppLoadingBar = false;
-      this.loading.emit(true);
-      
       this.usersService.update(command)
         .pipe(
           take(1),
           finalize(() => { 
-            this.loading.emit(false);
-            this.UIService.showAppLoadingBar = true;
-            
             this.editUsername = true;
             this.editMail = true;
           }))
@@ -97,9 +89,9 @@ export class AccountComponent implements OnInit, OnDestroy {
           () => {
             this.currentUser.username = this.username.value;
             this.currentUser.email = this.email.value;
-
-            // set new state...
-            // this.currentUserStore.setState(this.currentUser);
+            
+            // set new state but don't pass by reference
+            this.store.dispatch(updateCurrentUser(Object.assign({}, this.currentUser))); 
           },
           err => console.log(err),
         );

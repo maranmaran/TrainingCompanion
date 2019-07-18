@@ -56,17 +56,6 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
         }   
     }),
 
-    on(UIActions.addSidenav, (state: UIState, payload: { name: UISidenav, sidenav: MatSidenav }) => {
-
-        let sidenavsDict = new Dictionary<MatSidenav>(state.sidenavs.items);
-        sidenavsDict.addOrUpdate(payload.name, payload.sidenav);
-
-        return {
-            ...state,
-            sidenavs: sidenavsDict
-        }   
-    }),
-
     on(UIActions.setMobileScreenFlag, (state: UIState, payload: { isMobile: boolean }) => {
 
         return {
