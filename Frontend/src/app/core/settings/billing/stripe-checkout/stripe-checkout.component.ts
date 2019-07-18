@@ -7,7 +7,7 @@ import { map, startWith, take } from 'rxjs/operators';
 import { ThemeService } from 'src/business/services/shared/theme.service';
 import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { SubSink } from 'subsink';
-import { Theme } from 'src/app/core/ng-chat/core/theme.enum';
+import { Theme } from 'src/business/models/theme.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';

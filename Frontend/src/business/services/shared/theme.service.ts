@@ -1,4 +1,4 @@
-import { Theme } from 'src/app/core/ng-chat/core/theme.enum';
+import { Theme } from 'src/business/models/theme.enum';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CurrentUserStore } from './../../stores/current-user.store';
@@ -49,3 +49,4 @@ export class ThemeService {
         }
     }
 }
+

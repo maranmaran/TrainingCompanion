@@ -1,11 +1,13 @@
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { Theme } from 'src/app/core/ng-chat/core/theme.enum';
+import { Theme } from 'src/business/models/theme.enum';
+import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
 
 export interface UIState {
     theme: Theme,
     showErrorSnackbar: boolean,
     httpRequestLoading: boolean,
     httpErrorMessage: string,
+    activeProgressBar: UIProgressBar
     
 }
 
@@ -14,4 +16,5 @@ export const initialUIState: UIState = {
     showErrorSnackbar: true,
     httpRequestLoading: false,
     httpErrorMessage: undefined,
+    activeProgressBar: UIProgressBar.MainApp
 };
