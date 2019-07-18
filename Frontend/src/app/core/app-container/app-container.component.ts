@@ -11,6 +11,9 @@ import { ToolbarComponent } from '../navigation/toolbar/toolbar.component';
 import { SidebarService } from './../../../business/services/shared/sidebar.service';
 import { Theme } from 'src/business/models/theme.enum';
 import { Message } from '../ng-chat/core/message';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 
 @Component({
   selector: 'app-app-container',
@@ -32,10 +35,10 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   constructor(
     protected chatAdapter: SignalrNgChatAdapter,
-    private themeService: ThemeService,
     private route: ActivatedRoute,
     public sidebarService: SidebarService,
-    protected chatService: ChatService
+    protected chatService: ChatService,
+    public store: Store<AppState>
   ) {
     this.userId = this.chatAdapter.userId;
     this.section = this.route.snapshot.data.section;
@@ -43,11 +46,8 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setSidenavPanel();
-    this.themeService.setCurrentUserTheme();
 
-    this.subs.add(this.themeService.theme$
-      .pipe(map((theme: string) => this.themeService.getChatTheme(theme)))
-      .subscribe((theme: Theme) => { this.theme = theme }));
+    this.subs.add( this.store.select(activeTheme).subscribe((theme: Theme) => this.theme = theme) );
 
     // if routing to settings -> open dialog with specific section from route data
     this.section && this.toolbar.openSettings(this.section);

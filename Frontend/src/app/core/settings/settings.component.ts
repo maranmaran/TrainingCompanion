@@ -1,16 +1,15 @@
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { CurrentUserStore } from 'src/business/stores/current-user.store';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { SidebarService } from 'src/business/services/shared/sidebar.service';
-import { UsersService } from './../../../business/services/user.service';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
-import { isUser } from 'src/ngrx/auth/auth.selectors';
-import { take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { SidebarService } from 'src/business/services/shared/sidebar.service';
+import { isUser } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { UsersService } from './../../../business/services/user.service';
+import { requestLoading, activeProgressBar } from 'src/ngrx/user-interface/ui.selectors';
+import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
 
 @Component({
   selector: 'app-settings',
@@ -21,8 +20,9 @@ import { Observable } from 'rxjs';
 export class SettingsComponent implements OnInit, OnDestroy {
 
   public activeTab: 'General' | 'Account' | 'Billing' = 'General'
-  //public loading$ = this.UIService.loading$.pipe(delay(0));
-  public isLoading: boolean = false;
+  
+  public loading$: Observable<boolean>;
+  public activeProgressBar$: Observable<UIProgressBar>;
   public isUser: Observable<boolean>;
    
 
@@ -38,8 +38,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sidebarService.setSettingsSidenav(this.sidenav);
+    this.activeProgressBar$ = this.store.select(activeProgressBar);
+    this.loading$ = this.store.select(requestLoading);
     this.isUser = this.store.select(isUser);
+
+    this.sidebarService.setSettingsSidenav(this.sidenav);
+
     // if there is any section wanted added open it
     this.data.section && this.openTab(this.data.section);
   }
@@ -55,6 +59,4 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.sidebarService.toggleSettings();
   };
   public toggleSidenav = () => this.sidebarService.toggleSettings();
-  public setLoading = (loading: boolean) => this.isLoading = loading; 
-
 }

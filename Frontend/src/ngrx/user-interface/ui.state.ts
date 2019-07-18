@@ -8,7 +8,6 @@ export interface UIState {
     httpRequestLoading: boolean,
     httpErrorMessage: string,
     activeProgressBar: UIProgressBar
-    
 }
 
 export const initialUIState: UIState = {

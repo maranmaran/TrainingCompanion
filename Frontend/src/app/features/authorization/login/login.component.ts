@@ -2,18 +2,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
 import { AuthService } from 'src/business/services/auth.service';
-import { ThemeService } from 'src/business/services/shared/theme.service';
-import { UIService } from 'src/business/services/shared/ui.service';
 import { login } from 'src/ngrx/auth/auth.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { disableErrorSnackbar, enableErrorSnackbar, setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { requestLoading } from 'src/ngrx/user-interface/ui.selectors';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { Observable } from 'rxjs';
-import { requestLoading } from 'src/ngrx/user-interface/ui.selectors';
 
 @Component({
   selector: 'app-login',
@@ -79,6 +77,4 @@ export class LoginComponent implements OnInit, OnDestroy {
         );
     }
   }
-
-
 }
