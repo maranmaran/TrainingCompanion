@@ -66,7 +66,7 @@ export class BillingComponent implements OnInit, OnDestroy {
         () => {
           // this.currentUserStore.cancelSubscription();
           // dispatch cancel sub action
-          this.store.dispatch(cancelSubscription);
+          this.store.dispatch(cancelSubscription());
         },
         (err: HttpErrorResponse) => {
           console.log(err);

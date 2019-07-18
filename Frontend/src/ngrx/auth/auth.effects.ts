@@ -56,4 +56,14 @@ export class AuthEffects {
             )
         , { dispatch: false });
 
+    updateCurrentUser$ = createEffect(() =>
+        this.actions$
+            .pipe(
+                ofType(AuthActions.updateCurrentUser),
+                tap((currentUser: CurrentUser) => {
+                    this.store.dispatch(switchTheme( { theme: currentUser.userSettings.theme } ));
+                })
+            )
+        , { dispatch: false });
+
 }

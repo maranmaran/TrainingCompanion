@@ -40,8 +40,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                     this.store.dispatch(httpErrorOccured(errorMessage))
                     return throwError(errorMessage);
                 }),
-
-                finalize(() => this.store.dispatch(httpRequestStopLoading)), // stop progress bars
             );;
     }
 }

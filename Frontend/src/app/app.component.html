@@ -1,6 +1,6 @@
 <router-outlet></router-outlet>
 
-<div class="splash" *ngIf="showSplash">
+<div class="splash" *ngIf="(loading$ | async)">
   <div class="sk-folding-cube">
     <div class="sk-cube1 sk-cube"></div>
     <div class="sk-cube2 sk-cube"></div>

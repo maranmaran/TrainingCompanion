@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="toolbar-navigation-bar no-padding" fxLayout="row" fxLayoutAlign="space-between center">
 
     <div id="left" fxLayout="row wrap" fxLayoutAlign="center center">
-      <button mat-icon-button (click)="toggleSidebar()">
+      <button mat-icon-button (click)="toggleSidebarEvent.emit()">
         <i class="fas fa-bars fa-lg"></i>
       </button>
       <span class="toolbar-title">{{ fullName }}</span>
@@ -17,7 +17,7 @@
           <div class="container" fxLayout="column wrap" fxLayoutGap="1rem">
   
             <div id="avatar-settings-row" fxFlexAlign="end">
-              <button mat-icon-button (click)="openSettings()">
+              <button mat-icon-button (click)="openSettingsEvent.emit('General')">
                 <i id="settings" class="fas fa-cog"></i>
               </button>
             </div>
@@ -30,7 +30,7 @@
                 <button mat-stroked-button routerLink="">
                   Homepage
                 </button>
-                <button id="logout" (click)="logout()" mat-button color="accent">
+                <button id="logout" (click)="logoutEvent.emit()" mat-button color="accent">
                   Sign out
                 </button>
             </div>
@@ -42,6 +42,6 @@
  
 </mat-toolbar>
 
-<ng-container *ngIf="(loading$ | async) && UIService.showAppLoadingBar">
+<ng-container *ngIf="(loading$ | async)">
   <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
 </ng-container>
