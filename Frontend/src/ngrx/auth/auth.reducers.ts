@@ -1,5 +1,5 @@
 import { initialAuthState, AuthState } from './auth.state';
-import { AuthActions } from './auth.action-types';
+import * as AuthActions from './auth.actions';
 import { on, createReducer } from '@ngrx/store';
 import { TypedAction, Action, ActionReducer } from '@ngrx/store/src/models';
 import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';

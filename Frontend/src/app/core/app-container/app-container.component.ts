@@ -9,7 +9,7 @@ import { ThemeService } from 'src/business/services/shared/theme.service';
 import { SubSink } from 'subsink';
 import { ToolbarComponent } from '../navigation/toolbar/toolbar.component';
 import { SidebarService } from './../../../business/services/shared/sidebar.service';
-import { Theme } from '../ng-chat/core/theme.enum';
+import { Theme } from 'src/business/models/theme.enum';
 import { Message } from '../ng-chat/core/message';
 
 @Component({
