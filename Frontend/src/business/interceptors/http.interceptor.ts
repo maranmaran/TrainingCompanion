@@ -4,18 +4,21 @@ import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { AppSettingsService } from '../services/shared/app-settings.service';
 import { finalize } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { httpRequestStartLoading, httpRequestStopLoading } from 'src/ngrx/user-interface/ui.actions';
 
 @Injectable()
 export class HttpInterceptor implements HttpInterceptor {
 
     constructor(
         private appSettingsService: AppSettingsService,
-        private UIService: UIService
+        private store: Store<AppState>
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       
-        this.UIService.setLoading(true);
+        this.store.dispatch(httpRequestStartLoading());
 
         req = req.clone({
             url: this.appSettingsService.apiUrl + req.url,
@@ -25,7 +28,7 @@ export class HttpInterceptor implements HttpInterceptor {
 
         return next.handle(req)
             .pipe(
-                finalize(() => this.UIService.setLoading(false))
+                finalize(() =>  this.store.dispatch(httpRequestStopLoading()))
             );
     }
 }

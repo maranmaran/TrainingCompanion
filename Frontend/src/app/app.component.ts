@@ -5,6 +5,9 @@ import { UIService } from 'src/business/services/shared/ui.service';
 import { SidebarService } from 'src/business/services/shared/sidebar.service';
 import { SubSink } from 'subsink';
 import { OverlayContainer, Overlay } from '@angular/cdk/overlay';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Theme, getThemeClass } from 'src/business/models/theme.enum';
 
 @Component({
   selector: 'app-root',
@@ -22,29 +25,39 @@ export class AppComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private overlayContainer: OverlayContainer,
     private UIService: UIService,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private store: Store<AppState>
   ) {
   }
 
   ngOnInit(): void {
     window.dispatchEvent(new Event('resize'));
 
-    this.subs.add(this.UIService.loading$
-      .pipe(
-        map((res: boolean) =>  res && this.UIService.showSplash),
-        distinctUntilChanged())
-      .subscribe(
-        (showSplash: boolean) => { 
-          this.showSplash = showSplash;
-        },
-        err => console.log(err)
-      ));
+    this.subs.add(
 
-    this.subs.add(this.themeService.theme$
-      .subscribe(
-        (theme: string) => this.setupTheme(theme),
-        err => console.log(err)
-      ));
+      this.UIService.loading$
+        .pipe(
+          map((res: boolean) =>  res && this.UIService.showSplash),
+          distinctUntilChanged())
+        .subscribe(
+          (showSplash: boolean) => { 
+            this.showSplash = showSplash;
+          },
+          err => console.log(err)
+      ),
+
+      // this.themeService.theme$
+      // .subscribe(
+      //   (theme: string) => this.setupTheme(theme),
+      //   err => console.log(err)
+      // ),
+
+      this.store.pipe(map((state: AppState) => state.ui.theme))
+        .subscribe(
+          (theme: Theme) => this.setupTheme(theme),
+          err => console.log(err))
+
+    );
   }
 
   ngOnDestroy(): void {
@@ -62,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.sidebarService.isMobile.next(false);
   }
 
-  private setupTheme(theme: string) {
+  private setupTheme(theme: Theme) {
 
     const overlayContainer = this.overlayContainer.getContainerElement();
     const documentBody = document.getElementsByTagName("BODY")[0];
@@ -76,7 +89,8 @@ export class AppComponent implements OnInit, OnDestroy {
     overlayThemeClassesToRemove.length && overlayContainerClasses.remove(...overlayThemeClassesToRemove);
     bodyThemeClassesToRemove.length && bodyClasses.remove(...bodyThemeClassesToRemove);
 
-    overlayContainerClasses.add(theme);
-    bodyClasses.add(theme);
+    var themeClass = getThemeClass(theme);
+    overlayContainerClasses.add(themeClass);
+    bodyClasses.add(themeClass);
   }
 }

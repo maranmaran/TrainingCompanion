@@ -2,7 +2,7 @@ import { AuthService } from './../../business/services/auth.service';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AuthActions } from './auth.action-types';
+import * as AuthActions from './auth.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CookieService } from 'ngx-cookie-service';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
