@@ -5,9 +5,17 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-      <app-toolbar></app-toolbar>
+    
+      <app-toolbar 
+      [fullName]="userFullName" 
+      [loading$]="loading$"
+      (openSettingsEvent)="openSettings($event)" 
+      (toggleSidenavEvent)="toggleSidenav($event)" 
+      (logoutEvent)="logout($event)" 
+      ></app-toolbar>
+
       <router-outlet></router-outlet>
-      <ng-chat *ngIf="!(sidebarService.isMobile | async)" [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>
+      <ng-chat fxHide.xs [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>
   </mat-sidenav-content>
 
 </mat-sidenav-container>

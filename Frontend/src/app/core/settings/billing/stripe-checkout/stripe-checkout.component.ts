@@ -1,17 +1,15 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { Element as StripeElement, ElementOptions, ElementsOptions, StripeCardComponent, StripeService } from 'ngx-stripe';
 import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
-import { ThemeService } from 'src/business/services/shared/theme.service';
-import { CurrentUserStore } from 'src/business/stores/current-user.store';
-import { SubSink } from 'subsink';
 import { Theme } from 'src/business/models/theme.enum';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { Store } from '@ngrx/store';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-stripe-checkout',
@@ -78,25 +76,22 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy {
   constructor(
     private _stripe: StripeService,
     protected dialogRef: MatDialogRef<StripeCheckoutComponent>,
-    private themeService: ThemeService,
     private store: Store<AppState>
   ) {
 
     this.store.select(currentUser).pipe(take(1))
-      .subscribe(user => this.currentUser = user);
-
-    this.subs.add(this.themeService.theme$
-      .pipe(map((theme: string) => this.themeService.getChatTheme(theme)))
-      .subscribe((theme: Theme) => {
-        if (theme == Theme.Dark) {
+      .subscribe(user => {
+        this.currentUser = user
+        
+        if (user.userSettings.theme == Theme.Dark) {
           this.cardComponentColors.icon = 'grey';
           this.cardComponentColors.font = 'white';
           this.cardComponentColors.placeholder = 'grey';
         }
-
+  
         this.setCardComponentStyling();
-      }));
-
+      });
+    
   }
 
   setCardComponentStyling() {

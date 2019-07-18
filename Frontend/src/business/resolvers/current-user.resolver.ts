@@ -9,6 +9,9 @@ import { AuthService } from '../services/auth.service';
 import { UIService } from '../services/shared/ui.service';
 import { isSubscribed, isTrialing, trialDaysRemaining, currentUser } from './../../ngrx/auth/auth.selectors';
 import { login, updateCurrentUser } from 'src/ngrx/auth/auth.actions';
+import { showErrorSnackbar } from 'src/ngrx/user-interface/ui.selectors';
+import { disableErrorSnackbar, setActiveProgressBar, enableErrorSnackbar } from 'src/ngrx/user-interface/ui.actions';
+import { UIProgressBar } from '../models/ui-progress-bars.enum';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserResolver implements Resolve<CurrentUser | void> {
@@ -30,8 +33,8 @@ export class CurrentUserResolver implements Resolve<CurrentUser | void> {
             concatMap((currentUser: CurrentUser) => {
                 if (!currentUser) {
 
-                    this.UIService.showErrorSnackbar = !this.UIService.showErrorSnackbar;
-                    this.UIService.showSplash = !this.UIService.showSplash;
+                    this.store.dispatch(disableErrorSnackbar());
+                    this.store.dispatch(setActiveProgressBar({progressBar: UIProgressBar.SplashScreen}));
 
                     return this.authService.getCurrentUserInfo()
                         .pipe(
@@ -42,18 +45,16 @@ export class CurrentUserResolver implements Resolve<CurrentUser | void> {
                             }),
                             map((currentUser: CurrentUser) => {
                                 this.store.dispatch(updateCurrentUser(currentUser));
-                                this.showDialog(); // effecT?
+                                //this.showDialog(); // effecT?
                             }),
                             finalize(
                                 () => {
-                                    this.UIService.showErrorSnackbar = !this.UIService.showErrorSnackbar;
-                                    this.UIService.showSplash = !this.UIService.showSplash;
                                 }
                             )
                         );
                     }
 
-                this.showDialog();
+                //this.showDialog();
                 return of(currentUser);
             })
         );

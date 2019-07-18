@@ -22,3 +22,9 @@ export const activeProgressBar = createSelector(
     selectUIState,
     (uiState: UIState) => uiState.activeProgressBar
 );
+
+export const isMobile = createSelector(
+    selectUIState,
+    (uiState: UIState) => uiState.isMobile
+);
+
