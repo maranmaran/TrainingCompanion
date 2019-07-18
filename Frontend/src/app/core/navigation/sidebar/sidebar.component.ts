@@ -1,5 +1,7 @@
-import { SidebarService } from 'src/business/services/shared/sidebar.service';
+import { UISidenavAction } from './../../../../business/models/ui-sidenavs.enum';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { Component, OnInit } from '@angular/core';
+import { UISidenav } from 'src/business/models/ui-sidenavs.enum';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,13 +11,14 @@ import { Component, OnInit } from '@angular/core';
 export class SidebarComponent implements OnInit {
 
   constructor(
-    private sidebarService: SidebarService
+    private uiService: UIService
   ) { }
 
   ngOnInit() {
   }
 
+  //TODO: Event source this out
   public close() {
-    this.sidebarService.toggleApp();
+    this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Close);
   }
 }

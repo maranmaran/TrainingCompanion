@@ -1,6 +1,6 @@
 export class Dictionary<T> {
     
-    public items: {[key: string]: T };
+    private items: {[key: string]: T };
 
     private _count: number = 0;
  

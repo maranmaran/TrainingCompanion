@@ -1,5 +1,5 @@
+import { UISidenavAction } from './../../../business/models/ui-sidenavs.enum';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -9,8 +9,10 @@ import { map, take } from 'rxjs/operators';
 import { SignalrNgChatAdapter } from 'src/app/core/ng-chat/signalr-ng-chat-adapter';
 import { Theme } from 'src/business/models/theme.enum';
 import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
+import { UISidenav } from 'src/business/models/ui-sidenavs.enum';
 import { ChatService } from 'src/business/services/chat.service';
 import { PushNotificationsService } from 'src/business/services/push-notification.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { logout } from 'src/ngrx/auth/auth.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -20,7 +22,6 @@ import { SubSink } from 'subsink';
 import { Message } from '../ng-chat/core/message';
 import { NgChatTheme } from '../ng-chat/core/ng-chat-theme.enum';
 import { SettingsComponent } from '../settings/settings.component';
-import { SidebarService } from './../../../business/services/shared/sidebar.service';
 
 @Component({
   selector: 'app-app-container',
@@ -42,12 +43,11 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private dialog: MatDialog,
+    public store: Store<AppState>,
+    protected chatService: ChatService,
     protected chatAdapter: SignalrNgChatAdapter,
     private route: ActivatedRoute,
-    public sidebarService: SidebarService,
-    protected chatService: ChatService,
-    public store: Store<AppState>,
+    private uiService: UIService,
   ) {
     this.userId = this.chatAdapter.userId;
     this.section = this.route.snapshot.data.section;
@@ -55,14 +55,17 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    // get user full name from store
     this.store.select(currentUser).pipe(take(1)).subscribe((user: CurrentUser) => this.userFullName = user.fullName);
 
+    // set observable for main progress bar
     this.loading$ = combineLatest(
       this.store.select(requestLoading),
       this.store.select(activeProgressBar)
     ).pipe(map(([isLoading, progressBar]) => isLoading && progressBar == UIProgressBar.LoginScreen));
     
-    this.setSidenavPanel();
+    // set sidenav
+    this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);
 
     // chat theme subscription
     this.subs.add( 
@@ -73,40 +76,36 @@ export class AppContainerComponent implements OnInit, OnDestroy {
       );
 
     // if routing to settings -> open dialog with specific section from route data
-    this.section && this.openSettings(this.section);
+    this.section && this.onOpenSettings(this.section);
   }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
   }
 
-  setSidenavPanel() {
-    // You cannot dispatch object reference so you must sent copy..
-    // const sidenav = Object.assign({}, this.sidenav)
-    // this.store.dispatch(addSidenav({ name: UISidenav.App, sidenav}));
-  }
-
   onMessagesSeen(messages: Message[]) {
     this.chatAdapter.sendOnMessagesSeenEvent(messages);
   }
 
-  openSettings(section: string) {
-    this.dialog.open(SettingsComponent, {
-        height: 'auto',
-        width: '98%',
-        maxWidth: '58rem',
-        autoFocus: false,
-        data: { title: 'Settings', section },
-        panelClass: 'settings-dialog-container'
-      });
+  onOpenSettings(section: string) {
+
+    this.uiService.openDialogFromComponent(SettingsComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '58rem',
+      autoFocus: false,
+      data: { title: 'Settings', section },
+      panelClass: ['settings-dialog-container']
+    });
+
   }
   
-  logout() {
+  onLogout() {
     this.store.dispatch(logout());
   }
 
-  toggleSidebar() {
-    this.sidebarService.toggleApp();
+  onToggleSidebar() {
+    this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
   }
 
 }

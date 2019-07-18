@@ -1,3 +1,4 @@
+import { UISidenav, UISidenavAction } from './../../models/ui-sidenavs.enum';
 import { ComponentType } from '@angular/cdk/overlay/index';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -6,39 +7,19 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MessageDialogComponent } from 'src/app/shared/message-dialog/message-dialog.component';
 import { ConfirmDialogComponent } from '../../../app/shared/confirm-dialog/confirm-dialog.component';
-
-const snackBarDefaultConfig = {
-    duration: 5000,
-    panelClass: ['warning-snackbar']
-};
-
-interface SnackBarConfig {
-    panelClass?: string[];
-    duration?: number;
-    data?: Object;
-}
+import { SnackBarConfig, snackBarDefaultConfig } from '../../models/snackbar-config.interface'
+import { MatSidenav } from '@angular/material/sidenav';
+import { Dictionary } from 'src/business/utils/dictionary';
+import { DialogConfig } from 'src/business/models/dialog-config.interface';
 
 @Injectable({ providedIn: 'root'})
 export class UIService {
 
-    private _loading$: BehaviorSubject<boolean>;
-    public loading$ = new Observable<boolean>();
-
-    public showAppLoadingBar = true;
-    public showSplash = false;
-    public showErrorSnackbar = true;
 
     constructor(
         private snackBar: MatSnackBar,
         private dialog: MatDialog,
-    ) {
-        this._loading$ = new BehaviorSubject<boolean>(false);
-        this.loading$ = this._loading$.asObservable();
-    }
-
-    public setLoading(loading: boolean) {
-        this._loading$.next(loading);
-    }
+    ) { }
 
     public success(message: string) {
         this.showSnackBar(message, {
@@ -67,20 +48,26 @@ export class UIService {
         this.snackBar.open(message, null, opts);
     }
 
-    public openFromComponent(component: ComponentType<any>, config?: SnackBarConfig) {
+    public openSnackbarFromComponent(component: ComponentType<any>, config?: SnackBarConfig) {
         const opts = Object.assign({}, snackBarDefaultConfig, config);
         this.snackBar.openFromComponent(component, opts);
     }
 
+    public openDialogFromComponent(component: ComponentType<any>, config?: DialogConfig, callbackAction?: Function) {
+        const opts = Object.assign({}, snackBarDefaultConfig, config);
+
+        const dialogRef = this.dialog.open(component, opts);
+
+        dialogRef.afterClosed().pipe(take(1)).subscribe(() => { callbackAction && callbackAction.call([]) });
+    }
+
     public openConfirmDialog(message: string, action: Function) {
-        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        this.openDialogFromComponent(ConfirmDialogComponent, {
             height: 'auto',
             maxWidth: '20rem',
             autoFocus: false,
             data: { message: message },
-        });
-
-        dialogRef.afterClosed().pipe(take(1)).subscribe(() => { action.call([]) });
+        }, action);
     }
 
     private _fadeOutMessageDialog: MatDialogRef<MessageDialogComponent>;
@@ -99,6 +86,45 @@ export class UIService {
         setTimeout(() => {
             this._fadeOutMessageDialog.close();
         }, timeout);
+    }
+
+    // --------------------------------------- SIDENAV ---------------------------------------
+    private sidenavs = new Dictionary<MatSidenav>();
+
+    public addOrUpdateSidenav(name: UISidenav, sidenav: MatSidenav) {
+        this.sidenavs.addOrUpdate(name, sidenav);
+    }
+
+    public doSidenavAction(name: UISidenav, actionType: UISidenavAction) {
+
+        var sidenav = this.sidenavs.item(name);
+        
+        switch (actionType) {
+            case UISidenavAction.Open:
+                sidenav.mode = 'side';
+                sidenav.open();
+                //showMenuButton
+                break;
+
+            case UISidenavAction.Toggle:
+                sidenav.toggle();
+                //showMenuButton
+                break;
+
+            case UISidenavAction.Close:
+                sidenav.mode = 'over';
+                sidenav.close();
+                //this.showSettingsMenuButton = true;
+                break;
+        
+            default:
+                break;
+        }
+    }
+    
+    public isSidenavOpened(name: string): boolean  {
+        var sidenav = this.sidenavs.item(name);
+        return sidenav.opened;
     }
 }
 

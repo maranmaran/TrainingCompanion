@@ -11,6 +11,6 @@ export class ErrorService {
     ) { }
 
     public handleError(err: HttpErrorResponse) {
-        this.UIService.openFromComponent(ErrorSnackbarComponent, { data: err, duration: 2000});
+        this.UIService.openSnackbarFromComponent(ErrorSnackbarComponent, { data: err, duration: 2000});
     }
 }
