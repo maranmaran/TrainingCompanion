@@ -16,7 +16,5 @@ export const setActiveProgressBar = createAction('[Progress bar] Set Active', pr
 
 export const switchTheme = createAction('[Theme] Change theme', props<{theme: Theme}>() )
 
-export const addSidenav = createAction('[Sidenav] Add', props<{name: UISidenav, sidenav: MatSidenav}>());
-
 export const setMobileScreenFlag = createAction('[Screen width] Set mobile', props<{ isMobile: boolean}>());
 export const setWebScreenFlag = createAction('[Screen width] Set web', props<{ isWeb: boolean}>());
