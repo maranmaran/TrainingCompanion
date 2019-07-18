@@ -8,6 +8,7 @@ import { OverlayContainer, Overlay } from '@angular/cdk/overlay';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Theme, getThemeClass } from 'src/business/models/theme.enum';
+import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 
 @Component({
   selector: 'app-root',
@@ -46,17 +47,13 @@ export class AppComponent implements OnInit, OnDestroy {
           err => console.log(err)
       ),
 
-      // this.themeService.theme$
-      // .subscribe(
-      //   (theme: string) => this.setupTheme(theme),
-      //   err => console.log(err)
-      // ),
-
-      this.store.pipe(map((state: AppState) => state.ui.theme))
+      this.store.select(activeTheme)
         .subscribe(
-          (theme: Theme) => this.setupTheme(theme),
+          (theme: Theme) => {
+            console.log(theme);
+            this.setupTheme(theme);
+          },
           err => console.log(err))
-
     );
   }
 

@@ -56,7 +56,7 @@
       </ng-container>
 
       <!-- loader -->
-      <ng-container *ngIf="isLoading">
+      <ng-container *ngIf="(activeProgressBar$ | async) == 'SettingsScreen' && (loading$ | async)">
         <div id="spinner-container" class="position-absolute h-100 w-100" fxLayout="column" fxLayoutAlign="center center">
           <mat-progress-spinner class="settings-spinner" [color]="'accent'" [mode]="'indeterminate'" [value]="50">
           </mat-progress-spinner>

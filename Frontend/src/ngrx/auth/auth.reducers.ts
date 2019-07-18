@@ -1,12 +1,11 @@
-import { initialAuthState, AuthState } from './auth.state';
-import * as AuthActions from './auth.actions';
-import { on, createReducer } from '@ngrx/store';
-import { TypedAction, Action, ActionReducer } from '@ngrx/store/src/models';
-import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';
-import { currentUser } from './auth.selectors';
-import { UserSettings } from 'src/server-models/entities/user-settings.model';
-import { Subscription } from 'src/server-models/stripe/subscription.model';
+import { createReducer, on } from '@ngrx/store';
+import { Action, ActionReducer } from '@ngrx/store/src/models';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { UserSettings } from 'src/server-models/entities/user-settings.model';
+import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';
+import { Subscription } from 'src/server-models/stripe/subscription.model';
+import * as AuthActions from './auth.actions';
+import { AuthState, initialAuthState } from './auth.state';
 
 export const authReducer: ActionReducer<AuthState, Action> = createReducer(
     initialAuthState,
