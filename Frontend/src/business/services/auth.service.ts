@@ -1,15 +1,14 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
-import * as moment from 'moment';
 import { CookieService } from 'ngx-cookie-service';
+import { Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { CurrentUserStore } from '../stores/current-user.store';
 import { BaseService } from './base.service';
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 
 @Injectable({ providedIn: 'root'})
 export class AuthService extends BaseService {
@@ -42,20 +41,6 @@ export class AuthService extends BaseService {
       );
   }
 
-  // public setSession(user: CurrentUser) {
-  //   this.currentUserStore.setState(user);
-  //   localStorage.setItem('id', user.id.toString());
-  //   this.router.navigate(['']);
-  // }
-
-  // public signOut() {
-  //   this.signOutEvent.next();
-  //   this.currentUserStore.setState(undefined);
-  //   localStorage.removeItem('id');
-  //   this.cookieService.delete('jwt');
-  //   this.router.navigate(['/auth/login']);
-  // }
-
   public isAuthenticated() {
     const token = this.getToken();
     if (!token) { return false; } // get new token
@@ -65,7 +50,7 @@ export class AuthService extends BaseService {
     return (date.valueOf() > new Date().valueOf()); // expired or not
   }
 
-  public getToken(): string {
+  private getToken(): string {
     return this.cookieService.get('jwt');
   }
 
@@ -83,13 +68,5 @@ export class AuthService extends BaseService {
     }
   }
 
-  public setSplashDialogDate() {
-    localStorage.setItem('splashDialogDate', moment(new Date()).utc().format('L'));
-  }
-
-  public get showSplashDialog(): boolean {
-    const date = localStorage.getItem('splashDialogDate');
-    return !date || date != moment(new Date()).utc().format('L');
-  }
 
 }

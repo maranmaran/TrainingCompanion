@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Sieve.Models;
-using System;
-using System.Threading.Tasks;
-using Backend.Application.Business.Business.Authorization.ChangePassword;
+﻿using Backend.Application.Business.Business.Authorization.ChangePassword;
 using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Application.Business.Business.Users.DeleteUser;
 using Backend.Application.Business.Business.Users.GetAllUsers;
 using Backend.Application.Business.Business.Users.GetUser;
 using Backend.Application.Business.Business.Users.SaveUserSettings;
 using Backend.Application.Business.Business.Users.UpdateUser;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Sieve.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {

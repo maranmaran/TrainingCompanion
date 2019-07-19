@@ -25,7 +25,7 @@ namespace Backend.API.Filters
         {
             var code = HttpStatusCode.InternalServerError;
             var exceptionMessage = context.Exception.Message;
-            var innerExceptionMessage = context.Exception.InnerException.Message;
+            var innerExceptionMessage = context.Exception?.InnerException?.Message;
 
             await SaveExceptionToDb((int)code, exceptionMessage, innerExceptionMessage);
 

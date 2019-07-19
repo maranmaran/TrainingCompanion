@@ -1,57 +1,44 @@
-import { UISidenav, UISidenavAction } from './../../models/ui-sidenavs.enum';
-import { ComponentType } from '@angular/cdk/overlay/index';
-import { Injectable } from '@angular/core';
+import { UISidenav, UISidenavAction } from '../../shared/ui-sidenavs.enum';
+import { Injectable, HostListener } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MessageDialogComponent } from 'src/app/shared/message-dialog/message-dialog.component';
 import { ConfirmDialogComponent } from '../../../app/shared/confirm-dialog/confirm-dialog.component';
-import { SnackBarConfig, snackBarDefaultConfig } from '../../models/snackbar-config.interface'
+import { SnackBarConfig, snackBarDefaultConfig } from '../../shared/snackbar-config.interface'
 import { MatSidenav } from '@angular/material/sidenav';
 import { Dictionary } from 'src/business/utils/dictionary';
-import { DialogConfig } from 'src/business/models/dialog-config.interface';
+import { DialogConfig } from 'src/business/shared/dialog-config.interface';
+import { Theme, getThemeClass } from 'src/business/shared/theme.enum';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
+import { setMobileScreenFlag, setWebScreenFlag } from 'src/ngrx/user-interface/ui.actions';
+import { OverlayContainer, ComponentType } from '@angular/cdk/overlay';
+import { isTrialing, isSubscribed, trialDaysRemaining } from 'src/ngrx/auth/auth.selectors';
+import * as moment from 'moment';
+import { trialMessageHtml, trialOverHtml, invalidSubscriptionHtml } from 'src/business/shared/popup-templates';
 
-@Injectable({ providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UIService {
 
 
     constructor(
+        private store: Store<AppState>,
         private snackBar: MatSnackBar,
         private dialog: MatDialog,
+        private overlayContainer: OverlayContainer,
     ) { }
 
-    public success(message: string) {
-        this.showSnackBar(message, {
-            panelClass: ['accent-snackbar']
-        });
-    }
-
-    public warning(message: string) {
-        this.showSnackBar(message, {
-            panelClass: ['warning-snackbar']
-        });
-    }
-
-    public error(message: string) {
-        this.showSnackBar(message, {
-            panelClass: ['error-snackbar']
-        });
-    }
-
-    public info(message: string) {
-        this.showSnackBar(message);
-    }
-
-    private showSnackBar(message: string, config?: SnackBarConfig) {
-        const opts = Object.assign({}, snackBarDefaultConfig, config);
-        this.snackBar.open(message, null, opts);
-    }
+    // --------------------------------------- SNACKBARS ---------------------------------------
 
     public openSnackbarFromComponent(component: ComponentType<any>, config?: SnackBarConfig) {
         const opts = Object.assign({}, snackBarDefaultConfig, config);
         this.snackBar.openFromComponent(component, opts);
     }
+
+    // --------------------------------------- DIALOGS ---------------------------------------
 
     public openDialogFromComponent(component: ComponentType<any>, config?: DialogConfig, callbackAction?: Function) {
         const opts = Object.assign({}, snackBarDefaultConfig, config);
@@ -60,8 +47,8 @@ export class UIService {
 
         dialogRef.afterClosed()
             .pipe(take(1))
-            .subscribe((params) => { 
-                callbackAction && callbackAction.call(params) 
+            .subscribe((params) => {
+                callbackAction && callbackAction.call(params)
             });
     }
 
@@ -93,6 +80,7 @@ export class UIService {
     }
 
     // --------------------------------------- SIDENAV ---------------------------------------
+
     private sidenavs = new Dictionary<MatSidenav>();
 
     public addOrUpdateSidenav(name: UISidenav, sidenav: MatSidenav) {
@@ -102,7 +90,7 @@ export class UIService {
     public doSidenavAction(name: UISidenav, actionType: UISidenavAction) {
 
         var sidenav = this.sidenavs.item(name);
-        
+
         switch (actionType) {
             case UISidenavAction.Open:
                 sidenav.mode = 'side';
@@ -120,14 +108,101 @@ export class UIService {
                 sidenav.close();
                 //this.showSettingsMenuButton = true;
                 break;
-        
+
             default:
                 break;
         }
     }
-    
-    public isSidenavOpened(name: string): Observable<boolean>  {
+
+    public isSidenavOpened(name: string): Observable<boolean> {
         return of(this.sidenavs.item(name).opened);
+    }
+
+    // --------------------------------------- THEME ---------------------------------------
+
+    public setupTheme(theme: Theme) {
+
+        const overlayContainer = this.overlayContainer.getContainerElement();
+        const documentBody = document.getElementsByTagName("BODY")[0];
+
+        const overlayContainerClasses = overlayContainer.classList;
+        const bodyClasses = documentBody.classList;
+
+        const overlayThemeClassesToRemove = Array.from(overlayContainerClasses).filter((item: string) => item.includes('theme-'));
+        const bodyThemeClassesToRemove = Array.from(bodyClasses).filter((item: string) => item.includes('theme-'));
+
+        overlayThemeClassesToRemove.length && overlayContainerClasses.remove(...overlayThemeClassesToRemove);
+        bodyThemeClassesToRemove.length && bodyClasses.remove(...bodyThemeClassesToRemove);
+
+        var themeClass = getThemeClass(theme);
+        overlayContainerClasses.add(themeClass);
+        bodyClasses.add(themeClass);
+
+    }
+
+    // --------------------------------------- SCREEN RESIZE ---------------------------------------
+
+    @HostListener('window:resize', ['$event'])
+    protected onResize() {
+
+        if (window.innerWidth <= 599) {
+
+            // only dispatch if the value different
+            this.store
+                .select(isMobile)
+                .pipe(take(1))
+                .subscribe((isMobile: boolean) => !isMobile && this.store.dispatch(setMobileScreenFlag({ isMobile: true })))
+
+            return;
+        }
+
+        // only dispatch if the value different
+        this.store
+            .select(isMobile)
+            .pipe(take(1))
+            .subscribe((isMobile: boolean) => isMobile && this.store.dispatch(setWebScreenFlag({ isWeb: true })))
+    }
+
+    // --------------------------------------- CUSTOM POPUP MESSAGES ---------------------------------------
+
+    public showSubscriptioninfoDialogOnLogin() {
+
+        forkJoin(
+
+            this.store.select(isTrialing).pipe(take(1)),
+            this.store.select(isSubscribed).pipe(take(1)),
+            of(this.showSplashDialog).pipe(take(1)),
+            this.store.select(trialDaysRemaining).pipe(take(1)))
+
+            .subscribe(([isTrialing, isSubscribed, showSplashDialog, trialDaysRemaining]) => {
+
+                let message: string;
+                let action: Function;
+
+                if (isTrialing && showSplashDialog) {  // TRIALING
+                    message = trialMessageHtml(trialDaysRemaining);
+                    action = this.setSplashDialogDate;
+                }
+                else if (!isTrialing && !isSubscribed) {  // MUST SUBSCRIBE
+                    message = trialOverHtml;
+                    action = () => { };
+                }
+                else if (!isTrialing && isSubscribed) {   // SUBSCRIPTION IS INVALID
+                    message = invalidSubscriptionHtml;
+                    action = this.setSplashDialogDate;
+                }
+
+                showSplashDialog && this.openConfirmDialog(message, action);
+            })
+    }
+
+    private setSplashDialogDate() {
+        localStorage.setItem('splashDialogDate', moment(new Date()).utc().format('L'));
+    }
+
+    private get showSplashDialog(): boolean {
+        const date = localStorage.getItem('splashDialogDate');
+        return !date || date != moment(new Date()).utc().format('L');
     }
 }
 

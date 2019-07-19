@@ -1,7 +1,5 @@
-import { MatSidenav } from '@angular/material/sidenav';
-import { Theme } from 'src/business/models/theme.enum';
-import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
-import { Dictionary } from 'src/business/utils/dictionary';
+import { Theme } from 'src/business/shared/theme.enum';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 
 export interface UIState {
     theme: Theme,

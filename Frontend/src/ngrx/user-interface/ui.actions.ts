@@ -1,10 +1,9 @@
-import { UISidenav } from './../../business/models/ui-sidenavs.enum';
-import { MatSidenav } from '@angular/material/sidenav';
+import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
-import { Theme } from 'src/business/models/theme.enum';
-import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
+import { Theme } from 'src/business/shared/theme.enum';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 
-export const httpErrorOccured = createAction('[Http request] Error', (error = 'Something went wrong') => ({ error }));
+export const httpErrorOccured = createAction('[Http request] Error', (errorMessage: string = 'Something went wrong') => ({ errorMessage }));
 
 export const httpRequestStartLoading = createAction('[Http request] Start Loading');
 export const httpRequestStopLoading = createAction('[Http request] Stop Loading');

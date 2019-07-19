@@ -1,21 +1,19 @@
-import { UISidenavAction } from './../../../business/models/ui-sidenavs.enum';
-import { UIService } from 'src/business/services/shared/ui.service';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/internal/operators/take';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
+import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { isUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { UsersService } from './../../../business/services/user.service';
-import { requestLoading, activeProgressBar } from 'src/ngrx/user-interface/ui.selectors';
-import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
-import { UISidenav } from 'src/business/models/ui-sidenavs.enum';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
-import { take } from 'rxjs/internal/operators/take';
-import { tap } from 'rxjs/internal/operators/tap';
-import { map } from 'rxjs/operators';
+import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
+import { UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
+import { UsersService } from './../../../business/services/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -46,10 +44,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SettingsScreen}));
     this.isUser = this.store.select(isUser);
 
-    this.loading$ = combineLatest(
-      this.store.select(requestLoading),
-      this.store.select(activeProgressBar)
-    ).pipe(map(([isLoading, progressBar]) => isLoading && progressBar == UIProgressBar.SettingsScreen));
+    this.loading$ = getLoadingState(this.store, UIProgressBar.SettingsScreen);;
 
     this.uiService.addOrUpdateSidenav(UISidenav.Settings, this.sidenav);
 
@@ -73,7 +68,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(isOpened => {
           isOpened && this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle)}
-        );
+      );
   }
  
   public toggleSidenav = () => this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle);

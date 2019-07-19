@@ -48,10 +48,10 @@
 
       <!-- settings content -->
       <ng-container [ngSwitch]="activeTab">
-        <app-general [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'General'"></app-general>
-        <app-account [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Account'"></app-account>
+        <app-general [hidden]="isLoading" *ngSwitchCase="'General'"></app-general>
+        <app-account [hidden]="isLoading" *ngSwitchCase="'Account'"></app-account>
         <ng-container *ngIf="(isUser | async)">
-          <app-billing [hidden]="isLoading" (loading)="setLoading($event)" *ngSwitchCase="'Billing'"></app-billing>
+          <app-billing [hidden]="isLoading" *ngSwitchCase="'Billing'"></app-billing>
         </ng-container>
       </ng-container>
 
