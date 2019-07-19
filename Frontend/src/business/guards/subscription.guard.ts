@@ -19,7 +19,7 @@ export class SubscriptionGuard implements CanActivate {
       return true;
     }
 
-    this.UIService.warning('Please review your subscription in account setting billing section.')
+    // this.UIService.warning('Please review your subscription in account setting billing section.')
   }
 
 }

@@ -1,12 +1,12 @@
 import { Dictionary } from './../../business/utils/dictionary';
-import { Theme } from './../../business/models/theme.enum';
+import { Theme } from '../../business/shared/theme.enum';
 import { createReducer, on } from '@ngrx/store';
 import { Action, ActionReducer } from '@ngrx/store/src/models';
 import { UIState, initialUIState } from './ui.state';
 import * as UIActions from './ui.actions';
-import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { MatSidenav } from '@angular/material/sidenav';
-import { UISidenav } from 'src/business/models/ui-sidenavs.enum';
+import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
 
 export const uiReducer: ActionReducer<UIState, Action> = createReducer(
     initialUIState,

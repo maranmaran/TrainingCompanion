@@ -1,12 +1,11 @@
-import { UIService } from '../services/shared/ui.service';
-import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs/internal/Observable';
-import { AppSettingsService } from '../services/shared/app-settings.service';
-import { finalize } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/internal/Observable';
+import { finalize } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { httpRequestStartLoading, httpRequestStopLoading } from 'src/ngrx/user-interface/ui.actions';
+import { AppSettingsService } from '../services/shared/app-settings.service';
 
 @Injectable()
 export class HttpInterceptor implements HttpInterceptor {

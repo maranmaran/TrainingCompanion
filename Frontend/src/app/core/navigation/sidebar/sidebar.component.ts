@@ -1,7 +1,7 @@
-import { UISidenavAction } from './../../../../business/models/ui-sidenavs.enum';
+import { UISidenavAction } from '../../../../business/shared/ui-sidenavs.enum';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { Component, OnInit } from '@angular/core';
-import { UISidenav } from 'src/business/models/ui-sidenavs.enum';
+import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
 
 @Component({
   selector: 'app-sidebar',
