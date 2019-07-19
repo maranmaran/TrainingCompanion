@@ -1,8 +1,7 @@
-import { AuthService } from 'src/business/services/auth.service';
-import { OnDestroy, Injectable } from '@angular/core';
-import { AppSettingsService } from './shared/app-settings.service';
-import { HubConnection } from '@aspnet/signalr';
+import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
+import { HubConnection } from '@aspnet/signalr';
+import { AppSettingsService } from './shared/app-settings.service';
 
 @Injectable({ providedIn: 'root'})
 export class PushNotificationsService implements OnDestroy {
@@ -11,7 +10,6 @@ export class PushNotificationsService implements OnDestroy {
     public notifications: { type: string, payload: string }[] = [];
 
     constructor(
-        private authService: AuthService,
         private appSettingsService: AppSettingsService
     ) {
         this.configurePushNotificationHubConnection();
@@ -19,8 +17,8 @@ export class PushNotificationsService implements OnDestroy {
 
     private configurePushNotificationHubConnection() {
         this._notificationHubConn = new signalR.HubConnectionBuilder()
-            .withUrl(this.appSettingsService.notificationHubUrl,
-                { accessTokenFactory: () => this.authService.getToken() })
+            .withUrl(this.appSettingsService.notificationHubUrl)
+                // { accessTokenFactory: () => this.authService.getToken() })
             .build();
 
         this._notificationHubConn.start()

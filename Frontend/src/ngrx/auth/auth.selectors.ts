@@ -37,11 +37,8 @@ export const subscriptionStatus = createSelector(
 );
 
 export const isSubscribed = createSelector(
-    trialDaysRemaining,
     subscriptionStatus,
-    (trialDays: number, subStatus: SubscriptionStatus) => {
-        if (trialDays != 0) return true;
-
+    (subStatus: SubscriptionStatus) => {
         switch (subStatus) {
             case SubscriptionStatus.active:
                 return true;

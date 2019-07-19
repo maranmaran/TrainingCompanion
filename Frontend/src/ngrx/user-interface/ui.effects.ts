@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { tap } from 'rxjs/operators';
-import * as UIActions from './ui.actions';
 import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 import { AppState } from '../global-setup.ngrx';
-import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
+import { UIService } from './../../business/services/shared/ui.service';
+import * as UIActions from './ui.actions';
 
 
 @Injectable()
@@ -14,6 +13,7 @@ export class UIEffects {
     constructor(
         private store: Store<AppState>,
         private actions$: Actions,
+        private uiService: UIService
     ) { }
 
     httpStopLoading$ = createEffect(() =>
@@ -22,6 +22,17 @@ export class UIEffects {
                 ofType(UIActions.httpRequestStopLoading),
                 tap(() => {
                     this.store.dispatch(UIActions.enableErrorSnackbar());
+                })
+            )
+        , { dispatch: false });
+
+  
+    httpError$ = createEffect(() =>
+        this.actions$
+            .pipe(
+                ofType(UIActions.httpErrorOccured),
+                tap((error) => {
+                   this.uiService.fadeOutMessage(`Something went wrong.`, 2000)
                 })
             )
         , { dispatch: false });

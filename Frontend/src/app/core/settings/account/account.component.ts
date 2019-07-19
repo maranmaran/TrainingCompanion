@@ -10,7 +10,7 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
-import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { updateCurrentUser } from 'src/ngrx/auth/auth.actions';
 
@@ -28,8 +28,6 @@ export class AccountComponent implements OnInit {
   public editUsername = true;
   public editMail = true;
 
-  @Output() loading = new EventEmitter<boolean>(true);
-
   constructor(
     private UIService: UIService,
     private usersService: UsersService,
@@ -40,7 +38,7 @@ export class AccountComponent implements OnInit {
     this.store.select(currentUser)
       .pipe(take(1))
       .subscribe((user: CurrentUser) => { 
-        this.currentUser = user;
+        this.currentUser = {...user};
         this.createForm(this.currentUser);
       });
   }
