@@ -36,7 +36,6 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
         return {
             ...state,
             httpRequestLoading: false,
-            activeProgressBar: UIProgressBar.MainAppScreen // fallback to default progress bar
         }   
     }),
 

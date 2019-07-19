@@ -14,8 +14,10 @@ import { Plan } from 'src/server-models/stripe/plan.model';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 import { currentUser, isSubscribed } from 'src/ngrx/auth/auth.selectors';
-import { forkJoin } from 'rxjs';
 import { addSubscription } from 'src/ngrx/auth/auth.actions';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: "app-billing",
@@ -23,32 +25,37 @@ import { addSubscription } from 'src/ngrx/auth/auth.actions';
   styleUrls: ["./billing.component.scss"],
   providers: [BillingService]
 })
-export class BillingComponent implements OnInit {
+export class BillingComponent implements OnInit, OnDestroy {
 
-  public currentUser: CurrentUser;
-  public subscriptionValid: boolean;
-  public plans: Plan[];
-
-  // local loading bar which is inside dialog vs app loading bar which is below toolbar
-  @Output() loading = new EventEmitter<boolean>(true);
+  protected currentUser: CurrentUser;
+  protected subscriptionValid: boolean;
+  protected plans: Plan[];
+  private subs = new SubSink();
 
   constructor(
     private dialog: MatDialog,
     private billingService: BillingService,
-    private UIService: UIService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) { }
 
   ngOnInit() {
-    forkJoin(this.store.select(currentUser), this.store.select(isSubscribed))
-      .pipe(take(1))
-      .subscribe(([user, isSubscribed]) => {
-        this.currentUser = user;
-        this.plans = this.currentUser.plans.data;
-        this.subscriptionValid = isSubscribed;
-      });
+
+    this.subs.add(
+      combineLatest(
+        this.store.select(currentUser), 
+        this.store.select(isSubscribed)
+        )
+        .subscribe(([user, isSubscribed]) => {
+          this.currentUser = user;
+          this.plans = this.currentUser.plans.data;
+          this.subscriptionValid = isSubscribed;
+        })
+      );
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 
   public onCancelSubscription(subscriptionId: string) {
 

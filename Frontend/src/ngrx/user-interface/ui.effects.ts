@@ -21,7 +21,6 @@ export class UIEffects {
             .pipe(
                 ofType(UIActions.httpRequestStopLoading),
                 tap(() => {
-                    this.store.dispatch(UIActions.setActiveProgressBar({progressBar: UIProgressBar.MainAppScreen}));
                     this.store.dispatch(UIActions.enableErrorSnackbar());
                 })
             )

@@ -45,8 +45,6 @@ export class GeneralComponent implements OnInit {
 
   private onSaveSettings(userSettings: UserSettings) {
 
-    this.store.dispatch(setActiveProgressBar( { progressBar: UIProgressBar.SettingsScreen } ))
-
     this.usersService.saveSettings(userSettings)
       .pipe(take(1))
       .subscribe(
