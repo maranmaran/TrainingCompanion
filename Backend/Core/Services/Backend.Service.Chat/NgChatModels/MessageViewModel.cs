@@ -12,5 +12,6 @@ namespace Backend.Service.Chat.NgChatModels
         public DateTime? DateSeen { get; set; }
         public string DownloadUrl { get; set; }
         public int? FileSizeInBytes { get; set; }
+        public string S3Filename { get; set; }
     }
 }

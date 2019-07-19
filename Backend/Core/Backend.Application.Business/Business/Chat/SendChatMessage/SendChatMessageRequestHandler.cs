@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Chat.SendChatMessage
 {
@@ -27,29 +27,6 @@ namespace Backend.Application.Business.Business.Chat.SendChatMessage
                 //save to db
                 _context.ChatMessages.Add(_mapper.Map<ChatMessage>(request));
                 await _context.SaveChangesAsync(cancellationToken);
-
-                //switch (request.Type)
-                //{
-                //    case MessageType.GroupChat:
-                //        await _hubContext
-                //            .Clients
-                //            .Group(request.ChatRoomId.ToString())
-                //            .SendChatMessage(request.Type.ToString(), request.Message);
-
-                //        break;
-
-                //    case MessageType.PrivateChat:
-
-                //        await _hubContext
-                //            .Clients
-                //            .User(request.ReceiverId.ToString())
-                //            .SendChatMessage(request.Type.ToString(), request.Message);
-
-                //        break;
-
-                //    default:
-                //        throw new ArgumentOutOfRangeException();
-                //}
 
                 return Unit.Value;
             }

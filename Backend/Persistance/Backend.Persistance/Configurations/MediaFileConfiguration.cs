@@ -1,0 +1,29 @@
+﻿using Backend.Domain.Entities;
+using Backend.Domain.Enum;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+
+namespace Backend.Persistance.Configurations
+{
+    public class MediaFileConfiguration
+    {
+        public void Configure(EntityTypeBuilder<MediaFile> builder)
+        {
+            builder.Property(x => x.DateUploaded).HasDefaultValueSql("getdate()");
+
+            builder.Property(x => x.Type)
+                .HasDefaultValue(MediaType.File)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (MediaType)Enum.Parse(typeof(MediaType), v));
+
+            builder
+                .HasOne(x => x.ApplicationUser)
+                .WithMany(x => x.MediaFiles)
+                .HasForeignKey(x => x.ApplicationUserId);
+        }
+    }
+
+
+}

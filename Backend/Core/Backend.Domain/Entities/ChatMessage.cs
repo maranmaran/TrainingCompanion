@@ -17,6 +17,7 @@ namespace Backend.Domain.Entities
         public bool ContainsMedia { get; set; }
         public string DownloadUrl { get; set; }
         public int? FileSizeInBytes { get; set; }
+        public string S3Filename { get; set; }
 
         public Guid SenderId { get; set; }
         public virtual ApplicationUser Sender { get; set; }
