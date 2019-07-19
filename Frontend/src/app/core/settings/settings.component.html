@@ -1,6 +1,6 @@
 <mat-sidenav-container class="settings-sidenav-container">
 
-  <mat-sidenav class="settings-sidenav" (closed)="sidebarService.showSettingsMenuButton = true">
+  <mat-sidenav class="settings-sidenav">
     <mat-toolbar>
       <mat-toolbar-row class="justify-content-between">
         <h2 class="toolbar-title float-left"> {{ data.title }} </h2>
@@ -35,8 +35,8 @@
     <div class="container" fxLayout="column">
 
       <!-- menu button for settings sidenav -->
-      <div [class.mb-3]='!sidebarService.settingsToggled'>
-          <button class="float-left" *ngIf="sidebarService.showSettingsMenuButton" mat-icon-button color="accent"
+      <div [class.mb-3]='!(uiService.isSidenavOpened("Settings") | async)'>
+          <button class="float-left" *ngIf='!(uiService.isSidenavOpened("Settings") | async)' mat-icon-button color="accent"
             (click)="toggleSidenav()">
             <i class="fas fa-bars"></i>
           </button>
