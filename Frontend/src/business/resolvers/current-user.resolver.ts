@@ -77,31 +77,31 @@ export class CurrentUserResolver implements Resolve<CurrentUser | void> {
 
     showDialog() {
 
-        forkJoin(this.store.select(isTrialing),
-            this.store.select(isSubscribed),
-            of(this.authService.showSplashDialog),
-            this.store.select(trialDaysRemaining))
-            .pipe(take(1))
-            .subscribe(([isTrialing, isSubscribed, showSplashDialog, trialDaysRemaining]) => {
+        forkJoin(
+            this.store.select(isTrialing).pipe(take(1)),
+            this.store.select(isSubscribed).pipe(take(1)),
+            of(this.authService.showSplashDialog).pipe(take(1)),
+            this.store.select(trialDaysRemaining).pipe(take(1)))
+                .subscribe(([isTrialing, isSubscribed, showSplashDialog, trialDaysRemaining]) => {
 
-                let message: string;
-                let action: Function;
+                    let message: string;
+                    let action: Function;
 
-                if (isTrialing && showSplashDialog) {  // TRIALING
-                    message = this.trialMessageHtml(trialDaysRemaining);
-                    action = this.authService.setSplashDialogDate;
-                }
-                else if (!isSubscribed && !isTrialing) {  // MUST SUBSCRIBE
-                    message = this.trialOverHtml;
-                    action = () => { };
-                }
-                else if (isSubscribed && isTrialing) {   // SUBSCRIPTION IS INVALID
-                    message = this.invalidSubscriptionHtml;
-                    action = this.authService.setSplashDialogDate;
-                }
+                    if (isTrialing && showSplashDialog) {  // TRIALING
+                        message = this.trialMessageHtml(trialDaysRemaining);
+                        action = this.authService.setSplashDialogDate;
+                    }
+                    else if (!isSubscribed && !isTrialing) {  // MUST SUBSCRIBE
+                        message = this.trialOverHtml;
+                        action = () => { };
+                    }
+                    else if (isSubscribed && isTrialing) {   // SUBSCRIPTION IS INVALID
+                        message = this.invalidSubscriptionHtml;
+                        action = this.authService.setSplashDialogDate;
+                    }
 
-                this.UIService.openConfirmDialog(message, action);
-            })
+                    this.UIService.openConfirmDialog(message, action);
+                })
     }
 
 }

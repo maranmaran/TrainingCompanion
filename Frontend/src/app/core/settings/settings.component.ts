@@ -11,8 +11,11 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { UsersService } from './../../../business/services/user.service';
 import { requestLoading, activeProgressBar } from 'src/ngrx/user-interface/ui.selectors';
 import { UIProgressBar } from 'src/business/models/ui-progress-bars.enum';
-import { map } from 'rxjs/operators';
 import { UISidenav } from 'src/business/models/ui-sidenavs.enum';
+import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { take } from 'rxjs/internal/operators/take';
+import { tap } from 'rxjs/internal/operators/tap';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings',
@@ -25,15 +28,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public activeTab: 'General' | 'Account' | 'Billing' = 'General'
 
   public loading$: Observable<boolean>;
-  public activeProgressBar$: Observable<UIProgressBar>;
   public isUser: Observable<boolean>;
-
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
 
   constructor(
     private router: Router,
-    private uiService: UIService,
+    protected uiService: UIService,
     private store: Store<AppState>,
     protected dialogRef: MatDialogRef<SettingsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, section: 'General' | 'Account' | 'Billing' }
@@ -42,16 +43,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // store state setup
-    this.activeProgressBar$ = this.store.select(activeProgressBar);
-
+    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SettingsScreen}));
     this.isUser = this.store.select(isUser);
 
     this.loading$ = combineLatest(
       this.store.select(requestLoading),
       this.store.select(activeProgressBar)
     ).pipe(map(([isLoading, progressBar]) => isLoading && progressBar == UIProgressBar.SettingsScreen));
-
-
 
     this.uiService.addOrUpdateSidenav(UISidenav.Settings, this.sidenav);
 
@@ -60,14 +58,23 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen}));
+
     // route to root component path if section is given (means it came from some deeplink)
     this.data.section && this.router.navigate(['']);
   }
 
   public onClose = () => this.dialogRef.close('Closed');
-  public openTab = (tab: 'General' | 'Account' | 'Billing') => this.activeTab = tab;
-    // this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle);
- 
 
+  public openTab = (tab: 'General' | 'Account' | 'Billing') =>  {
+    this.activeTab = tab;
+
+    this.uiService.isSidenavOpened(UISidenav.Settings)
+      .pipe(take(1))
+      .subscribe(isOpened => {
+          isOpened && this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle)}
+        );
+  }
+ 
   public toggleSidenav = () => this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle);
 }

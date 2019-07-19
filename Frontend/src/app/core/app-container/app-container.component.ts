@@ -62,7 +62,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     this.loading$ = combineLatest(
       this.store.select(requestLoading),
       this.store.select(activeProgressBar)
-    ).pipe(map(([isLoading, progressBar]) => isLoading && progressBar == UIProgressBar.LoginScreen));
+    ).pipe(map(([isLoading, progressBar]) => isLoading && progressBar == UIProgressBar.MainAppScreen));
     
     // set sidenav
     this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);

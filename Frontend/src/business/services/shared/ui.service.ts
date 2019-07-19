@@ -3,7 +3,7 @@ import { ComponentType } from '@angular/cdk/overlay/index';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MessageDialogComponent } from 'src/app/shared/message-dialog/message-dialog.component';
 import { ConfirmDialogComponent } from '../../../app/shared/confirm-dialog/confirm-dialog.component';
@@ -58,7 +58,11 @@ export class UIService {
 
         const dialogRef = this.dialog.open(component, opts);
 
-        dialogRef.afterClosed().pipe(take(1)).subscribe(() => { callbackAction && callbackAction.call([]) });
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe((params) => { 
+                callbackAction && callbackAction.call(params) 
+            });
     }
 
     public openConfirmDialog(message: string, action: Function) {
@@ -122,9 +126,8 @@ export class UIService {
         }
     }
     
-    public isSidenavOpened(name: string): boolean  {
-        var sidenav = this.sidenavs.item(name);
-        return sidenav.opened;
+    public isSidenavOpened(name: string): Observable<boolean>  {
+        return of(this.sidenavs.item(name).opened);
     }
 }
 

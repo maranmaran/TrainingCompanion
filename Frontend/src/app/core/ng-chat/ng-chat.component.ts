@@ -125,6 +125,9 @@ export class NgChat implements OnInit, IChatController {
     @Input()
     public hideFriendsListOnUnsupportedViewport: boolean = true;
 
+    @Input() 
+    public closeFriendList: boolean = false;
+
     @Input()
     public fileUploadUrl: string;
 
