@@ -10,6 +10,7 @@ namespace Backend.Domain
         DbSet<ApplicationUser> Users { get; set; }
         DbSet<UserSettings> UserSettings { get; set; }
         DbSet<ChatMessage> ChatMessages { get; set; }
+        DbSet<MediaFile> MediaFiles { get; set; }
         DbSet<SystemException> SystemExceptions { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

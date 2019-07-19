@@ -9,6 +9,7 @@ namespace Backend.Persistance
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<UserSettings> UserSettings { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<MediaFile> MediaFiles { get; set; }
         public DbSet<SystemException> SystemExceptions { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

@@ -32,6 +32,11 @@ namespace Backend.Persistance.Configurations
                 .WithMany(x => x.Subusers)
                 .HasForeignKey(x => x.ParentId);
 
+            builder
+                .HasMany(x => x.MediaFiles)
+                .WithOne(x => x.ApplicationUser)
+                .HasForeignKey(x => x.ApplicationUserId);
+
         }
     }
 }

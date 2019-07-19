@@ -2,6 +2,8 @@
 using Backend.Domain;
 using Backend.Domain.Entities;
 using Backend.Domain.Enum;
+using Backend.Service.AmazonS3.Interfaces;
+using Backend.Service.AmazonS3.Models;
 using Backend.Service.Chat.NgChatModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -31,61 +33,16 @@ namespace Backend.Application.Business.Business.Chat
 
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IS3AccessService _s3AccessService;
         //private bool _init = false;
 
-        public ChatHub(IApplicationDbContext context, IMapper mapper)
+        public ChatHub(IApplicationDbContext context, IMapper mapper, IS3AccessService s3AccessService)
         {
             _context = context;
             _mapper = mapper;
-
-            //DoInit();
+            _s3AccessService = s3AccessService;
         }
 
-        /// <summary>
-        /// Initializes state of hub and all existing users pool
-        /// </summary>
-        //private void DoInit()
-        //{
-        //    lock (_initLock)
-        //    {
-        //        lock (_contextLock)
-        //        {
-        //            if (!_init)
-        //            {
-        //                var users = _mapper.Map<HashSet<ParticipantResponseViewModel>>(_context.Users.AsNoTracking().ToList());
-
-        //                foreach (var user in users)
-        //                {
-        //                    if (!AllConnectedParticipants.TryGetValue(user.Participant.Id, out _))
-        //                    {
-
-        //                        if (!DisconnectedParticipants.TryGetValue(user.Participant.Id, out _))
-        //                        {
-        //                            DisconnectedParticipants.TryAdd(user.Participant.Id, user);
-        //                        }
-        //                    }
-        //                }
-
-        //                _init = true;
-        //            }
-        //        }
-        //    }
-        //}
-
-        /// <summary>
-        /// Gets connected and disconnected participants from given array of wanted users 
-        /// </summary>
-        /// <returns></returns>
-        //public static IEnumerable<ParticipantResponseViewModel> ConnectedParticipants(IEnumerable<string> userIdsToRetrieve)
-        //{
-        //    lock (ConnectedParticipantsLock)
-        //    {
-        //        var connectedUsers = AllConnectedParticipants.Where(x => userIdsToRetrieve.Any(y => y.ToLower() == x.Key.ToLower())).Select(x => x.Value);
-        //        var disconnectedUsers = DisconnectedParticipants.Where(x => userIdsToRetrieve.Any(y => y.ToLower() == x.Key.ToLower())).Select(x => x.Value);
-
-        //        return connectedUsers.Concat(disconnectedUsers);
-        //    }
-        //}
 
         /// <summary>
         /// Handler for message sending.
@@ -108,15 +65,22 @@ namespace Backend.Application.Business.Business.Chat
                         SentAt = DateTime.UtcNow,
                         Type = (MessageType)Enum.Parse(typeof(MessageType), message.Type.ToString()),
                         SeenAt = message.DateSeen,
-                        DownloadUrl = message.DownloadUrl,
+                        DownloadUrl = message.DownloadUrl, // get s3 presigned url down always
+                        S3Filename = message.S3Filename, // get s3 presigned url down always
                         FileSizeInBytes = message.FileSizeInBytes,
                     });
+
 
                     _context.SaveChangesAsync(CancellationToken.None).Wait();
                 }
 
                 if (sender.Value != null)
                 {
+                    // get fresh presigned url for display
+                    if (_s3AccessService.CheckIfPresignedUrlIsExpired(message.DownloadUrl))
+                        message.DownloadUrl = _s3AccessService
+                            .GetPresignedUrlAsync(new S3FileRequest(message.S3Filename)).Result;
+
                     Clients.User(message.ToId).SendAsync("messageReceived", sender.Value.Participant, message);
                 }
             }
@@ -182,7 +146,7 @@ namespace Backend.Application.Business.Business.Chat
                 }
                 else
                 {
-                     throw new InvalidOperationException("User can't be disconnecting if he never connected");
+                    throw new InvalidOperationException("User can't be disconnecting if he never connected");
                 }
 
                 return base.OnDisconnectedAsync(exception);
