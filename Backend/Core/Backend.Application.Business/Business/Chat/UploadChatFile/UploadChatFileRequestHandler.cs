@@ -61,7 +61,8 @@ namespace Backend.Application.Business.Business.Chat.UploadChatFile
                 var fileMessage = new MessageViewModel()
                 {
                     DateSent = DateTime.UtcNow,
-                    DownloadUrl = presignedUrl,
+                    S3Filename = fileRequest.FileName, // s3 filename which will be stored inside sql. It will then be presigned every fetch.. because it doesn't cost any
+                    DownloadUrl = presignedUrl, 
                     ToId = request.UserId,
                     Message = request.File.FileName,
                     FileSizeInBytes = Convert.ToInt32(request.File.Length),

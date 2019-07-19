@@ -4,14 +4,16 @@ using Backend.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190719220034_NewChatMessageColumn")]
+    partial class NewChatMessageColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,32 +109,6 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("ChatMessages");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.MediaFile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("ApplicationUserId");
-
-                    b.Property<DateTime>("DateModified");
-
-                    b.Property<DateTime>("DateUploaded");
-
-                    b.Property<string>("DownloadUrl");
-
-                    b.Property<string>("Filename");
-
-                    b.Property<string>("FtpFilePath");
-
-                    b.Property<int>("Type");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("MediaFiles");
-                });
-
             modelBuilder.Entity("Backend.Domain.Entities.SystemException", b =>
                 {
                     b.Property<Guid>("Id")
@@ -184,14 +160,6 @@ namespace Backend.Persistance.Migrations
                     b.HasOne("Backend.Domain.Entities.ApplicationUser", "Sender")
                         .WithMany("ChatMessages")
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.MediaFile", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany("MediaFiles")
-                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

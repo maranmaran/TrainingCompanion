@@ -28,5 +28,6 @@ namespace Backend.Domain.Entities
 
         public virtual ICollection<ApplicationUser> Subusers { get; set; } = new HashSet<ApplicationUser>();
         public virtual ICollection<ChatMessage> ChatMessages { get; set; } = new HashSet<ChatMessage>();
+        public virtual ICollection<MediaFile> MediaFiles { get; set; } = new HashSet<MediaFile>();
     }
 }
