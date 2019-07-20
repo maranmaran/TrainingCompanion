@@ -13,19 +13,19 @@
 <mat-nav-list class="navlist">
   <mat-accordion class="headers-align" [displayMode]="'flat'">
 
-    <a mat-list-item>
+    <a mat-list-item (click)="onRoute()">
       Manage all users
     </a>
 
-    <a mat-list-item>
+    <a mat-list-item routerLink="/media/videos" (click)="onRoute()">
       Manage videos
     </a>
 
-    <a mat-list-item>
+    <a mat-list-item routerLink="/media/photos" (click)="onRoute()">
       Manage photos
     </a>
 
-    <a mat-list-item>
+    <a mat-list-item (click)="onRoute()">
       Import excel file
     </a>
 

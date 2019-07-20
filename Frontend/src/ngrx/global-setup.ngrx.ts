@@ -9,7 +9,7 @@ import { UIState } from './user-interface/ui.state';
 
 export interface AppState {
   auth: AuthState,
-  ui: UIState
+  ui: UIState,
 }
 
 export const reducers: ActionReducerMap<AppState> = {
