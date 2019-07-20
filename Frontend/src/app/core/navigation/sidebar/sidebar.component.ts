@@ -21,4 +21,8 @@ export class SidebarComponent implements OnInit {
   public close() {
     this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Close);
   }
+
+  public onRoute() {
+    this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
+  }
 }
