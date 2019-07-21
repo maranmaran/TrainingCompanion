@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MediaType } from 'src/server-models/enums/media-type.enum';
+import { MediaService } from 'src/business/services/media.service';
 
 @Component({
   selector: 'app-user-videos',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserVideosComponent implements OnInit {
 
-  constructor() { }
+  fileTypesToAccept = "video/*";
+  mediaType = MediaType.Video;
+
+  constructor(
+    private mediaService: MediaService
+  ) { }
 
   ngOnInit() {
   }
+
+  
 
 }
