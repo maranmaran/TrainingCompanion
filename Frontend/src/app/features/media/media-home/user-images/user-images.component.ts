@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MediaType } from 'src/server-models/enums/media-type.enum';
+import { MediaService } from 'src/business/services/media.service';
 
 @Component({
   selector: 'app-user-images',
@@ -7,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserImagesComponent implements OnInit {
 
-  constructor() { }
+  fileTypesToAccept = "image/*";
+  mediaType = MediaType.Image;
+
+  constructor(
+    private mediaService: MediaService
+  ) { }
 
   ngOnInit() {
   }
