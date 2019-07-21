@@ -10,6 +10,7 @@ import { mediaReducer } from 'src/ngrx/media/media.reducers';
 import { MediaEffects } from 'src/ngrx/media/media.effects';
 import { UserVideosComponent } from './media-home/user-videos/user-videos.component';
 import { UserImagesComponent } from './media-home/user-images/user-images.component';
+import { MediaUploaderComponent } from './media-uploader/media-uploader.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { UserImagesComponent } from './media-home/user-images/user-images.compon
     declarations: [
         MediaHomeComponent,
         UserVideosComponent,
-        UserImagesComponent
+        UserImagesComponent,
+        MediaUploaderComponent
     ],
     exports: [
     ],
