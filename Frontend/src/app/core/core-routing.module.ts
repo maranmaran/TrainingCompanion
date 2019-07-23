@@ -7,7 +7,7 @@ import { AppContainerComponent } from './app-container/app-container.component';
 const routes: Routes = [
     { path: 'auth', loadChildren: () => import('src/app/features/authorization/auth.module').then(mod => mod.AuthModule) },    
     {
-        path: '', resolve: { CurrentUserResolver }, component: AppContainerComponent, canActivate: [AuthGuard], children: [
+        path: '', resolve: { currentUser: CurrentUserResolver }, component: AppContainerComponent, canActivate: [AuthGuard], children: [
             { path: 'settings', component: AppContainerComponent, children: [
                     { path: 'general', data: { section: 'General' }, component: AppContainerComponent },
                     { path: 'account', data: { section: 'Account' }, component: AppContainerComponent },

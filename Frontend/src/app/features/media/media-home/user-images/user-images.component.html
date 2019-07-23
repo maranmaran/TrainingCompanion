@@ -1,7 +1,27 @@
 <div class="body-container" fxLayout="column">
     <app-media-uploader fxFlex [fileTypesToAccept]="fileTypesToAccept" [mediaType]="mediaType"></app-media-uploader>
     
-    <div fxFlexOffset="1rem">
-        LIST
+    <div fxLayout="row wrap" fxFlexOffset="1rem">
+        
+        <ng-container *ngFor="let image of images">
+            <div 
+            class="image-container"
+            
+            fxLayout="row" 
+            fxLayoutAlign="center center" 
+
+            fxFlex="0 1 calc(10%)" 
+            fxFlex.lt-xl="0 1 calc(20%)" 
+            fxFlex.xs="0 1 calc(33.3%)"
+            fxFlexAlign="center"
+            >
+                <img 
+                    class="img-fluid"
+                    src="{{ image.downloadUrl }}" 
+                    (click)="enlargeImage(image)" 
+                    appMaterialElevation raisedElevation="16"/>
+            </div>
+        </ng-container>
+
     </div>
 </div>

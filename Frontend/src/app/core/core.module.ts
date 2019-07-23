@@ -34,10 +34,13 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers, metaReducers } from 'src/ngrx/global-setup.ngrx';
 import { EffectsModule } from '@ngrx/effects';
+import { MediaDialogComponent } from '../shared/media-dialog/media-dialog.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
     imports: [
+        SharedModule,
         CommonModule,
         BrowserAnimationsModule,
         CoreRoutingModule,
@@ -55,10 +58,6 @@ import { EffectsModule } from '@ngrx/effects';
             }}),
         StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
         EffectsModule.forRoot(CoreEffects),
-        // StoreRouterConnectingModule.forRoot({
-        //     stateKey: 'router',
-        //     routerState: RouterState.Minimal
-        // })
     ],
     declarations: [
         AppContainerComponent,
@@ -73,10 +72,6 @@ import { EffectsModule } from '@ngrx/effects';
         StripeCheckoutComponent,
         AccountComponent,
         GeneralComponent,
-        
-        ErrorSnackbarComponent,
-        MessageDialogComponent,
-        ConfirmDialogComponent,
     ],
     exports: [
         AvatarModule,
@@ -84,7 +79,6 @@ import { EffectsModule } from '@ngrx/effects';
         ReactiveFormsModule,
         MaterialModule,
         RouterModule,
-        SanitizeHtmlPipe
     ],
     providers: [
         CookieService,

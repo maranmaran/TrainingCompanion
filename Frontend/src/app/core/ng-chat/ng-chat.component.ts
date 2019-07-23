@@ -397,8 +397,7 @@ export class NgChat implements OnInit, IChatController {
 
     enlargeImage(message: Message) {
 
-        console.log(message.type);
-        const dialogRef = this.dialog.open(MediaDialogComponent, {
+       this.dialog.open(MediaDialogComponent, {
             height: 'auto',
             width: '98%',
             maxWidth: '58rem',
@@ -406,9 +405,6 @@ export class NgChat implements OnInit, IChatController {
             data: { type: message.type, sourceUrl: message.downloadUrl},
             panelClass: 'media-dialog-container'
           });
-      
-          dialogRef.afterClosed().pipe(take(1)).subscribe((result: string) => {}
-          );
     }
 
     fetchMessageHistory(window: Window) {

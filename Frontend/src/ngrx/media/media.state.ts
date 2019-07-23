@@ -7,7 +7,7 @@ export interface MediaState {
 }
 
 export const initialMediaState: MediaState = {
-    videos: [],
-    images: [],
-    files: [],
+    videos: undefined,
+    images: undefined,
+    files: undefined,
 };

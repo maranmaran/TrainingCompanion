@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { AuthState } from './auth.state';
 import { UserSettings } from 'src/server-models/entities/user-settings.model';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
 
