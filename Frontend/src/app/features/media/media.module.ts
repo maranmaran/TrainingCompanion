@@ -11,6 +11,9 @@ import { MediaEffects } from 'src/ngrx/media/media.effects';
 import { UserVideosComponent } from './media-home/user-videos/user-videos.component';
 import { UserImagesComponent } from './media-home/user-images/user-images.component';
 import { MediaUploaderComponent } from './media-uploader/media-uploader.component';
+import { MediaResolver } from 'src/business/resolvers/media.resolver';
+import { MaterialElevationDirective } from 'src/business/directives/elevation.directive';
+import { MediaDialogComponent } from 'src/app/shared/media-dialog/media-dialog.component';
 
 
 @NgModule({
@@ -24,12 +27,14 @@ import { MediaUploaderComponent } from './media-uploader/media-uploader.componen
         MediaHomeComponent,
         UserVideosComponent,
         UserImagesComponent,
-        MediaUploaderComponent
+        MediaUploaderComponent,
+        MaterialElevationDirective
     ],
     exports: [
     ],
     providers: [
         MediaService,
+        MediaResolver
     ],
     entryComponents: [
     ]

@@ -1,12 +1,29 @@
 <ng-container [ngSwitch]="data.type">
-    <ng-container *ngSwitchCase="3">
-        <img class="img-fluid" src="{{data.sourceUrl}}">
-    </ng-container>
 
-    <ng-container *ngSwitchCase="4">
-        <video width="100%" height="auto" controls>
-            <source src="{{data.sourceUrl}}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-    </ng-container>
+    <div class="media-container">
+
+        <!--TODO: -DO SOMETHING BETTER-->
+        <ng-container *ngSwitchCase="3">
+            <img class="img-fluid" src="{{data.sourceUrl}}">
+        </ng-container>
+        <ng-container *ngSwitchCase="'Image'">
+            <img class="img-fluid" src="{{data.sourceUrl}}">
+        </ng-container>
+
+        <!--TODO: -DO SOMETHING BETTER-->
+        <ng-container *ngSwitchCase="4">
+            <video width="100%" height="auto" controls>
+                <source src="{{data.sourceUrl}}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </ng-container>
+        <ng-container *ngSwitchCase="'Video'">
+            <video width="100%" height="auto" controls>
+                <source src="{{data.sourceUrl}}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </ng-container>
+        
+    </div>
+
 </ng-container>
