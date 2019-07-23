@@ -6,6 +6,7 @@ import { url } from 'inspector';
 import { constructor } from 'assert';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
+import { MediaFile } from 'src/server-models/entities/media-file.model';
 
 
 export class MediaService extends BaseService {
@@ -21,13 +22,8 @@ export class MediaService extends BaseService {
 
   public getUserMediaByType(userId: string, type: MediaType) {
 
-    return this.http
-      .get<MediaType[]>(
-        this.url + 'GetUserMediaByType/' + userId + '/' + type
-      )
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.get<MediaFile[]>(this.url + 'GetUserMediaByType/' + userId + '/' + type)
+      .pipe(catchError(this.handleError));
   }
 
   public uploadMedia(userId: string, file: File, extension: string, type: MediaType) {
@@ -39,10 +35,8 @@ export class MediaService extends BaseService {
     formData.append('type', type);
 
     return this.http
-      .post<MediaType[]>(this.url + 'uploadMedia/', formData)
-      .pipe(
-        catchError(this.handleError)
-      );
+      .post<MediaFile>(this.url + 'uploadMedia/', formData)
+      .pipe(catchError(this.handleError));
   }
 
 

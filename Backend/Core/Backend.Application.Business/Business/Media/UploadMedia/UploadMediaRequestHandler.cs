@@ -30,7 +30,7 @@ namespace Backend.Application.Business.Business.Media.UploadMedia
             try
             {
                 // save to s3
-                var filename = "media/{request.UserId}/{request.Type.ToString()}/{new Guid()}";
+                var filename = $"media/{request.UserId}/{request.Type.ToString()}/{Guid.NewGuid()}";
                 var fileRequest = new S3FileRequest(filename);
 
                 await _s3AccessService.WriteStreamToS3(fileRequest, request.File.OpenReadStream());

@@ -45,6 +45,7 @@ export class CurrentUserResolver implements Resolve<CurrentUser | void> {
                             map((currentUser: CurrentUser) => {
                                 this.store.dispatch(updateCurrentUser(currentUser));
                                 this.uiService.showSubscriptioninfoDialogOnLogin();
+                                this.store.dispatch(setActiveProgressBar({progressBar: UIProgressBar.MainAppScreen}));
                             })
                         );
                     }

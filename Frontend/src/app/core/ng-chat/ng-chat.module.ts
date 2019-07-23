@@ -1,3 +1,4 @@
+import { SharedModule } from 'src/app/shared/shared.module';
 import { MediaDialogComponent } from './../../shared/media-dialog/media-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -18,26 +19,24 @@ import { MaterialModule } from 'src/app/shared/angular-material.module';
     CommonModule, 
     FormsModule, 
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    SharedModule,
   ],
   declarations: [
     NgChat, 
     EmojifyPipe, 
     LinkfyPipe, 
-    SanitizeHtmlPipe,
     GroupMessageDisplayNamePipe, 
     NgChatOptionsComponent,
-    MediaDialogComponent,
   ],
   providers: [],
   exports: [
     NgChat,
     SanitizeHtmlPipe,
     MatDialogModule,
-    
+    MediaDialogComponent
   ],
   entryComponents: [
-    MediaDialogComponent
   ]
 })
 export class NgChatModule {
