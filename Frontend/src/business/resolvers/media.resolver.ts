@@ -1,20 +1,16 @@
-import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { EMPTY, of, Observable } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, concatMap, map, take } from 'rxjs/operators';
-import { updateCurrentUser } from 'src/ngrx/auth/auth.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { disableErrorSnackbar, setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { UIProgressBar } from '../shared/ui-progress-bars.enum';
-import { currentUser } from './../../ngrx/auth/auth.selectors';
-import { MediaService } from '../services/media.service';
-import { MediaType } from 'src/server-models/enums/media-type.enum';
-import { images, videos, files, getSelectorByMediaType } from 'src/ngrx/media/media.selectors';
-import { MatExpansionPanelDescription } from '@angular/material/expansion';
 import { mediaFetched } from 'src/ngrx/media/media.actions';
+import { getSelectorByMediaType } from 'src/ngrx/media/media.selectors';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { MediaFile } from 'src/server-models/entities/media-file.model';
+import { MediaType } from 'src/server-models/enums/media-type.enum';
+import { MediaService } from '../services/media.service';
+import { currentUser } from './../../ngrx/auth/auth.selectors';
 
 @Injectable()
 export class MediaResolver implements Resolve<Observable<MediaFile[] | void>> {

@@ -8,7 +8,7 @@ import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { map, take } from 'rxjs/operators';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { mediaUploaded } from 'src/ngrx/media/media.actions';
-import { images } from 'src/ngrx/media/media.selectors';
+import { images, files } from 'src/ngrx/media/media.selectors';
 import { SubSink } from 'subsink';
 
 @Component({
@@ -21,6 +21,8 @@ export class MediaUploaderComponent implements OnInit {
 
   @Input() fileTypesToAccept: string;
   @Input() mediaType: MediaType; 
+  @Input() mediaExtensionToSaveTo: string;
+
   private userId: string;
 
   @ViewChild('uploadInput', {static: false}) uploadInput: ElementRef;
@@ -42,7 +44,9 @@ export class MediaUploaderComponent implements OnInit {
   }
 
   uploadMedia(files: FileList) {
-    this.mediaService.uploadMedia(this.userId, files.item(0), "jpg", MediaType.Image)
+
+    if(files.item(0)) {
+      this.mediaService.uploadMedia(this.userId, files.item(0), this.mediaExtensionToSaveTo, this.mediaType)
       .pipe(take(1))
       .subscribe(
         (media: MediaFile) => {
@@ -50,6 +54,12 @@ export class MediaUploaderComponent implements OnInit {
         },
         (err: HttpErrorResponse) => console.log(err)
       );
+
+      // clear input file because the filepath remains the same
+      this.uploadInput.nativeElement.value = '';
+    }
+
+    // else cancelled..
   }
 
 }

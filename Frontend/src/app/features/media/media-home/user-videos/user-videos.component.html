@@ -1,8 +1,26 @@
 <div class="body-container" fxLayout="column">
-        <app-media-uploader fxFlex [fileTypesToAccept]="fileTypesToAccept" [mediaType]="mediaType"></app-media-uploader>
-        
-        <div fxFlexOffset="1rem">
-            LIST
-        </div>
+    <app-media-uploader fxFlex [fileTypesToAccept]="fileTypesToAccept" [mediaType]="mediaType" mediaExtensionToSaveTo="mp4"></app-media-uploader>
+
+    <div fxLayout="row wrap" fxFlexOffset="1rem">
+
+        <ng-container *ngFor="let video of videos">
+
+            <div class="video-container" 
+                fxLayout="row" 
+                fxLayoutAlign="center center" 
+                fxFlex="0 1 calc(10%)"
+                fxFlex.lt-xl="0 1 calc(20%)" 
+                fxFlex.xs="0 1 calc(33.3%)" 
+                fxFlexAlign="center">
+
+                <video (click)="enlargeVideo(video)" appMaterialElevation raisedElevation="16">
+                    <source src="{{video.downloadUrl}}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            
+            </div>
+            
+        </ng-container>
+
     </div>
-    
+</div>
