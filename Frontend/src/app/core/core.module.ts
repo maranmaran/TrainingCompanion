@@ -36,6 +36,8 @@ import { reducers, metaReducers } from 'src/ngrx/global-setup.ngrx';
 import { EffectsModule } from '@ngrx/effects';
 import { MediaDialogComponent } from '../shared/media-dialog/media-dialog.component';
 import { SharedModule } from '../shared/shared.module';
+import {RouterState, StoreRouterConnectingModule} from '@ngrx/router-store';
+import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
 
 
 @NgModule({
@@ -58,6 +60,11 @@ import { SharedModule } from '../shared/shared.module';
             }}),
         StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
         EffectsModule.forRoot(CoreEffects),
+        StoreRouterConnectingModule.forRoot({
+            stateKey: 'router',
+            routerState: RouterState.Minimal,
+            serializer: CustomSerializer
+        })
     ],
     declarations: [
         AppContainerComponent,

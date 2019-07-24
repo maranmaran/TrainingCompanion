@@ -8,3 +8,16 @@
     }
 }
 
+@media (max-width: 600px) {
+    .image-container{
+        padding: 5px;
+        height: 70px;
+        max-height: 70px;
+        
+        img {
+            max-height: 100%;
+        }
+    }
+    
+    
+}
