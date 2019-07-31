@@ -14,14 +14,16 @@ export class ConfirmDialogComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     protected dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string }) { }
+    @Inject(MAT_DIALOG_DATA) public data: { message: string, allowConfirm: boolean }) { }
 
   ngOnInit() {
   }
 
   navigateToRoute(event) {
     this.goToRoute = event.target.getAttribute('data-link');
-    this.dialogRef.close();
+    console.log(this.goToRoute);
+    if(this.goToRoute)
+      this.dialogRef.close();
   }
 
   ngOnDestroy(): void {

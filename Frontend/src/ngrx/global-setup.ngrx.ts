@@ -1,4 +1,4 @@
-import { routerReducer, BaseRouterStoreState } from '@ngrx/router-store';
+import { routerReducer, BaseRouterStoreState, RouterReducerState } from '@ngrx/router-store';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
 import { AuthEffects } from './auth/auth.effects';
@@ -10,6 +10,7 @@ import { UIState } from './user-interface/ui.state';
 import { RouterState } from '@angular/router';
 
 export interface AppState {
+  router: RouterReducerState,
   auth: AuthState,
   ui: UIState,
 }
