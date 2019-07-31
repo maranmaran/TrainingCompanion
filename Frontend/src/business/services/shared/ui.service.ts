@@ -1,6 +1,6 @@
 import { UISidenav, UISidenavAction } from '../../shared/ui-sidenavs.enum';
 import { Injectable, HostListener } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of, forkJoin } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -9,7 +9,6 @@ import { ConfirmDialogComponent } from '../../../app/shared/confirm-dialog/confi
 import { SnackBarConfig, snackBarDefaultConfig } from '../../shared/snackbar-config.interface'
 import { MatSidenav } from '@angular/material/sidenav';
 import { Dictionary } from 'src/business/utils/dictionary';
-import { DialogConfig } from 'src/business/shared/dialog-config.interface';
 import { Theme, getThemeClass } from 'src/business/shared/theme.enum';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -40,7 +39,7 @@ export class UIService {
 
     // --------------------------------------- DIALOGS ---------------------------------------
 
-    public openDialogFromComponent(component: ComponentType<any>, config?: DialogConfig, callbackAction?: Function) {
+    public openDialogFromComponent(component: ComponentType<any>, config?: MatDialogConfig, callbackAction?: Function) {
         const opts = Object.assign({}, snackBarDefaultConfig, config);
 
         const dialogRef = this.dialog.open(component, opts);
@@ -52,12 +51,14 @@ export class UIService {
             });
     }
 
-    public openConfirmDialog(message: string, action: Function) {
+    public openConfirmDialog(message: string, action: Function, allowConfirm: boolean = true) {
         this.openDialogFromComponent(ConfirmDialogComponent, {
             height: 'auto',
             maxWidth: '20rem',
             autoFocus: false,
-            data: { message: message },
+            disableClose: !allowConfirm,
+            closeOnNavigation: allowConfirm,
+            data: { message: message, allowConfirm: allowConfirm },
         }, action);
     }
 
@@ -178,6 +179,7 @@ export class UIService {
 
                 let message: string;
                 let action: Function;
+                let allowConfirm: boolean = true;
 
                 if (isTrialing && showSplashDialog) {  // TRIALING
                     message = trialMessageHtml(trialDaysRemaining);
@@ -186,13 +188,15 @@ export class UIService {
                 else if (!isTrialing && !isSubscribed) {  // MUST SUBSCRIBE
                     message = trialOverHtml;
                     action = () => { };
+                    allowConfirm = false;
                 }
                 else if (!isTrialing && isSubscribed) {   // SUBSCRIPTION IS INVALID
                     message = invalidSubscriptionHtml;
                     action = this.setSplashDialogDate;
+                    allowConfirm = false;
                 }
 
-                showSplashDialog && this.openConfirmDialog(message, action);
+                showSplashDialog && this.openConfirmDialog(message, action, allowConfirm);
             })
     }
 

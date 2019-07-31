@@ -15,7 +15,7 @@ namespace Backend.API.Controllers
         [HttpGet("{id}/{type}")]
         public async Task<IActionResult> GetUserMediaByType(Guid id, MediaType type, [FromQuery]SieveModel sieveModel)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetUserMediaByTypeRequest() { MediaType = type, UserId = id }), sieveModel);
+            return Ok(await Mediator.Send(new GetUserMediaByTypeRequest() { MediaType = type, UserId = id }));
         }
 
         [HttpPost]
