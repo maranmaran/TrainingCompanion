@@ -39,8 +39,9 @@ export const subscriptionStatus = createSelector(
 export const isSubscribed = createSelector(
     subscriptionStatus,
     (subStatus: SubscriptionStatus) => {
-        switch (subStatus) {
-            case SubscriptionStatus.active:
+
+        switch (subStatus.toString().toLowerCase()) {
+            case SubscriptionStatus[SubscriptionStatus.active]:
                 return true;
             default:
                 return false;

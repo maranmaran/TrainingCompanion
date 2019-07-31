@@ -3,21 +3,24 @@ using Backend.Domain.Entities;
 using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Service.AmazonS3.Models;
 using MediaType = Backend.Domain.Enum.MediaType;
 
 namespace Backend.Application.Business.Business.Media
 {
-    public class GetUserMediaByTypeRequest : IRequest<IQueryable<MediaFile>>
+    public class GetUserMediaByTypeRequest : IRequest<IEnumerable<MediaFile>>
     {
         public Guid UserId { get; set; }
         public MediaType MediaType { get; set; }
     }
 
-    public class GetUserMediaByTypeRequestHandler : IRequestHandler<GetUserMediaByTypeRequest, IQueryable<MediaFile>>
+    public class GetUserMediaByTypeRequestHandler : IRequestHandler<GetUserMediaByTypeRequest, IEnumerable<MediaFile>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IS3AccessService _s3AccessService;
@@ -28,12 +31,20 @@ namespace Backend.Application.Business.Business.Media
             _s3AccessService = s3AccessService;
         }
 
-        public async Task<IQueryable<MediaFile>> Handle(GetUserMediaByTypeRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MediaFile>> Handle(GetUserMediaByTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var media = _context.MediaFiles
-                    .Where(x => x.ApplicationUserId == request.UserId && x.Type == request.MediaType);
+                var media = await _context.MediaFiles
+                    .Where(x => x.ApplicationUserId == request.UserId && x.Type == request.MediaType).ToListAsync(cancellationToken);
+
+                //TODO: Possible performance issue. Fetching all and executing Select * query and then iterating all O(n) and assigning something
+
+                foreach (var mediaFile in media)
+                {
+                    if (_s3AccessService.CheckIfPresignedUrlIsExpired(mediaFile.DownloadUrl))
+                        mediaFile.DownloadUrl = await _s3AccessService.GetPresignedUrlAsync(new S3FileRequest(mediaFile.FtpFilePath));
+                }
 
                 return await Task.FromResult(media);
             }

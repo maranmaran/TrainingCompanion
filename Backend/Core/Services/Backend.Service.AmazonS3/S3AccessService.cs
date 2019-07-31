@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Amazon.S3.Util;
 
 namespace Backend.Service.AmazonS3
 {
@@ -109,6 +110,7 @@ namespace Backend.Service.AmazonS3
                     Expires = GetExpirationDate(),
                 };
 
+                
                 var triedTimes = 0;
 
                 while (triedTimes <= _s3Settings.MaxRetryTimes)
@@ -145,7 +147,7 @@ namespace Backend.Service.AmazonS3
 
             var expiryDate = expiryDateOffset.UtcDateTime;
 
-            return expiryDate > DateTime.UtcNow;
+            return DateTime.Compare(expiryDate, DateTime.UtcNow) < 0; // t1 is earlier than t2
         }
 
         /// <summary>
