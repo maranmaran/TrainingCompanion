@@ -63,6 +63,7 @@ export class BillingComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         () => {
+          console.log('cancel subscription')
           this.store.dispatch(cancelSubscription());
         },
         (err: HttpErrorResponse) => {
@@ -103,6 +104,7 @@ export class BillingComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (res: Subscription) => {
+          console.log('add subscription')
           this.store.dispatch(addSubscription(res));
         },
         err => console.log(err),

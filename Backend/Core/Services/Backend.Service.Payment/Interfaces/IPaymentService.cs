@@ -44,8 +44,9 @@ namespace Backend.Service.Payment.Interfaces
         /// <summary>
         /// Gets all available plans
         /// </summary>
+        /// <param name="basic">Gets only basic plans ie. Those specified in the products json. No custom plans created by admin</param>
         /// <returns></returns>
-        Task<IEnumerable<Plan>> GetAvailablePlans();
+        Task<IEnumerable<Plan>> GetAvailablePlans(bool basic = true);
 
         /// <summary>
         /// Gets customers subscription status

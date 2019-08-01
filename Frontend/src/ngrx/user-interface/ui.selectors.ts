@@ -10,9 +10,9 @@ import { asyncScheduler } from 'rxjs';
 
 export const selectUIState = createFeatureSelector<UIState>("ui");
 
-export const showErrorSnackbar = createSelector(
+export const showErrorDialogs = createSelector(
     selectUIState,
-    (uiState: UIState) => uiState.showErrorSnackbar
+    (uiState: UIState) => uiState.showErrorDialogs
 );
 
 export const activeTheme = createSelector(
