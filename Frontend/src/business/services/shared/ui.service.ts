@@ -65,6 +65,8 @@ export class UIService {
     private _fadeOutMessageDialog: MatDialogRef<MessageDialogComponent>;
     public fadeOutMessage(message: string, timeout: number = 1000) {
 
+        console.log('This message has no if... if(ERROR SNACKBAR OR ANYTHING GOD DAMN ELSE');
+
         this._fadeOutMessageDialog && this._fadeOutMessageDialog.close();
 
         this._fadeOutMessageDialog = this.dialog.open(MessageDialogComponent, {

@@ -15,13 +15,13 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
     on(UIActions.disableErrorSnackbar, (state: UIState) => {
         return {
             ...state,
-            showErrorSnackbar: false
+            showErrorDialogs: false
         }   
     }),
     on(UIActions.enableErrorSnackbar, (state: UIState) => {
         return {
             ...state,
-            showErrorSnackbar: true
+            showErrorDialogs: true
         }   
     }),
 

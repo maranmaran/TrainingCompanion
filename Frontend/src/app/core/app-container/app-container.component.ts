@@ -97,6 +97,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   }
   
   onLogout() {
+    console.log('Logout')
     this.store.dispatch(logout());
   }
 

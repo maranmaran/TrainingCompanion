@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Backend.Service.Payment.Models;
+using System.Threading.Tasks;
 
 namespace Backend.Service.Payment.Interfaces
 {
@@ -17,5 +18,11 @@ namespace Backend.Service.Payment.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<string> AddCustomer(string fullName, string email);
+
+        /// <summary>
+        /// Gets serialized model of products from Products.json
+        /// </summary>
+        /// <returns></returns>
+        ProductsViewModel GetProducts();
     }
 }

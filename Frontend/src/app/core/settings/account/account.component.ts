@@ -89,6 +89,7 @@ export class AccountComponent implements OnInit {
             this.currentUser.email = this.email.value;
             
             // set new state but don't pass by reference
+            console.log('Update user')
             this.store.dispatch(updateCurrentUser(Object.assign({}, this.currentUser))); 
           },
           err => console.log(err),

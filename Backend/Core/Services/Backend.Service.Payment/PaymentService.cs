@@ -1,5 +1,4 @@
-﻿using Backend.Service.Payment.Configuration;
-using Backend.Service.Payment.Enums;
+﻿using Backend.Service.Payment.Enums;
 using Backend.Service.Payment.Interfaces;
 using Backend.Service.Payment.Models;
 using Stripe;
@@ -15,6 +14,12 @@ namespace Backend.Service.Payment
 {
     public class PaymentService : IPaymentService
     {
+        private IStripeConfiguration _stripeConfiguration;
+
+        public PaymentService(IStripeConfiguration stripeConfiguration)
+        {
+            _stripeConfiguration = stripeConfiguration;
+        }
 
         public async Task AddPaymentOption(PaymentOption paymentOption)
         {
@@ -113,14 +118,24 @@ namespace Backend.Service.Payment
                 });
         }
 
-        public async Task<IEnumerable<Plan>> GetAvailablePlans()
+        public async Task<IEnumerable<Plan>> GetAvailablePlans(bool basic = true)
         {
             var planService = new PlanService();
 
-            return await planService.ListAsync(new PlanListOptions()
+            var plans = await planService.ListAsync(new PlanListOptions()
             {
                 Active = true,
             });
+
+            // only get those specified in products.json
+            if (basic && plans.Any())
+            {
+                var productNames = _stripeConfiguration.GetProducts().Products.First().Plans.Select(x => x.Name); // only one product.. 3 subscriptions
+
+                plans.Data = plans.Data.Where(x => productNames.Contains(x.Nickname)).ToList();
+            }
+
+            return plans;
         }
 
 

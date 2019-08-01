@@ -52,11 +52,8 @@ namespace Backend.Service.Payment.Configuration
             return customer.Id;
         }
 
-        /// <summary>
-        /// Gets serialized model of products from Products.json
-        /// </summary>
-        /// <returns></returns>
-        private static ProductsViewModel GetProducts()
+
+        public ProductsViewModel GetProducts()
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
                        + "/Configuration/Products.json";
