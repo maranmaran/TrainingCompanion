@@ -50,6 +50,7 @@ export class MediaUploaderComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         (media: MediaFile) => {
+          console.log('Media uploaded');
           this.store.dispatch(mediaUploaded({media}));
         },
         (err: HttpErrorResponse) => console.log(err)

@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // state setup for login component
+    console.log('Login init state setup. Set light theme, login screen bar, disable error snackbar');
     this.store.dispatch(switchTheme({theme: Theme.Light}));
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.LoginScreen}))
     this.store.dispatch(disableErrorSnackbar());
@@ -64,6 +65,7 @@ export class LoginComponent implements OnInit {
         .pipe(take(1))
         .subscribe(
           (currentUser: CurrentUser) => {
+            console.log('Login');
             this.store.dispatch(login(currentUser));
           },
           (err: HttpErrorResponse) => { 
