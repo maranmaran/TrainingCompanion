@@ -1,12 +1,10 @@
-import { UISidenav, UISidenavAction } from '../../shared/ui-sidenavs.enum';
+import { isSubscribed, trialDaysRemaining } from './../../../ngrx/auth/auth.selectors';
 import { Injectable, HostListener } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of, forkJoin } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MessageDialogComponent } from 'src/app/shared/message-dialog/message-dialog.component';
-import { ConfirmDialogComponent } from '../../../app/shared/confirm-dialog/confirm-dialog.component';
-import { SnackBarConfig, snackBarDefaultConfig } from '../../shared/snackbar-config.interface'
 import { MatSidenav } from '@angular/material/sidenav';
 import { Dictionary } from 'src/business/utils/dictionary';
 import { Theme, getThemeClass } from 'src/business/shared/theme.enum';
@@ -15,13 +13,14 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { setMobileScreenFlag, setWebScreenFlag } from 'src/ngrx/user-interface/ui.actions';
 import { OverlayContainer, ComponentType } from '@angular/cdk/overlay';
-import { isTrialing, isSubscribed, trialDaysRemaining } from 'src/ngrx/auth/auth.selectors';
-import * as moment from 'moment';
-import { trialMessageHtml, trialOverHtml, invalidSubscriptionHtml } from 'src/business/shared/popup-templates';
+import { SnackBarConfig, snackBarDefaultConfig } from 'src/business/shared/snackbar-config.interface';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
+import { trialMessageHtml, trialOverHtml } from 'src/business/shared/popup-templates';
+import * as moment from 'moment'
 
 @Injectable({ providedIn: 'root' })
 export class UIService {
-
 
     constructor(
         private store: Store<AppState>,
@@ -30,14 +29,16 @@ export class UIService {
         private overlayContainer: OverlayContainer,
     ) { }
 
-    // --------------------------------------- SNACKBARS ---------------------------------------
+    // #region ================ SNACKBARS ================ 
 
     public openSnackbarFromComponent(component: ComponentType<any>, config?: SnackBarConfig) {
         const opts = Object.assign({}, snackBarDefaultConfig, config);
         this.snackBar.openFromComponent(component, opts);
     }
 
-    // --------------------------------------- DIALOGS ---------------------------------------
+    // #endregion  
+
+    // #region ================ DIALOGS ================ 
 
     public openDialogFromComponent(component: ComponentType<any>, config?: MatDialogConfig, callbackAction?: Function) {
         const opts = Object.assign({}, snackBarDefaultConfig, config);
@@ -49,10 +50,16 @@ export class UIService {
             .subscribe((params) => {
                 callbackAction && callbackAction.call(params)
             });
+
+        return dialogRef;
     }
 
+    confirmDialog: MatDialogRef<any, any>;
     public openConfirmDialog(message: string, action: Function, allowConfirm: boolean = true) {
-        this.openDialogFromComponent(ConfirmDialogComponent, {
+       
+        if(this.confirmDialog) this.confirmDialog.close();
+
+        this.confirmDialog = this.openDialogFromComponent(ConfirmDialogComponent, {
             height: 'auto',
             maxWidth: '20rem',
             autoFocus: false,
@@ -82,46 +89,9 @@ export class UIService {
         }, timeout);
     }
 
-    // --------------------------------------- SIDENAV ---------------------------------------
+    // #endregion  
 
-    private sidenavs = new Dictionary<MatSidenav>();
-
-    public addOrUpdateSidenav(name: UISidenav, sidenav: MatSidenav) {
-        this.sidenavs.addOrUpdate(name, sidenav);
-    }
-
-    public doSidenavAction(name: UISidenav, actionType: UISidenavAction) {
-
-        var sidenav = this.sidenavs.item(name);
-
-        switch (actionType) {
-            case UISidenavAction.Open:
-                sidenav.mode = 'side';
-                sidenav.open();
-                //showMenuButton
-                break;
-
-            case UISidenavAction.Toggle:
-                sidenav.toggle();
-                //showMenuButton
-                break;
-
-            case UISidenavAction.Close:
-                sidenav.mode = 'over';
-                sidenav.close();
-                //this.showSettingsMenuButton = true;
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    public isSidenavOpened(name: string): Observable<boolean> {
-        return of(this.sidenavs.item(name).opened);
-    }
-
-    // --------------------------------------- THEME ---------------------------------------
+    // #region ================ THEME ================ 
 
     public setupTheme(theme: Theme) {
 
@@ -143,7 +113,50 @@ export class UIService {
 
     }
 
-    // --------------------------------------- SCREEN RESIZE ---------------------------------------
+    // #endregion  
+
+    // #region ================ SIDEBARS ================ 
+
+    private sidenavs = new Dictionary<MatSidenav>();
+
+     public addOrUpdateSidenav(name: UISidenav, sidenav: MatSidenav) {
+         this.sidenavs.add(name, sidenav);
+     }
+ 
+     public doSidenavAction(name: UISidenav, actionType: UISidenavAction) {
+ 
+         var sidenav = this.sidenavs.item(name);
+ 
+         switch (actionType) {
+             case UISidenavAction.Open:
+                 sidenav.mode = 'side';
+                 sidenav.open();
+                 //showMenuButton
+                 break;
+ 
+             case UISidenavAction.Toggle:
+                 sidenav.toggle();
+                 //showMenuButton
+                 break;
+ 
+             case UISidenavAction.Close:
+                 sidenav.mode = 'over';
+                 sidenav.close();
+                 //this.showSettingsMenuButton = true;
+                 break;
+ 
+             default:
+                 break;
+         }
+     }
+ 
+     public isSidenavOpened(name: string): Observable<boolean> {
+         return of(this.sidenavs.item(name).opened);
+     }
+
+    // #endregion  
+
+    // #region ================ SCREEN RESIZE ================ 
 
     @HostListener('window:resize', ['$event'])
     protected onResize() {
@@ -166,40 +179,35 @@ export class UIService {
             .subscribe((isMobile: boolean) => isMobile && this.store.dispatch(setWebScreenFlag({ isWeb: true })))
     }
 
-    // --------------------------------------- CUSTOM POPUP MESSAGES ---------------------------------------
+    // #endregion  
 
-    public showSubscriptioninfoDialogOnLogin() {
+    // #region ================ CUSTOM POPUP MESSAGES ================ 
 
-        forkJoin(
+    public showSubscriptioninfoDialogOnLogin(isTrialing: boolean, isSubscribed: boolean, trialDaysRemaining: number) {
 
-            this.store.select(isTrialing).pipe(take(1)),
-            this.store.select(isSubscribed).pipe(take(1)),
-            of(this.showSplashDialog).pipe(take(1)),
-            this.store.select(trialDaysRemaining).pipe(take(1)))
+        let message: string;
+        let action: Function;
+        let allowConfirm: boolean = true;
+        let showSplashDialog = this.showSplashDialog;
 
-            .subscribe(([isTrialing, isSubscribed, showSplashDialog, trialDaysRemaining]) => {
+        if (isTrialing && showSplashDialog) {  // TRIALING
+            message = trialMessageHtml(trialDaysRemaining);
+            action = this.setSplashDialogDate; // set splash dialog date
+        }
+        else if (!isTrialing && !isSubscribed) {  // MUST SUBSCRIBE
+            message = trialOverHtml;
+            action = () => { };
+            allowConfirm = false;
+            showSplashDialog = true; // must show dialog for this
+        }
+        // else if (!isTrialing && isSubscribed) {   // SUBSCRIPTION IS INVALID
+        //     message = invalidSubscriptionHtml;
+        //     action = this.setSplashDialogDate;
+        //     allowConfirm = false;
+        //     showSplashDialog = true; // must show dialog for this
+        // }
 
-                let message: string;
-                let action: Function;
-                let allowConfirm: boolean = true;
-
-                if (isTrialing && showSplashDialog) {  // TRIALING
-                    message = trialMessageHtml(trialDaysRemaining);
-                    action = this.setSplashDialogDate;
-                }
-                else if (!isTrialing && !isSubscribed) {  // MUST SUBSCRIBE
-                    message = trialOverHtml;
-                    action = () => { };
-                    allowConfirm = false;
-                }
-                else if (!isTrialing && isSubscribed) {   // SUBSCRIPTION IS INVALID
-                    message = invalidSubscriptionHtml;
-                    action = this.setSplashDialogDate;
-                    allowConfirm = false;
-                }
-
-                showSplashDialog && this.openConfirmDialog(message, action, allowConfirm);
-            })
+        showSplashDialog && message && this.openConfirmDialog(message, action, allowConfirm);
     }
 
     private setSplashDialogDate() {
@@ -210,5 +218,6 @@ export class UIService {
         const date = localStorage.getItem('splashDialogDate');
         return !date || date != moment(new Date()).utc().format('L');
     }
-}
 
+    // #endregion  
+}

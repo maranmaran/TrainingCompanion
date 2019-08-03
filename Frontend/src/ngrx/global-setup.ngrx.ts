@@ -1,4 +1,4 @@
-import { routerReducer, BaseRouterStoreState, RouterReducerState } from '@ngrx/router-store';
+import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
 import { AuthEffects } from './auth/auth.effects';
@@ -7,7 +7,7 @@ import { AuthState } from './auth/auth.state';
 import { UIEffects } from './user-interface/ui.effects';
 import { uiReducer } from './user-interface/ui.reducers';
 import { UIState } from './user-interface/ui.state';
-import { RouterState } from '@angular/router';
+import { RunEffects } from './run.effects';
 
 export interface AppState {
   router: RouterReducerState,
@@ -35,4 +35,5 @@ export const metaReducers: MetaReducer<AppState>[] =
   !environment.production ? [] : [];
 // !environment.production ? [stateLogger] : [];
 
-export const CoreEffects = [AuthEffects, UIEffects];
+export const CoreEffects = [RunEffects, AuthEffects, UIEffects];
+

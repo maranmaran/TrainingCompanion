@@ -1,23 +1,20 @@
-import { cancelSubscription } from './../../../../ngrx/auth/auth.actions';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { Token } from 'ngx-stripe';
+import { combineLatest } from 'rxjs/internal/observable/combineLatest';
 import { concatMap, take } from 'rxjs/operators';
 import { BillingService } from 'src/business/services/billing.service';
-import { UIService } from 'src/business/services/shared/ui.service';
-import { CurrentUserStore } from 'src/business/stores/current-user.store';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { StripeCheckoutComponent } from './stripe-checkout/stripe-checkout.component';
-import { Subscription } from 'src/server-models/stripe/subscription.model';
-import { Plan } from 'src/server-models/stripe/plan.model';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { Store } from '@ngrx/store';
-import { currentUser, isSubscribed } from 'src/ngrx/auth/auth.selectors';
 import { addSubscription } from 'src/ngrx/auth/auth.actions';
-import { forkJoin } from 'rxjs/internal/observable/forkJoin';
-import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { currentUser, isSubscribed } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { Plan } from 'src/server-models/stripe/plan.model';
+import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { SubSink } from 'subsink';
+import { cancelSubscription } from './../../../../ngrx/auth/auth.actions';
+import { StripeCheckoutComponent } from './stripe-checkout/stripe-checkout.component';
 
 @Component({
   selector: "app-billing",

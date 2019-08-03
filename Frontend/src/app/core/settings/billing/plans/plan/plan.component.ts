@@ -10,7 +10,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class PlanComponent implements OnInit {
 
   @Input() plan: Plan;
-  @Input() color: string;
+  @Input() colorIndex: number;
   @Output() subscribe = new EventEmitter<string>();
   @Input() showSubscribeButton = true;
 

@@ -1,0 +1,6 @@
+@import "./application.palette.scss";
+@import "~@angular/material/theming";
+
+$primary: $mat-blue;
+$accent: $mat-cyan;
+$warning: $mat-red;

@@ -19,7 +19,6 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(req)
             .pipe(
                 catchError(errorMessage => {
-                    console.log('ERROR');
                     this.store.dispatch(httpErrorOccured(errorMessage))
                     return throwError(errorMessage);
                 }),

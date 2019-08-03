@@ -26,7 +26,7 @@ import { UISidenavAction } from './../../../business/shared/ui-sidenavs.enum';
   selector: 'app-app-container',
   templateUrl: './app-container.component.html',
   styleUrls: ['./app-container.component.scss'],
-  providers: [ChatService, PushNotificationsService, SignalrNgChatAdapter]
+  providers: []
 })
 export class AppContainerComponent implements OnInit, OnDestroy {
 
@@ -42,6 +42,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
 
   constructor(
+    private activeRoute: ActivatedRoute,
     public store: Store<AppState>,
     protected chatService: ChatService,
     protected chatAdapter: SignalrNgChatAdapter,
@@ -53,7 +54,8 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+ 
+    
     // get user full name from store
     this.store.select(currentUser).pipe(take(1)).subscribe((user: CurrentUser) => this.userFullName = user.fullName);
 

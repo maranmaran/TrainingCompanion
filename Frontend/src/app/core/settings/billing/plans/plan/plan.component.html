@@ -1,13 +1,13 @@
 <div class="plan-card mat-elevation-z3 flex-center" >
-  <div class="plan-card-header flex-center" [ngStyle]="{'background': color}">
+  <div class="plan-card-header-{{colorIndex}} flex-center">
     <h2 class="plan-name"> {{ plan.nickname }} </h2>
   </div>
   <div class="plan-card-body">
-    <p class="plan-price" [ngStyle]="{'color': color }"> {{ plan.amount / 100 }}$</p>
+    <p class="plan-price"> {{ plan.amount / 100 }}$</p>
     <p class="plan-interval"> per {{ plan.interval | uppercase }} </p>
     <p class="plan-users">  Max {{ plan.metadata.MaxUsers }} <i class="fas fa-users"></i> </p>
   </div>
   <div class="plan-card-footer" *ngIf="showSubscribeButton">
-    <button mat-stroked-button (click)="subscribe.emit(plan.id)" [ngStyle]="{'background': color, 'font-weight': 'bold'}">Subscribe</button>
+    <button id="plan-subscribe-button-{{colorIndex}}" mat-stroked-button (click)="subscribe.emit(plan.id)">Subscribe</button>
   </div>
 </div>

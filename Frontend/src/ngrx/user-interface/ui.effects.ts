@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { tap, withLatestFrom } from 'rxjs/operators';
 import { AppState } from '../global-setup.ngrx';
-import { UIService } from './../../business/services/shared/ui.service';
+import { UIService } from '../../business/services/shared/ui.service';
 import * as UIActions from './ui.actions';
 import { showErrorDialogs } from './ui.selectors';
 
