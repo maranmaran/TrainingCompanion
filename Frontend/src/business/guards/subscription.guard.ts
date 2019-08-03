@@ -30,11 +30,11 @@ export class SubscriptionGuard implements CanActivateChild {
 
       .pipe(map(([isTrialing, isSubscribed, trialDaysRemaining]) => {
 
-        this.UIService.showSubscriptioninfoDialogOnLogin(isTrialing, isSubscribed, trialDaysRemaining);
+        !allowedToNavigate && this.UIService.showSubscriptioninfoDialogOnLogin(isTrialing, isSubscribed, trialDaysRemaining);
 
-        if (isTrialing || isSubscribed || allowedToNavigate) return true;
+        // if (isTrialing || isSubscribed || allowedToNavigate) return true;
 
-        return false;
+        return true;
 
       }));
   }
