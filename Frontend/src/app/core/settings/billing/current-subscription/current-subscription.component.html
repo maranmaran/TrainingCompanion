@@ -1,12 +1,12 @@
 <div *ngIf="subscription" id="current-subscription" 
-fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px">
+ fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px" fxLayoutAlign="center center">
 
-  <div id="subscription-placeholder" fxFlex>
+  <div id="subscription-placeholder">
     <app-plan [plan]="subscription.plan" [showSubscribeButton]="false"
       [colorIndex]="1"></app-plan>
   </div>
 
-  <div id="body" fxFlex fxLayout="column" fxLayoutAlign="center center">
+  <div id="body" fxFlexOffset="2rem" fxLayout="column" fxLayoutAlign="center center">
 
     <div id="details" >
       <label><b>Status:</b></label>

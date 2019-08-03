@@ -23,6 +23,13 @@ export class Dictionary<T> {
         }
     }
 
+    public addOrUpdate(key: string, value: T) {
+        if(!this.items.hasOwnProperty(key)) {
+            this._count++;
+        }
+        this.items[key] = value;
+    }
+
     public update(key: string, value: T) {
         if(this.items.hasOwnProperty(key)) {
             this.items[key] = value;

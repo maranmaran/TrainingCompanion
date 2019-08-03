@@ -13,8 +13,13 @@
   right: 0;
 }
 
+.content {
+  height: 946px;
+}
+
 @media (max-width: 600px) {
   .sidenav {
     width: 70%;
   }
 }
+
