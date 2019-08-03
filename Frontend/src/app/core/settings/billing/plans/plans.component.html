@@ -1,5 +1,5 @@
-<div fxFlex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column"  fxLayoutGap="10px">
+<div fxFlex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="center center" fxLayoutGap="10px">
   <ng-container *ngFor="let plan of plans; let i = index">
-    <app-plan fxFlex [plan]="plan" [colorIndex]="i" (subscribe)=onSubscribe($event)></app-plan>
+    <app-plan [plan]="plan" [colorIndex]="i" (subscribe)=onSubscribe($event)></app-plan>
   </ng-container>
 </div>

@@ -120,7 +120,7 @@ export class UIService {
     private sidenavs = new Dictionary<MatSidenav>();
 
      public addOrUpdateSidenav(name: UISidenav, sidenav: MatSidenav) {
-         this.sidenavs.add(name, sidenav);
+         this.sidenavs.addOrUpdate(name, sidenav);
      }
  
      public doSidenavAction(name: UISidenav, actionType: UISidenavAction) {

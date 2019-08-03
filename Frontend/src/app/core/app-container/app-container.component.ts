@@ -42,7 +42,6 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private activeRoute: ActivatedRoute,
     public store: Store<AppState>,
     protected chatService: ChatService,
     protected chatAdapter: SignalrNgChatAdapter,
@@ -99,7 +98,6 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   }
   
   onLogout() {
-    console.log('Logout')
     this.store.dispatch(logout());
   }
 

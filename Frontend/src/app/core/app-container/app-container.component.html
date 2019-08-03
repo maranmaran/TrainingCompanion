@@ -6,16 +6,20 @@
 
   <mat-sidenav-content>
     
-      <app-toolbar 
-      [fullName]="userFullName" 
-      [loading$]="loading$"
-      (openSettingsEvent)="onOpenSettings($event)" 
-      (toggleSidenavEvent)="onToggleSidebar($event)" 
-      (logoutEvent)="onLogout($event)" 
+        <app-toolbar 
+          [fullName]="userFullName" 
+          [loading$]="loading$"
+          (openSettingsEvent)="onOpenSettings($event)" 
+          (toggleSidenavEvent)="onToggleSidebar($event)" 
+          (logoutEvent)="onLogout($event)" 
       ></app-toolbar>
+     
+      <div class="content">
+        <router-outlet></router-outlet>
+        <ng-chat [hideFriendsList]="true" fxHide.xs [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>
+      </div>
 
-      <router-outlet></router-outlet>
-      <ng-chat [hideFriendsList]="true" fxHide.xs [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>
-  </mat-sidenav-content>
+  
+    </mat-sidenav-content>
 
 </mat-sidenav-container>
