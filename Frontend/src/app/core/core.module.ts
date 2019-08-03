@@ -1,7 +1,7 @@
-import { CoreEffects } from './../../ngrx/global-setup.ngrx';
+import { CoreEffects, AppState } from './../../ngrx/global-setup.ngrx';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -15,7 +15,6 @@ import { environment } from 'src/environments/environment';
 import { MaterialModule } from '../shared/angular-material.module';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
 import { ErrorSnackbarComponent } from '../shared/error-snackbar/error-snackbar.component';
-import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { MessageDialogComponent } from './../shared/message-dialog/message-dialog.component';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { CoreRoutingModule } from './core-routing.module';
@@ -30,14 +29,21 @@ import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stri
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NgChatModule } from './ng-chat/ng-chat.module';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers, metaReducers } from 'src/ngrx/global-setup.ngrx';
-import { EffectsModule } from '@ngrx/effects';
-import { MediaDialogComponent } from '../shared/media-dialog/media-dialog.component';
+import { EffectsModule, Actions } from '@ngrx/effects';
 import { SharedModule } from '../shared/shared.module';
-import {RouterState, StoreRouterConnectingModule} from '@ngrx/router-store';
+import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
+import { ChatService } from 'src/business/services/chat.service';
+import { PushNotificationsService } from 'src/business/services/push-notification.service';
+import { SignalrNgChatAdapter } from './ng-chat/signalr-ng-chat-adapter';
+import { startAppInitializer, loadCurrentUser, stopAppInitializer } from 'src/ngrx/run.effects';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { filter } from 'rxjs/internal/operators/filter';
+import { take } from 'rxjs/operators';
+import { initApplication } from 'src/business/services/shared/app.initializer';
 
 
 @NgModule({
@@ -54,11 +60,12 @@ import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
         NgChatModule,
         StoreModule.forRoot(reducers, {
             metaReducers,
-            runtimeChecks : {
+            runtimeChecks: {
                 strictStateImmutability: true,
                 strictActionImmutability: true,
-            }}),
-        StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+            }
+        }),
+        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
         EffectsModule.forRoot(CoreEffects),
         StoreRouterConnectingModule.forRoot({
             stateKey: 'router',
@@ -70,7 +77,7 @@ import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
         AppContainerComponent,
         SidebarComponent,
         ToolbarComponent,
-        
+
         SettingsComponent,
         BillingComponent,
         PlansComponent,
@@ -88,10 +95,14 @@ import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
         RouterModule,
     ],
     providers: [
+        ChatService, // signalr connections must be singleton in this case
+        PushNotificationsService,
+        SignalrNgChatAdapter,
         CookieService,
         APP_SETTINGS_PROVIDER,
         { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: APP_INITIALIZER, useFactory: initApplication, multi: true, deps: [Store, Actions] }
     ],
     entryComponents: [
         ErrorSnackbarComponent,
@@ -102,3 +113,4 @@ import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
     ]
 })
 export class CoreModule { }
+

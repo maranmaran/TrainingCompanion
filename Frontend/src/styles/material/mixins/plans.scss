@@ -1,0 +1,22 @@
+@import "~@angular/material/theming";
+
+@mixin plans-component-theme($theme) {
+  $primary: mat-color(map-get($theme, primary));
+  $accent: mat-color(map-get($theme, accent));
+  $warn: mat-color(map-get($theme, warn));
+
+  .plan-card-header-0,
+  #plan-subscribe-button-0 {
+    background-color: $primary;
+  }
+
+  .plan-card-header-1,
+  #plan-subscribe-button-1 {
+    background-color: $accent;
+  }
+
+  .plan-card-header-2,
+  #plan-subscribe-button-2 {
+    background-color: $warn;
+  }
+}

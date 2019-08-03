@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
-import { Subject } from 'rxjs';
+import { Subject, EMPTY, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { CurrentUserStore } from '../stores/current-user.store';
 import { BaseService } from './base.service';
 
 @Injectable({ providedIn: 'root'})
@@ -20,7 +19,6 @@ export class AuthService extends BaseService {
     private http: HttpClient,
     private router: Router,
     private cookieService: CookieService,
-    private currentUserStore: CurrentUserStore,
   ) {
     super();
   }
@@ -34,7 +32,12 @@ export class AuthService extends BaseService {
 
   public getCurrentUserInfo() {
     const userId = localStorage.getItem('id');
-    if(!userId) this.router.navigate(['/auth/login']);
+
+    if(!userId) {
+      this.router.navigate(['/auth/login']);
+      return of(null);
+    }
+
     return this.http.get<CurrentUser>(this.url + 'CurrentUserInformation' + `/${userId}`)
       .pipe(
         catchError(this.handleError)

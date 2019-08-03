@@ -49,7 +49,8 @@ export const authReducer: ActionReducer<AuthState, Action> = createReducer(
             ...state,
             currentUser: {
                 ...state.currentUser,
-                subscriptionInfo: subscriptionInfo
+                subscriptionInfo: subscriptionInfo,
+                subscriptionStatus: SubscriptionStatus[subscriptionInfo.status]
             }
         };
     }),

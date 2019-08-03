@@ -1,55 +1,30 @@
-
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 @include mat-core();
 
-@import './material/themes/theme-light.scss';
-@import './material/themes/theme-dark.scss';
+// ====================== MIXINS ======================
+
+@import "./mixins/splash.scss";
+@import "./mixins/plans.scss";
+@import "./mixins/links.scss";
+
+@mixin custom-components-theme($theme) {
+  @include splash-component-theme($theme);
+  @include plans-component-theme($theme);
+  @include links-component-theme($theme);
+}
+
+// ====================== MAIN CORE THEMES ======================
+
+@import "./material/themes/theme-light.scss";
 
 .theme-light {
   @include angular-material-theme($theme-light);
+  @include custom-components-theme($theme-light);
 }
+
+@import "./material/themes/theme-dark.scss";
 
 .theme-dark {
   @include angular-material-theme($theme-dark);
+  @include custom-components-theme($theme-dark);
 }
-
-
-// //basic styles
-// @import "./basic-styles/bdx-foreground-colors.scss";
-// @import "./basic-styles/bdx-background-colors.scss";
-
-// @mixin basic-styles($theme) {
-//   @include bdx-foreground-colors($theme);
-//   @include bdx-background-colors($theme);
-// }
-
-// // custom components themes
-// @import "./custom-components/bdx-navbar.theme.scss";
-// @import "./custom-components/bdx-expansion-panel.theme.scss";
-// @import "./custom-components/bdx-table.theme.scss";
-// @import "./custom-components/buttons/bdx-icon-buttons-size.theme.scss";
-// @import "./custom-components/buttons/bdx-buttons-color.theme.scss";
-// @import "./custom-components/bdx-headers.theme.scss";
-// @import "./custom-components/bdx-cards.theme.scss";
-// @import "./custom-components/bdx-alert.theme.scss";
-// @import "./custom-components/bdx-scrollbar.theme.scss";
-// @import "./custom-components/bdx-chips.theme.scss";
-
-// @mixin custom-components-theme($theme) {
-//   @include bdx-navbar-theme($theme);
-//   @include bdx-expansion-panel-theme($theme);
-//   @include bdx-table-theme($theme);
-//   @include bdx-headers-theme($theme);
-//   @include bdx-icon-buttons-size-theme($theme);
-//   @include bdx-buttons-color-theme($theme);
-//   @include bdx-cards-theme($theme);
-//   @include bdx-alert-theme($theme);
-//   @include bdx-scrollbar-theme($theme);
-//   @include bdx-chips-theme($theme);
-// }
-
-// .bdx-theme {
-//   @include angular-material-theme($bdx-theme);
-//   @include custom-components-theme($bdx-theme);
-//   @include basic-styles($bdx-theme);
-// }

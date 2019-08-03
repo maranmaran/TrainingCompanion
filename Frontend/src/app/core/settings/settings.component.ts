@@ -41,7 +41,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // store state setup
-    console.log('set active settings bar');
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SettingsScreen}));
     this.isUser = this.store.select(isUser);
 
@@ -54,14 +53,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('set active main app');
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen}));
 
     // route to root component path if section is given (means it came from some deeplink)
     this.data.section && this.router.navigate(['']);
   }
 
-  public onClose = () => this.dialogRef.close('Closed');
+  public onClose = () => {
+    this.dialogRef.close();
+  };
 
   public openTab = (tab: 'General' | 'Account' | 'Billing') =>  {
     this.activeTab = tab;

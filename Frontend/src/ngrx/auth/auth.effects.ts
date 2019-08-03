@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../global-setup.ngrx';
 import { switchTheme } from '../user-interface/ui.actions';
 import { UserSettings } from 'src/server-models/entities/user-settings.model';
+import { Subscription } from 'src/server-models/stripe/subscription.model';
 
 
 @Injectable()
@@ -65,5 +66,4 @@ export class AuthEffects {
                 })
             )
         , { dispatch: false });
-
 }

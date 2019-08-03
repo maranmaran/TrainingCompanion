@@ -1,0 +1,10 @@
+@import "~@angular/material/theming";
+
+@mixin links-component-theme($theme) {
+  $accent: mat-color(map-get($theme, accent));
+
+  a {
+      color: $accent;
+  }
+
+}
