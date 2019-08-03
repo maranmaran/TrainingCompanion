@@ -1,4 +1,4 @@
-@import "../palettes/material-dark.palette.scss";
+@import "./palettes/material-dark.palette.scss";
 @import "~@angular/material/theming";
 
 $theme-dark-primary: mat-palette($mat-blue, 700, 300, 900);

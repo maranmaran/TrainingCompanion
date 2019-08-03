@@ -41,7 +41,7 @@ export const isSubscribed = createSelector(
     (subStatus: SubscriptionStatus) => {
   
         switch (subStatus.toString().toLowerCase()) {
-            case SubscriptionStatus[SubscriptionStatus.active]:
+            case SubscriptionStatus.active:
                 return true;
             default:
                 return false;

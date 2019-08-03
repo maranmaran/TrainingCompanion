@@ -2,7 +2,7 @@
  
   border-radius: 10px !important;
 
-  & .plan-card-header {
+  & [class*="plan-card-header-"] {
 
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;

@@ -35,7 +35,7 @@
     <div class="container" fxLayout="column">
 
       <!-- menu button for settings sidenav -->
-      <div [class.mb-3]='!(uiService.isSidenavOpened("Settings") | async)'>
+      <div class="mb-3">
           <button class="float-left" [fxShow]='!(uiService.isSidenavOpened("Settings") | async)' mat-icon-button color="accent"
             (click)="toggleSidenav()">
             <i class="fas fa-bars"></i>

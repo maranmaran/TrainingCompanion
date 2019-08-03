@@ -16,11 +16,17 @@ export class Dictionary<T> {
         return this._count;
     }
 
-    public addOrUpdate(key: string, value: T) {
-        if(!this.items.hasOwnProperty(key))
-             this._count++;
- 
-        this.items[key] = value;
+    public add(key: string, value: T) {
+        if(!this.items.hasOwnProperty(key)) {
+            this._count++;
+            this.items[key] = value;
+        }
+    }
+
+    public update(key: string, value: T) {
+        if(this.items.hasOwnProperty(key)) {
+            this.items[key] = value;
+        }
     }
  
     public remove(key: string): T {

@@ -144,10 +144,10 @@ namespace Backend.Application.Business.Business.Chat
 
                     Clients.All.SendAsync("friendsListChanged");
                 }
-                else
-                {
-                    throw new InvalidOperationException("User can't be disconnecting if he never connected");
-                }
+                //else
+                //{
+                //    throw new InvalidOperationException("User can't be disconnecting if he never connected");
+                //}
 
                 return base.OnDisconnectedAsync(exception);
             }

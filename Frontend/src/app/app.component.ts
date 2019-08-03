@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme, getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
-import { UIService } from './../business/services/shared/ui.service';
+import { UIService } from '../business/services/shared/ui.service';
 
 @Component({
   selector: 'app-root',

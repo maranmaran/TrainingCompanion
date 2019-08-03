@@ -9,8 +9,8 @@ import { disableErrorSnackbar, setActiveProgressBar } from 'src/ngrx/user-interf
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { UIProgressBar } from '../shared/ui-progress-bars.enum';
 import { AuthService } from '../services/auth.service';
-import { UIService } from '../services/shared/ui.service';
 import { currentUser } from './../../ngrx/auth/auth.selectors';
+import { UIService } from '../services/shared/ui.service';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserResolver implements Resolve<CurrentUser | void> {
@@ -18,42 +18,15 @@ export class CurrentUserResolver implements Resolve<CurrentUser | void> {
     constructor(
         private router: Router,
         private authService: AuthService,
-        private uiService: UIService,
         private store: Store<AppState>
     ) { }
 
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        
+        console.log('resolve');
 
-       return this.store
-        .select(currentUser)
-        .pipe(
-            take(1), 
-            concatMap((currentUser: CurrentUser) => {
-                if (!currentUser) {
-
-                    this.store.dispatch(disableErrorSnackbar());
-                    this.store.dispatch(setActiveProgressBar({progressBar: UIProgressBar.SplashScreen}));
-
-                    return this.authService.getCurrentUserInfo()
-                        .pipe(
-                            take(1),
-                            catchError(() => {
-                                this.router.navigate(['/auth/login']);
-                                return EMPTY;
-                            }),
-                            map((currentUser: CurrentUser) => {
-                                this.store.dispatch(updateCurrentUser(currentUser));
-                                this.uiService.showSubscriptioninfoDialogOnLogin();
-                                this.store.dispatch(setActiveProgressBar({progressBar: UIProgressBar.MainAppScreen}));
-                            })
-                        );
-                    }
-
-                this.uiService.showSubscriptioninfoDialogOnLogin();
-                return of(currentUser);
-            })
-        );
+   
     }
 
   

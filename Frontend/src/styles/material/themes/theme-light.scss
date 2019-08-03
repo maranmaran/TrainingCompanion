@@ -1,9 +1,8 @@
-@import "../palettes/material-light.palette.scss";
-@import "~@angular/material/theming";
+@import "./palettes/material-light.palette.scss";
 
-$theme-light-primary: mat-palette($mat-deep-purple, 700, 300, 900);
-$theme-light-accent: mat-palette($mat-pink);
-$theme-light-warn: mat-palette($mat-amber, A200);
+$theme-light-primary: mat-palette($primary, 700, 300, 900);
+$theme-light-accent: mat-palette($accent);
+$theme-light-warn: mat-palette($warning, A200);
 
 $theme-light: mat-light-theme(
     $theme-light-primary,

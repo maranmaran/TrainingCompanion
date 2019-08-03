@@ -30,3 +30,7 @@ export const updateCurrentUser = createAction(
     '[Auth API] Refresh current user',
     props<CurrentUser>()
 )
+
+export const currentUserFetched = createAction(
+    '[App initialization] Current user fetched'
+)
