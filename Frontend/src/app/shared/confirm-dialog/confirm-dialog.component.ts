@@ -14,7 +14,7 @@ export class ConfirmDialogComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     protected dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string, allowConfirm: boolean, allowCancel: boolean, confirmLabel: string }) { }
+    @Inject(MAT_DIALOG_DATA) public data: { message: string, allowConfirm: boolean, allowCancel: boolean, confirmLabel: string, title: string}) { }
 
   ngOnInit() {
   }

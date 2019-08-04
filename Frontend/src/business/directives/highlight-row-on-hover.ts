@@ -3,7 +3,7 @@ import { Directive, ElementRef, HostListener, Input, Renderer2, OnChanges, Simpl
 @Directive({
   selector: '[highlightOnHover]'
 })
-export class HighlightTableRowOnHoverDirective {
+export class HighlightRowOnHover {
 
   @Input()
   highlightClass: string = "highlighted-row"

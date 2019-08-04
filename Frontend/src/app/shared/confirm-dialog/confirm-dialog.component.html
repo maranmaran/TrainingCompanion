@@ -1,4 +1,6 @@
 <div fxLayout="column" fxLayoutGap="1rem">
+  <h3 *ngIf="data.title" style="font-weight: bold">{{data.title}}</h3>
+  <mat-divider *ngIf="data.title"></mat-divider>
   <span [innerHtml]="data.message | sanitizeHtml" (click)="navigateToRoute($event)"></span>
 
   <div fxLayout="row" fxLayoutAlign="space-between">

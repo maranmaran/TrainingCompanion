@@ -54,8 +54,9 @@ export class UIService {
         return dialogRef;
     }
 
+    //TODO: Make confirm dialog config object with all the params
     confirmDialog: MatDialogRef<any, any>;
-    public openConfirmDialog(message: string, action: Function, allowConfirm: boolean = true, allowCancel: boolean = true, confirmLabel: string = 'Proceed') {
+    public openConfirmDialog(message: string, action: Function, allowConfirm: boolean = true, allowCancel: boolean = true, confirmLabel: string = 'Proceed', title: string = null) {
        
         if(this.confirmDialog) this.confirmDialog.close();
 
@@ -65,7 +66,7 @@ export class UIService {
             autoFocus: false,
             disableClose: !allowConfirm,
             closeOnNavigation: allowConfirm,
-            data: { message, allowConfirm, allowCancel, confirmLabel},
+            data: { message, allowConfirm, allowCancel, confirmLabel, title},
         }, action);
     }
 

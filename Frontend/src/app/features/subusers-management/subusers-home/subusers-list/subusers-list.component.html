@@ -10,8 +10,8 @@
             <mat-header-cell *matHeaderCellDef>
                 <mat-checkbox 
                     (change)="$event ? masterToggle() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    [checked]="selection.hasValue() && isAllSelected"
+                    [indeterminate]="selection.hasValue() && !isAllSelected">
                 </mat-checkbox>
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
@@ -31,16 +31,28 @@
 
         <!-- Actions -->
         <ng-container matColumnDef="actions">
-            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>
+                <button *ngIf="(isMoreThanOneSelected || isAllSelected) && !isOneSelected" mat-icon-button 
+                color="accent" (click)="onDeleteSelection()" (click)="$event.stopPropagation()">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </mat-header-cell>
             <mat-cell *matCellDef="let row"> 
-                <button mat-icon-button color="accent" (click)="deleteSubuserEvent.emit(row)">
+                <button *ngIf="isOneSelected && selection.isSelected(row)" mat-icon-button color="accent" 
+                (click)="deleteSubuserEvent.emit(row)" (click)="$event.stopPropagation()">
                     <i class="fa fa-trash"></i>
                 </button>
             </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row highlightOnHover *matRowDef="let row; columns: displayedColumns;" (click)="onSelect(row)"></mat-row>
+        <mat-row 
+            highlightOnHover 
+            [class.selected-row]="selection.isSelected(row)"
+            *matRowDef="let row; columns: displayedColumns;" 
+            (click)="onSelect(row)"
+        >
+        </mat-row>
 
     </mat-table>
 

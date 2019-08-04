@@ -1,0 +1,29 @@
+@import "~@angular/material/theming";
+
+@mixin table-component-theme($theme) {
+
+  $background-palette: map-get($theme, background);
+  $highlight: map-get($background-palette, hover);
+
+  mat-table {
+    .mat-column-select {
+      max-width: -webkit-fit-content;
+      padding: 0 20px;
+    }
+  
+    .mat-column-actions {
+      max-width: -webkit-fit-content;
+    }
+  }
+  
+  .highlighted-row {
+    background-color: rgba($highlight, 0.1) !important;
+  }
+  .selected-row {
+    background-color: rgba($highlight, 0.1) !important;
+  }
+  
+  mat-row {
+    cursor: pointer;
+  }
+}

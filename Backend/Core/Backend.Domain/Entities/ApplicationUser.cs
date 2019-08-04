@@ -17,6 +17,7 @@ namespace Backend.Domain.Entities
         public DateTime CreatedOn { get; set; }
         public DateTime LastModified { get; set; }
         public AccountStatus AccountStatus { get; set; }
+        public bool Active { get; set; }
         public AccountType AccountType { get; set; }
         public int TrialDuration { get; set; }
 
