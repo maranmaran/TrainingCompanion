@@ -13,6 +13,7 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.CreatedOn).HasDefaultValueSql("getutcdate()");
             builder.Property(x => x.LastModified).HasDefaultValueSql("getutcdate()");
             builder.Property(x => x.TrialDuration).HasDefaultValue(15);
+            builder.Property(x => x.Active).HasDefaultValue(true);
 
 
             builder.Property(x => x.AccountStatus)

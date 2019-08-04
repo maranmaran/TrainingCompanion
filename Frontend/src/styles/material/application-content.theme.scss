@@ -7,12 +7,14 @@
 @import "./mixins/plans.scss";
 @import "./mixins/links.scss";
 @import "./mixins/details.scss";
+@import "./mixins/table.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
   @include plans-component-theme($theme);
   @include links-component-theme($theme);
   @include details-component-theme($theme);
+  @include table-component-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

@@ -4,6 +4,7 @@
     fxFlex.lt-md="0 1 auto" 
     [subusers$]="subusers$" 
     (subuserSelectedEvent)="onSelect($event)"
-    (deleteSubuserEvent)="onDelete($event)"></app-subusers-list>
+    (deleteSubuserEvent)="onDelete($event)"
+    (deleteSelectionEvent)="onDeleteSelection($event)"></app-subusers-list>
     <app-subuser-details *ngIf="selectedSubuser" fxFlex="0 1 calc(50%)" [subuser]="selectedSubuser"></app-subuser-details>
 </div>

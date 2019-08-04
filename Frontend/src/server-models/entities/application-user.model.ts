@@ -12,9 +12,11 @@ export interface ApplicationUser {
      fullName: string;
      firstName: string;
      lastName: string;
+     
      createdOn: string;
      lastModified: string;
-
+     
+     active: boolean;
      accountStatus: AccountStatus;
      accountType: AccountType;
      subscriptionStatus: SubscriptionStatus;

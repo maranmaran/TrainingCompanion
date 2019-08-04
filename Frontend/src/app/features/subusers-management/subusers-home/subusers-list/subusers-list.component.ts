@@ -1,7 +1,7 @@
 import { SubSink } from 'subsink';
 import { Component, OnInit, Input, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -17,9 +17,11 @@ export class SubusersListComponent implements OnInit, OnDestroy {
   @Input() subusers$: Observable<ApplicationUser[]>
   private subusers: ApplicationUser[];
   private subs = new SubSink();
+  private selectedSubuserId: string;
 
   @Output() subuserSelectedEvent = new EventEmitter<ApplicationUser>();
   @Output() deleteSubuserEvent = new EventEmitter<ApplicationUser>();
+  @Output() deleteSelectionEvent = new EventEmitter<ApplicationUser[]>();
 
   // #region Table config
   displayedColumns: string[] = ['select', 'name', 'actions'];
@@ -62,21 +64,40 @@ export class SubusersListComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
+    this.isAllSelected ?
         this.selection.clear() :
         this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-   /** Whether the number of selected elements matches the total number of rows. */
-   private isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  get isOneSelected() {
+    return this.selection.selected.length == 1;
   }
 
+  get isMoreThanOneSelected() {
+    return this.selection.selected.length > 1;
+  }
+  
+  get isAllSelected() {
+    return this.dataSource.data.length === this.selection.selected.length;
+  }
+ 
   onSelect(subuser: ApplicationUser) {
+
+    this.selection.toggle(subuser);
+
+    // if multiple or none selected - remove details
+    if(this.selection.selected.length > 1 || this.selection.isEmpty()) {
+      this.subuserSelectedEvent.emit(null);
+      return;
+    }
+
+    // new selection
     this.subuserSelectedEvent.emit(subuser);
   }
+
+  onDeleteSelection() {
+    this.deleteSelectionEvent.emit(this.selection.selected);
+  }
+
 }
