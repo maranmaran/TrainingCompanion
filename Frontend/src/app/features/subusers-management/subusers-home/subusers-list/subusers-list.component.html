@@ -1,0 +1,48 @@
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<div class="mat-elevation-z1">
+    <mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Checkboxes -->
+        <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox 
+                    (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox 
+                    (click)="$event.stopPropagation()" 
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)" >
+                </mat-checkbox>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Full name -->
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Full name </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.firstName}} {{row.lastName}} </mat-cell>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef="let row"> 
+                <button mat-icon-button color="accent" (click)="deleteSubuserEvent.emit(row)">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row highlightOnHover *matRowDef="let row; columns: displayedColumns;" (click)="onSelect(row)"></mat-row>
+
+    </mat-table>
+
+    <mat-paginator *ngIf="datasourceLength > pageSize" showFirstLastButtons [pageSize]="pageSize" [length]="datasourceLength" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

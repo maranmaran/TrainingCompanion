@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/business/guards/auth.guard';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { SubscriptionGuard } from 'src/business/guards/subscription.guard';
+import { IsUser } from 'src/business/guards/is-user.guard';
 
 const routes: Routes = [
     { path: 'auth', loadChildren: () => import('src/app/features/authorization/auth.module').then(mod => mod.AuthModule) },
@@ -14,6 +15,7 @@ const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', loadChildren: () => import('src/app/features/dashboard/dashboard.module').then(mod => mod.DashboardModule)},
             { path: 'media', loadChildren: () => import('src/app/features/media/media.module').then(mod => mod.MediaModule)},
+            { path: 'subusers', loadChildren: () => import('src/app/features/subusers-management/subusers.module').then(mod => mod.SubusersModule), canActivate: [IsUser]},
             {
                 path: 'settings',  canActivate: [AuthGuard], children: [
                     { path: 'general', component: GeneralComponent },

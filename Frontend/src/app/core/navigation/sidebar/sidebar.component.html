@@ -13,7 +13,7 @@
 <mat-nav-list class="navlist">
   <mat-accordion class="headers-align" [displayMode]="'flat'">
 
-    <a mat-list-item (click)="onRoute()">
+    <a *ngIf="(isUser$ | async)" mat-list-item routerLink="/subusers" (click)="onRoute()">
       Manage all users
     </a>
 
