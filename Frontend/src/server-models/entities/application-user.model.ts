@@ -10,6 +10,8 @@ export interface ApplicationUser {
      email: string;
      passwordHash: string;
      fullName: string;
+     firstName: string;
+     lastName: string;
      createdOn: string;
      lastModified: string;
 

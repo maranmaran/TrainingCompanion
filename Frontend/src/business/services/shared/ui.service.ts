@@ -55,7 +55,7 @@ export class UIService {
     }
 
     confirmDialog: MatDialogRef<any, any>;
-    public openConfirmDialog(message: string, action: Function, allowConfirm: boolean = true) {
+    public openConfirmDialog(message: string, action: Function, allowConfirm: boolean = true, allowCancel: boolean = true, confirmLabel: string = 'Proceed') {
        
         if(this.confirmDialog) this.confirmDialog.close();
 
@@ -65,14 +65,12 @@ export class UIService {
             autoFocus: false,
             disableClose: !allowConfirm,
             closeOnNavigation: allowConfirm,
-            data: { message: message, allowConfirm: allowConfirm },
+            data: { message, allowConfirm, allowCancel, confirmLabel},
         }, action);
     }
 
     private _fadeOutMessageDialog: MatDialogRef<MessageDialogComponent>;
     public fadeOutMessage(message: string, timeout: number = 1000) {
-
-        console.log('This message has no if... if(ERROR SNACKBAR OR ANYTHING GOD DAMN ELSE');
 
         this._fadeOutMessageDialog && this._fadeOutMessageDialog.close();
 
@@ -207,7 +205,7 @@ export class UIService {
         //     showSplashDialog = true; // must show dialog for this
         // }
 
-        showSplashDialog && message && this.openConfirmDialog(message, action, allowConfirm);
+        showSplashDialog && message && this.openConfirmDialog(message, action, allowConfirm, false, 'I understand');
     }
 
     private setSplashDialogDate() {

@@ -1,3 +1,4 @@
+import { HighlightTableRowOnHoverDirective } from './../../business/directives/hover-table-row-highlight.directive';
 import { NgModule } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -68,6 +69,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatSortModule,
         MatPaginatorModule
     ],
+    declarations: [
+        HighlightTableRowOnHoverDirective
+    ],
     exports: [
         FlexLayoutModule,
         MatCheckboxModule,
@@ -100,7 +104,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatSnackBarModule,
         MatTableModule,
         MatSortModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        HighlightTableRowOnHoverDirective
     ],
 })
 export class MaterialModule { }
