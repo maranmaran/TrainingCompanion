@@ -61,3 +61,11 @@ export const isUser = createSelector(
         return accountType == AccountType.User || accountType == AccountType.Admin;
     }
 );
+
+export const isSubuser = createSelector(
+    currentUser,
+    (user: CurrentUser) => {
+        const accountType = AccountType[user.accountType];
+        return accountType == AccountType.Subuser || AccountType.User || accountType == AccountType.Admin;
+    }
+);

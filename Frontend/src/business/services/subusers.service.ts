@@ -6,9 +6,9 @@ import { ApplicationUser } from 'src/server-models/entities/application-user.mod
 import { UserSettings } from 'src/server-models/entities/user-settings.model';
 import { BaseService } from './base.service';
 
-@Injectable({ providedIn: 'root'})
-export class UsersService extends BaseService {
-    private url = '/Users/';
+@Injectable()
+export class SubusersService extends BaseService {
+    private url = '/Subusers/';
 
     constructor(
         private http: HttpClient,
@@ -19,6 +19,13 @@ export class UsersService extends BaseService {
 
     public getAll() {
         return this.http.get<ApplicationUser[]>(this.url + 'GetAll')
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
+
+    public getAllByUserId(userId: string) {
+        return this.http.get<ApplicationUser[]>(this.url + 'GetAllByUserId/' + userId)
             .pipe(
                 catchError(this.handleError)
             );

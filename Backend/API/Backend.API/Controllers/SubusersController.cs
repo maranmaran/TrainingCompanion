@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Backend.Application.Business.Business.Subusers.CreateSubuser;
+using Backend.Application.Business.Business.Subusers.DeleteSubuser;
+using Backend.Application.Business.Business.Subusers.GetAllSubusers;
+using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Subusers.CreateSubuser;
-using Backend.Application.Business.Business.Subusers.DeleteSubuser;
-using Backend.Application.Business.Business.Subusers.GetAllSubusers;
 
 namespace Backend.API.Controllers
 {
@@ -14,6 +14,12 @@ namespace Backend.API.Controllers
         public async Task<IActionResult> GetAll([FromQuery]SieveModel sieveModel)
         {
             return await GetQuery(async () => await Mediator.Send(new GetAllSubusersRequest()), sieveModel);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAllByUserId(Guid id, [FromQuery]SieveModel sieveModel)
+        {
+            return await GetQuery(async () => await Mediator.Send(new GetAllSubusersRequest(id)), sieveModel);
         }
 
         [HttpPost]

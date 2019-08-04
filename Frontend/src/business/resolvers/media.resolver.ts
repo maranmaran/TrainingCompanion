@@ -16,7 +16,6 @@ import { currentUser } from './../../ngrx/auth/auth.selectors';
 export class MediaResolver implements Resolve<Observable<MediaFile[] | void>> {
 
     constructor(
-        private router: Router,
         private mediaService: MediaService,
         private store: Store<AppState>
     ) { }
@@ -31,11 +30,11 @@ export class MediaResolver implements Resolve<Observable<MediaFile[] | void>> {
                 concatMap((userId: string) => {
                     const type = route.data['type'];
 
-                    return this.getMediaForUser(userId, type);
+                    return this.getState(userId, type);
                 }));
     }
 
-    private getMediaForUser(userId: string, type: MediaType) {
+    private getState(userId: string, type: MediaType) {
         let selector = getSelectorByMediaType(type);
 
         return this.store
@@ -45,22 +44,18 @@ export class MediaResolver implements Resolve<Observable<MediaFile[] | void>> {
                 concatMap((media: MediaFile[]) => {
 
                 if (!media) {
-                    return this.updateMediaState(userId, type);
+                    return this.updateState(userId, type);
                 }
                         
                 return of(media);
             }));
     }
 
-    private updateMediaState(userId: string, type: MediaType) {
+    private updateState(userId: string, type: MediaType) {
 
         return this.mediaService.getUserMediaByType(userId, type)
         .pipe(
             take(1),
-            catchError(() => {
-                this.router.navigate(['/auth/login']);
-                return EMPTY;
-            }),
             map((media: MediaFile[]) => {
                 this.store.dispatch(mediaFetched({ payload: { media, type } }));
             })

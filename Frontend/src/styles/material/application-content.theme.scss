@@ -6,11 +6,13 @@
 @import "./mixins/splash.scss";
 @import "./mixins/plans.scss";
 @import "./mixins/links.scss";
+@import "./mixins/details.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
   @include plans-component-theme($theme);
   @include links-component-theme($theme);
+  @include details-component-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

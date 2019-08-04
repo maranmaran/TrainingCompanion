@@ -1,7 +1,11 @@
+import { Store } from '@ngrx/store';
 import { UISidenavAction } from '../../../../business/shared/ui-sidenavs.enum';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { Component, OnInit } from '@angular/core';
 import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Observable } from 'rxjs';
+import { isUser } from 'src/ngrx/auth/auth.selectors';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,11 +14,15 @@ import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
 })
 export class SidebarComponent implements OnInit {
 
+  protected isUser$: Observable<boolean>;
+
   constructor(
-    private uiService: UIService
+    private uiService: UIService,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
+    this.isUser$ = this.store.select(isUser);
   }
 
   //TODO: Event source this out
