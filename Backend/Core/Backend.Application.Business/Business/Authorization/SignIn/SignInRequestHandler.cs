@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Application.Business.Business.Authorization.CurrentUser;
 using Backend.Domain;
 using Backend.Domain.Entities;
@@ -10,6 +7,9 @@ using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.Payment.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Authorization.SignIn
 {
@@ -43,9 +43,7 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
             {
                 var user = await _context.Users.SingleAsync(x => x.Username == request.Username, cancellationToken: cancellationToken);
 
-                if (user == null) throw new NotFoundException(nameof(ApplicationUser), request);
-
-                if (user.PasswordHash != _passwordHasher.GetPasswordHash(request.Password)) throw new UnauthorizedAccessException("Wrong password.");
+                ValidateUserSignIn(user, request);
 
                 var token = _tokenGenerator.GenerateToken(user.Id);
 
@@ -57,6 +55,13 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
             {
                 throw new UnauthorizedAccessException("Failed to login.", e);
             }
+        }
+
+        private void ValidateUserSignIn(ApplicationUser user, SignInRequest request)
+        {
+            if (user == null) throw new NotFoundException(nameof(ApplicationUser), request);
+            if (!user.Active) throw new UnauthorizedAccessException("User inactive");
+            if (user.PasswordHash != _passwordHasher.GetPasswordHash(request.Password)) throw new UnauthorizedAccessException("Wrong password.");
         }
     }
 }

@@ -32,14 +32,28 @@ export class SubusersHomeComponent implements OnInit {
   onDelete(subuser: ApplicationUser) {
 
     const message = 
-    `<p>Are you sure you wish to delete user ${subuser.firstName} ${subuser.lastName}.</p>
+    `<p>Are you sure you wish to delete user ${subuser.firstName} ${subuser.lastName} ?</p>
      <p>All data will be lost if you delete this user.</p>`;
 
     this.uiService.openConfirmDialog(message,
        () => {
          // delete
-       }, true, true, 'Delete')
+       }, true, true, 'Delete', `Delete action`)
 
   }
+
+  onDeleteSelection(subusers: ApplicationUser[]) {
+
+    const message = 
+    `<p>Are you sure you wish to delete all (${subusers.length}) selected users ?</p>
+     <p>All data will be lost if you delete these users.</p>`;
+
+    this.uiService.openConfirmDialog(message,
+       () => {
+         // delete all selected
+       }, true, true, 'Delete', `Delete action`)
+
+  }
+
 
 }
