@@ -70,20 +70,16 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
     });
   }
 
-  fetchedFriendsState = false;
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
-    if(!this.fetchedFriendsState) {
       return this.http
       .get('/chat/GetFriendsList/' + this.userId)
       .pipe(
         map((res: any) => {
-          this.fetchedFriendsState = true;
           return res;
         }),
         catchError((error: any) => throwError(error.error || 'Server error'))
       );
-    }
   }
 
   getMessageHistory(destinataryId: any): Observable<Message[]> {
@@ -103,6 +99,7 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
   }
 
   public stopConnection() {
+    console.log('Stopping chat hub connection');
     this.hubConnection.stop();
   }
 

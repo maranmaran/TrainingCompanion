@@ -6,6 +6,7 @@ import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Observable } from 'rxjs';
 import { isUser } from 'src/ngrx/auth/auth.selectors';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',

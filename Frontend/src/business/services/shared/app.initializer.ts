@@ -1,27 +1,25 @@
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
-import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { filter, take } from 'rxjs/operators';
+import { fetchCurrentUser } from 'src/ngrx/auth/auth.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { loadCurrentUser, startAppInitializer, stopAppInitializer } from 'src/ngrx/run.effects';
-import { CurrentUser } from './../../../server-models/cqrs/authorization/responses/current-user.response';
+import { startAppInitializer, stopAppInitializer, isAppInitialized } from 'src/ngrx/app-initialize.ngrx';
 
 export const initApplication = (store: Store<AppState>, actions$: Actions): Function => {
 
     return () => new Promise(resolve => {
 
         store.dispatch(startAppInitializer());
-        store.dispatch(loadCurrentUser());
+        store.dispatch(fetchCurrentUser());
 
-        store.select(currentUser)
-            .pipe(take(2))
-            .subscribe(
-                (currentUser: CurrentUser) => {
-                    if (currentUser != undefined) {
-                        store.dispatch(stopAppInitializer());
-                        resolve(true);
-                    }
-                }
-            );
-        });
-    }
+        store.select(isAppInitialized)
+            .pipe(
+                filter((fetched: boolean) => fetched), // filter when app is initialized
+                take(1)
+            )
+            .subscribe(() => {
+                store.dispatch(stopAppInitializer());
+                resolve(true);
+            });
+    });
+}

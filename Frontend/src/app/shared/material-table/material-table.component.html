@@ -1,0 +1,68 @@
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<div class="mat-elevation-z1">
+
+    <mat-table [dataSource]="datasource" matSort>
+
+        <!-- SELECTION ( CHECKBOXES ) -->
+        <ng-container matColumnDef="select" *ngIf="config.selectionEnabled">
+            <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected"
+                    [indeterminate]="selection.hasValue() && !isAllSelected">
+                </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+            </mat-cell>
+        </ng-container>
+
+        <!-- ACTUAL DATA -->
+        <ng-container *ngFor="let col of columns" matColumnDef="{{ col.definition }}">
+
+            <ng-container *ngIf="col.sort">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ col.title }} </mat-header-cell>
+            </ng-container>
+
+            <ng-container *ngIf="!col.sort">
+                <mat-header-cell *matHeaderCellDef> {{ col.title }} </mat-header-cell>
+            </ng-container>
+
+            <mat-cell *matCellDef="let row"> {{ col.displayFunction(row) }} </mat-cell>
+
+        </ng-container>
+
+        <!-- ACTIONS -->
+        <ng-container matColumnDef="actions" *ngIf="config.actionsEnabled">
+            <mat-header-cell *matHeaderCellDef>
+                <button *ngIf="(isMoreThanOneSelected || isAllSelected) && !isOneSelected && config.deleteEnabled"
+                    mat-icon-button color="accent" (click)="onDeleteSelection()" (click)="$event.stopPropagation()">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button *ngIf="isOneSelected && selection.isSelected(row) && config.deleteEnabled" mat-icon-button
+                    color="accent" (click)="deleteEvent.emit(row)" (click)="$event.stopPropagation()">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+        <mat-row highlightOnHover [class.selected-row]="selection.isSelected(row)"
+            *matRowDef="let row; columns: displayColumns;" (click)="onSelect(row)">
+        </mat-row>
+
+    </mat-table>
+
+    <div class="no-records" *ngIf="!datasource.data || datasource.data.length == 0">
+        <span>No records</span>
+    </div>
+
+    <mat-paginator *ngIf="datasource.data && datasource.data.length > pageSize" showFirstLastButtons
+        [pageSize]="pageSize" [length]="datasource.data.length" [pageSizeOptions]="[5, 10, 15]"></mat-paginator>
+</div>
