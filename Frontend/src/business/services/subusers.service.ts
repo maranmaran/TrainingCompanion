@@ -8,20 +8,13 @@ import { BaseService } from './base.service';
 
 @Injectable()
 export class SubusersService extends BaseService {
+    
     private url = '/Subusers/';
 
     constructor(
         private http: HttpClient,
     ) {
         super();
-    }
-
-
-    public getAll() {
-        return this.http.get<ApplicationUser[]>(this.url + 'GetAll')
-            .pipe(
-                catchError(this.handleError)
-            );
     }
 
     public getAllByUserId(userId: string) {
@@ -31,43 +24,19 @@ export class SubusersService extends BaseService {
             );
     }
 
-    public getOne(userId: string) {
-        return this.http.get<ApplicationUser>(this.url + 'Get/' + userId)
+    
+    public setActive(userId: string, value: boolean) {
+        return this.http.get(this.url + 'setActive/' + userId + '/' + value)
             .pipe(
                 catchError(this.handleError)
             );
     }
 
-    public create() {
-        // return this.http.get<ApplicationUser>(this.url + 'Get/' + userId)
-        // .pipe(
-        //     map((res: ApplicationUser) => this.userAdapter.adaptToModel(res)),
-        //     catchError(this.handleError)
-        // );
-    }
-
-    public update(command: UpdateUserRequest) {
-        return this.http.post<void>(this.url + 'Update/', command)
-            .pipe(
-                catchError(this.handleError)
-            );
-    }
-
-    public delete() {
-
-    }
-
-    public changePassword() {
-
-    }
-
-    public saveSettings(userSettings: UserSettings) {
-        const payload = { userSettings: userSettings };
-        return this.http.post(this.url + 'SaveUserSettings/', payload)
-            .pipe(
-                catchError(this.handleError)
-            );
-    }
-
+    // public register(userId: string, value: boolean) {
+    //     return this.http.get<ApplicationUser>(this.url + 'register/' + userId + '/' + value)
+    //         .pipe(
+    //             catchError(this.handleError)
+    //         );
+    // }
 
 }

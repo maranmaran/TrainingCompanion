@@ -3,6 +3,7 @@
     [datasource]="tableDatasource"
     [config]="tableConfig"
     (selectEvent)="onSelect($event)"
+    (addEvent)="onAdd($event)"
     (deleteEvent)="onDeleteSingle($event)"
     (deleteSelectionEvent)="onDeleteSelection($event)"
 ></app-material-table>

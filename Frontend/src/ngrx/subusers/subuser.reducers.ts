@@ -13,29 +13,42 @@ export const subusersReducer: ActionReducer<SubusersState, Action> = createReduc
             subusers: [...payload.subusers]
         }
     }),
-    on(UsersActions.subuserAdded, (state: SubusersState, user: ApplicationUser) => {
+
+    on(UsersActions.setSelectedSubuser, (state: SubusersState, payload: { subuser: ApplicationUser }) => {
         return {
             ...state,
-            subusers: [...state.subusers, user]
-    }
-    }),
-    on(UsersActions.subuserUpdated, (state: SubusersState, user: ApplicationUser) => {
-
-        let userStateToUpdate = [...state.subusers];
-        let indexToUpdate = userStateToUpdate.indexOf(user);
-        userStateToUpdate[indexToUpdate] = user;
-
-        return {
-            ...state,
-            subusers: [...userStateToUpdate]
+            selected: payload.subuser
         }
     }),
-    on(UsersActions.subuserDeleted, (state: SubusersState, user: ApplicationUser) => {
+
+    on(UsersActions.deactivateSubuser, (state: SubusersState) => {
+        let selected = Object.assign({}, state.selected);
+        selected.active = false;
         return {
             ...state,
-            subusers: [...state.subusers.filter(x => x.id != user.id)]
+            subusers: state.subusers.map(su => su.id == state.selected.id ? { ...su, active: false } : su),
+            selected: selected
         }
     }),
+
+    on(UsersActions.activateSubuser, (state: SubusersState) => {
+        let selected = Object.assign({}, state.selected);
+        selected.active = true;
+        return {
+            ...state,
+            subusers: state.subusers.map(su => su.id == state.selected.id  ? { ...su, active: true } : su),
+            selected: selected
+        }
+    }),
+
+    on(UsersActions.registerSubuser, (state: SubusersState, subuser: ApplicationUser) => {
+        return {
+            ...state,
+            subusers: [...state.subusers, subuser]
+        }
+    }),
+
+
 
 );
 
