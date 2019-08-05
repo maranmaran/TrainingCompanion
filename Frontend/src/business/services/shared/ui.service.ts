@@ -42,7 +42,8 @@ export class UIService {
 
     // #region ================ DIALOGS ================ 
 
-    public openDialogFromComponent(component: ComponentType<any>, config?: MatDialogConfig, callbackAction?: Function) {
+    public openDialogFromComponent(component: ComponentType<any>, config?: MatDialogConfig, 
+        callbackAction?: Function, callbackActionParams?: any[]) {
         
         const opts = Object.assign({}, snackBarDefaultConfig, config);
 
@@ -51,7 +52,9 @@ export class UIService {
         dialogRef.afterClosed()
             .pipe(take(1))
             .subscribe((params) => {
-                params != ConfirmResult.Reject && callbackAction && callbackAction.call(params)
+                if(params != ConfirmResult.Reject) {
+                    callbackAction && callbackAction(...callbackActionParams);
+                }
             });
 
         return dialogRef;
@@ -70,7 +73,7 @@ export class UIService {
             disableClose: !config.allowConfirm,
             closeOnNavigation: config.allowConfirm,
             data: { config },
-        }, config.action);
+        }, config.action, config.actionParams);
     }
 
     private _fadeOutMessageDialog: MatDialogRef<MessageDialogComponent>;

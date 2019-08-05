@@ -1,7 +1,10 @@
-<div class="details-container mat-elevation-z3">
+<div class="details-container mat-elevation-z3" *ngIf="(subuser$ | async) as subuser">
 
-    <h1 class="details-header">
+    <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
         {{subuser.firstName}} {{subuser.lastName}}
+
+        <button *ngIf="subuser.active" mat-stroked-button color="accent" (click)="onSetActive(false)">Deactivate</button>
+        <button *ngIf="!subuser.active" mat-stroked-button color="accent" (click)="onSetActive(true)">Activate</button>
     </h1>
 
     <mat-divider></mat-divider>
@@ -22,7 +25,7 @@
         </div>
         <div class="detail">
             <mat-label class="label">Account status:</mat-label>
-            <span class="label-value">{{subuser.accountStatus}}</span>
+            <span class="label-value">{{subuser.active ? 'Active' : 'Inactive'}}</span>
         </div>
 
     </div>

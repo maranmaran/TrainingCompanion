@@ -2,8 +2,10 @@ import { ApplicationUser } from '../../server-models/entities/application-user.m
 
 export interface SubusersState {
     subusers: ApplicationUser[];
+    selected: ApplicationUser;
 }
 
 export const initialSubusersState: SubusersState = {
     subusers: undefined,
+    selected: undefined
 };
