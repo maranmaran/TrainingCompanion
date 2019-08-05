@@ -1,10 +1,10 @@
 <div fxLayout="column" fxLayoutGap="1rem">
-  <h3 *ngIf="data.title" style="font-weight: bold">{{data.title}}</h3>
-  <mat-divider *ngIf="data.title"></mat-divider>
-  <span [innerHtml]="data.message | sanitizeHtml" (click)="navigateToRoute($event)"></span>
+  <h3 *ngIf="data.config.title" style="font-weight: bold">{{data.config.title}}</h3>
+  <mat-divider *ngIf="data.config.title"></mat-divider>
+  <span [innerHtml]="data.config.message | sanitizeHtml" (click)="navigateToRoute($event)"></span>
 
   <div fxLayout="row" fxLayoutAlign="space-between">
-    <button *ngIf="data.allowCancel" mat-button color="accent" class="float-right" mat-dialog-close >Cancel</button>
-    <button *ngIf="data.allowConfirm" mat-stroked-button color="primary" class="float-right" mat-dialog-close >{{data.confirmLabel}}</button>
+    <button *ngIf="data.config.allowCancel"  mat-button color="accent" class="float-right" (click)="onClose()" >Cancel</button>
+    <button *ngIf="data.config.allowConfirm" mat-stroked-button color="primary" class="float-right" (click)="onConfirm()">{{data.config.confirmLabel}}</button>
   </div>
 </div>

@@ -1,3 +1,4 @@
+import { ConfirmResult } from './../../shared/confirm-dialog.config';
 import { isSubscribed, trialDaysRemaining } from './../../../ngrx/auth/auth.selectors';
 import { Injectable, HostListener } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
@@ -13,11 +14,12 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { setMobileScreenFlag, setWebScreenFlag } from 'src/ngrx/user-interface/ui.actions';
 import { OverlayContainer, ComponentType } from '@angular/cdk/overlay';
-import { SnackBarConfig, snackBarDefaultConfig } from 'src/business/shared/snackbar-config.interface';
+import { SnackBarConfig, snackBarDefaultConfig } from 'src/business/shared/snackbar.config';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
 import { trialMessageHtml, trialOverHtml } from 'src/business/shared/popup-templates';
 import * as moment from 'moment'
+import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 
 @Injectable({ providedIn: 'root' })
 export class UIService {
@@ -41,6 +43,7 @@ export class UIService {
     // #region ================ DIALOGS ================ 
 
     public openDialogFromComponent(component: ComponentType<any>, config?: MatDialogConfig, callbackAction?: Function) {
+        
         const opts = Object.assign({}, snackBarDefaultConfig, config);
 
         const dialogRef = this.dialog.open(component, opts);
@@ -48,7 +51,7 @@ export class UIService {
         dialogRef.afterClosed()
             .pipe(take(1))
             .subscribe((params) => {
-                callbackAction && callbackAction.call(params)
+                params != ConfirmResult.Reject && callbackAction && callbackAction.call(params)
             });
 
         return dialogRef;
@@ -56,7 +59,7 @@ export class UIService {
 
     //TODO: Make confirm dialog config object with all the params
     confirmDialog: MatDialogRef<any, any>;
-    public openConfirmDialog(message: string, action: Function, allowConfirm: boolean = true, allowCancel: boolean = true, confirmLabel: string = 'Proceed', title: string = null) {
+    public openConfirmDialog(config: ConfirmDialogConfig) {
        
         if(this.confirmDialog) this.confirmDialog.close();
 
@@ -64,10 +67,10 @@ export class UIService {
             height: 'auto',
             maxWidth: '20rem',
             autoFocus: false,
-            disableClose: !allowConfirm,
-            closeOnNavigation: allowConfirm,
-            data: { message, allowConfirm, allowCancel, confirmLabel, title},
-        }, action);
+            disableClose: !config.allowConfirm,
+            closeOnNavigation: config.allowConfirm,
+            data: { config },
+        }, config.action);
     }
 
     private _fadeOutMessageDialog: MatDialogRef<MessageDialogComponent>;
@@ -206,7 +209,15 @@ export class UIService {
         //     showSplashDialog = true; // must show dialog for this
         // }
 
-        showSplashDialog && message && this.openConfirmDialog(message, action, allowConfirm, false, 'I understand');
+        const config = new ConfirmDialogConfig({
+           message, 
+           action,
+           allowConfirm, 
+           allowCancel: false,
+           confirmLabel: 'I understand' 
+        });
+
+        showSplashDialog && message && this.openConfirmDialog(config);
     }
 
     private setSplashDialogDate() {

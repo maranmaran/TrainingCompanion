@@ -32,6 +32,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialTableComponent } from './material-table/material-table.component';
 
 @NgModule({
     imports: [
@@ -67,7 +68,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatSnackBarModule,
         MatTableModule,
         MatSortModule,
-        MatPaginatorModule
+        MatPaginatorModule,
     ],
     declarations: [
         HighlightRowOnHover,

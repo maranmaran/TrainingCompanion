@@ -8,6 +8,7 @@ import { MediaDialogComponent } from './media-dialog/media-dialog.component';
 import { ErrorSnackbarComponent } from './error-snackbar/error-snackbar.component';
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { MaterialTableComponent } from './material-table/material-table.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
         ErrorSnackbarComponent,
         MessageDialogComponent,
         ConfirmDialogComponent,
-        SanitizeHtmlPipe
+        SanitizeHtmlPipe,
+        MaterialTableComponent
     ],
     exports: [
         CommonModule,
@@ -30,6 +32,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
         RouterModule,
         MaterialModule,
 
+        MaterialTableComponent,
         MediaDialogComponent,
         ErrorSnackbarComponent,
         MessageDialogComponent,
