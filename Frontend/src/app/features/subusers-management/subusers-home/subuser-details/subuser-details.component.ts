@@ -1,5 +1,9 @@
-import { FormGroup } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { activateSubuser, deactivateSubuser } from 'src/ngrx/subusers/subuser.actions';
+import { selectedSubuser } from 'src/ngrx/subusers/subuser.selectors';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 
 @Component({
@@ -9,12 +13,19 @@ import { ApplicationUser } from 'src/server-models/entities/application-user.mod
 })
 export class SubuserDetailsComponent implements OnInit {
 
-  @Input() subuser: ApplicationUser;
+  protected subuser$: Observable<ApplicationUser>;
   
-
-  constructor() { }
+  constructor(
+    private store: Store<AppState>
+  ) { }
 
   ngOnInit() {
+    this.subuser$ = this.store.select(selectedSubuser);
+  }
+
+  onSetActive(value: boolean) {
+    value && this.store.dispatch(activateSubuser());
+    !value && this.store.dispatch(deactivateSubuser());
   }
 
 }

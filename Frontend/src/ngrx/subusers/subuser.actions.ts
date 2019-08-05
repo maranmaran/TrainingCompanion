@@ -6,18 +6,20 @@ export const subusersFetched = createAction(
     props<{ subusers: ApplicationUser[]}>()
 )
 
-export const subuserAdded = createAction(
-    '[Subusers API] Subuser created',
+export const deactivateSubuser = createAction(
+    '[Subusers API] Deactivate subuser'
+)
+
+export const activateSubuser = createAction(
+    '[Subusers API] Activate subuser'
+)
+
+export const registerSubuser = createAction(
+    '[Subusers API] Register subuser',
     props<ApplicationUser>()
 )
 
-export const subuserUpdated = createAction(
-    '[Subusers API] Subuser updated',
-    props<ApplicationUser>()
+export const setSelectedSubuser = createAction(
+    '[Subusers API] Set selected subuser',
+    props<{subuser: ApplicationUser}>()
 )
-
-export const subuserDeleted = createAction(
-    '[Subusers API] Subuser deleted',
-    props<ApplicationUser>()
-)
-

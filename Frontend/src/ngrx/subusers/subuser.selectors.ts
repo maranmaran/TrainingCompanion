@@ -7,3 +7,8 @@ export const subusers = createSelector(
     selectSubusersState,
     (subusersState: SubusersState) => subusersState.subusers
 )
+
+export const selectedSubuser = createSelector(
+    selectSubusersState,
+    (subusersState: SubusersState) => subusersState.selected,
+)

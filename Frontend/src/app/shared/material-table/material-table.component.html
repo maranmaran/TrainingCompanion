@@ -15,8 +15,8 @@
                 </mat-checkbox>
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                    [checked]="selection.isSelected(row)">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row.id) : null"
+                    [checked]="selection.isSelected(row.id)">
                 </mat-checkbox>
             </mat-cell>
         </ng-container>
@@ -43,9 +43,13 @@
                     mat-icon-button color="accent" (click)="onDeleteSelection()" (click)="$event.stopPropagation()">
                     <i class="fa fa-trash"></i>
                 </button>
+                <button *ngIf="config.addEnabled"
+                    mat-icon-button color="accent" (click)="addEvent.emit()" (click)="$event.stopPropagation()">
+                    <i class="fa fa-plus"></i>
+                </button>
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <button *ngIf="isOneSelected && selection.isSelected(row) && config.deleteEnabled" mat-icon-button
+                <button *ngIf="isOneSelected && selection.isSelected(row.id) && config.deleteEnabled" mat-icon-button
                     color="accent" (click)="deleteEvent.emit(row)" (click)="$event.stopPropagation()">
                     <i class="fa fa-trash"></i>
                 </button>
@@ -53,7 +57,7 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-        <mat-row highlightOnHover [class.selected-row]="selection.isSelected(row)"
+        <mat-row highlightOnHover [class.selected-row]="selection.isSelected(row.id)"
             *matRowDef="let row; columns: displayColumns;" (click)="onSelect(row)">
         </mat-row>
 
