@@ -57,8 +57,10 @@ export const isTrialing = createSelector(
 export const isUser = createSelector(
     currentUser,
     (user: CurrentUser) => {
-        const accountType = AccountType[user.accountType];
-        return accountType == AccountType.User || accountType == AccountType.Admin;
+        if(user) {
+            const accountType = AccountType[user.accountType];
+            return accountType == AccountType.User || accountType == AccountType.Admin;
+        }
     }
 );
 
@@ -69,3 +71,9 @@ export const isSubuser = createSelector(
         return accountType == AccountType.Subuser || AccountType.User || accountType == AccountType.Admin;
     }
 );
+
+export const loginError = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.loginError
+);
+

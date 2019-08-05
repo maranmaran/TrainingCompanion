@@ -39,7 +39,6 @@ export class GeneralComponent implements OnInit {
     if (event.checked) this.userSettings.theme = Theme.Dark;
     if (!event.checked) this.userSettings.theme = Theme.Light;
 
-    console.log('update user settings')
     this.store.dispatch(updateUserSettings(this.userSettings));
     this.onSaveSettings(this.userSettings);
   }

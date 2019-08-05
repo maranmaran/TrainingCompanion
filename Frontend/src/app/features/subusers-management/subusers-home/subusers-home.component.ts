@@ -1,3 +1,4 @@
+import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { ApplicationUser } from '../../../../server-models/entities/application-user.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
@@ -29,31 +30,32 @@ export class SubusersHomeComponent implements OnInit {
     this.selectedSubuser = subuser;
   }
 
+  
+  deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });
+
   onDelete(subuser: ApplicationUser) {
 
-    const message = 
-    `<p>Are you sure you wish to delete user ${subuser.firstName} ${subuser.lastName} ?</p>
+    this.deleteDialogConfig.message =
+      `<p>Are you sure you wish to delete user ${subuser.firstName} ${subuser.lastName} ?</p>
      <p>All data will be lost if you delete this user.</p>`;
 
-    this.uiService.openConfirmDialog(message,
-       () => {
-         // delete
-       }, true, true, 'Delete', `Delete action`)
+    this.deleteDialogConfig.action = () => {
+      // delete all selected
+    }
 
+    this.uiService.openConfirmDialog(this.deleteDialogConfig);
   }
 
   onDeleteSelection(subusers: ApplicationUser[]) {
 
-    const message = 
-    `<p>Are you sure you wish to delete all (${subusers.length}) selected users ?</p>
+    this.deleteDialogConfig.message =
+      `<p>Are you sure you wish to delete all (${subusers.length}) selected users ?</p>
      <p>All data will be lost if you delete these users.</p>`;
 
-    this.uiService.openConfirmDialog(message,
-       () => {
-         // delete all selected
-       }, true, true, 'Delete', `Delete action`)
+    this.deleteDialogConfig.action = () => {
+      // delete all selected
+    }
 
+    this.uiService.openConfirmDialog(this.deleteDialogConfig)
   }
-
-
 }

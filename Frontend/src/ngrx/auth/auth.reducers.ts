@@ -10,17 +10,25 @@ import { AuthState, initialAuthState } from './auth.state';
 export const authReducer: ActionReducer<AuthState, Action> = createReducer(
     initialAuthState,
 
-    on(AuthActions.login, (state: AuthState, currentUser: CurrentUser) => {
+    on(AuthActions.loginSuccess, (state: AuthState, currentUser: CurrentUser) => {
         return {
             ...state,
             currentUser: currentUser
         }
     }),
 
+    on(AuthActions.loginFailure, (state: AuthState, error: Error) => {
+        return {
+            ...state,
+            loginError: error
+        }
+    }),
+
     on(AuthActions.logout, (state: AuthState) => {
         return {
             ...state,
-            currentUser: undefined
+            currentUser: undefined,
+            loginError: undefined,
         }
     }),
 

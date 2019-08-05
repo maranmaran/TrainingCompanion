@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
-import { Subject, EMPTY, of } from 'rxjs';
+import { Subject, EMPTY, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
@@ -34,8 +34,7 @@ export class AuthService extends BaseService {
     const userId = localStorage.getItem('id');
 
     if(!userId) {
-      this.router.navigate(['/auth/login']);
-      return of(null);
+      return throwError('Could not fetch user info');
     }
 
     return this.http.get<CurrentUser>(this.url + 'CurrentUserInformation' + `/${userId}`)

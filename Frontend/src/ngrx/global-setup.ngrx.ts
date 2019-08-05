@@ -7,18 +7,21 @@ import { AuthState } from './auth/auth.state';
 import { UIEffects } from './user-interface/ui.effects';
 import { uiReducer } from './user-interface/ui.reducers';
 import { UIState } from './user-interface/ui.state';
-import { RunEffects } from './run.effects';
+import { AppInitializeEffects, appInitializeReducer } from './app-initialize.ngrx';
+import { clearState } from './clear-state.reducer';
 
 export interface AppState {
   router: RouterReducerState,
   auth: AuthState,
   ui: UIState,
+  appInitialized: boolean
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: routerReducer,
   auth: authReducer,
-  ui: uiReducer
+  ui: uiReducer,
+  appInitialized: appInitializeReducer
 };
 
 export function stateLogger(reducer: ActionReducer<any>)
@@ -32,8 +35,10 @@ export function stateLogger(reducer: ActionReducer<any>)
 }
 
 export const metaReducers: MetaReducer<AppState>[] =
-  !environment.production ? [] : [];
+  !environment.production ? 
+    [clearState] : 
+    [clearState];
 // !environment.production ? [stateLogger] : [];
 
-export const CoreEffects = [RunEffects, AuthEffects, UIEffects];
+export const CoreEffects = [AppInitializeEffects, AuthEffects, UIEffects];
 
