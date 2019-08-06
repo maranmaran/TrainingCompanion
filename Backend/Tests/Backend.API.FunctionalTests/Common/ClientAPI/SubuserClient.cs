@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Subusers.CreateSubuser;
+using Backend.Application.Business.Business.Athletes.CreateAthlete;
 
 namespace Backend.API.FunctionalTests.Common.ClientAPI
 {
-    public class SubuserClient : Client
+    public class AthleteClient : Client
     {
-        public SubuserClient(CustomWebApplicationFactory<Startup> factory) : base(factory)
+        public AthleteClient(CustomWebApplicationFactory<Startup> factory) : base(factory)
         {
         }
 
-        public async Task<HttpResponseMessage> CreateSubuser(CreateSubuserRequest request)
+        public async Task<HttpResponseMessage> CreateAthlete(CreateAthleteRequest request)
         {
             var content = Utilities.GetRequestContent(request);
-            return await _client.PostAsync($"api/subusers/create", content);
+            return await _client.PostAsync($"api/athletes/create", content);
         }
 
-        public async Task<HttpResponseMessage> GetAllSubusers()
+        public async Task<HttpResponseMessage> GetAllAthletes()
         {
-            return await _client.GetAsync("/api/subusers/getall");
+            return await _client.GetAsync("/api/athletes/getall");
         }
 
 
-        public async Task<HttpResponseMessage> DeleteSubuser(Guid id)
+        public async Task<HttpResponseMessage> DeleteAthlete(Guid id)
         {
-            return await _client.GetAsync($"/api/subusers/delete/{id}");
+            return await _client.GetAsync($"/api/athletes/delete/{id}");
         }
 
 

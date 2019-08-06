@@ -123,7 +123,7 @@ namespace Backend.Persistance.Migrations
             modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser", b =>
                 {
                     b.HasOne("Backend.Domain.Entities.ApplicationUser", "Parent")
-                        .WithMany("Subusers")
+                        .WithMany("Athletes")
                         .HasForeignKey("ParentId");
 
                     b.HasOne("Backend.Domain.Entities.UserSettings", "UserSettings")

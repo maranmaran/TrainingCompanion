@@ -5,6 +5,7 @@ using Backend.Application.Business.Business.Users.GetAllUsers;
 using Backend.Application.Business.Business.Users.GetUser;
 using Backend.Application.Business.Business.Users.SaveUserSettings;
 using Backend.Application.Business.Business.Users.UpdateUser;
+using Backend.Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
@@ -40,10 +41,10 @@ namespace Backend.API.Controllers
             return await Update(async () => await Mediator.Send(request));
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpGet("{id}/{accountType}")]
+        public async Task<IActionResult> Delete(Guid id, AccountType accountType)
         {
-            return await Delete(async () => await Mediator.Send(new DeleteUserRequest(id)));
+            return await Delete(async () => await Mediator.Send(new DeleteUserRequest(id, accountType)));
         }
 
         [HttpPost]

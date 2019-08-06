@@ -7,6 +7,8 @@ namespace Backend.Persistance
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<Athlete> Athletes { get; set; }
+        public DbSet<Coach> Coaches { get; set; }
         public DbSet<UserSettings> UserSettings { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<MediaFile> MediaFiles { get; set; }

@@ -34,97 +34,97 @@ namespace Backend.API.FunctionalTests.Common
 
         private static void Initialize(ApplicationDbContext context)
         {
-            var passwordHasher = new PasswordHasher();
-            context.Database.EnsureCreated();
-            var users = new ApplicationUser[]
-            {
-                // users
-                new ApplicationUser()
-                {
-                    Id = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D"),
-                    Username = "adamcogan",
-                    Email = "adam.cogan@gmail.com",
-                    FirstName = "Adam",
-                    LastName = "Cogan",
-                    PasswordHash = passwordHasher.GetPasswordHash("12345"),
-                },
-                new ApplicationUser()
-                {
-                    Id = new Guid("72FA647C-AD54-4BCC-A860-E5A2664B019D"),
-                    Username = "jasontaylor",
-                    Email = "jason.taylor@gmail.com",
-                    FirstName = "Jason",
-                    LastName = "Taylor",
-                    PasswordHash = passwordHasher.GetPasswordHash("12345"),
-                },
-                new ApplicationUser()
-                {
-                    Id = new Guid("82FA647C-AD54-4BCC-A860-E5A2664B019D"),
-                    Username = "brendanrichards",
-                    Email = "brendan.richards@gmail.com",
-                    FirstName = "Brendan",
-                    LastName = "Richards",
-                    PasswordHash = passwordHasher.GetPasswordHash("12345"),
-                },
-                // subusers
-                new ApplicationUser()
-                {
-                    Id = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B039D"),
-                    Username = "subuser1",
-                    Email = "adam.cogan@gmail.com",
-                    FirstName = "Adam",
-                    LastName = "Cogan",
-                    ParentId =  new Guid("62FA647D-AD54-4BCC-A860-E5A2664B019D"),
-                    Parent = new ApplicationUser()
-                        {
-                            Id = new Guid("62FA647D-AD54-4BCC-A860-E5A2664B019D"),
-                            Username = "adamcoganParent",
-                            Email = "adam.cogan@gmail.com",
-                            FirstName = "Adam",
-                            LastName = "Cogan",
-                            PasswordHash = passwordHasher.GetPasswordHash("12345"),
-                        },
-                },
-                new ApplicationUser()
-                {
-                    Id = new Guid("62FA647C-AD54-4BCC-A860-E5A26645019D"),
-                    Username = "subuser2",
-                    Email = "adam.cogan@gmail.com",
-                    FirstName = "Adam",
-                    LastName = "Cogan",
-                    ParentId =  new Guid("62FA647F-AD54-4BCC-A860-E5A2664B019D"),
-                    Parent = new ApplicationUser()
-                    {
-                        Id = new Guid("62FA647F-AD54-4BCC-A860-E5A2664B019D"),
-                        Username = "adamcoganParent2",
-                        Email = "adam.cogan@gmail.com",
-                        FirstName = "Adam",
-                        LastName = "Cogan",
-                        PasswordHash = passwordHasher.GetPasswordHash("12345"),
-                    },
-                },
-                new ApplicationUser()
-                {
-                    Id = new Guid("62FA647C-AD54-4BCC-A860-E5A6664B019D"),
-                    Username = "subuser3",
-                    Email = "adam.cogan@gmail.com",
-                    FirstName = "Adam",
-                    LastName = "Cogan",
-                    ParentId =  new Guid("62FA647E-AD54-4BCC-A860-E5A2664B019D"),
-                    Parent = new ApplicationUser()
-                    {
-                        Id = new Guid("62FA647E-AD54-4BCC-A860-E5A2664B019D"),
-                        Username = "adamcoganParent3",
-                        Email = "adam.cogan@gmail.com",
-                        FirstName = "Adam",
-                        LastName = "Cogan",
-                        PasswordHash = passwordHasher.GetPasswordHash("12345"),
-                    },
-                },
-            };
+            //var passwordHasher = new PasswordHasher();
+            //context.Database.EnsureCreated();
+            //var users = new ApplicationUser[]
+            //{
+            //    // users
+            //    new ApplicationUser()
+            //    {
+            //        Id = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D"),
+            //        Username = "adamcogan",
+            //        Email = "adam.cogan@gmail.com",
+            //        FirstName = "Adam",
+            //        LastName = "Cogan",
+            //        PasswordHash = passwordHasher.GetPasswordHash("12345"),
+            //    },
+            //    new ApplicationUser()
+            //    {
+            //        Id = new Guid("72FA647C-AD54-4BCC-A860-E5A2664B019D"),
+            //        Username = "jasontaylor",
+            //        Email = "jason.taylor@gmail.com",
+            //        FirstName = "Jason",
+            //        LastName = "Taylor",
+            //        PasswordHash = passwordHasher.GetPasswordHash("12345"),
+            //    },
+            //    new ApplicationUser()
+            //    {
+            //        Id = new Guid("82FA647C-AD54-4BCC-A860-E5A2664B019D"),
+            //        Username = "brendanrichards",
+            //        Email = "brendan.richards@gmail.com",
+            //        FirstName = "Brendan",
+            //        LastName = "Richards",
+            //        PasswordHash = passwordHasher.GetPasswordHash("12345"),
+            //    },
+            //    // athletes
+            //    new ApplicationUser()
+            //    {
+            //        Id = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B039D"),
+            //        Username = "athlete1",
+            //        Email = "adam.cogan@gmail.com",
+            //        FirstName = "Adam",
+            //        LastName = "Cogan",
+            //        ParentId =  new Guid("62FA647D-AD54-4BCC-A860-E5A2664B019D"),
+            //        Parent = new ApplicationUser()
+            //            {
+            //                Id = new Guid("62FA647D-AD54-4BCC-A860-E5A2664B019D"),
+            //                Username = "adamcoganParent",
+            //                Email = "adam.cogan@gmail.com",
+            //                FirstName = "Adam",
+            //                LastName = "Cogan",
+            //                PasswordHash = passwordHasher.GetPasswordHash("12345"),
+            //            },
+            //    },
+            //    new ApplicationUser()
+            //    {
+            //        Id = new Guid("62FA647C-AD54-4BCC-A860-E5A26645019D"),
+            //        Username = "athlete2",
+            //        Email = "adam.cogan@gmail.com",
+            //        FirstName = "Adam",
+            //        LastName = "Cogan",
+            //        ParentId =  new Guid("62FA647F-AD54-4BCC-A860-E5A2664B019D"),
+            //        Parent = new ApplicationUser()
+            //        {
+            //            Id = new Guid("62FA647F-AD54-4BCC-A860-E5A2664B019D"),
+            //            Username = "adamcoganParent2",
+            //            Email = "adam.cogan@gmail.com",
+            //            FirstName = "Adam",
+            //            LastName = "Cogan",
+            //            PasswordHash = passwordHasher.GetPasswordHash("12345"),
+            //        },
+            //    },
+            //    new ApplicationUser()
+            //    {
+            //        Id = new Guid("62FA647C-AD54-4BCC-A860-E5A6664B019D"),
+            //        Username = "athlete3",
+            //        Email = "adam.cogan@gmail.com",
+            //        FirstName = "Adam",
+            //        LastName = "Cogan",
+            //        ParentId =  new Guid("62FA647E-AD54-4BCC-A860-E5A2664B019D"),
+            //        Parent = new ApplicationUser()
+            //        {
+            //            Id = new Guid("62FA647E-AD54-4BCC-A860-E5A2664B019D"),
+            //            Username = "adamcoganParent3",
+            //            Email = "adam.cogan@gmail.com",
+            //            FirstName = "Adam",
+            //            LastName = "Cogan",
+            //            PasswordHash = passwordHasher.GetPasswordHash("12345"),
+            //        },
+            //    },
+            //};
 
-            context.Users.AddRange(users);
-            context.SaveChanges();
+            //context.Users.AddRange(users);
+            //context.SaveChanges();
         }
     }
 }

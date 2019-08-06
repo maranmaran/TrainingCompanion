@@ -28,8 +28,8 @@ export class MaterialTableComponent implements OnInit, OnDestroy {
   protected selection = new SelectionModel<string>(true, []);
   protected pageSize: number;
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   private subs = new SubSink();
 
@@ -55,9 +55,9 @@ export class MaterialTableComponent implements OnInit, OnDestroy {
   }
 
   masterToggle() {
-    if(this.isAllSelected) {
-       this.selection.clear(); 
-       this.selectEvent.emit(null);
+    if (this.isAllSelected) {
+      this.selection.clear();
+      this.selectEvent.emit(null);
     } else {
       this.datasource.data.forEach(row => this.selection.select(row.id));
     }
@@ -70,17 +70,17 @@ export class MaterialTableComponent implements OnInit, OnDestroy {
   get isMoreThanOneSelected() {
     return this.selection.selected.length > 1;
   }
-  
+
   get isAllSelected() {
     return this.datasource.data.length === this.selection.selected.length;
   }
- 
+
   onSelect(entity: any) {
 
     this.selection.toggle(entity.id);
 
     // if multiple or none selected - remove details
-    if(this.selection.selected.length > 1 || this.selection.isEmpty()) {
+    if (this.selection.selected.length > 1 || this.selection.isEmpty()) {
       this.selectEvent.emit(null);
       return;
     }
