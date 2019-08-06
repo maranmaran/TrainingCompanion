@@ -2,9 +2,9 @@
 using Backend.Domain.Entities;
 using Backend.Domain.Enum;
 
-namespace Backend.Application.Business.Business.Subusers.CreateSubuser
+namespace Backend.Application.Business.Business.Athletes.CreateAthlete
 {
-    public class CreateSubuserRequestResponse
+    public class CreateAthleteRequestResponse
     {
         public Guid Id { get; set; }
         public string Username { get; set; }
@@ -14,7 +14,7 @@ namespace Backend.Application.Business.Business.Subusers.CreateSubuser
         public DateTime CreatedOn { get; set; }
         public DateTime LastModified { get; set; }
         public AccountStatus AccountStatus => AccountStatus.Waiting;
-        public AccountType AccountType => AccountType.Subuser;
+        public AccountType AccountType => AccountType.Athlete;
         public Guid ParentId { get; set; }
         public ApplicationUser Parent { get; set; }
     }

@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Backend.Application.Business.Business.Athletes.CreateAthlete;
+using Backend.Application.Business.Business.Athletes.DeleteAthlete;
+using Backend.Application.Business.Business.Coaches.CreateCoach;
+using Backend.Application.Business.Business.Coaches.DeleteCoach;
+using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Entities;
+using Backend.Domain.Enum;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,22 +18,40 @@ namespace Backend.Application.Business.Business.Users.DeleteUser
 {
     public class DeleteUserRequestHandler : IRequestHandler<DeleteUserRequest>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public DeleteUserRequestHandler(IApplicationDbContext context)
+        public DeleteUserRequestHandler(IMapper mapper, IMediator mediator)
         {
-            _context = context;
+            _mapper = mapper;
+            _mediator = mediator;
         }
+
 
         public async Task<Unit> Handle(DeleteUserRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var user = await _context.Users.SingleAsync(u => u.Id == request.Id, cancellationToken);
+                switch (request.AccountType)
+                {
+                    case AccountType.Coach:
 
-                _context.Users.Remove(user);
+                        var deleteCoachRequest = _mapper.Map<DeleteCoachRequest>(request);
+                        await _mediator.Send(deleteCoachRequest, cancellationToken);
+                        break;
 
-                await _context.SaveChangesAsync(cancellationToken);
+                    case AccountType.Athlete:
+
+                        var deleteAthleteRequest = _mapper.Map<DeleteAthleteRequest>(request);
+                        await _mediator.Send(deleteAthleteRequest, cancellationToken);
+                        break;
+
+                    case AccountType.SoloAthlete:
+                        break;
+
+                    default:
+                        throw new Exception($"This account type does not exist: {request.AccountType}");
+                }
 
                 return Unit.Value;
             }

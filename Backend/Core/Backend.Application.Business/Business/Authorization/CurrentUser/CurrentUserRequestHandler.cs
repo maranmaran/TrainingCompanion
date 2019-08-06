@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Application.Business.Business.Billing.GetPlans;
 using Backend.Application.Business.Business.Billing.GetSubscription;
 using Backend.Application.Business.Business.Billing.GetSubscriptionStatus;
@@ -12,6 +9,9 @@ using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.Payment.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Authorization.CurrentUser
 {
@@ -42,7 +42,7 @@ namespace Backend.Application.Business.Business.Authorization.CurrentUser
 
                 var response = _mapper.Map<CurrentUserRequestResponse>(user);
 
-                if (user.AccountType == AccountType.User)
+                if (user.AccountType == AccountType.Coach || user.AccountType == AccountType.SoloAthlete)
                 {
                     response.SubscriptionStatus = await _mediator.Send(new GetSubscriptionStatusRequest(response.CustomerId), cancellationToken);
                     response.SubscriptionInfo = await _mediator.Send(new GetSubscriptionRequest(response.CustomerId), cancellationToken);

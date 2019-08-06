@@ -12,16 +12,16 @@ using Backend.Service.Email.Models;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 
-namespace Backend.Application.Business.Business.Subusers.CreateSubuser
+namespace Backend.Application.Business.Business.Athletes.CreateAthlete
 {
-    public class CreateSubuserRequestHandler : IRequestHandler<CreateSubuserRequest, CreateSubuserRequestResponse>
+    public class CreateAthleteRequestHandler : IRequestHandler<CreateAthleteRequest, CreateAthleteRequestResponse>
     {
         private readonly IApplicationDbContext _context;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly EmailSettings _emailSettings;
 
-        public CreateSubuserRequestHandler(
+        public CreateAthleteRequestHandler(
             IApplicationDbContext context,
             IMapper mapper,
             IEmailService emailService, EmailSettings emailSettings)
@@ -32,20 +32,20 @@ namespace Backend.Application.Business.Business.Subusers.CreateSubuser
             _emailSettings = emailSettings;
         }
 
-        public async Task<CreateSubuserRequestResponse> Handle(CreateSubuserRequest request, CancellationToken cancellationToken)
+        public async Task<CreateAthleteRequestResponse> Handle(CreateAthleteRequest request, CancellationToken cancellationToken)
         {
             try
             {
                 // map and save user
-                var user = _mapper.Map<CreateSubuserRequest, ApplicationUser>(request);
-                _context.Users.Add(user);
+                var athlete = _mapper.Map<CreateAthleteRequest, Athlete>(request);
+                _context.Athletes.Add(athlete);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 // send mail to complete registration
-                await _emailService.SendEmailAsync(GetRegistrationEmailMessage(user), cancellationToken);
+                await _emailService.SendEmailAsync(GetRegistrationEmailMessage(athlete), cancellationToken);
 
                 // return data
-                return _mapper.Map<ApplicationUser, CreateSubuserRequestResponse>(user);
+                return _mapper.Map<Athlete, CreateAthleteRequestResponse>(athlete);
             }
             catch (Exception e)
             {
@@ -56,11 +56,11 @@ namespace Backend.Application.Business.Business.Subusers.CreateSubuser
         private EmailMessage GetRegistrationEmailMessage(ApplicationUser user)
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                       "/Business/Subusers/Commands/Create/registrationEmailTemplate.html";
+                       "/Business/Athletes/Commands/Create/registrationEmailTemplate.html";
 
             var templateBody = File.ReadAllText(path);
-            templateBody = templateBody.Replace("{{parentId}}", user.ParentId.ToString());
-            templateBody = templateBody.Replace("{{subUserId}}", user.Id.ToString());
+            //templateBody = templateBody.Replace("{{parentId}}", user.ParentId.ToString());
+            //templateBody = templateBody.Replace("{{athleteId}}", user.Id.ToString());
 
             var message = new EmailMessage()
             {

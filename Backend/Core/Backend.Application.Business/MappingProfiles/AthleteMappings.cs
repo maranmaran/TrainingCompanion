@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Backend.Application.Business.MappingProfiles
 {
-    class SubuserMappings
+    class AthleteMappings
     {
     }
 }

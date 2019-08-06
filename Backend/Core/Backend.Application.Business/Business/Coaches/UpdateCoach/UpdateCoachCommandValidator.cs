@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
 
-namespace Backend.Application.Business.Business.Subusers.CreateSubuser
+namespace Backend.Application.Business.Business.Coaches.UpdateCoach
 {
-    public class CreateSubuserRequestValidator : AbstractValidator<CreateSubuserRequest>
+    public class UpdateCoachRequestValidator : AbstractValidator<UpdateCoachRequest>
     {
-        public CreateSubuserRequestValidator()
+        public UpdateCoachRequestValidator()
         {
+            RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Username).MaximumLength(15).NotEmpty();
             RuleFor(x => x.Email).EmailAddress().NotEmpty();
 

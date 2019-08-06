@@ -2,11 +2,11 @@
 using Backend.Domain.Enum;
 using MediatR;
 
-namespace Backend.Application.Business.Business.Subusers.CreateSubuser
+namespace Backend.Application.Business.Business.Athletes.CreateAthlete
 {
-    public class CreateSubuserRequest : IRequest<CreateSubuserRequestResponse>
+    public class CreateAthleteRequest : IRequest<CreateAthleteRequestResponse>
     {
-        public Guid ParentId { get; set; }
+        public Guid CoachId { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
@@ -14,6 +14,6 @@ namespace Backend.Application.Business.Business.Subusers.CreateSubuser
         public DateTime CreatedOn => DateTime.UtcNow;
         public DateTime LastModified => CreatedOn;
         public AccountStatus AccountStatus => AccountStatus.Waiting;
-        public AccountType AccountType => AccountType.Subuser;
+        public AccountType AccountType => AccountType.Athlete;
     }
 }
