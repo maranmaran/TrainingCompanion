@@ -6,6 +6,7 @@ using Backend.Application.Business.Business.Chat.GetChatHistory;
 using Backend.Application.Business.Business.Chat.GetFriendList;
 using Backend.Application.Business.Business.Chat.SendChatMessage;
 using Backend.Application.Business.Business.Chat.UploadChatFile;
+using Backend.Domain.Enum;
 
 namespace Backend.API.Controllers
 {
@@ -17,10 +18,10 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request));
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetFriendsList(Guid userId)
+        [HttpGet("{userId}/{accountType}")]
+        public async Task<IActionResult> GetFriendsList(Guid userId, AccountType accountType)
         {
-            return Ok(await Mediator.Send(new GetFriendsListRequest(userId)));
+            return Ok(await Mediator.Send(new GetFriendsListRequest(userId, accountType)));
         }
 
         [HttpGet("{userId}/{receiverId}")]

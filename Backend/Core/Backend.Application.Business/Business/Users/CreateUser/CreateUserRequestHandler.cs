@@ -2,9 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Backend.Application.Business.Business.Athletes.CreateAthlete;
+using Backend.Application.Business.Business.Coaches.CreateCoach;
 using Backend.Common;
 using Backend.Domain;
 using Backend.Domain.Entities;
+using Backend.Domain.Enum;
 using Backend.Domain.Extensions;
 using Backend.Service.Authorization.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
@@ -15,38 +18,38 @@ namespace Backend.Application.Business.Business.Users.CreateUser
 {
     public class CreateUserRequestHandler : IRequestHandler<CreateUserRequest, CreateUserRequestResponse>
     {
-        private readonly IApplicationDbContext _context;
-        private readonly IStripeConfiguration _stripeConfiguration;
+        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IPasswordHasher _passwordHasher;
 
-        public CreateUserRequestHandler(
-            IApplicationDbContext context,
-            IMapper mapper,
-            IStripeConfiguration stripeConfiguration, IPasswordHasher passwordHasher)
+        public CreateUserRequestHandler(IMediator mediator, IMapper mapper)
         {
-            _context = context;
+            _mediator = mediator;
             _mapper = mapper;
-            _stripeConfiguration = stripeConfiguration;
-            _passwordHasher = passwordHasher;
         }
 
         public async Task<CreateUserRequestResponse> Handle(CreateUserRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var user = _mapper.Map<CreateUserRequest, ApplicationUser>(request);
-                user.PasswordHash = _passwordHasher.GetPasswordHash(request.Password);
+                switch (request.AccountType)
+                {
+                    case AccountType.Coach:
 
-                user.CustomerId = await _stripeConfiguration.AddCustomer(user.GetFullName(), user.Email); // add to stripe
-                user.UserSettings = new UserSettings();
+                        var newCoachRequest = _mapper.Map<CreateCoachRequest>(request);
+                        return _mapper.Map<CreateUserRequestResponse>(await _mediator.Send(newCoachRequest, cancellationToken));
 
-                user.Avatar = new GenericAvatarConstructor().AddName(user.GetFullName()).Round().Background().Foreground().Value();
+                    case AccountType.Athlete:
 
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync(cancellationToken);
+                        var newAthleteRequest = _mapper.Map<CreateAthleteRequest>(request);
+                        return _mapper.Map<CreateUserRequestResponse>(await _mediator.Send(newAthleteRequest, cancellationToken));
 
-                return _mapper.Map<ApplicationUser, CreateUserRequestResponse>(user);
+                    case AccountType.SoloAthlete:
+
+                        return null;
+                    default:
+                        throw new Exception($"This account type does not exist: {request.AccountType}");
+                }
+
             }
             catch (Exception e)
             {

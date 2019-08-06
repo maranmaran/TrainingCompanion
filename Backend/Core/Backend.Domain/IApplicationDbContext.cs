@@ -8,6 +8,8 @@ namespace Backend.Domain
     public interface IApplicationDbContext
     {
         DbSet<ApplicationUser> Users { get; set; }
+        DbSet<Athlete> Athletes { get; set; }
+        DbSet<Coach> Coaches { get; set; }
         DbSet<UserSettings> UserSettings { get; set; }
         DbSet<ChatMessage> ChatMessages { get; set; }
         DbSet<MediaFile> MediaFiles { get; set; }

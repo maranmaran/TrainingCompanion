@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Domain;
+using Backend.Domain.Entities;
 using Backend.Domain.Enum;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Infrastructure.Exceptions;
@@ -29,41 +30,34 @@ namespace Backend.Application.Business.Business.Chat.GetFriendList
         {
             try
             {
-                var user = await _context.Users
-                    .Include(x => x.Parent)
-                    .Include(x => x.Subusers)
-                    .AsNoTracking()
-                    .SingleAsync(x => x.Id == request.UserId, cancellationToken);
-
                 var friendList = new List<ParticipantResponseViewModel>();
+                var admin = await _context.Users.SingleAsync(x => x.AccountType == AccountType.Admin,
+                    cancellationToken); // admin is available to all
 
-                var admin = await _context.Users.SingleAsync(x => x.AccountType == AccountType.Admin, cancellationToken);
-
-                switch (user.AccountType)
+                switch (request.AccountType)
                 {
                     case AccountType.Admin:
-                        var adminFriends = await _context.Users
-                            .Where(x => x.Id != request.UserId) // all users that are not me
-                            .ToListAsync(cancellationToken);
+
+                        // all users
+                        var adminFriends = await _context.Users.Where(x => x.Id != request.UserId).ToListAsync(cancellationToken);
 
                         friendList.AddRange(_mapper.Map<HashSet<ParticipantResponseViewModel>>(adminFriends));
                         break;
-                    case AccountType.User:
-                        var userFriends = await _context.Users
-                            .Where(x => x.Id != request.UserId && x.ParentId == request.UserId) // only subusers that are not me + admin
-                            .ToListAsync(cancellationToken);
-                        userFriends.Add(admin);
+                    case AccountType.Coach:
 
-                        friendList.AddRange(_mapper.Map<HashSet<ParticipantResponseViewModel>>(userFriends));
+                        // only athletes are reachable to coach
+                        var coachFriends = (List<ApplicationUser>) (await _context.Coaches.Include(x => x.Athletes).SingleAsync(x => x.Id == request.UserId, cancellationToken)).Athletes;
+                        coachFriends.Add(admin);
+
+                        friendList.AddRange(_mapper.Map<HashSet<ParticipantResponseViewModel>>(coachFriends));
                         break;
-                    case AccountType.Subuser:
+                    case AccountType.Athlete:
 
-                        if (user.ParentId != null)
-                        {
-                            friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
-                            friendList.Add(_mapper.Map<ParticipantResponseViewModel>(user.Parent));
-                        } // only my parent and admin
-
+                        // only coach is reachable to athlete
+                        var athleteFriend = (ApplicationUser) (await _context.Athletes.SingleAsync(x => x.Id == request.UserId, cancellationToken)).Coach;
+                        
+                        friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
+                        friendList.Add(_mapper.Map<ParticipantResponseViewModel>(athleteFriend));
                         break;
 
                     default:

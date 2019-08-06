@@ -1,27 +1,27 @@
-﻿using Backend.API.FunctionalTests.Common;
-using Backend.API.FunctionalTests.Common.ClientAPI;
-using Backend.Application.Business.Business.Subusers.CreateSubuser;
-using Shouldly;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Backend.API.FunctionalTests.Common;
+using Backend.API.FunctionalTests.Common.ClientAPI;
+using Backend.Application.Business.Business.Athletes.CreateAthlete;
+using Shouldly;
 using Xunit;
 
 namespace Backend.API.FunctionalTests.ControllerTests.SubusersTests
 {
-    public class CreateSubuserTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class CreateAthleteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly SubuserClient _client;
+        private readonly AthleteClient _client;
 
-        public CreateSubuserTests(CustomWebApplicationFactory<Startup> factory)
+        public CreateAthleteTests(CustomWebApplicationFactory<Startup> factory)
         {
-            _client = new SubuserClient(factory);
+            _client = new AthleteClient(factory);
         }
 
         [Fact]
         public async Task Create_Successful()
         {
-            var createSubuserCommand = new CreateSubuserRequest()
+            var createAthleteCommand = new CreateAthleteRequest()
             {
                 FirstName = "Marko",
                 LastName = "Urh",
@@ -30,18 +30,18 @@ namespace Backend.API.FunctionalTests.ControllerTests.SubusersTests
                 ParentId = new Guid("62FA647E-AD54-4BCC-A860-E5A2664B019D"),
             };
 
-            var response = await _client.CreateSubuser(createSubuserCommand);
+            var response = await _client.CreateAthlete(createAthleteCommand);
 
             response.EnsureSuccessStatusCode();
-            var vm = await Utilities.GetResponseContent<CreateSubuserRequestResponse>(response);
+            var vm = await Utilities.GetResponseContent<CreateAthleteRequestResponse>(response);
 
-            Assert.IsAssignableFrom<CreateSubuserRequestResponse>(vm);
+            Assert.IsAssignableFrom<CreateAthleteRequestResponse>(vm);
             Assert.NotNull(vm);
-            vm.FirstName.ShouldBe(createSubuserCommand.FirstName);
-            vm.LastName.ShouldBe(createSubuserCommand.LastName);
-            vm.Email.ShouldBe(createSubuserCommand.Email);
-            vm.Username.ShouldBe(createSubuserCommand.Username);
-            vm.ParentId.ShouldBe(createSubuserCommand.ParentId);
+            vm.FirstName.ShouldBe(createAthleteCommand.FirstName);
+            vm.LastName.ShouldBe(createAthleteCommand.LastName);
+            vm.Email.ShouldBe(createAthleteCommand.Email);
+            vm.Username.ShouldBe(createAthleteCommand.Username);
+            vm.ParentId.ShouldBe(createAthleteCommand.ParentId);
             vm.Id.ShouldNotBe(Guid.Empty);
         }
 
@@ -50,7 +50,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.SubusersTests
         public async Task Create_Fails()
         {
             // email validation is wrong
-            var createSubuserCommand = new CreateSubuserRequest()
+            var createAthleteCommand = new CreateAthleteRequest()
             {
                 FirstName = "Marko",
                 LastName = "Urh",
@@ -58,7 +58,7 @@ namespace Backend.API.FunctionalTests.ControllerTests.SubusersTests
                 Username = "maran"
             };
 
-            var response = await _client.CreateSubuser(createSubuserCommand);
+            var response = await _client.CreateAthlete(createAthleteCommand);
             response.AssertFailsWithStatusCode(HttpStatusCode.BadRequest);
         }
     }

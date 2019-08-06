@@ -14,24 +14,13 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.LastModified).HasDefaultValueSql("getutcdate()");
             builder.Property(x => x.TrialDuration).HasDefaultValue(15);
             builder.Property(x => x.Active).HasDefaultValue(true);
-
+            //TODO Add fullname default value..
 
             builder.Property(x => x.AccountStatus)
                 .HasDefaultValue(AccountStatus.Active)
                 .HasConversion(
                     v => v.ToString(),
                     v => (AccountStatus)Enum.Parse(typeof(AccountStatus), v));
-
-            builder.Property(x => x.AccountType)
-                .HasDefaultValue(AccountType.User)
-                .HasConversion(
-                    v => v.ToString(),
-                    v => (AccountType)Enum.Parse(typeof(AccountType), v));
-
-            builder
-                .HasOne(x => x.Parent)
-                .WithMany(x => x.Subusers)
-                .HasForeignKey(x => x.ParentId);
 
             builder
                 .HasMany(x => x.MediaFiles)

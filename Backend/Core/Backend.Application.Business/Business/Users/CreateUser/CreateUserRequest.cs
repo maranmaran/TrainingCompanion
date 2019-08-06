@@ -15,6 +15,6 @@ namespace Backend.Application.Business.Business.Users.CreateUser
         public DateTime CreatedOn => DateTime.UtcNow;
         public DateTime LastModified => CreatedOn;
         public AccountStatus AccountStatus => AccountStatus.Active;
-        public AccountType AccountType => AccountType.User;
+        public AccountType AccountType;
     }
 }

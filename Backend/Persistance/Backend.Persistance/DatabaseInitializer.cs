@@ -69,40 +69,40 @@ namespace Backend.Persistance
                     Avatar = new GenericAvatarConstructor().AddName("Admin").Round().Background().Foreground().Value(),
                 };
 
-                var subuser = new ApplicationUser()
+                var athlete = new Athlete()
                 {
-                    FirstName = "Subuser",
+                    FirstName = "Athlete",
                     LastName = "",
-                    Username = "subuser",
+                    Username = "athlete",
                     Email = "urh.marko@gmail.com",
                     AccountStatus = AccountStatus.Active,
-                    AccountType = AccountType.Subuser,
-                    PasswordHash = _passwordHasher.GetPasswordHash("subuser"),
+                    AccountType = AccountType.Athlete,
+                    PasswordHash = _passwordHasher.GetPasswordHash("athlete"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     UserSettings = new UserSettings(),
-                    Avatar = new GenericAvatarConstructor().AddName("Subuser").Round().Background().Foreground().Value(),
+                    Avatar = new GenericAvatarConstructor().AddName("Athlete").Round().Background().Foreground().Value(),
                 };
 
-                var user = new ApplicationUser()
+                var coach = new Coach()
                 {
-                    FirstName = "User",
+                    FirstName = "Coach",
                     LastName = "",
-                    Username = "user",
+                    Username = "coach",
                     Email = "urh.marko@gmail.com",
                     AccountStatus = AccountStatus.Active,
-                    AccountType = AccountType.User,
-                    PasswordHash = _passwordHasher.GetPasswordHash("user"),
+                    AccountType = AccountType.Coach,
+                    PasswordHash = _passwordHasher.GetPasswordHash("coach"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     CustomerId = "cus_FHk5RepADdfm5H",
                     UserSettings = new UserSettings(),
-                    Avatar = new GenericAvatarConstructor().AddName("User").Round().Background().Foreground().Value(),
-                    Subusers = new List<ApplicationUser>() { subuser }
+                    Avatar = new GenericAvatarConstructor().AddName("Coach").Round().Background().Foreground().Value(),
+                    Athletes = new List<Athlete>() { athlete }
                 };
 
                 _context.Users.Add(admin);
-                _context.Users.Add(user);
+                _context.Users.Add(coach);
                 _context.SaveChangesAsync(CancellationToken.None).Wait();
             }
             catch (Exception e)
