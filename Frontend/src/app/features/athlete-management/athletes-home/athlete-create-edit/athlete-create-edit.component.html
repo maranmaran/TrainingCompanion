@@ -1,0 +1,50 @@
+<h2> {{data.title}} </h2>
+
+<mat-divider></mat-divider>
+
+<div class="form" fxLayout="column">
+    <form [formGroup]="form">
+      
+            <mat-form-field>
+              <input matInput formControlName="firstName" placeholder="First name">
+              <mat-error *ngIf="firstName.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput formControlName="lastName" placeholder="Last name">
+              <mat-error *ngIf="lastName.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput formControlName="username" placeholder="Username">
+              <mat-error *ngIf="username.invalid">
+                  <span class="validation-error" *ngIf="username.errors.notUnique">Username already exists</span>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput formControlName="email" placeholder="Email" type="email">
+              <mat-error *ngIf="email.invalid">
+                <span class="validation-error" *ngIf="email.errors.notUnique">Email already exists</span>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput formControlName="password" placeholder="Password" type="password">
+              <mat-error *ngIf="password.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput formControlName="repeatPassword" placeholder="Repeat password" type="password">
+              <mat-error *ngIf="repeatPassword.invalid"></mat-error>
+            </mat-form-field>
+          
+      </form>
+</div>
+
+<div id="actions" class="mt-2" fxLayout="row" fxLayoutAlign="space-between">
+    <button  mat-button color="accent" (click)="onClose()">Close</button>
+    <button  mat-stroked-button color="primary" type="submit" (click)="onSubmit()"
+      [disabled]="!form.valid">Register</button>
+  </div>
+  

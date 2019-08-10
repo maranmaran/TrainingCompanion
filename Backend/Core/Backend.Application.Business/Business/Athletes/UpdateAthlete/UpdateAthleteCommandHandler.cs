@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -38,7 +39,7 @@ namespace Backend.Application.Business.Business.Athletes.UpdateAthlete
             }
             catch (Exception e)
             {
-                throw new UpdateFailureException(nameof(Athlete), e.Message);
+                throw new UpdateFailureException(nameof(Athlete), request.Id, e);
             }
         }
     }

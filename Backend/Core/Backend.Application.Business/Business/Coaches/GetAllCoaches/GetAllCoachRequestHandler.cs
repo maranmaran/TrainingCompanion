@@ -26,7 +26,7 @@ namespace Backend.Application.Business.Business.Coaches.GetAllCoaches
             }
             catch (Exception e)
             {
-                throw new NotFoundException("Could not get coachs.", e);
+                throw new NotFoundException(nameof(Coach), e);
             }
         }
     }

@@ -3,7 +3,7 @@ import { AccountType } from '../enums/account-type.enum';
 import { SubscriptionStatus } from '../enums/subscription-status.enum';
 import { UserSettings } from './user-settings.model';
 
-export interface ApplicationUser {
+export class ApplicationUser {
      id: string;
      customerId: string;
      username: string;
@@ -22,11 +22,11 @@ export interface ApplicationUser {
      subscriptionStatus: SubscriptionStatus;
      trialDaysRemaining: number;
 
-     parentId?: string;
-     parent: ApplicationUser;
+     coachId?: string;
+     coach: ApplicationUser;
 
      userSettingsId?: string;
      userSettings: UserSettings;
 
-     subusers: ApplicationUser[];
+     athletes: ApplicationUser[];
 }

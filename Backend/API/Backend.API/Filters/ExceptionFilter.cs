@@ -26,12 +26,12 @@ namespace Backend.API.Filters
             var code = HttpStatusCode.InternalServerError;
             var exceptionMessage = context.Exception.Message;
             var innerExceptionMessage = context.Exception?.InnerException?.Message;
+            context.HttpContext.Response.ContentType = "application/json";
 
             await SaveExceptionToDb((int)code, exceptionMessage, innerExceptionMessage);
 
             if (context.Exception is ValidationException exception)
             {
-                context.HttpContext.Response.ContentType = "application/json";
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Result = new JsonResult(
                     exception.Failures);
@@ -45,13 +45,12 @@ namespace Backend.API.Filters
                 code = HttpStatusCode.NotFound;
             }
 
-            context.HttpContext.Response.ContentType = "application/json";
             context.HttpContext.Response.StatusCode = (int)code;
             context.Result = new JsonResult(new ErrorDetails()
             {
-                StatusCode = (int)code,
+                Status = (int)code,
                 Message = $"{context.Exception.Message}",
-                InnerException = context.Exception.InnerException
+                Exception = context.Exception.InnerException
             });
         }
 

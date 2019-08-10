@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Common;
 using Backend.Domain;
 using Backend.Domain.Entities;
@@ -10,6 +7,10 @@ using Backend.Service.Authorization.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.Payment.Interfaces;
 using MediatR;
+using System;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Coaches.CreateCoach
 {
@@ -50,7 +51,7 @@ namespace Backend.Application.Business.Business.Coaches.CreateCoach
             }
             catch (Exception e)
             {
-                throw new CreateFailureException(nameof(Coach), e.Message);
+                throw new CreateFailureException(nameof(Coach), e);
             }
         }
     }

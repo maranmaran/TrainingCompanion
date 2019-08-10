@@ -1,3 +1,4 @@
+import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -9,6 +10,8 @@ import { ErrorSnackbarComponent } from './error-snackbar/error-snackbar.componen
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MaterialTableComponent } from './material-table/material-table.component';
+import { AthleteCreateEditComponent } from '../features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
+import { AthletesService } from 'src/business/services/athletes.service';
 
 
 @NgModule({
@@ -24,7 +27,8 @@ import { MaterialTableComponent } from './material-table/material-table.componen
         MessageDialogComponent,
         ConfirmDialogComponent,
         SanitizeHtmlPipe,
-        MaterialTableComponent
+        MaterialTableComponent,
+        ShowHidePasswordDirective,
     ],
     exports: [
         CommonModule,
@@ -32,12 +36,13 @@ import { MaterialTableComponent } from './material-table/material-table.componen
         RouterModule,
         MaterialModule,
 
-        MaterialTableComponent,
         MediaDialogComponent,
         ErrorSnackbarComponent,
         MessageDialogComponent,
         ConfirmDialogComponent,
-        SanitizeHtmlPipe
+        SanitizeHtmlPipe,
+        MaterialTableComponent,
+        ShowHidePasswordDirective
     ],
     providers: [
     ],

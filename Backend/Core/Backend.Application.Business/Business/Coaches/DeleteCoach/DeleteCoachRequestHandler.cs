@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain;
@@ -32,7 +33,7 @@ namespace Backend.Application.Business.Business.Coaches.DeleteCoach
             }
             catch (Exception e)
             {
-                throw new DeleteFailureException(nameof(Coach), request.CoachId, e.Message);
+                throw new DeleteFailureException(nameof(Athlete), request.CoachId, e);
             }
         }
     }

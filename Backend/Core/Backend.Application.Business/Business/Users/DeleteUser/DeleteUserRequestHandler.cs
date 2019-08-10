@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -57,7 +58,7 @@ namespace Backend.Application.Business.Business.Users.DeleteUser
             }
             catch (Exception e)
             {
-                throw new DeleteFailureException(nameof(ApplicationUser), request.Id, e.Message);
+                throw new DeleteFailureException(nameof(ApplicationUser), request.Id, e);
             }
         }
     }

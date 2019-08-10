@@ -42,7 +42,7 @@ export class AuthEffects {
                 ofType(AuthActions.loginSuccess),
                 tap((currentUser: CurrentUser) => {
                     localStorage.setItem('id', currentUser.id);
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/app']);
                     this.store.dispatch(switchTheme({ theme: currentUser.userSettings.theme }));
                 })
             )

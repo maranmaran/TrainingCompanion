@@ -1,12 +1,10 @@
 ﻿using Backend.Application.Business.Business.Authorization.ChangePassword;
-using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Application.Business.Business.Users.DeleteUser;
 using Backend.Application.Business.Business.Users.GetAllUsers;
 using Backend.Application.Business.Business.Users.GetUser;
 using Backend.Application.Business.Business.Users.SaveUserSettings;
 using Backend.Application.Business.Business.Users.UpdateUser;
 using Backend.Domain.Enum;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
@@ -28,12 +26,12 @@ namespace Backend.API.Controllers
             return await GetSingle(async () => await Mediator.Send(new GetUserRequest(id)));
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
-        {
-            return await Create(async () => await Mediator.Send(request));
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
+        //{
+        //    return await Create(async () => await Mediator.Send(request));
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Update([FromBody] UpdateUserRequest request)

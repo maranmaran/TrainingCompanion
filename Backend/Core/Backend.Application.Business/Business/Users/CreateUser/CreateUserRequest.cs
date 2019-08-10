@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
 using MediatR;
+using System;
 
 namespace Backend.Application.Business.Business.Users.CreateUser
 {
@@ -16,5 +16,6 @@ namespace Backend.Application.Business.Business.Users.CreateUser
         public DateTime LastModified => CreatedOn;
         public AccountStatus AccountStatus => AccountStatus.Active;
         public AccountType AccountType;
+        public Gender Gender;
     }
 }

@@ -26,7 +26,7 @@ namespace Backend.Application.Business.Business.Billing.GetPlans
             }
             catch (Exception e)
             {
-                throw new NotFoundException("No plans were found. Something went wrong.", e);
+                throw new NotFoundException(nameof(Plan), "No plans were found. Something went wrong.", e);
             }
         }
     }
