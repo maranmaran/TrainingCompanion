@@ -16,8 +16,7 @@ namespace Backend.Domain.Entities
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FullName { get; set; }
-
+        public string FullName => $"{FirstName} {LastName}";
         public DateTime CreatedOn { get; set; }
         public DateTime LastModified { get; set; }
 
