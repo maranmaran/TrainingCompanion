@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -38,7 +39,7 @@ namespace Backend.Application.Business.Business.Coaches.UpdateCoach
             }
             catch (Exception e)
             {
-                throw new UpdateFailureException(nameof(Coach), e.Message);
+                throw new UpdateFailureException(nameof(Coach), request.Id, e);
             }
         }
     }

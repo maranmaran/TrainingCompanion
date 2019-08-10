@@ -1,5 +1,5 @@
 import { CustomColumn } from './../../../business/shared/table-data';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { TableData, TableDatasource, TableConfig } from 'src/business/shared/table-data';
 import { SubSink } from 'subsink';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -13,7 +13,8 @@ import { Observable } from 'rxjs';
   templateUrl: './material-table.component.html',
   styleUrls: ['./material-table.component.scss']
 })
-export class MaterialTableComponent implements OnInit, OnDestroy {
+export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy {
+  
 
   @Input() datasource: TableDatasource<any>;
   @Input() columns: CustomColumn[];
@@ -36,10 +37,13 @@ export class MaterialTableComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit() {
-    this.datasource.paginator = this.paginator;
-    this.datasource.sort = this.sort;
     this.displayColumns = ['select', ...this.columns.map(x => x.definition), 'actions'];
     this.pageSize = this.config.pageSize;
+  }
+
+  ngAfterViewInit() {
+    this.datasource.paginator = this.paginator;
+    this.datasource.sort = this.sort;
   }
 
   ngOnDestroy() {
@@ -77,13 +81,14 @@ export class MaterialTableComponent implements OnInit, OnDestroy {
 
   onSelect(entity: any) {
 
+    this.selection.clear();
     this.selection.toggle(entity.id);
 
-    // if multiple or none selected - remove details
-    if (this.selection.selected.length > 1 || this.selection.isEmpty()) {
-      this.selectEvent.emit(null);
-      return;
-    }
+    // // if multiple or none selected - remove details
+    // if (this.selection.selected.length > 1 || this.selection.isEmpty()) {
+    //   this.selectEvent.emit(null);
+    //   return;
+    // }
 
     // new selection
     this.selectEvent.emit(entity);

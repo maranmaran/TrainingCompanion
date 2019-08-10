@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.Payment.Interfaces;
 using Backend.Service.Payment.Models;
 using MediatR;
@@ -29,9 +30,9 @@ namespace Backend.Application.Business.Business.Billing.AddPayment
 
                 return Unit.Value;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new InvalidOperationException("Could not add payment option.", ex);
+                throw new CreateFailureException(nameof(PaymentOption), e);
             }
         }
     }

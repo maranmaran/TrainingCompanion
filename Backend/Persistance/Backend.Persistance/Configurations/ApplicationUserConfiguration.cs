@@ -22,6 +22,12 @@ namespace Backend.Persistance.Configurations
                     v => v.ToString(),
                     v => (AccountStatus)Enum.Parse(typeof(AccountStatus), v));
 
+            builder.Property(x => x.AccountType)
+                .HasDefaultValue(AccountType.Coach)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (AccountType)Enum.Parse(typeof(AccountType), v));
+
             builder
                 .HasMany(x => x.MediaFiles)
                 .WithOne(x => x.ApplicationUser)

@@ -4,6 +4,7 @@ using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,7 +41,7 @@ namespace Backend.Application.Business.Business.Athletes.DeleteAthlete
             }
             catch (Exception e)
             {
-                throw new DeleteFailureException(nameof(ApplicationUser), request.AthleteId, e.Message);
+                throw new DeleteFailureException(nameof(Athlete), request.AthleteId, e);
             }
         }
     }

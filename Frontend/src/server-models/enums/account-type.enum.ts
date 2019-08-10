@@ -1,6 +1,7 @@
 export enum AccountType
 {
-    Subuser,
-    User,
-    Admin
+    Admin,
+    Coach,
+    Athlete,
+    SoloAthlete
 }

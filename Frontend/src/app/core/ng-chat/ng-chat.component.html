@@ -23,7 +23,7 @@
                     type="checkbox" 
                     class="ng-chat-users-checkbox" 
                     (change)="onFriendsListCheckboxChange(user, $event.target.checked)" 
-                    [checked]="isUserSelectedFromFriendsList(user)"/>
+                    [checked]="isCoachSelectedFromFriendsList(user)"/>
                 <div [ngClass]="{'ng-chat-friends-list-selectable-offset': currentActiveOption, 'ng-chat-friends-list-container': true}" (click)="openChatWindow(user, true, true)">
                     <div *ngIf="!user.avatar" class="icon-wrapper">
                         <i class="user-icon"></i>

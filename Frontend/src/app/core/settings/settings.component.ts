@@ -8,7 +8,7 @@ import { take } from 'rxjs/internal/operators/take';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { isUser } from 'src/ngrx/auth/auth.selectors';
+import { isCoach } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public activeTab: 'General' | 'Account' | 'Billing' = 'General'
 
   public loading$: Observable<boolean>;
-  public isUser: Observable<boolean>;
+  public isCoach: Observable<boolean>;
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
 
@@ -42,7 +42,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // store state setup
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SettingsScreen}));
-    this.isUser = this.store.select(isUser);
+    this.isCoach = this.store.select(isCoach);
 
     this.loading$ = getLoadingState(this.store, UIProgressBar.SettingsScreen);;
 

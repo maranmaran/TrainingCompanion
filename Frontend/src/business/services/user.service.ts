@@ -1,3 +1,5 @@
+import { AccountType } from 'src/server-models/enums/account-type.enum';
+import { CreateUserRequest } from './../../server-models/cqrs/users/requests/create-user.request';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
@@ -31,12 +33,11 @@ export class UsersService extends BaseService {
             );
     }
 
-    public create() {
-        // return this.http.get<ApplicationUser>(this.url + 'Get/' + userId)
-        // .pipe(
-        //     map((res: ApplicationUser) => this.userAdapter.adaptToModel(res)),
-        //     catchError(this.handleError)
-        // );
+    public create(request: CreateUserRequest) {
+        return this.http.post<ApplicationUser>(this.url + 'Create/', request)
+        .pipe(
+            catchError(this.handleError)
+        );
     }
 
     public update(command: UpdateUserRequest) {

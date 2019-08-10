@@ -21,7 +21,7 @@ import { trialMessageHtml, trialOverHtml } from 'src/business/shared/popup-templ
 import * as moment from 'moment'
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class UIService {
 
     constructor(

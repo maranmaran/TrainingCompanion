@@ -4,19 +4,28 @@ namespace Backend.Service.Infrastructure.Exceptions
 {
     public class NotFoundException : Exception
     {
-
-        public NotFoundException(string name, object key)
-            : base($"Entity \"{name}\" ({key}) was not found.")
+        public NotFoundException(string name, Exception e)
+            : base($"Entity \"{name}\" not found. {e.Message}")
         {
         }
 
-        public NotFoundException(string name, object key, Exception e)
-            : base($"Entity \"{name}\" ({key}) was not found.", e)
+        public NotFoundException(string name, Guid id, Exception e)
+            : base($"Entity \"{name}\" with id: {id} not found. {e.Message}")
         {
         }
 
-        public NotFoundException(string message, Exception e)
-            : base($"{message}", e)
+        public NotFoundException(string name, Guid id)
+            : base($"Entity \"{name}\" with id: {id} not found.")
+        {
+        }
+
+        public NotFoundException(string name, string message)
+            : base($"Entity \"{name}\" not found. {message}")
+        {
+        }
+
+        public NotFoundException(string name, string message, Exception e)
+            : base($"Entity \"{name}\" not found. {message}")
         {
         }
     }

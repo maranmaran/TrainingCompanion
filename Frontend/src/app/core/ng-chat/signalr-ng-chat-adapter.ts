@@ -1,3 +1,4 @@
+import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
@@ -16,6 +17,7 @@ Injectable()
 export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
 
   public userId: string;
+  public userAccountType: AccountType;
   private hubConnection: signalR.HubConnection;
   private subs = new SubSink();
 
@@ -30,7 +32,10 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
     ));
 
     this.store.pipe(take(1))
-    .subscribe(state => this.userId = state.auth.currentUser.id);
+    .subscribe(state => {
+      this.userId = state.auth.currentUser.id;
+      this.userAccountType = AccountType[state.auth.currentUser.accountType];
+    });
     this.initializeConnection();
   }
 
@@ -73,7 +78,7 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
       return this.http
-      .get('/chat/GetFriendsList/' + this.userId)
+      .get('/chat/GetFriendsList/' + this.userId + '/' + this.userAccountType)
       .pipe(
         map((res: any) => {
           return res;

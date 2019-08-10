@@ -46,18 +46,18 @@ namespace Backend.Application.Business.Business.Chat.GetFriendList
                     case AccountType.Coach:
 
                         // only athletes are reachable to coach
-                        var coachFriends = (List<ApplicationUser>) (await _context.Coaches.Include(x => x.Athletes).SingleAsync(x => x.Id == request.UserId, cancellationToken)).Athletes;
-                        coachFriends.Add(admin);
+                        var coachFriends = (await _context.Coaches.Include(x => x.Athletes).SingleAsync(x => x.Id == request.UserId, cancellationToken)).Athletes;
 
                         friendList.AddRange(_mapper.Map<HashSet<ParticipantResponseViewModel>>(coachFriends));
+                        friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
                         break;
                     case AccountType.Athlete:
 
                         // only coach is reachable to athlete
                         var athleteFriend = (ApplicationUser) (await _context.Athletes.SingleAsync(x => x.Id == request.UserId, cancellationToken)).Coach;
-                        
-                        friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
+
                         friendList.Add(_mapper.Map<ParticipantResponseViewModel>(athleteFriend));
+                        friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
                         break;
 
                     default:

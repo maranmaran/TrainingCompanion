@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Observable } from 'rxjs';
-import { isUser } from 'src/ngrx/auth/auth.selectors';
+import { isCoach } from 'src/ngrx/auth/auth.selectors';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -15,7 +15,7 @@ import { tap } from 'rxjs/operators';
 })
 export class SidebarComponent implements OnInit {
 
-  protected isUser$: Observable<boolean>;
+  protected isCoach$: Observable<boolean>;
 
   constructor(
     private uiService: UIService,
@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.isUser$ = this.store.select(isUser);
+    this.isCoach$ = this.store.select(isCoach);
   }
 
   //TODO: Event source this out

@@ -26,7 +26,7 @@ namespace Backend.Application.Business.Business.Users.GetAllUsers
             }
             catch (Exception e)
             {
-                throw new NotFoundException("Could not get users.", e);
+                throw new NotFoundException(nameof(ApplicationUser), "Something went wrong fetching users", e);
             }
         }
     }

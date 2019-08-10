@@ -1,12 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Users.UpdateUser
 {
@@ -38,7 +39,7 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
             }
             catch (Exception e)
             {
-                throw new UpdateFailureException(nameof(ApplicationUser), e.Message);
+                throw new UpdateFailureException(nameof(ApplicationUser), request.Id, e);
             }
         }
     }

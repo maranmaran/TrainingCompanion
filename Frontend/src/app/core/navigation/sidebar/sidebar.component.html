@@ -13,15 +13,15 @@
 <mat-nav-list class="navlist">
   <mat-accordion class="headers-align" [displayMode]="'flat'">
 
-    <a *ngIf="(isUser$ | async)" mat-list-item routerLink="/subusers" (click)="onRoute()">
+    <a *ngIf="(isCoach$ | async)" mat-list-item routerLink="/app/athletes" (click)="onRoute()">
       Manage all users
     </a>
 
-    <a mat-list-item routerLink="/media/videos" (click)="onRoute()">
+    <a mat-list-item routerLink="/app/media/videos" (click)="onRoute()">
       Manage videos
     </a>
 
-    <a mat-list-item routerLink="/media/photos" (click)="onRoute()">
+    <a mat-list-item routerLink="/app/media/photos" (click)="onRoute()">
       Manage photos
     </a>
 
