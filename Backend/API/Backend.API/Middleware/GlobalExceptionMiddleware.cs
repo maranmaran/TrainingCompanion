@@ -30,18 +30,18 @@ namespace Backend.API.Middleware
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Response.ContentType = "application/json";
 
             var errorDetails = new ErrorDetails()
             {
                 Status = (int)HttpStatusCode.InternalServerError,
                 Message = "Something went wrong",
-                Exception = new Exception("Something went wrong")
+                Exception = exception
             };
 
             if (exception is ExtendedException extendedException)
-            { 
+            {
                 errorDetails.Status = extendedException.Status;
                 errorDetails.Message = extendedException.Message;
                 errorDetails.Exception = extendedException.Exception;

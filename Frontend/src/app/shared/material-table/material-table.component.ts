@@ -6,7 +6,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Type } from '@angular/compiler';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-material-table',
@@ -31,6 +32,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  private applyFilterEvent = new Subject<string>();
+  
 
   private subs = new SubSink();
 
@@ -39,6 +42,10 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnInit() {
     this.displayColumns = ['select', ...this.columns.map(x => x.definition), 'actions'];
     this.pageSize = this.config.pageSize;
+
+    this.subs.add(
+      this.applyFilterEvent.pipe(debounceTime(300)).subscribe(filter => this.applyFilter(filter))
+    );
   }
 
   ngAfterViewInit() {
@@ -51,7 +58,13 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   applyFilter(filterValue: string) {
-    this.datasource.filter = filterValue.trim().toLocaleLowerCase();
+    filterValue = filterValue.trim().toLocaleLowerCase();
+
+    if(this.config.filterFunction) {
+      this.datasource.filterPredicate = this.config.filterFunction;
+    } 
+      
+    this.datasource.filter = filterValue;
 
     if (this.datasource.paginator) {
       this.datasource.paginator.firstPage();
