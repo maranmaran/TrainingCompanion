@@ -54,21 +54,21 @@ export const isTrialing = createSelector(
     (daysRemaining: number) => daysRemaining > 0 ? true : false
 );
 
-export const isUser = createSelector(
+export const isCoach = createSelector(
     currentUser,
     (user: CurrentUser) => {
         if(user) {
             const accountType = AccountType[user.accountType];
-            return accountType == AccountType.User || accountType == AccountType.Admin;
+            return accountType == AccountType.Coach || accountType == AccountType.Admin;
         }
     }
 );
 
-export const isSubuser = createSelector(
+export const isAthlete = createSelector(
     currentUser,
     (user: CurrentUser) => {
         const accountType = AccountType[user.accountType];
-        return accountType == AccountType.Subuser || AccountType.User || accountType == AccountType.Admin;
+        return accountType == AccountType.Athlete || AccountType.Coach || accountType == AccountType.Admin;
     }
 );
 

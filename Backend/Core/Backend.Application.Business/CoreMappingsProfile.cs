@@ -57,6 +57,13 @@ namespace Backend.Application.Business
             CreateMap<CreateUserRequest, ApplicationUser>();
             CreateMap<ApplicationUser, CreateUserRequestResponse>();
 
+            CreateMap<CreateUserRequest, CreateCoachRequest>();
+            CreateMap<CreateUserRequest, CreateAthleteRequest>();
+
+            CreateMap<CreateCoachRequestResponse, CreateUserRequestResponse>();
+            CreateMap<CreateAthleteRequestResponse, CreateUserRequestResponse>();
+
+
             // update
             CreateMap<UpdateUserRequest, ApplicationUser>()
                 .ForMember(x => x.CreatedOn, o => o.Ignore())
@@ -119,6 +126,32 @@ namespace Backend.Application.Business
 
 
             CreateMap<ApplicationUser, ParticipantResponseViewModel>()
+                .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
+                {
+                    Avatar = z.Avatar,
+                    Id = z.Id.ToString(),
+                    DisplayName = $"{z.FirstName} {z.LastName}",
+                    Status = ChatParticipantStatus.Offline
+                }))
+                .ForMember(x => x.Metadata, y => y.MapFrom(z => new ParticipantMetadataViewModel()
+                {
+                    TotalUnreadMessages = 0,
+                }));
+
+            CreateMap<Athlete, ParticipantResponseViewModel>()
+                .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
+                {
+                    Avatar = z.Avatar,
+                    Id = z.Id.ToString(),
+                    DisplayName = $"{z.FirstName} {z.LastName}",
+                    Status = ChatParticipantStatus.Offline
+                }))
+                .ForMember(x => x.Metadata, y => y.MapFrom(z => new ParticipantMetadataViewModel()
+                {
+                    TotalUnreadMessages = 0,
+                }));
+
+            CreateMap<Coach, ParticipantResponseViewModel>()
                 .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
                 {
                     Avatar = z.Avatar,

@@ -1,4 +1,5 @@
-﻿using Backend.Service.Email.Models;
+﻿using System.Net.Mail;
+using Backend.Service.Email.Models;
 using System.Threading;
 using System.Threading.Tasks;
 

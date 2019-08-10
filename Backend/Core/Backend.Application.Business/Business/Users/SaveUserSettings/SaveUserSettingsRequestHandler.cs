@@ -2,8 +2,10 @@
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain.Entities;
 
 namespace Backend.Application.Business.Business.Users.SaveUserSettings
 {
@@ -28,7 +30,7 @@ namespace Backend.Application.Business.Business.Users.SaveUserSettings
             }
             catch (Exception e)
             {
-                throw new UpdateFailureException($"Could not save user settings ({request.UserSettings.Id} for user.", e);
+                throw new UpdateFailureException(nameof(UserSettings), request.UserSettings.Id, e);
             }
         }
     }

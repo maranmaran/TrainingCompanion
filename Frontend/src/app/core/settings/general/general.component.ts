@@ -32,7 +32,6 @@ export class GeneralComponent implements OnInit {
       });
   }
 
-
   get themeButtonChecked(): boolean { return this.userSettings.theme == Theme.Dark; }
 
   public onThemeChange(event: MatSlideToggleChange) {

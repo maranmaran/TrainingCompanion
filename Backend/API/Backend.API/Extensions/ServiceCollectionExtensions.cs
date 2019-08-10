@@ -50,7 +50,7 @@ namespace Backend.API.Extensions
             services
                 .AddMvc(options =>
                 {
-                    options.Filters.Add(typeof(ExceptionFilter));
+                    //options.Filters.Add(typeof(ExceptionFilter));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>())

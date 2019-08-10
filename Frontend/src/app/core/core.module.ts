@@ -1,3 +1,5 @@
+import { AthletesService } from 'src/business/services/athletes.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
@@ -40,6 +42,7 @@ import { PlansComponent } from './settings/billing/plans/plans.component';
 import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stripe-checkout.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
+import { AthleteCreateEditComponent } from '../features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
 
 
 @NgModule({
@@ -73,7 +76,6 @@ import { SettingsComponent } from './settings/settings.component';
         AppContainerComponent,
         SidebarComponent,
         ToolbarComponent,
-
         SettingsComponent,
         BillingComponent,
         PlansComponent,
@@ -91,6 +93,7 @@ import { SettingsComponent } from './settings/settings.component';
         RouterModule,
     ],
     providers: [
+        UIService,
         ChatService, // signalr connections must be singleton in this case
         PushNotificationsService,
         SignalrNgChatAdapter,

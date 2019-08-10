@@ -1,0 +1,23 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AthletesHomeComponent } from './athletes-home/athletes-home.component';
+import { AthletesResolver } from 'src/business/resolvers/athletes.resolver';
+
+const routes: Routes = [
+    { path: '', component: AthletesHomeComponent, resolve: {AthletesResolver}, children: [
+    ]},
+    { path: '**', redirectTo: '/' }, //always last
+];
+
+@NgModule({
+    imports: [
+        RouterModule.forChild(routes)
+    ],
+    exports: [
+        RouterModule
+    ],
+    providers: [
+    ]
+})
+export class AthletesRoutingModule {
+}

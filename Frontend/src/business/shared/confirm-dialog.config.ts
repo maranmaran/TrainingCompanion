@@ -1,7 +1,7 @@
 export class ConfirmDialogConfig {
     message: string;
     action: Function;
-    actionParams: any[];
+    actionParams: any[] = [];
     allowConfirm: boolean = true;
     allowCancel: boolean = true;
     confirmLabel: string = 'Proceed';

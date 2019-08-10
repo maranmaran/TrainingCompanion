@@ -53,15 +53,31 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
             }
             catch (Exception e)
             {
+                if (e is ExtendedException)
+                {
+                    throw e as ExtendedException;
+                }
+
                 throw new UnauthorizedAccessException("Failed to login.", e);
             }
         }
 
         private void ValidateUserSignIn(ApplicationUser user, SignInRequest request)
         {
-            if (user == null) throw new NotFoundException(nameof(ApplicationUser), request);
-            if (!user.Active) throw new UnauthorizedAccessException("User inactive");
-            if (user.PasswordHash != _passwordHasher.GetPasswordHash(request.Password)) throw new UnauthorizedAccessException("Wrong password.");
+            if (user == null)
+            {
+                throw new ExtendedException((int)SignInValidationStatusCodes.WrongUsernameOrPassword, "Username or password is wrong", new UnauthorizedAccessException("Failed to login."));
+            }
+
+            if (!user.Active)
+            {
+                throw new ExtendedException((int)SignInValidationStatusCodes.InactiveUser, "This user is inactive", new UnauthorizedAccessException("Failed to login."));
+            }
+
+            if (user.PasswordHash != _passwordHasher.GetPasswordHash(request.Password))
+            {
+                throw new ExtendedException((int)SignInValidationStatusCodes.WrongUsernameOrPassword, "Username or password is wrong", new UnauthorizedAccessException("Failed to login."));
+            }
         }
     }
 }

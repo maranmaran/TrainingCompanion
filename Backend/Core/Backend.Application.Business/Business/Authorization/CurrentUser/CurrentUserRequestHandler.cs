@@ -38,7 +38,7 @@ namespace Backend.Application.Business.Business.Authorization.CurrentUser
                                             .Include(x => x.UserSettings)
                                             .SingleAsync(x => x.Id == request.UserId, cancellationToken: cancellationToken);
 
-                if (user == null) throw new NotFoundException(nameof(ApplicationUser), request);
+                if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
                 var response = _mapper.Map<CurrentUserRequestResponse>(user);
 
@@ -53,7 +53,7 @@ namespace Backend.Application.Business.Business.Authorization.CurrentUser
             }
             catch (Exception e)
             {
-                throw new NotFoundException("Could not find current user.", e);
+                throw new NotFoundException(nameof(CurrentUser), request.UserId, e);
             }
 
         }

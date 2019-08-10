@@ -1,3 +1,4 @@
+import { AppComponent } from './../app.component';
 import { AccountComponent } from './settings/account/account.component';
 import { BillingComponent } from './settings/billing/billing.component';
 import { GeneralComponent } from './settings/general/general.component';
@@ -6,16 +7,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/business/guards/auth.guard';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { SubscriptionGuard } from 'src/business/guards/subscription.guard';
-import { IsUser } from 'src/business/guards/is-user.guard';
+import { IsCoach } from 'src/business/guards/is-coach.guard';
 
 const routes: Routes = [
+    { path: '', redirectTo: 'app', pathMatch: 'full' },
     { path: 'auth', loadChildren: () => import('src/app/features/authorization/auth.module').then(mod => mod.AuthModule) },
     {
-        path: '', component: AppContainerComponent, canActivate: [AuthGuard], canActivateChild: [SubscriptionGuard], children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+        path: 'app', component: AppContainerComponent, canActivate: [AuthGuard], canActivateChild: [SubscriptionGuard], children: [
+            { path: 'app', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', loadChildren: () => import('src/app/features/dashboard/dashboard.module').then(mod => mod.DashboardModule)},
             { path: 'media', loadChildren: () => import('src/app/features/media/media.module').then(mod => mod.MediaModule)},
-            { path: 'subusers', loadChildren: () => import('src/app/features/subusers-management/subusers.module').then(mod => mod.SubusersModule), canActivate: [IsUser]},
+            { path: 'athletes', loadChildren: () => import('src/app/features/athlete-management/athletes.module').then(mod => mod.AthletesModule), canActivate: [IsCoach]},
             {
                 path: 'settings',  canActivate: [AuthGuard], children: [
                     { path: 'general', component: GeneralComponent },

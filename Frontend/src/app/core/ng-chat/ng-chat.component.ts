@@ -1025,7 +1025,7 @@ export class NgChat implements OnInit, IChatController {
         this.onFriendsListActionCancelClicked();
     }
 
-    isUserSelectedFromFriendsList(user: User) : boolean
+    isCoachSelectedFromFriendsList(user: User) : boolean
     {
         return (this.selectedUsersFromFriendsList.filter(item => item.id == user.id)).length > 0
     }

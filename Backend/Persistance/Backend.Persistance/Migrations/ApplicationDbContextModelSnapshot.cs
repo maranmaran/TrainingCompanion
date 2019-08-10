@@ -32,7 +32,7 @@ namespace Backend.Persistance.Migrations
                     b.Property<string>("AccountType")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue("User");
+                        .HasDefaultValue("Coach");
 
                     b.Property<bool>("Active")
                         .ValueGeneratedOnAdd()

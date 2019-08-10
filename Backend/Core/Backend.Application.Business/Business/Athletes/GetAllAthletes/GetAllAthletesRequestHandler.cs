@@ -34,7 +34,7 @@ namespace Backend.Application.Business.Business.Athletes.GetAllAthletes
             }
             catch (Exception e)
             {
-                throw new NotFoundException("Could not get athletes.", e);
+                throw new NotFoundException(nameof(Athlete), e);
             }
         }
     }

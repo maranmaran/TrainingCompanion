@@ -26,7 +26,7 @@ namespace Backend.Application.Business.Business.Billing.GetSubscription
             }
             catch (Exception e)
             {
-                throw new NotFoundException($"Could not find any subscription for customer {request.CustomerId}", e);
+                throw new NotFoundException(nameof(Subscription), $"Could not find any subscription for customer {request.CustomerId}", e);
             }
         }
     }

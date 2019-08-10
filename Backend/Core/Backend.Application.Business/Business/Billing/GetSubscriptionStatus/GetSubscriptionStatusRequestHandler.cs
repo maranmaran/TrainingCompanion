@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.Payment.Enums;
 using Backend.Service.Payment.Interfaces;
 using MediatR;
@@ -25,8 +26,7 @@ namespace Backend.Application.Business.Business.Billing.GetSubscriptionStatus
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                throw new NotFoundException(nameof(SubscriptionStatus), e);
             }
         }
     }

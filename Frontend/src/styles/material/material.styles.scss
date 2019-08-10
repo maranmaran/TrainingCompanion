@@ -34,3 +34,20 @@ mat-form-field {
   // margin-bottom: 1rem;
   width: 100%;
 }
+
+.mat-dialog-container {
+  mat-divider {
+    margin-bottom: 1rem !important;
+    margin-left: -24px !important;
+    margin-right: -24px !important;
+  }
+
+  #actions {
+    margin-top: 1rem !important;
+  }
+}
+
+
+.validation-error {
+  margin-bottom: 1rem !important;
+}

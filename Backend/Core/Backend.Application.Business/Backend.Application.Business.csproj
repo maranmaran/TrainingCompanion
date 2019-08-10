@@ -20,8 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Business\Athletes\CreateAthlete\registrationEmailTemplate.html">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <None Update="Assets\EmailTemplates\Images\logo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

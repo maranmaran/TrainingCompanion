@@ -2,7 +2,6 @@
 using Backend.API.Middleware;
 using Backend.Application.Business.Business.Chat;
 using Backend.Application.Business.Extensions;
-using Backend.Service.Chat;
 using Backend.Service.Infrastructure.Extensions;
 using Backend.Service.PushNotifications;
 using Microsoft.AspNetCore.Builder;
@@ -77,6 +76,7 @@ namespace Backend.API
             StripeConfiguration.ApiKey = Configuration["StripeSettings:SecretKey"];
 
             // ===== Authentication  =====
+            app.UseMiddleware<GlobalExceptionMiddleware>();
             app.UseMiddleware<JwtToAuthHeaderMiddleware>();
             app.UseAuthentication();
 

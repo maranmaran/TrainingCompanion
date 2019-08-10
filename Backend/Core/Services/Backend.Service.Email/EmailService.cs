@@ -68,10 +68,7 @@ namespace Backend.Service.Email
             message.To.Add(new MailboxAddress(emailMessage.To));
             message.From.Add(new MailboxAddress(emailMessage.From));
             message.Subject = emailMessage.Title;
-            message.Body = new TextPart("html")
-            {
-                Text = emailMessage.Body
-            };
+            message.Body = emailMessage.Body;
 
             return message;
         }

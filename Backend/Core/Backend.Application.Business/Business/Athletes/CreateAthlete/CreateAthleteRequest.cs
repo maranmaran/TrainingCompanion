@@ -15,5 +15,6 @@ namespace Backend.Application.Business.Business.Athletes.CreateAthlete
         public DateTime LastModified => CreatedOn;
         public AccountStatus AccountStatus => AccountStatus.Waiting;
         public AccountType AccountType => AccountType.Athlete;
+        public Gender Gender;
     }
 }
