@@ -9,9 +9,10 @@ export class ApplicationUser {
      username: string;
      email: string;
      passwordHash: string;
-     fullName: string;
+
      firstName: string;
      lastName: string;
+     fullName: string;
      
      createdOn: string;
      lastModified: string;
@@ -29,4 +30,8 @@ export class ApplicationUser {
      userSettings: UserSettings;
 
      athletes: ApplicationUser[];
+     
+     // get fullName(): string {
+     //      return `${this.firstName} ${this.lastName}`;
+     // };
 }

@@ -9,7 +9,8 @@ export interface CustomColumn {
     definition: string,
     title: string,
     displayFunction: Function,
-    sort: boolean
+    sort: boolean,
+    
 }
 
 export class TableConfig {
@@ -19,6 +20,7 @@ export class TableConfig {
     deleteEnabled = true;
     editEnabled = true;
     pageSize = 5;
+    filterFunction: (data: any, filter: string) => boolean
 
     public constructor(init?:Partial<TableConfig>) {
         Object.assign(this, init);

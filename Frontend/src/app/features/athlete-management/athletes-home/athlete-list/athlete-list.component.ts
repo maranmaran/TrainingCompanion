@@ -33,7 +33,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.tableDatasource = new TableDatasource([]);
-    this.tableConfig = new TableConfig();
+    this.tableConfig = this.getTableConfig();
     this.tableColumns = this.getTableColumns();
 
     this.subs.add(
@@ -48,12 +48,19 @@ export class AthleteListComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  getTableConfig() {
+    const tableConfig = new TableConfig();
+    tableConfig.filterFunction = (data: ApplicationUser, filter: string) => data.fullName.toLocaleLowerCase().indexOf(filter) !== -1
+
+    return tableConfig;
+  }
+
   getTableColumns() {
     return [{
-      definition: 'name',
+      definition: 'fullName',
       title: 'Name',
-      displayFunction: (item: ApplicationUser) => `${item.firstName} ${item.lastName}`,
-      sort: true
+      sort: true,
+      displayFunction: (item: ApplicationUser) => item.fullName,
     }]
   }
 

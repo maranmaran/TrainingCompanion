@@ -1,24 +1,23 @@
-import { AthletesService } from 'src/business/services/athletes.service';
-import { UIService } from 'src/business/services/shared/ui.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { Actions, EffectsModule } from '@ngrx/effects';
+import { EffectsModule } from '@ngrx/effects';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AvatarModule } from 'ngx-avatar';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxStripeModule } from 'ngx-stripe';
+import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.guard';
 import { ErrorInterceptor } from 'src/business/interceptors/error.interceptor';
 import { HttpInterceptor } from 'src/business/interceptors/http.interceptor';
 import { ChatService } from 'src/business/services/chat.service';
 import { PushNotificationsService } from 'src/business/services/push-notification.service';
 import { APP_SETTINGS_PROVIDER } from 'src/business/services/shared/app-settings.service';
-import { initApplication } from 'src/business/services/shared/app.initializer';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { environment } from 'src/environments/environment';
 import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
 import { metaReducers, reducers } from 'src/ngrx/global-setup.ngrx';
@@ -42,7 +41,6 @@ import { PlansComponent } from './settings/billing/plans/plans.component';
 import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stripe-checkout.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
-import { AthleteCreateEditComponent } from '../features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
 
 
 @NgModule({
@@ -93,6 +91,7 @@ import { AthleteCreateEditComponent } from '../features/athlete-management/athle
         RouterModule,
     ],
     providers: [
+        CurrentUserLoadedGuard,
         UIService,
         ChatService, // signalr connections must be singleton in this case
         PushNotificationsService,
@@ -101,7 +100,7 @@ import { AthleteCreateEditComponent } from '../features/athlete-management/athle
         APP_SETTINGS_PROVIDER,
         { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: APP_INITIALIZER, useFactory: initApplication, multi: true, deps: [Store, Actions] }
+        // { provide: APP_INITIALIZER, useFactory: initApplication, multi: true, deps: [Store, Actions] }
     ],
     entryComponents: [
         ErrorSnackbarComponent,
