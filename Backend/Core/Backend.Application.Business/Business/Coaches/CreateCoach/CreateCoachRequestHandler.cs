@@ -41,8 +41,6 @@ namespace Backend.Application.Business.Business.Coaches.CreateCoach
                 coach.CustomerId = await _stripeConfiguration.AddCustomer(coach.GetFullName(), coach.Email); // add to stripe
                 coach.UserSettings = new UserSettings();
 
-                coach.Avatar = new GenericAvatarConstructor().AddName(coach.GetFullName()).Round().Background().Foreground().Value();
-
                 _context.Coaches.Add(coach);
                 await _context.SaveChangesAsync(cancellationToken);
 

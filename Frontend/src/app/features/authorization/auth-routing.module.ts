@@ -1,3 +1,4 @@
+import { SetPasswordComponent } from './set-password/set-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -7,7 +8,8 @@ import { RegisterComponent } from './register/register.component';
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'reset-password/:id', component: ResetPasswordComponent },
+    { path: 'reset-password', component: ResetPasswordComponent },
+    { path: 'set-password/:id', component: SetPasswordComponent },
     { path: '**', redirectTo: '/' }, //always last
 ];
 

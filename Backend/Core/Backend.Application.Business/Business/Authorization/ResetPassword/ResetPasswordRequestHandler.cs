@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities;
 using Backend.Service.Email;
 using Backend.Service.Email.Interfaces;
@@ -12,6 +7,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using MimeKit.Utils;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Authorization.ResetPassword
 {
@@ -32,15 +32,14 @@ namespace Backend.Application.Business.Business.Authorization.ResetPassword
         {
             try
             {
-                var user = await _context.Users.SingleAsync(x => x.Id == request.UserId, cancellationToken);
-
+                var user = await _context.Users.SingleAsync(x => x.Email == request.Email, cancellationToken);
                 await _emailService.SendEmailAsync(GetResetPasswordEmail(user), cancellationToken);
 
                 return Unit.Value;
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Could not send reset password email to user {request.UserId}", e);
+                throw new InvalidOperationException($"Could not send reset password email to user with email {request.Email}", e);
             }
         }
 

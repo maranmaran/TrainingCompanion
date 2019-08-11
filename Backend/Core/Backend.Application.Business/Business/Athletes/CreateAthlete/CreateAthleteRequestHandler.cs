@@ -13,6 +13,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.Athletes.CreateAthlete
@@ -41,6 +42,7 @@ namespace Backend.Application.Business.Business.Athletes.CreateAthlete
             {
                 // map and save user
                 var athlete = _mapper.Map<CreateAthleteRequest, Athlete>(request);
+
                 _context.Athletes.Add(athlete);
                 await _context.SaveChangesAsync(cancellationToken);
 

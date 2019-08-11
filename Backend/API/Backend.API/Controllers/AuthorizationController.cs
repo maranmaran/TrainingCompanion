@@ -29,10 +29,10 @@ namespace Backend.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ResetPassword(Guid id)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> ResetPassword(string email)
         {
-            var response = await Mediator.Send(new ResetPasswordRequest(id));
+            var response = await Mediator.Send(new ResetPasswordRequest(email));
 
             return Ok(response);
         }

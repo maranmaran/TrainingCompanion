@@ -66,7 +66,6 @@ namespace Backend.Persistance
                     LastModified = DateTime.UtcNow,
                     CustomerId = "cus_FLi7gZv8w0j0GB",
                     UserSettings = new UserSettings(),
-                    Avatar = new GenericAvatarConstructor().AddName("Admin").Round().Background().Foreground().Value(),
                 };
 
                 var athlete = new Athlete()
@@ -82,7 +81,6 @@ namespace Backend.Persistance
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     UserSettings = new UserSettings(),
-                    Avatar = new GenericAvatarConstructor().AddName("Athlete").Round().Background().Foreground().Value(),
                 };
 
                 var coach = new Coach()
@@ -99,7 +97,6 @@ namespace Backend.Persistance
                     LastModified = DateTime.UtcNow,
                     CustomerId = "cus_FHk5RepADdfm5H",
                     UserSettings = new UserSettings(),
-                    Avatar = new GenericAvatarConstructor().AddName("Coach").Round().Background().Foreground().Value(),
                     Athletes = new List<Athlete>() { athlete }
                 };
 
