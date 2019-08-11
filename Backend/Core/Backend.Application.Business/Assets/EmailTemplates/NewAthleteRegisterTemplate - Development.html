@@ -102,7 +102,7 @@
                                                 <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0px;" align="center" border="0">
                                                     <tbody>
                                                         <tr>
-                                                            <td style="width:228px;"><img alt="Training companion logo" height="auto" src="{{imageContentId}}" style="border:none;border-radius:0px;display:block;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;" width="228"></td>
+                                                            <td style="width:228px;"><img alt="Training companion logo" height="auto" src="cid:{{imageContentId}}" style="border:none;border-radius:0px;display:block;font-size:13px;outline:none;text-decoration:none;width:100%;height:auto;" width="228"></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -118,7 +118,7 @@
                                         <tr>
                                             <td style="word-wrap:break-word;font-size:0px;padding:0px 0px 0px 0px;" align="center">
                                                 <div style="cursor:auto;color:#000000;font-family:Arial, sans-serif;font-size:11px;line-height:1.5;text-align:center;">
-                                                    <h2 style="line-height: 100%;">Your coach <span style="color:#9b59b6;">Marko Urh</span> has added you to his circle of athletes.</h2>
+                                                    <h2 style="line-height: 100%;">Your coach <span style="color:#9b59b6;">{{coachName}}</span> has added you to his circle of athletes.</h2>
                                                     <p></p>
                                                     <h2 style="line-height: 100%;">Please follow the link below and change your password</h2>
                                                 </div>
@@ -129,7 +129,7 @@
                                                 <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;width:100%;" align="center" border="0">
                                                     <tbody>
                                                         <tr>
-                                                            <td style="border:0px solid #000;border-radius:24px;color:#fff;cursor:auto;padding:16px 46px;" align="center" valign="middle" bgcolor="#BD10E0"><a href="https://google.com" style="text-decoration:none;background:#BD10E0;color:#fff;font-family:Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:23px;font-weight:normal;line-height:120%;text-transform:none;margin:0px;" target="_blank">Change password</a></td>
+                                                            <td style="border:0px solid #000;border-radius:24px;color:#fff;cursor:auto;padding:16px 46px;" align="center" valign="middle" bgcolor="#BD10E0"><a href="https://localhost:4200/auth/reset-password/{{athleteId}}" style="text-decoration:none;background:#BD10E0;color:#fff;font-family:Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:23px;font-weight:normal;line-height:120%;text-transform:none;margin:0px;" target="_blank">Change password</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -138,7 +138,7 @@
                                         <tr>
                                             <td style="word-wrap:break-word;font-size:0px;padding:68px 33px 0px 33px;" align="center">
                                                 <div style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:11px;line-height:1.5;text-align:center;">
-                                                    <h2 style="line-height: 100%;">After setting up your password you are now ready to start your fitness adventure under guidance of&#xA0;<span style="color:#9b59b6;">Marko Urh</span></h2>
+                                                    <h2 style="line-height: 100%;">After setting up your password you are now ready to start your fitness adventure under guidance of&#xA0;<span style="color:#9b59b6;">{{coachName}}</span></h2>
                                                 </div>
                                             </td>
                                         </tr>
@@ -147,7 +147,7 @@
                                                 <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;width:100%;" align="center" border="0">
                                                     <tbody>
                                                         <tr>
-                                                            <td style="border:0px solid #000;border-radius:24px;color:#fff;cursor:auto;padding:16px 46px;" align="center" valign="middle" bgcolor="#BD10E0"><a href="https://google.com" style="text-decoration:none;background:#BD10E0;color:#fff;font-family:Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:23px;font-weight:normal;line-height:120%;text-transform:none;margin:0px;" target="_blank">Login now!</a></td>
+                                                            <td style="border:0px solid #000;border-radius:24px;color:#fff;cursor:auto;padding:16px 46px;" align="center" valign="middle" bgcolor="#BD10E0"><a href="https://localhost:4200/auth/login" style="text-decoration:none;background:#BD10E0;color:#fff;font-family:Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:23px;font-weight:normal;line-height:120%;text-transform:none;margin:0px;" target="_blank">Login now!</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

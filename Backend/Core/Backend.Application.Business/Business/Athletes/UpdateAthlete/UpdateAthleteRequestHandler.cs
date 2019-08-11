@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.Athletes.UpdateAthlete
 {
-    public class UpdateAthleteRequestHandler : IRequestHandler<UpdateAthleteRequest>
+    public class UpdateAthleteRequestHandler : IRequestHandler<UpdateAthleteRequest, Athlete>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -24,7 +24,7 @@ namespace Backend.Application.Business.Business.Athletes.UpdateAthlete
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateAthleteRequest request, CancellationToken cancellationToken)
+        public async Task<Athlete> Handle(UpdateAthleteRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace Backend.Application.Business.Business.Athletes.UpdateAthlete
                 _context.Athletes.Update(athleteToUpdate);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return Unit.Value;
+                return athleteToUpdate;
             }
             catch (Exception e)
             {

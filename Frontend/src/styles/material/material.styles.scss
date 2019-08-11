@@ -43,11 +43,38 @@ mat-form-field {
   }
 
   #actions {
-    margin-top: 1rem !important;
+    margin-top: 2rem !important;
   }
 }
 
 
-.validation-error {
-  margin-bottom: 1rem !important;
+
+
+// mat-cell {
+//   .mat-icon-button {
+//     padding: 0px 5px !important;
+//     width: auto !important;
+//   }
+// }
+
+mat-cell, mat-header-cell {
+  mat-divider {
+    height: 30px;
+  }
 }
+
+.cdk-column-actions {
+  padding-right: 0px !important;
+}
+
+
+// ==== MAT ERROR - SO IT DOESN'T OVERFLOW ====
+.mat-form-field-underline {
+  position: initial !important;
+}
+.mat-form-field-subscript-wrapper {
+  position: relative !important;
+}
+.validation-error {
+}
+// ======================================

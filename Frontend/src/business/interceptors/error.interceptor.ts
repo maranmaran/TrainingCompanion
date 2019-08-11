@@ -24,8 +24,8 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                     const serverError = error.error as ErrorDetails;
                     
-                    if(serverError.Status = ServerStatusCodes.InternalServerError) {
-                        this.store.dispatch(httpErrorOccured(serverError.Message))
+                    if(!serverError.status || serverError.status == ServerStatusCodes.InternalServerError) {
+                        this.store.dispatch(httpErrorOccured(serverError.message))
                     }
 
                     return throwError(error);

@@ -24,11 +24,6 @@ namespace Backend.Persistance.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AccountStatus")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue("Active");
-
                     b.Property<string>("AccountType")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -53,7 +48,10 @@ namespace Backend.Persistance.Migrations
 
                     b.Property<string>("FirstName");
 
-                    b.Property<string>("FullName");
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("Male");
 
                     b.Property<DateTime>("LastModified")
                         .ValueGeneratedOnAdd()

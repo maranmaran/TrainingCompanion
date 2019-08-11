@@ -70,7 +70,7 @@ export class AccountComponent implements OnInit {
         this.email.value,
         this.currentUser.firstName,
         this.currentUser.lastName,
-        this.currentUser.accountStatus
+        this.currentUser.active
       );
 
       this.usersService.update(command)

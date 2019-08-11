@@ -1,4 +1,5 @@
-import { CreateAthleteRequest } from './../../server-models/cqrs/athletes/create-athlete.request';
+import { UpdateAthleteRequest } from './../../server-models/cqrs/athletes/requests/update-athlete.request';
+import { CreateAthleteRequest } from '../../server-models/cqrs/athletes/requests/create-athlete.request';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
@@ -26,8 +27,8 @@ export class AthletesService extends BaseService {
     }
 
     
-    public setActive(coachId: string, value: boolean) {
-        return this.http.get(this.url + 'setActive/' + coachId + '/' + value)
+    public setActive(athleteId: string, value: boolean) {
+        return this.http.get(this.url + 'setActive/' + athleteId + '/' + value)
             .pipe(
                 catchError(this.handleError)
             );
@@ -39,12 +40,18 @@ export class AthletesService extends BaseService {
             catchError(this.handleError)
         );
     }
-
-    // public register(userId: string, value: boolean) {
-    //     return this.http.get<ApplicationUser>(this.url + 'register/' + userId + '/' + value)
-    //         .pipe(
-    //             catchError(this.handleError)
-    //         );
-    // }
-
+    
+    public update(request: UpdateAthleteRequest) {
+        return this.http.post<ApplicationUser>(this.url + 'Update/', request)
+        .pipe(
+            catchError(this.handleError)
+        );
+    }
+    
+    public delete(id: string) {
+        return this.http.get(this.url + 'Delete/' + id)
+        .pipe(
+            catchError(this.handleError)
+        );
+    }
 }

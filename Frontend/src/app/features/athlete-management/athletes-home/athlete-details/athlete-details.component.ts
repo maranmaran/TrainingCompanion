@@ -1,3 +1,5 @@
+import { switchMap, take, map, concatMap } from 'rxjs/operators';
+import { AthletesService } from './../../../../../business/services/athletes.service';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -16,6 +18,7 @@ export class AthleteDetailsComponent implements OnInit {
   protected athlete$: Observable<ApplicationUser>;
   
   constructor(
+    private athleteService: AthletesService,
     private store: Store<AppState>
   ) { }
 
@@ -24,8 +27,17 @@ export class AthleteDetailsComponent implements OnInit {
   }
 
   onSetActive(value: boolean) {
-    value && this.store.dispatch(activateAthlete());
-    !value && this.store.dispatch(deactivateAthlete());
+    this.athlete$.pipe(take(1),
+      map(athlete => athlete.id),
+      switchMap(athleteId => {
+        return this.athleteService.setActive(athleteId, value)
+      })).subscribe(
+        () => {
+          value && this.store.dispatch(activateAthlete());
+          !value && this.store.dispatch(deactivateAthlete());
+        },
+        err => console.log(err)
+      )
   }
 
 }

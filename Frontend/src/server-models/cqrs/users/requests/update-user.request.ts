@@ -1,11 +1,10 @@
-import { AccountStatus } from 'src/server-models/enums/account-status.enum';
 export class UpdateUserRequest {
     id: string;
     username: string;
     email: string;
     firstname: string;
     lastname: string;
-    accountStatus: AccountStatus;
+    active: boolean;
 
     constructor(
         id: string,
@@ -13,14 +12,14 @@ export class UpdateUserRequest {
         email: string,
         firstname: string,
         lastname: string,
-        accountStatus: AccountStatus,
+        active: boolean,
     ) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.accountStatus = accountStatus;
+        this.active = active;
         
     }
 }

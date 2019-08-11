@@ -57,9 +57,9 @@ namespace Backend.API.Controllers
         [NonAction]
         public async Task<IActionResult> Update<T>(Func<Task<T>> updateEntityFunc)
         {
-            await updateEntityFunc();
+            var updatedEntity = await updateEntityFunc();
 
-            return Accepted();
+            return Ok(updatedEntity);
         }
 
         [NonAction]

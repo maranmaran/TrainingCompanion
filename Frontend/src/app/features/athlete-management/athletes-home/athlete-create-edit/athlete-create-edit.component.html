@@ -6,45 +6,47 @@
     <form [formGroup]="form">
       
             <mat-form-field>
-              <input matInput formControlName="firstName" placeholder="First name">
-              <mat-error *ngIf="firstName.invalid"></mat-error>
-            </mat-form-field>
-
-            <mat-form-field>
-              <input matInput formControlName="lastName" placeholder="Last name">
-              <mat-error *ngIf="lastName.invalid"></mat-error>
+              <input matInput formControlName="fullName" placeholder="Full name">
+              <mat-error *ngIf="fullName.invalid"></mat-error>
             </mat-form-field>
 
             <mat-form-field>
               <input matInput formControlName="username" placeholder="Username">
               <mat-error *ngIf="username.invalid">
-                  <span class="validation-error" *ngIf="username.errors.notUnique">Username already exists</span>
+                  <div class="validation-error" *ngFor="let error of username.errors">{{error}}</div>
               </mat-error>
             </mat-form-field>
 
             <mat-form-field>
               <input matInput formControlName="email" placeholder="Email" type="email">
               <mat-error *ngIf="email.invalid">
-                <span class="validation-error" *ngIf="email.errors.notUnique">Email already exists</span>
+                <div class="validation-error" *ngFor="let error of email.errors">{{error}}</div>
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field>
-              <input matInput formControlName="password" placeholder="Password" type="password">
-              <mat-error *ngIf="password.invalid"></mat-error>
-            </mat-form-field>
-
-            <mat-form-field>
-              <input matInput formControlName="repeatPassword" placeholder="Repeat password" type="password">
-              <mat-error *ngIf="repeatPassword.invalid"></mat-error>
-            </mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <mat-slide-toggle 
+                *ngIf="data.action == 'Update'"
+                [color]="primary"
+                [checked]="this.athlete.active"
+                (change)="onActiveChange($event)">
+                {{ athlete.active ? 'Active' : 'Inactive' }}
+                </mat-slide-toggle>
+    
+                <mat-slide-toggle
+                  [color]="primary"
+                  [checked]="this.athlete.gender == 'Male'"
+                  (change)="onGenderChange($event)">
+                  {{ athlete.gender }}
+                </mat-slide-toggle>
+            </div>
           
       </form>
 </div>
 
 <div id="actions" class="mt-2" fxLayout="row" fxLayoutAlign="space-between">
     <button  mat-button color="accent" (click)="onClose()">Close</button>
-    <button  mat-stroked-button color="primary" type="submit" (click)="onSubmit()"
-      [disabled]="!form.valid">Register</button>
+    <button mat-stroked-button color="primary"(click)="onSubmit()"
+      [disabled]="!form.valid">{{ data.action == 'Create' ? 'Register' : 'Save' }}</button>
   </div>
   

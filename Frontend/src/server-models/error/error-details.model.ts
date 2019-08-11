@@ -1,5 +1,12 @@
 export class ErrorDetails {
-    Exception: any;
-    Message: string;
-    Status: number;
+    exception: any;
+    message: string;
+    status: number;
+}
+
+export class ValidationErrors {
+    status: number;
+    title: string;
+    traceId: string;
+    errors: any;
 }

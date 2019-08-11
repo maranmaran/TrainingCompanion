@@ -10,16 +10,14 @@ using MimeKit;
 using MimeKit.Utils;
 using System;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Users.CreateUser;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.Athletes.CreateAthlete
 {
-    public class CreateAthleteRequestHandler : IRequestHandler<CreateAthleteRequest, CreateAthleteRequestResponse>
+    public class CreateAthleteRequestHandler : IRequestHandler<CreateAthleteRequest, Athlete>
     {
         private readonly IApplicationDbContext _context;
         private readonly IEmailService _emailService;
@@ -37,7 +35,7 @@ namespace Backend.Application.Business.Business.Athletes.CreateAthlete
             _emailSettings = emailSettings;
         }
 
-        public async Task<CreateAthleteRequestResponse> Handle(CreateAthleteRequest request, CancellationToken cancellationToken)
+        public async Task<Athlete> Handle(CreateAthleteRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -47,38 +45,22 @@ namespace Backend.Application.Business.Business.Athletes.CreateAthlete
                 await _context.SaveChangesAsync(cancellationToken);
 
                 // send mail to complete registration
+                athlete.Coach = await _context.Coaches.SingleAsync(x => x.Id == athlete.CoachId, cancellationToken);
                 await _emailService.SendEmailAsync(GetRegistrationEmailMessage(athlete), cancellationToken);
 
                 // return data
-                return _mapper.Map<Athlete, CreateAthleteRequestResponse>(athlete);
+                return athlete;
             }
             catch (Exception e)
             {
-                if (e is ExtendedException exception)
-                {
-                    throw exception;
-                }
-
                 throw new CreateFailureException(nameof(Athlete), e);
-            }
-        }
-
-        private void Validate(CreateAthleteRequest request)
-        {
-            if (_context.Athletes.Any(x => x.Username == request.Username))
-            {
-                throw new ExtendedException((int)CreateUserValidationStatusCodes.UsernameExists, "This username is already taken.");
-            }
-            if (_context.Athletes.Any(x => x.Email == request.Email))
-            {
-                throw new ExtendedException((int)CreateUserValidationStatusCodes.EmailExists, "This email is already taken.");
             }
         }
 
         private EmailMessage GetRegistrationEmailMessage(Athlete athlete)
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                       "/Assets/EmailTemplates/NewAthleteRegisterTemplate.html";
+                       "/Assets/EmailTemplates/NewAthleteRegisterTemplate - Development.html";
             var logoPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
                            "/Assets/EmailTemplates/Images/logo.jpg";
 
@@ -89,7 +71,7 @@ namespace Backend.Application.Business.Business.Athletes.CreateAthlete
 
             var templateBody = File.ReadAllText(path);
 
-            templateBody = templateBody.Replace("{{coachId}}", athlete.CoachId.ToString());
+            templateBody = templateBody.Replace("{{coachName}}", athlete.Coach.FullName);
             templateBody = templateBody.Replace("{{athleteId}}", athlete.Id.ToString());
             templateBody = templateBody.Replace("{{imageContentId}}", logoImage.ContentId);
 
