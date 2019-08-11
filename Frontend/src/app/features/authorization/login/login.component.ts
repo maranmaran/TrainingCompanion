@@ -6,7 +6,7 @@ import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { login } from 'src/ngrx/auth/auth.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { disableErrorSnackbar, setActiveProgressBar, switchTheme } from 'src/ngrx/user-interface/ui.actions';
+import { disableErrorDialogs, setActiveProgressBar, switchTheme } from 'src/ngrx/user-interface/ui.actions';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { loginError } from 'src/ngrx/auth/auth.selectors';
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     // state setup for login component
     this.store.dispatch(switchTheme({theme: Theme.Light}));
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.LoginScreen}))
-    this.store.dispatch(disableErrorSnackbar());
+    this.store.dispatch(disableErrorDialogs());
 
     this.loading$ = getLoadingState(this.store, UIProgressBar.LoginScreen);;
     this.error = this.store.select(loginError);

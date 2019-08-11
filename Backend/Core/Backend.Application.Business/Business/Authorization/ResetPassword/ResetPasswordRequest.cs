@@ -5,11 +5,11 @@ namespace Backend.Application.Business.Business.Authorization.ResetPassword
 {
     public class ResetPasswordRequest : IRequest<Unit>
     {
-        public Guid UserId { get; set; }
+        public string Email { get; set; }
 
-        public ResetPasswordRequest(Guid userId)
+        public ResetPasswordRequest(string email)
         {
-            UserId = userId;
+            Email = email;
         }
     }
 }
