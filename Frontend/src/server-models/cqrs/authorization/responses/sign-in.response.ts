@@ -1,5 +1,4 @@
 import { Subscription } from 'src/server-models/stripe/subscription.model';
-import { AccountStatus } from '../../../enums/account-status.enum';
 import { SubscriptionStatus } from '../../../enums/subscription-status.enum';
 
 export interface SignInResponse {
@@ -11,7 +10,7 @@ export interface SignInResponse {
      fullName: string;
      email: string;
      accountType: string;
-     accountStatus: AccountStatus;
+     active: boolean;
      subscriptionStatus: SubscriptionStatus;
      subscriptionInfo: Subscription;
      trialDaysRemaining: number;

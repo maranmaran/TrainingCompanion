@@ -23,6 +23,15 @@
     <None Update="Assets\EmailTemplates\Images\logo.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate - Copy.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate - Development.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate - Production.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -11,5 +11,6 @@ export class CreateAthleteRequest {
     password: string;
     confirmPassword: string;
     gender: Gender;
+  fullName: any;
 }
 

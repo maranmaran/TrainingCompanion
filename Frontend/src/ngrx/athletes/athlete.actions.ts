@@ -19,6 +19,21 @@ export const registerAthlete = createAction(
     props<ApplicationUser>()
 )
 
+export const updateAthlete = createAction(
+    '[Athletes API] Update athlete',
+    props<ApplicationUser>()
+)
+
+export const deleteAthlete = createAction(
+    '[Athletes API] Delete athlete',
+    props<ApplicationUser>()
+)
+
+export const deleteAthletes = createAction(
+    '[Athletes API] Delete athletes',
+    props<ApplicationUser[]>()
+)
+
 export const setSelectedAthlete = createAction(
     '[Athletes API] Set selected athlete',
     props<{athlete: ApplicationUser}>()

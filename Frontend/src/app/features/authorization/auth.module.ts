@@ -3,6 +3,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { RegisterComponent } from './register/register.component';
     ],
     declarations: [
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        ResetPasswordComponent
     ],
     exports: [
     ],

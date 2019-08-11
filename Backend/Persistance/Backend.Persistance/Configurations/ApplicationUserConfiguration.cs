@@ -16,17 +16,18 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.Active).HasDefaultValue(true);
             //TODO Add fullname default value..
 
-            builder.Property(x => x.AccountStatus)
-                .HasDefaultValue(AccountStatus.Active)
-                .HasConversion(
-                    v => v.ToString(),
-                    v => (AccountStatus)Enum.Parse(typeof(AccountStatus), v));
 
             builder.Property(x => x.AccountType)
                 .HasDefaultValue(AccountType.Coach)
                 .HasConversion(
                     v => v.ToString(),
                     v => (AccountType)Enum.Parse(typeof(AccountType), v));
+
+            builder.Property(x => x.Gender)
+                .HasDefaultValue(Gender.Male)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (Gender)Enum.Parse(typeof(Gender), v));
 
             builder
                 .HasMany(x => x.MediaFiles)

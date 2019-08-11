@@ -20,7 +20,7 @@ namespace Backend.Application.Business.Business.Authorization.CurrentUser
 
 
         public AccountType AccountType { get; set; }
-        public AccountStatus AccountStatus { get; set; }
+        public bool Active { get; set; }
         public UserSettings UserSettings { get; set; }
 
 

@@ -1,5 +1,4 @@
-﻿using Backend.API.Filters;
-using Backend.API.LibraryConfigurations.Sieve;
+﻿using Backend.API.LibraryConfigurations.Sieve;
 using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Domain;
 using Backend.Persistance;
@@ -13,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Sieve.Models;
 using Sieve.Services;
 using Swashbuckle.AspNetCore.Swagger;
@@ -57,6 +57,7 @@ namespace Backend.API.Extensions
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.AllowInputFormatterExceptionMessages = true;
                 });

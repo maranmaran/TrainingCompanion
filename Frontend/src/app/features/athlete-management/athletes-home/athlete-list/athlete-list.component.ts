@@ -1,16 +1,19 @@
+import { AthletesService } from 'src/business/services/athletes.service';
+import { MaterialTableComponent } from './../../../../shared/material-table/material-table.component';
 import { CRUD } from './../../../../../business/shared/crud.enum';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
+import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { TableConfig } from 'src/business/shared/table-data';
-import { setSelectedAthlete } from 'src/ngrx/athletes/athlete.actions';
+import { setSelectedAthlete, deleteAthlete } from 'src/ngrx/athletes/athlete.actions';
 import { athletes } from 'src/ngrx/athletes/athlete.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { CustomColumn, TableDatasource } from '../../../../../business/shared/table-data';
 import { ApplicationUser } from '../../../../../server-models/entities/application-user.model';
 import { AthleteCreateEditComponent } from '../athlete-create-edit/athlete-create-edit.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-athlete-list',
@@ -25,9 +28,11 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   protected tableConfig: TableConfig;
   protected tableColumns: CustomColumn[];
   protected tableDatasource: TableDatasource<ApplicationUser>;
+  @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
   constructor(
     private uiService: UIService,
+    private athleteService: AthletesService,
     private store: Store<AppState>
   ) { }
 
@@ -64,12 +69,10 @@ export class AthleteListComponent implements OnInit, OnDestroy {
     }]
   }
 
-  onSelect(athlete: ApplicationUser) {
-    this.store.dispatch(setSelectedAthlete({athlete}));;
-  }
+  onSelect = (athlete: ApplicationUser) => this.store.dispatch(setSelectedAthlete({athlete}));
 
   onAdd() {
-    this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
+    const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '20rem',
@@ -77,10 +80,35 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       data: { title: 'Add athlete', action: CRUD.Create },
       panelClass: []
     })
+
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((athlete: ApplicationUser) => {
+          if (athlete) {
+            this.table.onSelect(athlete, true);
+            this.onSelect(athlete);
+          }
+        }
+      )
   }
 
-  onUpdate() {
+  onUpdate(athlete: ApplicationUser) {
+    const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      data: { title: 'Update athlete', action: CRUD.Update, athlete: athlete },
+      panelClass: []
+    })
 
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((athlete: ApplicationUser) => {
+          if (athlete) {
+            this.table.onSelect(athlete, true);
+            this.onSelect(athlete);
+          }
+        }
+      )
   }
 
   onDeleteSingle(athlete: ApplicationUser) {
@@ -89,14 +117,20 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       `<p>Are you sure you wish to delete user ${athlete.firstName} ${athlete.lastName} ?</p>
      <p>All data will be lost if you delete this user.</p>`;
 
-    this.deleteDialogConfig.action = function(athlete) {
-      console.log('delete');
-      console.log(athlete);
-    };
+    var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
-    this.deleteDialogConfig.actionParams = [athlete];
-
-    this.uiService.openConfirmDialog(this.deleteDialogConfig);
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((result: ConfirmResult) => {
+        if(result == ConfirmResult.Confirm) {
+          this.athleteService.delete(athlete.id)
+            .subscribe(
+              () => {
+                this.store.dispatch(deleteAthlete(athlete))
+              },
+              err => console.log(err)
+            )
+        }
+      })
   }
 
   onDeleteSelection(athletes: ApplicationUser[]) {

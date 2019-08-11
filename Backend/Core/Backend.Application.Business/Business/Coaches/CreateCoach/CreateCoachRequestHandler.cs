@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Coaches.CreateCoach
 {
-    public class CreateCoachRequestHandler : IRequestHandler<CreateCoachRequest, CreateCoachRequestResponse>
+    public class CreateCoachRequestHandler : IRequestHandler<CreateCoachRequest, Coach>
     {
         private readonly IApplicationDbContext _context;
         private readonly IStripeConfiguration _stripeConfiguration;
@@ -32,12 +32,11 @@ namespace Backend.Application.Business.Business.Coaches.CreateCoach
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<CreateCoachRequestResponse> Handle(CreateCoachRequest request, CancellationToken cancellationToken)
+        public async Task<Coach> Handle(CreateCoachRequest request, CancellationToken cancellationToken)
         {
             try
             {
                 var coach = _mapper.Map<CreateCoachRequest, Coach>(request);
-                coach.PasswordHash = _passwordHasher.GetPasswordHash(request.Password);
 
                 coach.CustomerId = await _stripeConfiguration.AddCustomer(coach.GetFullName(), coach.Email); // add to stripe
                 coach.UserSettings = new UserSettings();
@@ -47,7 +46,7 @@ namespace Backend.Application.Business.Business.Coaches.CreateCoach
                 _context.Coaches.Add(coach);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return _mapper.Map<Coach, CreateCoachRequestResponse>(coach);
+                return coach;
             }
             catch (Exception e)
             {

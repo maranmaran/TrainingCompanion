@@ -46,7 +46,6 @@ namespace Backend.API.Middleware
                 errorDetails.Message = extendedException.Message;
                 errorDetails.Exception = extendedException.Exception;
             }
-
             await context.Response.WriteAsync(errorDetails.ToString());
         }
     }

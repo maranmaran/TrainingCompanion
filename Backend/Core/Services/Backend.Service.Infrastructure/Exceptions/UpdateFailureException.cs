@@ -2,15 +2,15 @@
 
 namespace Backend.Service.Infrastructure.Exceptions
 {
-    public class UpdateFailureException : Exception
+    public class UpdateFailureException : ExtendedException
     {
         public UpdateFailureException(string name, Exception e)
-            : base($"Updating of entity \"{name}\" failed. {e.Message}")
+            : base($"Updating of entity \"{name}\" failed.", e)
         {
         }
 
         public UpdateFailureException(string name, Guid id, Exception e)
-            : base($"Updating of entity \"{name}\" with id: {id} failed. {e.Message}")
+            : base($"Updating of entity \"{name}\" with id: {id} failed.", e)
         {
         }
 

@@ -17,15 +17,15 @@ export class UIEffects {
         private uiService: UIService
     ) { }
 
-    httpStopLoading$ = createEffect(() =>
-        this.actions$
-            .pipe(
-                ofType(UIActions.httpRequestStopLoading),
-                tap(() => {
-                    this.store.dispatch(UIActions.enableErrorSnackbar());
-                })
-            )
-        , { dispatch: false });
+    // httpStopLoading$ = createEffect(() =>
+    //     this.actions$
+    //         .pipe(
+    //             ofType(UIActions.httpRequestStopLoading),
+    //             tap(() => {
+    //                 this.store.dispatch(UIActions.enableErrorSnackbar());
+    //             })
+    //         )
+    //     , { dispatch: false });
 
   
     httpError$ = createEffect(() =>

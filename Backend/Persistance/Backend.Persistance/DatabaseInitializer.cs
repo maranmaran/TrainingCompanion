@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Backend.Persistance
 {
@@ -58,9 +57,10 @@ namespace Backend.Persistance
                     FirstName = "Admin",
                     LastName = "",
                     Username = "admin",
-                    Email = "urh.marko@gmail.com",
-                    AccountStatus = AccountStatus.Active,
+                    Email = "admin@trainingcompanion.com",
+                    Active = true,
                     AccountType = AccountType.Admin,
+                    Gender = Gender.Male,
                     PasswordHash = _passwordHasher.GetPasswordHash("admin"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
@@ -74,8 +74,9 @@ namespace Backend.Persistance
                     FirstName = "Athlete",
                     LastName = "",
                     Username = "athlete",
-                    Email = "urh.marko@gmail.com",
-                    AccountStatus = AccountStatus.Active,
+                    Email = "athlete@trainingcompanion.com",
+                    Gender = Gender.Male,
+                    Active = true,
                     AccountType = AccountType.Athlete,
                     PasswordHash = _passwordHasher.GetPasswordHash("athlete"),
                     CreatedOn = DateTime.UtcNow,
@@ -89,9 +90,10 @@ namespace Backend.Persistance
                     FirstName = "Coach",
                     LastName = "",
                     Username = "coach",
-                    Email = "urh.marko@gmail.com",
-                    AccountStatus = AccountStatus.Active,
+                    Email = "coach@trainingcompanion.com",
                     AccountType = AccountType.Coach,
+                    Gender = Gender.Male,
+                    Active = true,
                     PasswordHash = _passwordHasher.GetPasswordHash("coach"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
