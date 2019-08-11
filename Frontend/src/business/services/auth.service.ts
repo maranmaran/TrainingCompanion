@@ -38,8 +38,8 @@ export class AuthService extends BaseService {
       );
   }
 
-  public resetPassword(userId: string) {
-    return this.http.get(this.url + 'SignIn/' + userId)
+  public resetPassword(email: string) {
+    return this.http.get(this.url + 'ResetPassword/' + email)
       .pipe(
         catchError(this.handleError)
       );

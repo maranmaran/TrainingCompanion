@@ -61,7 +61,16 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   }
 
   getTableColumns() {
-    return [{
+    return [
+      {
+      headerClass: 'avatar-header',
+      cellClass: 'avatar-cell',
+      definition: 'avatar',
+      title: '',
+      sort: false,
+      displayFunction: (item: ApplicationUser) => `<img class="avatar-table-img" src="${item.avatar}"/>`,
+    },
+    {
       definition: 'fullName',
       title: 'Name',
       sort: true,

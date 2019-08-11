@@ -1,16 +1,17 @@
 import { MatTableDataSource } from '@angular/material/table';
 
-export interface TableData<T> {
-    columnSetup: CustomColumn[]
+export class TableData<T> {
+    columnSetup: CustomColumn[];
     data: T[];
 }
 
-export interface CustomColumn {
-    definition: string,
-    title: string,
-    displayFunction: Function,
-    sort: boolean,
-    
+export class CustomColumn {
+    definition: string;
+    title: string;
+    displayFunction: Function;
+    sort: boolean;
+    headerClass?: string = '';
+    cellClass?: string = '';
 }
 
 export class TableConfig {

@@ -8,7 +8,7 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { UserSettings } from 'src/server-models/entities/user-settings.model';
 import { AppState } from '../global-setup.ngrx';
-import { switchTheme, enableErrorSnackbar } from '../user-interface/ui.actions';
+import { switchTheme, enableErrorDialogs } from '../user-interface/ui.actions';
 import { AuthService } from './../../business/services/auth.service';
 import { SignInRequest } from './../../server-models/cqrs/authorization/requests/sign-in.request';
 import * as AuthActions from './auth.actions';
@@ -44,7 +44,7 @@ export class AuthEffects {
                     localStorage.setItem('id', currentUser.id);
                     this.router.navigate(['/app']);
                     this.store.dispatch(switchTheme({ theme: currentUser.userSettings.theme }));
-                    this.store.dispatch(enableErrorSnackbar());
+                    this.store.dispatch(enableErrorDialogs());
                 })
             )
         , { dispatch: false });

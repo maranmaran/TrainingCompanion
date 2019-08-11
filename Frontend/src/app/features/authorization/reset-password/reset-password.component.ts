@@ -1,14 +1,13 @@
-import { AuthService } from './../../../../business/services/auth.service';
-import { ActivatedRoute } from '@angular/router';
-import { PasswordValidation } from 'src/business/utils/password.validator';
+import { disableErrorDialogs } from './../../../../ngrx/user-interface/ui.actions';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Route } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/requests/set-password.request';
 import { take } from 'rxjs/operators';
-import { login, loginSuccess } from 'src/ngrx/auth/auth.actions';
+import { loginSuccess } from 'src/ngrx/auth/auth.actions';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { AuthService } from './../../../../business/services/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,39 +17,34 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 export class ResetPasswordComponent implements OnInit {
 
   protected resetPasswordForm: FormGroup;
-  private userId: string;
+  protected emailSent: boolean = false;
+  protected emailFailed: boolean = false;
 
   constructor(
     private store: Store<AppState>,
     private authService: AuthService,
-    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.userId = this.route.snapshot.params.id
+    this.store.dispatch(disableErrorDialogs());
     this.createForm();
   }
 
   private createForm() {
     this.resetPasswordForm = new FormGroup({
-      password: new FormControl('', Validators.required),
-      repeatPassword: new FormControl('', Validators.required),
-    }, {
-      validators: PasswordValidation.MatchPassword
+      email: new FormControl('', Validators.required),
     });
   }
 
   public onSubmit() {
     if (this.resetPasswordForm.valid) {
 
-      const password = this.resetPasswordForm.get('password').value;
-      const repeatPassword = this.resetPasswordForm.get('repeatPassword').value;
+      const email = this.resetPasswordForm.get('email').value;
 
-      const request = new SetPasswordRequest(this.userId, password, repeatPassword);
-      this.authService.setPassword(request).pipe(take(1))
+      this.authService.resetPassword(email).pipe(take(1))
         .subscribe(
-          (currentUser: CurrentUser) => this.store.dispatch(loginSuccess(currentUser)),
-          err => console.log(err)
+          () => this.emailSent = true,
+          err => this.emailFailed = true
         )
     }
   }

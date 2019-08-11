@@ -1,6 +1,7 @@
 ﻿using Backend.Domain.Enum;
 using System;
 using System.Collections.Generic;
+using Backend.Common;
 
 namespace Backend.Domain.Entities
 {
@@ -9,7 +10,8 @@ namespace Backend.Domain.Entities
         public Guid Id { get; set; }
         public string CustomerId { get; set; }
 
-        public string Avatar { get; set; }
+        public string Avatar =>
+            new GenericAvatarConstructor().AddName(FullName).Round().Background().Foreground().Value();
         public string Username { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }

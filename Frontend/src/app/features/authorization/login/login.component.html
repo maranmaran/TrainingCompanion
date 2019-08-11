@@ -24,9 +24,10 @@
 
       <mat-error *ngIf="(error | async)">Username or password are invalid</mat-error>
 
-      <div id="actions" fxLayout="row" fxLayoutAlign="flex-end center">
+      <div id="actions" fxLayout="row" fxLayoutAlign="space-between center">
         <!-- <mat-checkbox formControlName="rememberMe" id="checkbox" color="primary">Remember me</mat-checkbox> -->
 
+        <a href="/auth/reset-password">I forgot my password</a>
         <button mat-flat-button color="primary" id="signin" type="submit" class="float-right"
           [disabled]="!loginForm.valid">Sign in</button>
       </div>

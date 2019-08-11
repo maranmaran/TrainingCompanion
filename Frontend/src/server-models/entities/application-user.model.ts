@@ -10,6 +10,7 @@ export class ApplicationUser {
      email: string;
      passwordHash: string;
 
+     avatar:string;
      firstName: string;
      lastName: string;
      fullName: string;
