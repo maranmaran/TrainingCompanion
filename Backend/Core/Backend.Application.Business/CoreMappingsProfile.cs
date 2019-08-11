@@ -2,7 +2,6 @@
 using Backend.Application.Business.Business.Athletes.CreateAthlete;
 using Backend.Application.Business.Business.Athletes.UpdateAthlete;
 using Backend.Application.Business.Business.Authorization.CurrentUser;
-using Backend.Application.Business.Business.Authorization.SignIn;
 using Backend.Application.Business.Business.Billing.AddPayment;
 using Backend.Application.Business.Business.Billing.Subscribe;
 using Backend.Application.Business.Business.Chat.SendChatMessage;
@@ -32,9 +31,6 @@ namespace Backend.Application.Business
 
         private void AuthorizationMappings()
         {
-            CreateMap<ApplicationUser, SignInRequestResponse>()
-                .ForMember(x => x.SubscriptionStatus, o => o.Ignore())
-                .ForMember(x => x.TrialDaysRemaining, opt => opt.MapFrom(user => CalculateTrial(user)));
 
             CreateMap<ApplicationUser, CurrentUserRequestResponse>()
                 .ForMember(x => x.SubscriptionStatus, o => o.Ignore())
@@ -54,14 +50,13 @@ namespace Backend.Application.Business
         private void UserMappings()
         {
             // create
-            CreateMap<CreateUserRequest, ApplicationUser>();
-            CreateMap<ApplicationUser, CreateUserRequestResponse>();
 
+            CreateMap<CreateUserRequest, ApplicationUser>();
             CreateMap<CreateUserRequest, CreateCoachRequest>();
             CreateMap<CreateUserRequest, CreateAthleteRequest>();
 
-            CreateMap<CreateCoachRequestResponse, CreateUserRequestResponse>();
-            CreateMap<CreateAthleteRequestResponse, CreateUserRequestResponse>();
+            CreateMap<Athlete, ApplicationUser>();
+            CreateMap<Coach, ApplicationUser>();
 
 
             // update
@@ -77,7 +72,6 @@ namespace Backend.Application.Business
         {
             // create
             CreateMap<CreateCoachRequest, Coach>();
-            CreateMap<Coach, CreateCoachRequestResponse>();
 
             // update
             CreateMap<UpdateCoachRequest, Coach>()
@@ -93,7 +87,6 @@ namespace Backend.Application.Business
             // create
             CreateMap<CreateAthleteRequest, Athlete>()
                 .ForMember(x => x.PasswordHash, o => o.Ignore());
-            CreateMap<Athlete, CreateAthleteRequestResponse>();
 
             // update
             CreateMap<UpdateAthleteRequest, Athlete>()

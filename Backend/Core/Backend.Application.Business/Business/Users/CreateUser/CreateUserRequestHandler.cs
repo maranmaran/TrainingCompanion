@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Users.CreateUser
 {
-    public class CreateUserRequestHandler : IRequestHandler<CreateUserRequest, CreateUserRequestResponse>
+    public class CreateUserRequestHandler : IRequestHandler<CreateUserRequest, ApplicationUser>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMediator _mediator;
@@ -26,23 +26,21 @@ namespace Backend.Application.Business.Business.Users.CreateUser
             _context = context;
         }
 
-        public async Task<CreateUserRequestResponse> Handle(CreateUserRequest request, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> Handle(CreateUserRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                Validate(request);
-
                 switch (request.AccountType)
                 {
                     case AccountType.Coach:
 
                         var newCoachRequest = _mapper.Map<CreateCoachRequest>(request);
-                        return _mapper.Map<CreateUserRequestResponse>(await _mediator.Send(newCoachRequest, cancellationToken));
+                        return _mapper.Map<Athlete>(await _mediator.Send(newCoachRequest, cancellationToken));
 
                     case AccountType.Athlete:
 
                         var newAthleteRequest = _mapper.Map<CreateAthleteRequest>(request);
-                        return _mapper.Map<CreateUserRequestResponse>(await _mediator.Send(newAthleteRequest, cancellationToken));
+                        return _mapper.Map<Coach>(await _mediator.Send(newAthleteRequest, cancellationToken));
 
                     case AccountType.SoloAthlete:
 
@@ -54,24 +52,7 @@ namespace Backend.Application.Business.Business.Users.CreateUser
             }
             catch (Exception e)
             {
-                if (e is ExtendedException exception)
-                {
-                    throw exception;
-                }
-
                 throw new CreateFailureException(nameof(ApplicationUser), e);
-            }
-        }
-
-        private void Validate(CreateUserRequest request)
-        {
-            if (_context.Users.Any(x => x.Username == request.Username))
-            {
-                throw new ExtendedException((int)CreateUserValidationStatusCodes.UsernameExists, "This username is already taken.");
-            }
-            if (_context.Users.Any(x => x.Email == request.Email))
-            {
-                throw new ExtendedException((int)CreateUserValidationStatusCodes.EmailExists, "This email is already taken.");
             }
         }
     }

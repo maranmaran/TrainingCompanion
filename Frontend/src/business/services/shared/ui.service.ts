@@ -66,7 +66,7 @@ export class UIService {
        
         if(this.confirmDialog) this.confirmDialog.close();
 
-        this.confirmDialog = this.openDialogFromComponent(ConfirmDialogComponent, {
+        return this.openDialogFromComponent(ConfirmDialogComponent, {
             height: 'auto',
             maxWidth: '20rem',
             autoFocus: false,

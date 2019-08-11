@@ -23,6 +23,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   @Output() selectEvent = new EventEmitter<any>();
   @Output() addEvent = new EventEmitter<any>();
+  @Output() updateEvent = new EventEmitter<any>();
   @Output() deleteEvent = new EventEmitter<any>();
   @Output() deleteSelectionEvent = new EventEmitter<any[]>();
 
@@ -92,10 +93,17 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     return this.datasource.data.length === this.selection.selected.length;
   }
 
-  onSelect(entity: any) {
+  onSelect(entity: any, keepSelected: boolean = false) {
 
+    var selectedTemp = this.selection.isSelected(entity.id);
     this.selection.clear();
-    this.selection.toggle(entity.id);
+
+    if (!selectedTemp || keepSelected) { // if it wasn't selected
+      this.selection.toggle(entity.id); // toggle
+    } else { // else don't
+      this.selectEvent.emit(null);
+      return;
+    }
 
     // // if multiple or none selected - remove details
     // if (this.selection.selected.length > 1 || this.selection.isEmpty()) {
@@ -110,5 +118,4 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   onDeleteSelection() {
     this.deleteSelectionEvent.emit(this.selection.selected);
   }
-
 }

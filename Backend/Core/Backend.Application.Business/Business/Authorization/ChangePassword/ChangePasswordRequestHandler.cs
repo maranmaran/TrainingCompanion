@@ -29,8 +29,8 @@ namespace Backend.Application.Business.Business.Authorization.ChangePassword
 
                 user.PasswordHash = _passwordHasher.GetPasswordHash(request.Password);
 
-                if (user.AccountStatus == AccountStatus.Waiting)
-                    user.AccountStatus = AccountStatus.Active;
+                if (!user.Active)
+                    user.Active = true;
 
                 _context.Users.Update(user);
                 await _context.SaveChangesAsync(cancellationToken);

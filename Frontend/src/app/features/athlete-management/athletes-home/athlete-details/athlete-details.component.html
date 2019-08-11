@@ -1,10 +1,13 @@
 <div class="details-container mat-elevation-z3" *ngIf="(athlete$ | async) as athlete">
 
     <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
-        {{athlete.firstName}} {{athlete.lastName}}
-
-        <button *ngIf="athlete.active" mat-stroked-button color="accent" (click)="onSetActive(false)">Deactivate</button>
-        <button *ngIf="!athlete.active" mat-stroked-button color="accent" (click)="onSetActive(true)">Activate</button>
+        
+        <span>{{athlete.firstName}} {{athlete.lastName}}</span>
+        
+        <span>
+            <button *ngIf="athlete.active" mat-stroked-button color="accent" (click)="onSetActive(false)">Deactivate</button>
+            <button *ngIf="!athlete.active" mat-stroked-button color="accent" (click)="onSetActive(true)">Activate</button>
+        </span>
     </h1>
 
     <mat-divider></mat-divider>

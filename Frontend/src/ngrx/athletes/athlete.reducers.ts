@@ -41,10 +41,26 @@ export const athletesReducer: ActionReducer<AthletesState, Action> = createReduc
         }
     }),
 
+    on(UsersActions.updateAthlete, (state: AthletesState, athlete: ApplicationUser) => {
+        return {
+            ...state,
+            athletes: state.athletes.map(su => su.id == athlete.id  ? athlete : su)
+        }
+    }),
+
     on(UsersActions.registerAthlete, (state: AthletesState, athlete: ApplicationUser) => {
         return {
             ...state,
             athletes: [...state.athletes, athlete]
+        }
+    }),
+
+    on(UsersActions.deleteAthlete, (state: AthletesState, athlete: ApplicationUser) => {
+        
+        return {
+            ...state,
+            athletes: [...state.athletes.filter(x => x.id !== athlete.id)],
+            selected: state.selected.id == athlete.id ? null : state.selected
         }
     }),
 

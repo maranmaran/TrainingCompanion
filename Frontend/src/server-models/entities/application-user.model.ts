@@ -1,4 +1,4 @@
-import { AccountStatus } from '../enums/account-status.enum';
+import { Gender } from './../enums/gender.enum';
 import { AccountType } from '../enums/account-type.enum';
 import { SubscriptionStatus } from '../enums/subscription-status.enum';
 import { UserSettings } from './user-settings.model';
@@ -13,12 +13,13 @@ export class ApplicationUser {
      firstName: string;
      lastName: string;
      fullName: string;
+
+     gender: Gender = Gender.Male;
      
      createdOn: string;
      lastModified: string;
      
      active: boolean;
-     accountStatus: AccountStatus;
      accountType: AccountType;
      subscriptionStatus: SubscriptionStatus;
      trialDaysRemaining: number;

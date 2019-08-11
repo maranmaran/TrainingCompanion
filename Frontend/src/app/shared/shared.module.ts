@@ -1,3 +1,4 @@
+import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { CommonModule } from '@angular/common';
@@ -27,6 +28,7 @@ import { AthletesService } from 'src/business/services/athletes.service';
         MessageDialogComponent,
         ConfirmDialogComponent,
         SanitizeHtmlPipe,
+        EnumToArrayPipe,
         MaterialTableComponent,
         ShowHidePasswordDirective,
     ],
@@ -41,6 +43,7 @@ import { AthletesService } from 'src/business/services/athletes.service';
         MessageDialogComponent,
         ConfirmDialogComponent,
         SanitizeHtmlPipe,
+        EnumToArrayPipe,
         MaterialTableComponent,
         ShowHidePasswordDirective
     ],

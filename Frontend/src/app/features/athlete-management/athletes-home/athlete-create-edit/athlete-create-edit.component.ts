@@ -1,23 +1,22 @@
-import { ErrorDetails } from '../../../../../server-models/error/error-details.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CreateAthleteRequest } from './../../../../../server-models/cqrs/athletes/create-athlete.request';
-import { AthletesService } from 'src/business/services/athletes.service';
-import { UsersService } from 'src/business/services/user.service';
-import { AccountType } from './../../../../../server-models/enums/account-type.enum';
-import { Gender } from './../../../../../server-models/enums/gender.enum';
-import { ApplicationUser } from 'src/server-models/entities/application-user.model';
-import { CRUD } from './../../../../../business/shared/crud.enum';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { PasswordValidation } from 'src/business/utils/password.validator';
-import { CreateUserRequest } from 'src/server-models/cqrs/users/requests/create-user.request';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { registerAthlete } from 'src/ngrx/athletes/athlete.actions';
-import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { take } from 'rxjs/operators';
-import { CreateUserStatusCodes } from 'src/server-models/error/status-codes/create-user.codes';
+import { AthletesService } from 'src/business/services/athletes.service';
+import { registerAthlete, updateAthlete } from 'src/ngrx/athletes/athlete.actions';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { UpdateAthleteRequest } from 'src/server-models/cqrs/athletes/requests/update-athlete.request';
+import { ApplicationUser } from 'src/server-models/entities/application-user.model';
+import { Gender } from 'src/server-models/enums/gender.enum';
+import { ServerStatusCodes } from 'src/server-models/error/status-codes/server.codes';
+import { CreateAthleteRequest } from '../../../../../server-models/cqrs/athletes/requests/create-athlete.request';
+import { CRUD } from './../../../../../business/shared/crud.enum';
+import { AccountType } from './../../../../../server-models/enums/account-type.enum';
+import { ErrorService } from 'src/business/services/shared/error.service';
 
 @Component({
   selector: 'app-athlete-create-edit',
@@ -31,76 +30,110 @@ export class AthleteCreateEditComponent implements OnInit {
     private athletesService: AthletesService,
     protected dialogRef: MatDialogRef<AthleteCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, athlete: ApplicationUser }) { }
-
-  athlete: ApplicationUser;
-  coachId: string;
+    
   form: FormGroup;
+  coachId: string;
+  athlete = new ApplicationUser();
 
   ngOnInit() {
+    if(this.data.action == CRUD.Update) this.athlete = Object.assign({}, this.data.athlete);
+        
     this.createForm();
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this.coachId = user.id);
   }
 
   createForm() {
     this.form = new FormGroup({
-      firstName: new FormControl(null, Validators.required),
-      lastName: new FormControl(null, Validators.required),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      username: new FormControl(null, Validators.required),
-      password: new FormControl(null, Validators.required),
-      repeatPassword: new FormControl(null, Validators.required),
-      gender: new FormControl(Gender.Male),
-    }, {
-      validators: PasswordValidation.MatchPassword
+      fullName: new FormControl(this.athlete.fullName, Validators.required),
+      email: new FormControl(this.athlete.email, [Validators.required, Validators.email]),
+      username: new FormControl(this.athlete.username, Validators.required),
     });
+
+    if(this.data.action == CRUD.Update) {
+      this.form.addControl('active', new FormControl(this.athlete.active, Validators.required))
+    } 
   }
   
-  get firstName(): AbstractControl { return this.form.get('firstName'); }
-  get lastName(): AbstractControl { return this.form.get('lastName'); }
+  get fullName(): AbstractControl { return this.form.get('fullName'); }
   get email(): AbstractControl { return this.form.get('email'); }
   get username(): AbstractControl { return this.form.get('username'); }
-  get password(): AbstractControl { return this.form.get('password'); }
-  get repeatPassword(): AbstractControl { return this.form.get('repeatPassword'); }
-  get gender(): AbstractControl { return this.form.get('gender'); }
 
-  onClose() {
-    this.dialogRef.close();
+  onGenderChange(event: MatSlideToggleChange) {
+    if (event.checked) this.athlete.gender = Gender.Male;
+    if (!event.checked) this.athlete.gender = Gender.Female;
   }
 
+  onActiveChange(event: MatSlideToggleChange) {
+    if (event.checked) this.athlete.active = true;
+    if (!event.checked) this.athlete.active = false;
+  }
+  
   onSubmit() {
+    if ( this.data.action == CRUD.Create ) {
+      this.createAthlete();
+    } else {
+      this.updateAthlete();
+    }
+  }
+  
+  onClose(athlete?: ApplicationUser) {
+    this.dialogRef.close(athlete);
+  }
+
+  handleError(validationErrors: ValidationErrors) {
+    if (validationErrors.status && validationErrors.status == ServerStatusCodes.ValidationError) {
+
+
+      if(validationErrors.errors.username) {
+        this.username.setErrors(validationErrors.errors.username)
+      }
+
+      if(validationErrors.errors.email) {
+        this.email.setErrors(validationErrors.errors.email)
+      }
+
+    }
+  }
+
+  createAthlete() {
     var request = new CreateAthleteRequest();
     request.coachId = this.coachId;
-    request.firstname = this.firstName.value;
-    request.lastname = this.lastName.value;
+    request.fullName = this.fullName.value;
+    request.firstname = this.fullName.value.split(' ')[0];
+    request.lastname = this.fullName.value.split(' ')[1];
     request.email = this.email.value;
     request.username = this.username.value;
-    request.password = this.password.value;
-    request.confirmPassword = this.repeatPassword.value;
-    request.gender = this.gender.value;
+    request.gender = this.athlete.gender;
     request.accountType = AccountType.Athlete;
 
     this.athletesService.create(request)
       .subscribe(
         (athlete: ApplicationUser) => {
-          console.log(athlete);
           this.store.dispatch(registerAthlete(athlete));
-          this.onClose();
+          this.onClose(athlete);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)
       );
   }
 
-  handleError(error: ErrorDetails) {
-    const status = error.Status;
-    const message = error.Message;
+  updateAthlete() {
+    var request = new UpdateAthleteRequest();
+    request.id = this.athlete.id;
+    request.fullName = this.fullName.value;
+    request.firstname = this.fullName.value.split(' ')[0];
+    request.lastname = this.fullName.value.split(' ')[1];
+    request.email = this.email.value;
+    request.username = this.username.value;
+    request.gender = this.athlete.gender;
+    request.active = this.athlete.active;
 
-    if(status == CreateUserStatusCodes.UsernameExists) {
-      console.log('here');
-      this.username.setErrors({notUnique: true})
-    }
-    if(status == CreateUserStatusCodes.EmailExists) {
-      this.email.setErrors({notUnique: true})
-    }
+    this.athletesService.update(request)
+      .subscribe(
+        (athlete: ApplicationUser) => {
+          this.store.dispatch(updateAthlete(athlete));
+          this.onClose(athlete);
+        },
+        (err: HttpErrorResponse) => this.handleError(err.error)
+      );
   }
-
 }

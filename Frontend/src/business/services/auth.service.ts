@@ -8,6 +8,7 @@ import { catchError } from 'rxjs/operators';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { BaseService } from './base.service';
+import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/requests/set-password.request';
 
 @Injectable({ providedIn: 'root'})
 export class AuthService extends BaseService {
@@ -23,8 +24,22 @@ export class AuthService extends BaseService {
     super();
   }
 
-  public signIn(command: SignInRequest) {
-    return this.http.post<CurrentUser>(this.url + 'SignIn', command)
+  public signIn(request: SignInRequest) {
+    return this.http.post<CurrentUser>(this.url + 'SignIn', request)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  public setPassword(request: SetPasswordRequest) {
+    return this.http.post<CurrentUser>(this.url + 'SetPassword', request)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  public resetPassword(userId: string) {
+    return this.http.get(this.url + 'SignIn/' + userId)
       .pipe(
         catchError(this.handleError)
       );
