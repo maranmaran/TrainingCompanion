@@ -1,7 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import * as moment from 'moment'
-import { EventCalendar } from './models/event-calendar.models';
-import { getEventCalendarModel, belongsToThisMonth } from './models/event.calendar.utils';
+import { EventCalendar, CalendarEvent, CalendarDay } from './models/event-calendar.models';
+import { getEventCalendarModel, belongsToThisMonth, populateCalendar } from './models/event.calendar.utils';
 
 @Component({
   selector: 'app-event-calendar',
@@ -13,13 +13,18 @@ export class EventCalendarComponent implements OnInit {
   calendar = new EventCalendar();
   currentDay = moment(new Date());
 
-  @Output() addEvent = new EventEmitter<moment.Moment>();
+  @Output() selectDayEvent = new EventEmitter<CalendarDay>();
+
+  @Input() events: CalendarEvent[];
+  @Input() eventIcon: string = '';
 
   constructor() { }
 
   ngOnInit() {
     this.calendar = getEventCalendarModel(this.currentDay);     
+    this.calendar = populateCalendar(this.calendar, this.events);     
   }
+
 
   nextMonth() {
     this.currentDay = this.currentDay.clone().add(1, 'month');
@@ -36,10 +41,8 @@ export class EventCalendarComponent implements OnInit {
     this.calendar = getEventCalendarModel(this.currentDay);
   }
 
-  selectDay(day: moment.Moment) {
-    console.log(day);
-    console.log(this.isSunday(day));
-    this.addEvent.emit(day);
+  selectDay(day: CalendarDay) {
+    this.selectDayEvent.emit(day);
   }
 
   displayDateDay = (date: moment.Moment) => date.format('D');

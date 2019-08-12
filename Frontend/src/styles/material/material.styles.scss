@@ -84,14 +84,20 @@ mat-cell, mat-header-cell {
   overflow: unset !important;
 }
 
+app-training-calendar {
+  display:flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 app-training-log-home {
   display:flex;
   flex-direction: column;
   height: 100%;
-
+}
+ 
   .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
     display: none !important;
-}
 }
 // ==================================================================================
 
