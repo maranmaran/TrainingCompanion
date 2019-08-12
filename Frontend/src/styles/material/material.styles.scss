@@ -48,8 +48,6 @@ mat-form-field {
 }
 
 
-
-
 // mat-cell {
 //   .mat-icon-button {
 //     padding: 0px 5px !important;
@@ -75,6 +73,25 @@ mat-cell, mat-header-cell {
 .mat-form-field-subscript-wrapper {
   position: relative !important;
 }
-.validation-error {
-}
 // ======================================
+
+
+// ==== FOR EVENT CALENDAR SO IT FILLS TILL BOTTOM OF PAGE (Height 100%)====
+.mat-drawer-content {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  overflow: unset !important;
+}
+
+app-training-log-home {
+  display:flex;
+  flex-direction: column;
+  height: 100%;
+
+  .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
+    display: none !important;
+}
+}
+// ==================================================================================
+

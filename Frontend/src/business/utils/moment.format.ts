@@ -1,0 +1,1 @@
+export const format = 'D/M/YY';
