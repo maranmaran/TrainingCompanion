@@ -1,0 +1,115 @@
+@import "~@angular/material/theming";
+
+@mixin event-calendar-theme($theme) {
+
+  $primary: mat-color(map-get($theme, primary));
+  $accent: mat-color(map-get($theme, accent));
+  $warn: mat-color(map-get($theme, warn));
+
+  $background-palette: map-get($theme, background);
+  $border: map-get($background-palette, focused-button);
+
+  // fill till bottom of page
+  app-event-calendar {
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  // must remove because of overflow
+  .month-container {
+    min-height: unset !important;
+  }
+
+  .date {
+    border: 1px solid $border;
+    cursor: pointer;
+
+    
+    .add-button {
+      visibility: hidden;
+    }
+  }
+  .date:hover {
+    background: rgba($border, 0.06);
+
+    .add-button {
+      visibility: visible;
+    }
+  }
+
+
+  .day-label {
+      position: relative;
+      top: 5px;
+      left: 5px;
+  }
+  .not-relevant-day-label {
+      @extend .day-label;
+      color: rgba($border, 0.3);
+  }
+  .sunday {
+      background: rgba($border, 0.03);
+  }
+  .today {
+      background: rgba($primary, 0.2);
+  }
+
+  .controls {
+    padding-right: 20px;
+    margin-bottom: 10px;
+
+    .current-month-year-label {
+      font-size: 30px;
+    }
+
+    .actions {
+      padding-left: 14px; 
+
+      button {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .day-content {
+    height: 100%;
+  }
+
+
+  .fa-plus {
+    font-size: 1.8rem;
+  }
+
+
+
+  @media(max-width: 600px) {
+    .fa-plus {
+      font-size: 0.8rem;
+    }
+    .day-label{
+      font-size: 10px;
+      position: relative;
+      top: 3px;
+      left: 3px;
+    }
+
+    .controls {
+      padding-right: 10px;
+      margin-bottom: 0px;
+  
+      .current-month-year-label {
+        font-size: 15px;
+      }
+  
+      .actions {
+        padding-left: 3px;
+        button {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+
+}

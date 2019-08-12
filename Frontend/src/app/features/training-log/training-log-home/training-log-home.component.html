@@ -1,0 +1,28 @@
+<mat-tab-group #group1 animationDuration="0ms" mat-align-tabs="center" (selectedTabChange)="onSelectTab1($event)">
+    <mat-tab label="Training"></mat-tab>
+    <mat-tab label="Exercise"></mat-tab>
+</mat-tab-group>
+
+<mat-tab-group #group2 animationDuration="0ms" mat-align-tabs="center" ngShow="selectedTab1 == 0" (selectedTabChange)="onSelectTab2($event)">
+    <mat-tab label="Calendar"></mat-tab>
+    <mat-tab label="Week"></mat-tab>
+    <mat-tab label="List"></mat-tab>
+</mat-tab-group>
+
+
+<!------------------CALENDAR---------------------->
+<ng-container *ngIf="selectedTab2 == 0 && selectedTab1 == 0">
+    <app-event-calendar></app-event-calendar>
+</ng-container>
+<!------------------WEEK---------------------->
+<ng-container *ngIf="selectedTab2 == 1 && selectedTab1 == 0">
+    Week
+</ng-container>
+<!------------------LIST---------------------->
+<ng-container *ngIf="selectedTab2 == 2 && selectedTab1 == 0">
+    List
+</ng-container>
+<!------------------EXERCISE---------------------->
+<ng-container *ngIf="selectedTab1 == 1">
+   Exercise
+</ng-container>
