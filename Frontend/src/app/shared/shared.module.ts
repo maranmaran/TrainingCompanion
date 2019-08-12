@@ -13,6 +13,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { MaterialTableComponent } from './material-table/material-table.component';
 import { AthleteCreateEditComponent } from '../features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
 import { AthletesService } from 'src/business/services/athletes.service';
+import { EventCalendarComponent } from './event-calendar/event-calendar.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { AthletesService } from 'src/business/services/athletes.service';
         EnumToArrayPipe,
         MaterialTableComponent,
         ShowHidePasswordDirective,
+        EventCalendarComponent
     ],
     exports: [
         CommonModule,
@@ -45,7 +47,8 @@ import { AthletesService } from 'src/business/services/athletes.service';
         SanitizeHtmlPipe,
         EnumToArrayPipe,
         MaterialTableComponent,
-        ShowHidePasswordDirective
+        ShowHidePasswordDirective,
+        EventCalendarComponent
     ],
     providers: [
     ],

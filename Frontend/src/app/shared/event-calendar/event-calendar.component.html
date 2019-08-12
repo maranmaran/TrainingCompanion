@@ -1,0 +1,43 @@
+<div class="controls" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="actions" fxLayout="row" fxLayoutGap="5px" fxLayoutGap.xs="0px">
+        <button mat-icon-button color="accent" (click)="previousMonth()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <button mat-icon-button color="accent" (click)="currentMonth()">
+            <i class="fas fa-dot-circle"></i>
+        </button>
+        <button mat-icon-button color="accent" (click)="nextMonth()">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <label class="current-month-year-label">{{ displayMonthAndYear(currentDay) }}</label>
+</div>
+<div class="month-container" fxLayout="column" fxFlexFill> 
+    <ng-container *ngFor="let week of calendar.weeks" >
+
+        <div class="weekdays-container" fxLayout="row" fxFlex="1 1 100%">
+            <ng-container *ngFor="let day of week.days">
+                <div c
+                fxFlex="1 1 100%"
+                class="date" 
+                [ngClass]="{'sunday': isSunday(day), 'today': isToday(day)}"
+                fxLayout="column"
+                >
+
+                    <label [ngClass]=" belongsToThisMonth(day, currentDay) ? 'day-label' : 'not-relevant-day-label' "> 
+                        {{ displayDateDay(day) }} 
+                    </label> 
+                    
+                    <div class="day-content" fxLayout="column" fxLayoutAlign="center center">
+                        <button class="add-button" mat-icon-button color="accent" (click)="selectDay(day)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </ng-container>
+        </div>
+        
+    </ng-container>
+</div>

@@ -20,6 +20,7 @@ const routes: Routes = [
                 { path: 'dashboard', loadChildren: () => import('src/app/features/dashboard/dashboard.module').then(mod => mod.DashboardModule)},
                 { path: 'media', loadChildren: () => import('src/app/features/media/media.module').then(mod => mod.MediaModule)},
                 { path: 'athletes', loadChildren: () => import('src/app/features/athlete-management/athletes.module').then(mod => mod.AthletesModule), canActivate: [IsCoach]},
+                { path: 'training-log', loadChildren: () => import('src/app/features/training-log/training-log.module').then(mod => mod.TrainingLogModule)},
                 {
                     path: 'settings',  canActivate: [AuthGuard], children: [
                         { path: 'general', component: GeneralComponent },

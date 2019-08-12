@@ -8,6 +8,7 @@
 @import "./mixins/links.scss";
 @import "./mixins/details.scss";
 @import "./mixins/table.scss";
+@import "./mixins/event-calendar.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -15,6 +16,7 @@
   @include links-component-theme($theme);
   @include details-component-theme($theme);
   @include table-component-theme($theme);
+  @include event-calendar-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================
