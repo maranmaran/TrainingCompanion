@@ -17,21 +17,28 @@
     <ng-container *ngFor="let week of calendar.weeks" >
 
         <div class="weekdays-container" fxLayout="row" fxFlex="1 1 100%">
-            <ng-container *ngFor="let day of week.days">
-                <div c
+            <ng-container *ngFor="let calDay of week.days">
+                <div
                 fxFlex="1 1 100%"
                 class="date" 
-                [ngClass]="{'sunday': isSunday(day), 'today': isToday(day)}"
+                [ngClass]="{'sunday': isSunday(calDay.day), 'today': isToday(calDay.day)}"
                 fxLayout="column"
+                (click)="selectDay(calDay)"
                 >
 
-                    <label [ngClass]=" belongsToThisMonth(day, currentDay) ? 'day-label' : 'not-relevant-day-label' "> 
-                        {{ displayDateDay(day) }} 
+                    <label [ngClass]=" belongsToThisMonth(calDay.day, currentDay) ? 'day-label' : 'not-relevant-day-label' "> 
+                        {{ displayDateDay(calDay.day) }} 
                     </label> 
                     
                     <div class="day-content" fxLayout="column" fxLayoutAlign="center center">
-                        <button class="add-button" mat-icon-button color="accent" (click)="selectDay(day)">
+
+                        <button *ngIf="!calDay.event" class="add-button" mat-icon-button color="accent">
                             <i class="fas fa-plus"></i>
+                        </button>
+
+                        <button *ngIf="calDay.event" class="event-button" mat-icon-button color="warn">
+                            <i class="{{ eventIcon }}"></i>
+
                         </button>
                     </div>
 

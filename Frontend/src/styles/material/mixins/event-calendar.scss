@@ -77,14 +77,14 @@
   }
 
 
-  .fa-plus {
+  .add-button, .event-button {
     font-size: 1.8rem;
   }
 
 
 
   @media(max-width: 600px) {
-    .fa-plus {
+    .add-button, .event-button {
       font-size: 0.8rem;
     }
     .day-label{
