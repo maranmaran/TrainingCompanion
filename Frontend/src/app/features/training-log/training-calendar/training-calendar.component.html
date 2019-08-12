@@ -1,1 +1,7 @@
-<app-event-calendar [events]="inputData" [eventIcon]="'fas fa-dumbbell'"></app-event-calendar>
+<app-event-calendar 
+    [events$]="inputData.asObservable()" 
+    [eventIcon]="'fas fa-dumbbell'"
+    (previousMonthEvent)="onMonthChange($event)"
+    (currentMonthEvent)="onMonthChange($event)"
+    (nextMonthEvent)="onMonthChange($event)">
+</app-event-calendar>
