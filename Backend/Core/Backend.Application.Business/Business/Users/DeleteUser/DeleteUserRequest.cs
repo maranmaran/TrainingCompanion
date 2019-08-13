@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Backend.Application.Business.Business.Users.DeleteUser
 {
-    public class DeleteUserRequest : IRequest
+    public class DeleteUserRequest : IRequest<Unit>
     {
         public Guid Id { get; set; }
         public AccountType AccountType { get; set; }

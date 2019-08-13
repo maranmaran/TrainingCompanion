@@ -11,10 +11,10 @@ namespace Backend.Persistance.Configurations
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             builder.Property(x => x.CreatedOn).HasDefaultValueSql("getutcdate()");
-            builder.Property(x => x.LastModified).HasDefaultValueSql("getutcdate()");
+            builder.Property(x => x.LastModified).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
             builder.Property(x => x.TrialDuration).HasDefaultValue(15);
             builder.Property(x => x.Active).HasDefaultValue(true);
-            //TODO Add fullname default value..
+            builder.Property(x => x.Avatar).HasDefaultValue(true);
 
 
             builder.Property(x => x.AccountType)

@@ -10,7 +10,8 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<MediaFile> builder)
         {
-            builder.Property(x => x.DateUploaded).HasDefaultValueSql("getdate()");
+            builder.Property(x => x.DateUploaded).HasDefaultValueSql("getutcdate()");
+            builder.Property(x => x.DateModified).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
 
             builder.Property(x => x.Type)
                 .HasDefaultValue(MediaType.File)

@@ -1,35 +1,27 @@
-﻿using System;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Backend.Application.Business.Business.Athletes.CreateAthlete;
-using Backend.Application.Business.Business.Athletes.DeleteAthlete;
-using Backend.Application.Business.Business.Coaches.CreateCoach;
-using Backend.Application.Business.Business.Coaches.DeleteCoach;
-using Backend.Application.Business.Business.Users.CreateUser;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities;
 using Backend.Domain.Enum;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Users.DeleteUser
 {
-    public class DeleteUserRequestHandler : IRequestHandler<DeleteUserRequest>
+    public class DeleteUserRequestHandler : IRequestHandler<DeleteUserRequest, Unit>
     {
-        private readonly IMapper _mapper;
-        private readonly IMediator _mediator;
+        private readonly IApplicationDbContext _context;
 
-        public DeleteUserRequestHandler(IMapper mapper, IMediator mediator)
+
+        public DeleteUserRequestHandler(IApplicationDbContext context)
         {
-            _mapper = mapper;
-            _mediator = mediator;
+            _context = context;
         }
 
 
-        public async Task<Unit> Handle(DeleteUserRequest request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(DeleteUserRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -37,29 +29,68 @@ namespace Backend.Application.Business.Business.Users.DeleteUser
                 {
                     case AccountType.Coach:
 
-                        var deleteCoachRequest = _mapper.Map<DeleteCoachRequest>(request);
-                        await _mediator.Send(deleteCoachRequest, cancellationToken);
+                        DeleteCoach(request);
                         break;
 
                     case AccountType.Athlete:
 
-                        var deleteAthleteRequest = _mapper.Map<DeleteAthleteRequest>(request);
-                        await _mediator.Send(deleteAthleteRequest, cancellationToken);
+                        DeleteAthlete(request);
                         break;
 
                     case AccountType.SoloAthlete:
+
+                        DeleteSoloAthlete(request);
                         break;
 
                     default:
-                        throw new Exception($"This account type does not exist: {request.AccountType}");
+                        throw new NotImplementedException($"This account type does not exist: {request.AccountType}");
                 }
 
-                return Unit.Value;
+                return Task.FromResult(Unit.Value);
             }
             catch (Exception e)
             {
                 throw new DeleteFailureException(nameof(ApplicationUser), request.Id, e);
             }
         }
+
+        private async void DeleteCoach(DeleteUserRequest request)
+        {
+            var coach = await _context.Coaches.SingleAsync(u => u.Id == request.Id);
+
+            _context.Coaches.Remove(coach);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private async void DeleteAthlete(DeleteUserRequest request)
+        {
+            // get athlete and it's coach
+            var athlete = await _context
+                .Athletes
+                .Include(x => x.Coach)
+                .SingleAsync(x => x.Id == request.Id);
+
+            var coach = athlete.Coach;
+
+            // remove athlete from coach, then remove athlete completely
+            coach.Athletes.Remove(athlete);
+            _context.Athletes.Remove(athlete);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private async void DeleteSoloAthlete(DeleteUserRequest request)
+        {
+            // get athlete and it's coach
+            var soloAthlete = await _context
+                .SoloAthletes
+                .SingleAsync(x => x.Id == request.Id);
+
+            _context.SoloAthletes.Remove(soloAthlete);
+
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

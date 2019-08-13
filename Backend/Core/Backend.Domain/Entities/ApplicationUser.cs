@@ -1,25 +1,32 @@
-﻿using Backend.Domain.Enum;
+﻿using Backend.Common;
+using Backend.Domain.Enum;
 using System;
 using System.Collections.Generic;
-using Backend.Common;
 
 namespace Backend.Domain.Entities
 {
     public class ApplicationUser
     {
+        public ApplicationUser()
+        {
+            FullName = $"{FirstName} {LastName}";
+            Avatar = new GenericAvatarConstructor().AddName(FullName).Round().Background().Foreground().Value();
+        }
+
         public Guid Id { get; set; }
         public string CustomerId { get; set; }
 
-        public string Avatar =>
-            new GenericAvatarConstructor().AddName(FullName).Round().Background().Foreground().Value();
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FullName { get; set; }
+
         public string Username { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
 
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
+        public string Avatar { get; set; }
         public Gender Gender { get; set; }
+
 
         public DateTime CreatedOn { get; set; }
         public DateTime LastModified { get; set; }

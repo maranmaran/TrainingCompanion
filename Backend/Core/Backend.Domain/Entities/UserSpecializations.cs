@@ -5,35 +5,26 @@ using Backend.Domain.Enum;
 
 namespace Backend.Domain.Entities
 {
-    //public class Athlete : ApplicationUser
-    //{
-    //}
-
-    //public class Coach : Athlete
-    //{
-    //    public virtual ICollection<CoachAthlete> Athletes { get; set; } = new HashSet<CoachAthlete>();
-    //}
-
-    //public class CoachAthlete : Athlete
-    //{
-    //    public Guid? CoachId { get; set; }
-    //    public virtual Coach Coach { get; set; }
-    //}
-
-    //public class SoloAthlete : Athlete
-    //{
-
-    //}
+    public class Admin : ApplicationUser
+    {
+        public new AccountType AccountType => AccountType.Admin;
+    }
 
     public class Coach : ApplicationUser
     {
+        public new AccountType AccountType => AccountType.Coach;
         public virtual ICollection<Athlete> Athletes { get; set; } = new HashSet<Athlete>();
     }
-
 
     public class Athlete : ApplicationUser
     {
         public Guid? CoachId { get; set; }
         public virtual Coach Coach { get; set; }
     }
+
+    public class SoloAthlete : ApplicationUser
+    {
+        public new AccountType AccountType => AccountType.SoloAthlete;
+    }
+ 
 }

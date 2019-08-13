@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities;
+using Backend.Domain.Enum;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,12 +28,23 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
         {
             try
             {
-                var userToUpdate = await _context.Users.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                switch (request.AccountType)
+                {
+                    case AccountType.Coach:
+                        await UpdateCoach(request);
+                        break;
 
-                _mapper.Map<UpdateUserRequest, ApplicationUser>(request, userToUpdate);
+                    case AccountType.Athlete:
+                        await UpdateAthlete(request);
+                        break;
 
-                _context.Users.Update(userToUpdate);
-                await _context.SaveChangesAsync(cancellationToken);
+                    case AccountType.SoloAthlete:
+                        await UpdateSoloAthlete(request);
+                        break;
+
+                    default:
+                        throw new NotImplementedException($"This account type does not exist: {request.AccountType}");
+                }
 
                 return Unit.Value;
             }
@@ -41,6 +52,36 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
             {
                 throw new UpdateFailureException(nameof(ApplicationUser), request.Id, e);
             }
+        }
+
+        private async Task UpdateCoach(UpdateUserRequest request)
+        {
+            var coach = await _context.Coaches.SingleAsync(x => x.Id == request.Id);
+
+            _mapper.Map<UpdateUserRequest, Coach>(request, coach);
+
+            _context.Coaches.Update(coach);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task UpdateAthlete(UpdateUserRequest request)
+        {
+            var athlete = await _context.Athletes.SingleAsync(x => x.Id == request.Id);
+
+            _mapper.Map<UpdateUserRequest, Athlete>(request, athlete);
+
+            _context.Athletes.Update(athlete);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task UpdateSoloAthlete(UpdateUserRequest request)
+        {
+            var soloAthlete = await _context.SoloAthletes.SingleAsync(x => x.Id == request.Id);
+
+            _mapper.Map<UpdateUserRequest, SoloAthlete>(request, soloAthlete);
+
+            _context.SoloAthletes.Update(soloAthlete);
+            await _context.SaveChangesAsync();
         }
     }
 }

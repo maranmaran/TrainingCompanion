@@ -52,14 +52,13 @@ namespace Backend.Persistance
         {
             try
             {
-                var admin = new ApplicationUser()
+                var admin = new Admin()
                 {
                     FirstName = "Admin",
                     LastName = "",
                     Username = "admin",
                     Email = "admin@trainingcompanion.com",
                     Active = true,
-                    AccountType = AccountType.Admin,
                     Gender = Gender.Male,
                     PasswordHash = _passwordHasher.GetPasswordHash("admin"),
                     CreatedOn = DateTime.UtcNow,
@@ -76,8 +75,21 @@ namespace Backend.Persistance
                     Email = "athlete@trainingcompanion.com",
                     Gender = Gender.Male,
                     Active = true,
-                    AccountType = AccountType.Athlete,
                     PasswordHash = _passwordHasher.GetPasswordHash("athlete"),
+                    CreatedOn = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow,
+                    UserSettings = new UserSettings(),
+                };
+
+                var soloAthlete = new SoloAthlete()
+                {
+                    FirstName = "Solo",
+                    LastName = "Athlete",
+                    Username = "soloathlete",
+                    Email = "solo.athlete@trainingcompanion.com",
+                    Gender = Gender.Male,
+                    Active = true,
+                    PasswordHash = _passwordHasher.GetPasswordHash("soloathlete"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     UserSettings = new UserSettings(),
@@ -89,7 +101,6 @@ namespace Backend.Persistance
                     LastName = "",
                     Username = "coach",
                     Email = "coach@trainingcompanion.com",
-                    AccountType = AccountType.Coach,
                     Gender = Gender.Male,
                     Active = true,
                     PasswordHash = _passwordHasher.GetPasswordHash("coach"),
