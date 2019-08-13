@@ -31,12 +31,12 @@ namespace Backend.Application.Business.Business.Users.CreateUser
 
         private bool UniqueUsername(string username)
         {
-            return !_context.Athletes.Any(x => x.Username == username);
+            return !_context.Users.Any(x => x.Username == username);
         }
 
         private bool UniqueEmail(string email)
         {
-            return !_context.Athletes.Any(x => x.Email == email);
+            return !_context.Users.Any(x => x.Email == email);
         }
 
     }

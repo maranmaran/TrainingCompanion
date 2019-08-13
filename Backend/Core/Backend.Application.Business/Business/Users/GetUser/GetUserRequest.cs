@@ -1,16 +1,21 @@
-﻿using System;
+﻿
+
+using System;
 using Backend.Domain.Entities;
+using Backend.Domain.Enum;
 using MediatR;
 
 namespace Backend.Application.Business.Business.Users.GetUser
 {
     public class GetUserRequest : IRequest<ApplicationUser>
     {
-        public Guid UserId { get; set; }
+        public Guid Id { get; set; }
+        public AccountType AccountType { get; set; }
 
-        public GetUserRequest(Guid id)
+        public GetUserRequest(Guid id, AccountType accountType)
         {
-            UserId = id;
+            Id = id;
+            AccountType = accountType;
         }
     }
 }

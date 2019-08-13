@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Athletes.SetActiveAthlete;
+using Backend.Application.Business.Business.Users.SetActive;
 
 namespace Backend.API.Controllers
 {
@@ -42,10 +42,6 @@ namespace Backend.API.Controllers
             return await Delete(async () => await Mediator.Send(new DeleteAthleteRequest(id)));
         }
 
-        [HttpGet("{id}/{active}")]
-        public async Task<IActionResult> SetActive(Guid id, bool active)
-        {
-            return Accepted(await Mediator.Send(new SetActiveAthleteRequest(id, active)));
-        }
+       
     }
 }

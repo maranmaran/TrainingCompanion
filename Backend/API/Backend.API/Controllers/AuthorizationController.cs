@@ -3,6 +3,7 @@ using Backend.Application.Business.Business.Authorization.SignIn;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Backend.Application.Business.Business.Authorization.ChangePassword;
 using Backend.Application.Business.Business.Authorization.CurrentUser;
 using Backend.Application.Business.Business.Authorization.ResetPassword;
 using Backend.Application.Business.Business.Authorization.SetPassword;
@@ -44,6 +45,14 @@ namespace Backend.API.Controllers
             Response.Cookies.Append("jwt", viewModel.token);
 
             return Ok(viewModel.response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            await Mediator.Send(request);
+
+            return Accepted();
         }
     }
 }

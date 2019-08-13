@@ -11,7 +11,7 @@ namespace Backend.Domain.Entities
         public string DownloadUrl { get; set; }
         public MediaType Type { get; set; }
 
-        public DateTime DateUploaded { get; set; } = DateTime.UtcNow;
+        public DateTime DateUploaded { get; set; }
         public DateTime DateModified { get; set; }
 
         public Guid ApplicationUserId { get; set; }
