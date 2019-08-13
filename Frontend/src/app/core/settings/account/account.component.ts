@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Store } from '@ngrx/store';
 import { finalize, take } from 'rxjs/operators';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { UsersService } from 'src/business/services/user.service';
+import { UserService } from 'src/business/services/user.service';
 import { validateForm } from 'src/business/utils/form.utils';
 import { updateCurrentUser } from 'src/ngrx/auth/auth.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
@@ -27,7 +27,7 @@ export class AccountComponent implements OnInit {
 
   constructor(
     private UIService: UIService,
-    private usersService: UsersService,
+    private usersService: UserService,
     private store: Store<AppState>
   ) { }
 
@@ -64,16 +64,17 @@ export class AccountComponent implements OnInit {
   public onSubmit() {
     if (validateForm(this.accountForm, this.UIService)) {
 
-      const command = new UpdateUserRequest(
-        this.currentUser.id,
-        this.username.value,
-        this.email.value,
-        this.currentUser.firstName,
-        this.currentUser.lastName,
-        this.currentUser.active
-      );
+      const request = new UpdateUserRequest();
+      request.accountType =  this.currentUser.accountType;
+      request.id =  this.currentUser.id;
+      request.username =  this.username.value;
+      request.email =  this.email.value;
+      request.firstname =  this.currentUser.firstName;
+      request.lastname =  this.currentUser.lastName;
+      request.gender =  this.currentUser.gender;
+      request.active =  this.currentUser.active;
 
-      this.usersService.update(command)
+      this.usersService.update(request)
         .pipe(
           take(1),
           finalize(() => { 

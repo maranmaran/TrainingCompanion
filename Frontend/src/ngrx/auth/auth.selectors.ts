@@ -58,7 +58,7 @@ export const isCoach = createSelector(
     currentUser,
     (user: CurrentUser) => {
         if(user) {
-            const accountType = AccountType[user.accountType];
+            const accountType = user.accountType;
             return accountType == AccountType.Coach || accountType == AccountType.Admin;
         }
     }
@@ -67,7 +67,7 @@ export const isCoach = createSelector(
 export const isAthlete = createSelector(
     currentUser,
     (user: CurrentUser) => {
-        const accountType = AccountType[user.accountType];
+        const accountType = user.accountType;
         return accountType == AccountType.Athlete || AccountType.Coach || accountType == AccountType.Admin;
     }
 );

@@ -1,22 +1,21 @@
+import { UpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
+import { CreateUserRequest } from './../../../../../server-models/cqrs/users/requests/create-user.request';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { AthletesService } from 'src/business/services/athletes.service';
 import { registerAthlete, updateAthlete } from 'src/ngrx/athletes/athlete.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { UpdateAthleteRequest } from 'src/server-models/cqrs/athletes/requests/update-athlete.request';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { Gender } from 'src/server-models/enums/gender.enum';
 import { ServerStatusCodes } from 'src/server-models/error/status-codes/server.codes';
-import { CreateAthleteRequest } from '../../../../../server-models/cqrs/athletes/requests/create-athlete.request';
 import { CRUD } from './../../../../../business/shared/crud.enum';
 import { AccountType } from './../../../../../server-models/enums/account-type.enum';
-import { ErrorService } from 'src/business/services/shared/error.service';
+import { UserService } from 'src/business/services/user.service';
 
 @Component({
   selector: 'app-athlete-create-edit',
@@ -27,7 +26,7 @@ export class AthleteCreateEditComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private athletesService: AthletesService,
+    private userService: UserService,
     protected dialogRef: MatDialogRef<AthleteCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, athlete: ApplicationUser }) { }
     
@@ -96,9 +95,8 @@ export class AthleteCreateEditComponent implements OnInit {
   }
 
   createAthlete() {
-    var request = new CreateAthleteRequest();
+    var request = new CreateUserRequest();
     request.coachId = this.coachId;
-    request.fullName = this.fullName.value;
     request.firstname = this.fullName.value.split(' ')[0];
     request.lastname = this.fullName.value.split(' ')[1];
     request.email = this.email.value;
@@ -106,7 +104,7 @@ export class AthleteCreateEditComponent implements OnInit {
     request.gender = this.athlete.gender;
     request.accountType = AccountType.Athlete;
 
-    this.athletesService.create(request)
+    this.userService.create(request)
       .subscribe(
         (athlete: ApplicationUser) => {
           this.store.dispatch(registerAthlete(athlete));
@@ -117,9 +115,8 @@ export class AthleteCreateEditComponent implements OnInit {
   }
 
   updateAthlete() {
-    var request = new UpdateAthleteRequest();
+    var request = new UpdateUserRequest();
     request.id = this.athlete.id;
-    request.fullName = this.fullName.value;
     request.firstname = this.fullName.value.split(' ')[0];
     request.lastname = this.fullName.value.split(' ')[1];
     request.email = this.email.value;
@@ -127,7 +124,7 @@ export class AthleteCreateEditComponent implements OnInit {
     request.gender = this.athlete.gender;
     request.active = this.athlete.active;
 
-    this.athletesService.update(request)
+    this.userService.update(request)
       .subscribe(
         (athlete: ApplicationUser) => {
           this.store.dispatch(updateAthlete(athlete));

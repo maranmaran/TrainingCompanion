@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AthletesService } from 'src/business/services/athletes.service';
 import { athletesReducer } from 'src/ngrx/athletes/athlete.reducers';
 import { AthletesResolver } from '../../../business/resolvers/athletes.resolver';
 import { AthletesEffects } from '../../../ngrx/athletes/athlete.effects';
@@ -31,7 +30,6 @@ import { UIService } from 'src/business/services/shared/ui.service';
     ],
     providers: [
         UIService,
-        AthletesService,
         AthletesResolver
     ],
     entryComponents: [

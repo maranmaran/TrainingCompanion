@@ -1,4 +1,4 @@
-import { AthletesService } from 'src/business/services/athletes.service';
+import { UserService } from 'src/business/services/user.service';
 import { MaterialTableComponent } from './../../../../shared/material-table/material-table.component';
 import { CRUD } from './../../../../../business/shared/crud.enum';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
@@ -14,6 +14,7 @@ import { CustomColumn, TableDatasource } from '../../../../../business/shared/ta
 import { ApplicationUser } from '../../../../../server-models/entities/application-user.model';
 import { AthleteCreateEditComponent } from '../athlete-create-edit/athlete-create-edit.component';
 import { take } from 'rxjs/operators';
+import { AccountType } from 'src/server-models/enums/account-type.enum';
 
 @Component({
   selector: 'app-athlete-list',
@@ -32,7 +33,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
 
   constructor(
     private uiService: UIService,
-    private athleteService: AthletesService,
+    private userService: UserService,
     private store: Store<AppState>
   ) { }
 
@@ -131,7 +132,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((result: ConfirmResult) => {
         if(result == ConfirmResult.Confirm) {
-          this.athleteService.delete(athlete.id)
+          this.userService.delete(athlete.id, AccountType.Athlete)
             .subscribe(
               () => {
                 this.store.dispatch(deleteAthlete(athlete))
