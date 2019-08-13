@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, HostListener } from '@angular/core';
 import * as moment from 'moment'
 import { EventCalendar, CalendarEvent, CalendarDay } from './models/event-calendar.models';
 import { getEventCalendarModel, belongsToThisMonth, populateCalendar } from './models/event.calendar.utils';
@@ -40,6 +40,10 @@ export class EventCalendarComponent implements OnInit {
     );
   }
 
+  @HostListener('document:keydown.ArrowLeft', ['$event']) keyLeft = () => this.previousMonth();
+  @HostListener('document:keydown.ArrowRight', ['$event']) keyRight = () => this.nextMonth();
+  @HostListener('document:keydown.Space', ['$event']) keySpace = () => this.currentMonth();
+
   nextMonth() {
     this.currentDay = this.currentDay.clone().add(1, 'month');
     this.calendar = getEventCalendarModel(this.currentDay);
@@ -66,7 +70,7 @@ export class EventCalendarComponent implements OnInit {
   }
 
   displayDateDay = (date: moment.Moment) => date.format('D');
-  displayMonthAndYear = (date: moment.Moment) => date.format('MMMM, YY');
+  displayMonthAndYear = (date: moment.Moment) => date.format('MMMM, M/YY');
   
   belongsToThisMonth = belongsToThisMonth;
   isSunday = (date: moment.Moment) => moment(date).weekday() == 0;
