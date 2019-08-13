@@ -34,7 +34,7 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
     this.store.pipe(take(1))
     .subscribe(state => {
       this.userId = state.auth.currentUser.id;
-      this.userAccountType = AccountType[state.auth.currentUser.accountType];
+      this.userAccountType = state.auth.currentUser.accountType;
     });
     this.initializeConnection();
   }

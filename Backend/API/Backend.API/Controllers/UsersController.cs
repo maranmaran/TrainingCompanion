@@ -16,10 +16,10 @@ namespace Backend.API.Controllers
 {
     public class UsersController : BaseController
     {
-        [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]SieveModel sieveModel)
+        [HttpGet("{accountType}/{coachId}")]
+        public async Task<IActionResult> GetAll(AccountType accountType, Guid coachId, [FromQuery]SieveModel sieveModel)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllUsersRequest()), sieveModel);
+            return await GetQuery(async () => await Mediator.Send(new GetAllUsersRequest(accountType, coachId)), sieveModel);
         }
 
         [HttpGet("{id}/{acocuntType}")]
@@ -46,6 +46,8 @@ namespace Backend.API.Controllers
         {
             return await Delete(async () => await Mediator.Send(new DeleteUserRequest(id, accountType)));
         }
+
+
 
         [HttpGet("{id}/{active}")]
         public async Task<IActionResult> SetActive(Guid id, bool active)

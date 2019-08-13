@@ -1,10 +1,11 @@
 ﻿using Backend.Domain.Enum;
 using MediatR;
 using System;
+using Backend.Domain.Entities;
 
 namespace Backend.Application.Business.Business.Users.UpdateUser
 {
-    public class UpdateUserRequest : IRequest
+    public class UpdateUserRequest : IRequest<ApplicationUser>
     {
         public Guid Id { get; set; }
         public AccountType AccountType { get; set; }

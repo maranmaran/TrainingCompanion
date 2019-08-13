@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Users.UpdateUser
 {
-    public class UpdateUserRequestHandler : IRequestHandler<UpdateUserRequest>
+    public class UpdateUserRequestHandler : IRequestHandler<UpdateUserRequest, ApplicationUser>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -24,29 +24,24 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
         {
             try
             {
                 switch (request.AccountType)
                 {
                     case AccountType.Coach:
-                        await UpdateCoach(request);
-                        break;
+                        return await UpdateCoach(request);
 
                     case AccountType.Athlete:
-                        await UpdateAthlete(request);
-                        break;
+                        return await UpdateAthlete(request);
 
                     case AccountType.SoloAthlete:
-                        await UpdateSoloAthlete(request);
-                        break;
+                        return await UpdateSoloAthlete(request);
 
                     default:
                         throw new NotImplementedException($"This account type does not exist: {request.AccountType}");
                 }
-
-                return Unit.Value;
             }
             catch (Exception e)
             {
@@ -54,7 +49,7 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
             }
         }
 
-        private async Task UpdateCoach(UpdateUserRequest request)
+        private async Task<ApplicationUser> UpdateCoach(UpdateUserRequest request)
         {
             var coach = await _context.Coaches.SingleAsync(x => x.Id == request.Id);
 
@@ -62,9 +57,11 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
 
             _context.Coaches.Update(coach);
             await _context.SaveChangesAsync();
+
+            return _mapper.Map<ApplicationUser>(coach);
         }
 
-        private async Task UpdateAthlete(UpdateUserRequest request)
+        private async Task<ApplicationUser> UpdateAthlete(UpdateUserRequest request)
         {
             var athlete = await _context.Athletes.SingleAsync(x => x.Id == request.Id);
 
@@ -72,9 +69,11 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
 
             _context.Athletes.Update(athlete);
             await _context.SaveChangesAsync();
+
+            return _mapper.Map<ApplicationUser>(athlete);
         }
 
-        private async Task UpdateSoloAthlete(UpdateUserRequest request)
+        private async Task<ApplicationUser> UpdateSoloAthlete(UpdateUserRequest request)
         {
             var soloAthlete = await _context.SoloAthletes.SingleAsync(x => x.Id == request.Id);
 
@@ -82,6 +81,8 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
 
             _context.SoloAthletes.Update(soloAthlete);
             await _context.SaveChangesAsync();
+
+            return _mapper.Map<ApplicationUser>(soloAthlete);
         }
     }
 }

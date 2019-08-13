@@ -9,7 +9,8 @@ import { UserSettings } from 'src/server-models/entities/user-settings.model';
 import { BaseService } from './base.service';
 
 @Injectable({ providedIn: 'root'})
-export class UsersService extends BaseService {
+export class UserService extends BaseService {
+
     private url = '/Users/';
 
     constructor(
@@ -18,16 +19,15 @@ export class UsersService extends BaseService {
         super();
     }
 
-
-    public getAll() {
-        return this.http.get<ApplicationUser[]>(this.url + 'GetAll')
+    public getAll(accountType: AccountType, coachId: string) {
+        return this.http.get<ApplicationUser[]>(this.url + 'GetAll/' + accountType + '/' + coachId)
             .pipe(
                 catchError(this.handleError)
             );
     }
 
-    public getOne(userId: string) {
-        return this.http.get<ApplicationUser>(this.url + 'Get/' + userId)
+    public getOne(id: string, accountType: AccountType) {
+        return this.http.get<ApplicationUser>(this.url + 'Get/' + id + '/' + accountType)
             .pipe(
                 catchError(this.handleError)
             );
@@ -40,19 +40,25 @@ export class UsersService extends BaseService {
         );
     }
 
-    public update(command: UpdateUserRequest) {
-        return this.http.post<void>(this.url + 'Update/', command)
+    public update(request: UpdateUserRequest) {
+        return this.http.post<ApplicationUser>(this.url + 'Update/', request)
             .pipe(
                 catchError(this.handleError)
             );
     }
 
-    public delete() {
-
+    public delete(id: string, accountType: AccountType) {
+        return this.http.get(this.url + 'Delete/' + id + '/' + accountType)
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
-    public changePassword() {
-
+    public setActive(id: string, active: boolean) {
+        return this.http.get(this.url + 'SetActive/' + id + '/' + active)
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
     public saveSettings(userSettings: UserSettings) {
@@ -62,6 +68,5 @@ export class UsersService extends BaseService {
                 catchError(this.handleError)
             );
     }
-
 
 }
