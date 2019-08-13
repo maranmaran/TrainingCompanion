@@ -54,6 +54,7 @@ namespace Backend.Application.Business
             CreateMap<ApplicationUser, Coach>().ReverseMap();
             CreateMap<ApplicationUser, Athlete>().ReverseMap();
             CreateMap<ApplicationUser, SoloAthlete>().ReverseMap();
+
         }
 
         private void BillingMappings()

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Backend.Domain.Entities;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Entities;
 using Backend.Service.Payment.Enums;
 using Stripe;
+using System;
+using System.Collections.Generic;
 using AccountType = Backend.Domain.Enum.AccountType;
 
 namespace Backend.Application.Business.Business.Authorization.CurrentUser
 {
     public class CurrentUserRequestResponse
     {
-        // basic accoutn info
+        // basic account info
         public Guid Id { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }
