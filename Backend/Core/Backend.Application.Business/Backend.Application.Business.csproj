@@ -32,15 +32,20 @@
     <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate - Copy.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate - Development.html">
+    <None Update="Assets\EmailTemplates\Registration\Athlete\NewAthleteRegisterTemplate - Development.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate - Production.html">
+    <None Update="Assets\EmailTemplates\Registration\Athlete\NewAthleteRegisterTemplate - Production.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\EmailTemplates\Registration\Coach\" />
+    <Folder Include="Assets\EmailTemplates\Registration\SoloAthlete\" />
   </ItemGroup>
 
 </Project>

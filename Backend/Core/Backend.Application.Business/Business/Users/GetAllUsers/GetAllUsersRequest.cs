@@ -10,5 +10,11 @@ namespace Backend.Application.Business.Business.Users.GetAllUsers
     {
         public AccountType AccountType { get; set; }
         public Guid CoachId { get; set; }
+
+        public GetAllUsersRequest(AccountType accountType, Guid coachId)
+        {
+            AccountType = accountType;
+            CoachId = coachId;
+        }
     }
 }

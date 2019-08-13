@@ -8,7 +8,7 @@ import { updateUserSettings } from 'src/ngrx/auth/auth.actions';
 import { userSettings } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
-import { UsersService } from './../../../../business/services/user.service';
+import { UserService } from './../../../../business/services/user.service';
 import { UserSettings } from './../../../../server-models/entities/user-settings.model';
 
 @Component({
@@ -22,7 +22,7 @@ export class GeneralComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private usersService: UsersService,
+    private usersService: UserService,
   ) { }
 
   ngOnInit() {

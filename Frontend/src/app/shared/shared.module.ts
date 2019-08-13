@@ -11,8 +11,6 @@ import { ErrorSnackbarComponent } from './error-snackbar/error-snackbar.componen
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MaterialTableComponent } from './material-table/material-table.component';
-import { AthleteCreateEditComponent } from '../features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
-import { AthletesService } from 'src/business/services/athletes.service';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
 
 
