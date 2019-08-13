@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using Backend.Application.Business.Business.Athletes.CreateAthlete;
-using Backend.Application.Business.Business.Athletes.UpdateAthlete;
 using Backend.Application.Business.Business.Authorization.CurrentUser;
 using Backend.Application.Business.Business.Billing.AddPayment;
 using Backend.Application.Business.Business.Billing.Subscribe;
 using Backend.Application.Business.Business.Chat.SendChatMessage;
-using Backend.Application.Business.Business.Coaches.CreateCoach;
-using Backend.Application.Business.Business.Coaches.UpdateCoach;
 using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Application.Business.Business.Users.UpdateUser;
 using Backend.Application.Business.Extensions;
@@ -23,8 +19,6 @@ namespace Backend.Application.Business
         {
             this.AuthorizationMappings();
             this.UserMappings();
-            this.CoachMappings();
-            this.AthleteMappings();
             this.BillingMappings();
             this.ChatMappings();
         }
@@ -49,51 +43,17 @@ namespace Backend.Application.Business
 
         private void UserMappings()
         {
-            // create
+            CreateMap<CreateUserRequest, Coach>().IgnoreAllVirtual();
+            CreateMap<CreateUserRequest, Athlete>().IgnoreAllVirtual();
+            CreateMap<CreateUserRequest, SoloAthlete>().IgnoreAllVirtual();
 
-            CreateMap<CreateUserRequest, ApplicationUser>();
-            CreateMap<CreateUserRequest, CreateCoachRequest>();
-            CreateMap<CreateUserRequest, CreateAthleteRequest>();
+            CreateMap<UpdateUserRequest, Coach>().IgnoreAllVirtual();
+            CreateMap<UpdateUserRequest, Athlete>().IgnoreAllVirtual();
+            CreateMap<UpdateUserRequest, SoloAthlete>().IgnoreAllVirtual();
 
-            CreateMap<Athlete, ApplicationUser>();
-            CreateMap<Coach, ApplicationUser>();
-
-
-            // update
-            CreateMap<UpdateUserRequest, ApplicationUser>()
-                .ForMember(x => x.CreatedOn, o => o.Ignore())
-                .ForMember(x => x.AccountType, o => o.Ignore())
-                //.ForMember(x => x.ParentId, o => o.Ignore())
-                .IgnoreAllVirtual();
-
-        }
-
-        private void CoachMappings()
-        {
-            // create
-            CreateMap<CreateCoachRequest, Coach>();
-
-            // update
-            CreateMap<UpdateCoachRequest, Coach>()
-                .ForMember(x => x.CreatedOn, o => o.Ignore())
-                .ForMember(x => x.AccountType, o => o.Ignore())
-                //.ForMember(x => x.ParentId, o => o.Ignore())
-                .IgnoreAllVirtual();
-
-        }
-
-        private void AthleteMappings()
-        {
-            // create
-            CreateMap<CreateAthleteRequest, Athlete>()
-                .ForMember(x => x.PasswordHash, o => o.Ignore());
-
-            // update
-            CreateMap<UpdateAthleteRequest, Athlete>()
-                .ForMember(x => x.CreatedOn, o => o.Ignore())
-                .ForMember(x => x.AccountType, o => o.Ignore())
-                //.ForMember(x => x.ParentId, o => o.Ignore())
-                .IgnoreAllVirtual();
+            CreateMap<ApplicationUser, Coach>().ReverseMap();
+            CreateMap<ApplicationUser, Athlete>().ReverseMap();
+            CreateMap<ApplicationUser, SoloAthlete>().ReverseMap();
         }
 
         private void BillingMappings()
