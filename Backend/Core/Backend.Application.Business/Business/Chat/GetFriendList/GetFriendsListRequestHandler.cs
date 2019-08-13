@@ -31,7 +31,7 @@ namespace Backend.Application.Business.Business.Chat.GetFriendList
             try
             {
                 var friendList = new List<ParticipantResponseViewModel>();
-                var admin = await _context.Users.SingleAsync(x => x.AccountType == AccountType.Admin,
+                var admin = await _context.Users.SingleOrDefaultAsync(x => x.AccountType == AccountType.Admin,
                     cancellationToken); // admin is available to all
 
                 switch (request.AccountType)

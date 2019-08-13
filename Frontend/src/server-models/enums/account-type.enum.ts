@@ -1,7 +1,7 @@
 export enum AccountType
 {
-    Admin,
-    Coach,
-    Athlete,
-    SoloAthlete
+    Admin = 'Admin',
+    Coach = 'Coach',
+    Athlete = 'Athlete',
+    SoloAthlete = 'SoloAthlete'
 }

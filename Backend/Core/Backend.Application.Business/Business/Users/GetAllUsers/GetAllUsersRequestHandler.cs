@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities;
 using Backend.Domain.Enum;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Users.GetAllUsers
 {
@@ -52,22 +52,23 @@ namespace Backend.Application.Business.Business.Users.GetAllUsers
 
         private IQueryable<ApplicationUser> GetAllCoaches()
         {
-            return _mapper.Map<IQueryable<ApplicationUser>>(_context.Coaches);
+            return _mapper.ProjectTo<ApplicationUser>(_context.Coaches);
         }
 
         private IQueryable<ApplicationUser> GetAllSoloAthletes()
         {
-            return _mapper.Map<IQueryable<ApplicationUser>>(_context.SoloAthletes);
+            return _mapper.ProjectTo<ApplicationUser>(_context.SoloAthletes);
         }
 
         private IQueryable<ApplicationUser> GetAllAthletes(Guid coachId)
         {
             if (coachId != Guid.Empty)
             {
-                return _mapper.Map<IQueryable<ApplicationUser>>(_context.Athletes.Where(x => x.CoachId == coachId));
+                var athletes = _context.Athletes.Where(x => x.CoachId == coachId);
+                return _mapper.ProjectTo<ApplicationUser>(athletes);
             }
 
-            return _mapper.Map<IQueryable<ApplicationUser>>(_context.Athletes);
+            return _mapper.ProjectTo<ApplicationUser>(_context.Athletes);
         }
     }
 }
