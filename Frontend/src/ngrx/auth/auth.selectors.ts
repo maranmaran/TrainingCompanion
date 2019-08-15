@@ -64,11 +64,21 @@ export const isCoach = createSelector(
     }
 );
 
+export const isPayingUser = createSelector(
+    currentUser,
+    (user: CurrentUser) => {
+        if(user) {
+            const accountType = user.accountType;
+            return accountType == AccountType.Coach || accountType == AccountType.SoloAthlete || accountType == AccountType.Admin;
+        }
+    }
+);
+
 export const isAthlete = createSelector(
     currentUser,
     (user: CurrentUser) => {
         const accountType = user.accountType;
-        return accountType == AccountType.Athlete || AccountType.Coach || accountType == AccountType.Admin;
+        return accountType == AccountType.Athlete || accountType == AccountType.Coach || accountType == AccountType.Admin || accountType == AccountType.SoloAthlete;
     }
 );
 

@@ -1,6 +1,10 @@
 ﻿using Backend.Domain;
+using Backend.Domain.Enum;
 using Backend.Service.Authorization.Interfaces;
+using Backend.Service.Payment.Enums;
+using Backend.Service.Payment.Interfaces;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace Backend.Application.Business.Business.Authorization.SignIn
@@ -9,15 +13,18 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
     {
         private readonly IApplicationDbContext _context;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IPaymentService _paymentService;
 
-        public SignInRequestValidator(IApplicationDbContext context, IPasswordHasher passwordHasher)
+        public SignInRequestValidator(IApplicationDbContext context, IPasswordHasher passwordHasher, IPaymentService paymentService)
         {
             _context = context;
             _passwordHasher = passwordHasher;
+            _paymentService = paymentService;
 
             RuleFor(x => x)
                 .Must(UserExists).WithMessage($"User does not exist")
-                .Must(UserActive).WithMessage("This user is inactive");
+                .Must(UserActive).WithMessage("This user is inactive")
+                .Must(CoachHasPaidSubscriptionIfUserIsAthlete).WithMessage("Coach did not renew his subscription");
 
             RuleFor(x => x.Username).MaximumLength(15).NotEmpty();
 
@@ -45,6 +52,20 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
             var passwordHash = _context.Users.Where(x => x.Username == request.Username).Select(x => x.PasswordHash).Single();
 
             return passwordHash == _passwordHasher.GetPasswordHash(request.Password);
+        }
+
+        private bool CoachHasPaidSubscriptionIfUserIsAthlete(SignInRequest request)
+        {
+            var user = _context.Users.Single(x => x.Username == request.Username);
+
+            if (user.AccountType != AccountType.Athlete) return true;
+
+            var athlete = _context.Athletes.Include(x => x.Coach).Single(x => x.Id == user.Id);
+
+            var coachPaymentInfo =
+                _paymentService.GetCustomerSubscriptionStatus(athlete.Coach.CustomerId).Result;
+
+            return coachPaymentInfo != SubscriptionStatus.Active && coachPaymentInfo != SubscriptionStatus.Trialing;
         }
     }
 }

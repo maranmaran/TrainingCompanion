@@ -35,16 +35,14 @@ mat-form-field {
   width: 100%;
 }
 
-.mat-dialog-container {
-  mat-divider {
+.dialog-form-divider {
     margin-bottom: 1rem !important;
     margin-left: -24px !important;
     margin-right: -24px !important;
   }
 
-  #actions {
-    margin-top: 2rem !important;
-  }
+.dialog-form-actions {
+  margin-top: 2rem !important;
 }
 
 

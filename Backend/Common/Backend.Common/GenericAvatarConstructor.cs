@@ -21,7 +21,7 @@ namespace Backend.Common
         public GenericAvatarConstructor AddName(string fullName)
         {
             var splittedName = fullName.Split(' ');
-            var nameVariable = splittedName.Length > 1 ? string.Join('+', splittedName) : splittedName[0];
+            var nameVariable = splittedName.Length > 1 ? string.Join("+", splittedName) : splittedName[0];
 
             _constructedUrl.Append($"name={nameVariable}&");
 
@@ -35,15 +35,17 @@ namespace Backend.Common
             return this;
         }
 
-        public GenericAvatarConstructor Background(string hexColor = null)
+        public GenericAvatarConstructor Background(params string[] hexColors)
         {
-            if (hexColor != null)
+            string hexColor;
+            if (hexColors.Length == 1)
             {
+                hexColor = hexColors[0];
                 hexColor = hexColor[0] == '#' ? hexColor.Substring(1) : hexColor;
             }
             else
             {
-                hexColor = Utils.GetRandomHexColor(false); // don't use hash
+                hexColor = Utils.GetRandomHexColor(false, hexColors); // don't use hash
             }
 
             _constructedUrl.Append($"background={hexColor}&");

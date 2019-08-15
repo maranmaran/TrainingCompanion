@@ -1,4 +1,5 @@
 ﻿using Backend.Domain.Entities;
+using Backend.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,6 +14,7 @@ namespace Backend.Persistance.Configurations
             //    .HasConversion(
             //        v => v.ToString(),
             //        v => (AccountType)Enum.Parse(typeof(AccountType), v));
+
 
             builder
                 .HasOne(x => x.Coach)
@@ -31,6 +33,7 @@ namespace Backend.Persistance.Configurations
             //        v => v.ToString(),
             //        v => (AccountType)Enum.Parse(typeof(AccountType), v));
 
+
             builder
                 .HasMany(x => x.Athletes)
                 .WithOne(x => x.Coach)
@@ -43,6 +46,7 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<SoloAthlete> builder)
         {
+
             //builder.Property(x => x.AccountType)
             //    .HasDefaultValue(AccountType.SoloAthlete)
             //    .HasConversion(
@@ -56,6 +60,7 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<Admin> builder)
         {
+
             //builder.Property(x => x.AccountType)
             //    .HasDefaultValue(AccountType.Admin)
             //    .HasConversion(
