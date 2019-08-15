@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
 using MediatR;
+using System;
 
 namespace Backend.Application.Business.Business.Chat.SendChatMessage
 {

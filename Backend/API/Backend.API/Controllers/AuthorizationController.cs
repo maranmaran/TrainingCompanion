@@ -16,10 +16,10 @@ namespace Backend.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
         {
-            var viewModel = await Mediator.Send(request);
-            Response.Cookies.Append("jwt", viewModel.token);
+            var (response, token) = await Mediator.Send(request);
+            Response.Cookies.Append("jwt", token);
 
-            return Ok(viewModel.response);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -41,10 +41,10 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> SetPassword(SetPasswordRequest request)
         {
-            var viewModel = await Mediator.Send(request);
-            Response.Cookies.Append("jwt", viewModel.token);
+            var (response, token) = await Mediator.Send(request);
+            Response.Cookies.Append("jwt", token);
 
-            return Ok(viewModel.response);
+            return Ok(response);
         }
 
         [HttpPost]
