@@ -1,5 +1,4 @@
-﻿using Backend.Common;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
 using System;
 using System.Collections.Generic;
 
@@ -7,18 +6,12 @@ namespace Backend.Domain.Entities
 {
     public class ApplicationUser
     {
-        public ApplicationUser()
-        {
-            FullName = $"{FirstName} {LastName}";
-            Avatar = new GenericAvatarConstructor().AddName(FullName).Round().Background().Foreground().Value();
-        }
-
         public Guid Id { get; set; }
         public string CustomerId { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FullName { get; set; }
+        public string FullName => $"{FirstName} {LastName}";
 
         public string Username { get; set; }
         public string Email { get; set; }

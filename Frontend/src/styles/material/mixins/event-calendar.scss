@@ -78,7 +78,16 @@
 
 
   .add-button, .event-button {
-    font-size: 1.8rem;
+
+    &.mat-icon-button {
+      height: 50px !important;
+      width: 50px !important;
+    }
+
+    i {
+      font-size: 1.8rem;
+    }
+
   }
 
 

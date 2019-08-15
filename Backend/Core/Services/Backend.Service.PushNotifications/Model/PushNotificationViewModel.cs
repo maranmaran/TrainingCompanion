@@ -1,9 +1,8 @@
 ﻿namespace Backend.Service.PushNotifications.Model
 {
-    public class NotificationViewModel
+    public class PushNotificationViewModel
     {
-        public string Type { get; set; }
+        public PushNotificationType Type { get; set; }
         public string Payload { get; set; }
-
     }
 }

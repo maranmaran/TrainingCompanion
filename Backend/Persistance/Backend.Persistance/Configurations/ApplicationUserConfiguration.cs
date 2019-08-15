@@ -1,5 +1,6 @@
 ﻿using Backend.Domain.Entities;
 using Backend.Domain.Enum;
+using Backend.Persistance.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -14,7 +15,15 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.LastModified).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
             builder.Property(x => x.TrialDuration).HasDefaultValue(15);
             builder.Property(x => x.Active).HasDefaultValue(true);
-            builder.Property(x => x.Avatar).HasDefaultValue(true);
+            builder.Property(x => x.Avatar).HasValueGenerator<AvatarGenerator>();
+
+            builder
+                .HasDiscriminator(x => x.AccountType)
+                .HasValue<ApplicationUser>(AccountType.User)
+                .HasValue<Athlete>(AccountType.Athlete)
+                .HasValue<Coach>(AccountType.Coach)
+                .HasValue<SoloAthlete>(AccountType.SoloAthlete)
+                .HasValue<Admin>(AccountType.Admin);
 
 
             builder.Property(x => x.AccountType)

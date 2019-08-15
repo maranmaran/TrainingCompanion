@@ -2,6 +2,7 @@
 {
     public enum AccountType
     {
+        User,
         Admin,
         Coach,
         Athlete,

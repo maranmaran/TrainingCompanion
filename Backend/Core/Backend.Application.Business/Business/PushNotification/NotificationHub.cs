@@ -1,7 +1,7 @@
 ﻿namespace Backend.Service.PushNotifications
 {
-    public enum NotificationHubMethods
+    public class PushNotificationsHub
     {
-        NewNotification
+
     }
 }
