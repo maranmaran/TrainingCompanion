@@ -3,6 +3,7 @@ using Backend.Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System;
+using Backend.Domain.Entities.Media;
 
 namespace Backend.Application.Business.Business.Media.UploadMedia
 {

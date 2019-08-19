@@ -1,4 +1,5 @@
 ﻿using Backend.Domain.Entities;
+using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using MediatR;
 

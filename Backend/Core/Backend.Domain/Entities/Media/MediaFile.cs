@@ -1,7 +1,8 @@
-﻿using Backend.Domain.Enum;
-using System;
+﻿using System;
+using Backend.Domain.Entities.User;
+using Backend.Domain.Enum;
 
-namespace Backend.Domain.Entities
+namespace Backend.Domain.Entities.Media
 {
     public class MediaFile
     {

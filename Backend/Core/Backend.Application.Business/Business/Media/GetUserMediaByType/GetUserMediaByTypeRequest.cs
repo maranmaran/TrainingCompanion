@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain;
 using Backend.Domain.Entities;
+using Backend.Domain.Entities.Media;
 using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.AmazonS3.Models;
 using Backend.Service.Infrastructure.Exceptions;
