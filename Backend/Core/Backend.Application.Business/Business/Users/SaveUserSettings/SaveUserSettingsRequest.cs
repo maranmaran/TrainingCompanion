@@ -1,4 +1,5 @@
 ﻿using Backend.Domain.Entities;
+using Backend.Domain.Entities.User;
 using MediatR;
 
 namespace Backend.Application.Business.Business.Users.SaveUserSettings

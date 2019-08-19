@@ -1,5 +1,9 @@
 ﻿using Backend.Domain;
 using Backend.Domain.Entities;
+using Backend.Domain.Entities.Chat;
+using Backend.Domain.Entities.Media;
+using Backend.Domain.Entities.System;
+using Backend.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Persistance

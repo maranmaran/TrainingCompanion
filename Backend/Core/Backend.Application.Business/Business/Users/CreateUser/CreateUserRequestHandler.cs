@@ -12,6 +12,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business.Business.Users.CreateUser
 {

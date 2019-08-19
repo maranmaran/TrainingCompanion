@@ -10,6 +10,8 @@ using Backend.Domain.Entities;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
+using Backend.Domain.Entities.Chat;
+using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business
 {

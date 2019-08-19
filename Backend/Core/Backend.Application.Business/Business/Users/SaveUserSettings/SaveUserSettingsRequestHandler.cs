@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain.Entities;
+using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business.Business.Users.SaveUserSettings
 {
