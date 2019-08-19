@@ -53,7 +53,7 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -74,7 +74,7 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -95,7 +95,7 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -116,7 +116,7 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -137,7 +137,7 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -158,7 +158,7 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -314,7 +314,7 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(nullable: true),
                     ExerciseTypeId = table.Column<Guid>(nullable: true)
                 },
@@ -363,7 +363,7 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(nullable: true),
                     ExerciseTypeId = table.Column<Guid>(nullable: true)
                 },
@@ -391,7 +391,7 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
+                    Active = table.Column<bool>(nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(nullable: true),
                     ExerciseTypeId = table.Column<Guid>(nullable: true)
                 },

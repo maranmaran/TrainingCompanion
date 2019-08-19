@@ -1,10 +1,9 @@
-﻿using Backend.Domain.Entities;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Persistance.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Persistance.Configurations
 {
@@ -26,9 +25,7 @@ namespace Backend.Persistance.Configurations
                 .HasValue<SoloAthlete>(AccountType.SoloAthlete)
                 .HasValue<Admin>(AccountType.Admin);
 
-
             builder.Property(x => x.AccountType)
-                .HasDefaultValue(AccountType.Coach)
                 .HasConversion(
                     v => v.ToString(),
                     v => (AccountType)Enum.Parse(typeof(AccountType), v));
