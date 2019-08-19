@@ -19,6 +19,7 @@
     //    LowBar,
     //    FrontRack,
     //}
+
     //public enum ExerciseTypeCategory
     //{
     //    KneeDominant,
@@ -37,6 +38,7 @@
     //    CloseGrip,
     //    WideGrip,
     //}
+
     //public enum Kit
     //{
     //    Belt,
@@ -48,6 +50,7 @@
     //    BenchShirt,
     //    DeadliftSuit
     //}
+
     //public enum LoadAccomodation
     //{
     //    LightBand,
@@ -58,6 +61,7 @@
     //    ReverseAverageBand,
     //    ReverseStrongBand
     //}
+
     //public enum RangeOfMotion
     //{
     //    Standard,
