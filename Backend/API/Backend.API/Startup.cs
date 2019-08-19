@@ -1,9 +1,9 @@
 ﻿using Backend.API.Extensions;
 using Backend.API.Middleware;
 using Backend.Application.Business.Business.Chat;
+using Backend.Application.Business.Business.PushNotification;
 using Backend.Application.Business.Extensions;
 using Backend.Service.Infrastructure.Extensions;
-using Backend.Service.PushNotifications;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -83,7 +83,7 @@ namespace Backend.API
             // ===== SignalR Hubs configuration / MUST BE AFTER AUTHENTICATION=====
             app.UseSignalR(routes =>
             {
-                routes.MapHub<NotificationHub>("/api/notifications-hub");
+                routes.MapHub<PushNotificationHub>("/api/notifications-hub");
                 routes.MapHub<ChatHub>("/api/chat-hub");
             });
 
