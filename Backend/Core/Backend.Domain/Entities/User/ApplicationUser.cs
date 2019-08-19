@@ -1,17 +1,17 @@
 ﻿using Backend.Domain.Entities.Chat;
-using Backend.Domain.Entities.ExerciseType.Properties;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Enum;
 using System;
 using System.Collections.Generic;
-using BarPosition = Backend.Domain.Entities.ExerciseType.Properties.BarPosition;
-using BarType = Backend.Domain.Entities.ExerciseType.Properties.BarType;
-using Grip = Backend.Domain.Entities.ExerciseType.Properties.Grip;
-using LoadAccomodation = Backend.Domain.Entities.ExerciseType.Properties.LoadAccomodation;
-using RangeOfMotion = Backend.Domain.Entities.ExerciseType.Properties.RangeOfMotion;
-using Stance = Backend.Domain.Entities.ExerciseType.Properties.Stance;
-using Tempo = Backend.Domain.Entities.ExerciseType.Properties.Tempo;
+using Backend.Domain.Entities.ExerciseType;
+using BarPosition = Backend.Domain.Entities.ExerciseType.BarPosition;
+using BarType = Backend.Domain.Entities.ExerciseType.BarType;
+using Grip = Backend.Domain.Entities.ExerciseType.Grip;
+using LoadAccomodation = Backend.Domain.Entities.ExerciseType.LoadAccomodation;
+using RangeOfMotion = Backend.Domain.Entities.ExerciseType.RangeOfMotion;
+using Stance = Backend.Domain.Entities.ExerciseType.Stance;
+using Tempo = Backend.Domain.Entities.ExerciseType.Tempo;
 
 namespace Backend.Domain.Entities.User
 {
@@ -57,8 +57,8 @@ namespace Backend.Domain.Entities.User
         /// </summary>
         public virtual ICollection<BarPosition> BarPositions { get; set; } = new HashSet<BarPosition>();
         public virtual ICollection<BarType> BarTypes { get; set; } = new HashSet<BarType>();
-        public virtual ICollection<ExerciseCategory> ExerciseCategories { get; set; } = new HashSet<ExerciseCategory>();
-        public virtual ICollection<ExerciseEquipment> ExerciseEquipments { get; set; } = new HashSet<ExerciseEquipment>();
+        public virtual ICollection<Category> ExerciseCategories { get; set; } = new HashSet<Category>();
+        public virtual ICollection<Equipment> ExerciseEquipments { get; set; } = new HashSet<Equipment>();
         public virtual ICollection<Grip> Grips { get; set; } = new HashSet<Grip>();
         public virtual ICollection<LoadAccomodation> LoadAccomodations { get; set; } = new HashSet<LoadAccomodation>();
         public virtual ICollection<Stance> Stances { get; set; } = new HashSet<Stance>();

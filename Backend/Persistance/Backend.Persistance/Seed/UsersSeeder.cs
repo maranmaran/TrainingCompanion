@@ -1,4 +1,5 @@
-﻿using Backend.Domain;
+﻿using Backend.Application.Business.Factories;
+using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Service.Authorization.Interfaces;
@@ -20,7 +21,6 @@ namespace Backend.Persistance.Seed
                     LastName = "",
                     Username = "admin",
                     Email = "admin@trainingcompanion.com",
-                    Active = true,
                     Gender = Gender.Male,
                     PasswordHash = passwordHasher.GetPasswordHash("admin"),
                     CreatedOn = DateTime.UtcNow,
@@ -28,7 +28,7 @@ namespace Backend.Persistance.Seed
                     CustomerId = "cus_FLi7gZv8w0j0GB",
                     UserSettings = new UserSettings(),
                 };
-                admin = (Admin)ExerciseTypePropertiesSeeder.SeedUser(admin);
+                admin = ExerciseTypePropertiesFactory.ApplyProperties<Admin>(admin);
 
                 var athlete = new Athlete()
                 {
@@ -37,13 +37,12 @@ namespace Backend.Persistance.Seed
                     Username = "athlete",
                     Email = "athlete@trainingcompanion.com",
                     Gender = Gender.Male,
-                    Active = true,
                     PasswordHash = passwordHasher.GetPasswordHash("athlete"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     UserSettings = new UserSettings(),
                 };
-                athlete = (Athlete)ExerciseTypePropertiesSeeder.SeedUser(athlete);
+                athlete = ExerciseTypePropertiesFactory.ApplyProperties<Athlete>(athlete);
 
 
                 var soloAthlete = new SoloAthlete()
@@ -53,13 +52,12 @@ namespace Backend.Persistance.Seed
                     Username = "soloathlete",
                     Email = "solo.athlete@trainingcompanion.com",
                     Gender = Gender.Male,
-                    Active = true,
                     PasswordHash = passwordHasher.GetPasswordHash("soloathlete"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     UserSettings = new UserSettings(),
                 };
-                soloAthlete = (SoloAthlete)ExerciseTypePropertiesSeeder.SeedUser(soloAthlete);
+                soloAthlete = ExerciseTypePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
 
                 var coach = new Coach()
                 {
@@ -68,7 +66,6 @@ namespace Backend.Persistance.Seed
                     Username = "coach",
                     Email = "coach@trainingcompanion.com",
                     Gender = Gender.Male,
-                    Active = true,
                     PasswordHash = passwordHasher.GetPasswordHash("coach"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
@@ -76,7 +73,7 @@ namespace Backend.Persistance.Seed
                     UserSettings = new UserSettings(),
                     Athletes = new List<Athlete>() { athlete }
                 };
-                coach = (Coach)ExerciseTypePropertiesSeeder.SeedUser(coach);
+                coach = ExerciseTypePropertiesFactory.ApplyProperties<Coach>(coach);
 
                 context.Users.Add(admin);
                 context.Users.Add(coach);

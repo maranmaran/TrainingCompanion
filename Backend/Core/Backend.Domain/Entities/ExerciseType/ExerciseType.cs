@@ -1,5 +1,4 @@
-﻿using Backend.Domain.Entities.ExerciseType.Properties;
-using Backend.Domain.Entities.ProgressTracking.Max;
+﻿using Backend.Domain.Entities.ProgressTracking.Max;
 using Backend.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
@@ -36,16 +35,19 @@ namespace Backend.Domain.Entities.ExerciseType
         public virtual RangeOfMotion RangeOfMotion { get; set; }
 
         public Guid CategoryId { get; set; }
-        public virtual ExerciseCategory Category { get; set; }
+        public virtual Category Category { get; set; }
+
+        public Guid TempoId { get; set; }
+        public virtual Tempo Tempo { get; set; }
 
         public Guid AthleteId { get; set; }
         public virtual Athlete Athlete { get; set; }
 
         //TODO: RPE CHART
 
-        public virtual ICollection<Tempo> Tempos { get; set; } = new HashSet<Tempo>();
-        public virtual ICollection<LoadAccomodation> LoadAccomodation { get; set; } = new HashSet<LoadAccomodation>();
-        public virtual ICollection<ExerciseEquipment> Equipment { get; set; } = new HashSet<ExerciseEquipment>();
+
+        public virtual ICollection<ExerciseTypeLoadAccomodation> LoadAccomodation { get; set; } = new HashSet<ExerciseTypeLoadAccomodation>();
+        public virtual ICollection<ExerciseTypeEquipment> Equipment { get; set; } = new HashSet<ExerciseTypeEquipment>();
         public virtual ICollection<ExerciseMax> ExerciseMaxes { get; set; } = new HashSet<ExerciseMax>();
     }
 }

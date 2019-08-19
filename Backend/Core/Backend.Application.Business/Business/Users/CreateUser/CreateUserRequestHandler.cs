@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
 using Backend.Application.Business.Business.Authorization.SendRegistrationEmail;
+using Backend.Application.Business.Factories;
 using Backend.Domain;
-using Backend.Domain.Entities;
+using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Domain.Extensions;
-using Backend.Service.Email;
-using Backend.Service.Email.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.Payment.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business.Business.Users.CreateUser
 {
@@ -68,6 +67,8 @@ namespace Backend.Application.Business.Business.Users.CreateUser
             var coach = _mapper.Map<CreateUserRequest, Coach>(request);
             coach.CustomerId = await _stripeConfiguration.AddCustomer(coach.GetFullName(), coach.Email); // add to stripe
 
+            coach = ExerciseTypePropertiesFactory.ApplyProperties<Coach>(coach);
+
             _context.Coaches.Add(coach);
             await _context.SaveChangesAsync();
 
@@ -80,6 +81,10 @@ namespace Backend.Application.Business.Business.Users.CreateUser
         private async Task<ApplicationUser> CreateAthlete(CreateUserRequest request)
         {
             var athlete = _mapper.Map<CreateUserRequest, Athlete>(request);
+            var coach = await _context.Coaches.SingleAsync(x => x.Id == request.CoachId);
+
+            // map exercise type properties from coach to athlete
+            athlete = ExerciseTypePropertiesFactory.ApplyProperties<Athlete>(coach, athlete);
 
             _context.Athletes.Add(athlete);
             await _context.SaveChangesAsync();
@@ -94,6 +99,7 @@ namespace Backend.Application.Business.Business.Users.CreateUser
         private async Task<ApplicationUser> CreateSoloAthlete(CreateUserRequest request)
         {
             var soloAthlete = _mapper.Map<CreateUserRequest, SoloAthlete>(request);
+            soloAthlete = ExerciseTypePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
 
             _context.SoloAthletes.Add(soloAthlete);
             await _context.SaveChangesAsync();
