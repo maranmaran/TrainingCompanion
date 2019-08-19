@@ -1,7 +1,6 @@
 ﻿using Backend.Domain;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.ExerciseType;
-using Backend.Domain.Entities.ExerciseType.Properties;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.User;
@@ -23,13 +22,14 @@ namespace Backend.Persistance
         #region Exercise type + Properties
 
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
+        public DbSet<ExerciseTypeProperty> ExerciseTypeProperties { get; set; }
 
         public DbSet<Grip> Grips { get; set; }
         public DbSet<Tempo> Tempos { get; set; }
         public DbSet<Stance> Stances { get; set; }
         public DbSet<LoadAccomodation> LoadAccomodations { get; set; }
-        public DbSet<ExerciseEquipment> ExerciseEquipments { get; set; }
-        public DbSet<ExerciseCategory> ExerciseCategories { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
         public DbSet<BarType> BarTypes { get; set; }
         public DbSet<BarPosition> BarPositions { get; set; }
         public DbSet<RangeOfMotion> RangeOfMotions { get; set; }

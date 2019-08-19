@@ -1,9 +1,9 @@
 ﻿using Backend.Domain;
-using Backend.Persistance.Seed;
 using Backend.Service.Authorization.Interfaces;
 using Backend.Service.Payment.Interfaces;
 using System;
 using System.Linq;
+using Backend.Persistance.Seed;
 
 namespace Backend.Persistance
 {
