@@ -1,4 +1,4 @@
-﻿using Backend.Domain.Entities;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -16,7 +16,20 @@ namespace Backend.Persistance.Configurations
                     v => v.ToString(),
                     v => (Themes)Enum.Parse(typeof(Themes), v));
 
-          
+            builder.Property(x => x.UnitSystem)
+                .HasDefaultValue(UnitSystem.Metric)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (UnitSystem)Enum.Parse(typeof(UnitSystem), v));
+
+            builder.Property(x => x.UseRpeSystem).HasDefaultValue(true);
+            builder.Property(x => x.RpeSystem)
+                .HasDefaultValue(RpeSystem.Rpe)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (RpeSystem)Enum.Parse(typeof(RpeSystem), v));
+
+
         }
     }
 }

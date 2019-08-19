@@ -4,6 +4,7 @@ using Backend.Persistance.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using Backend.Domain.Entities.User;
 
 namespace Backend.Persistance.Configurations
 {

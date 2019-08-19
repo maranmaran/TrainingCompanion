@@ -7,7 +7,7 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using SystemException = Backend.Domain.Entities.SystemException;
+using SystemException = Backend.Domain.Entities.System.SystemException;
 
 namespace Backend.API.Filters
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SystemException = Backend.Domain.Entities.SystemException;
+using SystemException = Backend.Domain.Entities.System.SystemException;
 
 namespace Backend.Persistance.Configurations
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Backend.Domain.Entities
+namespace Backend.Domain.Entities.System
 {
     public class SystemException
     {

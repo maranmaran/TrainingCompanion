@@ -1,5 +1,6 @@
 ﻿using Backend.Common;
 using Backend.Domain.Entities;
+using Backend.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 

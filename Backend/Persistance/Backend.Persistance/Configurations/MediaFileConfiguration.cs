@@ -3,6 +3,7 @@ using Backend.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using Backend.Domain.Entities.Media;
 
 namespace Backend.Persistance.Configurations
 {

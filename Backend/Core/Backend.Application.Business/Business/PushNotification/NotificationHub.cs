@@ -1,4 +1,4 @@
-﻿namespace Backend.Service.PushNotifications
+﻿namespace Backend.Application.Business.Business.PushNotification
 {
     public class PushNotificationsHub
     {

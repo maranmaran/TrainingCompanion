@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Backend.Domain.Entities.User;
 
 namespace Backend.Persistance
 {
