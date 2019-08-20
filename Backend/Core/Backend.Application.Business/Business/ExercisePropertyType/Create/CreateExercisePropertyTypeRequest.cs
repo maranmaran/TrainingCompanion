@@ -1,12 +1,15 @@
 ﻿using System;
-using Backend.Domain.Enum;
+using Backend.Domain.Entities.ExerciseType;
 using MediatR;
 
 namespace Backend.Application.Business.Business.ExerciseProperty.Create
 {
-    public class CreateExercisePropertyRequest : IRequest<Domain.Entities.ExerciseType.ExerciseProperty>
+    public class CreateExercisePropertyTypeRequest : IRequest<Domain.Entities.ExerciseType.ExercisePropertyType>
     {
-        public Guid ExercisePropertyTypeId { get; set; }
-        public string Value { get; set; }
+        public Guid ApplicationUserId { get; set; }
+        public string Type { get; set; }
+        public bool Active { get; set; }
+        public int Order { get; set; }
+        public string HexColor { get; set; }
     }
 }

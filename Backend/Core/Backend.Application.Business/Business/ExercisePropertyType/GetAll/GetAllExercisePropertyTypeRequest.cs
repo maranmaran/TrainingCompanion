@@ -5,9 +5,8 @@ using MediatR;
 
 namespace Backend.Application.Business.Business.ExerciseProperty.GetAll
 {
-    public class GetAllExercisePropertyRequest : IRequest<IQueryable<Domain.Entities.ExerciseType.ExerciseProperty>>
+    public class GetAllExercisePropertyTypeRequest : IRequest<IQueryable<Domain.Entities.ExerciseType.ExercisePropertyType>>
     {
-        public Guid ExercisePropertyTypeId { get; set; }
-        public Guid UserId { get; set; }
+        public Guid ApplicationUserId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Backend.Domain;
+﻿using AutoMapper;
+using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using System;
@@ -7,31 +8,28 @@ using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.ExerciseProperty.Create
 {
-    public class CreateExercisePropertyRequestHandler :
-        IRequestHandler<CreateExercisePropertyRequest, Domain.Entities.ExerciseType.ExerciseProperty>
+    public class CreateExercisePropertyTypeRequestHandler : IRequestHandler<CreateExercisePropertyTypeRequest, Domain.Entities.ExerciseType.ExercisePropertyType>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CreateExercisePropertyRequestHandler(IApplicationDbContext context)
+        public CreateExercisePropertyTypeRequestHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<Domain.Entities.ExerciseType.ExerciseProperty> Handle(CreateExercisePropertyRequest request, CancellationToken cancellationToken)
+        public async Task<Domain.Entities.ExerciseType.ExercisePropertyType> Handle(CreateExercisePropertyTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var property = new Domain.Entities.ExerciseType.ExerciseProperty()
-                {
-                    Value = request.Value,
-                    ExercisePropertyTypeId = request.ExercisePropertyTypeId
-                };
+                var propertyType = _mapper.Map<Domain.Entities.ExerciseType.ExercisePropertyType>(request);
 
-                _context.ExerciseProperties.Add(property);
+                _context.ExercisePropertyTypes.Add(propertyType);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return property;
+                return propertyType;
             }
             catch (Exception e)
             {

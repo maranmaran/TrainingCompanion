@@ -1,46 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.ExerciseProperty.UpdateMany
 {
-    public class UpdateExercisePropertyRequestHandler :
-        IRequestHandler<UpdateExercisePropertyRequest, IEnumerable<Domain.Entities.ExerciseType.ExerciseProperty>>
+    public class UpdateManyExercisePropertyTypeRequestHandler :
+        IRequestHandler<UpdateManyExercisePropertyTypeRequest, IEnumerable<Domain.Entities.ExerciseType.ExercisePropertyType>>
     {
         private readonly IApplicationDbContext _context;
 
-        public UpdateExercisePropertyRequestHandler(IApplicationDbContext context)
+        public UpdateManyExercisePropertyTypeRequestHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Domain.Entities.ExerciseType.ExerciseProperty>> Handle(UpdateExercisePropertyRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Domain.Entities.ExerciseType.ExercisePropertyType>> Handle(UpdateManyExercisePropertyTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var updatedProperties = new List<Domain.Entities.ExerciseType.ExerciseProperty>();
+                var updatedPropertyTypes = new List<Domain.Entities.ExerciseType.ExercisePropertyType>();
 
-                foreach (var requestExerciseProperty in request.ExerciseProperties)
+                foreach (var requestExerciseProperty in request.ExercisePropertyTypes)
                 {
-                    var property = await _context.ExerciseProperties.SingleAsync(x => x.Id == requestExerciseProperty.Id, cancellationToken);
+                    var propertyTypeToUpdate = await _context.ExercisePropertyTypes.SingleAsync(x => x.Id == requestExerciseProperty.Id, cancellationToken);
 
-                    property.Value = requestExerciseProperty.Value;
-                    property.Order = requestExerciseProperty.Order;
-                    property.Active = requestExerciseProperty.Active;
+                    propertyTypeToUpdate = requestExerciseProperty;
 
-                    _context.ExerciseProperties.Update(property);
+                    _context.ExercisePropertyTypes.Update(propertyTypeToUpdate);
 
-                    updatedProperties.Add(property);
+                    updatedPropertyTypes.Add(propertyTypeToUpdate);
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return updatedProperties;
+                return updatedPropertyTypes;
             }
             catch (Exception e)
             {

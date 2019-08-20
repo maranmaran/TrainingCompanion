@@ -1,30 +1,29 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.ExerciseProperty.Delete
 {
-    public class DeleteExercisePropertyRequestHandler : IRequestHandler<DeleteExercisePropertyRequest, Unit>
+    public class DeleteExercisePropertyTypeRequestHandler : IRequestHandler<DeleteExercisePropertyTypeRequest, Unit>
     {
         private readonly IApplicationDbContext _context;
 
-        public DeleteExercisePropertyRequestHandler(IApplicationDbContext context)
+        public DeleteExercisePropertyTypeRequestHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Unit> Handle(DeleteExercisePropertyRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteExercisePropertyTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var exerciseProperty =
-                    await _context.ExerciseProperties.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                var exercisePropertyType = await _context.ExercisePropertyTypes.SingleAsync(x => x.Id == request.Id, cancellationToken);
 
-                _context.ExerciseProperties.Remove(exerciseProperty);
+                _context.ExercisePropertyTypes.Remove(exercisePropertyType);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
