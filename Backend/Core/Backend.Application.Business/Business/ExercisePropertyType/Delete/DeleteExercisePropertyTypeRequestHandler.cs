@@ -1,12 +1,12 @@
-﻿using Backend.Domain;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Backend.Application.Business.Business.ExerciseProperty.Delete
+namespace Backend.Application.Business.Business.ExercisePropertyType.Delete
 {
     public class DeleteExercisePropertyTypeRequestHandler : IRequestHandler<DeleteExercisePropertyTypeRequest, Unit>
     {

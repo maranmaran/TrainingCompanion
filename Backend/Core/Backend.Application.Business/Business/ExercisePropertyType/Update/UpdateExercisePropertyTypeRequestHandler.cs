@@ -1,14 +1,13 @@
-﻿using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Backend.Domain;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Application.Business.Business.ExerciseProperty.UpdateMany
+namespace Backend.Application.Business.Business.ExercisePropertyType.Update
 {
     public class UpdateExercisePropertyTypeRequestHandler :
         IRequestHandler<UpdateExercisePropertyTypeRequest, Domain.Entities.ExerciseType.ExercisePropertyType>

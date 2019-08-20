@@ -6,7 +6,7 @@ using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 
-namespace Backend.Application.Business.Business.ExerciseProperty.GetAll
+namespace Backend.Application.Business.Business.ExercisePropertyType.GetAll
 {
     public class GetAllExercisePropertyTypeRequestHandler : IRequestHandler<GetAllExercisePropertyTypeRequest, IQueryable<Domain.Entities.ExerciseType.ExercisePropertyType>>
     {

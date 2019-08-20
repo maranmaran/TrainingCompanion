@@ -11,7 +11,10 @@ using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
 using Backend.Application.Business.Business.ExerciseProperty.Create;
+using Backend.Application.Business.Business.ExerciseProperty.Update;
 using Backend.Application.Business.Business.ExerciseProperty.UpdateMany;
+using Backend.Application.Business.Business.ExercisePropertyType.Create;
+using Backend.Application.Business.Business.ExercisePropertyType.Update;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
@@ -124,7 +127,13 @@ namespace Backend.Application.Business
         private void ExercisePropertyTypeMappings()
         {
             CreateMap<CreateExercisePropertyTypeRequest, ExercisePropertyType>();
-            CreateMap<UpdateExercisePropertyRequest, ExercisePropertyType>();
+            CreateMap<UpdateExercisePropertyTypeRequest, ExercisePropertyType>();
+        }
+
+        private void ExercisePropertyMappings()
+        {
+            CreateMap<CreateExercisePropertyRequest, ExerciseProperty>();
+            CreateMap<UpdateExercisePropertyRequest, ExerciseProperty>();
         }
     }
 }

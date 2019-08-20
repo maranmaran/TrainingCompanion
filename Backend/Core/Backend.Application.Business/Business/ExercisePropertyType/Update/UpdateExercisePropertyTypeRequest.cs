@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using MediatR;
 
-namespace Backend.Application.Business.Business.ExerciseProperty.UpdateMany
+namespace Backend.Application.Business.Business.ExercisePropertyType.Update
 {
     public class UpdateExercisePropertyTypeRequest : IRequest<Domain.Entities.ExerciseType.ExercisePropertyType>
     {

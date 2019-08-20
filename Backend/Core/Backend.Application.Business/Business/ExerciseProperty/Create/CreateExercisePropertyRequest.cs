@@ -8,5 +8,6 @@ namespace Backend.Application.Business.Business.ExerciseProperty.Create
     {
         public Guid ExercisePropertyTypeId { get; set; }
         public string Value { get; set; }
+        public bool Active { get; set; }
     }
 }
