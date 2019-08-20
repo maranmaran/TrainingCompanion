@@ -3,8 +3,8 @@ using MediatR;
 
 namespace Backend.Application.Business.Business.ExerciseProperty.UpdateMany
 {
-    public class UpdateExercisePropertyRequest : IRequest<IEnumerable<Domain.Entities.ExerciseType.ExerciseProperty>>
+    public class UpdateManyExercisePropertyTypeRequest : IRequest<IEnumerable<Domain.Entities.ExerciseType.ExercisePropertyType>>
     {
-        public IEnumerable<Domain.Entities.ExerciseType.ExerciseProperty> ExerciseProperties { get; set; }
+        public IEnumerable<Domain.Entities.ExerciseType.ExercisePropertyType> ExercisePropertyTypes { get; set; }
     }
 }
