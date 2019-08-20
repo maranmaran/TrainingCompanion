@@ -2,14 +2,16 @@
 
 namespace Backend.Domain.Entities.ExerciseType
 {
-    public class ExerciseTypeEquipment
+    public class ExerciseTypeExerciseProperty
     {
         public Guid Id { get; set; }
+
+        public bool Show { get; set; }
 
         public Guid ExerciseTypeId { get; set; }
         public virtual ExerciseType ExerciseType { get; set; }
 
-        public Guid ExerciseTypePropertyId { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public Guid ExercisePropertyId { get; set; }
+        public virtual ExerciseProperty ExerciseProperty { get; set; }
     }
 }

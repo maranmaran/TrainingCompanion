@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190819182021_exercise-type")]
-    partial class exercisetype
+    [Migration("20190820193322_updates-on-properties")]
+    partial class updatesonproperties
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,54 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("ChatMessages");
                 });
 
+            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseProperty", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<Guid>("ExercisePropertyTypeId");
+
+                    b.Property<int>("Order");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExercisePropertyTypeId");
+
+                    b.ToTable("ExerciseProperties");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExercisePropertyType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<Guid?>("ApplicationUserId");
+
+                    b.Property<string>("HexColor")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue("#ffffff");
+
+                    b.Property<int>("Order");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("ExercisePropertyTypes");
+                });
+
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -69,19 +117,9 @@ namespace Backend.Persistance.Migrations
 
                     b.Property<Guid>("AthleteId");
 
-                    b.Property<Guid>("BarPositionId");
-
-                    b.Property<Guid>("BarTypeId");
-
-                    b.Property<Guid>("CategoryId");
-
                     b.Property<Guid?>("CoachId");
 
-                    b.Property<Guid>("GripId");
-
                     b.Property<string>("Name");
-
-                    b.Property<Guid>("RangeOfMotionId");
 
                     b.Property<bool?>("RequiresBodyweight")
                         .ValueGeneratedOnAdd()
@@ -105,96 +143,39 @@ namespace Backend.Persistance.Migrations
 
                     b.Property<Guid?>("SoloAthleteId");
 
-                    b.Property<Guid>("StanceId");
-
-                    b.Property<Guid>("TempoId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AdminId");
 
                     b.HasIndex("AthleteId");
 
-                    b.HasIndex("BarPositionId");
-
-                    b.HasIndex("BarTypeId");
-
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("CoachId");
 
-                    b.HasIndex("GripId");
-
-                    b.HasIndex("RangeOfMotionId");
-
                     b.HasIndex("SoloAthleteId");
-
-                    b.HasIndex("StanceId");
-
-                    b.HasIndex("TempoId");
 
                     b.ToTable("ExerciseTypes");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseTypeEquipment", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseTypeExerciseProperty", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("EquipmentId");
-
-                    b.Property<Guid>("ExerciseTypeId");
 
                     b.Property<Guid>("ExercisePropertyId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.HasIndex("ExerciseTypeId");
-
-                    b.ToTable("ExerciseTypeEquipment");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseTypeLoadAccomodation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<Guid>("ExerciseTypeId");
 
-                    b.Property<Guid>("LoadAccomodationId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseTypeId");
-
-                    b.HasIndex("LoadAccomodationId");
-
-                    b.ToTable("ExerciseTypeLoadAccomodation");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseProperty", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Active")
+                    b.Property<bool>("Show")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(true);
 
-                    b.Property<string>("ExercisePropertyType")
-                        .IsRequired();
-
-                    b.Property<int>("Order");
-
-                    b.Property<string>("Value");
-
                     b.HasKey("Id");
 
-                    b.ToTable("ExerciseProperties");
+                    b.HasIndex("ExercisePropertyId");
 
-                    b.HasDiscriminator<string>("ExercisePropertyType").HasValue("GenericProperty");
+                    b.HasIndex("ExerciseTypeId");
+
+                    b.ToTable("ExerciseTypeExerciseProperty");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Media.MediaFile", b =>
@@ -420,113 +401,6 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("UserSettings");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.BarPosition", b =>
-                {
-                    b.HasBaseType("Backend.Domain.Entities.ExerciseType.ExerciseProperty");
-
-                    b.Property<Guid?>("ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("BarPosition");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.BarType", b =>
-                {
-                    b.HasBaseType("Backend.Domain.Entities.ExerciseType.ExerciseProperty");
-
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnName("BarType_ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("BarType");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Category", b =>
-                {
-                    b.HasBaseType("Backend.Domain.Entities.ExerciseType.ExerciseProperty");
-
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnName("Category_ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("Category");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Equipment", b =>
-                {
-                    b.HasBaseType("Backend.Domain.Entities.ExerciseType.ExerciseProperty");
-
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnName("Equipment_ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("Equipment");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Grip", b =>
-                {
-                    b.HasBaseType("Backend.Domain.Entities.ExerciseType.ExerciseProperty");
-
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnName("Grip_ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("Grip");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.LoadAccomodation", b =>
-                {
-                    b.HasBaseType("Backend.Domain.Entities.ExerciseType.ExerciseProperty");
-
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnName("LoadAccomodation_ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("LoadAccomodation");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.RangeOfMotion", b =>
-                {
-                    b.HasBaseType("Backend.Domain.Entities.ExerciseType.ExerciseProperty");
-
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnName("RangeOfMotion_ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("RangeOfMotion");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Stance", b =>
-                {
-                    b.HasBaseType("Backend.Domain.Entities.ExerciseType.ExerciseProperty");
-
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnName("Stance_ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("Stance");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Tempo", b =>
-                {
-                    b.HasBaseType("Backend.Domain.Entities.ExerciseType.ExerciseProperty");
-
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnName("Tempo_ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasDiscriminator().HasValue("Tempo");
-                });
-
             modelBuilder.Entity("Backend.Domain.Entities.User.Admin", b =>
                 {
                     b.HasBaseType("Backend.Domain.Entities.User.ApplicationUser");
@@ -567,6 +441,21 @@ namespace Backend.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseProperty", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.ExerciseType.ExercisePropertyType", "ExercisePropertyType")
+                        .WithMany("Properties")
+                        .HasForeignKey("ExercisePropertyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExercisePropertyType", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
+                        .WithMany("ExercisePropertyTypes")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseType", b =>
                 {
                     b.HasOne("Backend.Domain.Entities.User.Admin")
@@ -578,72 +467,25 @@ namespace Backend.Persistance.Migrations
                         .HasForeignKey("AthleteId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.BarPosition", "BarPosition")
-                        .WithMany()
-                        .HasForeignKey("BarPositionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.BarType", "BarType")
-                        .WithMany()
-                        .HasForeignKey("BarTypeId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Backend.Domain.Entities.User.Coach")
                         .WithMany("ExerciseTypes")
                         .HasForeignKey("CoachId");
 
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.Grip", "Grip")
-                        .WithMany()
-                        .HasForeignKey("GripId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.RangeOfMotion", "RangeOfMotion")
-                        .WithMany()
-                        .HasForeignKey("RangeOfMotionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Backend.Domain.Entities.User.SoloAthlete")
                         .WithMany("ExerciseTypes")
                         .HasForeignKey("SoloAthleteId");
-
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.Stance", "Stance")
-                        .WithMany()
-                        .HasForeignKey("StanceId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.Tempo", "Tempo")
-                        .WithMany()
-                        .HasForeignKey("TempoId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseTypeEquipment", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseTypeExerciseProperty", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.Equipment", "Equipment")
+                    b.HasOne("Backend.Domain.Entities.ExerciseType.ExerciseProperty", "ExerciseProperty")
                         .WithMany()
-                        .HasForeignKey("EquipmentId");
-
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.ExerciseType", "ExerciseType")
-                        .WithMany("Equipment")
-                        .HasForeignKey("ExerciseTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseTypeLoadAccomodation", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.ExerciseType", "ExerciseType")
-                        .WithMany("LoadAccomodation")
-                        .HasForeignKey("ExerciseTypeId")
+                        .HasForeignKey("ExercisePropertyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.LoadAccomodation", "LoadAccomodation")
-                        .WithMany()
-                        .HasForeignKey("LoadAccomodationId")
+                    b.HasOne("Backend.Domain.Entities.ExerciseType.ExerciseType", "ExerciseType")
+                        .WithMany("Properties")
+                        .HasForeignKey("ExerciseTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -699,69 +541,6 @@ namespace Backend.Persistance.Migrations
                     b.HasOne("Backend.Domain.Entities.User.UserSettings", "UserSettings")
                         .WithMany()
                         .HasForeignKey("UserSettingsId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.BarPosition", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
-                        .WithMany("BarPositions")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.BarType", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
-                        .WithMany("BarTypes")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Category", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
-                        .WithMany("ExerciseCategories")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Equipment", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
-                        .WithMany("ExerciseEquipments")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Grip", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
-                        .WithMany("Grips")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.LoadAccomodation", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
-                        .WithMany("LoadAccomodations")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.RangeOfMotion", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
-                        .WithMany("RangeOfMotions")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Stance", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
-                        .WithMany("Stances")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Tempo", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser")
-                        .WithMany("Tempos")
-                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.User.Athlete", b =>

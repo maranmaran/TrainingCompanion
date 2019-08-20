@@ -28,7 +28,7 @@ namespace Backend.Persistance.Seed
                     CustomerId = "cus_FLi7gZv8w0j0GB",
                     UserSettings = new UserSettings(),
                 };
-                admin = ExerciseTypePropertiesFactory.ApplyProperties<Admin>(admin);
+                admin = ExercisePropertiesFactory.ApplyProperties<Admin>(admin);
 
                 var athlete = new Athlete()
                 {
@@ -42,7 +42,7 @@ namespace Backend.Persistance.Seed
                     LastModified = DateTime.UtcNow,
                     UserSettings = new UserSettings(),
                 };
-                athlete = ExerciseTypePropertiesFactory.ApplyProperties<Athlete>(athlete);
+                athlete = ExercisePropertiesFactory.ApplyProperties<Athlete>(athlete);
 
 
                 var soloAthlete = new SoloAthlete()
@@ -57,7 +57,7 @@ namespace Backend.Persistance.Seed
                     LastModified = DateTime.UtcNow,
                     UserSettings = new UserSettings(),
                 };
-                soloAthlete = ExerciseTypePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
+                soloAthlete = ExercisePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
 
                 var coach = new Coach()
                 {
@@ -73,7 +73,7 @@ namespace Backend.Persistance.Seed
                     UserSettings = new UserSettings(),
                     Athletes = new List<Athlete>() { athlete }
                 };
-                coach = ExerciseTypePropertiesFactory.ApplyProperties<Coach>(coach);
+                coach = ExercisePropertiesFactory.ApplyProperties<Coach>(coach);
 
                 context.Users.Add(admin);
                 context.Users.Add(coach);

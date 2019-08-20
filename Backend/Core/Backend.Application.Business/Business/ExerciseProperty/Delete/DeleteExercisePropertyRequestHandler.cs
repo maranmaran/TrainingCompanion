@@ -6,25 +6,25 @@ using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Application.Business.Business.ExerciseType.Delete
+namespace Backend.Application.Business.Business.ExerciseProperty.Delete
 {
-    public class DeleteExerciseTypeRequestHandler : IRequestHandler<DeleteExerciseTypeRequest, Unit>
+    public class DeleteExercisePropertyRequestHandler : IRequestHandler<DeleteExercisePropertyRequest, Unit>
     {
         private readonly IApplicationDbContext _context;
 
-        public DeleteExerciseTypeRequestHandler(IApplicationDbContext context)
+        public DeleteExercisePropertyRequestHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Unit> Handle(DeleteExerciseTypeRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteExercisePropertyRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var exerciseType =
+                var exerciseProperty =
                     await _context.ExerciseProperties.SingleAsync(x => x.Id == request.Id, cancellationToken);
 
-                _context.ExerciseProperties.Remove(exerciseType);
+                _context.ExerciseProperties.Remove(exerciseProperty);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
@@ -32,7 +32,7 @@ namespace Backend.Application.Business.Business.ExerciseType.Delete
             }
             catch (Exception e)
             {
-                throw new DeleteFailureException(nameof(Domain.Entities.ExerciseType.ExerciseType), e);
+                throw new DeleteFailureException(nameof(Domain.Entities.ExerciseType.ExerciseProperty), e);
             }
         }
     }

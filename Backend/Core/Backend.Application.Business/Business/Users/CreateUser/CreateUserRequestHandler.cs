@@ -67,7 +67,7 @@ namespace Backend.Application.Business.Business.Users.CreateUser
             var coach = _mapper.Map<CreateUserRequest, Coach>(request);
             coach.CustomerId = await _stripeConfiguration.AddCustomer(coach.GetFullName(), coach.Email); // add to stripe
 
-            coach = ExerciseTypePropertiesFactory.ApplyProperties<Coach>(coach);
+            coach = ExercisePropertiesFactory.ApplyProperties<Coach>(coach);
 
             _context.Coaches.Add(coach);
             await _context.SaveChangesAsync();
@@ -84,7 +84,7 @@ namespace Backend.Application.Business.Business.Users.CreateUser
             var coach = await _context.Coaches.SingleAsync(x => x.Id == request.CoachId);
 
             // map exercise type properties from coach to athlete
-            athlete = ExerciseTypePropertiesFactory.ApplyProperties<Athlete>(coach, athlete);
+            athlete = ExercisePropertiesFactory.ApplyProperties<Athlete>(coach, athlete);
 
             _context.Athletes.Add(athlete);
             await _context.SaveChangesAsync();
@@ -99,7 +99,7 @@ namespace Backend.Application.Business.Business.Users.CreateUser
         private async Task<ApplicationUser> CreateSoloAthlete(CreateUserRequest request)
         {
             var soloAthlete = _mapper.Map<CreateUserRequest, SoloAthlete>(request);
-            soloAthlete = ExerciseTypePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
+            soloAthlete = ExercisePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
 
             _context.SoloAthletes.Add(soloAthlete);
             await _context.SaveChangesAsync();

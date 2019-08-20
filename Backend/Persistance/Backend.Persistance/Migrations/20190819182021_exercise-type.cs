@@ -119,11 +119,11 @@ namespace Backend.Persistance.Migrations
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.CreateTable(
-                name: "ExerciseTypeProperties",
+                name: "ExerciseProperties",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ExerciseTypePropertyType = table.Column<string>(nullable: false),
+                    ExercisePropertyType = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
                     Active = table.Column<bool>(nullable: false, defaultValue: true),
@@ -139,57 +139,57 @@ namespace Backend.Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExerciseTypeProperties", x => x.Id);
+                    table.PrimaryKey("PK_ExerciseProperties", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeProperties_Users_ApplicationUserId",
+                        name: "FK_ExerciseProperties_Users_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeProperties_Users_BarType_ApplicationUserId",
+                        name: "FK_ExerciseProperties_Users_BarType_ApplicationUserId",
                         column: x => x.BarType_ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeProperties_Users_Category_ApplicationUserId",
+                        name: "FK_ExerciseProperties_Users_Category_ApplicationUserId",
                         column: x => x.Category_ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeProperties_Users_Equipment_ApplicationUserId",
+                        name: "FK_ExerciseProperties_Users_Equipment_ApplicationUserId",
                         column: x => x.Equipment_ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeProperties_Users_Grip_ApplicationUserId",
+                        name: "FK_ExerciseProperties_Users_Grip_ApplicationUserId",
                         column: x => x.Grip_ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeProperties_Users_LoadAccomodation_ApplicationUserId",
+                        name: "FK_ExerciseProperties_Users_LoadAccomodation_ApplicationUserId",
                         column: x => x.LoadAccomodation_ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeProperties_Users_RangeOfMotion_ApplicationUserId",
+                        name: "FK_ExerciseProperties_Users_RangeOfMotion_ApplicationUserId",
                         column: x => x.RangeOfMotion_ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeProperties_Users_Stance_ApplicationUserId",
+                        name: "FK_ExerciseProperties_Users_Stance_ApplicationUserId",
                         column: x => x.Stance_ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeProperties_Users_Tempo_ApplicationUserId",
+                        name: "FK_ExerciseProperties_Users_Tempo_ApplicationUserId",
                         column: x => x.Tempo_ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -202,16 +202,16 @@ namespace Backend.Persistance.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     ExerciseTypeId = table.Column<Guid>(nullable: false),
-                    ExerciseTypePropertyId = table.Column<Guid>(nullable: false),
+                    ExercisePropertyId = table.Column<Guid>(nullable: false),
                     EquipmentId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExerciseTypeEquipment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeEquipment_ExerciseTypeProperties_EquipmentId",
+                        name: "FK_ExerciseTypeEquipment_ExerciseProperties_EquipmentId",
                         column: x => x.EquipmentId,
-                        principalTable: "ExerciseTypeProperties",
+                        principalTable: "ExerciseProperties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -240,9 +240,9 @@ namespace Backend.Persistance.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeLoadAccomodation_ExerciseTypeProperties_LoadAccomodationId",
+                        name: "FK_ExerciseTypeLoadAccomodation_ExerciseProperties_LoadAccomodationId",
                         column: x => x.LoadAccomodationId,
-                        principalTable: "ExerciseTypeProperties",
+                        principalTable: "ExerciseProperties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -273,103 +273,103 @@ namespace Backend.Persistance.Migrations
                 column: "LoadAccomodationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeProperties_ApplicationUserId",
-                table: "ExerciseTypeProperties",
+                name: "IX_ExerciseProperties_ApplicationUserId",
+                table: "ExerciseProperties",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeProperties_BarType_ApplicationUserId",
-                table: "ExerciseTypeProperties",
+                name: "IX_ExerciseProperties_BarType_ApplicationUserId",
+                table: "ExerciseProperties",
                 column: "BarType_ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeProperties_Category_ApplicationUserId",
-                table: "ExerciseTypeProperties",
+                name: "IX_ExerciseProperties_Category_ApplicationUserId",
+                table: "ExerciseProperties",
                 column: "Category_ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeProperties_Equipment_ApplicationUserId",
-                table: "ExerciseTypeProperties",
+                name: "IX_ExerciseProperties_Equipment_ApplicationUserId",
+                table: "ExerciseProperties",
                 column: "Equipment_ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeProperties_Grip_ApplicationUserId",
-                table: "ExerciseTypeProperties",
+                name: "IX_ExerciseProperties_Grip_ApplicationUserId",
+                table: "ExerciseProperties",
                 column: "Grip_ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeProperties_LoadAccomodation_ApplicationUserId",
-                table: "ExerciseTypeProperties",
+                name: "IX_ExerciseProperties_LoadAccomodation_ApplicationUserId",
+                table: "ExerciseProperties",
                 column: "LoadAccomodation_ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeProperties_RangeOfMotion_ApplicationUserId",
-                table: "ExerciseTypeProperties",
+                name: "IX_ExerciseProperties_RangeOfMotion_ApplicationUserId",
+                table: "ExerciseProperties",
                 column: "RangeOfMotion_ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeProperties_Stance_ApplicationUserId",
-                table: "ExerciseTypeProperties",
+                name: "IX_ExerciseProperties_Stance_ApplicationUserId",
+                table: "ExerciseProperties",
                 column: "Stance_ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeProperties_Tempo_ApplicationUserId",
-                table: "ExerciseTypeProperties",
+                name: "IX_ExerciseProperties_Tempo_ApplicationUserId",
+                table: "ExerciseProperties",
                 column: "Tempo_ApplicationUserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_BarPositionId",
+                name: "FK_ExerciseTypes_ExerciseProperties_BarPositionId",
                 table: "ExerciseTypes",
                 column: "BarPositionId",
-                principalTable: "ExerciseTypeProperties",
+                principalTable: "ExerciseProperties",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_BarTypeId",
+                name: "FK_ExerciseTypes_ExerciseProperties_BarTypeId",
                 table: "ExerciseTypes",
                 column: "BarTypeId",
-                principalTable: "ExerciseTypeProperties",
+                principalTable: "ExerciseProperties",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_CategoryId",
+                name: "FK_ExerciseTypes_ExerciseProperties_CategoryId",
                 table: "ExerciseTypes",
                 column: "CategoryId",
-                principalTable: "ExerciseTypeProperties",
+                principalTable: "ExerciseProperties",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_GripId",
+                name: "FK_ExerciseTypes_ExerciseProperties_GripId",
                 table: "ExerciseTypes",
                 column: "GripId",
-                principalTable: "ExerciseTypeProperties",
+                principalTable: "ExerciseProperties",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_RangeOfMotionId",
+                name: "FK_ExerciseTypes_ExerciseProperties_RangeOfMotionId",
                 table: "ExerciseTypes",
                 column: "RangeOfMotionId",
-                principalTable: "ExerciseTypeProperties",
+                principalTable: "ExerciseProperties",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_StanceId",
+                name: "FK_ExerciseTypes_ExerciseProperties_StanceId",
                 table: "ExerciseTypes",
                 column: "StanceId",
-                principalTable: "ExerciseTypeProperties",
+                principalTable: "ExerciseProperties",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_TempoId",
+                name: "FK_ExerciseTypes_ExerciseProperties_TempoId",
                 table: "ExerciseTypes",
                 column: "TempoId",
-                principalTable: "ExerciseTypeProperties",
+                principalTable: "ExerciseProperties",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -377,31 +377,31 @@ namespace Backend.Persistance.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_BarPositionId",
+                name: "FK_ExerciseTypes_ExerciseProperties_BarPositionId",
                 table: "ExerciseTypes");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_BarTypeId",
+                name: "FK_ExerciseTypes_ExerciseProperties_BarTypeId",
                 table: "ExerciseTypes");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_CategoryId",
+                name: "FK_ExerciseTypes_ExerciseProperties_CategoryId",
                 table: "ExerciseTypes");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_GripId",
+                name: "FK_ExerciseTypes_ExerciseProperties_GripId",
                 table: "ExerciseTypes");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_RangeOfMotionId",
+                name: "FK_ExerciseTypes_ExerciseProperties_RangeOfMotionId",
                 table: "ExerciseTypes");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_StanceId",
+                name: "FK_ExerciseTypes_ExerciseProperties_StanceId",
                 table: "ExerciseTypes");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ExerciseTypes_ExerciseTypeProperties_TempoId",
+                name: "FK_ExerciseTypes_ExerciseProperties_TempoId",
                 table: "ExerciseTypes");
 
             migrationBuilder.DropTable(
@@ -411,7 +411,7 @@ namespace Backend.Persistance.Migrations
                 name: "ExerciseTypeLoadAccomodation");
 
             migrationBuilder.DropTable(
-                name: "ExerciseTypeProperties");
+                name: "ExerciseProperties");
 
             migrationBuilder.DropIndex(
                 name: "IX_ExerciseTypes_TempoId",
