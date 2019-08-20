@@ -4,6 +4,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Backend.Application.Business.Business.ExerciseProperty.Create
 {
@@ -11,21 +12,19 @@ namespace Backend.Application.Business.Business.ExerciseProperty.Create
         IRequestHandler<CreateExercisePropertyRequest, Domain.Entities.ExerciseType.ExerciseProperty>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CreateExercisePropertyRequestHandler(IApplicationDbContext context)
+        public CreateExercisePropertyRequestHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Domain.Entities.ExerciseType.ExerciseProperty> Handle(CreateExercisePropertyRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var property = new Domain.Entities.ExerciseType.ExerciseProperty()
-                {
-                    Value = request.Value,
-                    ExercisePropertyTypeId = request.ExercisePropertyTypeId
-                };
+                var property = _mapper.Map<Domain.Entities.ExerciseType.ExerciseProperty>(request);
 
                 _context.ExerciseProperties.Add(property);
 

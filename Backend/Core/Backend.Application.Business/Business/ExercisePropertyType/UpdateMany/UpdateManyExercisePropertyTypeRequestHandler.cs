@@ -1,16 +1,13 @@
-﻿using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
 
-namespace Backend.Application.Business.Business.ExerciseProperty.UpdateMany
+namespace Backend.Application.Business.Business.ExercisePropertyType.UpdateMany
 {
-    public class UpdateManyExercisePropertyTypeRequestHandler :
-        IRequestHandler<UpdateManyExercisePropertyTypeRequest, IEnumerable<Domain.Entities.ExerciseType.ExercisePropertyType>>
+    public class UpdateManyExercisePropertyTypeRequestHandler : IRequestHandler<UpdateManyExercisePropertyTypeRequest, Unit>
     {
         private readonly IApplicationDbContext _context;
 
@@ -19,26 +16,18 @@ namespace Backend.Application.Business.Business.ExerciseProperty.UpdateMany
             _context = context;
         }
 
-        public async Task<IEnumerable<Domain.Entities.ExerciseType.ExercisePropertyType>> Handle(UpdateManyExercisePropertyTypeRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateManyExercisePropertyTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var updatedPropertyTypes = new List<Domain.Entities.ExerciseType.ExercisePropertyType>();
-
                 foreach (var requestExerciseProperty in request.ExercisePropertyTypes)
                 {
-                    var propertyTypeToUpdate = await _context.ExercisePropertyTypes.SingleAsync(x => x.Id == requestExerciseProperty.Id, cancellationToken);
-
-                    propertyTypeToUpdate = requestExerciseProperty;
-
-                    _context.ExercisePropertyTypes.Update(propertyTypeToUpdate);
-
-                    updatedPropertyTypes.Add(propertyTypeToUpdate);
+                    _context.ExercisePropertyTypes.Update(requestExerciseProperty);
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return updatedPropertyTypes;
+                return Unit.Value;
             }
             catch (Exception e)
             {

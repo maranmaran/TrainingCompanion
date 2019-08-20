@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Backend.Domain.Enum;
 using MediatR;
 
-namespace Backend.Application.Business.Business.ExerciseProperty.GetAll
+namespace Backend.Application.Business.Business.ExercisePropertyType.GetAll
 {
     public class GetAllExercisePropertyTypeRequest : IRequest<IQueryable<Domain.Entities.ExerciseType.ExercisePropertyType>>
     {

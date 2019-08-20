@@ -1,8 +1,7 @@
 ﻿using System;
-using Backend.Domain.Entities.ExerciseType;
 using MediatR;
 
-namespace Backend.Application.Business.Business.ExerciseProperty.Create
+namespace Backend.Application.Business.Business.ExercisePropertyType.Create
 {
     public class CreateExercisePropertyTypeRequest : IRequest<Domain.Entities.ExerciseType.ExercisePropertyType>
     {
