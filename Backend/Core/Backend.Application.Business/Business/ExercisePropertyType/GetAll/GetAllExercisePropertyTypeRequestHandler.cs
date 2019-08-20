@@ -8,24 +8,24 @@ using MediatR;
 
 namespace Backend.Application.Business.Business.ExerciseProperty.GetAll
 {
-    public class GetAllExercisePropertyRequestHandler : IRequestHandler<GetAllExercisePropertyRequest, IQueryable<Domain.Entities.ExerciseType.ExerciseProperty>>
+    public class GetAllExercisePropertyTypeRequestHandler : IRequestHandler<GetAllExercisePropertyTypeRequest, IQueryable<Domain.Entities.ExerciseType.ExercisePropertyType>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetAllExercisePropertyRequestHandler(IApplicationDbContext context)
+        public GetAllExercisePropertyTypeRequestHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Task<IQueryable<Domain.Entities.ExerciseType.ExerciseProperty>> Handle(GetAllExercisePropertyRequest request, CancellationToken cancellationToken)
+        public Task<IQueryable<Domain.Entities.ExerciseType.ExercisePropertyType>> Handle(GetAllExercisePropertyTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                return Task.FromResult(_context.ExerciseProperties.Where(x => x.ExercisePropertyTypeId == request.ExercisePropertyTypeId));
+                return Task.FromResult(_context.ExercisePropertyTypes.Where(x => x.ApplicationUserId == request.ApplicationUserId));
             }
             catch (Exception e)
             {
-                throw new NotFoundException(nameof(Domain.Entities.ExerciseType.ExerciseProperty), $"Could not find exercise type property with id: {request.ExercisePropertyTypeId} for {request.UserId} USER", e);
+                throw new NotFoundException(nameof(Domain.Entities.ExerciseType.ExerciseProperty), $"Could not find exercise types for user with id: {request.ApplicationUserId} ", e);
             }
         }
     }

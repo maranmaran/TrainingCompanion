@@ -10,7 +10,10 @@ using Backend.Domain.Entities;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
+using Backend.Application.Business.Business.ExerciseProperty.Create;
+using Backend.Application.Business.Business.ExerciseProperty.UpdateMany;
 using Backend.Domain.Entities.Chat;
+using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business
@@ -23,6 +26,7 @@ namespace Backend.Application.Business
             this.UserMappings();
             this.BillingMappings();
             this.ChatMappings();
+            this.ExercisePropertyTypeMappings();
         }
 
         private void AuthorizationMappings()
@@ -33,7 +37,6 @@ namespace Backend.Application.Business
                 .ForMember(x => x.TrialDaysRemaining, opt => opt.MapFrom(user => CalculateTrial(user)));
 
         }
-
         private int CalculateTrial(ApplicationUser user)
         {
             var dayDifference = DateTime.UtcNow.Date - user.CreatedOn.Date;
@@ -42,7 +45,6 @@ namespace Backend.Application.Business
 
             return user.TrialDuration - dayDifference.Days;
         }
-
         private void UserMappings()
         {
             CreateMap<CreateUserRequest, Coach>().IgnoreAllVirtual();
@@ -58,14 +60,12 @@ namespace Backend.Application.Business
             CreateMap<ApplicationUser, SoloAthlete>().ReverseMap();
 
         }
-
         private void BillingMappings()
         {
             // subscribe
             CreateMap<SubscribeRequest, PaymentModel>();
             CreateMap<AddPaymentRequest, PaymentOption>();
         }
-
         private void ChatMappings()
         {
             // subscribe
@@ -119,6 +119,12 @@ namespace Backend.Application.Business
                 {
                     TotalUnreadMessages = 0,
                 }));
+        }
+
+        private void ExercisePropertyTypeMappings()
+        {
+            CreateMap<CreateExercisePropertyTypeRequest, ExercisePropertyType>();
+            CreateMap<UpdateExercisePropertyRequest, ExercisePropertyType>();
         }
     }
 }

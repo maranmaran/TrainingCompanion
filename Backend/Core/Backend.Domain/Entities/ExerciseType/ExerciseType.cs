@@ -19,8 +19,8 @@ namespace Backend.Domain.Entities.ExerciseType
         public bool? RequiresBodyweight { get; set; }
         public bool? RequiresTime { get; set; }
 
-        public Guid AthleteId { get; set; }
-        public virtual Athlete Athlete { get; set; }
+        public Guid ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         //TODO: RPE CHART
 

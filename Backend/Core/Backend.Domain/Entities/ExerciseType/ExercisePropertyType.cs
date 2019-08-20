@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Backend.Domain.Entities.User;
+using System;
 using System.Collections.Generic;
 
 namespace Backend.Domain.Entities.ExerciseType
@@ -10,6 +11,9 @@ namespace Backend.Domain.Entities.ExerciseType
         public bool Active { get; set; }
         public int Order { get; set; }
         public string HexColor { get; set; }
+
+        public Guid ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         public ICollection<ExerciseProperty> Properties { get; set; }
     }
