@@ -1,372 +1,412 @@
-﻿using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.ExerciseType;
+using Backend.Domain.Entities.User;
 using System.Collections.Generic;
-using Backend.Domain.Entities.ExerciseType;
 
 namespace Backend.Application.Business.Factories
 {
-    public static class ExerciseTypePropertiesFactory
+    public static class ExercisePropertiesFactory
     {
         public static T ApplyProperties<T>(ApplicationUser user) where T : class
         {
-            user.Stances = GetStances() as ICollection<Stance>;
-            user.BarPositions = GetBarPositions() as ICollection<BarPosition>;
-            user.BarTypes = GetBarTypes() as ICollection<BarType>;
-            user.ExerciseEquipments = GetExerciseEquipments() as ICollection<Equipment>;
-            user.ExerciseCategories = GetExerciseCategories() as ICollection<Category>;
-            user.LoadAccomodations = GetLoadAccomodations() as ICollection<LoadAccomodation>;
-            user.Grips = GetGrips() as ICollection<Grip>;
-            user.Tempos = GetTempos() as ICollection<Tempo>;
-            user.RangeOfMotions = GetRangeOfMotions() as ICollection<RangeOfMotion>;
+            user.ExercisePropertyTypes = GetExercisePropertyTypes() as ICollection<ExercisePropertyType>;
 
             return user as T;
         }
 
         public static T ApplyProperties<T>(ApplicationUser fromUser, ApplicationUser toUser) where T : class
         {
-            toUser.Stances = fromUser.Stances;
-            toUser.BarPositions = fromUser.BarPositions;
-            toUser.BarTypes = fromUser.BarTypes;
-            toUser.ExerciseEquipments = fromUser.ExerciseEquipments;
-            toUser.ExerciseCategories = fromUser.ExerciseCategories;
-            toUser.LoadAccomodations = fromUser.LoadAccomodations;
-            toUser.Grips = fromUser.Grips;
-            toUser.Tempos = fromUser.Tempos;
-            toUser.RangeOfMotions = fromUser.RangeOfMotions;
+            toUser.ExercisePropertyTypes = fromUser.ExercisePropertyTypes;
 
             return toUser as T;
         }
 
-        public static IEnumerable<BarType> GetBarTypes()
+        public static IEnumerable<ExercisePropertyType> GetExercisePropertyTypes()
         {
-            return new List<BarType>()
+            return new List<ExercisePropertyType>()
             {
-                new BarType()
+                new ExercisePropertyType()
+                {
+                    Type = "Category",
+                    Order = 0,
+                    Properties = GetExerciseCategories() as ICollection<ExerciseProperty>
+                },
+                new ExercisePropertyType()
+                {
+                    Type = "Bar type",
+                    Order = 1,
+                    Properties = GetBarTypes() as ICollection<ExerciseProperty>,
+               
+                },
+                new ExercisePropertyType()
+                {
+                    Type = "Bar position",
+                    Order = 2,
+                    Properties = GetBarPositions() as ICollection<ExerciseProperty>,
+
+                },
+                new ExercisePropertyType()
+                {
+                    Type = "Equipment",
+                    Order = 3,
+                    Properties = GetExerciseEquipments() as ICollection<ExerciseProperty>
+                },
+                new ExercisePropertyType()
+                {
+                    Type = "Grip",
+                    Order = 4,
+                    Properties = GetGrips() as ICollection<ExerciseProperty>
+                },
+                new ExercisePropertyType()
+                {
+                    Type = "Range of motion",
+                    Order = 5,
+                    Properties = GetRangeOfMotions() as ICollection<ExerciseProperty>
+                },
+                new ExercisePropertyType()
+                {
+                    Type = "Stance",
+                    Order = 6,
+                    Properties = GetStances() as ICollection<ExerciseProperty>
+                },
+                new ExercisePropertyType()
+                {
+                    Type = "Tempo",
+                    Order = 7,
+                    Properties = GetTempos() as ICollection<ExerciseProperty>
+                },
+            };
+        }
+        private static IEnumerable<ExerciseProperty> GetBarTypes()
+        {
+            return new List<ExerciseProperty>()
+            {
+                new ExerciseProperty()
                 {
                     Value = "Barbell",
                     Order = 0,
                 },
-                new BarType()
+                new ExerciseProperty()
                 {
                     Value = "Dumbbell",
                     Order = 1,
                 },
-                new BarType()
+                new ExerciseProperty()
                 {
                     Value = "Saftey bar",
                     Order = 2,
                 },
-                new BarType()
+                new ExerciseProperty()
                 {
                     Value = "Cambered bar",
                     Order = 3,
                 },
-                new BarType()
+                new ExerciseProperty()
                 {
                     Value = "Neutral-grip bar",
                     Order = 4,
                 },
-                new BarType()
+                new ExerciseProperty()
                 {
                     Value = "Trap bar",
                     Order = 5,
                 },
-                new BarType()
+                new ExerciseProperty()
                 {
                     Value = "Buffalo bar",
                     Order = 6,
                 },
-                new BarType()
+                new ExerciseProperty()
                 {
                     Value = "Machine",
                     Order = 7,
                 },
             };
         }
-        public static IEnumerable<BarPosition> GetBarPositions()
+        private static IEnumerable<ExerciseProperty> GetBarPositions()
         {
-            return new List<BarPosition>()
+            return new List<ExerciseProperty>()
             {
-                new BarPosition()
+                new ExerciseProperty()
                 {
                     Value = "Standard", Order = 0
                 },
-                new BarPosition()
+                new ExerciseProperty()
                 {
                     Value = "High bar", Order = 1
                 },
-                new BarPosition()
+                new ExerciseProperty()
                 {
                     Value = "Low bar", Order = 2
                 },
-                new BarPosition()
+                new ExerciseProperty()
                 {
                     Value = "Front rack", Order = 3
                 },
             };
         }
-        public static IEnumerable<Category> GetExerciseCategories()
+        private static IEnumerable<ExerciseProperty> GetExerciseCategories()
         {
-            return new List<Category>()
+            return new List<ExerciseProperty>()
             {
-                new Category()
+                new ExerciseProperty()
                 {
                     Value = "Knee dominant", Order = 0,
                 },
-                new Category()
+                new ExerciseProperty()
                 {
                     Value = "Hip dominant", Order = 1,
                 },
-                new Category()
+                new ExerciseProperty()
                 {
                     Value = "Horizontal push", Order = 2,
                 },
-                new Category()
+                new ExerciseProperty()
                 {
                     Value = "Horizontal pull", Order = 3,
                 },
-                new Category()
+                new ExerciseProperty()
                 {
                     Value = "Vertical push", Order = 4,
                 },
-                new Category()
+                new ExerciseProperty()
                 {
                     Value = "Vertical pull", Order = 5,
                 },
-                new Category()
+                new ExerciseProperty()
                 {
                     Value = "Other", Order = 6,
                 },
             };
         }
-        public static IEnumerable<Grip> GetGrips()
+        private static IEnumerable<ExerciseProperty> GetGrips()
         {
-            return new List<Grip>()
+            return new List<ExerciseProperty>()
             {
-                new Grip()
+                new ExerciseProperty()
                 {
                     Value = "Snatch grip", Order = 0,
                 },
-                new Grip()
+                new ExerciseProperty()
                 {
                     Value = "Reverse grip", Order = 1,
                 },
-                new Grip()
+                new ExerciseProperty()
                 {
                     Value = "Close grip", Order = 2,
                 },
-                new Grip()
+                new ExerciseProperty()
                 {
                     Value = "Wide grip", Order = 3,
                 },
             };
         }
-        public static IEnumerable<Equipment> GetExerciseEquipments()
+        private static IEnumerable<ExerciseProperty> GetExerciseEquipments()
         {
-            return new List<Equipment>()
+            return new List<ExerciseProperty>()
             {
-                new Equipment()
+                new ExerciseProperty()
                 {
                     Value = "Belt", Order = 0,
                 },
-                new Equipment()
+                new ExerciseProperty()
                 {
                     Value = "Knee wraps", Order = 1,
                 },
-                new Equipment()
+                new ExerciseProperty()
                 {
                     Value = "Slingshot", Order = 2,
                 },
-                new Equipment()
+                new ExerciseProperty()
                 {
                     Value = "Breifs", Order = 3,
                 },
-                new Equipment()
+                new ExerciseProperty()
                 {
                     Value = "Squat suit", Order = 4,
                 },
-                new Equipment()
+                new ExerciseProperty()
                 {
                     Value = "Bench shirt", Order = 5,
                 },
-                new Equipment()
+                new ExerciseProperty()
                 {
                     Value = "Deadlift suit", Order = 6,
                 },
             };
         }
-        public static IEnumerable<LoadAccomodation> GetLoadAccomodations()
+        private static IEnumerable<ExerciseProperty> GetLoadAccomodations()
         {
-            return new List<LoadAccomodation>()
+            return new List<ExerciseProperty>()
             {
-                new LoadAccomodation()
+                new ExerciseProperty()
                 {
                     Value = "Light band", Order = 0,
                 },
-                new LoadAccomodation()
+                new ExerciseProperty()
                 {
                     Value = "Average band", Order = 1,
                 },
-                new LoadAccomodation()
+                new ExerciseProperty()
                 {
                     Value = "Strong band", Order = 2,
                 },
-                new LoadAccomodation()
+                new ExerciseProperty()
                 {
                     Value = "Chains", Order = 3,
                 },
-                new LoadAccomodation()
+                new ExerciseProperty()
                 {
                     Value = "Reverse light band", Order = 4,
                 },
-                new LoadAccomodation()
+                new ExerciseProperty()
                 {
                     Value = "Reverse average band", Order = 5,
                 },
-                new LoadAccomodation()
+                new ExerciseProperty()
                 {
                     Value = "Reverse strong band", Order = 6,
                 },
             };
         }
-        public static IEnumerable<RangeOfMotion> GetRangeOfMotions()
+        private static IEnumerable<ExerciseProperty> GetRangeOfMotions()
         {
-            return new List<RangeOfMotion>()
+            return new List<ExerciseProperty>()
             {
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Standard", Order = 0,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Box", Order = 1,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Towel", Order = 2,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Low pin", Order = 3,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Middle pin", Order = 4,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "High pin", Order = 5,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Two inch deficit", Order = 6,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Half board", Order = 7,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Two board", Order = 8,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Three board", Order = 9,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Four board", Order = 10,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Five board", Order = 11,
                 },
-                new RangeOfMotion()
+                new ExerciseProperty()
                 {
                     Value = "Towel - 8 cm ", Order = 12,
                 },
             };
         }
-        public static IEnumerable<Stance> GetStances()
+        private static IEnumerable<ExerciseProperty> GetStances()
         {
-            return new List<Stance>()
+            return new List<ExerciseProperty>()
             {
-                new Stance()
+                new ExerciseProperty()
                 {
                     Value = "Standard", Order = 0,
                 },
-                new Stance()
+                new ExerciseProperty()
                 {
                     Value = "Narrow", Order = 1,
                 },
-                new Stance()
+                new ExerciseProperty()
                 {
                     Value = "Wide", Order = 2,
                 },
-                new Stance()
+                new ExerciseProperty()
                 {
                     Value = "Sumo", Order = 3,
                 },
-                new Stance()
+                new ExerciseProperty()
                 {
                     Value = "Conventional", Order = 4,
                 },
-                new Stance()
+                new ExerciseProperty()
                 {
                     Value = "Stiff legged", Order = 5,
                 },
-                new Stance()
+                new ExerciseProperty()
                 {
                     Value = "Feet up", Order = 6,
                 },
             };
         }
-        public static IEnumerable<Tempo> GetTempos()
+        private static IEnumerable<ExerciseProperty> GetTempos()
         {
-            return new List<Tempo>()
+            return new List<ExerciseProperty>()
             {
-                new Tempo()
+                new ExerciseProperty()
                 {
                     Value = "Standard", Order = 0,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
                     Value = "Touch and go", Order = 1,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
                     Value = "Pause - 2 count", Order = 2,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
                     Value = "Pause - 3 count", Order = 3,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
                     Value = "Pause - 5 count", Order = 4,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
                     Value = "Pause - 7 count", Order = 5,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
-                    Value = "Tempo - 6", Order = 6,
+                    Value = "Tempo - 600", Order = 6,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
-                    Value = "Tempo - 32", Order = 7,
+                    Value = "Tempo - 320", Order = 7,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
-                    Value = "Tempo - 53", Order = 8,
+                    Value = "Tempo - 530", Order = 8,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
-                    Value = "Tempo - 30", Order = 9,
+                    Value = "Tempo - 303", Order = 9,
                 },
-                new Tempo()
+                new ExerciseProperty()
                 {
-                    Value = "Tempo - 00", Order = 19,
+                    Value = "Tempo - 003", Order = 10,
                 },
             };
         }

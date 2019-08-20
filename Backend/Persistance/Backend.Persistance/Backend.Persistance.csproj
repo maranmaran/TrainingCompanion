@@ -1,12 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configurations\ExercisePropertiesConfiguration\**" />
     <Compile Remove="Configurations\ExerciseTypePropertiesConfiguration\**" />
+    <EmbeddedResource Remove="Configurations\ExercisePropertiesConfiguration\**" />
     <EmbeddedResource Remove="Configurations\ExerciseTypePropertiesConfiguration\**" />
+    <None Remove="Configurations\ExercisePropertiesConfiguration\**" />
     <None Remove="Configurations\ExerciseTypePropertiesConfiguration\**" />
   </ItemGroup>
 

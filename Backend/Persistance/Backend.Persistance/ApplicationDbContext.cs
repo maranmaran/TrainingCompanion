@@ -22,17 +22,9 @@ namespace Backend.Persistance
         #region Exercise type + Properties
 
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
-        public DbSet<ExerciseTypeProperty> ExerciseTypeProperties { get; set; }
+        public DbSet<ExercisePropertyType> ExercisePropertyTypes { get; set; }
+        public DbSet<ExerciseProperty> ExerciseProperties { get; set; }
 
-        public DbSet<Grip> Grips { get; set; }
-        public DbSet<Tempo> Tempos { get; set; }
-        public DbSet<Stance> Stances { get; set; }
-        public DbSet<LoadAccomodation> LoadAccomodations { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Equipment> Equipment { get; set; }
-        public DbSet<BarType> BarTypes { get; set; }
-        public DbSet<BarPosition> BarPositions { get; set; }
-        public DbSet<RangeOfMotion> RangeOfMotions { get; set; }
 
         #endregion
 
