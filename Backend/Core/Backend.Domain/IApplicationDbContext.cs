@@ -23,17 +23,9 @@ namespace Backend.Domain
         #region Exercise type + Properties
 
         DbSet<ExerciseType> ExerciseTypes { get; set; }
-        DbSet<ExerciseTypeProperty> ExerciseTypeProperties { get; set; }
+        DbSet<ExercisePropertyType> ExercisePropertyTypes { get; set; }
+        DbSet<ExerciseProperty> ExerciseProperties { get; set; }
 
-        DbSet<Grip> Grips { get; set; }
-        DbSet<Tempo> Tempos { get; set; }
-        DbSet<Stance> Stances { get; set; }
-        DbSet<LoadAccomodation> LoadAccomodations { get; set; }
-        DbSet<Equipment> Equipment { get; set; }
-        DbSet<Category> Categories { get; set; }
-        DbSet<BarType> BarTypes { get; set; }
-        DbSet<BarPosition> BarPositions { get; set; }
-        DbSet<RangeOfMotion> RangeOfMotions { get; set; }
 
         #endregion
 
