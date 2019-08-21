@@ -1,4 +1,4 @@
-export class UpdateExercisePropertyTypeRequest{
+export class UpdateExercisePropertyRequest{
     id: string;
     value: string;
     active: boolean;

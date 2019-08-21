@@ -81,6 +81,6 @@
         <span>No records</span>
     </div>
 
-    <mat-paginator *ngIf="datasource.data && datasource.data.length > pageSize" showFirstLastButtons
+    <mat-paginator [hidden]="!datasource.data || !(datasource.data.length > pageSize)" showFirstLastButtons
         [pageSize]="pageSize" [length]="datasource.data.length" [pageSizeOptions]="[5, 10, 15]"></mat-paginator>
 </div>

@@ -10,12 +10,31 @@
 </mat-toolbar>
 
 
-<mat-nav-list class="navlist">
+<mat-nav-list class="navlist" id="main-navlist">
   <mat-accordion class="headers-align" [displayMode]="'flat'">
 
     <a *ngIf="(isCoach$ | async)" mat-list-item routerLink="/app/athletes" (click)="onRoute()">
       Manage all users
     </a>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Exercise library
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <a mat-list-item routerLink="/app/exercise-properties" (click)="onRoute()">
+        Properties
+      </a>
+
+
+      <a mat-list-item routerLink="/app/exercise-types" (click)="onRoute()">
+        Exercises
+      </a>
+  
+     
+    </mat-expansion-panel>
 
     <a mat-list-item routerLink="/app/training-log" (click)="onRoute()">
       Training log

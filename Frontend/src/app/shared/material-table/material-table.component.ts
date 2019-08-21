@@ -1,5 +1,5 @@
 import { CustomColumn } from './../../../business/shared/table-data';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { TableData, TableDatasource, TableConfig } from 'src/business/shared/table-data';
 import { SubSink } from 'subsink';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -12,7 +12,12 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-material-table',
   templateUrl: './material-table.component.html',
-  styleUrls: ['./material-table.component.scss']
+  styleUrls: [
+    './material-table.component.scss',
+    './../../features/exercise-properties/exercise-properties-home/types-list/types-list.component.scss',
+    './../../features/athlete-management/athletes-home/athlete-list/athlete-list.component.scss'
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy {
   
@@ -50,9 +55,12 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
+    console.log(this.datasource.data && this.datasource.data.length > this.pageSize);
     this.datasource.paginator = this.paginator;
     this.datasource.sort = this.sort;
   }
+
+  
 
   ngOnDestroy() {
     this.subs.unsubscribe();

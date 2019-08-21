@@ -1,0 +1,24 @@
+@import "~@angular/material/theming";
+
+@mixin main-sidenav-component-theme($theme) {
+ 
+    #main-navlist {
+        .mat-expansion-panel {
+            box-shadow: none;
+
+            .mat-expansion-panel-header {
+                padding-left: 16px !important;
+
+
+            }
+
+            .mat-expansion-panel-body {
+                padding: 0 !important;
+
+                .mat-list-item-content {
+                    padding-left: 35px !important;
+                }
+            }
+        }
+    }
+}

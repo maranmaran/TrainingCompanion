@@ -53,23 +53,24 @@ namespace Backend.Application.Business.Business.Users.GetAllUsers
 
         private IQueryable<ApplicationUser> GetAllCoaches()
         {
-            return _mapper.ProjectTo<ApplicationUser>(_context.Coaches);
+            return _context.Coaches;
         }
 
         private IQueryable<ApplicationUser> GetAllSoloAthletes()
         {
-            return _mapper.ProjectTo<ApplicationUser>(_context.SoloAthletes);
+            return _context.SoloAthletes;
         }
 
         private IQueryable<ApplicationUser> GetAllAthletes(Guid coachId)
         {
+            var athletes = _context.Athletes;
+
             if (coachId != Guid.Empty)
             {
-                var athletes = _context.Athletes.Where(x => x.CoachId == coachId);
-                return _mapper.ProjectTo<ApplicationUser>(athletes);
+                return athletes.Where(x => x.CoachId == coachId);
             }
 
-            return _mapper.ProjectTo<ApplicationUser>(_context.Athletes);
+            return athletes;
         }
     }
 }
