@@ -1,7 +1,7 @@
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { MediaType } from '../enums/media-type.enum';
 
-export interface MediaFile {
+export class MediaFile {
     id: string;
     filename: string;
     ftpFilePath: string;

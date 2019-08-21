@@ -1,6 +1,6 @@
 import { Theme } from 'src/business/shared/theme.enum';
 
-export interface UserSettings {
+export class UserSettings {
     id: string;
     theme: Theme;
 }
