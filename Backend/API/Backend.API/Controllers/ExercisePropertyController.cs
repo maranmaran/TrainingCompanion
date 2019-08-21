@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Backend.Application.Business.Business.ExerciseProperty.Create;
 using Backend.Application.Business.Business.ExerciseProperty.Delete;
 using Backend.Application.Business.Business.ExerciseProperty.GetAll;
 using Backend.Application.Business.Business.ExerciseProperty.Update;
 using Backend.Application.Business.Business.ExerciseProperty.UpdateMany;
+using Backend.Application.Business.Business.ExercisePropertyType.UpdateMany;
+using Backend.Domain.Entities.ExerciseType;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 
@@ -31,9 +34,9 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateMany(UpdateManyExercisePropertyRequest request)
+        public async Task<IActionResult> UpdateMany(IEnumerable<ExerciseProperty> properties)
         {
-            return Ok(await Mediator.Send(request));
+            return Ok(await Mediator.Send(new UpdateManyExercisePropertyRequest() {ExerciseProperties = properties}));
         }
 
         [HttpPost]

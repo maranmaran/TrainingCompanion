@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.ExercisePropertyType.GetAll
 {
@@ -21,7 +22,7 @@ namespace Backend.Application.Business.Business.ExercisePropertyType.GetAll
         {
             try
             {
-                return Task.FromResult(_context.ExercisePropertyTypes.Where(x => x.ApplicationUserId == request.ApplicationUserId));
+                return Task.FromResult(_context.ExercisePropertyTypes.Include(x => x.Properties).Where(x => x.ApplicationUserId == request.ApplicationUserId));
             }
             catch (Exception e)
             {

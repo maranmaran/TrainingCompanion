@@ -9,6 +9,7 @@
 @import "./mixins/details.scss";
 @import "./mixins/table.scss";
 @import "./mixins/event-calendar.scss";
+@import "./mixins/sidenav.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -17,6 +18,7 @@
   @include details-component-theme($theme);
   @include table-component-theme($theme);
   @include event-calendar-theme($theme);
+  @include main-sidenav-component-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================
