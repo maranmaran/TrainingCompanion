@@ -61,29 +61,35 @@ export class TypesListComponent implements OnInit {
     return [
       {
         definition: 'order',
-        title: '',
+        title: '#',
         sort: true,
-        headerClass: 'order-column',
-        cellClass: 'order-column',
+        headerClass: 'order-header',
+        cellClass: 'order-cell',
         displayFunction: (item: ExercisePropertyType) => `${item.order + 1}.`,
       },
       {
         definition: 'type',
         title: 'Type',
         sort: true,
+        headerClass: 'type-header',
+        cellClass: 'type-cell',
         displayFunction: (item: ExercisePropertyType) => item.type,
       },
       {
         definition: 'active',
         title: 'Active',
         sort: false,
-        displayFunction: (item: ExercisePropertyType) => item.active,
+        headerClass: 'active-header',
+        cellClass: 'active-cell',
+        displayFunction: (item: ExercisePropertyType) => item.active ? `<i class="fas fa-check active"></i>` : `<i class="fas fa-times not-active"></i>`,
       },
       {
         definition: 'hexColor',
-        title: 'Color',
+        title: 'Tag color',
         sort: false,
-        displayFunction: (item: ExercisePropertyType) => item.hexColor,
+        headerClass: 'hex-header',
+        cellClass: 'hex-cell',
+        displayFunction: (item: ExercisePropertyType) => `<div class="hex-color-column" style="background-color: ${item.hexColor}"></div>`,
       }
     ]
   }

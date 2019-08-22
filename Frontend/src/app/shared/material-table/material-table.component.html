@@ -32,7 +32,7 @@
                 <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef> {{ col.title }} </mat-header-cell>
             </ng-container>
 
-            <mat-cell class="{{col.cellClass}}" *matCellDef="let row"> <div [innerHtml]="col.displayFunction(row)"></div> </mat-cell>
+            <mat-cell class="{{col.cellClass}}" *matCellDef="let row"> <div [innerHtml]="(col.displayFunction(row) | sanitizeHtml)"></div> </mat-cell>
 
         </ng-container>
 
