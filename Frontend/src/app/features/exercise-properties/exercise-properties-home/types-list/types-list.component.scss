@@ -1,4 +1,40 @@
-.order-column {
+.order-header {
     max-width: fit-content !important;
     padding-right: 15px;
+}
+.order-cell {
+    max-width: fit-content !important;
+    padding-right: 15px + 5.66px; // for that sorting thing on table
+}
+
+.type-header {
+    max-width: 400px !important;
+}
+.type-cell {
+    flex-grow: 0;
+    flex-wrap: wrap;
+}
+
+.hex-header{
+    max-width: 90px !important;
+    justify-content: center;
+}
+.hex-cell{
+    max-width: 90px !important;
+    justify-content: center;
+}
+
+.active-header{
+    max-width: 70px !important;
+    justify-content: center;
+}
+.active-cell{
+    max-width: 70px !important;
+    justify-content: center;
+}
+
+.hex-color-column {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
 }
