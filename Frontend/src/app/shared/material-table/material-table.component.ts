@@ -47,6 +47,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnInit() {
     this.displayColumns = ['select', ...this.columns.map(x => x.definition), 'actions'];
+    console.log(this.displayColumns);
     this.pageSize = this.config.pageSize;
 
     this.subs.add(
