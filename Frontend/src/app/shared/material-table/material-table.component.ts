@@ -8,6 +8,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Type } from '@angular/compiler';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { UIService } from 'src/business/services/shared/ui.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 
 @Component({
   selector: 'app-material-table',
@@ -33,6 +37,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   @Output() deleteSelectionEvent = new EventEmitter<any[]>();
 
   protected displayColumns: string[];
+  protected displayDataColumns: CustomColumn[];
   protected selection = new SelectionModel<string>(true, []);
   protected pageSize: number;
 
@@ -43,28 +48,37 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private subs = new SubSink();
 
-  constructor() { }
+  constructor(
+    private store: Store<AppState>
+  ) { }
 
   ngOnInit() {
-    this.displayColumns = ['select', ...this.columns.map(x => x.definition), 'actions'];
-    console.log(this.displayColumns);
     this.pageSize = this.config.pageSize;
 
     this.subs.add(
-      this.applyFilterEvent.pipe(debounceTime(300)).subscribe(filter => this.applyFilter(filter))
+      this.applyFilterEvent.pipe(debounceTime(300)).subscribe(filter => this.applyFilter(filter)),
+      this.store.select(isMobile).subscribe((isMobile: boolean) => this.setupColumns(isMobile))
     );
   }
 
   ngAfterViewInit() {
-    console.log(this.datasource.data && this.datasource.data.length > this.pageSize);
     this.datasource.paginator = this.paginator;
     this.datasource.sort = this.sort;
   }
 
-  
-
   ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  setupColumns(isMobile: boolean) {
+
+    if(isMobile) {
+      this.displayColumns = ['select', ...this.columns.filter(x => x.displayOnMobile).map(x => x.definition), 'actions'];
+      console.log(this.displayColumns);
+      return;
+    } 
+
+    this.displayColumns = ['select', ...this.columns.map(x => x.definition), 'actions'];
   }
 
   applyFilter(filterValue: string) {
@@ -127,4 +141,10 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   onDeleteSelection() {
     this.deleteSelectionEvent.emit(this.selection.selected);
   }
+
+  public datasourceEmpty = () => !this.datasource.data || this.datasource.data.length == 0;
+  public deleteManyVisible = () => (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.deleteEnabled && !this.datasourceEmpty
+  public oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
+  public paginatorHidden = () => this.datasourceEmpty || !(this.datasource.data.length > this.pageSize)
+
 }

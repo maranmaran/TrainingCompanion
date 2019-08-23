@@ -36,7 +36,7 @@ export class TypesListComponent implements OnInit {
   ngOnInit() {
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
-    this.tableColumns = this.getTableColumns();
+    this.tableColumns = this.getTableColumns() as CustomColumn[];
 
     this.subs.add(
       this.store.select(exercisePropertyTypes)
@@ -78,7 +78,7 @@ export class TypesListComponent implements OnInit {
       {
         definition: 'active',
         title: 'Active',
-        sort: false,
+        displayOnMobile: false,
         headerClass: 'active-header',
         cellClass: 'active-cell',
         displayFunction: (item: ExercisePropertyType) => item.active ? `<i class="fas fa-check active"></i>` : `<i class="fas fa-times not-active"></i>`,
@@ -86,7 +86,7 @@ export class TypesListComponent implements OnInit {
       {
         definition: 'hexColor',
         title: 'Tag color',
-        sort: false,
+        displayOnMobile: false,
         headerClass: 'hex-header',
         cellClass: 'hex-cell',
         displayFunction: (item: ExercisePropertyType) => `<div class="hex-color-column" style="background-color: ${item.hexColor}"></div>`,

@@ -9,7 +9,8 @@ export class CustomColumn {
     definition: string;
     title: string;
     displayFunction: Function;
-    sort: boolean;
+    sort: boolean = false;
+    displayOnMobile: boolean = true;
     headerClass?: string = '';
     cellClass?: string = '';
 }

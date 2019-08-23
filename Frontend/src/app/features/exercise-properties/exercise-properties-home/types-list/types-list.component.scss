@@ -7,11 +7,9 @@
     padding-right: 15px + 5.66px; // for that sorting thing on table
 }
 
-.type-header {
-    max-width: 400px !important;
-}
+
 .type-cell {
-    flex-grow: 0;
+    flex-grow: 1;
     flex-wrap: wrap;
 }
 
