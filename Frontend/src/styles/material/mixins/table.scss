@@ -12,8 +12,7 @@
     }
   
     .mat-column-actions {
-      max-width: 85px;
-      min-width: -webkit-fit-content;
+      max-width:  -webkit-fit-content;
     }
   }
   
@@ -33,5 +32,17 @@
     text-align: center;
     font-style: italic;
     }
-    
+  
+  
+
+  .mat-menu-panel {
+    min-width: unset;
+
+    .mat-menu-content {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+
 }

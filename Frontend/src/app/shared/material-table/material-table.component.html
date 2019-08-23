@@ -38,35 +38,43 @@
 
         <!-- ACTIONS -->
         <ng-container matColumnDef="actions" *ngIf="config.actionsEnabled">
+            <!--HEADER ACTIONS-->
             <mat-header-cell *matHeaderCellDef>
-                <mat-divider [vertical]="true"></mat-divider>
-                <ng-container *ngIf="(isMoreThanOneSelected || isAllSelected) 
-                                     && !isOneSelected && config.deleteEnabled 
-                                     && !(!datasource.data || datasource.data.length == 0)"> <!--Not empty-->
-                    <button
-                        mat-icon-button color="accent" (click)="onDeleteSelection()" (click)="$event.stopPropagation()">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                    <mat-divider [vertical]="true"></mat-divider>
-                </ng-container>
-                <button *ngIf="config.addEnabled"
-                    mat-icon-button color="accent" (click)="addEvent.emit()" (click)="$event.stopPropagation()">
+
+         
+            <button mat-icon-button color="accent" [matMenuTriggerFor]="headerMenu" >
+                    <i class="fa fa-ellipsis-v"></i>
+            </button>
+
+            <mat-menu #headerMenu="matMenu">
+                <button mat-icon-button *ngIf="config.addEnabled" color="accent" (click)="addEvent.emit()" (click)="$event.stopPropagation()">
                     <i class="fas fa-plus"></i>
                 </button>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-                <mat-divider [vertical]="true"></mat-divider>
-                <ng-container *ngIf="isOneSelected && selection.isSelected(row.id) && config.editEnabled">
-                    <button mat-icon-button
-                        color="accent" (click)="updateEvent.emit(row)" (click)="$event.stopPropagation()">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <mat-divider [vertical]="true"></mat-divider>
-                </ng-container>
-                <button *ngIf="isOneSelected && selection.isSelected(row.id) && config.deleteEnabled" mat-icon-button
-                    color="accent" (click)="deleteEvent.emit(row)" (click)="$event.stopPropagation()">
+                <button mat-icon-button *ngIf="deleteManyVisible" (click)="onDeleteSelection()" color="accent" (click)="$event.stopPropagation()">
                     <i class="fas fa-trash"></i>
                 </button>
+            </mat-menu>
+
+              
+            </mat-header-cell>
+
+            <!--CELL ACTIONS-->
+            <mat-cell *matCellDef="let row">
+
+                <button mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu" >
+                        <i class="fa fa-ellipsis-v"></i>
+                </button>
+    
+                <mat-menu #cellMenu="matMenu">
+                    <button *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)" (click)="$event.stopPropagation()">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button *ngIf="config.deleteEnabled" mat-icon-button color="accent" (click)="deleteEvent.emit(row)"
+                        (click)="$event.stopPropagation()">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </mat-menu>
+
             </mat-cell>
         </ng-container>
 
@@ -77,10 +85,10 @@
 
     </mat-table>
 
-    <div class="no-records" *ngIf="!datasource.data || datasource.data.length == 0">
+    <div class="no-records" *ngIf="datasourceEmpty">
         <span>No records</span>
     </div>
 
-    <mat-paginator [hidden]="!datasource.data || !(datasource.data.length > pageSize)" showFirstLastButtons
+    <mat-paginator [hidden]="paginatorHidden" showFirstLastButtons
         [pageSize]="pageSize" [length]="datasource.data.length" [pageSizeOptions]="[5, 10, 15]"></mat-paginator>
 </div>
