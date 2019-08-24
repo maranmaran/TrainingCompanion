@@ -54,3 +54,15 @@ export const exercisePropertyTypeDeleted = createAction(
     props<{ id: string }>()
 )
 
+// REORDER
+export const reorderExercisePropertyTypes = createAction(
+    '[Exericse Property] Reorder',
+    props<{ previousItem: string, currentItem: string }>()
+)
+
+// SELECT
+export const setSelectedExercisePropertyType = createAction(
+    '[Exericse Property] Set selected',
+    props<{ propertyType: ExercisePropertyType }>()
+)
+

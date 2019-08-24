@@ -1,5 +1,4 @@
-﻿using Backend.Application.Business.Business.ExerciseProperty.Create;
-using Backend.Domain;
+﻿using Backend.Domain;
 using FluentValidation;
 using System.Linq;
 

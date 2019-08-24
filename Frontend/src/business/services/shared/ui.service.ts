@@ -1,25 +1,24 @@
-import { ConfirmResult } from './../../shared/confirm-dialog.config';
-import { isSubscribed, trialDaysRemaining } from './../../../ngrx/auth/auth.selectors';
+import { ComponentType, OverlayContainer } from '@angular/cdk/overlay';
 import { Injectable, HostListener } from '@angular/core';
-import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, of, forkJoin } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { MessageDialogComponent } from 'src/app/shared/message-dialog/message-dialog.component';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Dictionary } from 'src/business/utils/dictionary';
-import { Theme, getThemeClass } from 'src/business/shared/theme.enum';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
+import * as moment from 'moment';
+import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { MessageDialogComponent } from 'src/app/shared/message-dialog/message-dialog.component';
+import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
+import { trialMessageHtml, trialOverHtml } from 'src/business/shared/popup-templates';
+import { SnackBarConfig, snackBarDefaultConfig } from 'src/business/shared/snackbar.config';
+import { getThemeClass, Theme } from 'src/business/shared/theme.enum';
+import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
+import { Dictionary } from 'src/business/utils/dictionary';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { ConfirmResult } from './../../shared/confirm-dialog.config';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { setMobileScreenFlag, setWebScreenFlag } from 'src/ngrx/user-interface/ui.actions';
-import { OverlayContainer, ComponentType } from '@angular/cdk/overlay';
-import { SnackBarConfig, snackBarDefaultConfig } from 'src/business/shared/snackbar.config';
-import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
-import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
-import { trialMessageHtml, trialOverHtml } from 'src/business/shared/popup-templates';
-import * as moment from 'moment'
-import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 
 @Injectable()
 export class UIService {
@@ -161,30 +160,6 @@ export class UIService {
 
     // #endregion  
 
-    // #region ================ SCREEN RESIZE ================ 
-
-    @HostListener('window:resize', ['$event'])
-    protected onResize() {
-
-        if (window.innerWidth <= 599) {
-
-            // only dispatch if the value different
-            this.store
-                .select(isMobile)
-                .pipe(take(1))
-                .subscribe((isMobile: boolean) => !isMobile && this.store.dispatch(setMobileScreenFlag({ isMobile: true })))
-
-            return;
-        }
-
-        // only dispatch if the value different
-        this.store
-            .select(isMobile)
-            .pipe(take(1))
-            .subscribe((isMobile: boolean) => isMobile && this.store.dispatch(setWebScreenFlag({ isWeb: true })))
-    }
-
-    // #endregion  
 
     // #region ================ CUSTOM POPUP MESSAGES ================ 
 

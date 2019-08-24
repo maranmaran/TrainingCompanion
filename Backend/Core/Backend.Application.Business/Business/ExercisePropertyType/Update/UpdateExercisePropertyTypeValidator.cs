@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Backend.Application.Business.Business.ExerciseProperty.Create;
-using Backend.Application.Business.Business.ExerciseProperty.UpdateMany;
-using Backend.Domain;
+﻿using Backend.Domain;
 using FluentValidation;
+using System.Linq;
 
 namespace Backend.Application.Business.Business.ExercisePropertyType.Update
 {

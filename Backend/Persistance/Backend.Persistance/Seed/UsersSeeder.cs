@@ -28,7 +28,7 @@ namespace Backend.Persistance.Seed
                     CustomerId = "cus_FLi7gZv8w0j0GB",
                     UserSettings = new UserSettings(),
                 };
-                admin = ExercisePropertiesFactory.ApplyProperties<Admin>(admin);
+               
 
                 var athlete = new Athlete()
                 {
@@ -42,7 +42,6 @@ namespace Backend.Persistance.Seed
                     LastModified = DateTime.UtcNow,
                     UserSettings = new UserSettings(),
                 };
-                athlete = ExercisePropertiesFactory.ApplyProperties<Athlete>(athlete);
 
 
                 var soloAthlete = new SoloAthlete()
@@ -57,7 +56,6 @@ namespace Backend.Persistance.Seed
                     LastModified = DateTime.UtcNow,
                     UserSettings = new UserSettings(),
                 };
-                soloAthlete = ExercisePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
 
                 var coach = new Coach()
                 {
@@ -73,11 +71,32 @@ namespace Backend.Persistance.Seed
                     UserSettings = new UserSettings(),
                     Athletes = new List<Athlete>() { athlete }
                 };
+
+                // SEED OTHER DATA
+                admin = ExercisePropertiesFactory.ApplyProperties<Admin>(admin);
+                admin = ExerciseTypesFactory.ApplyExercises<Admin>(admin);
+
                 coach = ExercisePropertiesFactory.ApplyProperties<Coach>(coach);
+                coach = ExerciseTypesFactory.ApplyExercises<Coach>(coach);
+
+                soloAthlete = ExercisePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
+                soloAthlete = ExerciseTypesFactory.ApplyExercises<SoloAthlete>(soloAthlete);
+
+                athlete = ExercisePropertiesFactory.ApplyProperties<Athlete>(athlete);
+                athlete = ExerciseTypesFactory.ApplyExercises<Athlete>(athlete);
+
 
                 context.Users.Add(admin);
                 context.Users.Add(coach);
                 context.Users.Add(soloAthlete);
+                context.SaveChangesAsync(CancellationToken.None).Wait();
+
+                // JOIN SEEDED DATA - MANY TO MANY
+                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeExercisePropertyFactory.JoinExerciseTypesAndProperties(admin));
+                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeExercisePropertyFactory.JoinExerciseTypesAndProperties(coach));
+                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeExercisePropertyFactory.JoinExerciseTypesAndProperties(athlete));
+                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeExercisePropertyFactory.JoinExerciseTypesAndProperties(soloAthlete));
+               
                 context.SaveChangesAsync(CancellationToken.None).Wait();
             }
             catch (Exception e)

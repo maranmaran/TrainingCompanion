@@ -35,7 +35,7 @@ namespace Backend.Application.Business.Factories
                     Type = "Bar type",
                     Order = 1,
                     Properties = GetBarTypes() as ICollection<ExerciseProperty>,
-               
+
                 },
                 new ExercisePropertyType()
                 {
@@ -76,7 +76,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
-        private static IEnumerable<ExerciseProperty> GetBarTypes()
+        public static IEnumerable<ExerciseProperty> GetBarTypes()
         {
             return new List<ExerciseProperty>()
             {
@@ -122,7 +122,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
-        private static IEnumerable<ExerciseProperty> GetBarPositions()
+        public static IEnumerable<ExerciseProperty> GetBarPositions()
         {
             return new List<ExerciseProperty>()
             {
@@ -144,7 +144,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
-        private static IEnumerable<ExerciseProperty> GetExerciseCategories()
+        public static IEnumerable<ExerciseProperty> GetExerciseCategories()
         {
             return new List<ExerciseProperty>()
             {
@@ -178,7 +178,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
-        private static IEnumerable<ExerciseProperty> GetGrips()
+        public static IEnumerable<ExerciseProperty> GetGrips()
         {
             return new List<ExerciseProperty>()
             {
@@ -200,7 +200,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
-        private static IEnumerable<ExerciseProperty> GetExerciseEquipments()
+        public static IEnumerable<ExerciseProperty> GetExerciseEquipments()
         {
             return new List<ExerciseProperty>()
             {
@@ -210,31 +210,39 @@ namespace Backend.Application.Business.Factories
                 },
                 new ExerciseProperty()
                 {
-                    Value = "Knee wraps", Order = 1,
+                    Value = "Knee sleeves", Order = 1,
                 },
                 new ExerciseProperty()
                 {
-                    Value = "Slingshot", Order = 2,
+                    Value = "Knee wraps", Order = 2,
                 },
                 new ExerciseProperty()
                 {
-                    Value = "Breifs", Order = 3,
+                    Value = "Slingshot", Order = 3,
                 },
                 new ExerciseProperty()
                 {
-                    Value = "Squat suit", Order = 4,
+                    Value = "Breifs", Order = 4,
                 },
                 new ExerciseProperty()
                 {
-                    Value = "Bench shirt", Order = 5,
+                    Value = "Squat suit", Order = 5,
                 },
                 new ExerciseProperty()
                 {
-                    Value = "Deadlift suit", Order = 6,
+                    Value = "Bench shirt", Order = 6,
+                },
+                new ExerciseProperty()
+                {
+                    Value = "Deadlift suit", Order = 7,
+                },
+                new ExerciseProperty()
+                {
+                    Value = "Wrist wraps", Order = 7,
                 },
             };
         }
-        private static IEnumerable<ExerciseProperty> GetLoadAccomodations()
+        public static IEnumerable<ExerciseProperty> GetLoadAccomodations()
         {
             return new List<ExerciseProperty>()
             {
@@ -268,7 +276,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
-        private static IEnumerable<ExerciseProperty> GetRangeOfMotions()
+        public static IEnumerable<ExerciseProperty> GetRangeOfMotions()
         {
             return new List<ExerciseProperty>()
             {
@@ -326,7 +334,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
-        private static IEnumerable<ExerciseProperty> GetStances()
+        public static IEnumerable<ExerciseProperty> GetStances()
         {
             return new List<ExerciseProperty>()
             {
@@ -360,7 +368,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
-        private static IEnumerable<ExerciseProperty> GetTempos()
+        public static IEnumerable<ExerciseProperty> GetTempos()
         {
             return new List<ExerciseProperty>()
             {

@@ -1,16 +1,21 @@
+import { element } from 'protractor';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SubSink } from 'subsink';
-import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
-import { TableConfig, CustomColumn, TableDatasource } from 'src/business/shared/table-data';
-import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
-import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
-import { UIService } from 'src/business/services/shared/ui.service';
-import { ExercisePropertyTypeService } from 'src/business/services/exercise-property-type.service';
 import { Store } from '@ngrx/store';
+import { map, timeout } from 'rxjs/operators';
+import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
+import { ExercisePropertyTypeService } from 'src/business/services/exercise-property-type.service';
+import { UIService } from 'src/business/services/shared/ui.service';
+import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
+import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
+import { sortArrayByOrderProperty } from 'src/business/utils/utils';
+import { reorderExercisePropertyTypes, setSelectedExercisePropertyType } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
+import { exercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { exercisePropertyTypes } from 'src/ngrx/exercise-property-management/exercise-property-type/exercise-property-type.selectors';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { take } from 'rxjs/operators';
+import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
+import { SubSink } from 'subsink';
+import { MatTable } from '@angular/material/table';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-types-list',
@@ -26,7 +31,7 @@ export class TypesListComponent implements OnInit {
   protected tableColumns: CustomColumn[];
   protected tableDatasource: TableDatasource<ExercisePropertyType>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
-
+  
   constructor(
     private uiService: UIService,
     private exercisePropertyTypeService: ExercisePropertyTypeService,
@@ -40,9 +45,12 @@ export class TypesListComponent implements OnInit {
 
     this.subs.add(
       this.store.select(exercisePropertyTypes)
+        .pipe(map((propertyTypes: ExercisePropertyType[]) => {
+          return [...propertyTypes].sort(sortArrayByOrderProperty); 
+        })) 
         .subscribe((propertyTypes: ExercisePropertyType[]) => {
           this.tableDatasource.updateDatasource(propertyTypes);
-      }))
+      }));
 
   }
 
@@ -53,49 +61,55 @@ export class TypesListComponent implements OnInit {
   getTableConfig() {
     const tableConfig = new TableConfig();
     tableConfig.filterFunction = (data: ExercisePropertyType, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1
+    tableConfig.enableDragAndDrop = true;
 
     return tableConfig;
   }
 
   getTableColumns() {
     return [
-      {
+       new CustomColumn({
         definition: 'order',
         title: '#',
         sort: true,
         headerClass: 'order-header',
         cellClass: 'order-cell',
         displayFunction: (item: ExercisePropertyType) => `${item.order + 1}.`,
-      },
-      {
+      }),
+      new CustomColumn({
         definition: 'type',
         title: 'Type',
         sort: true,
         headerClass: 'type-header',
         cellClass: 'type-cell',
         displayFunction: (item: ExercisePropertyType) => item.type,
-      },
-      {
+      }),
+      new CustomColumn({
         definition: 'active',
         title: 'Active',
         displayOnMobile: false,
         headerClass: 'active-header',
         cellClass: 'active-cell',
         displayFunction: (item: ExercisePropertyType) => item.active ? `<i class="fas fa-check active"></i>` : `<i class="fas fa-times not-active"></i>`,
-      },
-      {
+      }),
+      new CustomColumn({
         definition: 'hexColor',
         title: 'Tag color',
         displayOnMobile: false,
         headerClass: 'hex-header',
         cellClass: 'hex-cell',
         displayFunction: (item: ExercisePropertyType) => `<div class="hex-color-column" style="background-color: ${item.hexColor}"></div>`,
-      }
+      }),
     ]
   }
 
-  onSelect = (propertyType: ExercisePropertyType) => {};//this.store.dispatch(setSelectedPropertyType({propertyType}));
+  onSelect = (propertyType: ExercisePropertyType) => this.store.dispatch(setSelectedExercisePropertyType({propertyType}));
 
+  onReorder(payload: {previous: ExercisePropertyType, current: ExercisePropertyType}) {
+    let previousItem = payload.previous.id;
+    let currentItem = payload.current.id;
+    this.store.dispatch(reorderExercisePropertyTypes({previousItem, currentItem }));
+  }
   onAdd() {
     // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
     //   height: 'auto',

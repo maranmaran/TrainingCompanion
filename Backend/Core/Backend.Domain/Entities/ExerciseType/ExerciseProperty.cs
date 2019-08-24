@@ -9,7 +9,7 @@ namespace Backend.Domain.Entities.ExerciseType
         public int Order { get; set; }
         public bool Active { get; set; }
 
-        public Guid ExercisePropertyTypeId { get; set; }
+        public virtual Guid ExercisePropertyTypeId { get; set; }
         public virtual ExercisePropertyType ExercisePropertyType { get; set; }
     }
 }

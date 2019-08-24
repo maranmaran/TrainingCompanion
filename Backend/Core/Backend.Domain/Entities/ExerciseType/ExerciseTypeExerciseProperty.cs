@@ -8,10 +8,10 @@ namespace Backend.Domain.Entities.ExerciseType
 
         public bool Show { get; set; }
 
-        public Guid ExerciseTypeId { get; set; }
+        public virtual Guid ExerciseTypeId { get; set; }
         public virtual ExerciseType ExerciseType { get; set; }
 
-        public Guid ExercisePropertyId { get; set; }
+        public virtual Guid ExercisePropertyId { get; set; }
         public virtual ExerciseProperty ExerciseProperty { get; set; }
     }
 }

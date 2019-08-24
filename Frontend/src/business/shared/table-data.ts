@@ -13,6 +13,23 @@ export class CustomColumn {
     displayOnMobile: boolean = true;
     headerClass?: string = '';
     cellClass?: string = '';
+
+    // why ? - Object initialization similar to c#.. because of default values
+    public constructor(
+        fields?: {
+            definition?: string;
+            title?: string;
+            displayFunction?: Function;
+            sort?: boolean;
+            displayOnMobile?: boolean;
+            headerClass?: string ;
+            cellClass?: string ;
+        }) {
+
+        if (fields) Object.assign(this, fields);
+        
+    }
+
 }
 
 export class TableConfig {
@@ -21,6 +38,7 @@ export class TableConfig {
     addEnabled = true;
     deleteEnabled = true;
     editEnabled = true;
+    enableDragAndDrop: boolean = false;
     pageSize = 5;
     filterFunction: (data: any, filter: string) => boolean
 

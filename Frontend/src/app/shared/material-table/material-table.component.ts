@@ -1,17 +1,18 @@
-import { CustomColumn } from './../../../business/shared/table-data';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, AfterViewInit, ViewEncapsulation } from '@angular/core';
-import { TableData, TableDatasource, TableConfig } from 'src/business/shared/table-data';
-import { SubSink } from 'subsink';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatSort } from '@angular/material/sort';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { Type } from '@angular/compiler';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-import { UIService } from 'src/business/services/shared/ui.service';
+import { MatSort } from '@angular/material/sort';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
+import { SubSink } from 'subsink';
+import { CustomColumn } from './../../../business/shared/table-data';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { MatTable, MatRow } from '@angular/material/table';
+import _ from "lodash";
 
 @Component({
   selector: 'app-material-table',
@@ -31,16 +32,17 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   @Input() config: TableConfig;
 
   @Output() selectEvent = new EventEmitter<any>();
+  @Output() dropEvent = new EventEmitter<any>();
   @Output() addEvent = new EventEmitter<any>();
   @Output() updateEvent = new EventEmitter<any>();
   @Output() deleteEvent = new EventEmitter<any>();
   @Output() deleteSelectionEvent = new EventEmitter<any[]>();
 
   protected displayColumns: string[];
-  protected displayDataColumns: CustomColumn[];
   protected selection = new SelectionModel<string>(true, []);
   protected pageSize: number;
-
+  
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   private applyFilterEvent = new Subject<string>();
@@ -74,7 +76,6 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
     if(isMobile) {
       this.displayColumns = ['select', ...this.columns.filter(x => x.displayOnMobile).map(x => x.definition), 'actions'];
-      console.log(this.displayColumns);
       return;
     } 
 
@@ -138,13 +139,42 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.selectEvent.emit(entity);
   }
 
+  onListDrop(event: CdkDragDrop<any[]>) {
+    
+    const array = [...this.datasource.data];
+
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+
+    // needed for drag and drop to work properly inside table
+    this.datasource.data = _.cloneDeep(event.container.data); 
+    this.table.renderRows();
+    
+    this.dropEvent.emit({previous: array[event.previousIndex], current: array[event.currentIndex]});
+  }
+
   onDeleteSelection() {
     this.deleteSelectionEvent.emit(this.selection.selected);
   }
 
-  public datasourceEmpty = () => !this.datasource.data || this.datasource.data.length == 0;
-  public deleteManyVisible = () => (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.deleteEnabled && !this.datasourceEmpty
+  public renderRows = (execute: boolean) => execute && this.table.renderRows(); // because on first load we get error.. no data
+  
+  public get datasourceEmpty() : boolean {
+    return !this.datasource.data || this.datasource.data.length == 0;
+  }
+
+  public get deleteManyVisible() : boolean {
+    return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.deleteEnabled && !this.datasourceEmpty;
+  }
+
   public oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
-  public paginatorHidden = () => this.datasourceEmpty || !(this.datasource.data.length > this.pageSize)
+
+  public get paginatorHidden() : boolean {
+    return this.datasourceEmpty || !(this.datasource.data.length > this.pageSize);
+  }
+
+
+  entered(event: any) {
+    console.log(event);
+  }
 
 }
