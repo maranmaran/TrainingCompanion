@@ -4,4 +4,5 @@ export class CreateExercisePropertyTypeRequest {
     active: boolean;
     order: number;
     hexColor: string;
+    hexBackground: string;
 }

@@ -3,4 +3,5 @@ export class UpdateExercisePropertyTypeRequest{
     type: string;
     active: boolean;
     hexColor: string;
+    hexBackground: string;
 }

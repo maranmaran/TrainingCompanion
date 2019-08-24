@@ -16,6 +16,7 @@ import { ExercisePropertyType } from 'src/server-models/entities/exercise-proper
 import { SubSink } from 'subsink';
 import { MatTable } from '@angular/material/table';
 import { Subject } from 'rxjs';
+import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
 
 @Component({
   selector: 'app-types-list',
@@ -86,7 +87,7 @@ export class TypesListComponent implements OnInit {
       }),
       new CustomColumn({
         definition: 'active',
-        title: 'Active',
+        title: '',
         displayOnMobile: false,
         headerClass: 'active-header',
         cellClass: 'active-cell',
@@ -94,11 +95,13 @@ export class TypesListComponent implements OnInit {
       }),
       new CustomColumn({
         definition: 'hexColor',
-        title: 'Tag color',
+        title: '',
         displayOnMobile: false,
         headerClass: 'hex-header',
         cellClass: 'hex-cell',
-        displayFunction: (item: ExercisePropertyType) => `<div class="hex-color-column" style="background-color: ${item.hexColor}"></div>`,
+        useComponent: true,
+        component: ExerciseTypeChipComponent,
+        inputs: (item: ExercisePropertyType) => {return {value: "Tag", show: true, backgroundColor: item.hexBackground, color: item.hexColor}},
       }),
     ]
   }

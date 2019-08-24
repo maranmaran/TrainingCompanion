@@ -11,6 +11,7 @@
 @import "./mixins/event-calendar.scss";
 @import "./mixins/sidenav.scss";
 @import "./mixins/colors.scss";
+@import "./mixins/exercise-type-chips.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -21,6 +22,7 @@
   @include event-calendar-theme($theme);
   @include main-sidenav-component-theme($theme);
   @include colors-theme($theme);
+  @include exercise-type-chips-component-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

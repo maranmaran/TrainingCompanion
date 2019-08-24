@@ -7,6 +7,7 @@ export class ExercisePropertyType {
     active: boolean;
     order: number;
     hexColor: string;
+    hexBackground: string;
 
     applicationUserId: string;
     applicationUser: ApplicationUser;
