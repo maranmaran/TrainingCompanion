@@ -13,6 +13,8 @@ import { MessageDialogComponent } from './message-dialog/message-dialog.componen
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MaterialTableComponent } from './material-table/material-table.component';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
+import { DynamicModule } from 'ng-dynamic-component';
+import { ExerciseTypeChipComponent } from './exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
 
 
 @NgModule({
@@ -21,6 +23,9 @@ import { EventCalendarComponent } from './event-calendar/event-calendar.componen
         ReactiveFormsModule,
         RouterModule,
         MaterialModule,
+        
+        //https://www.npmjs.com/package/ng-dynamic-component
+        DynamicModule.withComponents([ExerciseTypePreviewComponent, ExerciseTypeChipComponent])
     ],
     declarations: [
         MediaDialogComponent,
@@ -32,7 +37,8 @@ import { EventCalendarComponent } from './event-calendar/event-calendar.componen
         MaterialTableComponent,
         ShowHidePasswordDirective,
         EventCalendarComponent,
-        ExerciseTypePreviewComponent
+        ExerciseTypePreviewComponent,
+        ExerciseTypeChipComponent
     ],
     exports: [
         CommonModule,
@@ -49,7 +55,8 @@ import { EventCalendarComponent } from './event-calendar/event-calendar.componen
         MaterialTableComponent,
         ShowHidePasswordDirective,
         EventCalendarComponent,
-        ExerciseTypePreviewComponent
+        ExerciseTypePreviewComponent,
+        ExerciseTypeChipComponent
     ],
     providers: [
     ],

@@ -68,7 +68,8 @@ import { SettingsComponent } from './settings/settings.component';
             stateKey: 'router',
             routerState: RouterState.Minimal,
             serializer: CustomSerializer
-        })
+        }),
+
     ],
     declarations: [
         AppContainerComponent,
