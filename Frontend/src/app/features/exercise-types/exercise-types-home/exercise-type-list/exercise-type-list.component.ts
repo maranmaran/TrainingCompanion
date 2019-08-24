@@ -10,6 +10,7 @@ import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { SubSink } from 'subsink';
+import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 
 @Component({
   selector: 'app-exercise-type-list',
@@ -63,7 +64,9 @@ export class ExerciseTypeListComponent implements OnInit {
         definition: 'name',
         title: 'Name',
         sort: true,
-        displayFunction: (item: ExerciseType) => `<app-exercise-type-preview [exerciseType]="${item}"></app-exercise-type-preview>`,
+        useComponent: true,
+        component: ExerciseTypePreviewComponent,
+        inputs: (item: ExerciseType) => { return {exerciseType: item}; },
       }),
     ]
   }

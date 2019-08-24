@@ -1,0 +1,31 @@
+@import "~@angular/material/theming";
+
+@mixin exercise-type-chips-component-theme($theme) {
+
+    .exercise-type-preview-container{
+        margin-top: 5px;
+    }
+    
+    .property-chip {
+        margin: unset !important;
+        margin-top: 1px !important;
+        margin-bottom: 1px !important;
+        margin-right: 3px !important;
+        min-height: unset !important;
+        font-size: 12px;
+        padding: 8px 8px !important;
+    }
+
+    .mat-chip-list-wrapper {
+        margin-top: 3px !important;
+        margin-bottom: 10px !important;
+        margin: unset !important;
+    }
+
+    @media(max-width: 599px) {
+        .property-chip {
+            font-size: 9px;
+            padding: 6px 6px !important;
+        }
+    }
+}

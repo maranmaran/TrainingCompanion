@@ -34,6 +34,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
+    "ng-dynamic-component": "^5.0.0",
     "ngx-avatar": "^3.7.0",
     "ngx-cookie-service": "^2.2.0",
     "ngx-stripe": "^7.4.3",

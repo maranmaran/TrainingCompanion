@@ -12,7 +12,8 @@ namespace Backend.Persistance.Configurations
         public void Configure(EntityTypeBuilder<ExercisePropertyType> builder)
         {
             builder.Property(x => x.Active).HasDefaultValue(true);
-            builder.Property(x => x.HexColor).HasDefaultValue("#ffffff");
+            builder.Property(x => x.HexColor).HasDefaultValue("#616161"); // some kind of gray
+            builder.Property(x => x.HexBackground).HasDefaultValue("#fef6f9"); // white
 
             builder.HasMany(x => x.Properties);
 

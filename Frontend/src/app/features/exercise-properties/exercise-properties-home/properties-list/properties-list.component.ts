@@ -78,7 +78,7 @@ export class PropertiesListComponent implements OnInit {
       }),
       new CustomColumn({
         definition: 'active',
-        title: 'Active',
+        title: '',
         displayOnMobile: false,
         headerClass: 'active-header',
         cellClass: 'active-cell',
