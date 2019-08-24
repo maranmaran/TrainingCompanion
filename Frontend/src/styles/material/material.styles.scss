@@ -79,7 +79,8 @@ mat-cell, mat-header-cell {
   display: flex !important;
   flex-direction: column;
   height: 100%;
-  overflow: unset !important;
+  overflow-x: unset !important;
+  overflow-y: auto !important;
 }
 
 app-training-calendar {

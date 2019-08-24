@@ -1,0 +1,15 @@
+<div class="exercise-type-preview-container">
+    <span class="name-label">{{exerciseType.name}}</span>
+
+    <mat-chip-list class="property-chips-list">
+
+        <ng-container *ngFor="let property of exerciseType.properties">
+
+            <mat-chip class="property-chip" *ngIf="property.show">
+                {{property.exerciseProperty.value}}
+            </mat-chip>
+
+        </ng-container>
+
+    </mat-chip-list>
+</div>

@@ -1,12 +1,13 @@
-import { switchMap, take, map, concatMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { activateAthlete, deactivateAthlete } from 'src/ngrx/athletes/athlete.actions';
-import { selectedAthlete } from 'src/ngrx/athletes/athlete.selectors';
-import { ApplicationUser } from 'src/server-models/entities/application-user.model';
+import { map, switchMap, take } from 'rxjs/operators';
 import { UserService } from 'src/business/services/user.service';
+import { athleteUpdated } from 'src/ngrx/athletes/athlete.actions';
+import { selectedAthlete } from 'src/ngrx/athletes/athlete.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { GetUpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
+import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 
 @Component({
   selector: 'app-athlete-details',
@@ -27,17 +28,19 @@ export class AthleteDetailsComponent implements OnInit {
   }
 
   onSetActive(value: boolean) {
+   
     this.athlete$.pipe(take(1),
-      map(athlete => athlete.id),
-      switchMap(athleteId => {
-        return this.userService.setActive(athleteId, value)
+      map(athlete => Object.assign({}, athlete)),
+      switchMap(athlete => {
+        athlete.active = value;
+        console.log(GetUpdateUserRequest(athlete));
+        return this.userService.update(GetUpdateUserRequest(athlete));
       })).subscribe(
-        () => {
-          value && this.store.dispatch(activateAthlete());
-          !value && this.store.dispatch(deactivateAthlete());
+        (athlete: ApplicationUser) => {
+          this.store.dispatch(athleteUpdated({athlete}));
         },
         err => console.log(err)
       )
-  }
+ }
 
 }

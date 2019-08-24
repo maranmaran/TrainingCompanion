@@ -1,12 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 import { Action, ActionReducer } from '@ngrx/store/src/models';
-import { initialAthletesState, AthletesState } from './athlete.state';
-import * as UsersActions from './athlete.actions';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
+import * as UsersActions from './athlete.actions';
+import { AthletesState, initialAthletesState } from './athlete.state';
 
 export const athletesReducer: ActionReducer<AthletesState, Action> = createReducer(
     initialAthletesState,
 
+    // GET
     on(UsersActions.athletesFetched, (state: AthletesState, payload: {athletes: ApplicationUser[]}) => {
         return {
             ...state,
@@ -14,53 +15,38 @@ export const athletesReducer: ActionReducer<AthletesState, Action> = createReduc
         }
     }),
 
+    // UPDATE
+    on(UsersActions.athleteUpdated, (state: AthletesState, payload: { athlete: ApplicationUser }) => {
+        return {
+            ...state,
+            athletes: state.athletes.map(su => su.id == payload.athlete.id  ? payload.athlete : su),
+            selected: payload.athlete.id == state.selected.id ? payload.athlete : state.selected
+        }
+    }),
+
+    // UPDATE
+    on(UsersActions.athleteCreated, (state: AthletesState, payload: { athlete: ApplicationUser }) => {
+        return {
+            ...state,
+            athletes: [...state.athletes, payload.athlete]
+        }
+    }),
+
+    // DELETE
+    on(UsersActions.athleteDeleted, (state: AthletesState, payload: { id: string }) => {
+        
+        return {
+            ...state,
+            athletes: [...state.athletes.filter(x => x.id !== payload.id)],
+            selected: state.selected.id == payload.id ? null : state.selected
+        }
+    }),
+
+    // SET SELECTED
     on(UsersActions.setSelectedAthlete, (state: AthletesState, payload: { athlete: ApplicationUser }) => {
         return {
             ...state,
             selected: payload.athlete
-        }
-    }),
-
-    on(UsersActions.deactivateAthlete, (state: AthletesState) => {
-        let selected = Object.assign({}, state.selected);
-        selected.active = false;
-        return {
-            ...state,
-            athletes: state.athletes.map(su => su.id == state.selected.id ? { ...su, active: false } : su),
-            selected: selected
-        }
-    }),
-
-    on(UsersActions.activateAthlete, (state: AthletesState) => {
-        let selected = Object.assign({}, state.selected);
-        selected.active = true;
-        return {
-            ...state,
-            athletes: state.athletes.map(su => su.id == state.selected.id  ? { ...su, active: true } : su),
-            selected: selected
-        }
-    }),
-
-    on(UsersActions.updateAthlete, (state: AthletesState, athlete: ApplicationUser) => {
-        return {
-            ...state,
-            athletes: state.athletes.map(su => su.id == athlete.id  ? athlete : su)
-        }
-    }),
-
-    on(UsersActions.registerAthlete, (state: AthletesState, athlete: ApplicationUser) => {
-        return {
-            ...state,
-            athletes: [...state.athletes, athlete]
-        }
-    }),
-
-    on(UsersActions.deleteAthlete, (state: AthletesState, athlete: ApplicationUser) => {
-        
-        return {
-            ...state,
-            athletes: [...state.athletes.filter(x => x.id !== athlete.id)],
-            selected: state.selected.id == athlete.id ? null : state.selected
         }
     }),
 

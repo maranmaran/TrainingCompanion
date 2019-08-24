@@ -13,8 +13,8 @@ import { currentUser } from '../../ngrx/auth/auth.selectors';
 import { UserService } from '../services/user.service';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
-import { exercisePropertyTypes } from 'src/ngrx/exercise-property-management/exercise-property-type/exercise-property-type.selectors';
-import { exercisePropertyTypesFetched } from 'src/ngrx/exercise-property-management/exercise-property-type/exercise-property-type.actions';
+import { exercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
+import { exercisePropertyTypesFetched } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
 
 @Injectable()
 export class ExercisePropertyTypesResolver implements Resolve<Observable<ExercisePropertyType[] | void>> {

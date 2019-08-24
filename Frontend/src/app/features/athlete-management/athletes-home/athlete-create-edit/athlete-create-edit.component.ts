@@ -1,5 +1,3 @@
-import { UpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
-import { CreateUserRequest } from './../../../../../server-models/cqrs/users/requests/create-user.request';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
@@ -7,15 +5,17 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { registerAthlete, updateAthlete } from 'src/ngrx/athletes/athlete.actions';
+import { UserService } from 'src/business/services/user.service';
+import { athleteCreated, athleteUpdated } from 'src/ngrx/athletes/athlete.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { UpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { Gender } from 'src/server-models/enums/gender.enum';
 import { ServerStatusCodes } from 'src/server-models/error/status-codes/server.codes';
 import { CRUD } from './../../../../../business/shared/crud.enum';
+import { CreateUserRequest } from './../../../../../server-models/cqrs/users/requests/create-user.request';
 import { AccountType } from './../../../../../server-models/enums/account-type.enum';
-import { UserService } from 'src/business/services/user.service';
 
 @Component({
   selector: 'app-athlete-create-edit',
@@ -107,7 +107,7 @@ export class AthleteCreateEditComponent implements OnInit {
     this.userService.create(request)
       .subscribe(
         (athlete: ApplicationUser) => {
-          this.store.dispatch(registerAthlete(athlete));
+          this.store.dispatch(athleteCreated({athlete}));
           this.onClose(athlete);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)
@@ -127,7 +127,7 @@ export class AthleteCreateEditComponent implements OnInit {
     this.userService.update(request)
       .subscribe(
         (athlete: ApplicationUser) => {
-          this.store.dispatch(updateAthlete(athlete));
+          this.store.dispatch(athleteUpdated({athlete}));
           this.onClose(athlete);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)
