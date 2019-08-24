@@ -2,10 +2,12 @@ import { ExercisePropertyType } from 'src/server-models/entities/exercise-proper
 
 export interface ExercisePropertyTypeState {
     types: ExercisePropertyType[];
+    selected: ExercisePropertyType
 }
 
 export const initialExercisePropertyTypeState: ExercisePropertyTypeState = {
-    types: undefined
+    types: undefined,
+    selected: undefined
 };
 
 

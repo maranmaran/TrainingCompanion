@@ -1,40 +1,51 @@
+import { UpdateUserRequest } from './../../server-models/cqrs/users/requests/update-user.request';
+import { CreateUserRequest } from './../../server-models/cqrs/users/requests/create-user.request';
 import { createAction, props } from "@ngrx/store";
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 
+// CREATE
+// export const createAthlete = createAction(
+//     '[Athlete API] Create',
+//     props<{ request: CreateUserRequest}>()
+// )
+export const athleteCreated = createAction(
+    '[Athlete] Created',
+    props<{ athlete: ApplicationUser}>()
+)
+
+// GET ALL
+// export const getAllAthlete = createAction(
+//     '[Athlete API] Get all',
+//     props<{ userId: string }>()
+// )
 export const athletesFetched = createAction(
-    '[Athletes API] Athletes fetched',
-    props<{ athletes: ApplicationUser[]}>()
+    '[Athlete] Fetched',
+    props<{ athletes: ApplicationUser[] }>()
+)
+   
+// UPDATE
+// export const updateAthlete = createAction(
+//     '[Athlete API] Update',
+//     props<{ request: UpdateUserRequest }>()
+// )
+export const athleteUpdated = createAction(
+    '[Athlete] Updated',
+    props<{ athlete: ApplicationUser }>()
 )
 
-export const deactivateAthlete = createAction(
-    '[Athletes API] Deactivate athlete'
+// DELETE
+// export const deleteAthlete = createAction(
+//     '[Athlete API] Delete',
+//     props<{ id: string }>()
+// )
+export const athleteDeleted = createAction(
+    '[Athlete] Deleted',
+    props<{ id: string }>()
 )
 
-export const activateAthlete = createAction(
-    '[Athletes API] Activate athlete'
-)
-
-export const registerAthlete = createAction(
-    '[Athletes API] Register athlete',
-    props<ApplicationUser>()
-)
-
-export const updateAthlete = createAction(
-    '[Athletes API] Update athlete',
-    props<ApplicationUser>()
-)
-
-export const deleteAthlete = createAction(
-    '[Athletes API] Delete athlete',
-    props<ApplicationUser>()
-)
-
-export const deleteAthletes = createAction(
-    '[Athletes API] Delete athletes',
-    props<ApplicationUser[]>()
-)
-
+// SELECT
 export const setSelectedAthlete = createAction(
-    '[Athletes API] Set selected athlete',
-    props<{athlete: ApplicationUser}>()
+    '[Athlete] Set selected',
+    props<{ athlete: ApplicationUser }>()
 )
+

@@ -1,3 +1,4 @@
+import { ExerciseTypePreviewComponent } from './exercise-type-preview/exercise-type-preview.component';
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
@@ -30,7 +31,8 @@ import { EventCalendarComponent } from './event-calendar/event-calendar.componen
         EnumToArrayPipe,
         MaterialTableComponent,
         ShowHidePasswordDirective,
-        EventCalendarComponent
+        EventCalendarComponent,
+        ExerciseTypePreviewComponent
     ],
     exports: [
         CommonModule,
@@ -46,7 +48,8 @@ import { EventCalendarComponent } from './event-calendar/event-calendar.componen
         EnumToArrayPipe,
         MaterialTableComponent,
         ShowHidePasswordDirective,
-        EventCalendarComponent
+        EventCalendarComponent,
+        ExerciseTypePreviewComponent
     ],
     providers: [
     ],

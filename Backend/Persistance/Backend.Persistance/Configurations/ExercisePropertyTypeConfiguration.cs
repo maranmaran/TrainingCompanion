@@ -14,8 +14,7 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.Active).HasDefaultValue(true);
             builder.Property(x => x.HexColor).HasDefaultValue("#ffffff");
 
-            builder.HasMany(x => x.Properties).WithOne(x => x.ExercisePropertyType)
-                .HasForeignKey(x => x.ExercisePropertyTypeId);
+            builder.HasMany(x => x.Properties);
 
         }
     }

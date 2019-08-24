@@ -33,6 +33,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialTableComponent } from './material-table/material-table.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
     imports: [
@@ -69,6 +70,7 @@ import { MaterialTableComponent } from './material-table/material-table.componen
         MatTableModule,
         MatSortModule,
         MatPaginatorModule,
+        DragDropModule
     ],
     declarations: [
         HighlightRowOnHover,
@@ -103,6 +105,7 @@ import { MaterialTableComponent } from './material-table/material-table.componen
         MatDialogModule,
         MatTooltipModule,
         MatSnackBarModule,
+        DragDropModule,
         MatTableModule,
         MatSortModule,
         MatPaginatorModule,

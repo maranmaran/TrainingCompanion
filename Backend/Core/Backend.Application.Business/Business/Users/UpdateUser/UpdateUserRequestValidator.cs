@@ -15,27 +15,29 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
             RuleFor(x => x.Username)
                 .MaximumLength(15)
                 .NotEmpty()
-                .Must((user, username) => UniqueUsername(username))
+                .Must((request, username) => UniqueUsername(request))
                 .WithMessage("Username must be unique"); ;
 
             RuleFor(x => x.Email)
                 .EmailAddress()
                 .NotEmpty()
-                .Must((user, email) => UniqueEmail(email))
+                .Must((request, email) => UniqueEmail(request))
                 .WithMessage("Email must be unique");
 
             RuleFor(x => x.FirstName).MaximumLength(15).NotEmpty();
-            RuleFor(x => x.LastName).MaximumLength(15).NotEmpty();
+            RuleFor(x => x.LastName).MaximumLength(15);
         }
 
-        private bool UniqueUsername(string username)
+        private bool UniqueUsername(UpdateUserRequest request)
         {
-            return !_context.Users.Any(x => x.Username == username);
+            var user = _context.Users.Single(x => x.Id == request.Id);
+            return !_context.Users.Any(x => x.Username == user.Username && x.Id != user.Id);
         }
 
-        private bool UniqueEmail(string email)
+        private bool UniqueEmail(UpdateUserRequest request)
         {
-            return !_context.Users.Any(x => x.Email == email);
+            var user = _context.Users.Single(x => x.Id == request.Id);
+            return !_context.Users.Any(x => x.Email == user.Email && x.Id != user.Id);
         }
 
     }

@@ -12,7 +12,7 @@ namespace Backend.Domain.Entities.ExerciseType
         public int Order { get; set; }
         public string HexColor { get; set; }
 
-        public Guid ApplicationUserId { get; set; }
+        public virtual Guid ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         public ICollection<ExerciseProperty> Properties { get; set; }

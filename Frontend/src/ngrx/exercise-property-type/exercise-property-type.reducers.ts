@@ -1,3 +1,4 @@
+import { first } from 'rxjs/operators';
 import { ActionReducer, Action, createReducer, on, createFeatureSelector } from '@ngrx/store';
 import * as ExercisePropertyTypeActions from './exercise-property-type.actions';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
@@ -44,6 +45,43 @@ export const exercisePropertyTypeReducer: ActionReducer<ExercisePropertyTypeStat
         return {
             ...state,
             types: [...payload.propertyTypes]
+        }
+    }),
+
+    // SET SELECTED
+    on(ExercisePropertyTypeActions.setSelectedExercisePropertyType, (state: ExercisePropertyTypeState, payload: {propertyType: ExercisePropertyType}) => {
+        return {
+            ...state,
+            selected: payload.propertyType
+        }
+    }),
+
+    // REORDER
+    on(ExercisePropertyTypeActions.reorderExercisePropertyTypes, (state: ExercisePropertyTypeState, payload: {  previousItem: string, currentItem: string }) => {
+
+        // pluck types
+        let types = [...state.types];
+       
+        let first = Object.assign({}, types.find(x => x.id == payload.previousItem));
+        let second = Object.assign({}, types.find(x => x.id == payload.currentItem));
+
+        // switch
+        let tempOrder = first.order;
+        first.order = second.order;
+        second.order = tempOrder;
+
+        return {
+            ...state,
+            types: state.types.map(x => {
+                switch (x.id) {
+                    case first.id:
+                        return first;
+                    case second.id:
+                        return second;
+                    default:
+                        return x
+                }
+            })
         }
     }),
 );

@@ -24,6 +24,7 @@ namespace Backend.Persistance
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
         public DbSet<ExercisePropertyType> ExercisePropertyTypes { get; set; }
         public DbSet<ExerciseProperty> ExerciseProperties { get; set; }
+        public DbSet<ExerciseTypeExerciseProperty> ExerciseTypeExerciseProperties { get; set; } // JOIN TABLE
 
 
         #endregion

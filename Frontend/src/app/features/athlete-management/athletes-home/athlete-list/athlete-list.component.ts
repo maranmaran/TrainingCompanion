@@ -1,20 +1,20 @@
-import { UserService } from 'src/business/services/user.service';
-import { MaterialTableComponent } from './../../../../shared/material-table/material-table.component';
-import { CRUD } from './../../../../../business/shared/crud.enum';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 import { UIService } from 'src/business/services/shared/ui.service';
+import { UserService } from 'src/business/services/user.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { TableConfig } from 'src/business/shared/table-data';
-import { setSelectedAthlete, deleteAthlete } from 'src/ngrx/athletes/athlete.actions';
+import { setSelectedAthlete, athleteDeleted } from 'src/ngrx/athletes/athlete.actions';
 import { athletes } from 'src/ngrx/athletes/athlete.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { SubSink } from 'subsink';
 import { CustomColumn, TableDatasource } from '../../../../../business/shared/table-data';
 import { ApplicationUser } from '../../../../../server-models/entities/application-user.model';
 import { AthleteCreateEditComponent } from '../athlete-create-edit/athlete-create-edit.component';
-import { take } from 'rxjs/operators';
-import { AccountType } from 'src/server-models/enums/account-type.enum';
+import { CRUD } from './../../../../../business/shared/crud.enum';
+import { MaterialTableComponent } from './../../../../shared/material-table/material-table.component';
 
 @Component({
   selector: 'app-athlete-list',
@@ -40,7 +40,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
-    this.tableColumns = this.getTableColumns();
+    this.tableColumns =  this.getTableColumns() as unknown as CustomColumn[];
 
     this.subs.add(
       this.store.select(athletes)
@@ -63,20 +63,20 @@ export class AthleteListComponent implements OnInit, OnDestroy {
 
   getTableColumns() {
     return [
-      {
-      headerClass: 'avatar-header',
-      cellClass: 'avatar-cell',
-      definition: 'avatar',
-      title: '',
-      sort: false,
-      displayFunction: (item: ApplicationUser) => `<img class="avatar-table-img" src="${item.avatar}"/>`,
-    },
-    {
-      definition: 'fullName',
-      title: 'Name',
-      sort: true,
-      displayFunction: (item: ApplicationUser) => item.fullName,
-    }]
+      new CustomColumn({
+        headerClass: 'avatar-header',
+        cellClass: 'avatar-cell',
+        definition: 'avatar',
+        title: '',
+        displayFunction: (item: ApplicationUser) => `<img class="avatar-table-img" src="${item.avatar}"/>`,
+      }),
+      new CustomColumn({
+        definition: 'fullName',
+        title: 'Name',
+        sort: true,
+        displayFunction: (item: ApplicationUser) => item.fullName,
+      }),
+    ]
   }
 
   onSelect = (athlete: ApplicationUser) => this.store.dispatch(setSelectedAthlete({athlete}));
@@ -135,7 +135,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
           this.userService.delete(athlete.id, AccountType.Athlete)
             .subscribe(
               () => {
-                this.store.dispatch(deleteAthlete(athlete))
+                this.store.dispatch(athleteDeleted({id: athlete.id}))
               },
               err => console.log(err)
             )

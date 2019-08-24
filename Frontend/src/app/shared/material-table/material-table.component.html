@@ -4,7 +4,7 @@
 
 <div class="mat-elevation-z1">
 
-    <mat-table [dataSource]="datasource" matSort>
+    <mat-table [dataSource]="datasource" matSort cdkDropList [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop" (cdkDropListDropped)="onListDrop($event)">
 
         <!-- SELECTION ( CHECKBOXES ) -->
         <ng-container matColumnDef="select" *ngIf="config.selectionEnabled">
@@ -61,16 +61,15 @@
             <!--CELL ACTIONS-->
             <mat-cell *matCellDef="let row">
 
-                <button mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu" >
+                <button mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu" (click)="$event.stopPropagation()">
                         <i class="fa fa-ellipsis-v"></i>
                 </button>
     
                 <mat-menu #cellMenu="matMenu">
-                    <button *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)" (click)="$event.stopPropagation()">
+                    <button *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button *ngIf="config.deleteEnabled" mat-icon-button color="accent" (click)="deleteEvent.emit(row)"
-                        (click)="$event.stopPropagation()">
+                    <button *ngIf="config.deleteEnabled" mat-icon-button color="accent" (click)="deleteEvent.emit(row)">
                         <i class="fas fa-trash"></i>
                     </button>
                 </mat-menu>
@@ -79,7 +78,7 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-        <mat-row highlightOnHover [class.selected-row]="selection.isSelected(row.id)"
+        <mat-row cdkDrag [cdkDragData]="row" highlightOnHover [class.selected-row]="selection.isSelected(row.id)"
             *matRowDef="let row; columns: displayColumns;" (click)="onSelect(row)">
         </mat-row>
 

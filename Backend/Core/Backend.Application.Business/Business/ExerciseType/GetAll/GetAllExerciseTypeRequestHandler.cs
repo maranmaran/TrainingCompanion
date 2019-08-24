@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Backend.Domain;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
 
 namespace Backend.Application.Business.Business.ExerciseType.GetAll
 {
@@ -21,7 +22,18 @@ namespace Backend.Application.Business.Business.ExerciseType.GetAll
         {
             try
             {
-                return Task.FromResult(_context.ExerciseTypes.AsQueryable());
+                var exerciseTypes = _context.ExerciseTypes
+                    .Include(x => x.Properties)
+                    .ThenInclude(x => x.ExerciseProperty)
+                    .Where(x => x.ApplicationUserId == request.UserId);
+
+                //TODO: Technical debt.. this needs to be done better
+                foreach (var exerciseType in exerciseTypes)
+                {
+                    exerciseType.Properties = exerciseType.Properties.Where(x => x.Show).ToList();
+                }
+
+                return Task.FromResult(exerciseTypes.AsQueryable());
             }
             catch (Exception e)
             {
