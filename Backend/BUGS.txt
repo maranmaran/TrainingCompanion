@@ -1,5 +1,4 @@
 1. athlete create-edit -> errors u htmlu	
 2. Something went wrong on first login when build (when cache is cleared probably)
-3. Reload exercise-properties route -> Tags have wrong look, now go to exercise-types first and back -> they are fine now
 4. ExerciseTypeExerciseProperty flag Show is set wrong.. it's always true on seed...
 5. Overflow x on Training log 
