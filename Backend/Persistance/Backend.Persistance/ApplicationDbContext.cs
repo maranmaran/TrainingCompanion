@@ -3,6 +3,7 @@ using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.System;
+using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,14 @@ namespace Backend.Persistance
         public DbSet<ExerciseProperty> ExerciseProperties { get; set; }
         public DbSet<ExerciseTypeExerciseProperty> ExerciseTypeExerciseProperties { get; set; } // JOIN TABLE
 
+
+        #endregion
+
+        #region Training log
+
+        public DbSet<Training> Trainings { get; set; }
+        public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<Set> Sets { get; set; } // lifts
 
         #endregion
 
