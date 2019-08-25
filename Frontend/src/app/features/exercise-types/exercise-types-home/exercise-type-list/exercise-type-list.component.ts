@@ -11,6 +11,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { SubSink } from 'subsink';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-exercise-type-list',
@@ -27,6 +28,9 @@ export class ExerciseTypeListComponent implements OnInit {
   protected tableDatasource: TableDatasource<ExerciseType>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
   
+  exerciseTypeControl = new FormControl();
+  exerciseTypes: ExerciseType[] = [];
+
   constructor(
     private uiService: UIService,
     private exerciseTypeService: ExerciseTypeService,
@@ -41,6 +45,7 @@ export class ExerciseTypeListComponent implements OnInit {
     this.subs.add(
       this.store.select(exerciseTypes)
         .subscribe((exerciseTypes: ExerciseType[]) => {
+          this.exerciseTypes = exerciseTypes;
           this.tableDatasource.updateDatasource(exerciseTypes);
       }));
 

@@ -9,8 +9,9 @@ import { MaterialTableComponent } from 'src/app/shared/material-table/material-t
 import { UIService } from 'src/business/services/shared/ui.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { map } from 'rxjs/operators';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 import { sortArrayByOrderProperty } from 'src/business/utils/utils';
+import { setSelectedExerciseProperty } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
 
 @Component({
   selector: 'app-properties-list',
@@ -39,9 +40,10 @@ export class PropertiesListComponent implements OnInit {
 
     this.subs.add(
       this.store.select(selectedPropertyType)
-        .pipe(map((propertyType: ExercisePropertyType) => {
-          return propertyType ? propertyType.properties : []; 
-        })) 
+        .pipe(
+          map((propertyType: ExercisePropertyType) => propertyType ? propertyType.properties : []),
+          distinctUntilChanged()
+        ) 
         .subscribe((propertyTypes: ExerciseProperty[]) => {
           this.tableDatasource.updateDatasource(propertyTypes);
       }));
@@ -87,7 +89,7 @@ export class PropertiesListComponent implements OnInit {
     ]
   }
 
-  // onSelect = (propertyType: ExerciseProperty) => this.store.dispatch(setSelectedExerciseProperty({propertyType}));
+  onSelect = (property: ExerciseProperty) => this.store.dispatch(setSelectedExerciseProperty({property}));
 
   onAdd() {
     // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {

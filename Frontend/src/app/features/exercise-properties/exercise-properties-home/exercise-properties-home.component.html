@@ -1,6 +1,16 @@
-<div class="container main-screen" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1rem">
+<!-- <div class="container main-screen" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1rem">
 
-    <app-types-list fxFlex="0 1 calc(50%)"  fxFlex.lt-md="0 1 auto" ></app-types-list>
-    <app-properties-list fxFlex="0 1 calc(50%)"  fxFlex.lt-md="0 1 auto" ></app-properties-list>
+    <app-types-list fxFlex="0 0 calc(50%)"  fxFlex.lt-md="0 1 auto" ></app-types-list>
+    <app-properties-list fxFlex="0 0 calc(50%)"  fxFlex.lt-md="0 1 auto" ></app-properties-list>
+    <app-type-details fxFlex="0 0 calc(50%)"  fxFlex.lt-md="0 1 auto" fxHide.xs></app-type-details>
+    <app-property-details fxFlex="0 0 calc(50%)"  fxFlex.lt-md="0 1 auto" fxHide.xs></app-property-details>
     
+</div> -->
+<div class="container main-screen" gdAreas="types properties | type property" gdGap="1rem" gdRows="auto auto">
+
+    <app-types-list gdArea="types" ></app-types-list>
+    <app-properties-list gdArea="properties"  ></app-properties-list>
+    <app-type-details gdArea="type"  fxHide.xs></app-type-details>
+    <app-property-details gdArea="property"  fxHide.xs></app-property-details>
+
 </div>
