@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Backend.Domain.Entities.Media;
+﻿using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.User;
+using System;
+using System.Collections.Generic;
 
 namespace Backend.Domain.Entities.TrainingLog
 {
@@ -14,8 +14,8 @@ namespace Backend.Domain.Entities.TrainingLog
 
         public bool NoteRead { get; set; }
 
-        public Guid UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public Guid ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual ICollection<Exercise> Exercises { get; set; } = new HashSet<Exercise>();
         public virtual ICollection<MediaFile> Media { get; set; } = new HashSet<MediaFile>();

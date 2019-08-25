@@ -22,7 +22,7 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
             _paymentService = paymentService;
 
             RuleFor(x => x)
-                .Must(UserExists).WithMessage($"User does not exist")
+                .Must(UserExists).WithMessage($"ApplicationUser does not exist")
                 .Must(UserActive).WithMessage("This user is inactive")
                 .Must(CoachHasPaidSubscriptionIfUserIsAthlete).WithMessage("Coach did not renew his subscription");
 

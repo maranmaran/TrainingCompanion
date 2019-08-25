@@ -34,7 +34,7 @@ namespace Backend.Persistance.Migrations
                     b.Property<string>("AccountType")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue("User");
+                        .HasDefaultValue("ApplicationUser");
 
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
@@ -139,11 +139,11 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.UserChatRoom", b =>
                 {
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("ApplicationUserId");
 
                     b.Property<Guid>("ChatRoomId");
 
-                    b.HasKey("UserId", "ChatRoomId");
+                    b.HasKey("ApplicationUserId", "ChatRoomId");
 
                     b.HasIndex("ChatRoomId");
 
@@ -202,9 +202,9 @@ namespace Backend.Persistance.Migrations
                         .HasForeignKey("ChatRoomId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Backend.Domain.Entities.ApplicationUser", "User")
+                    b.HasOne("Backend.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("ChatRooms")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

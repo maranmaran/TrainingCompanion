@@ -43,7 +43,7 @@ namespace Backend.Domain.Entities.User
 
         /// <summary>
         /// Exercise types properties
-        /// Exists and can be defined on User level
+        /// Exists and can be defined on ApplicationUser level
         /// TODO: Coach should be in charge of this properties for himself and his athletes (on athlete level actually).
         /// TODO: Coach athletes shouldn't really touch these.
         /// TODO: Solo athletes have full rights to edit this properties.

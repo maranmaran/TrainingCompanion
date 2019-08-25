@@ -18,7 +18,7 @@ namespace Backend.API.LibraryConfigurations.MediatR
         {
             var name = typeof(TRequest).Name;
 
-            // TODO: Add User Details
+            // TODO: Add ApplicationUser Details
 
             _logger.LogInformation($"Backend Request: {name} {request}");
 

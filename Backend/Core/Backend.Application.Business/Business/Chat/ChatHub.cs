@@ -147,7 +147,7 @@ namespace Backend.Application.Business.Business.Chat
                 }
                 //else
                 //{
-                //    throw new InvalidOperationException("User can't be disconnecting if he never connected");
+                //    throw new InvalidOperationException("ApplicationUser can't be disconnecting if he never connected");
                 //}
 
                 return base.OnDisconnectedAsync(exception);
