@@ -17,6 +17,7 @@ import { SubSink } from 'subsink';
 import { MatTable } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
+import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 
 @Component({
   selector: 'app-types-list',
@@ -63,6 +64,7 @@ export class TypesListComponent implements OnInit {
     const tableConfig = new TableConfig();
     tableConfig.filterFunction = (data: ExercisePropertyType, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = true;
+    tableConfig.pageSizeOptions = [5];
 
     return tableConfig;
   }
@@ -91,7 +93,9 @@ export class TypesListComponent implements OnInit {
         displayOnMobile: false,
         headerClass: 'active-header',
         cellClass: 'active-cell',
-        displayFunction: (item: ExercisePropertyType) => item.active ? `<i class="fas fa-check active"></i>` : `<i class="fas fa-times not-active"></i>`,
+        useComponent: true,
+        component: ActiveFlagComponent,
+        inputs: (item: ExercisePropertyType) => { return {active: item.active } },
       }),
       new CustomColumn({
         definition: 'hexColor',

@@ -4,32 +4,28 @@
         
         <span>{{type.type}}</span>
         
-        <span>
-            <button *ngIf="type.active" mat-stroked-button color="accent" (click)="onSetActive(false)">Deactivate</button>
-            <button *ngIf="!type.active" mat-stroked-button color="accent" (click)="onSetActive(true)">Activate</button>
-        </span>
     </h1>
 
     <mat-divider></mat-divider>
 
     <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
-<!-- 
+
         <div class="detail">
-            <mat-label class="label">Username:</mat-label>
-            <span class="label-value">{{athlete.username}}</span>
+            <mat-label class="label">Order:</mat-label>
+            <span class="label-value">{{type.order + 1}}.</span>
         </div>
         <div class="detail">
-            <mat-label class="label">Email:</mat-label>
-            <span class="label-value">{{athlete.email}}</span>
+            <mat-label class="label">Description:</mat-label>
+            <span class="label-value">TODO</span>
         </div>
         <div class="detail">
-            <mat-label class="label">Joined on:</mat-label>
-            <span class="label-value">{{athlete.createdOn | date:'mediumDate'}}</span>
+            <mat-label class="label">Tag look:</mat-label>
+            <span class="label-value" style="display: inline-flex"><app-exercise-type-chip [color]="type.hexColor" [backgroundColor]="type.hexBackground"></app-exercise-type-chip></span>
         </div>
         <div class="detail">
-            <mat-label class="label">Account status:</mat-label>
-            <span class="label-value">{{athlete.active ? 'Active' : 'Inactive'}}</span>
-        </div> -->
+            <mat-label class="label">Active:</mat-label>
+            <span class="label-value"><app-active-flag [active]="type.active"></app-active-flag></span>
+        </div>
 
     </div>
 

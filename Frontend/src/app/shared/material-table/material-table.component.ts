@@ -41,6 +41,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   protected displayColumns: string[];
   protected selection = new SelectionModel<string>(true, []);
   protected pageSize: number;
+  protected pageSizeOptions: number[];
   
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -56,6 +57,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnInit() {
     this.pageSize = this.config.pageSize;
+    this.pageSizeOptions = this.config.pageSizeOptions;
 
     this.subs.add(
       this.applyFilterEvent.pipe(debounceTime(300)).subscribe(filter => this.applyFilter(filter)),

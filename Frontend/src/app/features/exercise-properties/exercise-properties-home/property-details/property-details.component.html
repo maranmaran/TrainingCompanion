@@ -4,32 +4,24 @@
         
         <span>{{property.value}}</span>
         
-        <span>
-            <button *ngIf="property.active" mat-stroked-button color="accent" (click)="onSetActive(false)">Deactivate</button>
-            <button *ngIf="!property.active" mat-stroked-button color="accent" (click)="onSetActive(true)">Activate</button>
-        </span>
     </h1>
 
     <mat-divider></mat-divider>
 
     <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
-<!-- 
+
         <div class="detail">
-            <mat-label class="label">Username:</mat-label>
-            <span class="label-value">{{athlete.username}}</span>
+            <mat-label class="label">Order:</mat-label>
+            <span class="label-value">{{property.order + 1}}.</span>
         </div>
         <div class="detail">
-            <mat-label class="label">Email:</mat-label>
-            <span class="label-value">{{athlete.email}}</span>
+            <mat-label class="label">Description:</mat-label>
+            <span class="label-value">TODO</span>
         </div>
         <div class="detail">
-            <mat-label class="label">Joined on:</mat-label>
-            <span class="label-value">{{athlete.createdOn | date:'mediumDate'}}</span>
+            <mat-label class="label">Active:</mat-label>
+            <span class="label-value"><app-active-flag [active]="property.active"></app-active-flag></span>
         </div>
-        <div class="detail">
-            <mat-label class="label">Account status:</mat-label>
-            <span class="label-value">{{athlete.active ? 'Active' : 'Inactive'}}</span>
-        </div> -->
 
     </div>
 

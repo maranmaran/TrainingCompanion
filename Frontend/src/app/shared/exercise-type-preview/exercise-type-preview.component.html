@@ -1,18 +1,4 @@
 <div class="exercise-type-preview-container">
     <span class="name-label">{{exerciseType.name}}</span>
-
-    <mat-chip-list class="property-chips-list">
-
-        <ng-container *ngFor="let property of exerciseType.properties">
-
-            <app-exercise-type-chip
-                [value]="property.exerciseProperty.value"
-                [show]="property.show"
-                [backgroundColor]="property.exerciseProperty.exercisePropertyType.hexBackground"
-                [color]="property.exerciseProperty.exercisePropertyType.hexColor"
-            ></app-exercise-type-chip>
-
-        </ng-container>
-
-    </mat-chip-list>
+    <app-exercise-type-chip-list [propertyList]="exerciseType.properties"></app-exercise-type-chip-list>
 </div>
