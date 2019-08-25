@@ -1,0 +1,4 @@
+1. validacija i kontakt baze -> tehnicki dug
+2. Angular effects -> koristiti i za http dohvat, ne samo response
+3. CRUD - vise genericki i nekakav uniformni kod da nema previse kerefeka
+4. Exercise types load everything even property types (for hex colors)... flatten ? We don't need all that info i believe
