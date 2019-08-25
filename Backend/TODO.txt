@@ -1,0 +1,5 @@
+1. Add details section for both exercise types and exercise properties
+2. Make CRUD on properties (frontend and backend)
+ - This includes validation
+3. Make CRUD on exercise types (frontend and backend)
+ - This includes validation
