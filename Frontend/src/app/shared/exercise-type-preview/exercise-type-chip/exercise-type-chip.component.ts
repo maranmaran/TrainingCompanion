@@ -9,8 +9,8 @@ export class ExerciseTypeChipComponent implements OnInit {
 
   @Input() backgroundColor: string;
   @Input() color: string;
-  @Input() show: boolean;
-  @Input() value: string;
+  @Input() show: boolean = true;
+  @Input() value: string = "Tag";
 
 
   constructor() { }

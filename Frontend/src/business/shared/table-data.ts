@@ -46,6 +46,7 @@ export class TableConfig {
     editEnabled = true;
     enableDragAndDrop: boolean = false;
     pageSize = 5;
+    pageSizeOptions = [5, 10, 15];
     filterFunction: (data: any, filter: string) => boolean
 
     public constructor(init?:Partial<TableConfig>) {

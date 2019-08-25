@@ -1,3 +1,5 @@
+import { ExerciseTypeChipListComponent } from './exercise-type-preview/exercise-type-chip-list/exercise-type-chip-list.component';
+import { ActiveFlagComponent } from './active-flag/active-flag.component';
 import { ExerciseTypePreviewComponent } from './exercise-type-preview/exercise-type-preview.component';
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
@@ -25,7 +27,7 @@ import { ExerciseTypeChipComponent } from './exercise-type-preview/exercise-type
         MaterialModule,
         
         //https://www.npmjs.com/package/ng-dynamic-component
-        DynamicModule.withComponents([ExerciseTypePreviewComponent, ExerciseTypeChipComponent])
+        DynamicModule.withComponents([ExerciseTypePreviewComponent, ExerciseTypeChipComponent, ExerciseTypeChipListComponent, ActiveFlagComponent])
     ],
     declarations: [
         MediaDialogComponent,
@@ -38,7 +40,9 @@ import { ExerciseTypeChipComponent } from './exercise-type-preview/exercise-type
         ShowHidePasswordDirective,
         EventCalendarComponent,
         ExerciseTypePreviewComponent,
-        ExerciseTypeChipComponent
+        ExerciseTypeChipComponent,
+        ExerciseTypeChipListComponent,
+        ActiveFlagComponent
     ],
     exports: [
         CommonModule,
@@ -56,7 +60,9 @@ import { ExerciseTypeChipComponent } from './exercise-type-preview/exercise-type
         ShowHidePasswordDirective,
         EventCalendarComponent,
         ExerciseTypePreviewComponent,
-        ExerciseTypeChipComponent
+        ExerciseTypeChipComponent,
+        ActiveFlagComponent,
+        ExerciseTypeChipListComponent
     ],
     providers: [
     ],
