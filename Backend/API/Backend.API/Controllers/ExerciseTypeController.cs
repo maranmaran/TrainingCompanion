@@ -1,5 +1,5 @@
-﻿using Backend.Application.Business.Business.ExercisePropertyType.Delete;
-using Backend.Application.Business.Business.ExerciseType.Create;
+﻿using Backend.Application.Business.Business.ExerciseType.Create;
+using Backend.Application.Business.Business.ExerciseType.Delete;
 using Backend.Application.Business.Business.ExerciseType.GetAll;
 using Backend.Application.Business.Business.ExerciseType.Update;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +32,7 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return Ok(await Mediator.Send(new DeleteExercisePropertyTypeRequest() { Id = id }));
+            return Ok(await Mediator.Send(new DeleteExerciseTypeRequest() { Id = id }));
         }
 
     }

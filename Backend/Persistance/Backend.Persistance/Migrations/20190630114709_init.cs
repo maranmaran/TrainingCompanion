@@ -45,7 +45,7 @@ namespace Backend.Persistance.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     LastModified = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     AccountStatus = table.Column<string>(nullable: false, defaultValue: "Waiting"),
-                    AccountType = table.Column<string>(nullable: false, defaultValue: "User"),
+                    AccountType = table.Column<string>(nullable: false, defaultValue: "ApplicationUser"),
                     TrialDuration = table.Column<int>(nullable: false, defaultValue: 15),
                     ParentId = table.Column<Guid>(nullable: true),
                     UserSettingsId = table.Column<Guid>(nullable: true)

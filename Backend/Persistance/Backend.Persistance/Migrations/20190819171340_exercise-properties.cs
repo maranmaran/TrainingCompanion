@@ -576,7 +576,7 @@ namespace Backend.Persistance.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Training_UserId",
                 table: "Training",
-                column: "UserId");
+                column: "ApplicationUserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_MediaFiles_Training_TrainingId",

@@ -34,7 +34,7 @@ namespace Backend.Persistance.Migrations
                     b.Property<string>("AccountType")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue("User");
+                        .HasDefaultValue("ApplicationUser");
 
                     b.Property<string>("Avatar");
 
