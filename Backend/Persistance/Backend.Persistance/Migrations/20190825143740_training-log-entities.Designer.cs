@@ -303,16 +303,16 @@ namespace Backend.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("ApplicationUserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Trainings");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.User.ApplicationUser", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -363,10 +363,10 @@ namespace Backend.Persistance.Migrations
 
                     b.ToTable("Users");
 
-                    b.HasDiscriminator<string>("AccountType").HasValue("User");
+                    b.HasDiscriminator<string>("AccountType").HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.User.UserSettings", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.UserSettings", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -395,16 +395,16 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("UserSettings");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.User.Admin", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.Admin", b =>
                 {
-                    b.HasBaseType("Backend.Domain.Entities.User.ApplicationUser");
+                    b.HasBaseType("Backend.Domain.Entities.ApplicationUser.ApplicationUser");
 
                     b.HasDiscriminator().HasValue("Admin");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.User.Athlete", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.Athlete", b =>
                 {
-                    b.HasBaseType("Backend.Domain.Entities.User.ApplicationUser");
+                    b.HasBaseType("Backend.Domain.Entities.ApplicationUser.ApplicationUser");
 
                     b.Property<Guid?>("CoachId");
 
@@ -413,23 +413,23 @@ namespace Backend.Persistance.Migrations
                     b.HasDiscriminator().HasValue("Athlete");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.User.Coach", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.Coach", b =>
                 {
-                    b.HasBaseType("Backend.Domain.Entities.User.ApplicationUser");
+                    b.HasBaseType("Backend.Domain.Entities.ApplicationUser.ApplicationUser");
 
                     b.HasDiscriminator().HasValue("Coach");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.User.SoloAthlete", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.SoloAthlete", b =>
                 {
-                    b.HasBaseType("Backend.Domain.Entities.User.ApplicationUser");
+                    b.HasBaseType("Backend.Domain.Entities.ApplicationUser.ApplicationUser");
 
                     b.HasDiscriminator().HasValue("SoloAthlete");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Chat.ChatMessage", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "Sender")
+                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "Sender")
                         .WithMany("ChatMessages")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -445,7 +445,7 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExercisePropertyType", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "ApplicationUser")
                         .WithMany("ExercisePropertyTypes")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -453,7 +453,7 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseType", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "ApplicationUser")
                         .WithMany("ExerciseTypes")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -474,7 +474,7 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.Media.MediaFile", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "ApplicationUser")
                         .WithMany("MediaFiles")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -513,22 +513,22 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.TrainingLog.Training", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "User")
+                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "ApplicationUser")
                         .WithMany("Trainings")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.User.ApplicationUser", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.ApplicationUser", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.User.UserSettings", "UserSettings")
+                    b.HasOne("Backend.Domain.Entities.ApplicationUser.UserSettings", "UserSettings")
                         .WithMany()
                         .HasForeignKey("UserSettingsId");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.User.Athlete", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.Athlete", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.User.Coach", "Coach")
+                    b.HasOne("Backend.Domain.Entities.ApplicationUser.Coach", "Coach")
                         .WithMany("Athletes")
                         .HasForeignKey("CoachId");
                 });

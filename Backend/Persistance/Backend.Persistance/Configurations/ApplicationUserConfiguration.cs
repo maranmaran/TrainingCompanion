@@ -51,6 +51,11 @@ namespace Backend.Persistance.Configurations
                 .WithOne(x => x.ApplicationUser)
                 .HasForeignKey(x => x.ApplicationUserId);
 
+            builder
+                .HasMany(x => x.Trainings)
+                .WithOne(x => x.ApplicationUser)
+                .HasForeignKey(x => x.ApplicationUserId);
+
         }
     }
 }

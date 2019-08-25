@@ -12,7 +12,7 @@ namespace Backend.Persistance.Migrations
                 nullable: false,
                 defaultValue: "Coach",
                 oldClrType: typeof(string),
-                oldDefaultValue: "User");
+                oldDefaultValue: "ApplicationUser");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace Backend.Persistance.Migrations
                 name: "AccountType",
                 table: "Users",
                 nullable: false,
-                defaultValue: "User",
+                defaultValue: "ApplicationUser",
                 oldClrType: typeof(string),
                 oldDefaultValue: "Coach");
         }
