@@ -1,0 +1,39 @@
+<div class="details-container mat-elevation-z3" *ngIf="(exercisePropertyType$ | async) as type">
+
+    <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
+        
+        <span>{{type.type}}</span>
+        
+        <span>
+            <button *ngIf="type.active" mat-stroked-button color="accent" (click)="onSetActive(false)">Deactivate</button>
+            <button *ngIf="!type.active" mat-stroked-button color="accent" (click)="onSetActive(true)">Activate</button>
+        </span>
+    </h1>
+
+    <mat-divider></mat-divider>
+
+    <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
+<!-- 
+        <div class="detail">
+            <mat-label class="label">Username:</mat-label>
+            <span class="label-value">{{athlete.username}}</span>
+        </div>
+        <div class="detail">
+            <mat-label class="label">Email:</mat-label>
+            <span class="label-value">{{athlete.email}}</span>
+        </div>
+        <div class="detail">
+            <mat-label class="label">Joined on:</mat-label>
+            <span class="label-value">{{athlete.createdOn | date:'mediumDate'}}</span>
+        </div>
+        <div class="detail">
+            <mat-label class="label">Account status:</mat-label>
+            <span class="label-value">{{athlete.active ? 'Active' : 'Inactive'}}</span>
+        </div> -->
+
+    </div>
+
+    <div class="details-footer">
+    </div>
+
+</div>

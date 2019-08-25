@@ -3,6 +3,7 @@ import { ApplicationUser } from 'src/server-models/entities/application-user.mod
 import { CreateExercisePropertyTypeRequest } from 'src/server-models/cqrs/exercise-property-type/requests/create-exercise-property-type.request';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
 import { UpdateExercisePropertyTypeRequest } from 'src/server-models/cqrs/exercise-property-type/requests/update-exercise-property-type.request';
+import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
 
 // CREATE
 export const createExercisePropertyType = createAction(
@@ -62,7 +63,11 @@ export const reorderExercisePropertyTypes = createAction(
 
 // SELECT
 export const setSelectedExercisePropertyType = createAction(
-    '[Exericse Property] Set selected',
+    '[Exericse Property] Set selected type',
     props<{ propertyType: ExercisePropertyType }>()
+)
+export const setSelectedExerciseProperty = createAction(
+    '[Exericse Property] Set selected property',
+    props<{ property: ExerciseProperty }>()
 )
 

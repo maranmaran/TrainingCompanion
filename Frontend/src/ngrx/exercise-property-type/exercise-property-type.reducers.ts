@@ -3,6 +3,7 @@ import { ActionReducer, Action, createReducer, on, createFeatureSelector } from 
 import * as ExercisePropertyTypeActions from './exercise-property-type.actions';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
 import { ExercisePropertyTypeState, initialExercisePropertyTypeState } from './exercise-property-type.state';
+import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
 
 
 export const exercisePropertyTypeReducer: ActionReducer<ExercisePropertyTypeState, Action> = createReducer(
@@ -52,7 +53,16 @@ export const exercisePropertyTypeReducer: ActionReducer<ExercisePropertyTypeStat
     on(ExercisePropertyTypeActions.setSelectedExercisePropertyType, (state: ExercisePropertyTypeState, payload: {propertyType: ExercisePropertyType}) => {
         return {
             ...state,
-            selected: payload.propertyType
+            selectedType: payload.propertyType,
+            selectedProperty: null
+        }
+    }),
+
+    // SET SELECTED
+    on(ExercisePropertyTypeActions.setSelectedExerciseProperty, (state: ExercisePropertyTypeState, payload: {property: ExerciseProperty}) => {
+        return {
+            ...state,
+            selectedProperty: payload.property
         }
     }),
 

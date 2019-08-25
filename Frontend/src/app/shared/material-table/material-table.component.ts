@@ -96,6 +96,10 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  public clearSelection() {
+    this.selection.clear();
+  }
+
   masterToggle() {
     if (this.isAllSelected) {
       this.selection.clear();
