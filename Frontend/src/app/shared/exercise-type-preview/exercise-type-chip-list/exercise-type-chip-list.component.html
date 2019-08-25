@@ -1,0 +1,14 @@
+<mat-chip-list class="property-chips-list">
+    
+        <ng-container *ngFor="let property of propertyList">
+
+            <app-exercise-type-chip
+                [value]="property.exerciseProperty.value"
+                [show]="property.show"
+                [backgroundColor]="property.exerciseProperty.exercisePropertyType.hexBackground"
+                [color]="property.exerciseProperty.exercisePropertyType.hexColor"
+            ></app-exercise-type-chip>
+
+        </ng-container>
+
+    </mat-chip-list>

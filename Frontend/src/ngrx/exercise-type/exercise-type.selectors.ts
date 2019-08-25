@@ -8,7 +8,7 @@ export const exerciseTypes = createSelector(
     (state: ExerciseTypeState) => state.types
 )
 
-export const selectedPropertyType = createSelector(
+export const selectedExerciseType = createSelector(
     selectExerciseTypeState,
     (state: ExerciseTypeState) => state.selected
 )

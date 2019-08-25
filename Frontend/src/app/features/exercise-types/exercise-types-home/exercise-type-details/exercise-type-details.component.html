@@ -1,0 +1,70 @@
+<div class="details-container mat-elevation-z3" *ngIf="(exerciseType$ | async) as type">
+
+    <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
+
+        <span>{{type.name}}</span>
+
+    </h1>
+
+    <mat-divider></mat-divider>
+
+    <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
+
+        <div gdAreas="left right" gdGap="1rem" gdRows="auto auto">
+
+            <div gdArea="left">
+                <div class="detail">
+                    <mat-label class="label">Active:</mat-label>
+                    <span class="label-value">
+                        <app-active-flag [active]="type.active"></app-active-flag>
+                    </span>
+                </div>
+                <div class="detail">
+                    <mat-label class="label">Bodyweight:</mat-label>
+                    <span class="label-value">
+                        <app-active-flag [active]="type.requiresBodyweight"></app-active-flag>
+                    </span>
+                </div>
+                <div class="detail">
+                    <mat-label class="label">Time:</mat-label>
+                    <span class="label-value">
+                        <app-active-flag [active]="type.requiresTime"></app-active-flag>
+                    </span>
+                </div>
+            </div>
+
+            <div gdArea="right">
+                <div class="detail">
+                    <mat-label class="label">Reps:</mat-label>
+                    <span class="label-value">
+                        <app-active-flag [active]="type.requiresReps"></app-active-flag>
+                    </span>
+                </div>
+                <div class="detail">
+                    <mat-label class="label">Sets:</mat-label>
+                    <span class="label-value">
+                        <app-active-flag [active]="type.requiresSets"></app-active-flag>
+                    </span>
+                </div>
+                <div class="detail">
+                    <mat-label class="label">Weight:</mat-label>
+                    <span class="label-value">
+                        <app-active-flag [active]="type.requiresWeight"></app-active-flag>
+                    </span>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="detail">
+            <mat-label class="label">Properties:</mat-label>
+            <span class="label-value" style="display: inline-flex">
+                <app-exercise-type-chip-list [propertyList]="type.properties"></app-exercise-type-chip-list>
+            </span>
+        </div>
+    </div>
+
+    <div class="details-footer">
+    </div>
+
+</div>

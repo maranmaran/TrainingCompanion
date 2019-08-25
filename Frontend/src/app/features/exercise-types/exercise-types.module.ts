@@ -11,6 +11,7 @@ import { ExerciseTypeService } from 'src/business/services/exercise-type.service
 import { ExerciseTypesResolver } from 'src/business/resolvers/exercise-types.resolver';
 import { ExerciseTypeListComponent } from './exercise-types-home/exercise-type-list/exercise-type-list.component';
 import { FormsModule } from '@angular/forms';
+import { ExerciseTypeDetailsComponent } from './exercise-types-home/exercise-type-details/exercise-type-details.component';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     declarations: [
         ExerciseTypesHomeComponent,
         ExerciseTypeListComponent,
+        ExerciseTypeDetailsComponent,
     ],
     exports: [
     ],

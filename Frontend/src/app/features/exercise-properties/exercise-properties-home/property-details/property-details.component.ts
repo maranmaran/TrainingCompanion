@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
-import { selectedPropertyType } from 'src/ngrx/exercise-type/exercise-type.selectors';
 
 @Component({
   selector: 'app-property-details',

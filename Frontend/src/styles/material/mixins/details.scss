@@ -1,35 +1,38 @@
 @import "~@angular/material/theming";
 
 @mixin details-component-theme($theme) {
-
   // $primary: mat-color(map-get($theme, primary));
   // $accent: mat-color(map-get($theme, accent));
   // $warn: mat-color(map-get($theme, warn));
 
   .details-container {
-
     .details-header {
-        padding-top: 1rem;
-        padding-left: 0.5rem;
-        font-weight: bolder;
+      padding-top: 1rem;
+      padding-left: 0.5rem;
+      font-weight: bolder;
     }
-    
+
     .details-body {
-        padding-top: 2rem;
-        padding-left: 1rem;
+      padding-top: 2rem;
+      padding-left: 1rem;
     }
 
     .label {
-        font-weight: bold;
+      font-weight: bold;
     }
 
     .label-value {
-        margin-left: 1rem;
+      margin-left: 1rem;
     }
 
     .details-footer {
-        height: 2rem;
+      height: 2rem;
     }
-}
+  }
 
+  @media (max-width: 599px) {
+    .label-value {
+      margin-left: 0px !important;
+    }
+  }
 }

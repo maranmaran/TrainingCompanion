@@ -12,6 +12,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { sortArrayByOrderProperty } from 'src/business/utils/utils';
 import { setSelectedExerciseProperty } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
+import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 
 @Component({
   selector: 'app-properties-list',
@@ -58,7 +59,8 @@ export class PropertiesListComponent implements OnInit {
     const tableConfig = new TableConfig();
     tableConfig.filterFunction = (data: ExerciseProperty, filter: string) => data.value.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = true;
-
+    tableConfig.pageSizeOptions = [5];
+    
     return tableConfig;
   }
 
@@ -84,7 +86,9 @@ export class PropertiesListComponent implements OnInit {
         displayOnMobile: false,
         headerClass: 'active-header',
         cellClass: 'active-cell',
-        displayFunction: (item: ExerciseProperty) => item.active ? `<i class="fas fa-check active"></i>` : `<i class="fas fa-times not-active"></i>`,
+        useComponent: true,
+        component: ActiveFlagComponent,
+        inputs: (item: ExercisePropertyType) => { return {active: item.active } },
       }),
     ]
   }
