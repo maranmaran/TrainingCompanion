@@ -2,7 +2,7 @@
 
 namespace Backend.Domain.Entities.TrainingLog
 {
-    public class Lift
+    public class Set
     {
         public Guid Id { get; set; }
 

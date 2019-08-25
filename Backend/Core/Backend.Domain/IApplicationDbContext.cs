@@ -2,6 +2,7 @@
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.System;
+using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -27,7 +28,13 @@ namespace Backend.Domain
         DbSet<ExerciseProperty> ExerciseProperties { get; set; }
         DbSet<ExerciseTypeExerciseProperty> ExerciseTypeExerciseProperties { get; set; } // JOIN TABLE
 
+        #endregion
 
+        #region Training log
+
+        DbSet<Training> Trainings { get; set; }
+        DbSet<Exercise> Exercises { get; set; }
+        DbSet<Set> Sets { get; set; } // lifts
 
         #endregion
 

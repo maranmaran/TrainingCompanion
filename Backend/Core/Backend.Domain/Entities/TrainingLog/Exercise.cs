@@ -7,11 +7,9 @@ namespace Backend.Domain.Entities.TrainingLog
     {
         public Guid Id { get; set; }
 
-        public int Sets { get; set; }
-
         public Guid ExerciseTypeId { get; set; }
         public virtual ExerciseType.ExerciseType ExerciseType { get; set; }
 
-        public virtual ICollection<Lift> Lifts { get; set; } = new HashSet<Lift>();
+        public virtual ICollection<Set> Sets { get; set; } = new HashSet<Set>();
     }
 }
