@@ -10,13 +10,15 @@ import { ExerciseTypesHomeComponent } from './exercise-types-home/exercise-types
 import { ExerciseTypeService } from 'src/business/services/exercise-type.service';
 import { ExerciseTypesResolver } from 'src/business/resolvers/exercise-types.resolver';
 import { ExerciseTypeListComponent } from './exercise-types-home/exercise-type-list/exercise-type-list.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         SharedModule,
         ExerciseTypesRoutingModule,
         StoreModule.forFeature('exerciseType', exerciseTypeReducer),
-        EffectsModule.forFeature([ExerciseTypeEffects])
+        EffectsModule.forFeature([ExerciseTypeEffects]),
+        FormsModule
     ],
     declarations: [
         ExerciseTypesHomeComponent,

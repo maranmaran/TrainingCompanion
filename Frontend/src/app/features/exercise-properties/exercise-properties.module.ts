@@ -1,3 +1,4 @@
+import { PropertyDetailsComponent } from './exercise-properties-home/property-details/property-details.component';
 import { ExercisePropertyTypeService } from './../../../business/services/exercise-property-type.service';
 import { ExercisePropertyTypesResolver } from './../../../business/resolvers/exercise-property-types.resolver';
 import { ExercisePropertiesHomeComponent } from './exercise-properties-home/exercise-properties-home.component';
@@ -11,6 +12,7 @@ import { ExercisePropertyTypeEffects } from 'src/ngrx/exercise-property-type/exe
 import { NgModule } from '@angular/core';
 import { TypesListComponent } from './exercise-properties-home/types-list/types-list.component';
 import { PropertiesListComponent } from './exercise-properties-home/properties-list/properties-list.component';
+import { TypeDetailsComponent } from './exercise-properties-home/type-details/type-details.component';
 
 @NgModule({
     imports: [
@@ -23,6 +25,8 @@ import { PropertiesListComponent } from './exercise-properties-home/properties-l
         ExercisePropertiesHomeComponent,
         TypesListComponent,
         PropertiesListComponent,
+        TypeDetailsComponent,
+        PropertyDetailsComponent
     ],
     exports: [
     ],
