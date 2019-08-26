@@ -9,7 +9,7 @@ import { TrainingEffects } from 'src/ngrx/training/training.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TrainingService } from 'src/business/services/training.service';
-import { TrainingsResolver } from 'src/business/resolvers/trainings.resolver';
+// import { TrainingsResolver } from 'src/business/resolvers/trainings.resolver';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { TrainingsResolver } from 'src/business/resolvers/trainings.resolver';
     providers: [
         UIService,
         TrainingService,
-        TrainingsResolver
+        // TrainingsResolver
     ],
     entryComponents: [
     ]

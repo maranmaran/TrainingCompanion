@@ -12,6 +12,11 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.DateTrained).HasDefaultValueSql("getutcdate()");
             builder.Property(x => x.NoteRead).HasDefaultValue(false);
 
+
+            builder
+                .HasOne(x => x.ApplicationUser)
+                .WithMany(x => x.Trainings)
+                .HasForeignKey(x => x.ApplicationUserId);
             // maybe that has one has many config ?
         }
     }

@@ -11,51 +11,51 @@ import { Training } from 'src/server-models/entities/training.model';
 import { trainings } from 'src/ngrx/training/training.selectors';
 import { trainingsFetched } from 'src/ngrx/training/training.actions';
 
-@Injectable()
-export class TrainingsResolver implements Resolve<Observable<Training[] | void>> {
+// @Injectable()
+// export class TrainingsResolver implements Resolve<Observable<Training[] | void>> {
 
-    constructor(
-        private trainingService: TrainingService,
-        private store: Store<AppState>
-    ) { }
+//     constructor(
+//         private trainingService: TrainingService,
+//         private store: Store<AppState>
+//     ) { }
 
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+//     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-        return this.store.select(currentUser)
-            .pipe(
-                take(1), 
-                map((user: CurrentUser) => user.id),
-                concatMap((userId: string) => {
-                    return this.getState(userId);
-                }));
-    }
+//         return this.store.select(currentUser)
+//             .pipe(
+//                 take(1), 
+//                 map((user: CurrentUser) => user.id),
+//                 concatMap((userId: string) => {
+//                     return this.getState(userId);
+//                 }));
+//     }
 
-    private getState(userId: string) {
+//     private getState(userId: string) {
 
-        return this.store
-            .select(trainings)
-            .pipe(
-                take(1), 
-                concatMap((trainings: Training[]) => {
+//         return this.store
+//             .select(trainings)
+//             .pipe(
+//                 take(1), 
+//                 concatMap((trainings: Training[]) => {
 
-                if (!trainings) {
-                    return this.updateState(userId);
-                }
+//                 if (!trainings) {
+//                     return this.updateState(userId);
+//                 }
                         
-                return of(trainings);
-            }));
-    }
+//                 return of(trainings);
+//             }));
+//     }
 
-    private updateState(userId: string) {
+//     private updateState(userId: string) {
 
-        return this.trainingService.getAll(userId)
-        .pipe(
-            take(1),
-            map(((trainings: Training[]) => {
-                this.store.dispatch(trainingsFetched({trainings}));
-            }))
-        );
-    }
-}
+//         return this.trainingService.getAll(userId)
+//         .pipe(
+//             take(1),
+//             map(((trainings: Training[]) => {
+//                 this.store.dispatch(trainingsFetched({trainings}));
+//             }))
+//         );
+//     }
+// }
 
