@@ -56,7 +56,7 @@ namespace Backend.API.Filters
 
         private async Task SaveExceptionToDb(int code, string exceptionMessage, string innerExceptionMessage)
         {
-            _context.SystemExceptions.Add(new SystemException()
+            await _context.SystemExceptions.AddAsync(new SystemException()
             {
                 StatusCode = code,
                 Message = exceptionMessage,

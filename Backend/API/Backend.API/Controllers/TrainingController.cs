@@ -1,6 +1,8 @@
 ﻿using Backend.Application.Business.Business.Training.Create;
 using Backend.Application.Business.Business.Training.Delete;
 using Backend.Application.Business.Business.Training.GetAll;
+using Backend.Application.Business.Business.Training.GetByMonth;
+using Backend.Application.Business.Business.Training.GetByWeek;
 using Backend.Application.Business.Business.Training.Update;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
@@ -14,7 +16,19 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetAll(Guid userId, [FromQuery]SieveModel sieveModel)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllTrainingRequest() { UserId = userId }), sieveModel);
+            return await GetQuery(async () => await Mediator.Send(new GetAllTrainingRequest() { ApplicationUserId = userId }), sieveModel);
+        }
+
+        [HttpGet("{userId}/{month}/{year}")]
+        public async Task<IActionResult> GetAllByMonth(Guid userId, int month, int year, [FromQuery]SieveModel sieveModel)
+        {
+            return await GetQuery(async () => await Mediator.Send(new GetAllTrainingsByMonthRequest(userId, month, year)), sieveModel);
+        }
+
+        [HttpGet("{userId}/{weekStart}/{weekEnd}")]
+        public async Task<IActionResult> GetAllByWeek(Guid userId, DateTime weekStart, DateTime weekEnd, [FromQuery]SieveModel sieveModel)
+        {
+            return await GetQuery(async () => await Mediator.Send(new GetAllTrainingsByWeekRequest(userId, weekStart, weekEnd)), sieveModel);
         }
 
         [HttpPost]

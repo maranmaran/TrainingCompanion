@@ -25,7 +25,7 @@ namespace Backend.Application.Business.Business.ExercisePropertyType.Create
             {
                 var propertyType = _mapper.Map<Domain.Entities.ExerciseType.ExercisePropertyType>(request);
 
-                _context.ExercisePropertyTypes.Add(propertyType);
+                await _context.ExercisePropertyTypes.AddAsync(propertyType, cancellationToken);
 
                 await _context.SaveChangesAsync(cancellationToken);
 

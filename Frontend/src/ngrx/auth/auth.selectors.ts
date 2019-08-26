@@ -11,6 +11,11 @@ export const currentUser = createSelector(
     (authState: AuthState) => authState.currentUser
 );
 
+export const currentUserId = createSelector(
+    selectAuthState,
+    (authState: AuthState) => authState.currentUser.id
+);
+
 export const userSettings = createSelector(
     currentUser,
     (currentUser: CurrentUser) => currentUser.userSettings

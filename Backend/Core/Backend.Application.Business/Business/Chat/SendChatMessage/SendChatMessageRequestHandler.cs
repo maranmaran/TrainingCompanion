@@ -26,7 +26,7 @@ namespace Backend.Application.Business.Business.Chat.SendChatMessage
             try
             {
                 //save to db
-                _context.ChatMessages.Add(_mapper.Map<ChatMessage>(request));
+                await _context.ChatMessages.AddAsync(_mapper.Map<ChatMessage>(request), cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

@@ -50,7 +50,7 @@ namespace Backend.Application.Business.Business.Media.UploadMedia
                 };
 
                 // save to db
-                _context.MediaFiles.Add(media);
+                await _context.MediaFiles.AddAsync(media, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 // return created object id or whole object

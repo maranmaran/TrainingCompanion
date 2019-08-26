@@ -3,5 +3,8 @@
     [eventIcon]="'fas fa-dumbbell'"
     (previousMonthEvent)="onMonthChange($event)"
     (currentMonthEvent)="onMonthChange($event)"
-    (nextMonthEvent)="onMonthChange($event)">
+    (nextMonthEvent)="onMonthChange($event)"
+    (addEvent)="onAddEvent($event)"
+    (openEvent)="onOpenEvent($event)"
+    >
 </app-event-calendar>

@@ -23,14 +23,13 @@ namespace Backend.Application.Business.Business.Training.GetAll
         {
             try
             {
-                var trainings = _context.Trainings;
+                var trainings = _context.Trainings.Where(x => x.ApplicationUserId == request.ApplicationUserId);
 
-
-                return Task.FromResult(trainings.AsQueryable());
+                return Task.FromResult(trainings);
             }
             catch (Exception e)
             {
-                throw new NotFoundException(nameof(Domain.Entities.TrainingLog.Training), $"Could not find training for {request.UserId} USER", e);
+                throw new NotFoundException(nameof(Domain.Entities.TrainingLog.Training), $"Could not find training for {request.ApplicationUserId} USER", e);
             }
         }
     }

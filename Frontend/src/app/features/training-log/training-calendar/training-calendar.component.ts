@@ -1,8 +1,17 @@
+import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/create-training.request';
 import { CalendarEvent } from './../../../shared/event-calendar/models/event-calendar.models';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment'
 import { Subject } from 'rxjs/internal/Subject';
-import { timeout } from 'q';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Store } from '@ngrx/store';
+import { TrainingService } from 'src/business/services/training.service';
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { take } from 'rxjs/operators';
+import { Training } from 'src/server-models/entities/training.model';
+import { trainingsFetched, trainingCreated, setSelectedTraining } from 'src/ngrx/training/training.actions';
+import { SubSink } from 'subsink';
+import { trainings, selectedTraining } from 'src/ngrx/training/training.selectors';
 
 @Component({
   selector: 'app-training-calendar',
@@ -11,42 +20,93 @@ import { timeout } from 'q';
 })
 export class TrainingCalendarComponent implements OnInit {
 
-  month1: CalendarEvent[] = [
-    {day: moment(new Date()).subtract(1, 'month'), event: 'event1'},
-    {day: moment(new Date()).subtract(1, 'month').add(1, 'day'), event: 'event2'},
-    {day: moment(new Date()).subtract(1, 'month').subtract(1, 'day'), event: 'event3'},
-  ] 
-  month2: CalendarEvent[] = [
-    {day: moment(new Date()), event: 'event1'},
-    {day: moment(new Date()).add(1, 'day'), event: 'event2'},
-    {day: moment(new Date()).subtract(1, 'day'), event: 'event3'},
-  ] 
-  month3: CalendarEvent[] = [
-    {day: moment(new Date()).add(1, 'month'), event: 'event1'},
-    {day: moment(new Date()).add(1, 'month').add(1, 'day'), event: 'event2'},
-    {day: moment(new Date()).add(1, 'month').subtract(1, 'day'), event: 'event3'},
-  ] 
+  // month1: CalendarEvent[] = [
+  //   {day: moment(new Date()).subtract(1, 'month'), event: 'event1'},
+  //   {day: moment(new Date()).subtract(1, 'month').add(1, 'day'), event: 'event2'},
+  //   {day: moment(new Date()).subtract(1, 'month').subtract(1, 'day'), event: 'event3'},
+  // ] 
+  // month2: CalendarEvent[] = [
+  //   {day: moment(new Date()), event: 'event1'},
+  //   {day: moment(new Date()).add(1, 'day'), event: 'event2'},
+  //   {day: moment(new Date()).subtract(1, 'day'), event: 'event3'},
+  // ] 
+  // month3: CalendarEvent[] = [
+  //   {day: moment(new Date()).add(1, 'month'), event: 'event1'},
+  //   {day: moment(new Date()).add(1, 'month').add(1, 'day'), event: 'event2'},
+  //   {day: moment(new Date()).add(1, 'month').subtract(1, 'day'), event: 'event3'},
+  // ] 
 
-  inputData = new Subject<CalendarEvent[]>();
+  protected inputData = new Subject<CalendarEvent[]>();
+  private userId: string;
+  private subsink = new SubSink();
 
-  constructor() { }
+  constructor(
+    private trainingService: TrainingService,
+    private store: Store<AppState>
+  ) { }
 
   ngOnInit() {
+
+    // current user id for request
+    this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
+
+    // INIT - (fetch for today)
     setTimeout(() => {
-      this.onMonthChange(moment(new Date()).month());
+      this.onMonthChange(moment(new Date()));
     });
+
+    // subscribe to changes
+    this.subsink.add(this.store.select(trainings).subscribe(
+      (trainings: Training[]) => {
+        this.inputData.next(this.parseTrainingsForCalendar(trainings));
+      }
+    ));
+
   }
 
-  onMonthChange(month: number) {
-    if(month == 7) {
-      this.inputData.next(this.month2);
-    }
-    if(month > 7) {
-      this.inputData.next(this.month3);
-    }
-    if(month < 7) {
-      this.inputData.next(this.month1);
-    }
+  // GET BY MONTH
+  onMonthChange(date: moment.Moment) {
+
+    const month = date.month() + 1 // because it starts from 0
+    const year = date.year();
+
+    this.trainingService.getAllByMonth(this.userId, month, year).pipe(take(1))
+      .subscribe((trainings: Training[]) => {
+        this.store.dispatch(trainingsFetched({trainings}));
+      });
+  }
+
+  // PARSE TO CALENDAR DATA (EVENT CALENDAR CAN READ THIS)
+  parseTrainingsForCalendar(trainings: Training[]): CalendarEvent[] {
+    
+    if(!trainings) return [];
+    
+    const events = trainings.map(training =>  {
+
+      const calendarEvent = new CalendarEvent(moment(training.dateTrained));
+      calendarEvent.event = training;
+
+      return calendarEvent;
+    });
+
+    return events;
+  }
+
+  onAddEvent(day: moment.Moment) {
+    const request = new CreateTrainingRequest();
+    request.dateTrained = day.utc().format();
+    request.applicationUserId = this.userId;
+
+    this.trainingService.create(request).pipe(take(1))
+      .subscribe(
+        (training: Training) => this.store.dispatch(trainingCreated({training})),
+        err => console.log(err)
+      );
+  }
+
+  onOpenEvent(trainingEvent: CalendarEvent) {
+    const training = trainingEvent.event;
+    this.store.dispatch(setSelectedTraining({training}));
   }
 
 }

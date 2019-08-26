@@ -291,6 +291,8 @@ namespace Backend.Persistance.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid>("ApplicationUserId");
+
                     b.Property<DateTime>("DateTrained")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("getutcdate()");
@@ -301,8 +303,6 @@ namespace Backend.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
-                    b.Property<Guid>("ApplicationUserId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
@@ -310,7 +310,7 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("Trainings");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.ApplicationUser", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.User.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -361,10 +361,10 @@ namespace Backend.Persistance.Migrations
 
                     b.ToTable("Users");
 
-                    b.HasDiscriminator<string>("AccountType").HasValue("ApplicationUser");
+                    b.HasDiscriminator<string>("AccountType").HasValue("User");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.UserSettings", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.User.UserSettings", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -393,16 +393,16 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("UserSettings");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.Admin", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.User.Admin", b =>
                 {
-                    b.HasBaseType("Backend.Domain.Entities.ApplicationUser.ApplicationUser");
+                    b.HasBaseType("Backend.Domain.Entities.User.ApplicationUser");
 
                     b.HasDiscriminator().HasValue("Admin");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.Athlete", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.User.Athlete", b =>
                 {
-                    b.HasBaseType("Backend.Domain.Entities.ApplicationUser.ApplicationUser");
+                    b.HasBaseType("Backend.Domain.Entities.User.ApplicationUser");
 
                     b.Property<Guid?>("CoachId");
 
@@ -411,23 +411,23 @@ namespace Backend.Persistance.Migrations
                     b.HasDiscriminator().HasValue("Athlete");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.Coach", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.User.Coach", b =>
                 {
-                    b.HasBaseType("Backend.Domain.Entities.ApplicationUser.ApplicationUser");
+                    b.HasBaseType("Backend.Domain.Entities.User.ApplicationUser");
 
                     b.HasDiscriminator().HasValue("Coach");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.SoloAthlete", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.User.SoloAthlete", b =>
                 {
-                    b.HasBaseType("Backend.Domain.Entities.ApplicationUser.ApplicationUser");
+                    b.HasBaseType("Backend.Domain.Entities.User.ApplicationUser");
 
                     b.HasDiscriminator().HasValue("SoloAthlete");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Chat.ChatMessage", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "Sender")
+                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "Sender")
                         .WithMany("ChatMessages")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -443,7 +443,7 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExercisePropertyType", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "ApplicationUser")
                         .WithMany("ExercisePropertyTypes")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -451,7 +451,7 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseType", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "ApplicationUser")
                         .WithMany("ExerciseTypes")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -472,7 +472,7 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.Media.MediaFile", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "ApplicationUser")
                         .WithMany("MediaFiles")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -511,22 +511,22 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.TrainingLog.Training", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ApplicationUser.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "ApplicationUser")
                         .WithMany("Trainings")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.ApplicationUser", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.User.ApplicationUser", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ApplicationUser.UserSettings", "UserSettings")
+                    b.HasOne("Backend.Domain.Entities.User.UserSettings", "UserSettings")
                         .WithMany()
                         .HasForeignKey("UserSettingsId");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ApplicationUser.Athlete", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.User.Athlete", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ApplicationUser.Coach", "Coach")
+                    b.HasOne("Backend.Domain.Entities.User.Coach", "Coach")
                         .WithMany("Athletes")
                         .HasForeignKey("CoachId");
                 });
