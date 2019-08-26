@@ -16,9 +16,12 @@ export class EventCalendarComponent implements OnInit {
   currentDay = moment(new Date());
 
   @Output() selectDayEvent = new EventEmitter<CalendarDay>();
-  @Output() previousMonthEvent = new EventEmitter<number>();
-  @Output() currentMonthEvent = new EventEmitter<number>();
-  @Output() nextMonthEvent = new EventEmitter<number>();
+  @Output() previousMonthEvent = new EventEmitter<moment.Moment>();
+  @Output() currentMonthEvent = new EventEmitter<moment.Moment>();
+  @Output() nextMonthEvent = new EventEmitter<moment.Moment>();
+
+  @Output() addEvent = new EventEmitter<moment.Moment>();
+  @Output() openEvent = new EventEmitter<any>();
 
   @Input() events$: Observable<CalendarEvent[]>;
   @Input() eventIcon: string = '';
@@ -33,7 +36,6 @@ export class EventCalendarComponent implements OnInit {
     this.subsink.add(
       this.events$.subscribe(
         events => {
-          console.log(events);
           this.calendar = populateCalendar(this.calendar, events);
         }
       )
@@ -48,25 +50,33 @@ export class EventCalendarComponent implements OnInit {
     this.currentDay = this.currentDay.clone().add(1, 'month');
     this.calendar = getEventCalendarModel(this.currentDay);
 
-    this.currentMonthEvent.emit(this.currentDay.month());
+    this.currentMonthEvent.emit(this.currentDay);
   }
 
   previousMonth() {
     this.currentDay = this.currentDay.clone().subtract(1, 'month');
     this.calendar = getEventCalendarModel(this.currentDay);
 
-    this.currentMonthEvent.emit(this.currentDay.month());
+    this.currentMonthEvent.emit(this.currentDay);
   }
 
   currentMonth() {
     this.currentDay = moment(new Date());
     this.calendar = getEventCalendarModel(this.currentDay);
 
-    this.currentMonthEvent.emit(this.currentDay.month());
+    this.currentMonthEvent.emit(this.currentDay);
   }
 
   selectDay(day: CalendarDay) {
     this.selectDayEvent.emit(day);
+  }
+
+  add(day: moment.Moment) {
+    this.addEvent.emit(day);
+  }
+
+  open(event: any) {
+    this.openEvent.emit(event);
   }
 
   displayDateDay = (date: moment.Moment) => date.format('D');

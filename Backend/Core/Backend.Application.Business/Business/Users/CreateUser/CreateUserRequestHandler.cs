@@ -69,7 +69,7 @@ namespace Backend.Application.Business.Business.Users.CreateUser
 
             coach = ExercisePropertiesFactory.ApplyProperties<Coach>(coach);
 
-            _context.Coaches.Add(coach);
+            await _context.Coaches.AddAsync(coach);
             await _context.SaveChangesAsync();
 
             // send mail to complete registration
@@ -86,7 +86,7 @@ namespace Backend.Application.Business.Business.Users.CreateUser
             // map exercise type properties from coach to athlete
             athlete = ExercisePropertiesFactory.ApplyProperties<Athlete>(coach, athlete);
 
-            _context.Athletes.Add(athlete);
+            await _context.Athletes.AddAsync(athlete);
             await _context.SaveChangesAsync();
 
             // send mail to complete registration
@@ -101,7 +101,7 @@ namespace Backend.Application.Business.Business.Users.CreateUser
             var soloAthlete = _mapper.Map<CreateUserRequest, SoloAthlete>(request);
             soloAthlete = ExercisePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
 
-            _context.SoloAthletes.Add(soloAthlete);
+            await _context.SoloAthletes.AddAsync(soloAthlete);
             await _context.SaveChangesAsync();
 
             // send mail to complete registration

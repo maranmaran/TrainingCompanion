@@ -32,13 +32,12 @@
                     
                     <div class="day-content" fxLayout="column" fxLayoutAlign="center center">
 
-                        <button *ngIf="!calDay.event" class="add-button" mat-icon-button color="accent">
+                        <button *ngIf="!calDay.event" class="add-button" mat-icon-button color="accent" (click)="add(calDay.day)">
                             <i class="fas fa-plus"></i>
                         </button>
 
-                        <button *ngIf="calDay.event" class="event-button" mat-icon-button color="warn">
+                        <button *ngIf="calDay.event" class="event-button" mat-icon-button color="warn" (click)="open(calDay.event)">
                             <i class="{{ eventIcon }}"></i>
-
                         </button>
                     </div>
 
