@@ -1,20 +1,22 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs/typings';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { selectedTraining } from 'src/ngrx/training/training.selectors';
 import { Training } from 'src/server-models/entities/training.model';
+import { setSelectedTraining } from 'src/ngrx/training/training.actions';
+import { FormControl } from '@angular/forms';
+import { MatTabGroup, MatTabChangeEvent, MatTab } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-training-log-home',
   templateUrl: './training-log-home.component.html',
   styleUrls: ['./training-log-home.component.scss']
 })
-export class TrainingLogHomeComponent implements OnInit, AfterViewInit {
+export class TrainingLogHomeComponent implements OnInit {
 
-  @ViewChild('group1', {static: true}) tabGroup1;
-  @ViewChild('group2', {static: true}) tabGroup2;
+  @ViewChild('group1', {static: true}) tabGroup1: MatTabGroup;
+  @ViewChild('group2', {static: true}) tabGroup2: MatTabGroup;
 
   private subsink = new SubSink();
   protected selectedTraining: Training;
@@ -27,46 +29,60 @@ export class TrainingLogHomeComponent implements OnInit, AfterViewInit {
     this.subsink.add(
       this.store.select(selectedTraining).subscribe(
         (training: Training) => {
-          if(training) {
-            this.selectedTraining = training;
-            this.selectTab1(TrainingCalendarTab1.Training); // TRAINING DETAILS
-          }
+          this.selectedTraining = training;
+          training && this.changeTab1(TrainingCalendarTab1.TrainingDetails); // TRAINING DETAILS
       })
     );
   }
-  
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.selectedTab2 = this.tabGroup2.selectedIndex;
-    });
-  }
-  
-  onSelectTab1(tab: MatTabChangeEvent) {
-    this.selectedTab1 = tab.index as unknown as TrainingCalendarTab1
-  }
-  onSelectTab2(tab: MatTabChangeEvent) {
-    this.selectedTab2 = tab.index as unknown as TrainingCalendarTab2
-  }
 
-  selectTab1(index: TrainingCalendarTab1) {
-    this.tabGroup1.selectedIndex = index;
+  
+  changeTab1(index: number) {
     this.selectedTab1 = index;
-  }
-  selectTab2(index: TrainingCalendarTab2) {
-    this.tabGroup2.selectedIndex = index;
-    this.selectedTab2 = index;
-  }
-  
-  selectedTab1: TrainingCalendarTab1; 
-  selectedTab2: TrainingCalendarTab2; 
 
+    // bug when transitioning from display: none to inherit
+    // group must be visible for inkbar to adjust
+    setTimeout(() => this.tabGroup1.realignInkBar()); 
+
+    switch(index) {
+      case TrainingCalendarTab1.List:
+        return this.goBackToList();
+      case TrainingCalendarTab1.TrainingDetails:
+        break;
+      case TrainingCalendarTab1.Exercise:
+        break;
+      default:
+        throw new Error("No tab index like this");
+    }
+  }
+  changeTab2(index: number) {    
+    this.selectedTab2 = index;
+
+    // bug when transitioning from display: none to inherit
+    // group must be visible for inkbar to adjust
+    setTimeout(() => this.tabGroup2.realignInkBar()); 
+
+    switch(index) {
+      case TrainingCalendarTab2.Calendar:
+        break;
+      case TrainingCalendarTab2.Week:
+        break;
+      case TrainingCalendarTab2.List:
+        break;
+      default:
+        throw new Error("No tab index like this");
+    }
+  }
+
+  selectedTab1 = TrainingCalendarTab1.TrainingDetails; 
+  selectedTab2 = TrainingCalendarTab2.Calendar; 
   
   public get hideTab1() : boolean { // if training is NOT selected
     return !this.selectedTraining;
   }
   public get hideTab2() : boolean { // if training selected
-    return this.selectedTraining != undefined || this.selectedTraining != null;
+    return !this.hideTab1;
   }
+
   public get showCalendar() : boolean { // if calendar and NO training
     return this.selectedTab2 == TrainingCalendarTab2.Calendar && !this.hideTab2;
   }
@@ -76,18 +92,25 @@ export class TrainingLogHomeComponent implements OnInit, AfterViewInit {
   public get showList() : boolean { // if list and NO training
     return this.selectedTab2 == TrainingCalendarTab2.List && !this.hideTab2;;
   }
+
   public get showTraining() : boolean { // training details and NO training
-    return this.selectedTab1 == TrainingCalendarTab1.Training;
+    return this.selectedTab1 == TrainingCalendarTab1.TrainingDetails && !this.hideTab1;
   }
   public get showExercise() : boolean { // exercise detailsa nd NO training
-    return this.selectedTab1 == TrainingCalendarTab1.Exercise;
+    return this.selectedTab1 == TrainingCalendarTab1.Exercise && !this.hideTab1;
+  }
+
+  goBackToList() {
+    this.store.dispatch(setSelectedTraining(null));
+    this.changeTab2(TrainingCalendarTab2.Calendar);
   }
   
 }
 
 export enum TrainingCalendarTab1 {
-  Training = 0,
-  Exercise = 1
+  List = 0,
+  TrainingDetails = 1,
+  Exercise = 2
 }
 
 export enum TrainingCalendarTab2 {

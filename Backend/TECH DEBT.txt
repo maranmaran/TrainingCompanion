@@ -2,3 +2,4 @@
 2. Angular effects -> koristiti i za http dohvat, ne samo response
 3. CRUD - vise genericki i nekakav uniformni kod da nema previse kerefeka
 4. Exercise types load everything even property types (for hex colors)... flatten ? We don't need all that info i believe
+5. Training fetch for calendar -> Fetch it in dictionary on server so you don't have to parse it and map to CalendarEvent
