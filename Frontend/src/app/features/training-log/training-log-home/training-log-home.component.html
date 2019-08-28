@@ -1,9 +1,16 @@
-<mat-tab-group #group1 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab1 ? 'none' : 'inherit'" (selectedTabChange)="onSelectTab1($event)">
+<mat-tab-group #group1 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab1 ? 'none' : 'inherit'"
+    (selectedIndexChange)="changeTab1($event)" [selectedIndex]="selectedTab1">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <i class="fas fa-arrow-circle-left"></i>
+        </ng-template>
+    </mat-tab>
     <mat-tab label="Training"></mat-tab>
     <mat-tab label="Exercise"></mat-tab>
 </mat-tab-group>
 
-<mat-tab-group #group2 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab2 ? 'none' : 'inherit'" (selectedTabChange)="onSelectTab2($event)">
+<mat-tab-group #group2 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab2 ? 'none' : 'inherit'"
+    (selectedIndexChange)="changeTab2($event)" [selectedIndex]="selectedTab2" >
     <mat-tab label="Calendar"></mat-tab>
     <mat-tab label="Week"></mat-tab>
     <mat-tab label="List"></mat-tab>
@@ -24,15 +31,15 @@
 </ng-container>
 <!------------------TRAINING---------------------->
 <ng-container *ngIf="showTraining">
-   Training details
-   <ng-container *ngIf="selectedTraining">
-       {{selectedTraining.dateTrained}}
-   </ng-container>
+    Training details
+    <ng-container *ngIf="selectedTraining">
+        {{selectedTraining.dateTrained}}
+    </ng-container>
 </ng-container>
 <!------------------EXERCISE---------------------->
 <ng-container *ngIf="showExercise">
-   Exercise
-   <ng-container *ngIf="selectedTraining">
-       {{selectedTraining.dateTrained}}
-   </ng-container>
+    Exercise
+    <ng-container *ngIf="selectedTraining">
+        {{selectedTraining.dateTrained}}
+    </ng-container>
 </ng-container>

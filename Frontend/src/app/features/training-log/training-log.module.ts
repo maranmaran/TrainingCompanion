@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TrainingService } from 'src/business/services/training.service';
 import { TrainingDetailsHomeComponent } from './training-details-home/training-details-home.component';
+import { ExerciseListComponent } from './exercise-list/exercise-list.component';
 // import { TrainingsResolver } from 'src/business/resolvers/trainings.resolver';
 
 
@@ -24,6 +25,7 @@ import { TrainingDetailsHomeComponent } from './training-details-home/training-d
         TrainingLogHomeComponent,
         TrainingCalendarComponent,
         TrainingDetailsHomeComponent,
+        ExerciseListComponent,
     ],
     exports: [
     ],
