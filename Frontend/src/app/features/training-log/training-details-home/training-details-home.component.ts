@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Training } from 'src/server-models/entities/training.model';
 
 @Component({
   selector: 'app-training-details-home',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrainingDetailsHomeComponent implements OnInit {
 
+  @Input() training: Training;
+  
   constructor() { }
 
   ngOnInit() {

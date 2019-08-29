@@ -1,5 +1,5 @@
 import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/create-training.request';
-import { CalendarEvent } from './../../../shared/event-calendar/models/event-calendar.models';
+import { CalendarEvent } from '../../../../shared/event-calendar/models/event-calendar.models';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment'
 import { Subject } from 'rxjs/internal/Subject';

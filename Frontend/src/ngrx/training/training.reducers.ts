@@ -1,8 +1,11 @@
+import { Set } from './../../server-models/entities/Set';
+import { Exercise } from './../../server-models/entities/Exercise';
 import { first } from 'rxjs/operators';
 import { ActionReducer, Action, createReducer, on, createFeatureSelector } from '@ngrx/store';
 import * as TrainingActions from './training.actions';
 import { TrainingState, initialTrainingState } from './training.state';
 import { Training } from 'src/server-models/entities/training.model';
+import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 
 
 export const trainingReducer: ActionReducer<TrainingState, Action> = createReducer(
@@ -52,7 +55,19 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: {training: Training}) => {
         return {
             ...state,
-            selected: payload.training
+            selectedTraining: payload.training
+        }
+    }),
+    on(TrainingActions.setSelectedExercise, (state: TrainingState, payload: {exercise: Exercise}) => {
+        return {
+            ...state,
+            selectedExercise: payload.exercise
+        }
+    }),
+    on(TrainingActions.setSelectedSet, (state: TrainingState, payload: {set: Set}) => {
+        return {
+            ...state,
+            selectedSet: payload.set
         }
     }),
 );

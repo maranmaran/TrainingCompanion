@@ -6,6 +6,7 @@ export class Training {
     id: string;
     dateTrained: Date;
     note: string;
+    coachNote: string;
     noteRead: boolean;
     applicationUserId: string;
     applicationUser: ApplicationUser;

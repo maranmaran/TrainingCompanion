@@ -1,3 +1,3 @@
-export class UpdateTrainingRequest{
+export class UpdateTrainingRequest {
   
 }
