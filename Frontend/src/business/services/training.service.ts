@@ -43,7 +43,7 @@ export class TrainingService extends BaseService {
         );
     }
 
-    public update(request: UpdateTrainingRequest) {
+    public update(request: Training) {
         return this.http.post<Training>(this.url + 'Update/', request)
             .pipe(
                 catchError(this.handleError)

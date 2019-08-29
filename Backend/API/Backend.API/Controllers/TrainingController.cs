@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
+using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.API.Controllers
 {
@@ -38,9 +39,9 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(UpdateTrainingRequest request)
+        public async Task<IActionResult> Update(Training training)
         {
-            return await Update(async () => await Mediator.Send(request));
+            return await Update(async () => await Mediator.Send(new UpdateTrainingRequest(training)));
         }
 
         [HttpPost]

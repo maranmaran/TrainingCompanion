@@ -1,5 +1,45 @@
+<h1 class="title">{{ training.dateTrained | date:'dd MMM' }} ({{ training.dateTrained | date: 'dd/MM/yy'}})</h1>
+
 <div class="container main-screen" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayout.lt-md="column">
 
-    <app-exercise-list fxFlex="0 0 calc(50%)"></app-exercise-list>
+    <div class="training-details-container details-container" fxFlex="0 0 calc(49.5%)" fxLayout="column" fxLayoutGap="1rem">
+       
+        <div class="detail">
+            <mat-label class="label">Session volume:</mat-label>
+            <span class="label-value">31231</span>
+        </div>
+
+        <mat-accordion class="training-accordion">
+
+            <button mat-stroked-button color="accent"><i class="fas fa-plus mr-1"></i> Note</button>
+            <mat-expansion-panel class="note-panel" *ngIf="training.note">
+
+              <mat-expansion-panel-header>
+                Note
+              </mat-expansion-panel-header>
+              <mat-panel-description *ngIf="training.noteRead">
+                Coach has seen this note
+              </mat-panel-description>
+          
+              <div [innerHtml]="training.note"></div>
+
+            </mat-expansion-panel>
+          
+            <mat-expansion-panel class="coach-note-panel" *ngIf="training.coachNote">
+
+              <mat-expansion-panel-header>
+                Coach note
+              </mat-expansion-panel-header>
+
+             <div [innerHtml]="training.coachNote"></div>
+          
+            </mat-expansion-panel>
+          
+        </mat-accordion>
+
+          <div class="training-media-container"></div>
+    </div>
+
+    <app-exercise-list fxFlex="0 0 calc(49.5%)"></app-exercise-list>
 
 </div>
