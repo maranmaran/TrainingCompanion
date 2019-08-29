@@ -31,9 +31,8 @@
 </ng-container>
 <!------------------TRAINING---------------------->
 <ng-container *ngIf="showTraining">
-    Training details
     <ng-container *ngIf="selectedTraining">
-        {{selectedTraining.dateTrained}}
+        <app-training-details-home [training]="selectedTraining"></app-training-details-home>
     </ng-container>
 </ng-container>
 <!------------------EXERCISE---------------------->
