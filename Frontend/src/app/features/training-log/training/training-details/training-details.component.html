@@ -1,17 +1,18 @@
-<h1 class="title">{{ training.dateTrained | date:'dd MMM' }} ({{ training.dateTrained | date: 'dd/MM/yy'}})</h1>
+<h3 class="title">{{ training.dateTrained | date:'dd MMM' }} ({{ training.dateTrained | date: 'dd/MM/yy'}})</h3>
 
-<div class="container main-screen" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayout.lt-md="column">
+<div class="container main-screen" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayoutGap.lt-md="1rem" fxLayout.lt-md="column">
 
-    <div class="training-details-container details-container" fxFlex="0 0 calc(49.5%)" fxLayout="column" fxLayoutGap="1rem">
+    <div class="training-details-container details-container" fxFlex="0 1 calc(49.5%)" fxFlex.lt-md="0 1 auto" fxLayout="column" fxLayoutGap="1rem">
        
         <div class="detail">
             <mat-label class="label">Session volume:</mat-label>
             <span class="label-value">31231</span>
         </div>
 
-        <mat-accordion class="training-accordion">
+        <mat-accordion class="training-accordion" fxLayout="column" fxLayoutGap="1rem">
 
             <button mat-stroked-button color="accent"><i class="fas fa-plus mr-1"></i> Note</button>
+            
             <mat-expansion-panel class="note-panel" *ngIf="training.note">
 
               <mat-expansion-panel-header>
@@ -34,12 +35,22 @@
              <div [innerHtml]="training.coachNote"></div>
           
             </mat-expansion-panel>
+
+            <mat-expansion-panel class="media-panel" *ngIf="training.media && training.media.length > 0">
+
+              <mat-expansion-panel-header>
+                Training media
+              </mat-expansion-panel-header>
+
+              <app-media-container></app-media-container>
+          
+            </mat-expansion-panel>
           
         </mat-accordion>
 
-          <div class="training-media-container"></div>
+        
     </div>
 
-    <app-exercise-list fxFlex="0 0 calc(49.5%)"></app-exercise-list>
+    <app-exercise-list fxFlex="0 0 calc(49.5%)" fxFlex.lt-md="0 1 auto"></app-exercise-list>
 
 </div>

@@ -1,9 +1,9 @@
-import { Set } from './../../server-models/entities/Set';
+import { Set } from '../../server-models/entities/set.model';
 import { createAction, props } from "@ngrx/store";
 import { Training } from 'src/server-models/entities/training.model';
 import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/requests/update-training.request';
 import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/create-training.request';
-import { Exercise } from 'src/server-models/entities/Exercise';
+import { Exercise } from 'src/server-models/entities/exercise.model';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 
 // CREATE

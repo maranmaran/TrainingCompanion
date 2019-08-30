@@ -1,5 +1,5 @@
-import { Set } from './../../server-models/entities/Set';
-import { Exercise } from './../../server-models/entities/Exercise';
+import { Set } from '../../server-models/entities/set.model';
+import { Exercise } from '../../server-models/entities/exercise.model';
 import { first } from 'rxjs/operators';
 import { ActionReducer, Action, createReducer, on, createFeatureSelector } from '@ngrx/store';
 import * as TrainingActions from './training.actions';

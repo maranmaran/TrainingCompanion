@@ -16,6 +16,11 @@
     <mat-tab label="List"></mat-tab>
 </mat-tab-group>
 
+<!--TODO: PUT ALL THIS IN ROUTER-OUTLET AND 
+    SUPPORT ROUTING WITH LOCALSTORAGE / RESOLVER 
+    FOR REFRESH STATE KEEPING -->
+
+<!-- TABS STATE CAN BE KEPT IN NGRX -->
 
 <!------------------CALENDAR---------------------->
 <ng-container *ngIf="showCalendar">
@@ -32,13 +37,12 @@
 <!------------------TRAINING---------------------->
 <ng-container *ngIf="showTraining">
     <ng-container *ngIf="selectedTraining">
-        <app-training-details-home [training]="selectedTraining"></app-training-details-home>
+        <app-training-details [training]="selectedTraining"></app-training-details>
     </ng-container>
 </ng-container>
 <!------------------EXERCISE---------------------->
 <ng-container *ngIf="showExercise">
-    Exercise
-    <ng-container *ngIf="selectedTraining">
-        {{selectedTraining.dateTrained}}
+    <ng-container *ngIf="selectedExercise">
+        <app-exercise-details [exercise]="selectedExercise"></app-exercise-details>
     </ng-container>
 </ng-container>

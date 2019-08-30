@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { SubSink } from 'subsink';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { TableConfig, CustomColumn, TableDatasource } from 'src/business/shared/table-data';
-import { Exercise } from 'src/server-models/entities/Exercise';
+import { Exercise } from 'src/server-models/entities/exercise.model';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { Store } from '@ngrx/store';
@@ -17,7 +17,7 @@ import { ExerciseTypeService } from 'src/business/services/exercise-type.service
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { take } from 'rxjs/operators';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
-import { ExerciseCreateEditComponent } from './exercise-create-edit/exercise-create-edit.component';
+import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 
@@ -109,26 +109,23 @@ export class ExerciseListComponent implements OnInit {
   onSelect = (exercise: Exercise) => this.store.dispatch(setSelectedExercise({exercise}));
 
   onAdd() {
-    this.exerciseTypeService.getAll(this.userId).pipe(take(1))
-      .subscribe((exerciseTypes: ExerciseType[]) => {
-        const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
-          height: 'auto',
-          width: '98%',
-          maxWidth: '50rem',
-          autoFocus: false,
-          data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes },
-          panelClass: []
-        })
-    
-        dialogRef.afterClosed().pipe(take(1))
-          .subscribe((exercise: Exercise) => {
-              if (exercise) {
-                this.table.onSelect(exercise, true);
-                this.onSelect(exercise);
-              }
-            }
-          )
-      })
+      // const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
+      //   height: 'auto',
+      //   width: '98%',
+      //   maxWidth: '50rem',
+      //   autoFocus: false,
+      //   data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes },
+      //   panelClass: []
+      // })
+  
+      // dialogRef.afterClosed().pipe(take(1))
+      //   .subscribe((exercise: Exercise) => {
+      //       if (exercise) {
+      //         this.table.onSelect(exercise, true);
+      //         this.onSelect(exercise);
+      //       }
+      //     }
+      //   )
   }
 
   onUpdate(exercise: Exercise) {

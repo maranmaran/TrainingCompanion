@@ -1,4 +1,5 @@
 import { Time } from '@angular/common';
+
 export class Set {
     id: string;
     weight: number;
