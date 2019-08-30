@@ -1,5 +1,5 @@
 import { ExerciseType } from './exercise-type.model';
-import { Set } from './Set';
+import { Set } from './set.model';
 export class Exercise {
     id: string;
     exerciseTypeId: string;

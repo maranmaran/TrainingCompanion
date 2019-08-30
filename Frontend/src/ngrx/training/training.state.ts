@@ -1,5 +1,5 @@
-import { Set } from './../../server-models/entities/Set';
-import { Exercise } from './../../server-models/entities/Exercise';
+import { Set } from '../../server-models/entities/set.model';
+import { Exercise } from '../../server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 

@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
-import { selectedTraining } from 'src/ngrx/training/training.selectors';
+import { selectedTraining, selectedExercise } from 'src/ngrx/training/training.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { setSelectedTraining } from 'src/ngrx/training/training.actions';
 import { FormControl } from '@angular/forms';
@@ -13,13 +14,14 @@ import { MatTabGroup, MatTabChangeEvent, MatTab } from '@angular/material/tabs';
   templateUrl: './training-log-home.component.html',
   styleUrls: ['./training-log-home.component.scss']
 })
-export class TrainingLogHomeComponent implements OnInit {
+export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
   @ViewChild('group1', {static: true}) tabGroup1: MatTabGroup;
   @ViewChild('group2', {static: true}) tabGroup2: MatTabGroup;
 
   private subsink = new SubSink();
   protected selectedTraining: Training;
+  protected selectedExercise: Exercise;
 
   constructor(
     private store: Store<AppState>
@@ -31,10 +33,19 @@ export class TrainingLogHomeComponent implements OnInit {
         (training: Training) => {
           this.selectedTraining = training;
           training && this.changeTab1(TrainingCalendarTab1.TrainingDetails); // TRAINING DETAILS
-      })
+      }),
+      this.store.select(selectedExercise).subscribe(
+        (exercise: Exercise) => {
+          this.selectedExercise = exercise;
+          exercise && this.changeTab1(TrainingCalendarTab1.ExerciseDetails); // EXERCISE DETAILS
+        }
+      )
     );
   }
 
+  ngOnDestroy() {
+    this.subsink.unsubscribe();
+  }
   
   changeTab1(index: number) {
     this.selectedTab1 = index;
@@ -48,7 +59,7 @@ export class TrainingLogHomeComponent implements OnInit {
         return this.goBackToList();
       case TrainingCalendarTab1.TrainingDetails:
         break;
-      case TrainingCalendarTab1.Exercise:
+      case TrainingCalendarTab1.ExerciseDetails:
         break;
       default:
         throw new Error("No tab index like this");
@@ -97,7 +108,7 @@ export class TrainingLogHomeComponent implements OnInit {
     return this.selectedTab1 == TrainingCalendarTab1.TrainingDetails && !this.hideTab1;
   }
   public get showExercise() : boolean { // exercise detailsa nd NO training
-    return this.selectedTab1 == TrainingCalendarTab1.Exercise && !this.hideTab1;
+    return this.selectedTab1 == TrainingCalendarTab1.ExerciseDetails && !this.hideTab1;
   }
 
   goBackToList() {
@@ -110,7 +121,7 @@ export class TrainingLogHomeComponent implements OnInit {
 export enum TrainingCalendarTab1 {
   List = 0,
   TrainingDetails = 1,
-  Exercise = 2
+  ExerciseDetails = 2
 }
 
 export enum TrainingCalendarTab2 {

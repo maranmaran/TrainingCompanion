@@ -1,3 +1,4 @@
+import { MediaContainerComponent } from './media-container/media-container.component';
 import { ExerciseTypeChipListComponent } from './exercise-type-preview/exercise-type-chip-list/exercise-type-chip-list.component';
 import { ActiveFlagComponent } from './active-flag/active-flag.component';
 import { ExerciseTypePreviewComponent } from './exercise-type-preview/exercise-type-preview.component';
@@ -42,7 +43,8 @@ import { ExerciseTypeChipComponent } from './exercise-type-preview/exercise-type
         ExerciseTypePreviewComponent,
         ExerciseTypeChipComponent,
         ExerciseTypeChipListComponent,
-        ActiveFlagComponent
+        ActiveFlagComponent,
+        MediaContainerComponent
     ],
     exports: [
         CommonModule,
@@ -62,7 +64,8 @@ import { ExerciseTypeChipComponent } from './exercise-type-preview/exercise-type
         ExerciseTypePreviewComponent,
         ExerciseTypeChipComponent,
         ActiveFlagComponent,
-        ExerciseTypeChipListComponent
+        ExerciseTypeChipListComponent,
+        MediaContainerComponent
     ],
     providers: [
     ],

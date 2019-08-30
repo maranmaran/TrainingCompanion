@@ -1,6 +1,6 @@
 import { MediaFile } from './media-file.model';
 import { ApplicationUser } from './application-user.model';
-import { Exercise } from './Exercise';
+import { Exercise } from './exercise.model';
 
 export class Training {
     id: string;
