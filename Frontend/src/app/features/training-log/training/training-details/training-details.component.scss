@@ -1,0 +1,16 @@
+.title {
+    padding: 0.5rem;
+}
+
+@media(max-width: 600px) {
+    .label-value {
+        margin-left: 0.5rem !important;
+    }
+    .title {
+        margin: 0px !important;
+    }
+
+    .main-screen {
+        margin-top: 0px !important;
+    }
+}

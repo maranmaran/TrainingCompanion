@@ -1,7 +1,7 @@
 import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/requests/update-training.request';
 import { Component, OnInit, Inject } from '@angular/core';
 import { ValidationErrors } from 'src/server-models/error/error-details.model';
-import { Exercise } from 'src/server-models/entities/Exercise';
+import { Exercise } from 'src/server-models/entities/exercise.model';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
