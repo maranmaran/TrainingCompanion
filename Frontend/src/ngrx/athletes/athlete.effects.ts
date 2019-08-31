@@ -3,7 +3,7 @@ import { ApplicationUser } from 'src/server-models/entities/application-user.mod
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { UserService } from 'src/business/services/user.service';
+import { UserService } from 'src/business/services/feature-services/user.service';
 import { AppState } from '../global-setup.ngrx';
 import { map, concatMap, mergeMap, combineAll } from 'rxjs/operators';
 import * as AthleteActions from './athlete.actions';

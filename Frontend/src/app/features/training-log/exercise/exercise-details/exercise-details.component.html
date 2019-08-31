@@ -9,6 +9,6 @@
         
     </div>
 
-    <app-set-list fxFlex="0 0 calc(49.5%)" fxFlex.lt-md="0 1 auto"></app-set-list>
+    <app-set-list *ngIf="exercise.exerciseType.requiresSets" fxFlex="0 0 calc(49.5%)" fxFlex.lt-md="0 1 auto"></app-set-list>
 
 </div>

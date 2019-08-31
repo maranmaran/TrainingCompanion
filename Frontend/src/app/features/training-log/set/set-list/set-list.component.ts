@@ -1,26 +1,32 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { exerciseType } from './../../../../../ngrx/training/training.selectors';
+import { Exercise } from './../../../../../server-models/entities/exercise.model';
+import { unitSystem } from './../../../../../ngrx/auth/auth.selectors';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { TableConfig, CustomColumn, TableDatasource } from 'src/business/shared/table-data';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { TrainingService } from 'src/business/services/training.service';
+import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { take } from 'rxjs/operators';
 import { sets } from 'src/ngrx/training/training.selectors';
 import { setSelectedSet } from 'src/ngrx/training/training.actions';
+import { Set } from 'src/server-models/entities/set.model';
+import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
 import { CRUD } from 'src/business/shared/crud.enum';
-import { Set } from 'src/server-models/entities/set.model';
 
 @Component({
   selector: 'app-set-list',
   templateUrl: './set-list.component.html',
-  styleUrls: ['./set-list.component.scss']
+  styleUrls: ['./set-list.component.scss'],
+  providers: [UnitSystemService]
 })
-export class SetListComponent implements OnInit {
+export class SetListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
 
@@ -30,8 +36,11 @@ export class SetListComponent implements OnInit {
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
   private userId: string;
+  private exerciseType: ExerciseType;
+  private sets: Set[];
 
   constructor(
+    private unitSystemService: UnitSystemService,
     private uiService: UIService,
     private trainingService: TrainingService,
     private store: Store<AppState>
@@ -40,15 +49,19 @@ export class SetListComponent implements OnInit {
   ngOnInit() {
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
-    this.tableColumns = this.getTableColumns() as CustomColumn[];
 
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
+    this.store.select(exerciseType).pipe(take(1)).subscribe(type => {
+      this.tableColumns = this.getTableColumns(type) as CustomColumn[];
+    });
 
     this.subs.add(
       this.store.select(sets)
         .subscribe((sets: Set[]) => {
+          this.sets = sets;
           this.tableDatasource.updateDatasource(sets);
-        }));
+        }),
+    );
 
   }
 
@@ -59,52 +72,72 @@ export class SetListComponent implements OnInit {
   getTableConfig() {
     const tableConfig = new TableConfig();
     // tableConfig.filterFunction = (data: Set, filter: string) => data.weight.name.toLocaleLowerCase().indexOf(filter) !== -1
-    tableConfig.enableDragAndDrop = true;
     tableConfig.pageSizeOptions = [5];
+
+    tableConfig.selectionEnabled = false;
+    tableConfig.filterEnabled = false;
+    tableConfig.editManyEnabled = true;
+    tableConfig.addEnabled = false;
+    tableConfig.editEnabled = false;
+    tableConfig.deleteEnabled = false;
 
     return tableConfig;
   }
 
-  getTableColumns() {
-    return [
-      // new CustomColumn({
-      //   definition: 'set',
-      //   title: 'Set',
-      //   sort: true,
-      //   inputs: (item: Set) => { return {setType: item.setType}; },
-      // }),
-      // new CustomColumn({
-      //   definition: 'active',
-      //   title: '',
-      //   displayOnMobile: false,
-      //   headerClass: 'active-header',
-      //   cellClass: 'active-cell',
-      //   useComponent: true,
-      //   component: ActiveFlagComponent,
-      //   inputs: (item: Set) => { return {active: item.active } },
-      // }),
-      // new CustomColumn({
-      //   definition: 'hexColor',
-      //   title: '',
-      //   displayOnMobile: false,
-      //   headerClass: 'hex-header',
-      //   cellClass: 'hex-cell',
-      //   useComponent: true,
-      //   component: SetTypeChipComponent,
-      //   inputs: (item: Set) => {return {value: "Tag", show: true, backgroundColor: item.hexBackground, color: item.hexColor}},
-      // }),
-    ]
+  getTableColumns(exerciseType: ExerciseType) {
+    var columns: CustomColumn[] = [];
+
+    if (exerciseType.requiresWeight) {
+      columns.push(
+        new CustomColumn({
+          definition: 'weight',
+          title: 'Weight',
+          sort: true,
+          displayFunction: (item: Set) => this.unitSystemService.transformWeight(item.weight), // transform
+        }));
+    }
+    if (exerciseType.requiresReps) { 
+      columns.push(
+        new CustomColumn({
+          definition: 'reps',
+          title: 'Reps',
+          sort: true,
+          displayFunction: (item: Set) =>  item.reps,
+        }));
+    }
+    if (exerciseType.requiresBodyweight) { 
+      columns.push(
+        new CustomColumn({
+          definition: 'bodyweight',
+          title: 'Bodyweight',
+          sort: true,
+          displayFunction: (item: Set) => 'Bodyweight', // transform
+        }));
+    }
+    if (exerciseType.requiresTime) {
+      columns.push(
+        new CustomColumn({
+          definition: 'time',
+          title: 'Time',
+          sort: true,
+          displayFunction: (item: Set) => item.time, // transform
+        }));
+     }
+   
+
+    return columns;
   }
 
   onSelect = (set: Set) => this.store.dispatch(setSelectedSet({ set }));
 
   onAdd() {
+
     // const dialogRef = this.uiService.openDialogFromComponent(SetCreateEditComponent, {
     //   height: 'auto',
     //   width: '98%',
     //   maxWidth: '50rem',
     //   autoFocus: false,
-    //   data: { title: 'Add set', action: CRUD.Create, setTypes },
+    //   data: { action: CRUD.Update, exerciseType: this.exerciseType, sets: this.sets },
     //   panelClass: []
     // })
 
@@ -118,24 +151,26 @@ export class SetListComponent implements OnInit {
     //   )
   }
 
-  onUpdate(set: Set) {
-    // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '20rem',
-    //   autoFocus: false,
-    //   data: { title: 'Update athlete', action: CRUD.Update, athlete: athlete },
-    //   panelClass: []
-    // })
+  onUpdateMany(set: Set) {
+  
+    const dialogRef = this.uiService.openDialogFromComponent(SetCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '50rem',
+      autoFocus: false,
+      data: { action: CRUD.Update, exerciseType: this.exerciseType, sets: this.sets },
+      panelClass: []
+    })
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((athlete: ApplicationUser) => {
-    //       if (athlete) {
-    //         this.table.onSelect(athlete, true);
-    //         this.onSelect(athlete);
-    //       }
-    //     }
-    //   )
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((set: Set) => {
+          if (set) {
+            this.table.onSelect(set, true);
+            this.onSelect(set);
+          }
+        }
+      )
+
   }
 
   onDeleteSingle(set: Set) {

@@ -8,8 +8,8 @@ import { SignalrNgChatAdapter } from 'src/app/core/ng-chat/signalr-ng-chat-adapt
 import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
-import { ChatService } from 'src/business/services/chat.service';
-import { PushNotificationsService } from 'src/business/services/push-notification.service';
+import { ChatService } from 'src/business/services/feature-services/chat.service';
+import { PushNotificationsService } from 'src/business/services/feature-services/push-notification.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { logout } from 'src/ngrx/auth/auth.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';

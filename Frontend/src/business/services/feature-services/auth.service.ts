@@ -7,7 +7,7 @@ import { Subject, EMPTY, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { BaseService } from './base.service';
+import { BaseService } from '../base.service';
 import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/requests/set-password.request';
 
 @Injectable({ providedIn: 'root'})

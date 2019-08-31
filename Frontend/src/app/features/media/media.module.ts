@@ -1,4 +1,4 @@
-import { MediaService } from './../../../business/services/media.service';
+import { MediaService } from '../../../business/services/feature-services/media.service';
 import { MediaHomeComponent } from './media-home/media-home.component';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';

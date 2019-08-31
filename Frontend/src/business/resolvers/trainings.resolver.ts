@@ -1,4 +1,4 @@
-import { TrainingService } from './../services/training.service';
+import { TrainingService } from '../services/feature-services/training.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';

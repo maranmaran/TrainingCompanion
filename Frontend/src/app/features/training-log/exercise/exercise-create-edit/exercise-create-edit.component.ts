@@ -8,12 +8,12 @@ import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { take, concatMap, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { UserService } from 'src/business/services/user.service';
+import { UserService } from 'src/business/services/feature-services/user.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AthleteCreateEditComponent } from 'src/app/features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { ServerStatusCodes } from 'src/server-models/error/status-codes/server.codes';
-import { TrainingService } from 'src/business/services/training.service';
+import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { selectedTraining } from 'src/ngrx/training/training.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { trainingUpdated } from 'src/ngrx/training/training.actions';
@@ -53,6 +53,8 @@ export class ExerciseCreateEditComponent implements OnInit {
 
   get exerciseType(): AbstractControl { return this.form.get('exerciseType'); }
   get setsCount(): AbstractControl { return this.form.get('setsCount'); }
+  displayFunction = (exerciseType: ExerciseType) => exerciseType ? exerciseType.name : null;
+
 
   onSubmit() {
     if (this.data.action == CRUD.Create) {
@@ -91,7 +93,7 @@ export class ExerciseCreateEditComponent implements OnInit {
     };
     this.exercise.sets = sets;
 
-    this.updateTraining(true);
+    this.updateTraining(true, this.exercise);
   }
 
   updateExercise() {
@@ -112,10 +114,10 @@ export class ExerciseCreateEditComponent implements OnInit {
       };
     }
 
-    this.updateTraining(false);
+    this.updateTraining(false, this.exercise);
   }
 
-  updateTraining(newExercise: boolean) {
+  updateTraining(newExercise: boolean, exercise: Exercise) {
     this.store.select(selectedTraining).pipe(
       take(1),
       map(training => Object.assign({}, training)),
@@ -126,6 +128,7 @@ export class ExerciseCreateEditComponent implements OnInit {
       take(1)
     ).subscribe((training: Training) => {
       this.store.dispatch(trainingUpdated({ training }));
+      this.onClose(exercise);
     });
   }
 }

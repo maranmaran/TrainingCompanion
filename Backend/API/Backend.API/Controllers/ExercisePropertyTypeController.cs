@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
+using Backend.Domain.Entities.ExerciseType;
 
 namespace Backend.API.Controllers
 {
@@ -25,9 +26,9 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(UpdateExercisePropertyTypeRequest request)
+        public async Task<IActionResult> Update(ExercisePropertyType exercisePropertyType)
         {
-            return await Update(async () => await Mediator.Send(request));
+            return await Update(async () => await Mediator.Send(new UpdateExercisePropertyTypeRequest(exercisePropertyType)));
         }
 
         [HttpPost]

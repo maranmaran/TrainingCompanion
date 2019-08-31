@@ -5,9 +5,11 @@ namespace Backend.Application.Business.Business.ExercisePropertyType.Update
 {
     public class UpdateExercisePropertyTypeRequest : IRequest<Domain.Entities.ExerciseType.ExercisePropertyType>
     {
-        public Guid Id { get; set; }
-        public string Type { get; set; }
-        public bool Active { get; set; }
-        public string HexColor { get; set; }
+        public Domain.Entities.ExerciseType.ExercisePropertyType ExercisePropertyType { get; set; }
+
+        public UpdateExercisePropertyTypeRequest(Domain.Entities.ExerciseType.ExercisePropertyType exercisePropertyType)
+        {
+            ExercisePropertyType = exercisePropertyType;
+        }
     }
 }

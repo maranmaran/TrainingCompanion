@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { UserService } from 'src/business/services/user.service';
+import { UserService } from 'src/business/services/feature-services/user.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { TableConfig } from 'src/business/shared/table-data';
 import { setSelectedAthlete, athleteDeleted } from 'src/ngrx/athletes/athlete.actions';

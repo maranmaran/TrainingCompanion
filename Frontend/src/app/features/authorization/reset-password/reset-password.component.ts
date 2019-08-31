@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 import { loginSuccess } from 'src/ngrx/auth/auth.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { AuthService } from './../../../../business/services/auth.service';
+import { AuthService } from '../../../../business/services/feature-services/auth.service';
 
 @Component({
   selector: 'app-reset-password',

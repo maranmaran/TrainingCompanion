@@ -14,42 +14,35 @@
   <mat-accordion class="headers-align" [displayMode]="'flat'">
 
     <a *ngIf="(isCoach$ | async)" mat-list-item routerLink="/app/athletes" (click)="onRoute()">
-      Manage all users
+      <i class="fas fa-users"></i>
+      <span class="label">Manage all users</span>
     </a>
 
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Exercise library
+          <i class="fas fa-list"></i>
+          <span class="label">Exercise library</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <a mat-list-item routerLink="/app/exercise-properties" (click)="onRoute()">
-        Properties
+        <i class="fas fa-tools"></i>
+        <span class="label">Properties</span>
       </a>
 
 
       <a mat-list-item routerLink="/app/exercise-types" (click)="onRoute()">
-        Exercises
+        <i class="fas fa-dumbbell"></i>
+        <span class="label"> Exercises</span>
       </a>
   
      
     </mat-expansion-panel>
 
     <a mat-list-item routerLink="/app/training-log" (click)="onRoute()">
-      Training log
-    </a>
-
-    <a mat-list-item routerLink="/app/media/videos" (click)="onRoute()">
-      Manage videos
-    </a>
-
-    <a mat-list-item routerLink="/app/media/photos" (click)="onRoute()">
-      Manage photos
-    </a>
-
-    <a mat-list-item (click)="onRoute()">
-      Import excel file
+      <i class="fas fa-calendar-alt"></i>
+      <span class="label">Training log</span>
     </a>
 
   </mat-accordion>

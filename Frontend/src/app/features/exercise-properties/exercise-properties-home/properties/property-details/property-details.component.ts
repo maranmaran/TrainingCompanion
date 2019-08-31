@@ -1,4 +1,4 @@
-import { selectedProperty } from './../../../../../ngrx/exercise-property-type/exercise-property-type.selectors';
+import { selectedProperty } from '../../../../../../ngrx/exercise-property-type/exercise-property-type.selectors';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';

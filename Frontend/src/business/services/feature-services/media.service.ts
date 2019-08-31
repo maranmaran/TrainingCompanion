@@ -1,5 +1,5 @@
-import { MediaType } from './../../server-models/enums/media-type.enum';
-import { BaseService } from './base.service';
+import { MediaType } from '../../../server-models/enums/media-type.enum';
+import { BaseService } from '../base.service';
 
 import { url } from 'inspector';
 

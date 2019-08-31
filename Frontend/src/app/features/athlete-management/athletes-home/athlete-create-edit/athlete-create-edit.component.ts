@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { UserService } from 'src/business/services/user.service';
+import { UserService } from 'src/business/services/feature-services/user.service';
 import { athleteCreated, athleteUpdated } from 'src/ngrx/athletes/athlete.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';

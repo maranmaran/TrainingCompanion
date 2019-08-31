@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
-import { ExerciseTypeService } from 'src/business/services/exercise-type.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
@@ -12,13 +11,14 @@ import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { SubSink } from 'subsink';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { FormControl } from '@angular/forms';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 
 @Component({
   selector: 'app-exercise-type-list',
   templateUrl: './exercise-type-list.component.html',
   styleUrls: ['./exercise-type-list.component.scss']
 })
-export class ExerciseTypeListComponent implements OnInit {
+export class ExerciseTypeListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
   private deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });

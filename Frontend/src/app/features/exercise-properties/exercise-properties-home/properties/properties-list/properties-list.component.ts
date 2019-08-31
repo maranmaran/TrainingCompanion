@@ -1,6 +1,6 @@
-import { ExercisePropertyType } from './../../../../../server-models/entities/exercise-property-type.model';
-import { selectedPropertyType } from '../../../../../ngrx/exercise-property-type/exercise-property-type.selectors';
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { ExercisePropertyType } from '../../../../../../server-models/entities/exercise-property-type.model';
+import { selectedPropertyType } from '../../../../../../ngrx/exercise-property-type/exercise-property-type.selectors';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
 import { SubSink } from 'subsink';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
@@ -19,7 +19,7 @@ import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.comp
   templateUrl: './properties-list.component.html',
   styleUrls: ['./properties-list.component.scss']
 })
-export class PropertiesListComponent implements OnInit {
+export class PropertiesListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
   private deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });

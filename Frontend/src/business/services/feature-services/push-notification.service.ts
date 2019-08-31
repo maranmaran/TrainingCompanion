@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { HubConnection } from '@aspnet/signalr';
-import { AppSettingsService } from './shared/app-settings.service';
+import { AppSettingsService } from '../shared/app-settings.service';
 
 @Injectable({ providedIn: 'root'})
 export class PushNotificationsService implements OnDestroy {
