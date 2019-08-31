@@ -1,5 +1,5 @@
 import { ChatRoutingModule } from './chat-routing.module';
-import { ChatService } from 'src/business/services/chat.service';
+import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { NgModule } from '@angular/core';
 import { ChatHomeComponent } from './chat-home/chat-home.component';
 import { SharedModule } from 'src/app/shared/shared.module';

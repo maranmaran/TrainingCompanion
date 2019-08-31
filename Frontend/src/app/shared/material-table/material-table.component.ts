@@ -1,8 +1,11 @@
 import { SelectionModel } from '@angular/cdk/collections';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
 import { Store } from '@ngrx/store';
+import _ from "lodash";
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { TableConfig, TableDatasource } from 'src/business/shared/table-data';
@@ -10,16 +13,12 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
 import { CustomColumn } from './../../../business/shared/table-data';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { MatTable, MatRow } from '@angular/material/table';
-import _ from "lodash";
 
 @Component({
   selector: 'app-material-table',
   templateUrl: './material-table.component.html',
   styleUrls: [
     './material-table.component.scss',
-    './../../features/exercise-properties/exercise-properties-home/types-list/types-list.component.scss',
     './../../features/athlete-management/athletes-home/athlete-list/athlete-list.component.scss'
   ],
   encapsulation: ViewEncapsulation.None,
@@ -34,11 +33,12 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   @Output() selectEvent = new EventEmitter<any>();
   @Output() dropEvent = new EventEmitter<any>();
   @Output() addEvent = new EventEmitter<any>();
+  @Output() updateManyEvent = new EventEmitter<any>();
   @Output() updateEvent = new EventEmitter<any>();
   @Output() deleteEvent = new EventEmitter<any>();
   @Output() deleteSelectionEvent = new EventEmitter<any[]>();
 
-  protected displayColumns: string[];
+  protected displayColumns: string[] = [];
   protected selection = new SelectionModel<string>(true, []);
   protected pageSize: number;
   protected pageSizeOptions: number[];
@@ -75,13 +75,21 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   setupColumns(isMobile: boolean) {
+    const actions = [];
+
+    if(this.config.selectionEnabled)
+      actions.push('select');
 
     if(isMobile) {
-      this.displayColumns = ['select', ...this.columns.filter(x => x.displayOnMobile).map(x => x.definition), 'actions'];
-      return;
-    } 
+      actions.push(...this.columns.filter(x => x.displayOnMobile).map(x => x.definition));
+    } else {
+      actions.push(...this.columns.map(x => x.definition));
+    }
 
-    this.displayColumns = ['select', ...this.columns.map(x => x.definition), 'actions'];
+    if(this.config.actionsEnabled)
+      actions.push('actions');
+    
+    this.displayColumns = actions;
   }
 
   applyFilter(filterValue: string) {
@@ -169,7 +177,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   public get deleteManyVisible() : boolean {
-    return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.deleteEnabled && !this.datasourceEmpty;
+    return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.deleteManyEnabled && !this.datasourceEmpty;
   }
 
   public oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
@@ -178,9 +186,28 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     return this.datasourceEmpty || !(this.datasource.data.length > this.pageSize);
   }
 
-
-  entered(event: any) {
-    console.log(event);
+  // if only one header action is available replace menu button with that action button
+  public get oneHeaderAction(): boolean {
+    const add = this.config.addEnabled ? 1 : 0;
+    const editMany = this.config.editManyEnabled ? 1 : 0;
+    const deleteMany = this.config.deleteManyEnabled ? 1 : 0;
+    return add + editMany + deleteMany === 1;
   }
+
+  // hide all header buttons if no header action is available
+  public get noHeaderAction(): boolean {
+    const add = this.config.addEnabled ? 1 : 0;
+    const editMany = this.config.editManyEnabled ? 1 : 0;
+    const deleteMany = this.config.deleteManyEnabled ? 1 : 0;
+    return add + editMany + deleteMany === 0;
+  }
+
+  // if no cell actions are available hide the buttons
+  public get noCellAction(): boolean {
+    const editActive  = this.config.editEnabled ? 1 : 0;
+    const deleteActive = this.config.deleteEnabled ? 1 : 0;
+    return editActive + deleteActive  === 0;
+  }
+
 
 }

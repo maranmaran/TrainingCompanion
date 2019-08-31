@@ -1,15 +1,15 @@
-import { ExerciseTypeService } from './../services/exercise-type.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { concatMap, map, take } from 'rxjs/operators';
+import { exerciseTypesFetched } from 'src/ngrx/exercise-type/exercise-type.actions';
+import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { currentUser } from '../../ngrx/auth/auth.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
-import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
-import { exerciseTypesFetched } from 'src/ngrx/exercise-type/exercise-type.actions';
+import { currentUser } from '../../ngrx/auth/auth.selectors';
+import { ExerciseTypeService } from '../services/feature-services/exercise-type.service';
 
 @Injectable()
 export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] | void>> {

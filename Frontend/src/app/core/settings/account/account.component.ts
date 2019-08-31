@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Store } from '@ngrx/store';
 import { finalize, take } from 'rxjs/operators';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { UserService } from 'src/business/services/user.service';
+import { UserService } from 'src/business/services/feature-services/user.service';
 import { validateForm } from 'src/business/utils/form.utils';
 import { updateCurrentUser } from 'src/ngrx/auth/auth.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';

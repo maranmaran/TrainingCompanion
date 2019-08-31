@@ -9,7 +9,7 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 import { UserSettings } from 'src/server-models/entities/user-settings.model';
 import { AppState } from '../global-setup.ngrx';
 import { switchTheme, enableErrorDialogs } from '../user-interface/ui.actions';
-import { AuthService } from './../../business/services/auth.service';
+import { AuthService } from '../../business/services/feature-services/auth.service';
 import { SignInRequest } from './../../server-models/cqrs/authorization/requests/sign-in.request';
 import * as AuthActions from './auth.actions';
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { UserService } from 'src/business/services/user.service';
+import { UserService } from 'src/business/services/feature-services/user.service';
 import { athleteUpdated } from 'src/ngrx/athletes/athlete.actions';
 import { selectedAthlete } from 'src/ngrx/athletes/athlete.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';

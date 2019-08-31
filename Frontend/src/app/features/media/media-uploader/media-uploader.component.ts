@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { MediaService } from './../../../../business/services/media.service';
+import { MediaService } from '../../../../business/services/feature-services/media.service';
 import { MediaType } from './../../../../server-models/enums/media-type.enum';
 import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -9,7 +9,6 @@ import { map, take } from 'rxjs/operators';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { mediaUploaded } from 'src/ngrx/media/media.actions';
 import { images, files } from 'src/ngrx/media/media.selectors';
-import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-media-uploader',

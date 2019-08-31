@@ -5,7 +5,7 @@ using System.Linq;
 namespace Backend.Application.Business.Business.ExercisePropertyType.Update
 {
 
-    public class UpdateExercisePropertyTypeValidator : AbstractValidator<UpdateExercisePropertyTypeRequest>
+    public class UpdateExercisePropertyTypeValidator : AbstractValidator<Domain.Entities.ExerciseType.ExercisePropertyType>
     {
         private readonly IApplicationDbContext _context;
         public UpdateExercisePropertyTypeValidator(IApplicationDbContext context)
@@ -19,13 +19,9 @@ namespace Backend.Application.Business.Business.ExercisePropertyType.Update
                 .WithMessage("Type name must be unique"); ;
         }
 
-        private bool BeUniqueType(UpdateExercisePropertyTypeRequest request)
+        private bool BeUniqueType(Domain.Entities.ExerciseType.ExercisePropertyType request)
         {
-            var propertyType = _context.ExercisePropertyTypes
-                .Single(x => x.Id == request.Id);
-
-            return !_context.ExercisePropertyTypes.Where(x => x.ApplicationUserId == propertyType.ApplicationUserId)
-                .Any(x => x.Type == request.Type);
+            return _context.ExercisePropertyTypes.FirstOrDefault(x => x.Id == request.Id) != null;
         }
     }
 }

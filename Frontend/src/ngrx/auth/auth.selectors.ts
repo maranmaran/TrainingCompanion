@@ -1,3 +1,4 @@
+import { UnitSystem } from './../../server-models/enums/unit-system.enum';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AuthState } from './auth.state';
@@ -19,6 +20,10 @@ export const currentUserId = createSelector(
 export const userSettings = createSelector(
     currentUser,
     (currentUser: CurrentUser) => currentUser.userSettings
+);
+export const unitSystem = createSelector(
+    currentUser,
+    (currentUser: CurrentUser) => currentUser.userSettings.unitSystem
 );
 
 export const isLoggedIn = createSelector(

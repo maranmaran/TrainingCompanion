@@ -1,34 +1,46 @@
 <div class="details-container mat-elevation-z3" *ngIf="(athlete$ | async) as athlete">
 
     <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
-        
+
         <span>{{athlete.firstName}} {{athlete.lastName}}</span>
-        
+
         <span>
-            <button *ngIf="athlete.active" mat-stroked-button color="accent" (click)="onSetActive(false)">Deactivate</button>
-            <button *ngIf="!athlete.active" mat-stroked-button color="accent" (click)="onSetActive(true)">Activate</button>
+            <button *ngIf="athlete.active" mat-stroked-button color="accent"
+                (click)="onSetActive(false)">Deactivate</button>
+            <button *ngIf="!athlete.active" mat-stroked-button color="accent"
+                (click)="onSetActive(true)">Activate</button>
         </span>
     </h1>
 
     <mat-divider></mat-divider>
 
-    <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
 
-        <div class="detail">
-            <mat-label class="label">Username:</mat-label>
-            <span class="label-value">{{athlete.username}}</span>
+    <div class="details-body" 
+         fxLayout="row" 
+         fxLayout.lt-sm="column"
+         fxLayoutGap.lt-sm="1rem">
+
+        <div class="details" fxFlex="0 1 49.5%" fxFlexOrder.lt-sm="2">
+            <div class="detail">
+                <mat-label class="label">Username:</mat-label>
+                <span class="label-value">{{athlete.username}}</span>
+            </div>
+            <div class="detail">
+                <mat-label class="label">Email:</mat-label>
+                <span class="label-value">{{athlete.email}}</span>
+            </div>
+            <div class="detail">
+                <mat-label class="label">Joined on:</mat-label>
+                <span class="label-value">{{athlete.createdOn | date:'mediumDate'}}</span>
+            </div>
+            <div class="detail">
+                <mat-label class="label">Account status:</mat-label>
+                <span class="label-value"><app-active-flag [active]="athlete.active"></app-active-flag></span>
+            </div>
         </div>
-        <div class="detail">
-            <mat-label class="label">Email:</mat-label>
-            <span class="label-value">{{athlete.email}}</span>
-        </div>
-        <div class="detail">
-            <mat-label class="label">Joined on:</mat-label>
-            <span class="label-value">{{athlete.createdOn | date:'mediumDate'}}</span>
-        </div>
-        <div class="detail">
-            <mat-label class="label">Account status:</mat-label>
-            <span class="label-value">{{athlete.active ? 'Active' : 'Inactive'}}</span>
+
+        <div class="avatar-container" fxFlex="0 1 49.5%" fxFlexOrder.lt-sm="1">
+            <img class="img-fluid avatar-img" src="{{athlete.avatar}}" />
         </div>
 
     </div>

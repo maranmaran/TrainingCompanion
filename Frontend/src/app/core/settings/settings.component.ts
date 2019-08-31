@@ -13,7 +13,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
-import { UserService } from './../../../business/services/user.service';
+import { UserService } from '../../../business/services/feature-services/user.service';
 
 @Component({
   selector: 'app-settings',

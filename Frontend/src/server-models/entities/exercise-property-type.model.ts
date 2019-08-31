@@ -6,8 +6,8 @@ export class ExercisePropertyType {
     type: string;
     active: boolean;
     order: number;
-    hexColor: string;
-    hexBackground: string;
+    hexColor: string = "#616161";
+    hexBackground: string = "#fef6f9";
 
     applicationUserId: string;
     applicationUser: ApplicationUser;

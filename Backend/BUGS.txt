@@ -1,5 +1,5 @@
 1. athlete create-edit -> errors u htmlu	
 2. Something went wrong on first login when build (when cache is cleared probably)
 4. ExerciseTypeExerciseProperty flag Show is set wrong.. it's always true on seed...
-5. Overflow x on Training log 
-6. Check if you are clearing all subsinks throughout application (SubSink must be unsubscribed on OnDestroy) => PRIO #1
+5. Overflow-x on Training log 
+6. Make avatar component and remove specific athlete scss in material-table.component

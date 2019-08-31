@@ -7,8 +7,8 @@
        
       <mat-form-field>
           <input matInput placeholder="Exercise type" [matAutocomplete]="auto" [formControl]="exerciseType">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let type of data.exerciseTypes" [value]="type">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
+            <mat-option *ngFor="let type of data.exerciseTypes" [value]="type" >
                 <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
             </mat-option>
           </mat-autocomplete>

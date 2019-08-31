@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Token } from 'ngx-stripe';
 import { combineLatest } from 'rxjs/internal/observable/combineLatest';
 import { concatMap, take } from 'rxjs/operators';
-import { BillingService } from 'src/business/services/billing.service';
+import { BillingService } from 'src/business/services/feature-services/billing.service';
 import { addSubscription } from 'src/ngrx/auth/auth.actions';
 import { currentUser, isSubscribed } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';

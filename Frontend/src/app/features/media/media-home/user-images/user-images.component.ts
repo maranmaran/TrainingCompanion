@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MediaType } from 'src/server-models/enums/media-type.enum';
-import { MediaService } from 'src/business/services/media.service';
+import { MediaService } from 'src/business/services/feature-services/media.service';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
