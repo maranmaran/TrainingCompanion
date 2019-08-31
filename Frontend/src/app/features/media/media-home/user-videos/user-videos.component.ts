@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MediaType } from 'src/server-models/enums/media-type.enum';
-import { MediaService } from 'src/business/services/media.service';
+import { MediaService } from 'src/business/services/feature-services/media.service';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { MediaDialogComponent } from 'src/app/shared/media-dialog/media-dialog.component';
 import { videos } from 'src/ngrx/media/media.selectors';

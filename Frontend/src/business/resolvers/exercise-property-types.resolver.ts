@@ -1,4 +1,4 @@
-import { ExercisePropertyTypeService } from './../services/exercise-property-type.service';
+import { ExercisePropertyTypeService } from '../services/feature-services/exercise-property-type.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -10,7 +10,7 @@ import { athletes } from 'src/ngrx/athletes/athlete.selectors';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { currentUser } from '../../ngrx/auth/auth.selectors';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/feature-services/user.service';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
 import { exercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';

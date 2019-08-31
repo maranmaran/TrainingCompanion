@@ -31,8 +31,11 @@
   }
 
   @media (max-width: 599px) {
-    .label-value {
-      margin-left: 0px !important;
+   
+
+    .details-body {
+      padding-top: 0.5rem !important;
+      padding-left: 0.5rem !important;
     }
   }
 }

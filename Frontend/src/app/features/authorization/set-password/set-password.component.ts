@@ -1,4 +1,4 @@
-import { AuthService } from './../../../../business/services/auth.service';
+import { AuthService } from '../../../../business/services/feature-services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { PasswordValidation } from 'src/business/utils/password.validator';
 import { Component, OnInit } from '@angular/core';

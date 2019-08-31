@@ -4,7 +4,7 @@ import { Actions, createEffect, EffectNotification, ofType, OnRunEffects } from 
 import { Action, ActionReducer, createAction, createReducer, on, Store, createSelector, createFeatureSelector } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, finalize, map, switchMap, take, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/business/services/auth.service';
+import { AuthService } from 'src/business/services/feature-services/auth.service';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { fetchCurrentUser, updateCurrentUser } from './auth/auth.actions';
 import { AppState } from './global-setup.ngrx';

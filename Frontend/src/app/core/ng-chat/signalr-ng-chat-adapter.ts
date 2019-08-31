@@ -11,7 +11,7 @@ import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-respo
 import { environment } from 'src/environments/environment';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
-import { AuthService } from '../../../business/services/auth.service';
+import { AuthService } from '../../../business/services/feature-services/auth.service';
 
 Injectable()
 export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {

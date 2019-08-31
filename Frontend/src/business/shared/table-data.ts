@@ -39,14 +39,22 @@ export class CustomColumn {
 }
 
 export class TableConfig {
+
     actionsEnabled = true;
     selectionEnabled = true;
+    filterEnabled = true;
+
     addEnabled = true;
-    deleteEnabled = true;
+    editManyEnabled = false;
+    deleteManyEnabled = false;
+
     editEnabled = true;
+    deleteEnabled = true;
+
     enableDragAndDrop: boolean = false;
     pageSize = 5;
     pageSizeOptions = [5, 10, 15];
+    
     filterFunction: (data: any, filter: string) => boolean
 
     public constructor(init?:Partial<TableConfig>) {

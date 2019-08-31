@@ -41,6 +41,9 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 
   // #region ================ SCREEN RESIZE ================ 
   @HostListener('window:resize', ['$event'])
@@ -65,9 +68,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   // #endregion  
 
-  ngOnDestroy(): void {
-    this.subs.unsubscribe();
-  }
 
 
 }

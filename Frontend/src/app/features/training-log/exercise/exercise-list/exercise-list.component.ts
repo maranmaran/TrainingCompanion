@@ -1,25 +1,23 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { SubSink } from 'subsink';
-import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
-import { TableConfig, CustomColumn, TableDatasource } from 'src/business/shared/table-data';
-import { Exercise } from 'src/server-models/entities/exercise.model';
-import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
-import { UIService } from 'src/business/services/shared/ui.service';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
-import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
-import { TrainingService } from 'src/business/services/training.service';
-import { setSelectedExercise } from 'src/ngrx/training/training.actions';
-import { Observable } from 'rxjs';
-import { exercises } from 'src/ngrx/training/training.selectors';
-import { ExerciseTypeService } from 'src/business/services/exercise-type.service';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
-import { take } from 'rxjs/operators';
-import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
-import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
-import { CRUD } from 'src/business/shared/crud.enum';
+import { concatMap, map, take } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
+import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
+import { TrainingService } from 'src/business/services/feature-services/training.service';
+import { UIService } from 'src/business/services/shared/ui.service';
+import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
+import { CRUD } from 'src/business/shared/crud.enum';
+import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training/training.actions';
+import { exercises, selectedTraining } from 'src/ngrx/training/training.selectors';
+import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { Training } from 'src/server-models/entities/training.model';
+import { SubSink } from 'subsink';
+import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 
 @Component({
   selector: 'app-exercise-list',
@@ -27,7 +25,7 @@ import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-previ
   styleUrls: ['./exercise-list.component.scss'],
   providers: [ExerciseTypeService]
 })
-export class ExerciseListComponent implements OnInit {
+export class ExerciseListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   private deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });
 
@@ -82,108 +80,98 @@ export class ExerciseListComponent implements OnInit {
         useComponent: true,
         component: ExerciseTypePreviewComponent,
         inputs: (item: Exercise) => { return {exerciseType: item.exerciseType}; },
-      }),
-      // new CustomColumn({
-      //   definition: 'active',
-      //   title: '',
-      //   displayOnMobile: false,
-      //   headerClass: 'active-header',
-      //   cellClass: 'active-cell',
-      //   useComponent: true,
-      //   component: ActiveFlagComponent,
-      //   inputs: (item: Exercise) => { return {active: item.active } },
-      // }),
-      // new CustomColumn({
-      //   definition: 'hexColor',
-      //   title: '',
-      //   displayOnMobile: false,
-      //   headerClass: 'hex-header',
-      //   cellClass: 'hex-cell',
-      //   useComponent: true,
-      //   component: ExerciseTypeChipComponent,
-      //   inputs: (item: Exercise) => {return {value: "Tag", show: true, backgroundColor: item.hexBackground, color: item.hexColor}},
-      // }),
+      })
     ]
   }
 
   onSelect = (exercise: Exercise) => this.store.dispatch(setSelectedExercise({exercise}));
 
   onAdd() {
-      // const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
-      //   height: 'auto',
-      //   width: '98%',
-      //   maxWidth: '50rem',
-      //   autoFocus: false,
-      //   data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes },
-      //   panelClass: []
-      // })
+    this.exerciseTypeService.getAll(this.userId).pipe(take(1))
+    .subscribe((exerciseTypes: ExerciseType[]) => {
+      const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
+        height: 'auto',
+        width: '98%',
+        maxWidth: '50rem',
+        autoFocus: false,
+        data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes },
+        panelClass: []
+      })
   
-      // dialogRef.afterClosed().pipe(take(1))
-      //   .subscribe((exercise: Exercise) => {
-      //       if (exercise) {
-      //         this.table.onSelect(exercise, true);
-      //         this.onSelect(exercise);
-      //       }
-      //     }
-      //   )
+      dialogRef.afterClosed().pipe(take(1))
+        .subscribe((exercise: Exercise) => {
+            if (exercise) {
+              this.table.onSelect(exercise, true);
+              this.onSelect(exercise);
+            }
+          }
+        )
+    });
   }
 
   onUpdate(exercise: Exercise) {
-    // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '20rem',
-    //   autoFocus: false,
-    //   data: { title: 'Update athlete', action: CRUD.Update, athlete: athlete },
-    //   panelClass: []
-    // })
-
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((athlete: ApplicationUser) => {
-    //       if (athlete) {
-    //         this.table.onSelect(athlete, true);
-    //         this.onSelect(athlete);
-    //       }
-    //     }
-    //   )
+    this.exerciseTypeService.getAll(this.userId).pipe(take(1))
+    .subscribe((exerciseTypes: ExerciseType[]) => {
+      const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
+        height: 'auto',
+        width: '98%',
+        maxWidth: '50rem',
+        autoFocus: false,
+        data: { title: 'Add exercise', action: CRUD.Update, exercise, exerciseTypes },
+        panelClass: []
+      })
+  
+      dialogRef.afterClosed().pipe(take(1))
+        .subscribe((exercise: Exercise) => {
+            if (exercise) {
+              this.table.onSelect(exercise, true);
+              this.onSelect(exercise);
+            }
+          }
+        )
+    });
   }
 
   onDeleteSingle(exercise: Exercise) {
 
-    // this.deleteDialogConfig.message =
-    //   `<p>Are you sure you wish to delete type ${exercise.type} ?</p>
-    //  <p>All data will be lost if you delete this type.</p>`;
+    this.deleteDialogConfig.message =
+      `<p>Are you sure you wish to delete ${exercise.exerciseType.name} ?</p>
+     <p>All data will be lost if you delete this exercise.</p>`;
 
-    // var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
+    var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((result: ConfirmResult) => {
-    //     if(result == ConfirmResult.Confirm) {
-    //       this.userService.delete(athlete.id, AccountType.Athlete)
-    //         .subscribe(
-    //           () => {
-    //             this.store.dispatch(deleteAthlete(athlete))
-    //           },
-    //           err => console.log(err)
-    //         )
-    //     }
-    //   })
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((result: ConfirmResult) => {
+        if (result == ConfirmResult.Confirm) {
+          this.store.select(selectedTraining).pipe(
+            take(1),
+            map(training => Object.assign({}, training)),
+            concatMap((training: Training) => {
+              training.exercises = training.exercises.filter(item => item.id != exercise.id);
+              console.log(training);
+              return this.trainingService.update(training);
+            }),
+            take(1))
+            .subscribe((training: Training) => {
+              this.store.dispatch(trainingUpdated({ training }));
+            });
+        }
+      });
   }
 
   onDeleteSelection(exercises: Exercise[]) {
 
-  //   this.deleteDialogConfig.message =
-  //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
-  //    <p>All data will be lost if you delete these users.</p>`;
+    this.deleteDialogConfig.message =
+      `<p>Are you sure you wish to delete all (${exercises.length}) selected exercises ?</p>
+     <p>All data will be lost if you delete these exercises.</p>`;
 
-  //   this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
-  //     console.log('delete');
-  //     console.log(athletes);
-  //   }
+    this.deleteDialogConfig.action = (exercises: Exercise[]) => {
+      console.log('delete');
+      console.log(exercises);
+    }
 
-  //   this.deleteDialogConfig.actionParams = [athletes];
+    this.deleteDialogConfig.actionParams = [exercises];
 
-  //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
-  // }
+    this.uiService.openConfirmDialog(this.deleteDialogConfig)
   }
 }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.ExercisePropertyType.Update
 {
@@ -25,15 +24,11 @@ namespace Backend.Application.Business.Business.ExercisePropertyType.Update
         {
             try
             {
-                var propertyTypeToUpdate = await _context.ExercisePropertyTypes.SingleAsync(x => x.Id == request.Id, cancellationToken);
-
-                _mapper.Map(request, propertyTypeToUpdate);
-
-                _context.ExercisePropertyTypes.Update(propertyTypeToUpdate);
+                _context.ExercisePropertyTypes.Update(request.ExercisePropertyType); // update
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return propertyTypeToUpdate;
+                return request.ExercisePropertyType;
             }
             catch (Exception e)
             {

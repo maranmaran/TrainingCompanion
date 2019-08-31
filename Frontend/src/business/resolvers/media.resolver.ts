@@ -9,7 +9,7 @@ import { getSelectorByMediaType } from 'src/ngrx/media/media.selectors';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { MediaType } from 'src/server-models/enums/media-type.enum';
-import { MediaService } from '../services/media.service';
+import { MediaService } from '../services/feature-services/media.service';
 import { currentUser } from './../../ngrx/auth/auth.selectors';
 
 @Injectable()

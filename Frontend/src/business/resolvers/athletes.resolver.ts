@@ -10,7 +10,7 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { currentUser } from '../../ngrx/auth/auth.selectors';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/feature-services/user.service';
 
 @Injectable()
 export class AthletesResolver implements Resolve<Observable<ApplicationUser[] | void>> {

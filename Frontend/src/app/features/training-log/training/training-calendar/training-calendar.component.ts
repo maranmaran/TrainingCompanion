@@ -1,11 +1,11 @@
 import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/create-training.request';
 import { CalendarEvent } from '../../../../shared/event-calendar/models/event-calendar.models';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment'
 import { Subject } from 'rxjs/internal/Subject';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
-import { TrainingService } from 'src/business/services/training.service';
+import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { take } from 'rxjs/operators';
 import { Training } from 'src/server-models/entities/training.model';
@@ -18,7 +18,7 @@ import { trainings, selectedTraining } from 'src/ngrx/training/training.selector
   templateUrl: './training-calendar.component.html',
   styleUrls: ['./training-calendar.component.scss']
 })
-export class TrainingCalendarComponent implements OnInit {
+export class TrainingCalendarComponent implements OnInit, OnDestroy {
 
   // month1: CalendarEvent[] = [
   //   {day: moment(new Date()).subtract(1, 'month'), event: 'event1'},
@@ -62,6 +62,10 @@ export class TrainingCalendarComponent implements OnInit {
       }
     ));
 
+  }
+
+  ngOnDestroy() {
+    this.subsink.unsubscribe();
   }
 
   // GET BY MONTH

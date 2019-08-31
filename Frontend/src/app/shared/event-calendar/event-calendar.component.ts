@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, HostListener, OnDestroy } from '@angular/core';
 import * as moment from 'moment'
 import { EventCalendar, CalendarEvent, CalendarDay } from './models/event-calendar.models';
 import { getEventCalendarModel, belongsToThisMonth, populateCalendar } from './models/event.calendar.utils';
@@ -10,7 +10,7 @@ import { SubSink } from 'subsink';
   templateUrl: './event-calendar.component.html',
   styleUrls: ['./event-calendar.component.scss']
 })
-export class EventCalendarComponent implements OnInit {
+export class EventCalendarComponent implements OnInit, OnDestroy {
 
   calendar = new EventCalendar();
   currentDay = moment(new Date());
@@ -40,6 +40,10 @@ export class EventCalendarComponent implements OnInit {
         }
       )
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subsink.unsubscribe();    
   }
 
   @HostListener('document:keydown.ArrowLeft', ['$event']) keyLeft = () => this.previousMonth();

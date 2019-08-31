@@ -38,6 +38,7 @@
     "moment": "^2.24.0",
     "ng-dynamic-component": "^5.0.0",
     "ngx-avatar": "^3.7.0",
+    "ngx-color-picker": "^8.1.0",
     "ngx-cookie-service": "^2.2.0",
     "ngx-stripe": "^7.4.3",
     "rxjs": "~6.5.2",

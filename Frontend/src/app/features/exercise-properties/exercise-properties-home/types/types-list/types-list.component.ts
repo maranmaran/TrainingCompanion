@@ -1,10 +1,11 @@
-import { element } from 'protractor';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { TypesCreateEditComponent } from './../types-create-edit/types-create-edit.component';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, timeout } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
+import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
-import { ExercisePropertyTypeService } from 'src/business/services/exercise-property-type.service';
+import { ExercisePropertyTypeService } from 'src/business/services/feature-services/exercise-property-type.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
@@ -14,17 +15,14 @@ import { exercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
 import { SubSink } from 'subsink';
-import { MatTable } from '@angular/material/table';
-import { Subject } from 'rxjs';
-import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
-import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
+import { CRUD } from 'src/business/shared/crud.enum';
 
 @Component({
   selector: 'app-types-list',
   templateUrl: './types-list.component.html',
   styleUrls: ['./types-list.component.scss']
 })
-export class TypesListComponent implements OnInit {
+export class TypesListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
   private deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });
@@ -118,43 +116,37 @@ export class TypesListComponent implements OnInit {
     this.store.dispatch(reorderExercisePropertyTypes({previousItem, currentItem }));
   }
   onAdd() {
-    // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '20rem',
-    //   autoFocus: false,
-    //   data: { title: 'Add athlete', action: CRUD.Create },
-    //   panelClass: []
-    // })
+    const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      data: { title: 'Add exercise property type', action: CRUD.Create },
+      panelClass: []
+    })
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((athlete: ApplicationUser) => {
-    //       if (athlete) {
-    //         this.table.onSelect(athlete, true);
-    //         this.onSelect(athlete);
-    //       }
-    //     }
-    //   )
+    dialogRef.afterClosed().pipe(take(1)).subscribe((propertyType: ExercisePropertyType) => this.postCreateUpdate(propertyType));
   }
 
   onUpdate(propertyType: ExercisePropertyType) {
-    // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '20rem',
-    //   autoFocus: false,
-    //   data: { title: 'Update athlete', action: CRUD.Update, athlete: athlete },
-    //   panelClass: []
-    // })
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((athlete: ApplicationUser) => {
-    //       if (athlete) {
-    //         this.table.onSelect(athlete, true);
-    //         this.onSelect(athlete);
-    //       }
-    //     }
-    //   )
+    const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      data: { title: 'Update exercise property type', action: CRUD.Update, exercisePropertyType: propertyType },
+      panelClass: []
+    })
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe((propertyType: ExercisePropertyType) => this.postCreateUpdate(propertyType));
+  }
+
+  postCreateUpdate(propertyType: ExercisePropertyType) {
+    if (propertyType) {
+      this.table.onSelect(propertyType, true);
+      this.onSelect(propertyType);
+    }
   }
 
   onDeleteSingle(propertyType: ExercisePropertyType) {

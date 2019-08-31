@@ -8,7 +8,7 @@ import { trainingReducer } from 'src/ngrx/training/training.reducers';
 import { TrainingEffects } from 'src/ngrx/training/training.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { TrainingService } from 'src/business/services/training.service';
+import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { TrainingDetailsComponent } from './training/training-details/training-details.component';
 // import { TrainingsResolver } from 'src/business/resolvers/trainings.resolver';
 import { AngularEditorModule } from '@kolkov/angular-editor';
@@ -45,7 +45,8 @@ import { SetCreateEditComponent } from './set/set-create-edit/set-create-edit.co
         // TrainingsResolver
     ],
     entryComponents: [
-        ExerciseCreateEditComponent
+        ExerciseCreateEditComponent,
+        SetCreateEditComponent
     ]
 })
 export class TrainingLogModule { }

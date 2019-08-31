@@ -15,6 +15,10 @@ export const sets = createSelector(
     selectTrainingState,
     (state: TrainingState) => state.selectedExercise.sets
 )
+export const exerciseType = createSelector(
+    selectTrainingState,
+    (state: TrainingState) => state.selectedExercise.exerciseType
+)
 
 export const selectedTraining = createSelector(
     selectTrainingState,

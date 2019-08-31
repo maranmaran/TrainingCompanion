@@ -1,4 +1,4 @@
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/feature-services/auth.service';
 import { Store } from '@ngrx/store';
 import { CanActivate, CanActivateChild, Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { map, take, catchError, finalize } from 'rxjs/operators';
