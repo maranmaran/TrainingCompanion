@@ -10,8 +10,10 @@
 
     <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
 
-        <div gdAreas="left-label left-value right-label right-value" gdGap="1rem" gdRows="auto auto auto auto">
+    <div fxLayout="row" fxLayoutGap="4rem" fxLayout.lt-sm="row">
 
+        <div fxLayout="row" fxLayoutGap="0.5rem">
+    
             <div gdArea="left-label">
                 <div class="detail">
                     <mat-label class="label">Active:</mat-label>
@@ -25,7 +27,7 @@
                     <mat-label class="label">Time:</mat-label>
                 </div>
             </div>
-
+    
             <div gdArea="left-value">
                 <div class="detail">
                     <span class="label-value">
@@ -43,7 +45,11 @@
                     </span>
                 </div>
             </div>
-
+    
+        </div>
+    
+        <div fxLayout="row" fxLayoutGap="0.5rem">
+    
             <div gdArea="right-label">
                 <div class="detail">
                     <mat-label class="label">Reps:</mat-label>
@@ -55,7 +61,7 @@
                     <mat-label class="label">Weight:</mat-label>
                 </div>
             </div>
-
+    
             <div gdArea="right-value">
                 <div class="detail">
                     <span class="label-value">
@@ -75,6 +81,9 @@
             </div>
             
         </div>
+
+    </div>
+    
 
         <div class="detail">
             <mat-label class="label">Properties:</mat-label>

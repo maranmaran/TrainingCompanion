@@ -14,6 +14,10 @@
           </mat-autocomplete>
       </mat-form-field>
 
+      <div id="tags" *ngIf="exerciseType.value">
+        <app-exercise-type-chip-list  *ngIf="exerciseType.value" [propertyList]="exerciseType.value.properties"></app-exercise-type-chip-list>
+      </div>
+
       <mat-form-field>
         <input matInput type="number" formControlName="setsCount" placeholder="Sets">
       </mat-form-field>

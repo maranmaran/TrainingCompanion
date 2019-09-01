@@ -11,7 +11,7 @@ export interface TrainingState {
 }
 
 export const initialTrainingState: TrainingState = {
-    trainings: [],
+    trainings: undefined,
     selectedTraining: undefined,
     selectedExercise: undefined,
     selectedSet: undefined,
