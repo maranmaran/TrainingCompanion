@@ -1,9 +1,8 @@
-import { ExerciseProperty } from './../../server-models/entities/exercise-property.model';
 import { Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
 import * as ExercisePropertyTypeActions from './exercise-property-type.actions';
-import { adapterExercisePropertyType, adapterExerciseProperty, ExercisePropertyTypeState, exercisePropertyTypeInitialState } from './exercise-property-type.state';
+import { adapterExercisePropertyType, ExercisePropertyTypeState, exercisePropertyTypeInitialState } from './exercise-property-type.state';
 
 
 export const exercisePropertyTypeReducer: ActionReducer<ExercisePropertyTypeState, Action> = createReducer(
@@ -42,12 +41,6 @@ export const exercisePropertyTypeReducer: ActionReducer<ExercisePropertyTypeStat
             selectedPropertyId: null
         }
     }),
-    on(ExercisePropertyTypeActions.setSelectedExerciseProperty, (state: ExercisePropertyTypeState, payload: {property: ExerciseProperty}) => {
-        return {
-            ...state,
-            selectedPropertyId: payload.property ? adapterExerciseProperty.selectId(payload.property) : null,
-        }
-    }),
 
     // REORDER
     on(ExercisePropertyTypeActions.reorderExercisePropertyTypes, (state: ExercisePropertyTypeState, payload: {  previousItem: string, currentItem: string }) => {
@@ -76,7 +69,6 @@ export const exercisePropertyTypeReducer: ActionReducer<ExercisePropertyTypeStat
 );
 
 export const getSelectedTypeId = (state: ExercisePropertyTypeState) => state.selectedTypeId;
-export const getSelectedPropertyId = (state: ExercisePropertyTypeState) => state.selectedPropertyId;
  
 // get the selectors
 export const {

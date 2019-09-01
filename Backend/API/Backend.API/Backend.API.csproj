@@ -8,7 +8,6 @@
   <ItemGroup>
     <Compile Remove="Controllers\AthleteController.cs" />
     <Compile Remove="Controllers\CoachController.cs" />
-    <Compile Remove="Controllers\ExercisePropertyController.cs" />
   </ItemGroup>
 
   <ItemGroup>

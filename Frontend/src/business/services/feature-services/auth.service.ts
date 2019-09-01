@@ -13,7 +13,7 @@ import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/request
 @Injectable({ providedIn: 'root'})
 export class AuthService extends BaseService {
 
-  private url = `/Authorization/`;
+  private url = `Authorization/`;
   public signOutEvent = new Subject();
 
   constructor(

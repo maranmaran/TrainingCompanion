@@ -10,12 +10,12 @@ import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { sortArrayByOrderProperty } from 'src/business/utils/utils';
-import { reorderExercisePropertyTypes, setSelectedExercisePropertyType } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
-import { exercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
 import { SubSink } from 'subsink';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { allExercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
+import { setSelectedExercisePropertyType, reorderExercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
 
 @Component({
   selector: 'app-types-list',
@@ -44,10 +44,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
     this.tableColumns = this.getTableColumns() as CustomColumn[];
 
     this.subs.add(
-      this.store.select(exercisePropertyTypes)
-        .pipe(map((propertyTypes: ExercisePropertyType[]) => {
-          return [...propertyTypes].sort(sortArrayByOrderProperty); 
-        })) 
+      this.store.select(allExercisePropertyTypes)
         .subscribe((propertyTypes: ExercisePropertyType[]) => {
           this.tableDatasource.updateDatasource(propertyTypes);
       }));

@@ -15,37 +15,49 @@
     <mat-divider></mat-divider>
 
 
-    <div class="details-body" 
-         fxLayout="row" 
-         fxLayout.lt-sm="column"
-         fxLayoutGap.lt-sm="1rem">
+    <div class="details-body" fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap.lt-sm="1rem">
 
-        <div class="details" fxFlex="0 1 49.5%" fxFlexOrder.lt-sm="2">
-            <div class="detail">
-                <mat-label class="label">Username:</mat-label>
-                <span class="label-value">{{athlete.username}}</span>
+        <div class="details" fxFlex="0 0 50%" fxFlexOrder.lt-sm="2" gdAreas="left-label left-value" gdGap="1rem" gdRows="100% auto">
+
+            <div gdArea="left-label">
+                <div class="detail">
+                    <mat-label class="label">Username:</mat-label>
+                </div>
+                <div class="detail">
+                    <mat-label class="label">Email:</mat-label>
+                </div>
+                <div class="detail">
+                    <mat-label class="label">Joined on:</mat-label>
+                </div>
+                <div class="detail">
+                    <mat-label class="label">Account status:</mat-label>
+                </div>
             </div>
-            <div class="detail">
-                <mat-label class="label">Email:</mat-label>
-                <span class="label-value">{{athlete.email}}</span>
+
+            <div gdArea="left-value">
+                <div class="detail">
+                    <span class="label-value">{{athlete.username}}</span>
+                </div>
+                <div class="detail">
+                    <span class="label-value">{{athlete.email}}</span>
+                </div>
+                <div class="detail">
+                    <span class="label-value">{{athlete.createdOn | date:'mediumDate'}}</span>
+                </div>
+                <div class="detail">
+                    <span class="label-value">
+                        <app-active-flag [active]="athlete.active"></app-active-flag>
+                    </span>
+                </div>
             </div>
-            <div class="detail">
-                <mat-label class="label">Joined on:</mat-label>
-                <span class="label-value">{{athlete.createdOn | date:'mediumDate'}}</span>
-            </div>
-            <div class="detail">
-                <mat-label class="label">Account status:</mat-label>
-                <span class="label-value"><app-active-flag [active]="athlete.active"></app-active-flag></span>
-            </div>
+
         </div>
 
-        <div class="avatar-container" fxFlex="0 1 49.5%" fxFlexOrder.lt-sm="1">
+        <div class="avatar-container" fxFlex="0 0 50%" fxFlexOrder.lt-sm="1">
             <img class="img-fluid avatar-img" src="{{athlete.avatar}}" />
         </div>
 
     </div>
 
     <div class="details-footer">
-    </div>
-
-</div>
+        </div>

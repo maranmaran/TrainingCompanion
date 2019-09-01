@@ -1,49 +1,46 @@
-import { ExerciseProperty } from './../../server-models/entities/exercise-property.model';
 import { Update } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
+import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
 
 
-export const exercisePropertyTypeCreated = createAction(
-    '[Exercise property type] Created',
-    props<{ propertyType: ExercisePropertyType}>()
+// CREATE
+export const exercisePropertyCreated = createAction(
+    '[Exercise property] Created',
+    props<{ property: ExerciseProperty}>()
 )
 
-export const exercisePropertyTypesFetched = createAction(
-    '[Exercise property type] Fetched',
-    props<{ propertyTypes: ExercisePropertyType[] }>()
+// GET ALL
+export const exercisePropertiesFetched = createAction(
+    '[Exercise property] Fetched',
+    props<{  properties: ExerciseProperty[] }>()
 )
 
-export const exercisePropertyTypeUpdated = createAction(
-    '[Exercise property type] Updated',
-    props<{ propertyType: Update<ExercisePropertyType> }>()
+// UPDATE
+export const exercisePropertyUpdated = createAction(
+    '[Exercise property] Updated',
+    props<{ property: Update<ExerciseProperty> }>()
+)
+   
+// UPDATE MANY
+export const manyExercisePropertiesUpdated = createAction(
+    '[Exercise property] Many updated',
+    props<{ properties: Update<ExerciseProperty>[] }>()
 )
 
-export const manyExercisePropertyTypesUpdated = createAction(
-    '[Exercise property type] Many updated',
-    props<{ propertyTypes: Update<ExercisePropertyType>[] }>()
-)
-
-export const exercisePropertyTypeDeleted = createAction(
-    '[Exercise property type] Deleted',
+// DELETE
+export const exercisePropertyDeleted = createAction(
+    '[Exercise property] Deleted',
     props<{ id: string }>()
 )
 
-// REORDER
-export const reorderExercisePropertyTypes = createAction(
-    '[Exercise property type] Reorder',
-    props<{ previousItem: string, currentItem: string }>()
-)
-
 // SELECT
-export const setSelectedExercisePropertyType = createAction(
-    '[Exercise property type] Set selected',
-    props<{ propertyType: ExercisePropertyType }>()
-)
 export const setSelectedExerciseProperty = createAction(
     '[Exercise property] Set selected',
     props<{ property: ExerciseProperty }>()
 )
+
+
 
 // CREATE
 // export const createExercisePropertyType = createAction(

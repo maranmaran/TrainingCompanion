@@ -6,7 +6,6 @@ import { ExerciseProperty } from 'src/server-models/entities/exercise-property.m
 // Exercise property type ENTITY
 export interface ExercisePropertyTypeState extends EntityState<ExercisePropertyType>{
     selectedTypeId: string | number,
-    selectedPropertyId: string | number,
 }
 
 
@@ -17,7 +16,6 @@ export function sortByOrder(a: ExercisePropertyType | ExerciseProperty, b: Exerc
 
 // ADAPTERS
 export const adapterExercisePropertyType = createEntityAdapter<ExercisePropertyType>({sortComparer: sortByOrder});
-export const adapterExerciseProperty = createEntityAdapter<ExerciseProperty>({sortComparer: sortByOrder});
 
 // INITIAL STATES
 export const exercisePropertyTypeInitialState: ExercisePropertyTypeState = adapterExercisePropertyType.getInitialState({selectedTypeId: undefined, selectedPropertyId: undefined});

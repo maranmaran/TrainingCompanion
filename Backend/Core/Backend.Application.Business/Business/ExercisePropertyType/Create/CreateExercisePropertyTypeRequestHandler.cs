@@ -23,13 +23,13 @@ namespace Backend.Application.Business.Business.ExercisePropertyType.Create
         {
             try
             {
-                var propertyType = _mapper.Map<Domain.Entities.ExerciseType.ExercisePropertyType>(request);
+                var entity = _mapper.Map<Domain.Entities.ExerciseType.ExercisePropertyType>(request);
 
-                await _context.ExercisePropertyTypes.AddAsync(propertyType, cancellationToken);
+                await _context.ExercisePropertyTypes.AddAsync(entity, cancellationToken);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return propertyType;
+                return entity;
             }
             catch (Exception e)
             {
