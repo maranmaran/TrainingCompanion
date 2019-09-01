@@ -15,9 +15,9 @@
     <mat-divider></mat-divider>
 
 
-    <div class="details-body" fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap.lt-sm="1rem">
+    <div class="details-body" fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
 
-        <div class="details" fxFlex="0 0 50%" fxFlexOrder.lt-sm="2" gdAreas="left-label left-value" gdGap="1rem" gdRows="100% auto">
+        <div class="details" fxFlexOrder.lt-sm="2" gdAreas="left-label left-value" gdColumns="max-content auto">
 
             <div gdArea="left-label">
                 <div class="detail">
@@ -50,13 +50,13 @@
                     </span>
                 </div>
             </div>
-
+    
         </div>
 
-        <div class="avatar-container" fxFlex="0 0 50%" fxFlexOrder.lt-sm="1">
+        <div class="avatar-container" fxFlexOrder.lt-sm="1" fxFlex="1 0 auto" fxFlex.lt-sm="0 0 100%" fxFlexAlign="center">
             <img class="img-fluid avatar-img" src="{{athlete.avatar}}" />
         </div>
-
+      
     </div>
 
     <div class="details-footer">
