@@ -78,7 +78,7 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
       return this.http
-      .get('/chat/GetFriendsList/' + this.userId + '/' + this.userAccountType)
+      .get('chat/GetFriendsList/' + this.userId + '/' + this.userAccountType)
       .pipe(
         map((res: any) => {
           return res;
@@ -91,7 +91,7 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
     // This could be an API call to your web application that would go to the database
     // and retrieve a N amount of history messages between the users.
     return this.http
-      .get('/chat/GetChatHistory/' + this.userId + "/" + destinataryId)
+      .get('chat/GetChatHistory/' + this.userId + "/" + destinataryId)
       .pipe(
         map((res: any) => res),
         catchError((error: any) => throwError(error.error || 'Server error'))

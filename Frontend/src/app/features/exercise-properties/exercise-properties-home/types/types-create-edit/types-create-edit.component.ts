@@ -1,16 +1,17 @@
-import { ExercisePropertyTypeService } from '../../../../../../business/services/feature-services/exercise-property-type.service';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 import { AthleteCreateEditComponent } from 'src/app/features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { Exercise } from 'src/server-models/entities/exercise.model';
+import { ExercisePropertyTypeService } from '../../../../../../business/services/feature-services/exercise-property-type.service';
 import { ExercisePropertyType } from './../../../../../../server-models/entities/exercise-property-type.model';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { exercisePropertyTypeUpdated } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-types-create-edit',
@@ -99,10 +100,16 @@ export class TypesCreateEditComponent implements OnInit {
     this.exercisePropertyType.type = this.type.value;
     const exercisePropertyType = Object.assign({}, this.exercisePropertyType);
 
-    this.exercisePropertyTypeService.update(exercisePropertyType)
+    this.exercisePropertyTypeService.update(exercisePropertyType).pipe(take(1))
       .subscribe(
         (propertyType: ExercisePropertyType) => {
-          this.store.dispatch(exercisePropertyTypeUpdated({propertyType}));
+
+          const propertyTypeUpdate: Update<ExercisePropertyType> = {
+            id: propertyType.id,
+            changes: propertyType
+          };
+
+          this.store.dispatch(exercisePropertyTypeUpdated({propertyType: propertyTypeUpdate}));
           this.onClose(propertyType);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)

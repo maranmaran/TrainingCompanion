@@ -1,4 +1,3 @@
-import { ExerciseProperty } from './../../server-models/entities/exercise-property.model';
 import { Update } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
@@ -39,10 +38,6 @@ export const reorderExercisePropertyTypes = createAction(
 export const setSelectedExercisePropertyType = createAction(
     '[Exercise property type] Set selected',
     props<{ propertyType: ExercisePropertyType }>()
-)
-export const setSelectedExerciseProperty = createAction(
-    '[Exercise property] Set selected',
-    props<{ property: ExerciseProperty }>()
 )
 
 // CREATE

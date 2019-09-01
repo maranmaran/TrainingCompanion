@@ -19,7 +19,8 @@ import { CustomColumn } from './../../../business/shared/table-data';
   templateUrl: './material-table.component.html',
   styleUrls: [
     './material-table.component.scss',
-    './../../features/athlete-management/athletes-home/athlete-list/athlete-list.component.scss'
+    './../../features/athlete-management/athletes-home/athlete-list/athlete-list.component.scss',
+    './../../features/exercise-properties/exercise-properties-home/types/types-list/types-list.component.scss'
   ],
   encapsulation: ViewEncapsulation.None,
 })

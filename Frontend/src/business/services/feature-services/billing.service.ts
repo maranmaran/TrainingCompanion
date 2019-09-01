@@ -10,7 +10,7 @@ import { AddPaymentOptionRequest } from 'src/server-models/cqrs/billing/requests
 
 @Injectable()
 export class BillingService extends BaseService {
-  private url = '/Billing/';
+  private url = 'Billing/';
 
   constructor(
     private http: HttpClient,

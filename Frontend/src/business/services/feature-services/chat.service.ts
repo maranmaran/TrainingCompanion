@@ -5,7 +5,7 @@ import { BaseService } from '../base.service';
 @Injectable({ providedIn: 'root'})
 export class ChatService extends BaseService {
 
-    private url = '/Chat/';
+    private url = 'Chat/';
 
     constructor(
     ) {
