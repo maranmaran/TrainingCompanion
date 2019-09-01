@@ -1,18 +1,22 @@
-import { ExercisePropertyType } from '../../../../../../server-models/entities/exercise-property-type.model';
-import { selectedPropertyType } from '../../../../../../ngrx/exercise-property-type/exercise-property-type.selectors';
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
-import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
-import { SubSink } from 'subsink';
-import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
-import { TableConfig, CustomColumn, TableDatasource } from 'src/business/shared/table-data';
+import { ExercisePropertyTypeService } from 'src/business/services/feature-services/exercise-property-type.service';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { distinctUntilChanged, map, switchMap, filter, concatMap, mergeMap, flatMap } from 'rxjs/operators';
+import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { Store } from '@ngrx/store';
+import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
+import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { map, distinctUntilChanged } from 'rxjs/operators';
-import { sortArrayByOrderProperty } from 'src/business/utils/utils';
+import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
+import { SubSink } from 'subsink';
+import { ExercisePropertyType } from '../../../../../../server-models/entities/exercise-property-type.model';
+import { selectedExercisePropertyType, selectedExercisePropertyTypeId } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
+import { ExercisePropertyService } from 'src/business/services/feature-services/exercise-property.service';
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { forkJoin, combineLatest } from 'rxjs';
+import { selectedExercise } from 'src/ngrx/training/training.selectors';
 import { setSelectedExerciseProperty } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
-import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 
 @Component({
   selector: 'app-properties-list',
@@ -22,14 +26,15 @@ import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.comp
 export class PropertiesListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
-  private deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
 
   protected tableConfig: TableConfig;
   protected tableColumns: CustomColumn[];
   protected tableDatasource: TableDatasource<ExerciseProperty>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
-  
+
   constructor(
+    private propertyService: ExercisePropertyService,
     private uiService: UIService,
     private store: Store<AppState>
   ) { }
@@ -40,14 +45,17 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
     this.tableColumns = this.getTableColumns() as CustomColumn[];
 
     this.subs.add(
-      this.store.select(selectedPropertyType)
-        .pipe(
-          map((propertyType: ExercisePropertyType) => propertyType ? propertyType.properties : []),
-          distinctUntilChanged()
-        ) 
-        .subscribe((propertyTypes: ExerciseProperty[]) => {
-          this.tableDatasource.updateDatasource(propertyTypes);
-      }));
+
+      this.store.select(selectedExercisePropertyType)
+      .pipe(
+        filter(propertyType => !!propertyType),
+        map(propertyType => propertyType.properties)
+      )
+      .subscribe((properties: ExerciseProperty[]) => {
+        this.tableDatasource.updateDatasource(properties);
+      })
+
+    );
 
   }
 
@@ -60,13 +68,13 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
     tableConfig.filterFunction = (data: ExerciseProperty, filter: string) => data.value.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = true;
     tableConfig.pageSizeOptions = [5];
-    
+
     return tableConfig;
   }
 
   getTableColumns() {
     return [
-       new CustomColumn({
+      new CustomColumn({
         definition: 'order',
         title: '#',
         sort: true,
@@ -88,12 +96,12 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
         cellClass: 'active-cell',
         useComponent: true,
         component: ActiveFlagComponent,
-        inputs: (item: ExercisePropertyType) => { return {active: item.active } },
+        inputs: (item: ExercisePropertyType) => { return { active: item.active } },
       }),
     ]
   }
 
-  onSelect = (property: ExerciseProperty) => this.store.dispatch(setSelectedExerciseProperty({property}));
+  onSelect = (property: ExerciseProperty) => this.store.dispatch(setSelectedExerciseProperty({ property }));
 
   onAdd() {
     // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
@@ -159,18 +167,18 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
 
   onDeleteSelection(propertyTypes: ExerciseProperty[]) {
 
-  //   this.deleteDialogConfig.message =
-  //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
-  //    <p>All data will be lost if you delete these users.</p>`;
+    //   this.deleteDialogConfig.message =
+    //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
+    //    <p>All data will be lost if you delete these users.</p>`;
 
-  //   this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
-  //     console.log('delete');
-  //     console.log(athletes);
-  //   }
+    //   this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
+    //     console.log('delete');
+    //     console.log(athletes);
+    //   }
 
-  //   this.deleteDialogConfig.actionParams = [athletes];
+    //   this.deleteDialogConfig.actionParams = [athletes];
 
-  //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
-  // }
+    //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
+    // }
   }
 }

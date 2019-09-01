@@ -11,7 +11,7 @@ import { MediaFile } from 'src/server-models/entities/media-file.model';
 
 export class MediaService extends BaseService {
 
-    private url = '/Media/';
+    private url = 'Media/';
 
     constructor(
         private http: HttpClient,

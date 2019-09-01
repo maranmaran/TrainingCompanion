@@ -5,7 +5,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 
 
 @Injectable()
-export class ExercisePropertyTypeEffects {
+export class ExercisePropertyEffects {
 
     constructor(
         private actions$: Actions,

@@ -21,9 +21,9 @@ namespace Backend.Application.Business.Business.ExercisePropertyType.Delete
         {
             try
             {
-                var exercisePropertyType = await _context.ExercisePropertyTypes.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                var entity = await _context.ExercisePropertyTypes.SingleAsync(x => x.Id == request.Id, cancellationToken);
 
-                _context.ExercisePropertyTypes.Remove(exercisePropertyType);
+                _context.ExercisePropertyTypes.Remove(entity);
 
                 await _context.SaveChangesAsync(cancellationToken);
 

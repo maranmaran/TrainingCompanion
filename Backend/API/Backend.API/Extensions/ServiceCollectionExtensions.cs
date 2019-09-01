@@ -73,6 +73,9 @@ namespace Backend.API.Extensions
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 //options.UseLazyLoadingProxies();
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 options.UseSqlServer(connectionString);
             });
 

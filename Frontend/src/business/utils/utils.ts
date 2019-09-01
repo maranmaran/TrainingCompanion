@@ -14,3 +14,7 @@ export function sortArrayByOrderProperty(a, b) {
     return 0;
   }
 }
+
+export function isEmpty(array: any[]) {
+  return !array || array.length == 0;
+}

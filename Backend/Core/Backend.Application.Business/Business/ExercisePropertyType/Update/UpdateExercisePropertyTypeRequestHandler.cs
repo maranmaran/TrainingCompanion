@@ -5,6 +5,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.ExercisePropertyType.Update
 {
@@ -24,6 +25,7 @@ namespace Backend.Application.Business.Business.ExercisePropertyType.Update
         {
             try
             {
+               _context.ExercisePropertyTypes.Attach(request.ExercisePropertyType).CurrentValues.SetValues(request.ExercisePropertyType);
                 _context.ExercisePropertyTypes.Update(request.ExercisePropertyType); // update
 
                 await _context.SaveChangesAsync(cancellationToken);

@@ -7,15 +7,12 @@
   <ItemGroup>
     <Compile Remove="Business\Athletes\**" />
     <Compile Remove="Business\Coaches\**" />
-    <Compile Remove="Business\ExerciseProperty\**" />
     <Compile Remove="Business\Notifications\**" />
     <EmbeddedResource Remove="Business\Athletes\**" />
     <EmbeddedResource Remove="Business\Coaches\**" />
-    <EmbeddedResource Remove="Business\ExerciseProperty\**" />
     <EmbeddedResource Remove="Business\Notifications\**" />
     <None Remove="Business\Athletes\**" />
     <None Remove="Business\Coaches\**" />
-    <None Remove="Business\ExerciseProperty\**" />
     <None Remove="Business\Notifications\**" />
   </ItemGroup>
 

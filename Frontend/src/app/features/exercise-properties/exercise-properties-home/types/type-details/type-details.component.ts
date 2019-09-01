@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedPropertyType } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
+import { selectedExercisePropertyType } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-type-details',
@@ -20,7 +21,7 @@ export class TypeDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.exercisePropertyType$ = this.store.select(selectedPropertyType);
+    this.exercisePropertyType$ = this.store.select(selectedExercisePropertyType);
   }
 
 

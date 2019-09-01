@@ -1,30 +1,48 @@
 <div class="details-container mat-elevation-z3" *ngIf="(exercisePropertyType$ | async) as type">
 
     <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
-        
+
         <span>{{type.type}}</span>
-        
+
     </h1>
 
     <mat-divider></mat-divider>
 
-    <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
+    <div class="details-body" gdAreas="left-label left-value" gdGap="1rem" gdRows="auto auto">
 
-        <div class="detail">
-            <mat-label class="label">Order:</mat-label>
-            <span class="label-value">{{type.order + 1}}.</span>
+        <div gdArea="left-label">
+            <div class="detail">
+                <mat-label class="label">Order:</mat-label>
+            </div>
+            <div class="detail">
+                <mat-label class="label">Description:</mat-label>
+            </div>
+            <div class="detail">
+                <mat-label class="label">Tag look:</mat-label>
+            </div>
+            <div class="detail">
+                <mat-label class="label">Active:</mat-label>
+            </div>
         </div>
-        <div class="detail">
-            <mat-label class="label">Description:</mat-label>
-            <span class="label-value">TODO</span>
-        </div>
-        <div class="detail">
-            <mat-label class="label">Tag look:</mat-label>
-            <span class="label-value" style="display: inline-flex"><app-exercise-type-chip [color]="type.hexColor" [backgroundColor]="type.hexBackground"></app-exercise-type-chip></span>
-        </div>
-        <div class="detail">
-            <mat-label class="label">Active:</mat-label>
-            <span class="label-value"><app-active-flag [active]="type.active"></app-active-flag></span>
+
+        <div gdArea="left-value">
+            <div class="detail">
+                <span class="label-value">{{type.order + 1}}.</span>
+            </div>
+            <div class="detail">
+                <span class="label-value">TODO</span>
+            </div>
+            <div class="detail">
+                <span class="label-value" style="display: inline-flex">
+                    <app-exercise-type-chip [color]="type.hexColor" [backgroundColor]="type.hexBackground">
+                    </app-exercise-type-chip>
+                </span>
+            </div>
+            <div class="detail">
+                <span class="label-value">
+                    <app-active-flag [active]="type.active"></app-active-flag>
+                </span>
+            </div>
         </div>
 
     </div>

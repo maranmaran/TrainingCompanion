@@ -6,6 +6,10 @@
   // $warn: mat-color(map-get($theme, warn));
 
   .details-container {
+    .detail{
+      margin-bottom: 5px;
+    }
+    
     .details-header {
       padding-top: 1rem;
       padding-left: 0.5rem;
