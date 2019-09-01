@@ -24,6 +24,7 @@ namespace Backend.Application.Business.Business.Training.Update
         {
             try
             {
+                _context.Trainings.Attach(request.Training).CurrentValues.SetValues(request.Training);
                 _context.Trainings.Update(request.Training);
 
                 await _context.SaveChangesAsync(cancellationToken);

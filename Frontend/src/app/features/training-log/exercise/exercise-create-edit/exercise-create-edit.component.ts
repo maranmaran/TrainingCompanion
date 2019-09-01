@@ -122,7 +122,7 @@ export class ExerciseCreateEditComponent implements OnInit {
       take(1),
       map(training => Object.assign({}, training)),
       concatMap((training: Training) => {
-        training.exercises = newExercise ? [this.exercise] : training.exercises.map(exercise => exercise.id == this.exercise.id ? this.exercise : exercise);
+        training.exercises = newExercise ? [...training.exercises, this.exercise] : training.exercises.map(exercise => exercise.id == this.exercise.id ? this.exercise : exercise);
         return this.trainingService.update(training);
       }),
       take(1)
