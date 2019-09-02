@@ -8,19 +8,32 @@
 
     <mat-divider></mat-divider>
 
-    <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
+    
+    <div class="details-body" gdAreas="left-label left-value" gdColumns="max-content auto">
 
-        <div class="detail">
-            <mat-label class="label">Order:</mat-label>
-            <span class="label-value">{{property.order + 1}}.</span>
+        <div gdArea="left-label">
+            <div class="detail">
+                <mat-label class="label">Order:</mat-label>
+            </div>
+            <div class="detail">
+                <mat-label class="label">Description:</mat-label>
+            </div>
+            <div class="detail">
+                <mat-label class="label">Active:</mat-label>
+            </div>
+    
         </div>
-        <div class="detail">
-            <mat-label class="label">Description:</mat-label>
-            <span class="label-value">TODO</span>
-        </div>
-        <div class="detail">
-            <mat-label class="label">Active:</mat-label>
-            <span class="label-value"><app-active-flag [active]="property.active"></app-active-flag></span>
+
+        <div gdArea="left-value">
+            <div class="detail">
+                <span class="label-value">{{property.order + 1}}.</span>
+            </div>
+            <div class="detail">
+                <span class="label-value">TODO</span>
+            </div>
+            <div class="detail">
+                <span class="label-value"><app-active-flag [active]="property.active"></app-active-flag></span>
+            </div>
         </div>
 
     </div>

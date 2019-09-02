@@ -1,7 +1,7 @@
 import { ExercisePropertyTypeService } from 'src/business/services/feature-services/exercise-property-type.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { distinctUntilChanged, map, switchMap, filter, concatMap, mergeMap, flatMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, filter, concatMap, mergeMap, flatMap, take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -17,6 +17,8 @@ import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { forkJoin, combineLatest } from 'rxjs';
 import { selectedExercise } from 'src/ngrx/training/training.selectors';
 import { setSelectedExerciseProperty } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
+import { PropertiesCreateEditComponent } from '../properties-create-edit/properties-create-edit.component';
+import { CRUD } from 'src/business/shared/crud.enum';
 
 @Component({
   selector: 'app-properties-list',
@@ -32,6 +34,8 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
   protected tableColumns: CustomColumn[];
   protected tableDatasource: TableDatasource<ExerciseProperty>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
+
+  private propertyTypeName: string;
 
   constructor(
     private propertyService: ExercisePropertyService,
@@ -49,10 +53,10 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       this.store.select(selectedExercisePropertyType)
       .pipe(
         filter(propertyType => !!propertyType),
-        map(propertyType => propertyType.properties)
       )
-      .subscribe((properties: ExerciseProperty[]) => {
-        this.tableDatasource.updateDatasource(properties);
+      .subscribe((propertyType: ExercisePropertyType) => {
+        this.propertyTypeName = propertyType.type;
+        this.tableDatasource.updateDatasource(propertyType.properties);
       })
 
     );
@@ -104,43 +108,43 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
   onSelect = (property: ExerciseProperty) => this.store.dispatch(setSelectedExerciseProperty({ property }));
 
   onAdd() {
-    // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '20rem',
-    //   autoFocus: false,
-    //   data: { title: 'Add athlete', action: CRUD.Create },
-    //   panelClass: []
-    // })
+    const dialogRef = this.uiService.openDialogFromComponent(PropertiesCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      data: { title: `Add ${this.propertyTypeName} property`, action: CRUD.Create },
+      panelClass: []
+    })
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((athlete: ApplicationUser) => {
-    //       if (athlete) {
-    //         this.table.onSelect(athlete, true);
-    //         this.onSelect(athlete);
-    //       }
-    //     }
-    //   )
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((property: ExerciseProperty) => {
+        if (property) {
+          this.table.onSelect(property, true);
+          this.onSelect(property);
+        }
+      }
+      )
   }
 
-  onUpdate(propertyType: ExerciseProperty) {
-    // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '20rem',
-    //   autoFocus: false,
-    //   data: { title: 'Update athlete', action: CRUD.Update, athlete: athlete },
-    //   panelClass: []
-    // })
+  onUpdate(exerciseProperty: ExerciseProperty) {
+    const dialogRef = this.uiService.openDialogFromComponent(PropertiesCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      data: { title: `Update ${this.propertyTypeName} property`, action: CRUD.Update, exerciseProperty: exerciseProperty },
+      panelClass: []
+    })
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((athlete: ApplicationUser) => {
-    //       if (athlete) {
-    //         this.table.onSelect(athlete, true);
-    //         this.onSelect(athlete);
-    //       }
-    //     }
-    //   )
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((property: ExerciseProperty) => {
+        if (property) {
+          this.table.onSelect(property, true);
+          this.onSelect(property);
+        }
+      }
+      )
   }
 
   onDeleteSingle(propertyType: ExerciseProperty) {
