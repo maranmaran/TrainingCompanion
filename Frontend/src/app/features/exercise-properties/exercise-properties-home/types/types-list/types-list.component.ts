@@ -1,21 +1,20 @@
-import { TypesCreateEditComponent } from './../types-create-edit/types-create-edit.component';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { ExercisePropertyTypeService } from 'src/business/services/feature-services/exercise-property-type.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
+import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
-import { sortArrayByOrderProperty } from 'src/business/utils/utils';
+import { reorderExercisePropertyTypes, setSelectedExercisePropertyType } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
+import { allExercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
 import { SubSink } from 'subsink';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { allExercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
-import { setSelectedExercisePropertyType, reorderExercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
+import { TypesCreateEditComponent } from './../types-create-edit/types-create-edit.component';
 
 @Component({
   selector: 'app-types-list',
@@ -112,6 +111,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
     let currentItem = payload.current.id;
     this.store.dispatch(reorderExercisePropertyTypes({previousItem, currentItem }));
   }
+  
   onAdd() {
     const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
       height: 'auto',
