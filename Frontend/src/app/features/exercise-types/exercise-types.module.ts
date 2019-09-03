@@ -12,6 +12,7 @@ import { ExerciseTypeListComponent } from './exercise-types-home/exercise-type-l
 import { ExerciseTypesHomeComponent } from './exercise-types-home/exercise-types-home.component';
 import { ExerciseTypesRoutingModule } from './exercise-types-routing.module';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { ExerciseTypeCreateEditComponent } from './exercise-type-create-edit/exercise-type-create-edit.component';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { ExerciseTypeService } from 'src/business/services/feature-services/exer
         ExerciseTypesHomeComponent,
         ExerciseTypeListComponent,
         ExerciseTypeDetailsComponent,
+        ExerciseTypeCreateEditComponent,
     ],
     exports: [
     ],

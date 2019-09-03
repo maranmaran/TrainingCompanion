@@ -1,11 +1,10 @@
+import { TrainingEffects } from 'src/ngrx/training/training.effects';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { TrainingLogRoutingModule } from './training-log-routing.module';
 import { TrainingLogHomeComponent } from './training-log-home/training-log-home.component';
 import { TrainingCalendarComponent } from './training/training-calendar/training-calendar.component';
-import { trainingReducer } from 'src/ngrx/training/training.reducers';
-import { TrainingEffects } from 'src/ngrx/training/training.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
@@ -17,6 +16,7 @@ import { ExerciseCreateEditComponent } from './exercise/exercise-create-edit/exe
 import { ExerciseDetailsComponent } from './exercise/exercise-details/exercise-details.component';
 import { SetListComponent } from './set/set-list/set-list.component';
 import { SetCreateEditComponent } from './set/set-create-edit/set-create-edit.component';
+import { trainingReducer } from 'src/ngrx/training/training.reducers';
 
 
 @NgModule({

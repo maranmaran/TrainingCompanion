@@ -1,23 +1,21 @@
-import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/requests/update-training.request';
-import { Component, OnInit, Inject } from '@angular/core';
-import { ValidationErrors } from 'src/server-models/error/error-details.model';
-import { Exercise } from 'src/server-models/entities/exercise.model';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { currentUser } from 'src/ngrx/auth/auth.selectors';
-import { take, concatMap, map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { UserService } from 'src/business/services/feature-services/user.service';
+import { UpdateTrainingRequest, UpdateTrainingRequestResponse } from './../../../../../server-models/cqrs/training/requests/update-training.request';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { concatMap, map, take } from 'rxjs/operators';
 import { AthleteCreateEditComponent } from 'src/app/features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
-import { ApplicationUser } from 'src/server-models/entities/application-user.model';
-import { ServerStatusCodes } from 'src/server-models/error/status-codes/server.codes';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
-import { selectedTraining } from 'src/ngrx/training/training.selectors';
-import { Training } from 'src/server-models/entities/training.model';
-import { trainingUpdated } from 'src/ngrx/training/training.actions';
+import { CRUD } from 'src/business/shared/crud.enum';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { Training } from 'src/server-models/entities/training.model';
+import { ValidationErrors } from 'src/server-models/error/error-details.model';
+import { selectedTraining } from 'src/ngrx/training/training.selectors';
+import { trainingUpdated } from 'src/ngrx/training/training.actions';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'app-exercise-create-edit',
@@ -100,18 +98,21 @@ export class ExerciseCreateEditComponent implements OnInit {
     this.exercise.exerciseTypeId = this.exerciseType.value.id;
     this.exercise.exerciseType = this.exerciseType.value;
 
-    if (this.setsCount.value > this.exercise.sets) {// add
+    if (this.setsCount.value > this.exercise.sets.length) {// add
       let sets = [];
 
-      for(var i = 0; i < this.setsCount.value; i++) {
+      for(var i = 0; i < (this.setsCount.value - this.exercise.sets.length); i++) {
         sets.push(new Set());
       };
 
-      this.exercise.sets.push(...sets);
-    } else { // delete starting from last one
+      this.exercise.sets = [...this.exercise.sets, ...sets];
+    } else if (this.setsCount.value < this.exercise.sets.length) { // delete 
+      var sets = [...this.exercise.sets];
       for(var i = 0; i < this.setsCount.value; i++) {
-        this.exercise.sets.pop();
+        sets.pop();;
       };
+
+      this.exercise.sets = [...sets];
     }
 
     this.updateTraining(false, this.exercise);
@@ -122,13 +123,21 @@ export class ExerciseCreateEditComponent implements OnInit {
       take(1),
       map(training => Object.assign({}, training)),
       concatMap((training: Training) => {
-        training.exercises = newExercise ? [...training.exercises, this.exercise] : training.exercises.map(exercise => exercise.id == this.exercise.id ? this.exercise : exercise);
-        return this.trainingService.update(training);
+        var request = new UpdateTrainingRequest();
+        request.training = training;
+        request.exerciseAdd = exercise;
+        return this.trainingService.update<UpdateTrainingRequest, UpdateTrainingRequestResponse>(request);
       }),
       take(1)
-    ).subscribe((training: Training) => {
-      this.store.dispatch(trainingUpdated({ training }));
-      this.onClose(exercise);
+    ).subscribe((response: UpdateTrainingRequestResponse) => {
+
+      const trainingUpdate: Update<Training> = {
+        id: response.training.id,
+        changes: response.training
+      };
+
+      this.store.dispatch(trainingUpdated({ training: trainingUpdate }));
+      this.onClose(response.addedExercise);
     });
   }
 }

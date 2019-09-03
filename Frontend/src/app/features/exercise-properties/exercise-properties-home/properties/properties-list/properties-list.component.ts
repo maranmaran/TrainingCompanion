@@ -1,24 +1,20 @@
-import { ExercisePropertyTypeService } from 'src/business/services/feature-services/exercise-property-type.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { distinctUntilChanged, map, switchMap, filter, concatMap, mergeMap, flatMap, take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
+import { ExercisePropertyService } from 'src/business/services/feature-services/exercise-property.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
+import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
+import { setSelectedExerciseProperty } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
+import { selectedExercisePropertyType } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
 import { SubSink } from 'subsink';
 import { ExercisePropertyType } from '../../../../../../server-models/entities/exercise-property-type.model';
-import { selectedExercisePropertyType, selectedExercisePropertyTypeId } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
-import { ExercisePropertyService } from 'src/business/services/feature-services/exercise-property.service';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
-import { forkJoin, combineLatest } from 'rxjs';
-import { selectedExercise } from 'src/ngrx/training/training.selectors';
-import { setSelectedExerciseProperty } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
 import { PropertiesCreateEditComponent } from '../properties-create-edit/properties-create-edit.component';
-import { CRUD } from 'src/business/shared/crud.enum';
 
 @Component({
   selector: 'app-properties-list',

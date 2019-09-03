@@ -3,11 +3,10 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
-import { selectedTraining, selectedExercise } from 'src/ngrx/training/training.selectors';
 import { Training } from 'src/server-models/entities/training.model';
-import { setSelectedTraining } from 'src/ngrx/training/training.actions';
-import { FormControl } from '@angular/forms';
-import { MatTabGroup, MatTabChangeEvent, MatTab } from '@angular/material/tabs';
+import { MatTabGroup } from '@angular/material/tabs';
+import { selectedTraining, selectedExercise } from 'src/ngrx/training/training.selectors';
+import { setSelectedTraining, setSelectedExercise } from 'src/ngrx/training/training.actions';
 
 @Component({
   selector: 'app-training-log-home',
@@ -58,6 +57,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
       case TrainingCalendarTab1.List:
         return this.goBackToList();
       case TrainingCalendarTab1.TrainingDetails:
+        this.store.dispatch(setSelectedExercise(null));
         break;
       case TrainingCalendarTab1.ExerciseDetails:
         break;
