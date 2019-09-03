@@ -8,8 +8,6 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { currentUser } from '../../ngrx/auth/auth.selectors';
 import { Training } from 'src/server-models/entities/training.model';
-import { trainings } from 'src/ngrx/training/training.selectors';
-import { trainingsFetched } from 'src/ngrx/training/training.actions';
 
 // @Injectable()
 // export class TrainingsResolver implements Resolve<Observable<Training[] | void>> {

@@ -9,9 +9,10 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { take } from 'rxjs/operators';
 import { Training } from 'src/server-models/entities/training.model';
-import { trainingsFetched, trainingCreated, setSelectedTraining } from 'src/ngrx/training/training.actions';
 import { SubSink } from 'subsink';
-import { trainings, selectedTraining } from 'src/ngrx/training/training.selectors';
+import { trainingEntities, allTrainings } from 'src/ngrx/training/training.selectors';
+import { trainingsFetched, trainingCreated, setSelectedTraining } from 'src/ngrx/training/training.actions';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-training-calendar',
@@ -36,7 +37,7 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
   //   {day: moment(new Date()).add(1, 'month').subtract(1, 'day'), event: 'event3'},
   // ] 
 
-  protected inputData = new Subject<CalendarEvent[]>();
+  protected inputData = new ReplaySubject<CalendarEvent[]>();
   private userId: string;
   private subsink = new SubSink();
 
@@ -56,7 +57,7 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
     });
 
     // subscribe to changes
-    this.subsink.add(this.store.select(trainings).subscribe(
+    this.subsink.add(this.store.select(allTrainings).subscribe(
       (trainings: Training[]) => {
         this.inputData.next(this.parseTrainingsForCalendar(trainings));
       }

@@ -39,8 +39,8 @@ export abstract class CrudService<T> extends BaseService {
         );
     }
 
-    public update<TRequest>(request: TRequest) {
-        return this.http.post<T>(this.url + 'Update/', request)
+    public update<TRequest, TResponse = T>(request: TRequest) {
+        return this.http.post<TResponse>(this.url + 'Update/', request)
             .pipe(
                 catchError(this.handleError)
             );
