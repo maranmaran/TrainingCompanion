@@ -1,20 +1,24 @@
-import { Set } from '../../server-models/entities/set.model';
-import { Exercise } from '../../server-models/entities/exercise.model';
+import { Set } from './../../server-models/entities/set.model';
+import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import { Training } from 'src/server-models/entities/training.model';
-import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { Exercise } from 'src/server-models/entities/exercise.model';
 
-export interface TrainingState {
-    trainings: Training[];
-    selectedTraining: Training;
-    selectedExercise: Exercise;
-    selectedSet: Set;
+
+// Exercise property type ENTITY
+export interface TrainingState extends EntityState<Training>{
+    selectedTrainingId: string | number,
+    selectedExerciseId: string | number,
+    selectedSetId: string | number,
 }
 
-export const initialTrainingState: TrainingState = {
-    trainings: undefined,
-    selectedTraining: undefined,
-    selectedExercise: undefined,
-    selectedSet: undefined,
-};
+// ADAPTERS
+export const adapterTraining = createEntityAdapter<Training>({});
+export const adapterExercise = createEntityAdapter<Exercise>({});
+export const adapterSet = createEntityAdapter<Set>({});
 
-
+// INITIAL STATES
+export const trainingInitialState: TrainingState = adapterTraining.getInitialState({
+    selectedTrainingId: undefined,
+    selectedExerciseId: undefined,
+    selectedSetId: undefined,
+});

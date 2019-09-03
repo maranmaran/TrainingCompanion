@@ -1,3 +1,4 @@
+import { selectedTraining, selectedExercises } from 'src/ngrx/training/training.selectors';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { concatMap, map, take } from 'rxjs/operators';
@@ -10,14 +11,14 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training/training.actions';
-import { exercises, selectedTraining } from 'src/ngrx/training/training.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training/training.actions';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'app-exercise-list',
@@ -51,7 +52,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
 
     this.subs.add(
-      this.store.select(exercises)
+      this.store.select(selectedExercises)
+        .pipe(map(exercises => exercises || []))
         .subscribe((exercises: Exercise[]) => {
           this.tableDatasource.updateDatasource(exercises);
       }));
@@ -153,7 +155,13 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
             }),
             take(1))
             .subscribe((training: Training) => {
-              this.store.dispatch(trainingUpdated({ training }));
+              
+              const trainingUpdate: Update<Training> = {
+                id: training.id,
+                changes: training
+              };
+
+              this.store.dispatch(trainingUpdated({ training: trainingUpdate }));
             });
         }
       });

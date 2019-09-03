@@ -39,9 +39,9 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Training training)
+        public async Task<IActionResult> Update(UpdateTrainingRequest request)
         {
-            return await Update(async () => await Mediator.Send(new UpdateTrainingRequest(training)));
+            return await Update(async () => await Mediator.Send(request));
         }
 
         [HttpPost]

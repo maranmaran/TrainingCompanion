@@ -12,5 +12,4 @@ export class TrainingEffects {
         private store: Store<AppState>
     ) { }
 
-    
 }

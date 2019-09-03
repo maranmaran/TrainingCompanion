@@ -6,7 +6,7 @@
         </ng-template>
     </mat-tab>
     <mat-tab label="Training"></mat-tab>
-    <mat-tab label="Exercise"></mat-tab>
+    <mat-tab label="Exercise" [disabled]="!selectedExercise ? true : false"></mat-tab>
 </mat-tab-group>
 
 <mat-tab-group #group2 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab2 ? 'none' : 'inherit'"
@@ -21,6 +21,7 @@
     FOR REFRESH STATE KEEPING -->
 
 <!-- TABS STATE CAN BE KEPT IN NGRX -->
+<router-outlet></router-outlet>
 
 <!------------------CALENDAR---------------------->
 <ng-container *ngIf="showCalendar">

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Backend.Application.Business.Business.Training.Update
 {
     public class UpdateTrainingRequestHandler :
-        IRequestHandler<UpdateTrainingRequest, Domain.Entities.TrainingLog.Training>
+        IRequestHandler<UpdateTrainingRequest, UpdateTrainingRequestResponse>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -20,16 +20,25 @@ namespace Backend.Application.Business.Business.Training.Update
             _mapper = mapper;
         }
 
-        public async Task<Domain.Entities.TrainingLog.Training> Handle(UpdateTrainingRequest request, CancellationToken cancellationToken)
+        public async Task<UpdateTrainingRequestResponse> Handle(UpdateTrainingRequest request, CancellationToken cancellationToken)
         {
             try
             {
+                if (request.ExerciseAdd != null)
+                {
+                    request.Training.Exercises.Add(request.ExerciseAdd);
+                }
+
                 _context.Trainings.Attach(request.Training).CurrentValues.SetValues(request.Training);
                 _context.Trainings.Update(request.Training);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return request.Training;
+                return new UpdateTrainingRequestResponse()
+                {
+                    Training = request.Training,
+                    AddedExercise = request.ExerciseAdd
+                };
             }
             catch (Exception e)
             {
