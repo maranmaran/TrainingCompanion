@@ -17,7 +17,7 @@ import { ExercisePropertiesRoutingModule } from './exercise-properties-routing.m
 import { EffectsModule } from '@ngrx/effects';
 import { ExercisePropertyTypeEffects } from 'src/ngrx/exercise-property-type/exercise-property-type.effects';
 import { exercisePropertyTypeReducer } from 'src/ngrx/exercise-property-type/exercise-property-type.reducers';
-import { ExercisePropertyEffects } from 'src/ngrx/exercise-property-management/exercise-property/exercise-property.effects';
+import { ExercisePropertyEffects } from 'src/ngrx/exercise-property/exercise-property.effects';
 
 @NgModule({
     imports: [

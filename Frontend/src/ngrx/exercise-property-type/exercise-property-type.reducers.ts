@@ -5,7 +5,6 @@ import { ExercisePropertyType } from 'src/server-models/entities/exercise-proper
 import * as ExercisePropertyTypeActions from './exercise-property-type.actions';
 import { adapterExercisePropertyType, adapterExerciseProperty, ExercisePropertyTypeState, exercisePropertyTypeInitialState } from './exercise-property-type.state';
 
-
 export const exercisePropertyTypeReducer: ActionReducer<ExercisePropertyTypeState, Action> = createReducer(
     exercisePropertyTypeInitialState,
 
