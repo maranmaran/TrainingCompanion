@@ -1,8 +1,8 @@
-import { schema } from 'normalizr';
+// import { schema } from 'normalizr';
 
-// Define a schema
-const property = new schema.Entity('properties');
+// // Define a schema
+// const property = new schema.Entity('properties');
 
-export const exercisePropertyTypeNormalizeSchema = new schema.Entity('types', {
-    properties: [property]
-});
+// export const exercisePropertyTypeNormalizeSchema = new schema.Entity('types', {
+//     properties: [property]
+// });

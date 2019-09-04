@@ -3,11 +3,11 @@ import { ExerciseProperty } from 'src/server-models/entities/exercise-property.m
 
 // Exercise property ENTITY
 export interface ExercisePropertyState extends EntityState<ExerciseProperty> {
-    selectedPropertyId: string | number;
+    selectedId: string | number;
 }
 
 // ADAPTERS
 export const adapterExerciseProperty = createEntityAdapter<ExerciseProperty>();
 
 // INITIAL STATES
-export const exercisePropertyInitialState: ExercisePropertyState = adapterExerciseProperty.getInitialState({selectedPropertyId: undefined});
+export const exercisePropertyInitialState: ExercisePropertyState = adapterExerciseProperty.getInitialState({selectedId: undefined});
