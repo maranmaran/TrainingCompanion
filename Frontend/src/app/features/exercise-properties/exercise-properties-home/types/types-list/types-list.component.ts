@@ -6,10 +6,10 @@ import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { ExercisePropertyTypeService } from 'src/business/services/feature-services/exercise-property-type.service';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
+import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
-import { reorderExercisePropertyTypes, setSelectedExercisePropertyType } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
+import { reorderExercisePropertyTypes, setSelectedExercisePropertyType, exercisePropertyTypeDeleted } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
 import { allExercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
@@ -148,40 +148,46 @@ export class TypesListComponent implements OnInit, OnDestroy {
 
   onDeleteSingle(propertyType: ExercisePropertyType) {
 
-    // this.deleteDialogConfig.message =
-    //   `<p>Are you sure you wish to delete type ${propertyType.type} ?</p>
-    //  <p>All data will be lost if you delete this type.</p>`;
+    this.deleteDialogConfig.message =
+      `<p>Are you sure you wish to delete type ${propertyType.type} ?</p>
+     <p>All data will be lost if you delete this type.</p>`;
 
-    // var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
+    var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((result: ConfirmResult) => {
-    //     if(result == ConfirmResult.Confirm) {
-    //       this.userService.delete(athlete.id, AccountType.Athlete)
-    //         .subscribe(
-    //           () => {
-    //             this.store.dispatch(deleteAthlete(athlete))
-    //           },
-    //           err => console.log(err)
-    //         )
-    //     }
-    //   })
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((result: ConfirmResult) => {
+        if(result == ConfirmResult.Confirm) {
+          this.exercisePropertyTypeService.delete(propertyType.id)
+            .subscribe(
+              () => {
+                this.store.dispatch(exercisePropertyTypeDeleted({id: propertyType.id }))
+              },
+              err => console.log(err)
+            )
+        }
+      })
   }
 
   onDeleteSelection(propertyTypes: ExercisePropertyType[]) {
 
-  //   this.deleteDialogConfig.message =
-  //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
-  //    <p>All data will be lost if you delete these users.</p>`;
+    this.deleteDialogConfig.message =
+      `<p>Are you sure you wish to delete all (${propertyTypes.length}) selected types ?</p>
+     <p>All data will be lost if you delete these types.</p>`;
 
-  //   this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
-  //     console.log('delete');
-  //     console.log(athletes);
-  //   }
+    var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig)
 
-  //   this.deleteDialogConfig.actionParams = [athletes];
-
-  //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
-  // }
+    dialogRef.afterClosed().pipe(take(1))
+    .subscribe((result: ConfirmResult) => {
+      if(result == ConfirmResult.Confirm) {
+        this.exercisePropertyTypeService.deleteMany(propertyTypes.map(x => x.id))
+          .subscribe(
+            () => {
+              // TODO
+              // this.store.dispatch(exercisePropertyTypesDeleted({id: propertyType.id }))
+            },
+            err => console.log(err)
+          )
+      }
+    })
   }
 }

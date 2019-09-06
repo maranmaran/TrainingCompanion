@@ -17,6 +17,7 @@ import { SetListComponent } from './set/set-list/set-list.component';
 import { SetCreateEditComponent } from './set/set-create-edit/set-create-edit.component';
 import { trainingReducer } from 'src/ngrx/training-log/training/training.reducers';
 import { TrainingEffects } from 'src/ngrx/training-log/training/training.effects';
+import { TrainingDetailsResolver } from 'src/business/resolvers/training-details.resolver';
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import { TrainingEffects } from 'src/ngrx/training-log/training/training.effects
     providers: [
         UIService,
         TrainingService,
-        // TrainingsResolver
+        TrainingDetailsResolver
     ],
     entryComponents: [
         ExerciseCreateEditComponent,
