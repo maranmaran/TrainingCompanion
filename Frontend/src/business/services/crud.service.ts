@@ -26,7 +26,7 @@ export abstract class CrudService<T> extends BaseService {
     }
 
     public getOne(id: string) {
-        return this.http.get<ApplicationUser>(this.url + 'Get/' + id)
+        return this.http.get<T>(this.url + 'Get/' + id)
             .pipe(
                 catchError(this.handleError)
             );

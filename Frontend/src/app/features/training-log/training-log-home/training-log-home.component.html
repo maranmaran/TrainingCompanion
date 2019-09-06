@@ -23,27 +23,22 @@
 <!-- TABS STATE CAN BE KEPT IN NGRX -->
 <router-outlet></router-outlet>
 
-<!------------------CALENDAR---------------------->
-<ng-container *ngIf="showCalendar">
+<!-- <ng-container *ngIf="showCalendar">
     <app-training-calendar></app-training-calendar>
 </ng-container>
-<!------------------WEEK---------------------->
 <ng-container *ngIf="showWeek">
     Week
 </ng-container>
-<!------------------LIST---------------------->
 <ng-container *ngIf="showList">
     List
 </ng-container>
-<!------------------TRAINING---------------------->
 <ng-container *ngIf="showTraining">
     <ng-container *ngIf="selectedTraining">
         <app-training-details [training]="selectedTraining"></app-training-details>
     </ng-container>
 </ng-container>
-<!------------------EXERCISE---------------------->
 <ng-container *ngIf="showExercise">
     <ng-container *ngIf="selectedExercise">
         <app-exercise-details [exercise]="selectedExercise"></app-exercise-details>
     </ng-container>
-</ng-container>
+</ng-container> -->

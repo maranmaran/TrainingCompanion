@@ -7,6 +7,7 @@ import { Training } from 'src/server-models/entities/training.model';
 import { MatTabGroup } from '@angular/material/tabs';
 import { selectedTraining, selectedExercise } from 'src/ngrx/training-log/training/training.selectors';
 import { setSelectedExercise, setSelectedTraining } from 'src/ngrx/training-log/training/training.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-training-log-home',
@@ -23,6 +24,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   protected selectedExercise: Exercise;
 
   constructor(
+    private router: Router,
     private store: Store<AppState>
   ) { }
 
@@ -58,8 +60,10 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
         return this.goBackToList();
       case TrainingCalendarTab1.TrainingDetails:
         this.store.dispatch(setSelectedExercise(null));
+        this.router.navigate(['/app/training-log/training-detail']);
         break;
       case TrainingCalendarTab1.ExerciseDetails:
+        this.router.navigate(['/app/training-log/exercise-detail']);
         break;
       default:
         throw new Error("No tab index like this");
@@ -74,10 +78,13 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
     switch(index) {
       case TrainingCalendarTab2.Calendar:
+        this.router.navigate(['/app/training-log/calendar']);
         break;
       case TrainingCalendarTab2.Week:
+        this.router.navigate(['/app/training-log/week']);
         break;
       case TrainingCalendarTab2.List:
+        this.router.navigate(['/app/training-log/list']);
         break;
       default:
         throw new Error("No tab index like this");

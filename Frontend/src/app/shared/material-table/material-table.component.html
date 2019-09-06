@@ -54,6 +54,11 @@
                 (click)="$event.stopPropagation()">
                 <i class="fas fa-edit"></i>
             </button>
+            <!--DISABLE MANY ACTION-->
+            <button mat-icon-button *ngIf="disableManyVisible && oneHeaderAction" (click)="onDisableSelection()" color="accent"
+                (click)="$event.stopPropagation()">
+                <i class="fas fa-times"></i>
+            </button>
             <!--DELETE MANY ACTION-->
             <button mat-icon-button *ngIf="deleteManyVisible && oneHeaderAction" (click)="onDeleteSelection()" color="accent"
                 (click)="$event.stopPropagation()">
@@ -70,6 +75,9 @@
                 </button>
                 <button mat-icon-button *ngIf="config.editManyEnabled" color="accent" (click)="updateManyEvent.emit()" (click)="$event.stopPropagation()">
                     <i class="fas fa-edit"></i>
+                </button>
+                <button mat-icon-button *ngIf="disableManyVisible" (click)="onDisableSelection()" color="accent" (click)="$event.stopPropagation()">
+                    <i class="fas fa-times"></i>
                 </button>
                 <button mat-icon-button *ngIf="deleteManyVisible" (click)="onDeleteSelection()" color="accent" (click)="$event.stopPropagation()">
                     <i class="fas fa-trash"></i>
@@ -88,6 +96,9 @@
                 <mat-menu #cellMenu="matMenu">
                     <button *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)">
                         <i class="fas fa-edit"></i>
+                    </button>
+                    <button *ngIf="config.disableEnabled" mat-icon-button color="accent" (click)="disableEvent.emit(row)">
+                        <i class="fas fa-times"></i>
                     </button>
                     <button *ngIf="config.deleteEnabled" mat-icon-button color="accent" (click)="deleteEvent.emit(row)">
                         <i class="fas fa-trash"></i>
