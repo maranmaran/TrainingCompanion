@@ -5,8 +5,8 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { Training } from 'src/server-models/entities/training.model';
 import { MatTabGroup } from '@angular/material/tabs';
-import { selectedTraining, selectedExercise } from 'src/ngrx/training/training.selectors';
-import { setSelectedTraining, setSelectedExercise } from 'src/ngrx/training/training.actions';
+import { selectedTraining, selectedExercise } from 'src/ngrx/training-log/training/training.selectors';
+import { setSelectedExercise, setSelectedTraining } from 'src/ngrx/training-log/training/training.actions';
 
 @Component({
   selector: 'app-training-log-home',

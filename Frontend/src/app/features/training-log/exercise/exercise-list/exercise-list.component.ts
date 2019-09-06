@@ -1,4 +1,3 @@
-import { selectedTraining, selectedExercises } from 'src/ngrx/training/training.selectors';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { concatMap, map, take } from 'rxjs/operators';
@@ -17,8 +16,9 @@ import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
-import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training/training.actions';
 import { Update } from '@ngrx/entity';
+import { selectedExercises, selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
+import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 
 @Component({
   selector: 'app-exercise-list',

@@ -1,5 +1,4 @@
-import { Set } from './../../server-models/entities/set.model';
-import { ExerciseProperty } from '../../server-models/entities/exercise-property.model';
+import { Set } from './../../../server-models/entities/set.model';
 import { Update } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
 import { Training } from 'src/server-models/entities/training.model';

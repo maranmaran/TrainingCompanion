@@ -2,10 +2,10 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromExerciseProperty from './exercise-property.reducers';
 import { ExercisePropertyState } from './exercise-property.state';
 
-export const selectExercisePropertyTypeState = createFeatureSelector<ExercisePropertyState>("exerciseProperty");
+export const exercisePropertyFeatureSelector = createFeatureSelector<ExercisePropertyState>("exerciseProperty");
 
 export const selectExercisePropertyState = createSelector(
-    selectExercisePropertyTypeState,
+    exercisePropertyFeatureSelector,
     (state: ExercisePropertyState) => state
 );
 

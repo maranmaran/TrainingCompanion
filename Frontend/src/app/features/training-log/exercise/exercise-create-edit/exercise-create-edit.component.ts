@@ -13,9 +13,9 @@ import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { ValidationErrors } from 'src/server-models/error/error-details.model';
-import { selectedTraining } from 'src/ngrx/training/training.selectors';
-import { trainingUpdated } from 'src/ngrx/training/training.actions';
 import { Update } from '@ngrx/entity';
+import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
+import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 
 @Component({
   selector: 'app-exercise-create-edit',
