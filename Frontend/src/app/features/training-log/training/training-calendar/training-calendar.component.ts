@@ -10,9 +10,9 @@ import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { take } from 'rxjs/operators';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
-import { trainingEntities, allTrainings } from 'src/ngrx/training/training.selectors';
-import { trainingsFetched, trainingCreated, setSelectedTraining } from 'src/ngrx/training/training.actions';
 import { ReplaySubject } from 'rxjs';
+import { allTrainings } from 'src/ngrx/training-log/training/training.selectors';
+import { trainingsFetched, trainingCreated, setSelectedTraining } from 'src/ngrx/training-log/training/training.actions';
 
 @Component({
   selector: 'app-training-calendar',
