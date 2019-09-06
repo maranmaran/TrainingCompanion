@@ -1,4 +1,3 @@
-import { TrainingEffects } from 'src/ngrx/training/training.effects';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -16,7 +15,8 @@ import { ExerciseCreateEditComponent } from './exercise/exercise-create-edit/exe
 import { ExerciseDetailsComponent } from './exercise/exercise-details/exercise-details.component';
 import { SetListComponent } from './set/set-list/set-list.component';
 import { SetCreateEditComponent } from './set/set-create-edit/set-create-edit.component';
-import { trainingReducer } from 'src/ngrx/training/training.reducers';
+import { trainingReducer } from 'src/ngrx/training-log/training/training.reducers';
+import { TrainingEffects } from 'src/ngrx/training-log/training/training.effects';
 
 
 @NgModule({

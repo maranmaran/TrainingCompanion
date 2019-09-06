@@ -14,8 +14,8 @@ import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
-import { selectedSets, selectedExerciseType } from 'src/ngrx/training/training.selectors';
-import { setSelectedSet } from 'src/ngrx/training/training.actions';
+import { selectedExerciseType, selectedSets } from 'src/ngrx/training-log/training/training.selectors';
+import { setSelectedSet } from 'src/ngrx/training-log/training/training.actions';
 
 @Component({
   selector: 'app-set-list',
