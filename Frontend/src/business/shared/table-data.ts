@@ -46,10 +46,12 @@ export class TableConfig {
 
     addEnabled = true;
     editManyEnabled = false;
-    deleteManyEnabled = false;
+    deleteManyEnabled = true;
+    disableManyEnabled = true;
 
     editEnabled = true;
-    deleteEnabled = true;
+    deleteEnabled = false;
+    disableEnabled = true;
 
     enableDragAndDrop: boolean = false;
     pageSize = 5;

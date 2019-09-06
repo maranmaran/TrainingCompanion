@@ -33,11 +33,15 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   @Output() selectEvent = new EventEmitter<any>();
   @Output() dropEvent = new EventEmitter<any>();
+
   @Output() addEvent = new EventEmitter<any>();
-  @Output() updateManyEvent = new EventEmitter<any>();
   @Output() updateEvent = new EventEmitter<any>();
   @Output() deleteEvent = new EventEmitter<any>();
-  @Output() deleteSelectionEvent = new EventEmitter<any[]>();
+  @Output() disableEvent = new EventEmitter<any>();
+
+  @Output() updateManyEvent = new EventEmitter<any>();
+  @Output() disableManyEvent = new EventEmitter<any[]>();
+  @Output() deleteManyEvent = new EventEmitter<any[]>();
 
   protected displayColumns: string[] = [];
   protected selection = new SelectionModel<string>(true, []);
@@ -168,7 +172,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   onDeleteSelection() {
-    this.deleteSelectionEvent.emit(this.selection.selected);
+    this.deleteManyEvent.emit(this.selection.selected);
   }
 
   public renderRows = (execute: boolean) => execute && this.table.renderRows(); // because on first load we get error.. no data
@@ -179,6 +183,9 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   public get deleteManyVisible() : boolean {
     return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.deleteManyEnabled && !this.datasourceEmpty;
+  }
+  public get disableManyVisible() : boolean {
+    return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.disableManyEnabled && !this.datasourceEmpty;
   }
 
   public oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
@@ -192,7 +199,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     const add = this.config.addEnabled ? 1 : 0;
     const editMany = this.config.editManyEnabled ? 1 : 0;
     const deleteMany = this.config.deleteManyEnabled ? 1 : 0;
-    return add + editMany + deleteMany === 1;
+    const disableMany = this.config.disableManyEnabled ? 1 : 0;
+    return add + editMany + deleteMany + disableMany === 1;
   }
 
   // hide all header buttons if no header action is available
@@ -200,14 +208,16 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     const add = this.config.addEnabled ? 1 : 0;
     const editMany = this.config.editManyEnabled ? 1 : 0;
     const deleteMany = this.config.deleteManyEnabled ? 1 : 0;
-    return add + editMany + deleteMany === 0;
+    const disableMany = this.config.disableManyEnabled ? 1 : 0;
+    return add + editMany + deleteMany + disableMany === 0;
   }
 
   // if no cell actions are available hide the buttons
   public get noCellAction(): boolean {
     const editActive  = this.config.editEnabled ? 1 : 0;
     const deleteActive = this.config.deleteEnabled ? 1 : 0;
-    return editActive + deleteActive  === 0;
+    const disableActive = this.config.disableEnabled ? 1 : 0;
+    return editActive + deleteActive + disableActive  === 0;
   }
 
 

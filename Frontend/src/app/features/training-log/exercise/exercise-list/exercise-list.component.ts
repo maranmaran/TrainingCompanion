@@ -86,7 +86,9 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     ]
   }
 
-  onSelect = (exercise: Exercise) => this.store.dispatch(setSelectedExercise({exercise}));
+  onSelect = (exercise: Exercise) => {
+    this.store.dispatch(setSelectedExercise({exercise}))
+  };
 
   onAdd() {
     this.exerciseTypeService.getAll(this.userId).pipe(take(1))
