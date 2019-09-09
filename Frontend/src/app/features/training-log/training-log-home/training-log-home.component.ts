@@ -60,10 +60,10 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
         return this.goBackToList();
       case TrainingCalendarTab1.TrainingDetails:
         this.store.dispatch(setSelectedExercise(null));
-        this.router.navigate(['/app/training-log/training-detail']);
+        this.router.navigate(['/app/training-log/training-details']);
         break;
       case TrainingCalendarTab1.ExerciseDetails:
-        this.router.navigate(['/app/training-log/exercise-detail']);
+        this.router.navigate(['/app/training-log/exercise-details']);
         break;
       default:
         throw new Error("No tab index like this");

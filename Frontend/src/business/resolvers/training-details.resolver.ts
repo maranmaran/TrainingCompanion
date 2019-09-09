@@ -27,10 +27,10 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training | vo
                 concatMap((id: string) => {
                     if(!id) {
                         id = localStorage.getItem(LocalStorageKeys.trainingId);
-                        this.getState(id);
+                        return this.getState(id);
                     } 
 
-                    return this.store.select(selectedTraining);
+                    return this.store.select(selectedTraining).pipe(take(1));
                 }));
     }
 

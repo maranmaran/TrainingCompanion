@@ -1,9 +1,13 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import * as fromTraining from './training.reducers';
-import { TrainingState } from './training.state';
+import { selectTrainingLogState } from '../training-log.state';
 
 
-export const selectTrainingState = createFeatureSelector<TrainingState>("training");
+// export const selectTrainingState = createFeatureSelector<TrainingState>("training");
+export const selectTrainingState = createSelector(
+    selectTrainingLogState,
+    state => state.trainingState
+)
 
 export const trainingIds = createSelector(
     selectTrainingState,

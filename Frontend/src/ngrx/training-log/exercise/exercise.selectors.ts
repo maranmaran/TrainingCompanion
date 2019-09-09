@@ -1,8 +1,13 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromExercise from './exercise.reducers';
 import { ExerciseState } from './exercise.state';
+import { selectTrainingLogState } from '../training-log.state';
 
-export const exerciseFeatureSelector = createFeatureSelector<ExerciseState>("exercise");
+// export const exerciseFeatureSelector = createFeatureSelector<ExerciseState>("exercise");
+export const exerciseFeatureSelector = createSelector(
+    selectTrainingLogState,
+    state => state.exerciseState
+)
 
 export const selectExerciseState = createSelector(
     exerciseFeatureSelector,

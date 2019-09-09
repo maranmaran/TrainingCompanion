@@ -10,6 +10,8 @@ namespace Backend.Domain.Entities.TrainingLog
         public Guid ExerciseTypeId { get; set; }
         public virtual ExerciseType.ExerciseType ExerciseType { get; set; }
 
+        public Guid TrainingId { get; set; }
+        public virtual Training Training { get; set; }
 
         public virtual ICollection<Set> Sets { get; set; } = new HashSet<Set>();
     }

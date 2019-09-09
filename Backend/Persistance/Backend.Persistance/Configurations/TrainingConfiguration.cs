@@ -17,6 +17,11 @@ namespace Backend.Persistance.Configurations
                 .HasOne(x => x.ApplicationUser)
                 .WithMany(x => x.Trainings)
                 .HasForeignKey(x => x.ApplicationUserId);
+
+            builder
+                .HasMany(x => x.Exercises)
+                .WithOne(x => x.Training)
+                .HasForeignKey(x => x.TrainingId);
             // maybe that has one has many config ?
         }
     }
