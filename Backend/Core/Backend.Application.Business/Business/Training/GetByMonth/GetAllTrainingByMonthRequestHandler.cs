@@ -1,7 +1,6 @@
 ﻿using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
@@ -24,19 +23,18 @@ namespace Backend.Application.Business.Business.Training.GetByMonth
             {
                 var trainings = _context.Trainings
 
-                    .Include(x => x.Exercises)
-                    .ThenInclude(x => x.Sets)
+                    //.Include(x => x.Exercises)
+                    //.ThenInclude(x => x.Sets)
 
-                    .Include(x => x.Exercises)
-                    .ThenInclude(x => x.ExerciseType)
-                    .ThenInclude(x => x.Properties)
-                    .ThenInclude(x => x.ExerciseProperty)
-                    .ThenInclude(x => x.ExercisePropertyType)
+                    //.Include(x => x.Exercises)
+                    //.ThenInclude(x => x.ExerciseType)
+                    //.ThenInclude(x => x.Properties)
+                    //.ThenInclude(x => x.ExerciseProperty)
+                    //.ThenInclude(x => x.ExercisePropertyType)
 
                     .Where(x => x.ApplicationUserId == request.ApplicationUserId &&
                                                               x.DateTrained.Month == request.Month &&
                                                               x.DateTrained.Year == request.Year);
-
 
                 return Task.FromResult(trainings);
             }

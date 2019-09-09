@@ -18,14 +18,17 @@ import { SetCreateEditComponent } from './set/set-create-edit/set-create-edit.co
 import { trainingReducer } from 'src/ngrx/training-log/training/training.reducers';
 import { TrainingEffects } from 'src/ngrx/training-log/training/training.effects';
 import { TrainingDetailsResolver } from 'src/business/resolvers/training-details.resolver';
+import { ExerciseEffects } from 'src/ngrx/training-log/exercise/exercise.effects';
+import { SetEffects } from 'src/ngrx/training-log/set/set.effects';
+import { trainingLogReducerMap } from 'src/ngrx/training-log/training-log.state';
 
 
 @NgModule({
     imports: [
         SharedModule,
         TrainingLogRoutingModule,
-        StoreModule.forFeature('training', trainingReducer),
-        EffectsModule.forFeature([TrainingEffects]),
+        StoreModule.forFeature('trainingLogState', trainingLogReducerMap),
+        EffectsModule.forFeature([TrainingEffects, ExerciseEffects, SetEffects]),
         AngularEditorModule 
     ],
     declarations: [

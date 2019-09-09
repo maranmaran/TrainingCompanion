@@ -5,6 +5,6 @@ namespace Backend.Application.Business.Business.Training.Update
     public class UpdateTrainingRequestResponse
     {
         public Domain.Entities.TrainingLog.Training Training { get; set; }
-        public Exercise AddedExercise { get; set; }
+        public Domain.Entities.TrainingLog.Exercise AddedExercise { get; set; }
     }
 }
