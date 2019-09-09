@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.API.Controllers
 {
@@ -18,6 +17,13 @@ namespace Backend.API.Controllers
         public async Task<IActionResult> GetAll(Guid userId, [FromQuery]SieveModel sieveModel)
         {
             return await GetQuery(async () => await Mediator.Send(new GetAllTrainingRequest() { ApplicationUserId = userId }), sieveModel);
+        }
+
+
+        [HttpGet("{trainingId}")]
+        public async Task<IActionResult> Get(Guid trainingId, [FromQuery]SieveModel sieveModel)
+        {
+            return Ok( await Mediator.Send(new GetTrainingRequest(trainingId)) );
         }
 
         [HttpGet("{userId}/{month}/{year}")]
