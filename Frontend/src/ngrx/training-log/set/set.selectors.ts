@@ -1,8 +1,13 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromSet from './set.reducers';
 import { SetState } from './set.state';
+import { selectTrainingLogState } from '../training-log.state';
 
-export const setFeatureSelector = createFeatureSelector<SetState>("set");
+// export const setFeatureSelector = createFeatureSelector<SetState>("set");
+export const setFeatureSelector = createSelector(
+    selectTrainingLogState,
+    state => state.setState
+)
 
 export const selectSetState = createSelector(
     setFeatureSelector,

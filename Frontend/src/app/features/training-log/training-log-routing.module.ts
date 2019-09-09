@@ -12,8 +12,8 @@ const routes: Routes = [
         { path: 'calendar', component: TrainingCalendarComponent },
         { path: 'week', component: TrainingCalendarComponent },
         { path: 'list', component: TrainingCalendarComponent },
-        { path: 'training-detail', resolve: {TrainingDetailsResolver}, component: TrainingDetailsComponent },
-        { path: 'exercise-detail', component: ExerciseDetailsComponent }
+        { path: 'training-details', resolve: {TrainingDetailsResolver}, component: TrainingDetailsComponent },
+        { path: 'exercise-details', component: ExerciseDetailsComponent }
     ]},
     { path: '**', redirectTo: '/' }, //always last
 ];
