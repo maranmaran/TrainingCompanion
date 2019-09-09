@@ -198,8 +198,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   public get oneHeaderAction(): boolean {
     const add = this.config.addEnabled ? 1 : 0;
     const editMany = this.config.editManyEnabled ? 1 : 0;
-    const deleteMany = this.config.deleteManyEnabled ? 1 : 0;
-    const disableMany = this.config.disableManyEnabled ? 1 : 0;
+    const deleteMany = this.config.deleteManyEnabled && this.deleteManyVisible ? 1 : 0;
+    const disableMany = this.config.disableManyEnabled && this.disableManyVisible ? 1 : 0;
     return add + editMany + deleteMany + disableMany === 1;
   }
 

@@ -27,9 +27,9 @@ namespace Backend.API.Controllers
         }
 
         [HttpGet("{userId}/{month}/{year}")]
-        public async Task<IActionResult> GetAllByMonth(Guid userId, int month, int year, [FromQuery]SieveModel sieveModel)
+        public async Task<IActionResult> GetAllByMonth(Guid userId, int month, int year)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllTrainingsByMonthRequest(userId, month, year)), sieveModel);
+            return Ok(await Mediator.Send(new GetAllTrainingsByMonthRequest(userId, month, year)));
         }
 
         [HttpGet("{userId}/{weekStart}/{weekEnd}")]
