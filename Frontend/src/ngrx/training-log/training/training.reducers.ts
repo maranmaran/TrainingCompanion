@@ -1,11 +1,10 @@
 import { Set } from 'src/server-models/entities/set.model';
-import { Update } from '@ngrx/entity';
+import { Update, Dictionary } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import * as TrainingActions from './training.actions';
 import { adapterTraining, TrainingState, trainingInitialState, adapterExercise, adapterSet } from './training.state';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
-
 
 export const trainingReducer: ActionReducer<TrainingState, Action> = createReducer(
     trainingInitialState,
@@ -31,8 +30,12 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     }),
 
     // GET ALL
-    on(TrainingActions.trainingsFetched, (state: TrainingState, payload: {trainings: Training[]}) => {
-        return adapterTraining.addMany(payload.trainings, {...state, selectedTrainingId: null});
+    on(TrainingActions.trainingsFetched, (state: TrainingState, payload: { entities: Dictionary<Training>, ids: string[] }) => {
+        return {
+            ...state,
+            entities: payload.entities,
+            ids: payload.ids
+        }
     }),
 
     // SET SELECTED

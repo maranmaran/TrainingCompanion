@@ -1,4 +1,4 @@
-import { Update } from '@ngrx/entity';
+import { Update, Dictionary } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { Set } from 'src/server-models/entities/set.model';
 import * as SetActions from './set.actions';
@@ -19,7 +19,7 @@ export const setReducer: ActionReducer<SetState, Action> = createReducer(
     }),
 
     // UPDATE MANY
-    on(SetActions.manySetPropertiesUpdated, (state: SetState, payload: {entities: Update<Set>[]}) => {
+    on(SetActions.manySetsUpdated, (state: SetState, payload: {entities: Update<Set>[]}) => {
         return adapterSet.updateMany(payload.entities, state);
     }),
 
@@ -29,8 +29,12 @@ export const setReducer: ActionReducer<SetState, Action> = createReducer(
     }),
 
     // GET ALL
-    on(SetActions.setPropertiesFetched, (state: SetState, payload: {entities: Set[]}) => {
-        return adapterSet.addMany(payload.entities, {...state, selectedTypeId: null});
+    on(SetActions.setsFetched, (state: SetState, payload: { entities: Dictionary<Set>, ids: string[] }) => {
+        return {
+            ...state,
+            entities: payload.entities,
+            ids: payload.ids
+        }
     }),
 
     // SET SELECTED
