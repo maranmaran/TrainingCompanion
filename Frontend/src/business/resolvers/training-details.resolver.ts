@@ -40,7 +40,7 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training | vo
         .pipe(
             take(1),
             map(((training: Training) => {
-                this.store.dispatch(trainingsFetched({trainings: [training]}));
+                // this.store.dispatch(trainingsFetched({trainings: [training]}));
                 this.store.dispatch(setSelectedTraining({training}));
 
                 return training;

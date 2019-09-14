@@ -1,4 +1,4 @@
-import { Update } from '@ngrx/entity';
+import { Update, Dictionary } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import * as ExerciseActions from './exercise.actions';
@@ -19,7 +19,7 @@ export const exerciseReducer: ActionReducer<ExerciseState, Action> = createReduc
     }),
 
     // UPDATE MANY
-    on(ExerciseActions.manyExercisePropertiesUpdated, (state: ExerciseState, payload: {entities: Update<Exercise>[]}) => {
+    on(ExerciseActions.manyExercisesUpdated, (state: ExerciseState, payload: {entities: Update<Exercise>[]}) => {
         return adapterExercise.updateMany(payload.entities, state);
     }),
 
@@ -29,8 +29,12 @@ export const exerciseReducer: ActionReducer<ExerciseState, Action> = createReduc
     }),
 
     // GET ALL
-    on(ExerciseActions.exercisePropertiesFetched, (state: ExerciseState, payload: {entities: Exercise[]}) => {
-        return adapterExercise.addMany(payload.entities, {...state, selectedTypeId: null});
+    on(ExerciseActions.exercisesFetched, (state: ExerciseState, payload: { entities: Dictionary<Exercise>, ids: string[] }) => {
+        return {
+            ...state,
+            entities: payload.entities,
+            ids: payload.ids
+        }
     }),
 
     // SET SELECTED

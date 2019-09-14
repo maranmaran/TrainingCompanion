@@ -12,7 +12,7 @@ import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { ReplaySubject } from 'rxjs';
 import { allTrainings } from 'src/ngrx/training-log/training/training.selectors';
-import { trainingsFetched, trainingCreated, setSelectedTraining } from 'src/ngrx/training-log/training/training.actions';
+import { trainingsFetched, trainingCreated, setSelectedTraining, normalizeTrainings } from 'src/ngrx/training-log/training/training.actions';
 
 @Component({
   selector: 'app-training-calendar',
@@ -20,22 +20,6 @@ import { trainingsFetched, trainingCreated, setSelectedTraining } from 'src/ngrx
   styleUrls: ['./training-calendar.component.scss']
 })
 export class TrainingCalendarComponent implements OnInit, OnDestroy {
-
-  // month1: CalendarEvent[] = [
-  //   {day: moment(new Date()).subtract(1, 'month'), event: 'event1'},
-  //   {day: moment(new Date()).subtract(1, 'month').add(1, 'day'), event: 'event2'},
-  //   {day: moment(new Date()).subtract(1, 'month').subtract(1, 'day'), event: 'event3'},
-  // ] 
-  // month2: CalendarEvent[] = [
-  //   {day: moment(new Date()), event: 'event1'},
-  //   {day: moment(new Date()).add(1, 'day'), event: 'event2'},
-  //   {day: moment(new Date()).subtract(1, 'day'), event: 'event3'},
-  // ] 
-  // month3: CalendarEvent[] = [
-  //   {day: moment(new Date()).add(1, 'month'), event: 'event1'},
-  //   {day: moment(new Date()).add(1, 'month').add(1, 'day'), event: 'event2'},
-  //   {day: moment(new Date()).add(1, 'month').subtract(1, 'day'), event: 'event3'},
-  // ] 
 
   protected inputData = new ReplaySubject<CalendarEvent[]>();
   private userId: string;
@@ -77,7 +61,8 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
 
     this.trainingService.getAllByMonth(this.userId, month, year).pipe(take(1))
       .subscribe((trainings: Training[]) => {
-        this.store.dispatch(trainingsFetched({trainings}));
+        // this.store.dispatch(trainingsFetched({trainings}));
+        this.store.dispatch(normalizeTrainings({trainings}))
       });
   }
 

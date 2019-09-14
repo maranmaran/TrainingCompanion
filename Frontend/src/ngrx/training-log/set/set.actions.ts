@@ -1,5 +1,5 @@
 
-import { Update } from '@ngrx/entity';
+import { Update, Dictionary } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
 import { Set } from 'src/server-models/entities/set.model';
 
@@ -9,9 +9,9 @@ export const setCreated = createAction(
     props<{ entity: Set}>()
 )
 
-export const setPropertiesFetched = createAction(
+export const setsFetched = createAction(
     '[Set] Fetched',
-    props<{ entities: Set[] }>()
+    props<{ entities: Dictionary<Set>, ids: string[] }>()
 )
 
 export const setUpdated = createAction(
@@ -19,7 +19,7 @@ export const setUpdated = createAction(
     props<{ entity: Update<Set> }>()
 )
 
-export const manySetPropertiesUpdated = createAction(
+export const manySetsUpdated = createAction(
     '[Set] Many updated',
     props<{ entities: Update<Set>[] }>()
 )
@@ -30,7 +30,7 @@ export const setDeleted = createAction(
 )
 
 // REORDER
-export const reorderSetProperties = createAction(
+export const reorderSets = createAction(
     '[Set] Reorder',
     props<{ itemToReplace: string, itemToReplaceWith: string }>()
 )
