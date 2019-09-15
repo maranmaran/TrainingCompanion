@@ -6,6 +6,8 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { of, Observable } from 'rxjs';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { updateCurrentUser } from 'src/ngrx/auth/auth.actions';
+import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { UIProgressBar } from '../shared/ui-progress-bars.enum';
 
 export class CurrentUserLoadedGuard implements CanActivate {
 
@@ -18,6 +20,8 @@ export class CurrentUserLoadedGuard implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+        this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SplashScreen}));
+
         return new Promise(resolve => {
             this.authService.getCurrentUserInfo()
                 .pipe(

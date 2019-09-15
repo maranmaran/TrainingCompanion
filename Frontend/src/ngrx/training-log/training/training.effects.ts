@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, enableProdMode } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { normalizeTrainingArray } from '../training-log.normalizer';
 import * as ExerciseActions from './../exercise/exercise.actions';
 import * as SetActions from './../set/set.actions';
 import * as TrainingActions from './training.actions';
+import { CRUD } from 'src/business/shared/crud.enum';
 
 @Injectable()
 export class TrainingEffects {
@@ -22,11 +23,19 @@ export class TrainingEffects {
             ofType(TrainingActions.normalizeTrainings),
             tap(payload => {
 
-                var normalized = normalizeTrainingArray(payload.trainings);
+                var normalized = normalizeTrainingArray(payload.entities);
 
-                this.store.dispatch(TrainingActions.trainingsFetched({ entities: normalized.entities.trainings, ids: normalized.ids.trainingIds }))
-                this.store.dispatch(ExerciseActions.exercisesFetched({ entities: normalized.entities.exercises, ids: normalized.ids.exerciseIds }))
-                this.store.dispatch(SetActions.setsFetched({ entities: normalized.entities.sets, ids: normalized.ids.setIds }))
+                
+            switch(payload.action) {
+
+                case CRUD.Read:
+                        this.store.dispatch(TrainingActions.trainingsFetched({ entities: normalized.entities.trainings, ids: normalized.ids.trainingIds }))
+                        this.store.dispatch(ExerciseActions.exercisesFetched({ entities: normalized.entities.exercises, ids: normalized.ids.exerciseIds }))
+                        this.store.dispatch(SetActions.setsFetched({ entities: normalized.entities.sets, ids: normalized.ids.setIds }))
+                    return;
+            } 
+
+               
             })
         )
         , { dispatch: false });
@@ -36,8 +45,8 @@ export class TrainingEffects {
             .pipe(
                 ofType(TrainingActions.setSelectedTraining),
                 tap((payload) => {
-                    if (payload.training) {
-                        localStorage.setItem(LocalStorageKeys.trainingId, payload.training.id);
+                    if (payload.entity) {
+                        localStorage.setItem(LocalStorageKeys.trainingId, payload.entity.id);
                     } else {
                         localStorage.removeItem(LocalStorageKeys.trainingId);
                     }

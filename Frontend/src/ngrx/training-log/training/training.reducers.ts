@@ -37,10 +37,10 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     }),
 
     // SET SELECTED
-    on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: {training: Training}) => {
+    on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: {entity: Training}) => {
         return {
             ...state,
-            selectedId: payload.training ? payload.training.id : null,
+            selectedId: payload.entity ? payload.entity.id : null,
         }
     }),
 );

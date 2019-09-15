@@ -22,6 +22,7 @@ import { TrainingLogHomeComponent } from './training-log-home/training-log-home.
 import { TrainingLogRoutingModule } from './training-log-routing.module';
 import { TrainingCalendarComponent } from './training/training-calendar/training-calendar.component';
 import { TrainingDetailsComponent } from './training/training-details/training-details.component';
+import { ExerciseDetailsResolver } from 'src/business/resolvers/exercise-details.resolver';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { TrainingDetailsComponent } from './training/training-details/training-d
         TrainingService,
         ExerciseService,
         SetService,
-        TrainingDetailsResolver
+        TrainingDetailsResolver,
+        ExerciseDetailsResolver
     ],
     entryComponents: [
         ExerciseCreateEditComponent,
