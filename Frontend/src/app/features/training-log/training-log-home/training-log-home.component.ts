@@ -122,6 +122,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
   goBackToList() {
     this.store.dispatch(setSelectedTraining(null));
+    this.store.dispatch(setSelectedExercise(null));
     this.changeTab2(TrainingCalendarTab2.Calendar);
   }
   

@@ -1,7 +1,11 @@
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Injectable } from '@angular/core';
-import { Actions } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import * as ExerciseActions from './exercise.actions';
+import * as SetActions from './../set/set.actions';
+import { tap } from 'rxjs/operators';
+import { normalizeExercises } from '../training-log.normalizer';
 
 @Injectable()
 export class ExerciseEffects {
@@ -11,4 +15,16 @@ export class ExerciseEffects {
         private store: Store<AppState>
     ) { }
 
+    exercisesNormalized$ = createEffect(() =>
+    this.actions$.pipe(
+        ofType(ExerciseActions.normalizeExercise),
+        tap(payload => {
+
+            var normalized = normalizeExercises([payload.exercise]);
+
+            this.store.dispatch(ExerciseActions.exerciseCreated({ entity: normalized.entities.exercises, id: normalized.ids.exerciseIds[0] }))
+            this.store.dispatch(SetActions.setsFetched({ entities: normalized.entities.sets, ids: normalized.ids.setIds }))
+        })
+    )
+    , { dispatch: false });
 }

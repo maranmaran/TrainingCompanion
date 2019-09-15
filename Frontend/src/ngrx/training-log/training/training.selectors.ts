@@ -11,22 +11,22 @@ export const selectTrainingState = createSelector(
 
 export const trainingIds = createSelector(
     selectTrainingState,
-    fromTraining.selectTrainingIds
+    fromTraining.selectIds
 );
 
 export const trainingEntities = createSelector(
     selectTrainingState,
-    fromTraining.selectTrainingEntities
+    fromTraining.selectEntities
 );
 
 export const allTrainings = createSelector(
     selectTrainingState,
-    fromTraining.selectAllTrainings
+    fromTraining.selectAll
 );
 
 export const trainingCount = createSelector(
     selectTrainingState,
-    fromTraining.selectTrainingTotal
+    fromTraining.selectTotal
 );
 
 export const selectedTrainingId = createSelector(
@@ -36,5 +36,5 @@ export const selectedTrainingId = createSelector(
 
 export const selectedTraining = createSelector(
     selectTrainingState,
-    (state) => state.entities[state.selectedTrainingId]
+    (state) => state.entities[state.selectedId]
 );

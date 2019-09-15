@@ -1,21 +1,19 @@
-import { UpdateTrainingRequest, UpdateTrainingRequestResponse } from './../../../../../server-models/cqrs/training/requests/update-training.request';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { concatMap, map, take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { AthleteCreateEditComponent } from 'src/app/features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
-import { TrainingService } from 'src/business/services/feature-services/training.service';
+import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { normalizeExercise } from 'src/ngrx/training-log/exercise/exercise.actions';
+import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
+import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/requests/create-exercise.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
-import { Training } from 'src/server-models/entities/training.model';
 import { ValidationErrors } from 'src/server-models/error/error-details.model';
-import { Update } from '@ngrx/entity';
-import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
-import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 
 @Component({
   selector: 'app-exercise-create-edit',
@@ -26,7 +24,7 @@ export class ExerciseCreateEditComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private trainingService: TrainingService,
+    private exerciseService: ExerciseService,
     protected dialogRef: MatDialogRef<AthleteCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, exercise: Exercise, exerciseTypes: ExerciseType[] }) { }
 
@@ -82,16 +80,31 @@ export class ExerciseCreateEditComponent implements OnInit {
   }
 
   createExercise() {
-    this.exercise.exerciseTypeId = this.exerciseType.value.id;
-    this.exercise.exerciseType = this.exerciseType.value;
 
     let sets = [];
     for(var i = 0; i < this.setsCount.value; i++) {
       sets.push(new Set());
     };
-    this.exercise.sets = sets;
 
-    this.updateTraining(true, this.exercise);
+    var request = new CreateExerciseRequest();
+    request.exerciseTypeId = this.exerciseType.value.id;
+    request.sets = sets;
+
+    this.store.select(selectedTraining).pipe(take(1), switchMap(
+      training => {
+        request.trainingId = training.id;
+        return this.exerciseService.create<CreateExerciseRequest>(request)
+      }
+    ), take(1))
+    .subscribe(
+      (exercise: Exercise) => {
+        exercise.exerciseType = this.exerciseType.value;
+        this.store.dispatch(normalizeExercise({exercise}));
+        this.onClose(exercise);
+      },
+      err => console.log(err)
+    );
+    
   }
 
   updateExercise() {
@@ -115,29 +128,29 @@ export class ExerciseCreateEditComponent implements OnInit {
       this.exercise.sets = [...sets];
     }
 
-    this.updateTraining(false, this.exercise);
+    // this.updateTraining(false, this.exercise);
   }
 
-  updateTraining(newExercise: boolean, exercise: Exercise) {
-    this.store.select(selectedTraining).pipe(
-      take(1),
-      map(training => Object.assign({}, training)),
-      concatMap((training: Training) => {
-        var request = new UpdateTrainingRequest();
-        request.training = training;
-        request.exerciseAdd = exercise;
-        return this.trainingService.update<UpdateTrainingRequest, UpdateTrainingRequestResponse>(request);
-      }),
-      take(1)
-    ).subscribe((response: UpdateTrainingRequestResponse) => {
+  // updateTraining(newExercise: boolean, exercise: Exercise) {
+  //   this.store.select(selectedTraining).pipe(
+  //     take(1),
+  //     map(training => Object.assign({}, training)),
+  //     concatMap((training: Training) => {
+  //       var request = new UpdateTrainingRequest();
+  //       request.training = training;
+  //       request.exerciseAdd = exercise;
+  //       return this.trainingService.update<UpdateTrainingRequest, UpdateTrainingRequestResponse>(request);
+  //     }),
+  //     take(1)
+  //   ).subscribe((response: UpdateTrainingRequestResponse) => {
 
-      const trainingUpdate: Update<Training> = {
-        id: response.training.id,
-        changes: response.training
-      };
+  //     const trainingUpdate: Update<Training> = {
+  //       id: response.training.id,
+  //       changes: response.training
+  //     };
 
-      this.store.dispatch(trainingUpdated({ training: trainingUpdate }));
-      this.onClose(response.addedExercise);
-    });
-  }
+  //     this.store.dispatch(trainingUpdated({ training: trainingUpdate }));
+  //     this.onClose(response.addedExercise);
+  //   });
+  // }
 }

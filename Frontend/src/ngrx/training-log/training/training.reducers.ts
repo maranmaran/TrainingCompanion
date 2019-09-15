@@ -1,9 +1,7 @@
-import { Set } from 'src/server-models/entities/set.model';
 import { Update, Dictionary } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import * as TrainingActions from './training.actions';
-import { adapterTraining, TrainingState, trainingInitialState, adapterExercise, adapterSet } from './training.state';
-import { Exercise } from 'src/server-models/entities/exercise.model';
+import { adapterTraining, TrainingState, trainingInitialState} from './training.state';
 import { Training } from 'src/server-models/entities/training.model';
 
 export const trainingReducer: ActionReducer<TrainingState, Action> = createReducer(
@@ -42,14 +40,12 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: {training: Training}) => {
         return {
             ...state,
-            selectedTrainingId: payload.training ? adapterTraining.selectId(payload.training) : null,
-            selectedExerciseId: null,
-            selectedSetId: null
+            selectedId: payload.training ? payload.training.id : null,
         }
     }),
 );
 
-export const getSelectedTrainingId = (state: TrainingState) => state.selectedTrainingId;
+export const getSelectedTrainingId = (state: TrainingState) => state.selectedId;
  
 // get the selectors
 export const {
@@ -58,15 +54,3 @@ export const {
   selectAll,
   selectTotal,
 } = adapterTraining.getSelectors();
- 
-// select the array of ids
-export const selectTrainingIds = selectIds;
- 
-// select the dictionary of entities
-export const selectTrainingEntities = selectEntities;
- 
-// select the array of entity objects
-export const selectAllTrainings= selectAll;
- 
-// select the total entity count
-export const selectTrainingTotal = selectTotal;

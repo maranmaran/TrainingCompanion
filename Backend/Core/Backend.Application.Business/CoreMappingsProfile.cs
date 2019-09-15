@@ -3,8 +3,12 @@ using Backend.Application.Business.Business.Authorization.CurrentUser;
 using Backend.Application.Business.Business.Billing.AddPayment;
 using Backend.Application.Business.Business.Billing.Subscribe;
 using Backend.Application.Business.Business.Chat.SendChatMessage;
+using Backend.Application.Business.Business.Exercise.Create;
 using Backend.Application.Business.Business.ExercisePropertyType.Create;
 using Backend.Application.Business.Business.ExercisePropertyType.Update;
+using Backend.Application.Business.Business.ExerciseType.Create;
+using Backend.Application.Business.Business.ExerciseType.Update;
+using Backend.Application.Business.Business.Set.Create;
 using Backend.Application.Business.Business.Training.Create;
 using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Application.Business.Business.Users.UpdateUser;
@@ -16,8 +20,6 @@ using Backend.Domain.Entities.User;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
-using Backend.Application.Business.Business.ExerciseType.Create;
-using Backend.Application.Business.Business.ExerciseType.Update;
 
 namespace Backend.Application.Business
 {
@@ -32,9 +34,11 @@ namespace Backend.Application.Business
             this.ExercisePropertyTypeMappings();
             this.ExerciseTypeMappings();
             this.TrainingMappings();
+            this.ExerciseMappings();
+            this.SetMappings();
         }
 
-       
+
 
         private void AuthorizationMappings()
         {
@@ -144,6 +148,14 @@ namespace Backend.Application.Business
         private void TrainingMappings()
         {
             CreateMap<CreateTrainingRequest, Training>();
+        }
+        private void ExerciseMappings()
+        {
+            CreateMap<CreateExerciseRequest, Exercise>();
+        }
+        private void SetMappings()
+        {
+            CreateMap<CreateSetRequest, Set>();
         }
 
     }
