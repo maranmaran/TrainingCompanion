@@ -41,8 +41,7 @@ export const exerciseReducer: ActionReducer<ExerciseState, Action> = createReduc
     on(ExerciseActions.setSelectedExercise, (state: ExerciseState, payload: {entity: Exercise}) => {
         return {
             ...state,
-            selectedTypeId: payload.entity ? adapterExercise.selectId(payload.entity) : null,
-            selectedPropertyId: null
+            selectedId: payload.entity ? adapterExercise.selectId(payload.entity) : null,
         }
     }),
 
@@ -58,14 +57,3 @@ export const {
   selectTotal,
 } = adapterExercise.getSelectors();
  
-// select the array of ids
-export const selectTypeIds = selectIds;
- 
-// select the dictionary of entities
-export const selectTypeEntities = selectEntities;
- 
-// select the array of entity objects
-export const selectAllTypes = selectAll;
- 
-// select the total entity count
-export const selectTypeTotal = selectTotal;

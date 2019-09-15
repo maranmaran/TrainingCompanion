@@ -24,7 +24,7 @@ export const exerciseEntities = createSelector(
     fromExercise.selectEntities
 );
 
-export const exerciseProperties = createSelector(
+export const exercises = createSelector(
     selectExerciseState,
     fromExercise.selectAll
 );

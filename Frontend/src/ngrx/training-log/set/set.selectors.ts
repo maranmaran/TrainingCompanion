@@ -1,5 +1,6 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromSet from './set.reducers';
+import * as fromExercise from './../exercise/exercise.reducers';
 import { SetState } from './set.state';
 import { selectTrainingLogState } from '../training-log.state';
 
@@ -24,7 +25,7 @@ export const setEntities = createSelector(
     fromSet.selectEntities
 );
 
-export const setProperties = createSelector(
+export const sets = createSelector(
     selectSetState,
     fromSet.selectAll
 );
@@ -43,5 +44,16 @@ export const selectedSet = createSelector(
     selectSetState,
     (state) => state.entities[state.selectedId]
 );
+
+export const selectedExerciseSets = createSelector(
+    selectTrainingLogState,
+    (state) => {
+        var selectedExercise = state.exerciseState.entities[state.exerciseState.selectedId];
+        var sets = selectedExercise.sets;
+        var setEntities = state.setState.entities;
+
+        return sets.map(id => setEntities[id.toString()]);
+    }
+)
 
 

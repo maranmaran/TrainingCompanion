@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Exercise } from 'src/server-models/entities/exercise.model';
-import { selectedExercise } from 'src/ngrx/training-log/training/training.selectors';
 import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { selectedExercise } from 'src/ngrx/training-log/exercise/exercise.selectors';
 
 @Component({
   selector: 'app-exercise-details',
