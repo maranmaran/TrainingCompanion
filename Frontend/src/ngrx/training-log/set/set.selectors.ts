@@ -26,9 +26,17 @@ export const setEntities = createSelector(
 );
 
 export const sets = createSelector(
-    selectSetState,
-    fromSet.selectAll
-);
+    selectTrainingLogState,
+    (state) => {
+        if(!state.exerciseState.selectedId) return null;
+        
+        var selectedExercise = state.exerciseState.entities[state.exerciseState.selectedId];
+        var sets = selectedExercise.sets;
+        var setEntities = state.setState.entities;
+
+        return sets.map(id => setEntities[id.toString()]);
+    }
+)
 
 export const setCount = createSelector(
     selectSetState,
@@ -44,16 +52,5 @@ export const selectedSet = createSelector(
     selectSetState,
     (state) => state.entities[state.selectedId]
 );
-
-export const selectedExerciseSets = createSelector(
-    selectTrainingLogState,
-    (state) => {
-        var selectedExercise = state.exerciseState.entities[state.exerciseState.selectedId];
-        var sets = selectedExercise.sets;
-        var setEntities = state.setState.entities;
-
-        return sets.map(id => setEntities[id.toString()]);
-    }
-)
 
 

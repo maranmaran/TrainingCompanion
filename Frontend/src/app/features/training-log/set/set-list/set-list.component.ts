@@ -15,8 +15,8 @@ import { Set } from 'src/server-models/entities/set.model';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
 import { selectedExercise } from 'src/ngrx/training-log/exercise/exercise.selectors';
-import { selectedExerciseSets } from 'src/ngrx/training-log/set/set.selectors';
 import { setSelectedSet } from 'src/ngrx/training-log/set/set.actions';
+import { sets } from 'src/ngrx/training-log/set/set.selectors';
 
 @Component({
   selector: 'app-set-list',
@@ -54,7 +54,7 @@ export class SetListComponent implements OnInit, OnDestroy {
     });
 
     this.subs.add(
-      this.store.select(selectedExerciseSets)
+      this.store.select(sets)
         .pipe(map(exercises => exercises || []))
         .subscribe((sets: Set[]) => {
           this.sets = sets;

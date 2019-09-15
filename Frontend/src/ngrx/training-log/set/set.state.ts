@@ -3,7 +3,7 @@ import { Set } from 'src/server-models/entities/set.model';
 
 // Set property ENTITY
 export interface SetState extends EntityState<Set> {
-    selectedId: string | number;
+    selectedId: string;
 }
 
 // ADAPTERS
