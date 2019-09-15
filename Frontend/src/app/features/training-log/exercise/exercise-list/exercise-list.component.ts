@@ -71,6 +71,9 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     tableConfig.filterFunction = (data: Exercise, filter: string) => data.exerciseType.name.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = true;
     tableConfig.pageSizeOptions = [5];
+    tableConfig.deleteEnabled = true;
+    tableConfig.disableEnabled = false;
+    tableConfig.editEnabled = false;
 
     return tableConfig;
   }
@@ -109,29 +112,6 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
             if (exercise) {
               this.table.onSelect(exercise, true);
               // this.onSelect(exercise);
-            }
-          }
-        )
-    });
-  }
-
-  onUpdate(exercise: Exercise) {
-    this.exerciseTypeService.getAll(this.userId).pipe(take(1))
-    .subscribe((exerciseTypes: ExerciseType[]) => {
-      const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
-        height: 'auto',
-        width: '98%',
-        maxWidth: '50rem',
-        autoFocus: false,
-        data: { title: 'Add exercise', action: CRUD.Update, exercise, exerciseTypes },
-        panelClass: []
-      })
-  
-      dialogRef.afterClosed().pipe(take(1))
-        .subscribe((exercise: Exercise) => {
-            if (exercise) {
-              this.table.onSelect(exercise, true);
-              this.onSelect(exercise);
             }
           }
         )

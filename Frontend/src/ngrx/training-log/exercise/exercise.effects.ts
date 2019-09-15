@@ -6,6 +6,7 @@ import * as ExerciseActions from './exercise.actions';
 import * as SetActions from './../set/set.actions';
 import { tap } from 'rxjs/operators';
 import { normalizeExercises } from '../training-log.normalizer';
+import { CRUD } from 'src/business/shared/crud.enum';
 
 @Injectable()
 export class ExerciseEffects {
@@ -22,8 +23,10 @@ export class ExerciseEffects {
 
             var normalized = normalizeExercises([payload.exercise]);
 
-            this.store.dispatch(ExerciseActions.exerciseCreated({ entity: normalized.entities.exercises, id: normalized.ids.exerciseIds[0] }))
-            this.store.dispatch(SetActions.setsFetched({ entities: normalized.entities.sets, ids: normalized.ids.setIds }))
+            if(payload.action == CRUD.Create) {
+                this.store.dispatch(ExerciseActions.exerciseCreated({ entity: normalized.entities.exercises, id: normalized.ids.exerciseIds[0] }))
+                this.store.dispatch(SetActions.setsFetched({ entities: normalized.entities.sets, ids: normalized.ids.setIds }))
+            } 
         })
     )
     , { dispatch: false });
