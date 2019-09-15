@@ -7,7 +7,6 @@ import { Observable, of } from 'rxjs';
 import { concatMap, map, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Exercise } from 'src/server-models/entities/exercise.model';
-import { selectedExercise } from 'src/ngrx/training-log/training/training.selectors';
 
 // @Injectable()
 // export class ExerciseDetailsResolver implements Resolve<Observable<Exercise | void>> {

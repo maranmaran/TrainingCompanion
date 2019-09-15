@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
+import { LocalStorageKeys } from 'src/business/shared/localstorage.keys.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import * as TrainingActions from './training.actions';
+import { normalizeTrainingArray } from '../training-log.normalizer';
 import * as ExerciseActions from './../exercise/exercise.actions';
 import * as SetActions from './../set/set.actions';
-import { tap } from 'rxjs/operators';
-import { Training } from 'src/server-models/entities/training.model';
-import { LocalStorageKeys } from 'src/business/shared/localstorage.keys.enum';
-import { normalize } from 'normalizr';
-import { trainingsSchema, normalizeTrainingArray } from '../training-log.normalizer';
+import * as TrainingActions from './training.actions';
 
 @Injectable()
 export class TrainingEffects {
@@ -50,10 +48,10 @@ export class TrainingEffects {
     exerciseSelected$ = createEffect(() =>
         this.actions$
             .pipe(
-                ofType(TrainingActions.setSelectedExercise),
+                ofType(ExerciseActions.setSelectedExercise),
                 tap((payload) => {
-                    if (payload.exercise) {
-                        localStorage.setItem(LocalStorageKeys.exerciseId, payload.exercise.id);
+                    if (payload.entity) {
+                        localStorage.setItem(LocalStorageKeys.exerciseId, payload.entity.id);
                     } else {
                         localStorage.removeItem(LocalStorageKeys.exerciseId);
                     }

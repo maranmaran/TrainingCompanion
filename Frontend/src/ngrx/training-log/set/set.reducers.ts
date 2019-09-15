@@ -41,8 +41,7 @@ export const setReducer: ActionReducer<SetState, Action> = createReducer(
     on(SetActions.setSelectedSet, (state: SetState, payload: {entity: Set}) => {
         return {
             ...state,
-            selectedTypeId: payload.entity ? adapterSet.selectId(payload.entity) : null,
-            selectedPropertyId: null
+            selectedId: payload.entity ? adapterSet.selectId(payload.entity) : null,
         }
     }),
 
@@ -58,14 +57,3 @@ export const {
   selectTotal,
 } = adapterSet.getSelectors();
  
-// select the array of ids
-export const selectTypeIds = selectIds;
- 
-// select the dictionary of entities
-export const selectTypeEntities = selectEntities;
- 
-// select the array of entity objects
-export const selectAllTypes = selectAll;
- 
-// select the total entity count
-export const selectTypeTotal = selectTotal;

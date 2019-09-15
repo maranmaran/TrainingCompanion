@@ -35,17 +35,7 @@ export const trainingDeleted = createAction(
     props<{ id: string }>()
 )
 
-
-// SELECT
 export const setSelectedTraining = createAction(
     '[Training] Set selected training',
     props<{ training: Training }>()
-)
-export const setSelectedExercise = createAction(
-    '[Training] Set selected exercise',
-    props<{ exercise: Exercise }>()
-)
-export const setSelectedSet = createAction(
-    '[Training] Set selected set',
-    props<{ set: Set }>()
 )
