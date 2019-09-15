@@ -19,7 +19,6 @@ export const trainingsSchema = [training];
 
 export function normalizeTrainingArray(trainings: Training[]) {
     var normalized = normalize(trainings, trainingsSchema);
-    console.log(normalized)
 
     var entities = {
         trainings: {},

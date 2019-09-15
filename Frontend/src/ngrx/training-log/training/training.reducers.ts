@@ -47,24 +47,9 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
             selectedSetId: null
         }
     }),
-    on(TrainingActions.setSelectedExercise, (state: TrainingState, payload: {exercise: Exercise}) => {
-        return {
-            ...state,
-            selectedExerciseId: payload.exercise ? adapterExercise.selectId(payload.exercise) : null,
-            selectedSetId: null
-        }
-    }),
-    on(TrainingActions.setSelectedSet, (state: TrainingState, payload: {set: Set}) => {
-        return {
-            ...state,
-            selectedSetId: payload.set ? adapterSet.selectId(payload.set) : null,
-        }
-    }),
 );
 
 export const getSelectedTrainingId = (state: TrainingState) => state.selectedTrainingId;
-export const getSelectedExerciseId = (state: TrainingState) => state.selectedExerciseId;
-export const getSelectedSetId = (state: TrainingState) => state.selectedSetId;
  
 // get the selectors
 export const {

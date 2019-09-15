@@ -14,8 +14,9 @@ import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
-import { selectedExerciseType, selectedSets } from 'src/ngrx/training-log/training/training.selectors';
-import { setSelectedSet } from 'src/ngrx/training-log/training/training.actions';
+import { selectedExercise } from 'src/ngrx/training-log/exercise/exercise.selectors';
+import { selectedExerciseSets } from 'src/ngrx/training-log/set/set.selectors';
+import { setSelectedSet } from 'src/ngrx/training-log/set/set.actions';
 
 @Component({
   selector: 'app-set-list',
@@ -48,12 +49,12 @@ export class SetListComponent implements OnInit, OnDestroy {
     this.tableConfig = this.getTableConfig();
 
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
-    this.store.select(selectedExerciseType).pipe(take(1)).subscribe(type => {
+    this.store.select(selectedExercise).pipe(take(1), map(exercise => exercise.exerciseType)).subscribe(type => {
       this.tableColumns = this.getTableColumns(type) as CustomColumn[];
     });
 
     this.subs.add(
-      this.store.select(selectedSets)
+      this.store.select(selectedExerciseSets)
         .pipe(map(exercises => exercises || []))
         .subscribe((sets: Set[]) => {
           this.sets = sets;
@@ -126,7 +127,7 @@ export class SetListComponent implements OnInit, OnDestroy {
     return columns;
   }
 
-  onSelect = (set: Set) => this.store.dispatch(setSelectedSet({ set }));
+  onSelect = (set: Set) => this.store.dispatch(setSelectedSet({ entity: set }));
 
   onAdd() {
 

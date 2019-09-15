@@ -5,9 +5,11 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { Training } from 'src/server-models/entities/training.model';
 import { MatTabGroup } from '@angular/material/tabs';
-import { selectedTraining, selectedExercise } from 'src/ngrx/training-log/training/training.selectors';
-import { setSelectedExercise, setSelectedTraining } from 'src/ngrx/training-log/training/training.actions';
+import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
+import { setSelectedTraining } from 'src/ngrx/training-log/training/training.actions';
 import { Router } from '@angular/router';
+import { selectedExercise } from 'src/ngrx/training-log/exercise/exercise.selectors';
+import { setSelectedExercise } from 'src/ngrx/training-log/exercise/exercise.actions';
 
 @Component({
   selector: 'app-training-log-home',

@@ -17,8 +17,10 @@ import { SubSink } from 'subsink';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { Update } from '@ngrx/entity';
-import { selectedExercises, selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
-import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
+import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
+import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
+import { exercises } from 'src/ngrx/training-log/exercise/exercise.selectors';
+import { setSelectedExercise } from 'src/ngrx/training-log/exercise/exercise.actions';
 
 @Component({
   selector: 'app-exercise-list',
@@ -52,7 +54,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
 
     this.subs.add(
-      this.store.select(selectedExercises)
+      this.store.select(exercises)
         .pipe(map(exercises => exercises || []))
         .subscribe((exercises: Exercise[]) => {
           this.tableDatasource.updateDatasource(exercises);
@@ -87,7 +89,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   }
 
   onSelect = (exercise: Exercise) => {
-    this.store.dispatch(setSelectedExercise({exercise}))
+    this.store.dispatch(setSelectedExercise({entity: exercise}))
   };
 
   onAdd() {
