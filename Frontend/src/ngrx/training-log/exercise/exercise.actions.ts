@@ -5,7 +5,12 @@ import { Exercise } from 'src/server-models/entities/exercise.model';
 
 export const exerciseCreated = createAction(
     '[Exercise] Created',
-    props<{ entity: Exercise}>()
+    props<{ entity: Dictionary<Exercise>, id: string }>()
+)
+
+export const normalizeExercise = createAction(
+    '[Exercise] Normalize',
+    props<{exercise: Exercise}>()
 )
 
 export const exercisesFetched = createAction(
@@ -15,7 +20,7 @@ export const exercisesFetched = createAction(
 
 export const exerciseUpdated = createAction(
     '[Exercise] Updated',
-    props<{ entity: Update<Exercise> }>()
+    props<{ entity: Dictionary<Exercise>, id: string }>()
 )
 
 export const manyExercisesUpdated = createAction(

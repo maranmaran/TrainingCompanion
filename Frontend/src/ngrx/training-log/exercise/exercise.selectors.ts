@@ -25,9 +25,17 @@ export const exerciseEntities = createSelector(
 );
 
 export const exercises = createSelector(
-    selectExerciseState,
-    fromExercise.selectAll
-);
+    selectTrainingLogState,
+    (state) => {
+        if(!state.trainingState.selectedId) return null;
+
+        var selectedTraining = state.trainingState.entities[state.trainingState.selectedId];
+        var exercises = selectedTraining.exercises;
+        var exercisesEntities = state.exerciseState.entities;
+
+        return exercises.map(id => exercisesEntities[id.toString()]);
+    }
+)
 
 export const exerciseCount = createSelector(
     selectExerciseState,

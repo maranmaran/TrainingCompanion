@@ -6,19 +6,13 @@ import { Exercise } from 'src/server-models/entities/exercise.model';
 
 // Exercise property type ENTITY
 export interface TrainingState extends EntityState<Training>{
-    selectedTrainingId: string | number,
-    selectedExerciseId: string | number,
-    selectedSetId: string | number,
+    selectedId: string,
 }
 
 // ADAPTERS
 export const adapterTraining = createEntityAdapter<Training>({});
-export const adapterExercise = createEntityAdapter<Exercise>({});
-export const adapterSet = createEntityAdapter<Set>({});
 
 // INITIAL STATES
 export const trainingInitialState: TrainingState = adapterTraining.getInitialState({
-    selectedTrainingId: undefined,
-    selectedExerciseId: undefined,
-    selectedSetId: undefined,
+    selectedId: undefined,
 });

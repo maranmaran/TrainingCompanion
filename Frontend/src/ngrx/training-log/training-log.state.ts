@@ -1,7 +1,6 @@
-import { TrainingState } from './training/training.state';
+import { TrainingState, trainingInitialState } from './training/training.state';
 import { ExerciseState, exerciseInitialState } from './exercise/exercise.state';
 import { SetState, setInitialState } from './set/set.state';
-import { trainingInitialState } from '../training/training.state';
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 import { trainingReducer } from './training/training.reducers';
 import { exerciseReducer } from './exercise/exercise.reducers';

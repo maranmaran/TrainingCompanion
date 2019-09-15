@@ -32,8 +32,8 @@ export const setReducer: ActionReducer<SetState, Action> = createReducer(
     on(SetActions.setsFetched, (state: SetState, payload: { entities: Dictionary<Set>, ids: string[] }) => {
         return {
             ...state,
-            entities: payload.entities,
-            ids: payload.ids
+            entities: Object.assign({}, state.entities, payload.entities),
+            ids: Object.assign({}, state.ids, payload.ids),
         }
     }),
 
@@ -41,7 +41,7 @@ export const setReducer: ActionReducer<SetState, Action> = createReducer(
     on(SetActions.setSelectedSet, (state: SetState, payload: {entity: Set}) => {
         return {
             ...state,
-            selectedId: payload.entity ? adapterSet.selectId(payload.entity) : null,
+            selectedId: payload.entity ? payload.entity.id : null,
         }
     }),
 

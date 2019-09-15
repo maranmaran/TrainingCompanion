@@ -4,18 +4,27 @@ import { Exercise } from 'src/server-models/entities/exercise.model';
 import * as ExerciseActions from './exercise.actions';
 import { adapterExercise, exerciseInitialState, ExerciseState } from './exercise.state';
 
-
 export const exerciseReducer: ActionReducer<ExerciseState, Action> = createReducer(
     exerciseInitialState,
 
     // CREATE
-    on(ExerciseActions.exerciseCreated, (state: ExerciseState, payload: {entity: Exercise}) => {
-        return adapterExercise.addOne(payload.entity, state);
+    on(ExerciseActions.exerciseCreated, (state: ExerciseState, payload: { entity: Dictionary<Exercise>, id: string }) => {
+        return {
+            ...state,
+            entities: Object.assign({}, state.entities, payload.entity),
+            ids: Object.assign([], [...state.ids, payload.id]),
+        }
     }),
 
     // UPDATE
-    on(ExerciseActions.exerciseUpdated, (state: ExerciseState, payload: {entity: Update<Exercise>}) => {
-        return adapterExercise.updateOne(payload.entity, state);
+    on(ExerciseActions.exerciseUpdated, (state: ExerciseState, payload: { entity: Dictionary<Exercise>, id: string }) => {
+
+        state.entities[payload.id] = payload.entity[payload.id];
+
+        return {
+            ...state,
+            entities: Object.assign({}, state.entities),
+        }
     }),
 
     // UPDATE MANY
@@ -41,7 +50,7 @@ export const exerciseReducer: ActionReducer<ExerciseState, Action> = createReduc
     on(ExerciseActions.setSelectedExercise, (state: ExerciseState, payload: {entity: Exercise}) => {
         return {
             ...state,
-            selectedId: payload.entity ? adapterExercise.selectId(payload.entity) : null,
+            selectedId: payload.entity ? payload.entity.id : null,
         }
     }),
 

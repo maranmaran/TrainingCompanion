@@ -3,7 +3,7 @@ import { Exercise } from 'src/server-models/entities/exercise.model';
 
 // Exercise property ENTITY
 export interface ExerciseState extends EntityState<Exercise> {
-    selectedId: string | number;
+    selectedId: string;
 }
 
 // ADAPTERS
