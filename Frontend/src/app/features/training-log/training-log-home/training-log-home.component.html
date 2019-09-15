@@ -1,5 +1,5 @@
 <mat-tab-group #group1 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab1 ? 'none' : 'inherit'"
-    (selectedIndexChange)="changeTab1($event)" [selectedIndex]="selectedTab1">
+    (selectedIndexChange)="changeTab1($event)" [selectedIndex]="selectedTab1" dynamicHeight="false">
     <mat-tab>
         <ng-template mat-tab-label>
             <i class="fas fa-arrow-circle-left"></i>
@@ -10,7 +10,7 @@
 </mat-tab-group>
 
 <mat-tab-group #group2 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab2 ? 'none' : 'inherit'"
-    (selectedIndexChange)="changeTab2($event)" [selectedIndex]="selectedTab2" >
+    (selectedIndexChange)="changeTab2($event)" [selectedIndex]="selectedTab2" dynamicHeight="false" >
     <mat-tab label="Calendar"></mat-tab>
     <mat-tab label="Week"></mat-tab>
     <mat-tab label="List"></mat-tab>

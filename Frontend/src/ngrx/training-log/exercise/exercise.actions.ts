@@ -1,3 +1,4 @@
+import { CRUD } from './../../../business/shared/crud.enum';
 import { Update, Dictionary } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
 import { Exercise } from 'src/server-models/entities/exercise.model';
@@ -10,7 +11,7 @@ export const exerciseCreated = createAction(
 
 export const normalizeExercise = createAction(
     '[Exercise] Normalize',
-    props<{exercise: Exercise}>()
+    props<{exercise: Exercise, action: CRUD }>()
 )
 
 export const exercisesFetched = createAction(
