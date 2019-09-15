@@ -23,9 +23,25 @@ export class ExerciseEffects {
 
             var normalized = normalizeExercises([payload.exercise]);
 
-            if(payload.action == CRUD.Create) {
-                this.store.dispatch(ExerciseActions.exerciseCreated({ entity: normalized.entities.exercises, id: normalized.ids.exerciseIds[0] }))
-                this.store.dispatch(SetActions.setsFetched({ entities: normalized.entities.sets, ids: normalized.ids.setIds }))
+            switch(payload.action) {
+
+                case CRUD.Create:
+                    this.store.dispatch(
+                        ExerciseActions.exerciseCreated(
+                            { entity: normalized.entities.exercises, id: normalized.ids.exerciseIds[0] }));
+                    this.store.dispatch(
+                        SetActions.setsFetched(
+                            { entities: normalized.entities.sets, ids: normalized.ids.setIds }));
+                    return;
+
+                case CRUD.Read:
+                    this.store.dispatch(
+                        ExerciseActions.exercisesFetched(
+                            { entities: normalized.entities.exercises, ids: normalized.ids.exerciseIds }));
+                    this.store.dispatch(
+                        SetActions.setsFetched(
+                            { entities: normalized.entities.sets, ids: normalized.ids.setIds }));
+                    return;
             } 
         })
     )

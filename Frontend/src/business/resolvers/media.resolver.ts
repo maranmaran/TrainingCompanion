@@ -11,6 +11,8 @@ import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { MediaType } from 'src/server-models/enums/media-type.enum';
 import { MediaService } from '../services/feature-services/media.service';
 import { currentUser } from './../../ngrx/auth/auth.selectors';
+import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { UIProgressBar } from '../shared/ui-progress-bars.enum';
 
 @Injectable()
 export class MediaResolver implements Resolve<Observable<MediaFile[] | void>> {

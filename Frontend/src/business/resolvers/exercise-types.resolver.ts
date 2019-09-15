@@ -10,6 +10,8 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { currentUser } from '../../ngrx/auth/auth.selectors';
 import { ExerciseTypeService } from '../services/feature-services/exercise-type.service';
+import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { UIProgressBar } from '../shared/ui-progress-bars.enum';
 
 @Injectable()
 export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] | void>> {
@@ -48,7 +50,7 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
     }
 
     private updateState(userId: string) {
-
+        
         return this.exerciseTypeService.getAll(userId)
         .pipe(
             take(1),

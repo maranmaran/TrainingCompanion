@@ -1,3 +1,4 @@
+import { CRUD } from './../../../business/shared/crud.enum';
 import { Set } from './../../../server-models/entities/set.model';
 import { Update, Dictionary } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
@@ -12,7 +13,7 @@ export const trainingCreated = createAction(
 
 export const normalizeTrainings = createAction(
     '[Training] Normalize',
-    props<{trainings: Training[]}>()
+    props<{entities: Training[], action: CRUD}>()
 )
 
 export const trainingsFetched = createAction(
@@ -37,5 +38,5 @@ export const trainingDeleted = createAction(
 
 export const setSelectedTraining = createAction(
     '[Training] Set selected training',
-    props<{ training: Training }>()
+    props<{ entity: Training }>()
 )

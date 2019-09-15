@@ -1,3 +1,4 @@
+import { normalizeTrainings } from './../../ngrx/training-log/training/training.actions';
 import { LocalStorageKeys } from '../shared/localstorage.keys.enum';
 import { TrainingService } from '../services/feature-services/training.service';
 import { Injectable } from '@angular/core';
@@ -9,6 +10,9 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Training } from 'src/server-models/entities/training.model';
 import { selectedTrainingId, selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
 import { trainingsFetched, setSelectedTraining } from 'src/ngrx/training-log/training/training.actions';
+import { CRUD } from '../shared/crud.enum';
+import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { UIProgressBar } from '../shared/ui-progress-bars.enum';
 
 @Injectable()
 export class TrainingDetailsResolver implements Resolve<Observable<Training | void>> {
@@ -36,12 +40,14 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training | vo
 
     private getState(id: string) {
 
+        this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SplashScreen}));
+
         return this.trainingService.getOne(id)
         .pipe(
             take(1),
             map(((training: Training) => {
-                // this.store.dispatch(trainingsFetched({trainings: [training]}));
-                this.store.dispatch(setSelectedTraining({training}));
+                this.store.dispatch(normalizeTrainings({entities: [training], action: CRUD.Read}));
+                this.store.dispatch(setSelectedTraining({entity: training}));
 
                 return training;
             }))
