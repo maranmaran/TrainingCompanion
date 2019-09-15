@@ -74,6 +74,9 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   changeTab2(index: number) {    
     this.selectedTab2 = index;
 
+    this.store.dispatch(setSelectedExercise(null));
+    this.store.dispatch(setSelectedTraining(null));
+
     // bug when transitioning from display: none to inherit
     // group must be visible for inkbar to adjust
     setTimeout(() => this.tabGroup2.realignInkBar()); 
@@ -97,7 +100,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   selectedTab2 = TrainingCalendarTab2.Calendar; 
   
   public get hideTab1() : boolean { // if training is NOT selected
-    return !this.selectedTraining;
+    return !this.selectedTraining && !this.selectedExercise;
   }
   public get hideTab2() : boolean { // if training selected
     return !this.hideTab1;
@@ -121,8 +124,6 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   }
 
   goBackToList() {
-    this.store.dispatch(setSelectedTraining(null));
-    this.store.dispatch(setSelectedExercise(null));
     this.changeTab2(TrainingCalendarTab2.Calendar);
   }
   

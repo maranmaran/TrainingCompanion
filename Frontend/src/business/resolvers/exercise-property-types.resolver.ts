@@ -11,6 +11,8 @@ import { ExercisePropertyTypeService } from '../services/feature-services/exerci
 import { exercisePropertyTypesFetched } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
 import { allExercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
 import { isEmpty } from '../utils/utils';
+import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { UIProgressBar } from '../shared/ui-progress-bars.enum';
 
 @Injectable()
 export class ExercisePropertyTypesResolver implements Resolve<Observable<ExercisePropertyType[] | void>> {

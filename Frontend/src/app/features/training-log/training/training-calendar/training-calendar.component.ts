@@ -13,6 +13,7 @@ import { SubSink } from 'subsink';
 import { ReplaySubject } from 'rxjs';
 import { allTrainings } from 'src/ngrx/training-log/training/training.selectors';
 import { trainingsFetched, trainingCreated, setSelectedTraining, normalizeTrainings } from 'src/ngrx/training-log/training/training.actions';
+import { CRUD } from 'src/business/shared/crud.enum';
 
 @Component({
   selector: 'app-training-calendar',
@@ -62,7 +63,7 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
     this.trainingService.getAllByMonth(this.userId, month, year).pipe(take(1))
       .subscribe((trainings: Training[]) => {
         // this.store.dispatch(trainingsFetched({trainings}));
-        this.store.dispatch(normalizeTrainings({trainings}))
+        this.store.dispatch(normalizeTrainings({entities: trainings, action: CRUD.Read}))
       });
   }
 
@@ -96,7 +97,7 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
 
   onOpenEvent(trainingEvent: CalendarEvent) {
     const training = trainingEvent.event;
-    this.store.dispatch(setSelectedTraining({training}));
+    this.store.dispatch(setSelectedTraining({entity: training}));
   }
 
 }

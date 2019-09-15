@@ -1,4 +1,5 @@
 import { TrainingDetailsResolver } from './../../../business/resolvers/training-details.resolver';
+import { ExerciseDetailsResolver } from './../../../business/resolvers/exercise-details.resolver';
 import { ExerciseDetailsComponent } from './exercise/exercise-details/exercise-details.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -13,7 +14,7 @@ const routes: Routes = [
         { path: 'week', component: TrainingCalendarComponent },
         { path: 'list', component: TrainingCalendarComponent },
         { path: 'training-details', resolve: {TrainingDetailsResolver}, component: TrainingDetailsComponent },
-        { path: 'exercise-details', component: ExerciseDetailsComponent }
+        { path: 'exercise-details', resolve: {ExerciseDetailsResolver}, component: ExerciseDetailsComponent }
     ]},
     { path: '**', redirectTo: '/' }, //always last
 ];
