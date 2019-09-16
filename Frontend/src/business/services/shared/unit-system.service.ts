@@ -16,8 +16,8 @@ export class UnitSystemService {
         this.store.select(unitSystem).pipe(take(1)).subscribe(system => this.unitSystem = system);
     }
 
-    public transformWeight(weight: number): string {
-        switch (this.unitSystem) {
+    public transformWeight(weight: number, unitSystem: UnitSystem = this.unitSystem): string {
+        switch (unitSystem) {
             case UnitSystem.Metric:
                 return this.toMetric(weight);
             case UnitSystem.Imperial:

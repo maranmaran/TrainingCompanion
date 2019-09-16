@@ -79,6 +79,7 @@ export class SetListComponent implements OnInit, OnDestroy {
     tableConfig.addEnabled = false;
     tableConfig.editEnabled = false;
     tableConfig.deleteEnabled = false;
+    tableConfig.disableEnabled = false;
 
     return tableConfig;
   }
@@ -157,8 +158,8 @@ export class SetListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '50rem',
       autoFocus: false,
-      data: { action: CRUD.Update, exerciseType: this.exerciseType, sets: this.sets },
-      panelClass: []
+      data: { title: 'Update sets', action: CRUD.Update, sets: this.sets},
+      panelClass: 'sets-dialog-container',
     })
 
     dialogRef.afterClosed().pipe(take(1))

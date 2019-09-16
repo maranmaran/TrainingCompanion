@@ -1,0 +1,20 @@
+@import "~@angular/material/theming";
+
+@mixin scrollbar-theme($theme) {
+
+    $background-palette: map-get($theme, background);
+    $color: map-get($background-palette, disabled-button);
+
+    *::-webkit-scrollbar {
+        width: 0.5em;
+      }
+      
+      *::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+      }
+      
+      *::-webkit-scrollbar-thumb {
+        background-color: $color;
+        outline: 1px solid $color;
+      }
+}

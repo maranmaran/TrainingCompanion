@@ -17,14 +17,14 @@ export interface TrainingLogState {
 export const trainingLogInitialState: TrainingLogState = {
     trainingState: trainingInitialState,
     exerciseState: exerciseInitialState,
-    setState: setInitialState
+    setState: setInitialState,
 }
 
 // Reducer map of the lib
 export const trainingLogReducerMap: ActionReducerMap<TrainingLogState> = {
     trainingState: trainingReducer,
     exerciseState: exerciseReducer,
-    setState: setReducer
+    setState: setReducer,
 };
 
 export const selectTrainingLogState = createFeatureSelector<TrainingLogState>("trainingLogState");

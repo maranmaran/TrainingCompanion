@@ -35,12 +35,12 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
       this.store.select(selectedTraining).subscribe(
         (training: Training) => {
           this.selectedTraining = training;
-          training && this.changeTab1(TrainingCalendarTab1.TrainingDetails); // TRAINING DETAILS
+          training && this.changeTab1(TrainingLogTabGroup1.TrainingDetails); // TRAINING DETAILS
       }),
       this.store.select(selectedExercise).subscribe(
         (exercise: Exercise) => {
           this.selectedExercise = exercise;
-          exercise && this.changeTab1(TrainingCalendarTab1.ExerciseDetails); // EXERCISE DETAILS
+          exercise && this.changeTab1(TrainingLogTabGroup1.ExerciseDetails); // EXERCISE DETAILS
         }
       )
     );
@@ -58,13 +58,13 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
     setTimeout(() => this.tabGroup1.realignInkBar()); 
 
     switch(index) {
-      case TrainingCalendarTab1.List:
+      case TrainingLogTabGroup1.List:
         return this.goBackToList();
-      case TrainingCalendarTab1.TrainingDetails:
+      case TrainingLogTabGroup1.TrainingDetails:
         this.store.dispatch(setSelectedExercise(null));
         this.router.navigate(['/app/training-log/training-details']);
         break;
-      case TrainingCalendarTab1.ExerciseDetails:
+      case TrainingLogTabGroup1.ExerciseDetails:
         this.router.navigate(['/app/training-log/exercise-details']);
         break;
       default:
@@ -82,13 +82,13 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
     setTimeout(() => this.tabGroup2.realignInkBar()); 
 
     switch(index) {
-      case TrainingCalendarTab2.Calendar:
+      case TrainingLogTabGroup2.Calendar:
         this.router.navigate(['/app/training-log/calendar']);
         break;
-      case TrainingCalendarTab2.Week:
+      case TrainingLogTabGroup2.Week:
         this.router.navigate(['/app/training-log/week']);
         break;
-      case TrainingCalendarTab2.List:
+      case TrainingLogTabGroup2.List:
         this.router.navigate(['/app/training-log/list']);
         break;
       default:
@@ -96,8 +96,8 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectedTab1 = TrainingCalendarTab1.TrainingDetails; 
-  selectedTab2 = TrainingCalendarTab2.Calendar; 
+  selectedTab1 = TrainingLogTabGroup1.TrainingDetails; 
+  selectedTab2 = TrainingLogTabGroup2.Calendar; 
   
   public get hideTab1() : boolean { // if training is NOT selected
     return !this.selectedTraining && !this.selectedExercise;
@@ -107,35 +107,40 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   }
 
   public get showCalendar() : boolean { // if calendar and NO training
-    return this.selectedTab2 == TrainingCalendarTab2.Calendar && !this.hideTab2;
+    return this.selectedTab2 == TrainingLogTabGroup2.Calendar && !this.hideTab2;
   }
   public get showWeek() : boolean { // if week list and NO training
-    return this.selectedTab2 == TrainingCalendarTab2.Week && !this.hideTab2;;
+    return this.selectedTab2 == TrainingLogTabGroup2.Week && !this.hideTab2;;
   }
   public get showList() : boolean { // if list and NO training
-    return this.selectedTab2 == TrainingCalendarTab2.List && !this.hideTab2;;
+    return this.selectedTab2 == TrainingLogTabGroup2.List && !this.hideTab2;;
   }
 
   public get showTraining() : boolean { // training details and NO training
-    return this.selectedTab1 == TrainingCalendarTab1.TrainingDetails && !this.hideTab1;
+    return this.selectedTab1 == TrainingLogTabGroup1.TrainingDetails && !this.hideTab1;
   }
   public get showExercise() : boolean { // exercise detailsa nd NO training
-    return this.selectedTab1 == TrainingCalendarTab1.ExerciseDetails && !this.hideTab1;
+    return this.selectedTab1 == TrainingLogTabGroup1.ExerciseDetails && !this.hideTab1;
   }
 
   goBackToList() {
-    this.changeTab2(TrainingCalendarTab2.Calendar);
+    this.changeTab2(TrainingLogTabGroup2.Calendar);
   }
   
 }
 
-export enum TrainingCalendarTab1 {
+export enum TrainingLogTab {
+  TabGroup1 = 0,
+  TabGroup2 = 0
+}
+
+export enum TrainingLogTabGroup1 {
   List = 0,
   TrainingDetails = 1,
   ExerciseDetails = 2
 }
 
-export enum TrainingCalendarTab2 {
+export enum TrainingLogTabGroup2 {
   Calendar = 0,
   Week = 1,
   List = 2
