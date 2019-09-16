@@ -7,7 +7,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { normalizeTrainingArray } from '../training-log.normalizer';
 import * as ExerciseActions from './../exercise/exercise.actions';
 import * as SetActions from './../set/set.actions';
-import * as TrainingActions from './training.actions';
+import * as TrainingActions from '../training/training.actions';
 import { CRUD } from 'src/business/shared/crud.enum';
 
 @Injectable()

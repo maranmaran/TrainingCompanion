@@ -1,9 +1,8 @@
-import { CRUD } from './../../../business/shared/crud.enum';
-import { Set } from './../../../server-models/entities/set.model';
-import { Update, Dictionary } from '@ngrx/entity';
-import { createAction, props } from "@ngrx/store";
-import { Training } from 'src/server-models/entities/training.model';
-import { Exercise } from 'src/server-models/entities/exercise.model';
+import { createAction, props } from '@ngrx/store'
+import { Training } from 'src/server-models/entities/training.model'
+import { CRUD } from 'src/business/shared/crud.enum'
+import { Dictionary, Update } from '@ngrx/entity'
+
 
 
 export const trainingCreated = createAction(

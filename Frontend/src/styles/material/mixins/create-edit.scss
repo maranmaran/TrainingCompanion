@@ -1,0 +1,40 @@
+@import "~@angular/material/theming";
+
+@mixin create-edit-themes($theme) {
+  $primary: mat-color(map-get($theme, primary));
+  $accent: mat-color(map-get($theme, accent));
+  $warn: mat-color(map-get($theme, warn));
+
+  // =========================== SETS =====================================
+  .sets-dialog-container .mat-dialog-container {
+    margin: 0;
+    overflow: hidden;
+  }
+  .sets-dialog-container .mat-dialog-content {
+    padding: 0px 10px;
+  }
+
+  #set-create-edit {
+    .mat-form-field-infix {
+      width: 100% !important;
+    }
+
+    #set-number {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      color: $accent;
+      margin-top:5px;
+      margin-right:10px;
+    }
+
+    .mat-icon-button {
+      width: 20px;
+    }
+
+    .mat-dialog-content {
+        max-height: 57vh;
+    }
+  }
+  // ======================================================================
+}

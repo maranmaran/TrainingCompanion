@@ -25,7 +25,7 @@ export class ExerciseCreateEditComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private exerciseService: ExerciseService,
-    protected dialogRef: MatDialogRef<AthleteCreateEditComponent>,
+    protected dialogRef: MatDialogRef<ExerciseCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, exercise: Exercise, exerciseTypes: ExerciseType[] }) { }
 
   form: FormGroup;

@@ -1,6 +1,6 @@
 import { Update, Dictionary } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
-import * as TrainingActions from './training.actions';
+import * as TrainingActions from '../training/training.actions';
 import { adapterTraining, TrainingState, trainingInitialState} from './training.state';
 import { Training } from 'src/server-models/entities/training.model';
 
