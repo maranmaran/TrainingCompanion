@@ -1,3 +1,4 @@
+import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
 import { NgModule } from '@angular/core';
 // import { TrainingsResolver } from 'src/business/resolvers/trainings.resolver';
 import { AngularEditorModule } from '@kolkov/angular-editor';
@@ -51,7 +52,8 @@ import { ExerciseDetailsResolver } from 'src/business/resolvers/exercise-details
         ExerciseService,
         SetService,
         TrainingDetailsResolver,
-        ExerciseDetailsResolver
+        ExerciseDetailsResolver,
+        UnitSystemService
     ],
     entryComponents: [
         ExerciseCreateEditComponent,

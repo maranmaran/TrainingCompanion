@@ -7,6 +7,7 @@ import * as UIActions from './ui.actions';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { MatSidenav } from '@angular/material/sidenav';
 import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
+import { TrainingLogTabGroup1, TrainingLogTabGroup2, TrainingLogTab } from 'src/app/features/training-log/training-log-home/training-log-home.component';
 
 export const uiReducer: ActionReducer<UIState, Action> = createReducer(
     initialUIState,
@@ -69,6 +70,13 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
             ...state,
             isMobile: !payload.isWeb
         }   
+    }),
+
+    on(UIActions.setTab, (state: UIState, payload: { index: TrainingLogTabGroup1 | TrainingLogTabGroup2, tab: TrainingLogTab}) => {
+        return {
+            ...state,
+            trainingLogTabs: payload
+        }
     }),
 
 );

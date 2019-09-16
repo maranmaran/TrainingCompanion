@@ -18,9 +18,9 @@ import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-cr
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { Update } from '@ngrx/entity';
 import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
-import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 import { exercises } from 'src/ngrx/training-log/exercise/exercise.selectors';
 import { setSelectedExercise } from 'src/ngrx/training-log/exercise/exercise.actions';
+import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 
 @Component({
   selector: 'app-exercise-list',

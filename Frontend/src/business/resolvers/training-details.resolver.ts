@@ -1,4 +1,4 @@
-import { normalizeTrainings } from './../../ngrx/training-log/training/training.actions';
+import { normalizeTrainings } from '../../ngrx/training-log/training/training.actions';
 import { LocalStorageKeys } from '../shared/localstorage.keys.enum';
 import { TrainingService } from '../services/feature-services/training.service';
 import { Injectable } from '@angular/core';
