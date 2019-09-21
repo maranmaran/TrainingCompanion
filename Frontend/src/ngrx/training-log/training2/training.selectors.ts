@@ -31,7 +31,7 @@ export const selectedTrainingId = createSelector(
     selectTrainingState,
     fromTraining.getSelectedTrainingId
 );
-export const selectedExercisePropertyId = createSelector(
+export const selectedExerciseId = createSelector(
     selectTrainingState,
     fromTraining.getSelectedExerciseId
 );
@@ -41,61 +41,59 @@ export const selectedTraining = createSelector(
     selectTrainingState,
     (state) => state.entities[state.selectedTrainingId]
 );
-export const selectedExercises = createSelector(
+export const selectedTrainingExercises = createSelector(
     selectTrainingState,
     (state) => {
-        
+
         var training = (state.entities[state.selectedTrainingId]);
 
-        if(training) {
+        if (training) {
             return training.exercises; // not normalized
         }
-        
-        return null; 
+
+        return null;
     }
 );
 export const selectedExerciseType = createSelector(
     selectTrainingState,
     (state) => {
-        
+
         var training = (state.entities[state.selectedTrainingId]);
 
-        if(training) {
+        if (training) {
             return training.exercises.filter(x => x.id == state.selectedExerciseId)[0].exerciseType; // not normalized
         }
-        
-        return null; 
+
+        return null;
     }
 );
 export const selectedExercise = createSelector(
     selectTrainingState,
     (state) => {
-        
+
         var training = (state.entities[state.selectedTrainingId]);
 
-        if(training) {
+        if (training) {
             return training.exercises.filter(x => x.id == state.selectedExerciseId)[0]; // not normalized
         }
-        
-        return null; 
+
+        return null;
     }
 );
 export const selectedExerciseSets = createSelector(
     selectTrainingState,
     (state) => {
-        
+
         var training = (state.entities[state.selectedTrainingId]);
 
-        if(training) {
+        if (training) {
             var exercise = training.exercises.filter(x => x.id == state.selectedExerciseId)[0]; // not normalized
 
-            if(exercise) {
+            if (exercise) {
                 return exercise.sets; // not normalized
-            } 
+            }
         }
-        
-        return null; 
+
+        return null;
     }
 );
-
-

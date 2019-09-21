@@ -1,4 +1,3 @@
-import { normalizeTrainings } from '../../ngrx/training-log/training/training.actions';
 import { LocalStorageKeys } from '../shared/localstorage.keys.enum';
 import { TrainingService } from '../services/feature-services/training.service';
 import { Injectable } from '@angular/core';
@@ -8,11 +7,11 @@ import { Observable, of } from 'rxjs';
 import { concatMap, map, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Training } from 'src/server-models/entities/training.model';
-import { selectedTrainingId, selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
-import { trainingsFetched, setSelectedTraining } from 'src/ngrx/training-log/training/training.actions';
 import { CRUD } from '../shared/crud.enum';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { UIProgressBar } from '../shared/ui-progress-bars.enum';
+import { selectedTrainingId, selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
+import { trainingsFetched, setSelectedTraining } from 'src/ngrx/training-log/training2/training.actions';
 
 @Injectable()
 export class TrainingDetailsResolver implements Resolve<Observable<Training | void>> {
@@ -27,12 +26,12 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training | vo
 
         return this.store.select(selectedTrainingId)
             .pipe(
-                take(1), 
+                take(1),
                 concatMap((id: string) => {
-                    if(!id) {
+                    if (!id) {
                         id = localStorage.getItem(LocalStorageKeys.trainingId);
                         return this.getState(id);
-                    } 
+                    }
 
                     return this.store.select(selectedTraining).pipe(take(1));
                 }));
@@ -40,18 +39,18 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training | vo
 
     private getState(id: string) {
 
-        this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SplashScreen}));
+        this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SplashScreen }));
 
         return this.trainingService.getOne(id)
-        .pipe(
-            take(1),
-            map(((training: Training) => {
-                this.store.dispatch(normalizeTrainings({entities: [training], action: CRUD.Read}));
-                this.store.dispatch(setSelectedTraining({entity: training}));
+            .pipe(
+                take(1),
+                map(((training: Training) => {
+                    this.store.dispatch(trainingsFetched({ entities: [training] }));
+                    // this.store.dispatch(normalizeTrainings({entities: [training], action: CRUD.Read}));
+                    this.store.dispatch(setSelectedTraining({ entity: training }));
 
-                return training;
-            }))
-        );
+                    return training;
+                }))
+            );
     }
 }
-
