@@ -3,7 +3,7 @@ import { Exercise } from 'src/server-models/entities/exercise.model';
 import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedExercise } from 'src/ngrx/training-log/exercise/exercise.selectors';
+import { selectedExercise } from 'src/ngrx/training-log/training2/training.selectors';
 
 @Component({
   selector: 'app-exercise-details',
@@ -20,6 +20,6 @@ export class ExerciseDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(selectedExercise).pipe(take(1))
-    .subscribe(exercise => this.exercise = exercise);
+      .subscribe(exercise => this.exercise = exercise);
   }
 }

@@ -12,11 +12,9 @@ import { UserSettings } from 'src/server-models/entities/user-settings.model';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { currentUser, userSettings } from 'src/ngrx/auth/auth.selectors';
 import { take, map } from 'rxjs/operators';
-import { selectedExercise } from 'src/ngrx/training-log/exercise/exercise.selectors';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
-import { getLocaleDateFormat } from '@angular/common';
-import { normalizeSets } from 'src/ngrx/training-log/set/set.actions';
+import { selectedExercise } from 'src/ngrx/training-log/training2/training.selectors';
 
 @Component({
   selector: 'app-set-create-edit',
@@ -160,7 +158,7 @@ export class SetCreateEditComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         (sets: Set[]) => {
-          this.store.dispatch(normalizeSets({exerciseId: this.exerciseId, sets, originalIds: this.sets.map(x => x.id)}));
+          // this.store.dispatch(normalizeSets({ exerciseId: this.exerciseId, sets, originalIds: this.sets.map(x => x.id) }));
           this.onClose(sets);
         },
         err => console.log(err));

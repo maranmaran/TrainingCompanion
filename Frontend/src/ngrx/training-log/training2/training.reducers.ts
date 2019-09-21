@@ -1,4 +1,5 @@
-import { TrainingState, trainingInitialState, adapterTraining } from './training.state';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { TrainingState, trainingInitialState, adapterTraining, adapterExercise } from './training.state';
 import { ActionReducer, createReducer, Action, on } from '@ngrx/store';
 import { Training } from 'src/server-models/entities/training.model';
 import { Update } from '@ngrx/entity';
@@ -23,7 +24,7 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     }),
 
     // DELETE
-    on(TrainingActions.trainingDeleted, (state: TrainingState, payload: {id: string}) => {
+    on(TrainingActions.trainingDeleted, (state: TrainingState, payload: { id: string }) => {
         return adapterTraining.removeOne(payload.id, state);
     }),
 
@@ -33,21 +34,27 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     }),
 
     // SET SELECTED
-    on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: {entity: Training}) => {
+    on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: { entity: Training }) => {
         return {
             ...state,
-            selectedId: payload.entity ? payload.entity.id : null,
+            selectedTrainingId: payload.entity ? payload.entity.id : null,
+        }
+    }),
+    on(TrainingActions.setSelectedExercise, (state: TrainingState, payload: { entity: Exercise }) => {
+        return {
+            ...state,
+            selectedExerciseId: payload.entity ? payload.entity.id : null,
         }
     }),
 );
 
 export const getSelectedTrainingId = (state: TrainingState) => state.selectedTrainingId;
 export const getSelectedExerciseId = (state: TrainingState) => state.selectedExerciseId;
- 
+
 // get the selectors
 export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
+    selectIds,
+    selectEntities,
+    selectAll,
+    selectTotal,
 } = adapterTraining.getSelectors();

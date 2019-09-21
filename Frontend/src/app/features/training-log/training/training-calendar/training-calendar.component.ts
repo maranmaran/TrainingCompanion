@@ -11,9 +11,9 @@ import { take } from 'rxjs/operators';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { ReplaySubject } from 'rxjs';
-import { allTrainings } from 'src/ngrx/training-log/training/training.selectors';
-import { trainingsFetched, trainingCreated, setSelectedTraining, normalizeTrainings } from 'src/ngrx/training-log/training/training.actions';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { trainings } from 'src/ngrx/training-log/training2/training.selectors';
+import { trainingsFetched, trainingCreated, setSelectedTraining } from 'src/ngrx/training-log/training2/training.actions';
 
 @Component({
   selector: 'app-training-calendar',
@@ -42,7 +42,7 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
     });
 
     // subscribe to changes
-    this.subsink.add(this.store.select(allTrainings).subscribe(
+    this.subsink.add(this.store.select(trainings).subscribe(
       (trainings: Training[]) => {
         this.inputData.next(this.parseTrainingsForCalendar(trainings));
       }
@@ -62,17 +62,17 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
 
     this.trainingService.getAllByMonth(this.userId, month, year).pipe(take(1))
       .subscribe((trainings: Training[]) => {
-        // this.store.dispatch(trainingsFetched({trainings}));
-        this.store.dispatch(normalizeTrainings({entities: trainings, action: CRUD.Read}))
+        this.store.dispatch(trainingsFetched({ entities: trainings }));
+        // this.store.dispatch(normalizeTrainings({entities: trainings, action: CRUD.Read}))
       });
   }
 
   // PARSE TO CALENDAR DATA (EVENT CALENDAR CAN READ THIS)
   parseTrainingsForCalendar(trainings: Training[]): CalendarEvent[] {
-    
-    if(!trainings) return [];
-    
-    const events = trainings.map(training =>  {
+
+    if (!trainings) return [];
+
+    const events = trainings.map(training => {
 
       const calendarEvent = new CalendarEvent(moment(training.dateTrained));
       calendarEvent.event = training;
@@ -90,14 +90,14 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
 
     this.trainingService.create(request).pipe(take(1))
       .subscribe(
-        (training: Training) => this.store.dispatch(trainingCreated({training})),
+        (training: Training) => this.store.dispatch(trainingCreated({ entity: training })),
         err => console.log(err)
       );
   }
 
   onOpenEvent(trainingEvent: CalendarEvent) {
     const training = trainingEvent.event;
-    this.store.dispatch(setSelectedTraining({entity: training}));
+    this.store.dispatch(setSelectedTraining({ entity: training }));
   }
 
 }
