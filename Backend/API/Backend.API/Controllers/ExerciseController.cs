@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
+using Backend.Application.Business.Business.Exercise.Get;
 
 namespace Backend.API.Controllers
 {

@@ -4,11 +4,11 @@ using Backend.Application.Business.Business.Billing.AddPayment;
 using Backend.Application.Business.Business.Billing.Subscribe;
 using Backend.Application.Business.Business.Chat.SendChatMessage;
 using Backend.Application.Business.Business.Exercise.Create;
-using Backend.Application.Business.Business.ExercisePropertyType.Create;
-using Backend.Application.Business.Business.ExercisePropertyType.Update;
 using Backend.Application.Business.Business.ExerciseType.Create;
 using Backend.Application.Business.Business.ExerciseType.Update;
 using Backend.Application.Business.Business.Set.Create;
+using Backend.Application.Business.Business.TagGroup.Create;
+using Backend.Application.Business.Business.TagGroup.Update;
 using Backend.Application.Business.Business.Training.Create;
 using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Application.Business.Business.Users.UpdateUser;
@@ -31,7 +31,7 @@ namespace Backend.Application.Business
             this.UserMappings();
             this.BillingMappings();
             this.ChatMappings();
-            this.ExercisePropertyTypeMappings();
+            this.TagGroupMappings();
             this.ExerciseTypeMappings();
             this.TrainingMappings();
             this.ExerciseMappings();
@@ -132,11 +132,11 @@ namespace Backend.Application.Business
                 }));
         }
 
-        private void ExercisePropertyTypeMappings()
+        private void TagGroupMappings()
         {
-            CreateMap<ExercisePropertyType, ExercisePropertyType>();
-            CreateMap<CreateExercisePropertyTypeRequest, ExercisePropertyType>();
-            CreateMap<UpdateExercisePropertyTypeRequest, ExercisePropertyType>();
+            CreateMap<TagGroup, TagGroup>();
+            CreateMap<CreateTagGroupRequest, TagGroup>();
+            CreateMap<UpdateTagGroupRequest, TagGroup>();
         }
 
         private void ExerciseTypeMappings()

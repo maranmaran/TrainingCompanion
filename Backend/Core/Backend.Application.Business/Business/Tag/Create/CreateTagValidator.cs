@@ -1,0 +1,27 @@
+﻿using Backend.Domain;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+
+namespace Backend.Application.Business.Business.Tag.Create
+{
+    public class CreateTagValidator : AbstractValidator<CreateTagRequest>
+    {
+        private readonly IApplicationDbContext _context;
+        public CreateTagValidator(IApplicationDbContext context)
+        {
+            _context = context;
+
+            RuleFor(x => x.Value)
+                .MaximumLength(30)
+                .NotEmpty()
+                .Must((request, type) => BeUniqueType(request))
+                .WithMessage("Property name must be unique"); ;
+        }
+
+        private bool BeUniqueType(CreateTagRequest request)
+        {
+            return _context.TagGroups.Include(x => x.Properties).Single(x => x.Id == request.TagGroupId).Properties.All(x => x.Value != request.Value);
+        }
+    }
+}

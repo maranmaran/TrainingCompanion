@@ -4,6 +4,7 @@ using Backend.Application.Business.Business.Set.Update;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Backend.Application.Business.Business.Set.UpdateMany;
 using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.API.Controllers

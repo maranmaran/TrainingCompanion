@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace Backend.Application.Business.Business.Set.Update
+namespace Backend.Application.Business.Business.Set.UpdateMany
 {
     public class UpdateManySetsRequest: IRequest<IEnumerable<Domain.Entities.TrainingLog.Set>>
     {

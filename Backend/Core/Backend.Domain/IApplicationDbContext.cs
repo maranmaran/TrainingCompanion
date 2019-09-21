@@ -24,9 +24,9 @@ namespace Backend.Domain
         #region Exercise type + Properties
 
         DbSet<ExerciseType> ExerciseTypes { get; set; }
-        DbSet<ExercisePropertyType> ExercisePropertyTypes { get; set; }
-        DbSet<ExerciseProperty> ExerciseProperties { get; set; }
-        DbSet<ExerciseTypeExerciseProperty> ExerciseTypeExerciseProperties { get; set; } // JOIN TABLE
+        DbSet<TagGroup> TagGroups { get; set; }
+        DbSet<Tag> ExerciseProperties { get; set; }
+        DbSet<ExerciseTypeTag> ExerciseTypeExerciseProperties { get; set; } // JOIN TABLE
 
         #endregion
 

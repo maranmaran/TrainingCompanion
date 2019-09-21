@@ -1,14 +1,14 @@
-﻿using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Application.Business.Business.Set.Update
+namespace Backend.Application.Business.Business.Set.UpdateMany
 {
     public class UpdateManySetsRequestHandler : IRequestHandler<UpdateManySetsRequest, IEnumerable<Domain.Entities.TrainingLog.Set>>
     {
@@ -39,7 +39,7 @@ namespace Backend.Application.Business.Business.Set.Update
             }
             catch (Exception e)
             {
-                throw new CreateFailureException(nameof(Domain.Entities.ExerciseType.ExerciseProperty), e);
+                throw new CreateFailureException(nameof(Domain.Entities.ExerciseType.Tag), e);
             }
         }
     }

@@ -16,6 +16,6 @@ namespace Backend.Application.Business.Business.ExerciseType.Create
         public bool? RequiresBodyweight { get; set; }
         public bool? RequiresTime { get; set; }
 
-        public IEnumerable<ExerciseTypeExerciseProperty> Properties { get; set; }
+        public IEnumerable<ExerciseTypeTag> Properties { get; set; }
     }
 }
