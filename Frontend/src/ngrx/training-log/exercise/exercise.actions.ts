@@ -9,6 +9,11 @@ export const exerciseCreated = createAction(
     props<{ entity: Dictionary<Exercise>, id: string }>()
 )
 
+export const manySetsUpdated = createAction(
+    '[Exercise] Sets updated',
+    props<{exerciseId: string, ids: string[]}>()
+)
+
 export const normalizeExercise = createAction(
     '[Exercise] Normalize',
     props<{exercise: Exercise, action: CRUD }>()

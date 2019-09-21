@@ -46,8 +46,8 @@ export abstract class CrudService<T> extends BaseService {
             );
     }
 
-    public updateMany(types: T[]) {
-        return this.http.post<T[]>(this.url + 'UpdateMany/', types)
+    public updateMany<TRequest, TResponse = T[]>(request: TRequest) {
+        return this.http.post<TResponse>(this.url + 'UpdateMany/', request)
             .pipe(
                 catchError(this.handleError)
             );

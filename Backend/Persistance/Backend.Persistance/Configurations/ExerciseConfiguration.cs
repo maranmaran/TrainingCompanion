@@ -8,8 +8,10 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<Exercise> builder)
         {
-
-
+            builder
+                .HasMany(x => x.Sets)
+                .WithOne(x => x.Exercise)
+                .HasForeignKey(x => x.ExerciseId);
         }
     }
 }

@@ -1,12 +1,16 @@
-
+import { Set } from './../../../server-models/entities/set.model';
 import { Update, Dictionary } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
-import { Set } from 'src/server-models/entities/set.model';
 
 
 export const setCreated = createAction(
     '[Set] Created',
     props<{ entity: Set}>()
+)
+
+export const normalizeSets = createAction(
+    '[Set] Normalize sets',
+    props<{ exerciseId: string, sets: Set[], originalIds: string[] }>()
 )
 
 export const setsFetched = createAction(
@@ -21,7 +25,7 @@ export const setUpdated = createAction(
 
 export const manySetsUpdated = createAction(
     '[Set] Many updated',
-    props<{ entities: Update<Set>[] }>()
+    props<{ entities: Dictionary<Set>, ids: string[], idsToRemove: string[] }>()
 )
 
 export const setDeleted = createAction(
