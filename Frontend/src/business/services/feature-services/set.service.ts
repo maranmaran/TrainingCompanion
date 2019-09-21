@@ -7,5 +7,5 @@ export class SetService extends CrudService<Set> {
     constructor(private httpDI: HttpClient) {
         super(httpDI, "Set");
     }
-    
+
 }

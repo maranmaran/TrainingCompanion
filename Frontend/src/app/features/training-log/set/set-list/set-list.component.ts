@@ -55,8 +55,9 @@ export class SetListComponent implements OnInit, OnDestroy {
 
     this.subs.add(
       this.store.select(sets)
-        .pipe(map(exercises => exercises || []))
+        .pipe(map(sets => sets || []))
         .subscribe((sets: Set[]) => {
+          console.log(sets);
           this.sets = sets;
           this.tableDatasource.updateDatasource(sets);
         }),

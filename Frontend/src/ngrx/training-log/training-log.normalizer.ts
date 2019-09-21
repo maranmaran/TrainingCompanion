@@ -14,6 +14,7 @@ const training = new schema.Entity('trainings', {
 
 export const trainingsSchema = [training];
 export const exercisesSchema = [exercise];
+export const setsSchema = [set];
 
 export function normalizeTrainingArray(trainings: Training[]) {
     var normalized = normalize(trainings, trainingsSchema);
@@ -45,8 +46,6 @@ export function normalizeTrainingArray(trainings: Training[]) {
 export function normalizeExercises(exercises: Exercise[]) {
     var normalized = normalize(exercises, exercisesSchema);
 
-    console.log(normalized);
-
     var entities = {
         exercises: {},
         sets: {}
@@ -58,7 +57,6 @@ export function normalizeExercises(exercises: Exercise[]) {
         exerciseIds: [],
         setIds: []
     }
-    console.log(Object.values(normalized.entities.exercises));
     ids.exerciseIds = normalized.entities.exercises ? Object.values(normalized.entities.exercises).map(x => x.id) : [];
     ids.setIds = normalized.entities.sets ? Object.values(normalized.entities.sets).map(x => x.id) : [];
 

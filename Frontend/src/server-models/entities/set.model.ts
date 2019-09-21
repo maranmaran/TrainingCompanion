@@ -10,4 +10,6 @@ export class Set {
     volume: number;
     averageVelocity: string;
     projectedMax: number;
+
+    exerciseId: string;
 }

@@ -14,5 +14,9 @@ namespace Backend.Domain.Entities.TrainingLog
         public double Volume { get; set; }
         public string AverageVelocity { get; set; }  // string ?
         public double ProjectedMax { get; set; }
+
+        public virtual Guid ExerciseId { get; set; }
+        public virtual Exercise Exercise { get; set; }
+
     }
 }
