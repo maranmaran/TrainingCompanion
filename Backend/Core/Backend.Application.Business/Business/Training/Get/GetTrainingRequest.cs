@@ -1,7 +1,7 @@
-﻿using MediatR;
-using System;
+﻿using System;
+using MediatR;
 
-namespace Backend.Application.Business.Business.Training.GetAll
+namespace Backend.Application.Business.Business.Training.Get
 {
     public class GetTrainingRequest : IRequest<Domain.Entities.TrainingLog.Training>
     {

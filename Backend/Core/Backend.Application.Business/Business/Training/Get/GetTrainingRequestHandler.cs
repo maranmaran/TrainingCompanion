@@ -1,13 +1,13 @@
-﻿using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Application.Business.Business.Training.GetAll
+namespace Backend.Application.Business.Business.Training.Get
 {
     public class GetTrainingRequestHandler : IRequestHandler<GetTrainingRequest, Domain.Entities.TrainingLog.Training>
     {
@@ -30,8 +30,8 @@ namespace Backend.Application.Business.Business.Training.GetAll
                     .Include(x => x.Exercises)
                     .ThenInclude(x => x.ExerciseType)
                     .ThenInclude(x => x.Properties)
-                    .ThenInclude(x => x.ExerciseProperty)
-                    .ThenInclude(x => x.ExercisePropertyType)
+                    .ThenInclude(x => x.Tag)
+                    .ThenInclude(x => x.TagGroup)
 
                     .FirstOrDefault(x => x.Id == request.TrainingId);
 

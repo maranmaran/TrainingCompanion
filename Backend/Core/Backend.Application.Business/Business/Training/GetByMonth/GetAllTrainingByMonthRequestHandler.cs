@@ -1,11 +1,11 @@
 ﻿using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.Training.GetByMonth
 {
@@ -30,8 +30,8 @@ namespace Backend.Application.Business.Business.Training.GetByMonth
                     .Include(x => x.Exercises)
                     .ThenInclude(x => x.ExerciseType)
                     .ThenInclude(x => x.Properties)
-                    .ThenInclude(x => x.ExerciseProperty)
-                    .ThenInclude(x => x.ExercisePropertyType)
+                    .ThenInclude(x => x.Tag)
+                    .ThenInclude(x => x.TagGroup)
 
                     .Where(x => x.ApplicationUserId == request.ApplicationUserId &&
                                                               x.DateTrained.Month == request.Month &&

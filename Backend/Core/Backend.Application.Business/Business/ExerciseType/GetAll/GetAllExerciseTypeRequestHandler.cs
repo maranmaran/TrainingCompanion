@@ -24,8 +24,8 @@ namespace Backend.Application.Business.Business.ExerciseType.GetAll
             {
                 var exerciseTypes = _context.ExerciseTypes
                     .Include(x => x.Properties)
-                    .ThenInclude(x => x.ExerciseProperty)
-                    .ThenInclude(x => x.ExercisePropertyType)
+                    .ThenInclude(x => x.Tag)
+                    .ThenInclude(x => x.TagGroup)
                     .Where(x => x.ApplicationUserId == request.UserId);
 
                 //TODO: Technical debt.. this needs to be done better

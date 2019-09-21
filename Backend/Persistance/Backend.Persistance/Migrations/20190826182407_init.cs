@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace Backend.Persistance.Migrations
 {
@@ -103,7 +103,7 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExercisePropertyTypes",
+                name: "TagGroups",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -116,9 +116,9 @@ namespace Backend.Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExercisePropertyTypes", x => x.Id);
+                    table.PrimaryKey("PK_TagGroups", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExercisePropertyTypes_Users_ApplicationUserId",
+                        name: "FK_TagGroups_Users_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -179,15 +179,15 @@ namespace Backend.Persistance.Migrations
                     Value = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
                     Active = table.Column<bool>(nullable: false, defaultValue: true),
-                    ExercisePropertyTypeId = table.Column<Guid>(nullable: false)
+                    TagGroupId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExerciseProperties", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExerciseProperties_ExercisePropertyTypes_ExercisePropertyTypeId",
-                        column: x => x.ExercisePropertyTypeId,
-                        principalTable: "ExercisePropertyTypes",
+                        name: "FK_ExerciseProperties_TagGroups_TagGroupId",
+                        column: x => x.TagGroupId,
+                        principalTable: "TagGroups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -276,14 +276,14 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Show = table.Column<bool>(nullable: false, defaultValue: true),
                     ExerciseTypeId = table.Column<Guid>(nullable: false),
-                    ExercisePropertyId = table.Column<Guid>(nullable: false)
+                    TagId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExerciseTypeExerciseProperties", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExerciseTypeExerciseProperties_ExerciseProperties_ExercisePropertyId",
-                        column: x => x.ExercisePropertyId,
+                        name: "FK_ExerciseTypeExerciseProperties_ExerciseProperties_TagId",
+                        column: x => x.TagId,
                         principalTable: "ExerciseProperties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -332,13 +332,13 @@ namespace Backend.Persistance.Migrations
                 column: "ExerciseTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseProperties_ExercisePropertyTypeId",
+                name: "IX_ExerciseProperties_TagGroupId",
                 table: "ExerciseProperties",
-                column: "ExercisePropertyTypeId");
+                column: "TagGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExercisePropertyTypes_ApplicationUserId",
-                table: "ExercisePropertyTypes",
+                name: "IX_TagGroups_ApplicationUserId",
+                table: "TagGroups",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
@@ -352,9 +352,9 @@ namespace Backend.Persistance.Migrations
                 column: "TrainingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypeExerciseProperties_ExercisePropertyId",
+                name: "IX_ExerciseTypeExerciseProperties_TagId",
                 table: "ExerciseTypeExerciseProperties",
-                column: "ExercisePropertyId");
+                column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExerciseTypeExerciseProperties_ExerciseTypeId",
@@ -424,7 +424,7 @@ namespace Backend.Persistance.Migrations
                 name: "Exercises");
 
             migrationBuilder.DropTable(
-                name: "ExercisePropertyTypes");
+                name: "TagGroups");
 
             migrationBuilder.DropTable(
                 name: "ExerciseTypes");

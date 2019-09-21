@@ -28,7 +28,7 @@ namespace Backend.Persistance.Seed
                     CustomerId = "cus_FLi7gZv8w0j0GB",
                     UserSettings = new UserSettings(),
                 };
-               
+
 
                 var athlete = new Athlete()
                 {
@@ -92,11 +92,11 @@ namespace Backend.Persistance.Seed
                 context.SaveChangesAsync(CancellationToken.None).Wait();
 
                 // JOIN SEEDED DATA - MANY TO MANY
-                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeExercisePropertyFactory.JoinExerciseTypesAndProperties(admin));
-                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeExercisePropertyFactory.JoinExerciseTypesAndProperties(coach));
-                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeExercisePropertyFactory.JoinExerciseTypesAndProperties(athlete));
-                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeExercisePropertyFactory.JoinExerciseTypesAndProperties(soloAthlete));
-               
+                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(admin));
+                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(coach));
+                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(athlete));
+                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(soloAthlete));
+
                 context.SaveChangesAsync(CancellationToken.None).Wait();
             }
             catch (Exception e)
