@@ -1,3 +1,4 @@
+import { selectedTrainingExercises, selectedTraining } from './../../../../../ngrx/training-log/training2/training.selectors';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { concatMap, map, take } from 'rxjs/operators';
@@ -17,10 +18,7 @@ import { SubSink } from 'subsink';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { Update } from '@ngrx/entity';
-import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
-import { exercises } from 'src/ngrx/training-log/exercise/exercise.selectors';
-import { setSelectedExercise } from 'src/ngrx/training-log/exercise/exercise.actions';
-import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
+import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
 
 @Component({
   selector: 'app-exercise-list',
@@ -30,13 +28,13 @@ import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions
 })
 export class ExerciseListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
-  private deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
 
   protected tableConfig: TableConfig;
   protected tableColumns: CustomColumn[];
   protected tableDatasource: TableDatasource<Exercise>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
-  
+
   private userId: string;
 
   constructor(
@@ -54,11 +52,11 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
 
     this.subs.add(
-      this.store.select(exercises)
+      this.store.select(selectedTrainingExercises)
         .pipe(map(exercises => exercises || []))
         .subscribe((exercises: Exercise[]) => {
           this.tableDatasource.updateDatasource(exercises);
-      }));
+        }));
 
   }
 
@@ -86,36 +84,36 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
         sort: true,
         useComponent: true,
         component: ExerciseTypePreviewComponent,
-        inputs: (item: Exercise) => { return {exerciseType: item.exerciseType}; },
+        inputs: (item: Exercise) => { return { exerciseType: item.exerciseType }; },
       })
     ]
   }
 
   onSelect = (exercise: Exercise) => {
-    this.store.dispatch(setSelectedExercise({entity: exercise}))
+    this.store.dispatch(setSelectedExercise({ entity: exercise }))
   };
 
   onAdd() {
     this.exerciseTypeService.getAll(this.userId).pipe(take(1))
-    .subscribe((exerciseTypes: ExerciseType[]) => {
-      const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
-        height: 'auto',
-        width: '98%',
-        maxWidth: '50rem',
-        autoFocus: false,
-        data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes },
-        panelClass: []
-      })
-  
-      dialogRef.afterClosed().pipe(take(1))
-        .subscribe((exercise: Exercise) => {
+      .subscribe((exerciseTypes: ExerciseType[]) => {
+        const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
+          height: 'auto',
+          width: '98%',
+          maxWidth: '50rem',
+          autoFocus: false,
+          data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes },
+          panelClass: []
+        })
+
+        dialogRef.afterClosed().pipe(take(1))
+          .subscribe((exercise: Exercise) => {
             if (exercise) {
               this.table.onSelect(exercise, true);
               // this.onSelect(exercise);
             }
           }
-        )
-    });
+          )
+      });
   }
 
   onDeleteSingle(exercise: Exercise) {
@@ -139,13 +137,13 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
             }),
             take(1))
             .subscribe((training: Training) => {
-              
+
               const trainingUpdate: Update<Training> = {
                 id: training.id,
                 changes: training
               };
 
-              this.store.dispatch(trainingUpdated({ training: trainingUpdate }));
+              this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
             });
         }
       });

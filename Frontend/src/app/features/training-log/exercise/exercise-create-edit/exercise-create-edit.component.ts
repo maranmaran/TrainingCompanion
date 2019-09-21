@@ -3,17 +3,14 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { switchMap, take } from 'rxjs/operators';
-import { AthleteCreateEditComponent } from 'src/app/features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { normalizeExercise } from 'src/ngrx/training-log/exercise/exercise.actions';
-import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
 import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/requests/create-exercise.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
-import { UpdateExerciseRequest } from 'src/server-models/cqrs/exercise/requests/update-exercise.request';
+import { selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
 
 @Component({
   selector: 'app-exercise-create-edit',
@@ -53,7 +50,7 @@ export class ExerciseCreateEditComponent implements OnInit {
 
 
   onSubmit() {
-      this.createExercise();
+    this.createExercise();
   }
 
   onClose(exercise?: Exercise) {
@@ -63,7 +60,7 @@ export class ExerciseCreateEditComponent implements OnInit {
   createExercise() {
 
     let sets = [];
-    for(var i = 0; i < this.setsCount.value; i++) {
+    for (var i = 0; i < this.setsCount.value; i++) {
       sets.push(new Set());
     };
 
@@ -80,12 +77,12 @@ export class ExerciseCreateEditComponent implements OnInit {
       .subscribe(
         (exercise: Exercise) => {
           exercise.exerciseType = this.exerciseType.value;
-          this.store.dispatch(normalizeExercise({ exercise, action: CRUD.Create }));
+          // this.store.dispatch(normalizeExercise({ exercise, action: CRUD.Create }));
           this.onClose(exercise);
         },
         err => console.log(err)
       );
 
   }
- 
+
 }

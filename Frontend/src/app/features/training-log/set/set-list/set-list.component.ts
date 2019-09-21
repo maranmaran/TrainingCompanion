@@ -14,9 +14,7 @@ import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
-import { selectedExercise } from 'src/ngrx/training-log/exercise/exercise.selectors';
-import { setSelectedSet } from 'src/ngrx/training-log/set/set.actions';
-import { sets } from 'src/ngrx/training-log/set/set.selectors';
+import { selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training2/training.selectors';
 
 @Component({
   selector: 'app-set-list',
@@ -54,7 +52,7 @@ export class SetListComponent implements OnInit, OnDestroy {
     });
 
     this.subs.add(
-      this.store.select(sets)
+      this.store.select(selectedExerciseSets)
         .pipe(map(sets => sets || []))
         .subscribe((sets: Set[]) => {
           console.log(sets);
@@ -97,16 +95,16 @@ export class SetListComponent implements OnInit, OnDestroy {
           displayFunction: (item: Set) => this.unitSystemService.transformWeight(item.weight), // transform
         }));
     }
-    if (exerciseType.requiresReps) { 
+    if (exerciseType.requiresReps) {
       columns.push(
         new CustomColumn({
           definition: 'reps',
           title: 'Reps',
           sort: true,
-          displayFunction: (item: Set) =>  item.reps,
+          displayFunction: (item: Set) => item.reps,
         }));
     }
-    if (exerciseType.requiresBodyweight) { 
+    if (exerciseType.requiresBodyweight) {
       columns.push(
         new CustomColumn({
           definition: 'bodyweight',
@@ -123,13 +121,13 @@ export class SetListComponent implements OnInit, OnDestroy {
           sort: true,
           displayFunction: (item: Set) => item.time, // transform
         }));
-     }
-   
+    }
+
 
     return columns;
   }
 
-  onSelect = (set: Set) => this.store.dispatch(setSelectedSet({ entity: set }));
+  // onSelect = (set: Set) => this.store.dispatch(setSelectedSet({ entity: set }));
 
   onAdd() {
 
@@ -153,23 +151,23 @@ export class SetListComponent implements OnInit, OnDestroy {
   }
 
   onUpdateMany(set: Set) {
-  
+
     const dialogRef = this.uiService.openDialogFromComponent(SetCreateEditComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '50rem',
       autoFocus: false,
-      data: { title: 'Update sets', action: CRUD.Update, sets: this.sets},
+      data: { title: 'Update sets', action: CRUD.Update, sets: this.sets },
       panelClass: 'sets-dialog-container',
     })
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((set: Set) => {
-          if (set) {
-            this.table.onSelect(set, true);
-            this.onSelect(set);
-          }
+        if (set) {
+          this.table.onSelect(set, true);
+          // this.onSelect(set);
         }
+      }
       )
 
   }

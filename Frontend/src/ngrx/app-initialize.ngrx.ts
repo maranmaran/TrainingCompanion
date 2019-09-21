@@ -46,18 +46,18 @@ export class AppInitializeEffects implements OnRunEffects {
             ofType(fetchCurrentUser),
             switchMap(() => {
 
-            return this.authService.getCurrentUserInfo()
-                .pipe(
-                    take(1),
-                    catchError(() => {
-                        this.router.navigate(['/auth/login']);
-                        return of(null);
-                    }),
-                    map(((currentUser: CurrentUser) => {
-                        currentUser && this.store.dispatch(updateCurrentUser(currentUser));
-                    })),
-                    finalize(() => this.store.dispatch(appInitialized()))
-                );
+                return this.authService.getCurrentUserInfo()
+                    .pipe(
+                        take(1),
+                        catchError(() => {
+                            this.router.navigate(['/auth/login']);
+                            return of(null);
+                        }),
+                        map(((currentUser: CurrentUser) => {
+                            currentUser && this.store.dispatch(updateCurrentUser(currentUser));
+                        })),
+                        finalize(() => this.store.dispatch(appInitialized()))
+                    );
 
             }))
         , { dispatch: false, resubscribeOnError: false });

@@ -24,15 +24,17 @@ import { TrainingLogRoutingModule } from './training-log-routing.module';
 import { TrainingCalendarComponent } from './training/training-calendar/training-calendar.component';
 import { TrainingDetailsComponent } from './training/training-details/training-details.component';
 import { ExerciseDetailsResolver } from 'src/business/resolvers/exercise-details.resolver';
+import { trainingReducer } from 'src/ngrx/training-log/training2/training.reducers';
 
 
 @NgModule({
     imports: [
         SharedModule,
         TrainingLogRoutingModule,
-        StoreModule.forFeature('trainingLogState', trainingLogReducerMap),
+        // StoreModule.forFeature('trainingLogState', trainingLogReducerMap),
+        StoreModule.forFeature('training', trainingReducer),
         EffectsModule.forFeature([TrainingEffects, ExerciseEffects, SetEffects]),
-        AngularEditorModule 
+        AngularEditorModule
     ],
     declarations: [
         TrainingLogHomeComponent,

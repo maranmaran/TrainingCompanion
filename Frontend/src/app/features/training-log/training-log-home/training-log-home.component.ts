@@ -5,11 +5,9 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { Training } from 'src/server-models/entities/training.model';
 import { MatTabGroup } from '@angular/material/tabs';
-import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
-import { setSelectedTraining } from 'src/ngrx/training-log/training/training.actions';
 import { Router } from '@angular/router';
-import { selectedExercise } from 'src/ngrx/training-log/exercise/exercise.selectors';
-import { setSelectedExercise } from 'src/ngrx/training-log/exercise/exercise.actions';
+import { selectedTraining, selectedExercise } from 'src/ngrx/training-log/training2/training.selectors';
+import { setSelectedExercise, setSelectedTraining } from 'src/ngrx/training-log/training2/training.actions';
 
 @Component({
   selector: 'app-training-log-home',
@@ -18,8 +16,8 @@ import { setSelectedExercise } from 'src/ngrx/training-log/exercise/exercise.act
 })
 export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
-  @ViewChild('group1', {static: true}) tabGroup1: MatTabGroup;
-  @ViewChild('group2', {static: true}) tabGroup2: MatTabGroup;
+  @ViewChild('group1', { static: true }) tabGroup1: MatTabGroup;
+  @ViewChild('group2', { static: true }) tabGroup2: MatTabGroup;
 
   private subsink = new SubSink();
   protected selectedTraining: Training;
@@ -36,7 +34,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
         (training: Training) => {
           this.selectedTraining = training;
           training && this.changeTab1(TrainingLogTabGroup1.TrainingDetails); // TRAINING DETAILS
-      }),
+        }),
       this.store.select(selectedExercise).subscribe(
         (exercise: Exercise) => {
           this.selectedExercise = exercise;
@@ -49,15 +47,15 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subsink.unsubscribe();
   }
-  
+
   changeTab1(index: number) {
     this.selectedTab1 = index;
 
     // bug when transitioning from display: none to inherit
     // group must be visible for inkbar to adjust
-    setTimeout(() => this.tabGroup1.realignInkBar()); 
+    setTimeout(() => this.tabGroup1.realignInkBar());
 
-    switch(index) {
+    switch (index) {
       case TrainingLogTabGroup1.List:
         return this.goBackToList();
       case TrainingLogTabGroup1.TrainingDetails:
@@ -71,7 +69,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
         throw new Error("No tab index like this");
     }
   }
-  changeTab2(index: number) {    
+  changeTab2(index: number) {
     this.selectedTab2 = index;
 
     this.store.dispatch(setSelectedExercise(null));
@@ -79,9 +77,9 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
     // bug when transitioning from display: none to inherit
     // group must be visible for inkbar to adjust
-    setTimeout(() => this.tabGroup2.realignInkBar()); 
+    setTimeout(() => this.tabGroup2.realignInkBar());
 
-    switch(index) {
+    switch (index) {
       case TrainingLogTabGroup2.Calendar:
         this.router.navigate(['/app/training-log/calendar']);
         break;
@@ -96,37 +94,37 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectedTab1 = TrainingLogTabGroup1.TrainingDetails; 
-  selectedTab2 = TrainingLogTabGroup2.Calendar; 
-  
-  public get hideTab1() : boolean { // if training is NOT selected
+  selectedTab1 = TrainingLogTabGroup1.TrainingDetails;
+  selectedTab2 = TrainingLogTabGroup2.Calendar;
+
+  public get hideTab1(): boolean { // if training is NOT selected
     return !this.selectedTraining && !this.selectedExercise;
   }
-  public get hideTab2() : boolean { // if training selected
+  public get hideTab2(): boolean { // if training selected
     return !this.hideTab1;
   }
 
-  public get showCalendar() : boolean { // if calendar and NO training
+  public get showCalendar(): boolean { // if calendar and NO training
     return this.selectedTab2 == TrainingLogTabGroup2.Calendar && !this.hideTab2;
   }
-  public get showWeek() : boolean { // if week list and NO training
+  public get showWeek(): boolean { // if week list and NO training
     return this.selectedTab2 == TrainingLogTabGroup2.Week && !this.hideTab2;;
   }
-  public get showList() : boolean { // if list and NO training
+  public get showList(): boolean { // if list and NO training
     return this.selectedTab2 == TrainingLogTabGroup2.List && !this.hideTab2;;
   }
 
-  public get showTraining() : boolean { // training details and NO training
+  public get showTraining(): boolean { // training details and NO training
     return this.selectedTab1 == TrainingLogTabGroup1.TrainingDetails && !this.hideTab1;
   }
-  public get showExercise() : boolean { // exercise detailsa nd NO training
+  public get showExercise(): boolean { // exercise detailsa nd NO training
     return this.selectedTab1 == TrainingLogTabGroup1.ExerciseDetails && !this.hideTab1;
   }
 
   goBackToList() {
     this.changeTab2(TrainingLogTabGroup2.Calendar);
   }
-  
+
 }
 
 export enum TrainingLogTab {
