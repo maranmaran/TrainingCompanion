@@ -1,3 +1,5 @@
+import { filter } from 'rxjs/operators';
+import { map } from 'rxjs/internal/operators/map';
 import { Update, Dictionary } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { Set } from 'src/server-models/entities/set.model';
@@ -19,8 +21,21 @@ export const setReducer: ActionReducer<SetState, Action> = createReducer(
     }),
 
     // UPDATE MANY
-    on(SetActions.manySetsUpdated, (state: SetState, payload: {entities: Update<Set>[]}) => {
-        return adapterSet.updateMany(payload.entities, state);
+    on(SetActions.manySetsUpdated, (state: SetState, payload: { entities: Dictionary<Set>, ids: string[], idsToRemove: string[] }) => {
+        // entities without those that need to be "updated"
+        let ids = Object.assign([], state.ids) as string[];
+        let entities = Object.assign({}, state.entities);
+        payload.idsToRemove.forEach(id => {
+            delete entities[id];
+            ids.splice(ids.indexOf(id), 1);
+        });
+
+        return {
+            ...state,
+            entities: Object.assign({}, entities, payload.entities),
+            ids: Object.assign({}, ids, payload.ids),
+            selectedId: null
+        }
     }),
 
     // DELETE

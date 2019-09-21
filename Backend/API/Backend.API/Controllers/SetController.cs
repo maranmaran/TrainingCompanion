@@ -4,6 +4,7 @@ using Backend.Application.Business.Business.Set.Update;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.API.Controllers
 {
@@ -18,6 +19,12 @@ namespace Backend.API.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Update(UpdateSetRequest request)
+        {
+            return await Update(async () => await Mediator.Send(request));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateMany(UpdateManySetsRequest request)
         {
             return await Update(async () => await Mediator.Send(request));
         }

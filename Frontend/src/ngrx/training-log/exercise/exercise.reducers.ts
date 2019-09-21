@@ -1,3 +1,4 @@
+import { Set } from 'src/server-models/entities/set.model';
 import { Update, Dictionary } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { Exercise } from 'src/server-models/entities/exercise.model';
@@ -24,6 +25,18 @@ export const exerciseReducer: ActionReducer<ExerciseState, Action> = createReduc
         return {
             ...state,
             entities: Object.assign({}, state.entities),
+        }
+    }),
+    // UPDATE
+    on(ExerciseActions.manySetsUpdated, (state: ExerciseState, payload: { exerciseId: string,ids: string[] }) => {
+
+        var entityToUpdate = Object.assign({}, state.entities[payload.exerciseId]);
+        entityToUpdate.sets = payload.ids as unknown as Set[];
+        var entities = Object.assign({}, state.entities, { [payload.exerciseId]: entityToUpdate });
+
+        return {
+            ...state,
+            entities: Object.assign({}, entities),
         }
     }),
 
