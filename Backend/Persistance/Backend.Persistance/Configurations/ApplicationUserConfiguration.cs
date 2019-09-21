@@ -42,7 +42,7 @@ namespace Backend.Persistance.Configurations
                 .HasForeignKey(x => x.ApplicationUserId);
 
             builder
-                .HasMany(x => x.ExercisePropertyTypes)
+                .HasMany(x => x.TagGroups)
                 .WithOne(x => x.ApplicationUser)
                 .HasForeignKey(x => x.ApplicationUserId);
 

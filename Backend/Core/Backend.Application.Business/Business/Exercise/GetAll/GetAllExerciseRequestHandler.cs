@@ -25,8 +25,8 @@ namespace Backend.Application.Business.Business.Exercise.GetAll
                 var exercises = _context.Exercises
                     .Include(x => x.ExerciseType)
                         .ThenInclude(x => x.Properties)
-                        .ThenInclude(x => x.ExerciseProperty)
-                        .ThenInclude(x => x.ExercisePropertyType)
+                        .ThenInclude(x => x.Tag)
+                        .ThenInclude(x => x.TagGroup)
                     .Include(x => x.Sets)
                     .Where(x => x.TrainingId == request.TrainingId);
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
+using Backend.Application.Business.Business.Training.Get;
 
 namespace Backend.API.Controllers
 {

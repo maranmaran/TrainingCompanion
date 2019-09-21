@@ -4,7 +4,7 @@ using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Enum;
 using System;
 using System.Collections.Generic;
-using ExercisePropertyType = Backend.Domain.Entities.ExerciseType.ExercisePropertyType;
+using TagGroup = Backend.Domain.Entities.ExerciseType.TagGroup;
 
 namespace Backend.Domain.Entities.User
 {
@@ -48,6 +48,6 @@ namespace Backend.Domain.Entities.User
         /// TODO: Coach athletes shouldn't really touch these.
         /// TODO: Solo athletes have full rights to edit this properties.
         /// </summary>
-        public virtual ICollection<ExercisePropertyType> ExercisePropertyTypes { get; set; } = new HashSet<ExercisePropertyType>();
+        public virtual ICollection<TagGroup> TagGroups { get; set; } = new HashSet<TagGroup>();
     }
 }

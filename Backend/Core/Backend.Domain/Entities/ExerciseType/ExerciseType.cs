@@ -24,7 +24,7 @@ namespace Backend.Domain.Entities.ExerciseType
 
         //TODO: RPE CHART
 
-        public virtual ICollection<ExerciseTypeExerciseProperty> Properties { get; set; } = new HashSet<ExerciseTypeExerciseProperty>();
+        public virtual ICollection<ExerciseTypeTag> Properties { get; set; } = new HashSet<ExerciseTypeTag>();
         public virtual ICollection<ExerciseMax> ExerciseMaxes { get; set; } = new HashSet<ExerciseMax>();
     }
 }
