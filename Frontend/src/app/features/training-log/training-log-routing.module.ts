@@ -8,14 +8,16 @@ import { TrainingCalendarComponent } from './training/training-calendar/training
 import { TrainingDetailsComponent } from './training/training-details/training-details.component';
 
 const routes: Routes = [
-    { path: '',  component: TrainingLogHomeComponent, children: [
-        { path: '', redirectTo: 'calendar' },
-        { path: 'calendar', component: TrainingCalendarComponent },
-        { path: 'week', component: TrainingCalendarComponent },
-        { path: 'list', component: TrainingCalendarComponent },
-        { path: 'training-details', resolve: {TrainingDetailsResolver}, component: TrainingDetailsComponent },
-        { path: 'exercise-details', resolve: {ExerciseDetailsResolver}, component: ExerciseDetailsComponent }
-    ]},
+    {
+        path: '', component: TrainingLogHomeComponent, children: [
+            { path: '', redirectTo: 'calendar' },
+            { path: 'calendar', component: TrainingCalendarComponent },
+            { path: 'week', component: TrainingCalendarComponent },
+            { path: 'list', component: TrainingCalendarComponent },
+            { path: 'training-details', resolve: { TrainingDetailsResolver }, component: TrainingDetailsComponent },
+            { path: 'exercise-details', resolve: { TrainingDetailsResolver }, component: ExerciseDetailsComponent }
+        ]
+    },
     { path: '**', redirectTo: '/' }, //always last
 ];
 
