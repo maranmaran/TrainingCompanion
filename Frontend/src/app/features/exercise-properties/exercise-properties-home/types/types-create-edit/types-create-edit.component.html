@@ -3,50 +3,44 @@
 <mat-divider class="dialog-form-divider"></mat-divider>
 
 <div class="form" fxLayout="column">
-    <form [formGroup]="form">
-      
-            <mat-form-field>
-              <input matInput formControlName="type" placeholder="Exercise property type">
-              <mat-error *ngIf="type.invalid"></mat-error>
-            </mat-form-field>
+  <form [formGroup]="form">
 
-            <div class="color-container" fxLayout="row" fxLayoutAlign="space-between center">
-              
-              <div class="tag-container" fxFlex="0 1 auto">
-                <mat-chip-list class="property-chips-list">
-                    <mat-chip [disabled]="true" 
-                    [ngStyle]="
+    <mat-form-field>
+      <input matInput formControlName="type" placeholder="Exercise property type">
+      <mat-error *ngIf="type.invalid"></mat-error>
+    </mat-form-field>
+
+    <div class="color-container" fxLayout="row" fxLayoutAlign="space-between center">
+
+      <div class="tag-container" fxFlex="0 1 auto">
+        <mat-chip-list class="property-chips-list">
+          <mat-chip [disabled]="true" [ngStyle]="
                       {
-                          'background-color': exercisePropertyType.hexBackground,
-                          'color': exercisePropertyType.hexColor
-                      }"
-                    >
-                      Tag
-                    </mat-chip>
-                  </mat-chip-list>
-              </div>
+                          'background-color': tagGroup.hexBackground,
+                          'color': tagGroup.hexColor
+                      }">
+            Tag
+          </mat-chip>
+        </mat-chip-list>
+      </div>
 
-              <div class="color-inputs" fxFlex="1 1 50%">
-                <input [(colorPicker)]="exercisePropertyType.hexBackground" [style.background]="exercisePropertyType.hexBackground"/>
-                <input [(colorPicker)]="exercisePropertyType.hexColor" [style.background]="exercisePropertyType.hexColor"/>
-              </div>
+      <div class="color-inputs" fxFlex="1 1 50%">
+        <input [(colorPicker)]="tagGroup.hexBackground" [style.background]="tagGroup.hexBackground" />
+        <input [(colorPicker)]="tagGroup.hexColor" [style.background]="tagGroup.hexColor" />
+      </div>
 
-            </div>
+    </div>
 
-            <mat-slide-toggle 
-              *ngIf="data.action == 'Update'"
-              [color]="primary"
-              [checked]="exercisePropertyType.active"
-              (change)="onActiveChange($event)">
-              {{ exercisePropertyType.active ? 'Active' : 'Inactive' }}
-            </mat-slide-toggle>
-          
-      </form>
+    <mat-slide-toggle *ngIf="data.action == 'Update'" [color]="primary" [checked]="tagGroup.active"
+      (change)="onActiveChange($event)">
+      {{ tagGroup.active ? 'Active' : 'Inactive' }}
+    </mat-slide-toggle>
+
+  </form>
 </div>
 
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-    <button  mat-button color="accent" (click)="onClose()">Close</button>
-    <button mat-stroked-button color="primary"(click)="onSubmit()"
-      [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
-  </div>
-  
+  <button mat-button color="accent" (click)="onClose()">Close</button>
+  <button mat-stroked-button color="primary" (click)="onSubmit()"
+    [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
+</div>

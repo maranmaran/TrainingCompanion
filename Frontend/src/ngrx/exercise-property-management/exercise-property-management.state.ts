@@ -1,21 +1,19 @@
 // // JOIN STATE
-// export interface ExercisePropertyManagementState {
-//     typeState: ExercisePropertyTypeState;
-//     propertyState: ExercisePropertyState;
+// export interface TagManagementState {
+//     typeState: TagGroupState;
+//     propertyState: TagState;
 // }
 
 // // initial state
-// export const exercisePropertyManagementInitialState: ExercisePropertyManagementState = {
-//     typeState: exercisePropertyTypeInitialState,
-//     propertyState: exercisePropertyInitialState
+// export const tagManagementInitialState: TagManagementState = {
+//     typeState: tagGroupInitialState,
+//     propertyState: tagInitialState
 // }
 
 // // Reducer map of the lib
-// export const exercisePropertyManagementReducerMap: ActionReducerMap<ExercisePropertyManagementState> = {
-//     typeState: exercisePropertyTypeReducer,
-//     propertyState: exercisePropertyReducer
+// export const tagManagementReducerMap: ActionReducerMap<TagManagementState> = {
+//     typeState: tagGroupReducer,
+//     propertyState: tagReducer
 // };
 
-// export const selectExercisePropertyManagementState = createFeatureSelector<ExercisePropertyManagementState>("exercisePropertyManagement");
-
-
+// export const selectTagManagementState = createFeatureSelector<TagManagementState>("tagManagement");

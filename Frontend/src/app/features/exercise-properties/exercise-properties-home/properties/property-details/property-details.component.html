@@ -1,14 +1,14 @@
-<div class="details-container mat-elevation-z3" *ngIf="(exerciseProperty$ | async) as property">
+<div class="details-container mat-elevation-z3" *ngIf="(tag$ | async) as property">
 
     <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
-        
+
         <span>{{property.value}}</span>
-        
+
     </h1>
 
     <mat-divider></mat-divider>
 
-    
+
     <div class="details-body" gdAreas="left-label left-value" gdColumns="max-content auto">
 
         <div gdArea="left-label">
@@ -21,7 +21,7 @@
             <div class="detail">
                 <mat-label class="label">Active:</mat-label>
             </div>
-    
+
         </div>
 
         <div gdArea="left-value">
@@ -32,7 +32,9 @@
                 <span class="label-value">TODO</span>
             </div>
             <div class="detail">
-                <span class="label-value"><app-active-flag [active]="property.active"></app-active-flag></span>
+                <span class="label-value">
+                    <app-active-flag [active]="property.active"></app-active-flag>
+                </span>
             </div>
         </div>
 

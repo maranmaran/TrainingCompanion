@@ -1,20 +1,24 @@
-import { UpdateManySetsRequest } from './../../../../../server-models/cqrs/set/requests/update-many-sets.request';
-import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
-import { Set } from 'src/server-models/entities/set.model';
-import { Component, OnInit, Inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { SetService } from 'src/business/services/feature-services/set.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
-import { UserSettings } from 'src/server-models/entities/user-settings.model';
-import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { Update } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { map, switchMap, take } from 'rxjs/operators';
+import { SetService } from 'src/business/services/feature-services/set.service';
+import { TrainingService } from 'src/business/services/feature-services/training.service';
+import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
 import { currentUser, userSettings } from 'src/ngrx/auth/auth.selectors';
-import { take, map } from 'rxjs/operators';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
+import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
+import { UpdateTrainingRequest, UpdateTrainingRequestResponse } from 'src/server-models/cqrs/training/requests/update-training.request';
+import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { Set } from 'src/server-models/entities/set.model';
+import { Training } from 'src/server-models/entities/training.model';
+import { UserSettings } from 'src/server-models/entities/user-settings.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
-import { selectedExercise } from 'src/ngrx/training-log/training2/training.selectors';
+import { Exercise } from './../../../../../server-models/entities/exercise.model';
 
 @Component({
   selector: 'app-set-create-edit',
@@ -27,6 +31,7 @@ export class SetCreateEditComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private unitSystemService: UnitSystemService,
+    private trainingService: TrainingService,
     private setService: SetService,
     protected dialogRef: MatDialogRef<SetCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, sets: Set[] }) { }
@@ -150,23 +155,62 @@ export class SetCreateEditComponent implements OnInit {
 
   onSubmit() {
 
-    var request = new UpdateManySetsRequest();
-    request.sets = this.getSetsFromControls();
-    request.exerciseId = this.exerciseId;
+    let sets = this.getSetsFromControls();
+    this.updateExercise(sets);
 
-    this.setService.updateMany<UpdateManySetsRequest>(request)
-      .pipe(take(1))
-      .subscribe(
-        (sets: Set[]) => {
-          // this.store.dispatch(normalizeSets({ exerciseId: this.exerciseId, sets, originalIds: this.sets.map(x => x.id) }));
-          this.onClose(sets);
-        },
-        err => console.log(err));
+    // var request = new UpdateManySetsRequest();
+    // request.sets = this.getSetsFromControls();
+    // request.exerciseId = this.exerciseId;
+    // this.setService.updateMany<UpdateManySetsRequest>(request)
+    //   .pipe(take(1))
+    //   .subscribe(
+    //     (sets: Set[]) => {
+    //       // this.store.dispatch(normalizeSets({ exerciseId: this.exerciseId, sets, originalIds: this.sets.map(x => x.id) }));
+    //       this.onClose(sets);
+    //     },
+    //     err => console.log(err));
   }
 
   onClose(sets?: Set[]) {
     this.dialogRef.close(sets);
   }
 
+  updateExercise(sets: Set[]) {
 
+    this.store.select(selectedExercise).pipe(take(1))
+      .subscribe(exercise => {
+        let exerciseCopy = Object.assign(new Exercise(), exercise);
+        exerciseCopy.sets = [...sets];
+
+        this.updateTraining(exerciseCopy);
+      });
+  }
+
+  updateTraining(exercise: Exercise) {
+
+    this.store.select(selectedTraining).pipe(
+      map(training => {
+        return Object.assign(new Training(), training);
+      }),
+      switchMap((training: Training) => {
+
+        training.exercises = training.exercises.map(x => x.id != exercise.id ? x : exercise);
+
+        var request = new UpdateTrainingRequest();
+        request.training = training;
+
+        return this.trainingService.update<UpdateTrainingRequest, UpdateTrainingRequestResponse>(request);
+      }),
+      take(1)
+    ).subscribe((response: UpdateTrainingRequestResponse) => {
+
+      const trainingUpdate: Update<Training> = {
+        id: response.training.id,
+        changes: response.training
+      };
+
+      this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
+      this.onClose(exercise.sets);
+    });
+  }
 }

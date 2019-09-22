@@ -1,7 +1,7 @@
 import { ApplicationUser } from './application-user.model';
-import { ExerciseProperty } from './exercise-property.model';
+import { Tag } from './tag.model';
 
-export class ExercisePropertyType {
+export class TagGroup {
     id: string;
     type: string;
     active: boolean;
@@ -11,6 +11,6 @@ export class ExercisePropertyType {
 
     applicationUserId: string;
     applicationUser: ApplicationUser;
-    
-    properties: ExerciseProperty[]    
+
+    properties: Tag[]
 }

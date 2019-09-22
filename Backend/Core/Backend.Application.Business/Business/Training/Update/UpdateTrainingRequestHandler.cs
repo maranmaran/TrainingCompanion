@@ -24,11 +24,6 @@ namespace Backend.Application.Business.Business.Training.Update
         {
             try
             {
-                if (request.ExerciseAdd != null)
-                {
-                    request.Training.Exercises.Add(request.ExerciseAdd);
-                }
-
                 _context.Trainings.Attach(request.Training).CurrentValues.SetValues(request.Training);
                 _context.Trainings.Update(request.Training);
 
@@ -37,7 +32,6 @@ namespace Backend.Application.Business.Business.Training.Update
                 return new UpdateTrainingRequestResponse()
                 {
                     Training = request.Training,
-                    AddedExercise = request.ExerciseAdd
                 };
             }
             catch (Exception e)

@@ -1,28 +1,28 @@
 import { Update } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
-import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
+import { Tag } from 'src/server-models/entities/tag.model';
 
-export const exercisePropertyCreated = createAction(
+export const tagCreated = createAction(
     '[Exercise property] Created',
-    props<{ entity: ExerciseProperty}>()
+    props<{ entity: Tag }>()
 )
 
-export const exercisePropertiesFetched = createAction(
+export const tagsFetched = createAction(
     '[Exercise property] Fetched',
-    props<{ entities: ExerciseProperty[] }>()
+    props<{ entities: Tag[] }>()
 )
 
-export const exercisePropertyUpdated = createAction(
+export const tagUpdated = createAction(
     '[Exercise property] Updated',
-    props<{ entity: Update<ExerciseProperty> }>()
+    props<{ entity: Update<Tag> }>()
 )
 
 export const manyExercisePropertiesUpdated = createAction(
     '[Exercise property] Many updated',
-    props<{ entities: Update<ExerciseProperty>[] }>()
+    props<{ entities: Update<Tag>[] }>()
 )
 
-export const exercisePropertyDeleted = createAction(
+export const tagDeleted = createAction(
     '[Exercise property] Deleted',
     props<{ id: string }>()
 )
@@ -34,7 +34,7 @@ export const reorderExerciseProperties = createAction(
 )
 
 // SELECT
-export const setSelectedExerciseProperty = createAction(
+export const setSelectedTag = createAction(
     '[Exercise property] Set selected',
-    props<{ entity: ExerciseProperty }>()
+    props<{ entity: Tag }>()
 )

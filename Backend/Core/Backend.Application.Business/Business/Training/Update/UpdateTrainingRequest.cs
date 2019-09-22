@@ -1,17 +1,14 @@
-﻿using Backend.Domain.Entities.TrainingLog;
-using MediatR;
+﻿using MediatR;
 
 namespace Backend.Application.Business.Business.Training.Update
 {
     public class UpdateTrainingRequest : IRequest<UpdateTrainingRequestResponse>
     {
         public Domain.Entities.TrainingLog.Training Training { get; set; }
-        public Domain.Entities.TrainingLog.Exercise ExerciseAdd { get; set; }
 
-        public UpdateTrainingRequest(Domain.Entities.TrainingLog.Training training, Domain.Entities.TrainingLog.Exercise exercise = null)
+        public UpdateTrainingRequest(Domain.Entities.TrainingLog.Training training)
         {
             Training = training;
-            ExerciseAdd = exercise;
         }
     }
 }
