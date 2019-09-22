@@ -1,5 +1,5 @@
 import { ApplicationUser } from './application-user.model';
-import { ExerciseProperty } from './exercise-property.model';
+import { Tag } from './tag.model';
 
 export class ExerciseType {
     id: string;
@@ -15,20 +15,20 @@ export class ExerciseType {
     applicationUserId: string;
     applicationUser: ApplicationUser;
 
-    properties: ExerciseTypeExerciseProperty[];
+    properties: ExerciseTypeTag[];
     //exerciseMaxes: ExerciseMax[]
 }
 
 // JOIN TABLE
-export class ExerciseTypeExerciseProperty {
+export class ExerciseTypeTag {
     id: string;
-    
+
     show: boolean;
-    
+
     exerciseTypeId: string;
     exerciseType: ExerciseType;
 
-    exercisePropertyId: string;
-    exerciseProperty: ExerciseProperty;
+    tagId: string;
+    tag: Tag;
 
 }

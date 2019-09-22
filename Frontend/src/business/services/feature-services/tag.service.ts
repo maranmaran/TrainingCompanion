@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
+import { Tag } from 'src/server-models/entities/tag.model';
 import { CrudService } from '../crud.service';
 import { catchError } from 'rxjs/operators';
 
-export class ExercisePropertyService extends CrudService<ExerciseProperty> {
+export class TagService extends CrudService<Tag> {
 
     constructor(
         private httpDI: HttpClient,
     ) {
-        super(httpDI, "ExerciseProperty");
+        super(httpDI, "Tag");
     }
 
     public getAll(userId?: string, typeId?: string) {
-        return this.http.get<ExerciseProperty[]>(this.url + 'GetAll/' + userId + '/' + typeId)
+        return this.http.get<Tag[]>(this.url + 'GetAll/' + userId + '/' + typeId)
             .pipe(
                 catchError(this.handleError)
             );
