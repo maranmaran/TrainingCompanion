@@ -11,7 +11,7 @@ import { CRUD } from '../shared/crud.enum';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { UIProgressBar } from '../shared/ui-progress-bars.enum';
 import { selectedTrainingId, selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
-import { trainingsFetched, setSelectedTraining } from 'src/ngrx/training-log/training2/training.actions';
+import { trainingsFetched, setSelectedTraining, setSelectedExercise } from 'src/ngrx/training-log/training2/training.actions';
 
 @Injectable()
 export class TrainingDetailsResolver implements Resolve<Observable<Training | void>> {
@@ -48,6 +48,12 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training | vo
                     this.store.dispatch(trainingsFetched({ entities: [training] }));
                     // this.store.dispatch(normalizeTrainings({entities: [training], action: CRUD.Read}));
                     this.store.dispatch(setSelectedTraining({ entity: training }));
+
+                    let exerciseId = localStorage.getItem(LocalStorageKeys.exerciseId);
+                    if (exerciseId) {
+                        let exercise = training.exercises.filter(x => x.id == exerciseId)[0];
+                        this.store.dispatch(setSelectedExercise({ entity: exercise }));
+                    }
 
                     return training;
                 }))
