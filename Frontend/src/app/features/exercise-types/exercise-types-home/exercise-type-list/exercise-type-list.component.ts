@@ -21,13 +21,13 @@ import { ExerciseTypeService } from 'src/business/services/feature-services/exer
 export class ExerciseTypeListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
-  private deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
 
   protected tableConfig: TableConfig;
   protected tableColumns: CustomColumn[];
   protected tableDatasource: TableDatasource<ExerciseType>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
-  
+
   exerciseTypeControl = new FormControl();
   exerciseTypes: ExerciseType[] = [];
 
@@ -47,7 +47,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
         .subscribe((exerciseTypes: ExerciseType[]) => {
           this.exerciseTypes = exerciseTypes;
           this.tableDatasource.updateDatasource(exerciseTypes);
-      }));
+        }));
 
   }
 
@@ -71,12 +71,12 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
         sort: true,
         useComponent: true,
         component: ExerciseTypePreviewComponent,
-        inputs: (item: ExerciseType) => { return {exerciseType: item}; },
+        inputs: (item: ExerciseType) => { return { exerciseType: item }; },
       }),
     ]
   }
 
-  onSelect = (exerciseType: ExerciseType) => this.store.dispatch(setSelectedExerciseType({exerciseType}));
+  onSelect = (exerciseType: ExerciseType) => this.store.dispatch(setSelectedExerciseType({ exerciseType }));
 
   onAdd() {
     // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
@@ -121,7 +121,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
   onDeleteSingle(exerciseType: ExerciseType) {
 
     // this.deleteDialogConfig.message =
-    //   `<p>Are you sure you wish to delete type ${propertyType.type} ?</p>
+    //   `<p>Are you sure you wish to delete type ${tagGroup.type} ?</p>
     //  <p>All data will be lost if you delete this type.</p>`;
 
     // var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
@@ -142,18 +142,18 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
 
   onDeleteSelection(exerciseType: ExerciseType[]) {
 
-  //   this.deleteDialogConfig.message =
-  //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
-  //    <p>All data will be lost if you delete these users.</p>`;
+    //   this.deleteDialogConfig.message =
+    //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
+    //    <p>All data will be lost if you delete these users.</p>`;
 
-  //   this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
-  //     console.log('delete');
-  //     console.log(athletes);
-  //   }
+    //   this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
+    //     console.log('delete');
+    //     console.log(athletes);
+    //   }
 
-  //   this.deleteDialogConfig.actionParams = [athletes];
+    //   this.deleteDialogConfig.actionParams = [athletes];
 
-  //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
-  // }
+    //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
+    // }
   }
 }

@@ -3,6 +3,6 @@
 // // Define a schema
 // const property = new schema.Entity('properties');
 
-// export const exercisePropertyTypeNormalizeSchema = new schema.Entity('types', {
+// export const tagGroupNormalizeSchema = new schema.Entity('types', {
 //     properties: [property]
 // });

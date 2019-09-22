@@ -9,9 +9,9 @@ import { take } from 'rxjs/operators';
 import { AthleteCreateEditComponent } from 'src/app/features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { ExercisePropertyTypeService } from '../../../../../../business/services/feature-services/exercise-property-type.service';
-import { ExercisePropertyType } from './../../../../../../server-models/entities/exercise-property-type.model';
-import { exercisePropertyTypeUpdated } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
+import { TagGroupService } from '../../../../../../business/services/feature-services/tag-group.service';
+import { TagGroup } from './../../../../../../server-models/entities/tag-group.model';
+import { tagGroupUpdated } from 'src/ngrx/tag-group/tag-group.actions';
 
 @Component({
   selector: 'app-types-create-edit',
@@ -24,29 +24,29 @@ export class TypesCreateEditComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     protected dialogRef: MatDialogRef<TypesCreateEditComponent>,
-    private exercisePropertyTypeService: ExercisePropertyTypeService,
-    @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, exercisePropertyType: ExercisePropertyType }) { }
+    private tagGroupService: TagGroupService,
+    @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, tagGroup: TagGroup }) { }
 
   form: FormGroup;
-  exercisePropertyType = new ExercisePropertyType();
+  tagGroup = new TagGroup();
 
   ngOnInit() {
-    if (this.data.action == CRUD.Update) this.exercisePropertyType = Object.assign({}, this.data.exercisePropertyType);
+    if (this.data.action == CRUD.Update) this.tagGroup = Object.assign({}, this.data.tagGroup);
 
     this.createForm();
   }
 
   createForm() {
     this.form = new FormGroup({
-      type: new FormControl(this.exercisePropertyType.type, Validators.required),
+      type: new FormControl(this.tagGroup.type, Validators.required),
     });
   }
 
   get type(): AbstractControl { return this.form.get('type'); }
-  
+
   onActiveChange(event: MatSlideToggleChange) {
-    if (event.checked) this.exercisePropertyType.active = true;
-    if (!event.checked) this.exercisePropertyType.active = false;
+    if (event.checked) this.tagGroup.active = true;
+    if (!event.checked) this.tagGroup.active = false;
   }
 
   onSubmit() {
@@ -57,8 +57,8 @@ export class TypesCreateEditComponent implements OnInit {
     }
   }
 
-  onClose(propertyType?: ExercisePropertyType) {
-    this.dialogRef.close(propertyType);
+  onClose(tagGroup?: TagGroup) {
+    this.dialogRef.close(tagGroup);
   }
 
   handleError(validationErrors: ValidationErrors) {
@@ -97,20 +97,20 @@ export class TypesCreateEditComponent implements OnInit {
   }
 
   updateType() {
-    this.exercisePropertyType.type = this.type.value;
-    const exercisePropertyType = Object.assign({}, this.exercisePropertyType);
+    this.tagGroup.type = this.type.value;
+    const tagGroup = Object.assign({}, this.tagGroup);
 
-    this.exercisePropertyTypeService.update(exercisePropertyType).pipe(take(1))
+    this.tagGroupService.update(tagGroup).pipe(take(1))
       .subscribe(
-        (propertyType: ExercisePropertyType) => {
+        (tagGroup: TagGroup) => {
 
-          const propertyTypeUpdate: Update<ExercisePropertyType> = {
-            id: propertyType.id,
-            changes: propertyType
+          const tagGroupUpdate: Update<TagGroup> = {
+            id: tagGroup.id,
+            changes: tagGroup
           };
 
-          this.store.dispatch(exercisePropertyTypeUpdated({propertyType: propertyTypeUpdate}));
-          this.onClose(propertyType);
+          this.store.dispatch(tagGroupUpdated({ tagGroup: tagGroupUpdate }));
+          this.onClose(tagGroup);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)
       );

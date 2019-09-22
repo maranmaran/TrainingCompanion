@@ -1,10 +1,10 @@
-import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
+import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
+import { Tag } from 'src/server-models/entities/tag.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedExercisePropertyType } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
+import { selectedTagGroup } from 'src/ngrx/tag-group/tag-group.selectors';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -14,14 +14,14 @@ import { tap } from 'rxjs/operators';
 })
 export class TypeDetailsComponent implements OnInit {
 
-  exercisePropertyType$: Observable<ExercisePropertyType>
+  tagGroup$: Observable<TagGroup>
 
   constructor(
     private store: Store<AppState>
   ) { }
 
   ngOnInit() {
-    this.exercisePropertyType$ = this.store.select(selectedExercisePropertyType);
+    this.tagGroup$ = this.store.select(selectedTagGroup);
   }
 
 

@@ -1,11 +1,13 @@
 import { ExercisePropertiesHomeComponent } from './exercise-properties-home/exercise-properties-home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ExercisePropertyTypesResolver } from './../../../business/resolvers/exercise-property-types.resolver';
+import { TagGroupsResolver } from './../../../business/resolvers/tag-groups.resolver';
 
 const routes: Routes = [
-    { path: '', component: ExercisePropertiesHomeComponent, resolve: {ExercisePropertyTypesResolver}, children: [
-    ]},
+    {
+        path: '', component: ExercisePropertiesHomeComponent, resolve: { TagGroupsResolver }, children: [
+        ]
+    },
     { path: '**', redirectTo: '/' }, //always last
 ];
 

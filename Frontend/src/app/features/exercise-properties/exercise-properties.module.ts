@@ -1,13 +1,13 @@
-import { ExercisePropertyService } from 'src/business/services/feature-services/exercise-property.service';
+import { TagService } from 'src/business/services/feature-services/tag.service';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { ExercisePropertyTypeService } from '../../../business/services/feature-services/exercise-property-type.service';
-import { ExercisePropertyTypesResolver } from './../../../business/resolvers/exercise-property-types.resolver';
+import { TagGroupService } from '../../../business/services/feature-services/tag-group.service';
+import { TagGroupsResolver } from './../../../business/resolvers/tag-groups.resolver';
 import { ExercisePropertiesHomeComponent } from './exercise-properties-home/exercise-properties-home.component';
-import { PropertiesCreateEditComponent } from './exercise-properties-home/properties/properties-create-edit/properties-create-edit.component';
+import { TagsCreateEditComponent } from './exercise-properties-home/properties/properties-create-edit/properties-create-edit.component';
 import { PropertiesListComponent } from './exercise-properties-home/properties/properties-list/properties-list.component';
 import { PropertyDetailsComponent } from './exercise-properties-home/properties/property-details/property-details.component';
 import { TypeDetailsComponent } from './exercise-properties-home/types/type-details/type-details.component';
@@ -15,16 +15,16 @@ import { TypesCreateEditComponent } from './exercise-properties-home/types/types
 import { TypesListComponent } from './exercise-properties-home/types/types-list/types-list.component';
 import { ExercisePropertiesRoutingModule } from './exercise-properties-routing.module';
 import { EffectsModule } from '@ngrx/effects';
-import { ExercisePropertyTypeEffects } from 'src/ngrx/exercise-property-type/exercise-property-type.effects';
-import { exercisePropertyTypeReducer } from 'src/ngrx/exercise-property-type/exercise-property-type.reducers';
-import { ExercisePropertyEffects } from 'src/ngrx/exercise-property/exercise-property.effects';
+import { TagGroupEffects } from 'src/ngrx/tag-group/tag-group.effects';
+import { tagGroupReducer } from 'src/ngrx/tag-group/tag-group.reducers';
+import { TagEffects } from 'src/ngrx/tag/tag.effects';
 
 @NgModule({
     imports: [
         SharedModule,
         ExercisePropertiesRoutingModule,
-        StoreModule.forFeature('exercisePropertyType', exercisePropertyTypeReducer),
-        EffectsModule.forFeature([ExercisePropertyTypeEffects, ExercisePropertyEffects]),
+        StoreModule.forFeature('tagGroup', tagGroupReducer),
+        EffectsModule.forFeature([TagGroupEffects, TagEffects]),
         ColorPickerModule
     ],
     declarations: [
@@ -33,20 +33,20 @@ import { ExercisePropertyEffects } from 'src/ngrx/exercise-property/exercise-pro
         PropertiesListComponent,
         TypeDetailsComponent,
         PropertyDetailsComponent,
-        PropertiesCreateEditComponent,
+        TagsCreateEditComponent,
         TypesCreateEditComponent
     ],
     exports: [
     ],
     providers: [
         UIService,
-        ExercisePropertyTypeService,
-        ExercisePropertyService,
-        ExercisePropertyTypesResolver,
+        TagGroupService,
+        TagService,
+        TagGroupsResolver,
     ],
     entryComponents: [
         TypesCreateEditComponent,
-        PropertiesCreateEditComponent
+        TagsCreateEditComponent
     ]
 })
 export class ExercisePropertiesModule { }

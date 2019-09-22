@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
+import { Tag } from 'src/server-models/entities/tag.model';
 
 @Component({
   selector: 'app-exercise-type-chip-list',
@@ -8,8 +8,8 @@ import { ExerciseProperty } from 'src/server-models/entities/exercise-property.m
 })
 export class ExerciseTypeChipListComponent implements OnInit {
 
-  @Input() propertyList: ExerciseProperty[];
-  
+  @Input() propertyList: Tag[];
+
   constructor() { }
 
   ngOnInit() {

@@ -3,18 +3,18 @@ import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
-import { ExercisePropertyService } from 'src/business/services/feature-services/exercise-property.service';
+import { TagService } from 'src/business/services/feature-services/tag.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
-import { setSelectedExerciseProperty } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
-import { selectedExercisePropertyType } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
+import { setSelectedTag } from 'src/ngrx/tag-group/tag-group.actions';
+import { selectedTagGroup } from 'src/ngrx/tag-group/tag-group.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { ExerciseProperty } from 'src/server-models/entities/exercise-property.model';
+import { Tag } from 'src/server-models/entities/tag.model';
 import { SubSink } from 'subsink';
-import { ExercisePropertyType } from '../../../../../../server-models/entities/exercise-property-type.model';
-import { PropertiesCreateEditComponent } from '../properties-create-edit/properties-create-edit.component';
+import { TagGroup } from '../../../../../../server-models/entities/tag-group.model';
+import { TagsCreateEditComponent } from '../properties-create-edit/properties-create-edit.component';
 
 @Component({
   selector: 'app-properties-list',
@@ -28,13 +28,13 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
 
   protected tableConfig: TableConfig;
   protected tableColumns: CustomColumn[];
-  protected tableDatasource: TableDatasource<ExerciseProperty>;
+  protected tableDatasource: TableDatasource<Tag>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
-  private propertyTypeName: string;
+  private tagGroupName: string;
 
   constructor(
-    private propertyService: ExercisePropertyService,
+    private propertyService: TagService,
     private uiService: UIService,
     private store: Store<AppState>
   ) { }
@@ -46,14 +46,14 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
 
     this.subs.add(
 
-      this.store.select(selectedExercisePropertyType)
-      .pipe(
-        filter(propertyType => !!propertyType),
-      )
-      .subscribe((propertyType: ExercisePropertyType) => {
-        this.propertyTypeName = propertyType.type;
-        this.tableDatasource.updateDatasource(propertyType.properties);
-      })
+      this.store.select(selectedTagGroup)
+        .pipe(
+          filter(tagGroup => !!tagGroup),
+        )
+        .subscribe((tagGroup: TagGroup) => {
+          this.tagGroupName = tagGroup.type;
+          this.tableDatasource.updateDatasource(tagGroup.properties);
+        })
 
     );
 
@@ -65,7 +65,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
 
   getTableConfig() {
     const tableConfig = new TableConfig();
-    tableConfig.filterFunction = (data: ExerciseProperty, filter: string) => data.value.toLocaleLowerCase().indexOf(filter) !== -1
+    tableConfig.filterFunction = (data: Tag, filter: string) => data.value.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = true;
     tableConfig.pageSizeOptions = [5];
 
@@ -80,13 +80,13 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
         sort: true,
         headerClass: 'order-header',
         cellClass: 'order-cell',
-        displayFunction: (item: ExerciseProperty) => `${item.order + 1}.`,
+        displayFunction: (item: Tag) => `${item.order + 1}.`,
       }),
       new CustomColumn({
         definition: 'value',
         title: 'Value',
         sort: true,
-        displayFunction: (item: ExerciseProperty) => item.value,
+        displayFunction: (item: Tag) => item.value,
       }),
       new CustomColumn({
         definition: 'active',
@@ -96,25 +96,25 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
         cellClass: 'active-cell',
         useComponent: true,
         component: ActiveFlagComponent,
-        inputs: (item: ExercisePropertyType) => { return { active: item.active } },
+        inputs: (item: TagGroup) => { return { active: item.active } },
       }),
     ]
   }
 
-  onSelect = (property: ExerciseProperty) => this.store.dispatch(setSelectedExerciseProperty({ property }));
+  onSelect = (property: Tag) => this.store.dispatch(setSelectedTag({ property }));
 
   onAdd() {
-    const dialogRef = this.uiService.openDialogFromComponent(PropertiesCreateEditComponent, {
+    const dialogRef = this.uiService.openDialogFromComponent(TagsCreateEditComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: `Add ${this.propertyTypeName} property`, action: CRUD.Create },
+      data: { title: `Add ${this.tagGroupName} property`, action: CRUD.Create },
       panelClass: []
     })
 
     dialogRef.afterClosed().pipe(take(1))
-      .subscribe((property: ExerciseProperty) => {
+      .subscribe((property: Tag) => {
         if (property) {
           this.table.onSelect(property, true);
           this.onSelect(property);
@@ -123,18 +123,18 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       )
   }
 
-  onUpdate(exerciseProperty: ExerciseProperty) {
-    const dialogRef = this.uiService.openDialogFromComponent(PropertiesCreateEditComponent, {
+  onUpdate(tag: Tag) {
+    const dialogRef = this.uiService.openDialogFromComponent(TagsCreateEditComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: `Update ${this.propertyTypeName} property`, action: CRUD.Update, exerciseProperty: exerciseProperty },
+      data: { title: `Update ${this.tagGroupName} property`, action: CRUD.Update, tag: tag },
       panelClass: []
     })
 
     dialogRef.afterClosed().pipe(take(1))
-      .subscribe((property: ExerciseProperty) => {
+      .subscribe((property: Tag) => {
         if (property) {
           this.table.onSelect(property, true);
           this.onSelect(property);
@@ -143,10 +143,10 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       )
   }
 
-  onDeleteSingle(propertyType: ExerciseProperty) {
+  onDeleteSingle(tagGroup: Tag) {
 
     // this.deleteDialogConfig.message =
-    //   `<p>Are you sure you wish to delete type ${propertyType.type} ?</p>
+    //   `<p>Are you sure you wish to delete type ${tagGroup.type} ?</p>
     //  <p>All data will be lost if you delete this type.</p>`;
 
     // var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
@@ -165,7 +165,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
     //   })
   }
 
-  onDeleteSelection(propertyTypes: ExerciseProperty[]) {
+  onDeleteSelection(tagGroups: Tag[]) {
 
     //   this.deleteDialogConfig.message =
     //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>

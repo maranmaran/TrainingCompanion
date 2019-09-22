@@ -4,15 +4,15 @@ import { take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
-import { ExercisePropertyTypeService } from 'src/business/services/feature-services/exercise-property-type.service';
+import { TagGroupService } from 'src/business/services/feature-services/tag-group.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
-import { reorderExercisePropertyTypes, setSelectedExercisePropertyType, exercisePropertyTypeDeleted } from 'src/ngrx/exercise-property-type/exercise-property-type.actions';
-import { allExercisePropertyTypes } from 'src/ngrx/exercise-property-type/exercise-property-type.selectors';
+import { reorderTagGroups, setSelectedTagGroup, tagGroupDeleted } from 'src/ngrx/tag-group/tag-group.actions';
+import { allTagGroups } from 'src/ngrx/tag-group/tag-group.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { ExercisePropertyType } from 'src/server-models/entities/exercise-property-type.model';
+import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { SubSink } from 'subsink';
 import { TypesCreateEditComponent } from './../types-create-edit/types-create-edit.component';
 
@@ -24,16 +24,16 @@ import { TypesCreateEditComponent } from './../types-create-edit/types-create-ed
 export class TypesListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
-  private deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
 
   protected tableConfig: TableConfig;
   protected tableColumns: CustomColumn[];
-  protected tableDatasource: TableDatasource<ExercisePropertyType>;
+  protected tableDatasource: TableDatasource<TagGroup>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
-  
+
   constructor(
     private uiService: UIService,
-    private exercisePropertyTypeService: ExercisePropertyTypeService,
+    private tagGroupService: TagGroupService,
     private store: Store<AppState>
   ) { }
 
@@ -43,10 +43,10 @@ export class TypesListComponent implements OnInit, OnDestroy {
     this.tableColumns = this.getTableColumns() as CustomColumn[];
 
     this.subs.add(
-      this.store.select(allExercisePropertyTypes)
-        .subscribe((propertyTypes: ExercisePropertyType[]) => {
-          this.tableDatasource.updateDatasource(propertyTypes);
-      }));
+      this.store.select(allTagGroups)
+        .subscribe((tagGroups: TagGroup[]) => {
+          this.tableDatasource.updateDatasource(tagGroups);
+        }));
 
   }
 
@@ -56,7 +56,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
 
   getTableConfig() {
     const tableConfig = new TableConfig();
-    tableConfig.filterFunction = (data: ExercisePropertyType, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1
+    tableConfig.filterFunction = (data: TagGroup, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = true;
     tableConfig.pageSizeOptions = [5];
 
@@ -65,13 +65,13 @@ export class TypesListComponent implements OnInit, OnDestroy {
 
   getTableColumns() {
     return [
-       new CustomColumn({
+      new CustomColumn({
         definition: 'order',
         title: '#',
         sort: true,
         headerClass: 'order-header',
         cellClass: 'order-cell',
-        displayFunction: (item: ExercisePropertyType) => `${item.order + 1}.`,
+        displayFunction: (item: TagGroup) => `${item.order + 1}.`,
       }),
       new CustomColumn({
         definition: 'type',
@@ -79,7 +79,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
         sort: true,
         headerClass: 'type-header',
         cellClass: 'type-cell',
-        displayFunction: (item: ExercisePropertyType) => item.type,
+        displayFunction: (item: TagGroup) => item.type,
       }),
       new CustomColumn({
         definition: 'active',
@@ -89,7 +89,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
         cellClass: 'active-cell',
         useComponent: true,
         component: ActiveFlagComponent,
-        inputs: (item: ExercisePropertyType) => { return {active: item.active } },
+        inputs: (item: TagGroup) => { return { active: item.active } },
       }),
       new CustomColumn({
         definition: 'hexColor',
@@ -99,19 +99,19 @@ export class TypesListComponent implements OnInit, OnDestroy {
         cellClass: 'hex-cell',
         useComponent: true,
         component: ExerciseTypeChipComponent,
-        inputs: (item: ExercisePropertyType) => {return {value: "Tag", show: true, backgroundColor: item.hexBackground, color: item.hexColor}},
+        inputs: (item: TagGroup) => { return { value: "Tag", show: true, backgroundColor: item.hexBackground, color: item.hexColor } },
       }),
     ]
   }
 
-  onSelect = (propertyType: ExercisePropertyType) => this.store.dispatch(setSelectedExercisePropertyType({propertyType}));
+  onSelect = (tagGroup: TagGroup) => this.store.dispatch(setSelectedTagGroup({ tagGroup }));
 
-  onReorder(payload: {previous: ExercisePropertyType, current: ExercisePropertyType}) {
+  onReorder(payload: { previous: TagGroup, current: TagGroup }) {
     let previousItem = payload.previous.id;
     let currentItem = payload.current.id;
-    this.store.dispatch(reorderExercisePropertyTypes({previousItem, currentItem }));
+    this.store.dispatch(reorderTagGroups({ previousItem, currentItem }));
   }
-  
+
   onAdd() {
     const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
       height: 'auto',
@@ -122,45 +122,45 @@ export class TypesListComponent implements OnInit, OnDestroy {
       panelClass: []
     })
 
-    dialogRef.afterClosed().pipe(take(1)).subscribe((propertyType: ExercisePropertyType) => this.postCreateUpdate(propertyType));
+    dialogRef.afterClosed().pipe(take(1)).subscribe((tagGroup: TagGroup) => this.postCreateUpdate(tagGroup));
   }
 
-  onUpdate(propertyType: ExercisePropertyType) {
+  onUpdate(tagGroup: TagGroup) {
 
     const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: 'Update exercise property type', action: CRUD.Update, exercisePropertyType: propertyType },
+      data: { title: 'Update exercise property type', action: CRUD.Update, tagGroup: tagGroup },
       panelClass: []
     })
 
-    dialogRef.afterClosed().pipe(take(1)).subscribe((propertyType: ExercisePropertyType) => this.postCreateUpdate(propertyType));
+    dialogRef.afterClosed().pipe(take(1)).subscribe((tagGroup: TagGroup) => this.postCreateUpdate(tagGroup));
   }
 
-  postCreateUpdate(propertyType: ExercisePropertyType) {
-    if (propertyType) {
-      this.table.onSelect(propertyType, true);
-      this.onSelect(propertyType);
+  postCreateUpdate(tagGroup: TagGroup) {
+    if (tagGroup) {
+      this.table.onSelect(tagGroup, true);
+      this.onSelect(tagGroup);
     }
   }
 
-  onDeleteSingle(propertyType: ExercisePropertyType) {
+  onDeleteSingle(tagGroup: TagGroup) {
 
     this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete type ${propertyType.type} ?</p>
+      `<p>Are you sure you wish to delete type ${tagGroup.type} ?</p>
      <p>All data will be lost if you delete this type.</p>`;
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((result: ConfirmResult) => {
-        if(result == ConfirmResult.Confirm) {
-          this.exercisePropertyTypeService.delete(propertyType.id)
+        if (result == ConfirmResult.Confirm) {
+          this.tagGroupService.delete(tagGroup.id)
             .subscribe(
               () => {
-                this.store.dispatch(exercisePropertyTypeDeleted({id: propertyType.id }))
+                this.store.dispatch(tagGroupDeleted({ id: tagGroup.id }))
               },
               err => console.log(err)
             )
@@ -168,26 +168,26 @@ export class TypesListComponent implements OnInit, OnDestroy {
       })
   }
 
-  onDeleteSelection(propertyTypes: ExercisePropertyType[]) {
+  onDeleteSelection(tagGroups: TagGroup[]) {
 
     this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete all (${propertyTypes.length}) selected types ?</p>
+      `<p>Are you sure you wish to delete all (${tagGroups.length}) selected types ?</p>
      <p>All data will be lost if you delete these types.</p>`;
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig)
 
     dialogRef.afterClosed().pipe(take(1))
-    .subscribe((result: ConfirmResult) => {
-      if(result == ConfirmResult.Confirm) {
-        this.exercisePropertyTypeService.deleteMany(propertyTypes.map(x => x.id))
-          .subscribe(
-            () => {
-              // TODO
-              // this.store.dispatch(exercisePropertyTypesDeleted({id: propertyType.id }))
-            },
-            err => console.log(err)
-          )
-      }
-    })
+      .subscribe((result: ConfirmResult) => {
+        if (result == ConfirmResult.Confirm) {
+          this.tagGroupService.deleteMany(tagGroups.map(x => x.id))
+            .subscribe(
+              () => {
+                // TODO
+                // this.store.dispatch(tagGroupsDeleted({id: tagGroup.id }))
+              },
+              err => console.log(err)
+            )
+        }
+      })
   }
 }
