@@ -33,12 +33,12 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
       this.store.select(selectedTraining).subscribe(
         (training: Training) => {
           this.selectedTraining = training;
-          training && this.changeTab1(TrainingLogTabGroup1.TrainingDetails); // TRAINING DETAILS
+          training && this.changeTab1(TrainingLogTabGroup1.TrainingDetails, false, false); // TRAINING DETAILS
         }),
       this.store.select(selectedExercise).subscribe(
         (exercise: Exercise) => {
           this.selectedExercise = exercise;
-          exercise && this.changeTab1(TrainingLogTabGroup1.ExerciseDetails); // EXERCISE DETAILS
+          exercise && this.changeTab1(TrainingLogTabGroup1.ExerciseDetails, false, false); // EXERCISE DETAILS
         }
       )
     );
@@ -48,7 +48,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
     this.subsink.unsubscribe();
   }
 
-  changeTab1(index: number) {
+  changeTab1(index: number, allowSetTrainingNull: boolean = false, allowSetExerciseNull: boolean = true) {
     this.selectedTab1 = index;
 
     // bug when transitioning from display: none to inherit
@@ -57,9 +57,9 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
     switch (index) {
       case TrainingLogTabGroup1.List:
-        return this.goBackToList();
+        return allowSetTrainingNull && allowSetExerciseNull && this.goBackToList();
       case TrainingLogTabGroup1.TrainingDetails:
-        this.store.dispatch(setSelectedExercise(null));
+        allowSetExerciseNull && this.store.dispatch(setSelectedExercise(null));
         this.router.navigate(['/app/training-log/training-details']);
         break;
       case TrainingLogTabGroup1.ExerciseDetails:
