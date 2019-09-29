@@ -3,7 +3,8 @@ import { Training } from 'src/server-models/entities/training.model';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
+import { selectedTraining, sessionVolume } from 'src/ngrx/training-log/training2/training.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-training-details',
@@ -13,6 +14,7 @@ import { selectedTraining } from 'src/ngrx/training-log/training2/training.selec
 export class TrainingDetailsComponent implements OnInit {
 
   protected training: Training;
+  protected sessionVolume: Observable<number>;
 
   constructor(
     private store: Store<AppState>
@@ -21,6 +23,8 @@ export class TrainingDetailsComponent implements OnInit {
   ngOnInit() {
     this.store.select(selectedTraining).pipe(take(1))
       .subscribe(training => this.training = training);
+
+    this.sessionVolume = this.store.select(sessionVolume);
   }
 
 }

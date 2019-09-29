@@ -41,9 +41,9 @@ export class UIService {
 
     // #region ================ DIALOGS ================ 
 
-    public openDialogFromComponent(component: ComponentType<any>, config?: MatDialogConfig, 
+    public openDialogFromComponent(component: ComponentType<any>, config?: MatDialogConfig,
         callbackAction?: Function, callbackActionParams?: any[]) {
-        
+
         const opts = Object.assign({}, snackBarDefaultConfig, config);
 
         const dialogRef = this.dialog.open(component, opts);
@@ -51,7 +51,7 @@ export class UIService {
         dialogRef.afterClosed()
             .pipe(take(1))
             .subscribe((params) => {
-                if(params != ConfirmResult.Reject) {
+                if (params != ConfirmResult.Reject) {
                     callbackAction && callbackAction(...callbackActionParams);
                 }
             });
@@ -62,8 +62,8 @@ export class UIService {
     //TODO: Make confirm dialog config object with all the params
     confirmDialog: MatDialogRef<any, any>;
     public openConfirmDialog(config: ConfirmDialogConfig) {
-       
-        if(this.confirmDialog) this.confirmDialog.close();
+
+        if (this.confirmDialog) this.confirmDialog.close();
 
         return this.openDialogFromComponent(ConfirmDialogComponent, {
             height: 'auto',
@@ -123,40 +123,40 @@ export class UIService {
 
     private sidenavs = new Dictionary<MatSidenav>();
 
-     public addOrUpdateSidenav(name: UISidenav, sidenav: MatSidenav) {
-         this.sidenavs.addOrUpdate(name, sidenav);
-     }
- 
-     public doSidenavAction(name: UISidenav, actionType: UISidenavAction) {
- 
-         var sidenav = this.sidenavs.item(name);
- 
-         switch (actionType) {
-             case UISidenavAction.Open:
-                 sidenav.mode = 'side';
-                 sidenav.open();
-                 //showMenuButton
-                 break;
- 
-             case UISidenavAction.Toggle:
-                 sidenav.toggle();
-                 //showMenuButton
-                 break;
- 
-             case UISidenavAction.Close:
-                 sidenav.mode = 'over';
-                 sidenav.close();
-                 //this.showSettingsMenuButton = true;
-                 break;
- 
-             default:
-                 break;
-         }
-     }
- 
-     public isSidenavOpened(name: string): Observable<boolean> {
-         return of(this.sidenavs.item(name).opened);
-     }
+    public addOrUpdateSidenav(name: UISidenav, sidenav: MatSidenav) {
+        this.sidenavs.addOrUpdate(name, sidenav);
+    }
+
+    public doSidenavAction(name: UISidenav, actionType: UISidenavAction) {
+
+        var sidenav = this.sidenavs.item(name);
+
+        switch (actionType) {
+            case UISidenavAction.Open:
+                sidenav.mode = 'side';
+                sidenav.open();
+                //showMenuButton
+                break;
+
+            case UISidenavAction.Toggle:
+                sidenav.toggle();
+                //showMenuButton
+                break;
+
+            case UISidenavAction.Close:
+                sidenav.mode = 'over';
+                sidenav.close();
+                //this.showSettingsMenuButton = true;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public isSidenavOpened(name: string): Observable<boolean> {
+        return of(this.sidenavs.item(name).opened);
+    }
 
     // #endregion  
 
@@ -188,11 +188,11 @@ export class UIService {
         // }
 
         const config = new ConfirmDialogConfig({
-           message, 
-           action,
-           allowConfirm, 
-           allowCancel: false,
-           confirmLabel: 'I understand' 
+            message,
+            action,
+            allowConfirm,
+            allowCancel: false,
+            confirmLabel: 'I understand'
         });
 
         showSplashDialog && message && this.openConfirmDialog(config);

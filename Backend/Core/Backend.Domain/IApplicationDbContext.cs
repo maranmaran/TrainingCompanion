@@ -7,6 +7,7 @@ using Backend.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Backend.Domain
 {
@@ -39,5 +40,6 @@ namespace Backend.Domain
         #endregion
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
     }
 }

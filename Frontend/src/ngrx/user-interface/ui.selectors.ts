@@ -42,9 +42,8 @@ export function getLoadingState(store: Store<AppState>, progressBarType: UIProgr
     return combineLatest(
         store.select(requestLoading),
         store.select(activeProgressBar)
-      ).pipe(
-          map(([isLoading, progressBar]) => isLoading && progressBar == progressBarType),
-          observeOn(asyncScheduler));
-          
-}
+    ).pipe(
+        map(([isLoading, progressBar]) => isLoading && progressBar == progressBarType),
+        observeOn(asyncScheduler));
 
+}

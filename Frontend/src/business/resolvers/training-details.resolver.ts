@@ -39,8 +39,6 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training | vo
 
     private getState(id: string) {
 
-        this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SplashScreen }));
-
         return this.trainingService.getOne(id)
             .pipe(
                 take(1),

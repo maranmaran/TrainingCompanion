@@ -25,7 +25,7 @@ import { CustomColumn } from './../../../business/shared/table-data';
   encapsulation: ViewEncapsulation.None,
 })
 export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy {
-  
+
 
   @Input() datasource: TableDatasource<any>;
   @Input() columns: CustomColumn[];
@@ -47,12 +47,12 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   protected selection = new SelectionModel<string>(true, []);
   protected pageSize: number;
   protected pageSizeOptions: number[];
-  
+
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   private applyFilterEvent = new Subject<string>();
-  
+
 
   private subs = new SubSink();
 
@@ -82,28 +82,28 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   setupColumns(isMobile: boolean) {
     const actions = [];
 
-    if(this.config.selectionEnabled)
+    if (this.config.selectionEnabled)
       actions.push('select');
 
-    if(isMobile) {
+    if (isMobile) {
       actions.push(...this.columns.filter(x => x.displayOnMobile).map(x => x.definition));
     } else {
       actions.push(...this.columns.map(x => x.definition));
     }
 
-    if(this.config.actionsEnabled)
+    if (this.config.actionsEnabled)
       actions.push('actions');
-    
+
     this.displayColumns = actions;
   }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim().toLocaleLowerCase();
 
-    if(this.config.filterFunction) {
+    if (this.config.filterFunction) {
       this.datasource.filterPredicate = this.config.filterFunction;
-    } 
-      
+    }
+
     this.datasource.filter = filterValue;
 
     if (this.datasource.paginator) {
@@ -159,16 +159,16 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   onListDrop(event: CdkDragDrop<any[]>) {
-    
+
     const array = [...this.datasource.data];
 
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
 
     // needed for drag and drop to work properly inside table
-    this.datasource.data = _.cloneDeep(event.container.data); 
+    this.datasource.data = _.cloneDeep(event.container.data);
     this.table.renderRows();
-    
-    this.dropEvent.emit({previous: array[event.previousIndex], current: array[event.currentIndex]});
+
+    this.dropEvent.emit({ previous: array[event.previousIndex], current: array[event.currentIndex] });
   }
 
   onDeleteSelection() {
@@ -176,21 +176,21 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   public renderRows = (execute: boolean) => execute && this.table.renderRows(); // because on first load we get error.. no data
-  
-  public get datasourceEmpty() : boolean {
+
+  public get datasourceEmpty(): boolean {
     return !this.datasource.data || this.datasource.data.length == 0;
   }
 
-  public get deleteManyVisible() : boolean {
+  public get deleteManyVisible(): boolean {
     return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.deleteManyEnabled && !this.datasourceEmpty;
   }
-  public get disableManyVisible() : boolean {
+  public get disableManyVisible(): boolean {
     return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.disableManyEnabled && !this.datasourceEmpty;
   }
 
   public oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
 
-  public get paginatorHidden() : boolean {
+  public get paginatorHidden(): boolean {
     return this.datasourceEmpty || !(this.datasource.data.length > this.pageSize);
   }
 
@@ -214,10 +214,10 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   // if no cell actions are available hide the buttons
   public get noCellAction(): boolean {
-    const editActive  = this.config.editEnabled ? 1 : 0;
+    const editActive = this.config.editEnabled ? 1 : 0;
     const deleteActive = this.config.deleteEnabled ? 1 : 0;
     const disableActive = this.config.disableEnabled ? 1 : 0;
-    return editActive + deleteActive + disableActive  === 0;
+    return editActive + deleteActive + disableActive === 0;
   }
 
 
