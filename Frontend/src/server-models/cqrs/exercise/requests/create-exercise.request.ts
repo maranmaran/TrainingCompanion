@@ -4,9 +4,8 @@ import { Set } from './../../../entities/set.model';
 export class CreateExerciseRequest {
 
     exerciseTypeId: string;
-    exerciseType: ExerciseType;
 
     trainingId: string;
-    
+
     sets: Set[];
 }

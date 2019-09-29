@@ -41,7 +41,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // store state setup
-    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SettingsScreen}));
+    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SettingsScreen }));
     this.isCoach = this.store.select(isCoach);
 
     this.loading$ = getLoadingState(this.store, UIProgressBar.SettingsScreen);;
@@ -53,7 +53,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen}));
+    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }));
 
     // route to root component path if section is given (means it came from some deeplink)
     this.data.section && this.router.navigate(['']);
@@ -63,15 +63,16 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   };
 
-  public openTab = (tab: 'General' | 'Account' | 'Billing') =>  {
+  public openTab = (tab: 'General' | 'Account' | 'Billing') => {
     this.activeTab = tab;
 
     this.uiService.isSidenavOpened(UISidenav.Settings)
       .pipe(take(1))
       .subscribe(isOpened => {
-          isOpened && this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle)}
+        isOpened && this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle)
+      }
       );
   }
- 
+
   public toggleSidenav = () => this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle);
 }

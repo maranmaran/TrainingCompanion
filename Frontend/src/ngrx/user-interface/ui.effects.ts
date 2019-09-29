@@ -27,18 +27,18 @@ export class UIEffects {
     //         )
     //     , { dispatch: false });
 
-  
+
     httpError$ = createEffect(() =>
         this.actions$
             .pipe(
                 ofType(UIActions.httpErrorOccured),
                 withLatestFrom(this.store.select(showErrorDialogs)),
-                tap(([error, showErrorDialogs]) => { 
+                tap(([error, showErrorDialogs]) => {
                     showErrorDialogs && this.uiService.fadeOutMessage(`Something went wrong.`, 2000) // only do this effect if showErrorDialogs flag is on
                 })
             )
         , { dispatch: false });
 
-  
+
 
 }

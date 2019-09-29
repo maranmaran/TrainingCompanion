@@ -29,14 +29,14 @@ export class AthleteCreateEditComponent implements OnInit {
     private userService: UserService,
     protected dialogRef: MatDialogRef<AthleteCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, athlete: ApplicationUser }) { }
-    
+
   form: FormGroup;
   coachId: string;
   athlete = new ApplicationUser();
 
   ngOnInit() {
-    if(this.data.action == CRUD.Update) this.athlete = Object.assign({}, this.data.athlete);
-        
+    if (this.data.action == CRUD.Update) this.athlete = Object.assign({}, this.data.athlete);
+
     this.createForm();
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this.coachId = user.id);
   }
@@ -48,11 +48,11 @@ export class AthleteCreateEditComponent implements OnInit {
       username: new FormControl(this.athlete.username, Validators.required),
     });
 
-    if(this.data.action == CRUD.Update) {
+    if (this.data.action == CRUD.Update) {
       this.form.addControl('active', new FormControl(this.athlete.active, Validators.required))
-    } 
+    }
   }
-  
+
   get fullName(): AbstractControl { return this.form.get('fullName'); }
   get email(): AbstractControl { return this.form.get('email'); }
   get username(): AbstractControl { return this.form.get('username'); }
@@ -66,15 +66,15 @@ export class AthleteCreateEditComponent implements OnInit {
     if (event.checked) this.athlete.active = true;
     if (!event.checked) this.athlete.active = false;
   }
-  
+
   onSubmit() {
-    if ( this.data.action == CRUD.Create ) {
+    if (this.data.action == CRUD.Create) {
       this.createAthlete();
     } else {
       this.updateAthlete();
     }
   }
-  
+
   onClose(athlete?: ApplicationUser) {
     this.dialogRef.close(athlete);
   }
@@ -83,11 +83,11 @@ export class AthleteCreateEditComponent implements OnInit {
     if (validationErrors.status && validationErrors.status == ServerStatusCodes.ValidationError) {
 
 
-      if(validationErrors.errors.username) {
+      if (validationErrors.errors.username) {
         this.username.setErrors(validationErrors.errors.username)
       }
 
-      if(validationErrors.errors.email) {
+      if (validationErrors.errors.email) {
         this.email.setErrors(validationErrors.errors.email)
       }
 
@@ -107,7 +107,7 @@ export class AthleteCreateEditComponent implements OnInit {
     this.userService.create(request)
       .subscribe(
         (athlete: ApplicationUser) => {
-          this.store.dispatch(athleteCreated({athlete}));
+          this.store.dispatch(athleteCreated({ athlete }));
           this.onClose(athlete);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)
@@ -127,7 +127,7 @@ export class AthleteCreateEditComponent implements OnInit {
     this.userService.update(request)
       .subscribe(
         (athlete: ApplicationUser) => {
-          this.store.dispatch(athleteUpdated({athlete}));
+          this.store.dispatch(athleteUpdated({ athlete }));
           this.onClose(athlete);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)

@@ -53,24 +53,24 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
- 
-    
+
+
     // get user full name from store
     this.store.select(currentUser).pipe(take(1)).subscribe((user: CurrentUser) => this.userFullName = user.fullName);
 
     // set observable for main progress bar
     this.loading$ = getLoadingState(this.store, UIProgressBar.MainAppScreen);;
-    
+
     // set sidenav
     this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);
 
     // chat theme subscription
-    this.subs.add( 
+    this.subs.add(
       this.store.select(activeTheme)
         .subscribe((theme: Theme) => {
           this.theme = NgChatTheme[theme]
-        }) 
-      );
+        })
+    );
 
     // if routing to settings -> open dialog with specific section from route data
     this.section && this.onOpenSettings(this.section);
@@ -96,7 +96,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     });
 
   }
-  
+
   onLogout() {
     this.store.dispatch(logout());
   }

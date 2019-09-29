@@ -18,7 +18,7 @@ export class UnitSystemService {
 
     public transformWeight(weight: number, unitSystem: UnitSystem = this.unitSystem): string {
         switch (unitSystem) {
-            case UnitSystem.Metric:
+            case UnitSystem.Metric: // this is by default
                 return this.toMetric(weight);
             case UnitSystem.Imperial:
                 return this.toImperial(weight);
@@ -28,7 +28,7 @@ export class UnitSystemService {
     }
 
     private toMetric(number: number): string {
-        return number / this.MASS_KG_LBS + ' kg';
+        return number + ' kg'; // because default.. return same number
     }
 
     private toImperial(number: number): string {

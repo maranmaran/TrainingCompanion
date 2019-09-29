@@ -17,7 +17,7 @@ import { ApplicationUser } from 'src/server-models/entities/application-user.mod
 export class AthleteDetailsComponent implements OnInit {
 
   protected athlete$: Observable<ApplicationUser>;
-  
+
   constructor(
     private userService: UserService,
     private store: Store<AppState>
@@ -28,7 +28,7 @@ export class AthleteDetailsComponent implements OnInit {
   }
 
   onSetActive(value: boolean) {
-   
+
     this.athlete$.pipe(take(1),
       map(athlete => Object.assign({}, athlete)),
       switchMap(athlete => {
@@ -37,10 +37,10 @@ export class AthleteDetailsComponent implements OnInit {
         return this.userService.update(GetUpdateUserRequest(athlete));
       })).subscribe(
         (athlete: ApplicationUser) => {
-          this.store.dispatch(athleteUpdated({athlete}));
+          this.store.dispatch(athleteUpdated({ athlete }));
         },
         err => console.log(err)
       )
- }
+  }
 
 }
