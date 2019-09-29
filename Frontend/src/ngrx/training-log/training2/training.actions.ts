@@ -6,7 +6,7 @@ import { Update } from '@ngrx/entity'
 
 export const trainingCreated = createAction(
     '[Training] Created',
-    props<{ entity: Training}>()
+    props<{ entity: Training }>()
 )
 
 export const trainingsFetched = createAction(
@@ -25,6 +25,10 @@ export const manyTrainingsUpdated = createAction(
 )
 
 export const trainingDeleted = createAction(
+    '[Training] Deleted',
+    props<{ id: string }>()
+)
+export const exerciseDeleted = createAction(
     '[Training] Deleted',
     props<{ id: string }>()
 )

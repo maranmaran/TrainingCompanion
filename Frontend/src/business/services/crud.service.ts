@@ -5,7 +5,7 @@ import { Inject } from '@angular/core';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 
 export abstract class CrudService<T> extends BaseService {
- 
+
     protected url: string;
     protected http: HttpClient;
 
@@ -34,9 +34,9 @@ export abstract class CrudService<T> extends BaseService {
 
     public create<TRequest>(request: TRequest) {
         return this.http.post<T>(this.url + 'Create/', request)
-        .pipe(
-            catchError(this.handleError)
-        );
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
     public update<TRequest, TResponse = T>(request: TRequest) {

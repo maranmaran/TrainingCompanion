@@ -39,15 +39,15 @@ export class BillingComponent implements OnInit, OnDestroy {
 
     this.subs.add(
       combineLatest(
-        this.store.select(currentUser), 
+        this.store.select(currentUser),
         this.store.select(isSubscribed)
-        )
+      )
         .subscribe(([user, isSubscribed]) => {
           this.currentUser = user;
           this.plans = this.currentUser.plans.data;
           this.subscriptionValid = isSubscribed;
         })
-      );
+    );
   }
 
   ngOnDestroy(): void {

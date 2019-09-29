@@ -13,11 +13,11 @@ namespace Backend.Domain.Entities.ExerciseType
 
         public bool Active { get; set; }
 
-        public bool? RequiresReps { get; set; }
-        public bool? RequiresSets { get; set; }
-        public bool? RequiresWeight { get; set; }
-        public bool? RequiresBodyweight { get; set; }
-        public bool? RequiresTime { get; set; }
+        public bool RequiresReps { get; set; }
+        public bool RequiresSets { get; set; }
+        public bool RequiresWeight { get; set; }
+        public bool RequiresBodyweight { get; set; }
+        public bool RequiresTime { get; set; }
 
         public Guid ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }

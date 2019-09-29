@@ -20,7 +20,8 @@ export class CurrentUserLoadedGuard implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-        this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SplashScreen}));
+
+        this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SplashScreen }));
 
         return new Promise(resolve => {
             this.authService.getCurrentUserInfo()
