@@ -1,3 +1,4 @@
+import { UpdateExerciseRequest } from './../../../../../server-models/cqrs/exercise/requests/update-exercise.request';
 import { UpdateTrainingRequest, UpdateTrainingRequestResponse } from './../../../../../server-models/cqrs/training/requests/update-training.request';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -16,6 +17,7 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { Training } from 'src/server-models/entities/training.model';
 import { Update } from '@ngrx/entity';
 import { trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
+import { selectedTrainingId } from './../../../../../ngrx/training-log/training2/training.selectors';
 
 @Component({
   selector: 'app-exercise-create-edit',
@@ -65,67 +67,48 @@ export class ExerciseCreateEditComponent implements OnInit {
 
   createExercise() {
 
+    // make new sets
     let sets = [];
     for (var i = 0; i < this.setsCount.value; i++) {
       sets.push(new Set());
     };
 
-    this.exercise.sets = [...sets];
-    this.exercise.exerciseTypeId = this.exerciseType.value.id;
+    // create request
+    var request = new CreateExerciseRequest();
+    request.exerciseTypeId = this.exerciseType.value.id;
+    request.sets = [...sets];
 
-    this.updateTraining(true, this.exercise);
-  }
+    // select training for id
+    this.store.select(selectedTraining)
+      .pipe(
+        switchMap(
+          (training: Training) => {
+            // finish and send request
+            request.trainingId = training.id as string;
+            return this.exerciseService.create<CreateExerciseRequest>(request);
+          },
+          // result selector so we can have inner and outer variables from switchmap
+          (training, exercise) => ({ training, exercise }),
+        ),
+        take(1)
+      )
+      .subscribe(
+        (response: { training: Training, exercise: Exercise }) => {
 
-  // var request = new CreateExerciseRequest();
-  // request.exerciseTypeId = this.exerciseType.value.id;
-  // request.sets = sets;
+          // create upsert command
+          const trainingUpdate: Update<Training> = {
+            id: response.training.id,
+            changes: {
+              exercises: [...response.training.exercises, response.exercise]
+            }
+          };
 
-  // this.store.select(selectedTraining).pipe(take(1), switchMap(
-  //   training => {
-  //     request.trainingId = training.id;
-  //     return this.exerciseService.create<CreateExerciseRequest>(request)
-  //   }
-  // ), take(1))
-  //   .subscribe(
-  //     (exercise: Exercise) => {
-  //       exercise.exerciseType = this.exerciseType.value;
-  //       // this.store.dispatch(normalizeExercise({ exercise, action: CRUD.Create }));
-  //       this.onClose(exercise);
-  //     },
-  //     err => console.log(err)
-  //   );
-
-  updateTraining(newExercise: boolean, exercise: Exercise) {
-
-    this.store.select(selectedTraining).pipe(
-      map(training => {
-        exercise.trainingId = training.id;
-        return Object.assign(new Training(), training);
-      }),
-      concatMap((training: Training) => {
-
-        if (newExercise) {
-          training.exercises = [...training.exercises, exercise];
-        } else {
-          //update
-        }
-
-        var request = new UpdateTrainingRequest();
-        request.training = training;
-
-        return this.trainingService.update<UpdateTrainingRequest, UpdateTrainingRequestResponse>(request);
-      }),
-      take(1)
-    ).subscribe((response: UpdateTrainingRequestResponse) => {
-
-      const trainingUpdate: Update<Training> = {
-        id: response.training.id,
-        changes: response.training
-      };
-
-      this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
-      this.onClose(response.addedExercise);
-    });
+          // update and close
+          this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
+          this.onClose(response.exercise);
+        },
+        err => console.log(err)
+      )
   }
 
 }

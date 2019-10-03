@@ -34,8 +34,8 @@ export class AccountComponent implements OnInit {
   ngOnInit() {
     this.store.select(currentUser)
       .pipe(take(1))
-      .subscribe((user: CurrentUser) => { 
-        this.currentUser = {...user};
+      .subscribe((user: CurrentUser) => {
+        this.currentUser = { ...user };
         this.createForm(this.currentUser);
       });
   }
@@ -65,19 +65,19 @@ export class AccountComponent implements OnInit {
     if (validateForm(this.accountForm, this.UIService)) {
 
       const request = new UpdateUserRequest();
-      request.accountType =  this.currentUser.accountType;
-      request.id =  this.currentUser.id;
-      request.username =  this.username.value;
-      request.email =  this.email.value;
-      request.firstname =  this.currentUser.firstName;
-      request.lastname =  this.currentUser.lastName;
-      request.gender =  this.currentUser.gender;
-      request.active =  this.currentUser.active;
+      request.accountType = this.currentUser.accountType;
+      request.id = this.currentUser.id;
+      request.username = this.username.value;
+      request.email = this.email.value;
+      request.firstname = this.currentUser.firstName;
+      request.lastname = this.currentUser.lastName;
+      request.gender = this.currentUser.gender;
+      request.active = this.currentUser.active;
 
       this.usersService.update(request)
         .pipe(
           take(1),
-          finalize(() => { 
+          finalize(() => {
             this.editUsername = true;
             this.editMail = true;
           }))
@@ -85,10 +85,10 @@ export class AccountComponent implements OnInit {
           () => {
             this.currentUser.username = this.username.value;
             this.currentUser.email = this.email.value;
-            
+
             // set new state but don't pass by reference
             console.log('Update user')
-            this.store.dispatch(updateCurrentUser(Object.assign({}, this.currentUser))); 
+            this.store.dispatch(updateCurrentUser(Object.assign({}, this.currentUser)));
           },
           err => console.log(err),
         );

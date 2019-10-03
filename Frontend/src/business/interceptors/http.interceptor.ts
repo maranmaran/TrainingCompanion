@@ -16,7 +16,7 @@ export class HttpInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      
+
         this.store.dispatch(httpRequestStartLoading());
 
         req = req.clone({
@@ -27,8 +27,7 @@ export class HttpInterceptor implements HttpInterceptor {
 
         return next.handle(req)
             .pipe(
-                finalize(() =>  this.store.dispatch(httpRequestStopLoading()))
+                finalize(() => this.store.dispatch(httpRequestStopLoading()))
             );
     }
 }
-
