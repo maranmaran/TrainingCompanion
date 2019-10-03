@@ -1,4 +1,3 @@
-import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
@@ -10,6 +9,7 @@ import { Message } from 'src/app/core/ng-chat/core/message';
 import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-response';
 import { environment } from 'src/environments/environment';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { SubSink } from 'subsink';
 import { AuthService } from '../../../business/services/feature-services/auth.service';
 
@@ -40,6 +40,7 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log('Closing adapter');
     this.hubConnection.stop();
     this.subs.unsubscribe();
   }
@@ -99,8 +100,9 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
   }
 
   sendMessage(message: Message): void {
-    if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected)
-      this.hubConnection.send("sendMessage", message);
+    if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected) {
+      this.hubConnection.send('sendMessage', message);
+    }
   }
 
   public stopConnection() {

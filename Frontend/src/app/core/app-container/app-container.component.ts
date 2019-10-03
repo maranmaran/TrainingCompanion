@@ -5,12 +5,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SignalrNgChatAdapter } from 'src/app/core/ng-chat/signalr-ng-chat-adapter';
+import { ChatService } from 'src/business/services/feature-services/chat.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
-import { ChatService } from 'src/business/services/feature-services/chat.service';
-import { PushNotificationsService } from 'src/business/services/feature-services/push-notification.service';
-import { UIService } from 'src/business/services/shared/ui.service';
 import { logout } from 'src/ngrx/auth/auth.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -26,7 +25,9 @@ import { UISidenavAction } from './../../../business/shared/ui-sidenavs.enum';
   selector: 'app-app-container',
   templateUrl: './app-container.component.html',
   styleUrls: ['./app-container.component.scss'],
-  providers: []
+  providers: [
+    SignalrNgChatAdapter
+  ]
 })
 export class AppContainerComponent implements OnInit, OnDestroy {
 
@@ -53,23 +54,23 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
- 
-    
+
+
     // get user full name from store
     this.store.select(currentUser).pipe(take(1)).subscribe((user: CurrentUser) => this.userFullName = user.fullName);
 
     // set observable for main progress bar
     this.loading$ = getLoadingState(this.store, UIProgressBar.MainAppScreen);;
-    
+
     // set sidenav
     this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);
 
     // chat theme subscription
-    this.subs.add( 
+    this.subs.add(
       this.store.select(activeTheme)
         .subscribe((theme: Theme) => {
           this.theme = NgChatTheme[theme]
-        }) 
+        })
       );
 
     // if routing to settings -> open dialog with specific section from route data
@@ -96,7 +97,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     });
 
   }
-  
+
   onLogout() {
     this.store.dispatch(logout());
   }

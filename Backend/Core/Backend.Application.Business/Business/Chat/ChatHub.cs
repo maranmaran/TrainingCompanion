@@ -78,9 +78,12 @@ namespace Backend.Application.Business.Business.Chat
                 if (sender.Value != null)
                 {
                     // get fresh presigned url for display
-                    if (_s3AccessService.CheckIfPresignedUrlIsExpired(message.DownloadUrl))
-                        message.DownloadUrl = _s3AccessService
-                            .GetPresignedUrlAsync(new S3FileRequest(message.S3Filename)).Result;
+                    if (
+                        !string.IsNullOrWhiteSpace(message.DownloadUrl) &&
+                        _s3AccessService.CheckIfPresignedUrlIsExpired(message.DownloadUrl))
+                    {
+                        message.DownloadUrl = _s3AccessService.GetPresignedUrlAsync(new S3FileRequest(message.S3Filename)).Result;
+                    }
 
                     Clients.User(message.ToId).SendAsync("messageReceived", sender.Value.Participant, message);
                 }

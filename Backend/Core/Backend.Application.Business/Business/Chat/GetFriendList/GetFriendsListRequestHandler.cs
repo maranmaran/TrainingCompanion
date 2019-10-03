@@ -55,7 +55,7 @@ namespace Backend.Application.Business.Business.Chat.GetFriendList
                     case AccountType.Athlete:
 
                         // only coach is reachable to athlete
-                        var athleteFriend = (ApplicationUser) (await _context.Athletes.SingleAsync(x => x.Id == request.UserId, cancellationToken)).Coach;
+                        var athleteFriend = (ApplicationUser) (await _context.Athletes.Include(x => x.Coach).SingleAsync(x => x.Id == request.UserId, cancellationToken)).Coach;
 
                         friendList.Add(_mapper.Map<ParticipantResponseViewModel>(athleteFriend));
                         friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));

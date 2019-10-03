@@ -32,7 +32,6 @@ import { CoreRoutingModule } from './core-routing.module';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
 import { NgChatModule } from './ng-chat/ng-chat.module';
-import { SignalrNgChatAdapter } from './ng-chat/signalr-ng-chat-adapter';
 import { AccountComponent } from './settings/account/account.component';
 import { BillingComponent } from './settings/billing/billing.component';
 import { CurrentSubscriptionComponent } from './settings/billing/current-subscription/current-subscription.component';
@@ -96,7 +95,6 @@ import { SettingsComponent } from './settings/settings.component';
         UIService,
         ChatService, // signalr connections must be singleton in this case
         PushNotificationsService,
-        SignalrNgChatAdapter,
         CookieService,
         APP_SETTINGS_PROVIDER,
         { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
