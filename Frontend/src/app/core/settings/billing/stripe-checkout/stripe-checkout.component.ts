@@ -82,16 +82,16 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy {
     this.store.select(currentUser).pipe(take(1))
       .subscribe(user => {
         this.currentUser = user
-        
+
         if (user.userSettings.theme == Theme.Dark) {
           this.cardComponentColors.icon = 'grey';
           this.cardComponentColors.font = 'white';
           this.cardComponentColors.placeholder = 'grey';
         }
-  
+
         this.setCardComponentStyling();
       });
-    
+
   }
 
   setCardComponentStyling() {

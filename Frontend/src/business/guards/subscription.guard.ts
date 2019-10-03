@@ -31,7 +31,7 @@ export class SubscriptionGuard implements CanActivate {
 
       .pipe(map(([isPayingUser, isTrialing, isSubscribed, trialDaysRemaining]) => {
 
-        if(isPayingUser) {
+        if (isPayingUser) {
           !allowedToNavigate && this.UIService.showSubscriptioninfoDialogOnLogin(isTrialing, isSubscribed, trialDaysRemaining);
         }
 

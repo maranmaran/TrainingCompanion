@@ -24,7 +24,7 @@ import { MaterialTableComponent } from './../../../../shared/material-table/mate
 export class AthleteListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
-  private deleteDialogConfig =  new ConfirmDialogConfig({ title: 'Delete action',  confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
 
   protected tableConfig: TableConfig;
   protected tableColumns: CustomColumn[];
@@ -40,13 +40,13 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
-    this.tableColumns =  this.getTableColumns() as unknown as CustomColumn[];
+    this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
     this.subs.add(
       this.store.select(athletes)
         .subscribe((athletes: ApplicationUser[]) => {
           this.tableDatasource.updateDatasource(athletes);
-      }))
+        }))
 
   }
 
@@ -79,7 +79,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
     ]
   }
 
-  onSelect = (athlete: ApplicationUser) => this.store.dispatch(setSelectedAthlete({athlete}));
+  onSelect = (athlete: ApplicationUser) => this.store.dispatch(setSelectedAthlete({ athlete }));
 
   onAdd() {
     const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
@@ -93,11 +93,11 @@ export class AthleteListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((athlete: ApplicationUser) => {
-          if (athlete) {
-            this.table.onSelect(athlete, true);
-            this.onSelect(athlete);
-          }
+        if (athlete) {
+          this.table.onSelect(athlete, true);
+          this.onSelect(athlete);
         }
+      }
       )
   }
 
@@ -113,11 +113,11 @@ export class AthleteListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((athlete: ApplicationUser) => {
-          if (athlete) {
-            this.table.onSelect(athlete, true);
-            this.onSelect(athlete);
-          }
+        if (athlete) {
+          this.table.onSelect(athlete, true);
+          this.onSelect(athlete);
         }
+      }
       )
   }
 
@@ -131,11 +131,11 @@ export class AthleteListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((result: ConfirmResult) => {
-        if(result == ConfirmResult.Confirm) {
+        if (result == ConfirmResult.Confirm) {
           this.userService.delete(athlete.id, AccountType.Athlete)
             .subscribe(
               () => {
-                this.store.dispatch(athleteDeleted({id: athlete.id}))
+                this.store.dispatch(athleteDeleted({ id: athlete.id }))
               },
               err => console.log(err)
             )
@@ -159,4 +159,3 @@ export class AthleteListComponent implements OnInit, OnDestroy {
     this.uiService.openConfirmDialog(this.deleteDialogConfig)
   }
 }
-

@@ -19,7 +19,7 @@ export class AthletesEffects {
         private store: Store<AppState>
     ) { }
 
-   
+
     // fetchAthletes$ = createEffect(() =>
     //     this.actions$
     //         .pipe(
@@ -32,5 +32,5 @@ export class AthletesEffects {
     //             })
     //         )
     //     , { dispatch: false });
-   
+
 }

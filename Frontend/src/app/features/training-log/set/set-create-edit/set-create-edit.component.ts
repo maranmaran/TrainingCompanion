@@ -18,7 +18,11 @@ import { Training } from 'src/server-models/entities/training.model';
 import { UserSettings } from 'src/server-models/entities/user-settings.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { UpdateManySetsRequest } from './../../../../../server-models/cqrs/set/requests/update-many-sets.request';
 import { Exercise } from './../../../../../server-models/entities/exercise.model';
+import * as _ from "lodash";
+import { timeout } from 'q';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-set-create-edit',
@@ -71,7 +75,9 @@ export class SetCreateEditComponent implements OnInit {
   }
 
   addControl() {
-    this.formControls.push(new FormGroup(this.getControls(new Set())));
+    let control = new FormGroup(this.getControls(new Set()));
+    const array = (this.form.get('sets') as FormArray);
+    array.push(control);
   }
 
   removeControl(index: number) {
@@ -99,16 +105,16 @@ export class SetCreateEditComponent implements OnInit {
         upperLimit = 1200;
       }
 
-      controls["weight"] = new FormControl(0, [Validators.min(0), Validators.max(upperLimit)]);
+      controls["weight"] = new FormControl(set.weight, [Validators.min(0), Validators.max(upperLimit)]);
     }
 
     if (this.settings.useRpeSystem) {
       if (this.settings.rpeSystem == RpeSystem.Rir)
-        controls["rpe"] = new FormControl((10 - set.rpe), [Validators.required]);
+        controls["rpe"] = new FormControl((10 - set.rpe), [Validators.required, Validators.min(0), Validators.max(10)]);
 
 
       if (this.settings.rpeSystem == RpeSystem.Rpe)
-        controls["rpe"] = new FormControl(set.rpe, [Validators.required]);
+        controls["rpe"] = new FormControl(set.rpe, [Validators.required, Validators.min(0), Validators.max(10)]);
     }
 
     return controls;
@@ -147,70 +153,52 @@ export class SetCreateEditComponent implements OnInit {
       }
 
       sets.push(set);
-
     });
 
     return sets;
   }
 
   onSubmit() {
+    if (!this.form.valid) return;
 
     let sets = this.getSetsFromControls();
-    this.updateExercise(sets);
 
-    // var request = new UpdateManySetsRequest();
-    // request.sets = this.getSetsFromControls();
-    // request.exerciseId = this.exerciseId;
-    // this.setService.updateMany<UpdateManySetsRequest>(request)
-    //   .pipe(take(1))
-    //   .subscribe(
-    //     (sets: Set[]) => {
-    //       // this.store.dispatch(normalizeSets({ exerciseId: this.exerciseId, sets, originalIds: this.sets.map(x => x.id) }));
-    //       this.onClose(sets);
-    //     },
-    //     err => console.log(err));
+    var request = new UpdateManySetsRequest();
+    request.sets = sets;
+    request.exerciseId = this.exerciseId;
+
+    this.setService.updateMany<UpdateManySetsRequest>(request)
+      .pipe(
+        switchMap(
+          (sets: Set[]) => {
+            return this.store.select(selectedTraining)
+          },
+          (sets, training) => ({ sets, training })
+        ),
+        take(1))
+      .subscribe(
+        (response: { sets: Set[], training: Training }) => {
+
+          var index = response.training.exercises.findIndex(x => x.id == this.exerciseId);
+          var exercises: Exercise[] = _.cloneDeep(response.training.exercises);
+          exercises[index].sets = response.sets;
+
+          var updatedTraining: Update<Training> = {
+            id: response.training.id,
+            changes: {
+              exercises: exercises
+            }
+          };
+
+          this.store.dispatch(trainingUpdated({ entity: updatedTraining }));
+          this.onClose(response.sets);
+        },
+        err => console.log(err)
+      )
   }
 
   onClose(sets?: Set[]) {
     this.dialogRef.close(sets);
   }
 
-  updateExercise(sets: Set[]) {
-
-    this.store.select(selectedExercise).pipe(take(1))
-      .subscribe(exercise => {
-        let exerciseCopy = Object.assign(new Exercise(), exercise);
-        exerciseCopy.sets = [...sets];
-
-        this.updateTraining(exerciseCopy);
-      });
-  }
-
-  updateTraining(exercise: Exercise) {
-
-    this.store.select(selectedTraining).pipe(
-      map(training => {
-        return Object.assign(new Training(), training);
-      }),
-      switchMap((training: Training) => {
-
-        training.exercises = training.exercises.map(x => x.id != exercise.id ? x : exercise);
-
-        var request = new UpdateTrainingRequest();
-        request.training = training;
-
-        return this.trainingService.update<UpdateTrainingRequest, UpdateTrainingRequestResponse>(request);
-      }),
-      take(1)
-    ).subscribe((response: UpdateTrainingRequestResponse) => {
-
-      const trainingUpdate: Update<Training> = {
-        id: response.training.id,
-        changes: response.training
-      };
-
-      this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
-      this.onClose(exercise.sets);
-    });
-  }
 }

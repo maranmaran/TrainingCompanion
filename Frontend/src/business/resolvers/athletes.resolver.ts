@@ -27,7 +27,7 @@ export class AthletesResolver implements Resolve<Observable<ApplicationUser[] | 
 
         return this.store.select(currentUser)
             .pipe(
-                take(1), 
+                take(1),
                 map((user: CurrentUser) => user.id),
                 concatMap((userId: string) => {
                     return this.getState(userId);
@@ -39,26 +39,25 @@ export class AthletesResolver implements Resolve<Observable<ApplicationUser[] | 
         return this.store
             .select(athletes)
             .pipe(
-                take(1), 
+                take(1),
                 concatMap((athletes: ApplicationUser[]) => {
 
-                if (!athletes) {
-                    return this.updateState(userId);
-                }
-                        
-                return of(athletes);
-            }));
+                    if (!athletes) {
+                        return this.updateState(userId);
+                    }
+
+                    return of(athletes);
+                }));
     }
 
     private updateState(userId: string) {
 
         return this.userService.getAll(AccountType.Athlete, userId)
-        .pipe(
-            take(1),
-            map((athletes: ApplicationUser[]) => {
-                this.store.dispatch(athletesFetched({athletes}));
-            })
-        );
+            .pipe(
+                take(1),
+                map((athletes: ApplicationUser[]) => {
+                    this.store.dispatch(athletesFetched({ athletes }));
+                })
+            );
     }
 }
-
