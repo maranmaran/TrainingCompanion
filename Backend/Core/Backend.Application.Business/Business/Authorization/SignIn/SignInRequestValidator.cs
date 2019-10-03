@@ -65,7 +65,7 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
             var coachPaymentInfo =
                 _paymentService.GetCustomerSubscriptionStatus(athlete.Coach.CustomerId).Result;
 
-            return coachPaymentInfo != SubscriptionStatus.Active && coachPaymentInfo != SubscriptionStatus.Trialing;
+            return coachPaymentInfo == SubscriptionStatus.Active || coachPaymentInfo == SubscriptionStatus.Trialing;
         }
     }
 }
