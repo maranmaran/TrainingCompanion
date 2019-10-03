@@ -1,7 +1,8 @@
+import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/requests/update-training.request';
 import { selectedTrainingExercises, selectedTraining } from './../../../../../ngrx/training-log/training2/training.selectors';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { concatMap, map, take } from 'rxjs/operators';
+import { concatMap, map, take, switchMap } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
@@ -18,7 +19,8 @@ import { SubSink } from 'subsink';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { Update } from '@ngrx/entity';
-import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
+import { setSelectedExercise, trainingUpdated, exerciseDeleted } from 'src/ngrx/training-log/training2/training.actions';
+import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 
 @Component({
   selector: 'app-exercise-list',
@@ -40,6 +42,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   constructor(
     private uiService: UIService,
     private trainingService: TrainingService,
+    private exerciseService: ExerciseService,
     private exerciseTypeService: ExerciseTypeService,
     private store: Store<AppState>
   ) { }
@@ -127,24 +130,29 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((result: ConfirmResult) => {
         if (result == ConfirmResult.Confirm) {
-          this.store.select(selectedTraining).pipe(
-            take(1),
-            map(training => Object.assign({}, training)),
-            concatMap((training: Training) => {
-              training.exercises = training.exercises.filter(item => item.id != exercise.id);
-              console.log(training);
-              return this.trainingService.update(training);
-            }),
-            take(1))
-            .subscribe((training: Training) => {
 
-              const trainingUpdate: Update<Training> = {
-                id: training.id,
-                changes: training
-              };
+          this.exerciseService.delete(exercise.id)
+            .pipe(
+              take(1),
+              concatMap(() => this.store.select(selectedTraining)),
+              take(1),
+              map(training => Object.assign({}, training))
+            )
+            .subscribe(
+              (training: Training) => {
 
-              this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
-            });
+                const trainingUpdate: Update<Training> = {
+                  id: training.id,
+                  changes: {
+                    exercises: training.exercises.filter(item => item.id != exercise.id)
+                  }
+                };
+
+                this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
+              },
+              err => console.log(err)
+            );
+
         }
       });
   }

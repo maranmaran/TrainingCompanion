@@ -32,10 +32,10 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
     ));
 
     this.store.pipe(take(1))
-    .subscribe(state => {
-      this.userId = state.auth.currentUser.id;
-      this.userAccountType = state.auth.currentUser.accountType;
-    });
+      .subscribe(state => {
+        this.userId = state.auth.currentUser.id;
+        this.userAccountType = state.auth.currentUser.accountType;
+      });
     this.initializeConnection();
   }
 
@@ -78,7 +78,7 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
 
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
-      return this.http
+    return this.http
       .get('chat/GetFriendsList/' + this.userId + '/' + this.userAccountType)
       .pipe(
         map((res: any) => {

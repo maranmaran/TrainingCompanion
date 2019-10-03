@@ -29,8 +29,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // state setup for login component
-    this.store.dispatch(switchTheme({theme: Theme.Light}));
-    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.LoginScreen}))
+    this.store.dispatch(switchTheme({ theme: Theme.Light }));
+    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.LoginScreen }))
     this.store.dispatch(disableErrorDialogs());
 
     this.loading$ = getLoadingState(this.store, UIProgressBar.LoginScreen);;
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
     // form logic flags
     this.hidePassword = true;
-    
+
     this.createForm();
   }
 

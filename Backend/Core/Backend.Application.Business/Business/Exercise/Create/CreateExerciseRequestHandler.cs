@@ -2,6 +2,7 @@
 using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +29,15 @@ namespace Backend.Application.Business.Business.Exercise.Create
 
                 await _context.Exercises.AddAsync(newExercise, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
+
+                var type = await _context
+                    .ExerciseTypes
+                    .Include(x => x.Properties)
+                    .ThenInclude(x => x.Tag)
+                    .ThenInclude(x => x.TagGroup)
+                    .FirstAsync(x => x.Id == newExercise.ExerciseTypeId, cancellationToken);
+
+                newExercise.ExerciseType = type;
 
                 return newExercise;
             }

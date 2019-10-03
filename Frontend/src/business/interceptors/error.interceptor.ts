@@ -23,8 +23,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                 catchError((error: HttpErrorResponse) => {
 
                     const serverError = error.error as ErrorDetails;
-                    
-                    if(!serverError.status || serverError.status == ServerStatusCodes.InternalServerError) {
+
+                    if (!serverError.status || serverError.status == ServerStatusCodes.InternalServerError) {
                         this.store.dispatch(httpErrorOccured(serverError.message))
                     }
 
@@ -33,4 +33,3 @@ export class ErrorInterceptor implements HttpInterceptor {
             );;
     }
 }
-

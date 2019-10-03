@@ -37,7 +37,7 @@ namespace Backend.API.Controllers
             return await Update(async () => await Mediator.Send(request));
         }
 
-        [HttpPost]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteExerciseRequest() { Id = id }));

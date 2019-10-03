@@ -5,7 +5,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class IsCoach implements CanActivate {
 
     constructor(
