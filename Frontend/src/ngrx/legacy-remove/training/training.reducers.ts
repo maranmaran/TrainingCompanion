@@ -1,8 +1,8 @@
-import { Update, Dictionary } from '@ngrx/entity';
+import { Dictionary, Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
-import * as TrainingActions from '../training/training.actions';
-import { adapterTraining, TrainingState, trainingInitialState} from './training.state';
 import { Training } from 'src/server-models/entities/training.model';
+import * as TrainingActions from './training.actions';
+import { adapterTraining, trainingInitialState, TrainingState } from './training.state';
 
 export const trainingReducer: ActionReducer<TrainingState, Action> = createReducer(
     trainingInitialState,
@@ -46,7 +46,7 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
 );
 
 export const getSelectedTrainingId = (state: TrainingState) => state.selectedId;
- 
+
 // get the selectors
 export const {
   selectIds,

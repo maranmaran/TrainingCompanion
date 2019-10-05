@@ -1,6 +1,5 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromTraining from './training.reducers';
-import { selectTrainingLogState } from '../training-log.state';
 import { TrainingState } from './training.state';
 
 

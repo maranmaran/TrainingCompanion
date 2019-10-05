@@ -1,6 +1,6 @@
-import { Set } from './../../../server-models/entities/set.model';
-import { Update, Dictionary } from '@ngrx/entity';
+import { Dictionary, Update } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
+import { Set } from '../../../server-models/entities/set.model';
 
 
 export const setCreated = createAction(

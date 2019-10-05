@@ -1,7 +1,5 @@
-import { Set } from './../../../server-models/entities/set.model';
-import { EntityState, createEntityAdapter } from '@ngrx/entity';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { Training } from 'src/server-models/entities/training.model';
-import { Exercise } from 'src/server-models/entities/exercise.model';
 
 
 // Exercise property type ENTITY
