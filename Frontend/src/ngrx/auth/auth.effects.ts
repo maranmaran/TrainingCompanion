@@ -5,11 +5,12 @@ import { Store } from '@ngrx/store';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { UserSettings } from 'src/server-models/entities/user-settings.model';
-import { AppState } from '../global-setup.ngrx';
-import { switchTheme, enableErrorDialogs } from '../user-interface/ui.actions';
 import { AuthService } from '../../business/services/feature-services/auth.service';
+import { AppState } from '../global-setup.ngrx';
+import { enableErrorDialogs, setActiveProgressBar, switchTheme } from '../user-interface/ui.actions';
 import { SignInRequest } from './../../server-models/cqrs/authorization/requests/sign-in.request';
 import * as AuthActions from './auth.actions';
 
@@ -77,6 +78,7 @@ export class AuthEffects {
             .pipe(
                 ofType(AuthActions.updateCurrentUser),
                 tap((currentUser: CurrentUser) => {
+                    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }));
                     this.store.dispatch(switchTheme({ theme: currentUser.userSettings.theme }));
                 })
             )
