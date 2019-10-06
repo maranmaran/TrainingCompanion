@@ -1,10 +1,11 @@
-import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/requests/update-training.request';
-import { selectedTrainingExercises, selectedTraining } from './../../../../../ngrx/training-log/training2/training.selectors';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { concatMap, map, take, switchMap } from 'rxjs/operators';
+import { concatMap, map, take } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
@@ -12,15 +13,13 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
-import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
-import { Update } from '@ngrx/entity';
-import { setSelectedExercise, trainingUpdated, exerciseDeleted } from 'src/ngrx/training-log/training2/training.actions';
-import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
+import { selectedTraining, selectedTrainingExercises } from './../../../../../ngrx/training-log/training2/training.selectors';
 
 @Component({
   selector: 'app-exercise-list',
@@ -69,7 +68,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
 
   getTableConfig() {
     const tableConfig = new TableConfig();
-    tableConfig.filterFunction = (data: Exercise, filter: string) => data.exerciseType.name.toLocaleLowerCase().indexOf(filter) !== -1
+    tableConfig.filterFunction = (data: Exercise, filter: string) => data.exerciseType.name.toLocaleLowerCase().indexOf(filter) !== -1;
     tableConfig.enableDragAndDrop = true;
     tableConfig.pageSizeOptions = [5];
     tableConfig.deleteEnabled = true;
@@ -87,14 +86,14 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
         sort: true,
         useComponent: true,
         component: ExerciseTypePreviewComponent,
-        inputs: (item: Exercise) => { return { exerciseType: item.exerciseType }; },
+        inputs: (item: Exercise) => ({ exerciseType: item.exerciseType }),
       })
-    ]
+    ];
   }
 
   onSelect = (exercise: Exercise) => {
-    this.store.dispatch(setSelectedExercise({ entity: exercise }))
-  };
+    this.store.dispatch(setSelectedExercise({ entity: exercise }));
+  }
 
   onAdd() {
     this.exerciseTypeService.getAll(this.userId).pipe(take(1))
@@ -106,7 +105,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
           autoFocus: false,
           data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes },
           panelClass: []
-        })
+        });
 
         dialogRef.afterClosed().pipe(take(1))
           .subscribe((exercise: Exercise) => {
@@ -115,7 +114,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
               // this.onSelect(exercise);
             }
           }
-          )
+          );
       });
   }
 
@@ -125,11 +124,11 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       `<p>Are you sure you wish to delete ${exercise.exerciseType.name} ?</p>
      <p>All data will be lost if you delete this exercise.</p>`;
 
-    var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
+    const dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((result: ConfirmResult) => {
-        if (result == ConfirmResult.Confirm) {
+        if (result === ConfirmResult.Confirm) {
 
           this.exerciseService.delete(exercise.id)
             .pipe(
@@ -144,7 +143,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
                 const trainingUpdate: Update<Training> = {
                   id: training.id,
                   changes: {
-                    exercises: training.exercises.filter(item => item.id != exercise.id)
+                    exercises: training.exercises.filter(item => item.id !== exercise.id)
                   }
                 };
 
@@ -163,13 +162,14 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       `<p>Are you sure you wish to delete all (${exercises.length}) selected exercises ?</p>
      <p>All data will be lost if you delete these exercises.</p>`;
 
+    // tslint:disable-next-line: no-shadowed-variable
     this.deleteDialogConfig.action = (exercises: Exercise[]) => {
       console.log('delete');
       console.log(exercises);
-    }
+    };
 
     this.deleteDialogConfig.actionParams = [exercises];
 
-    this.uiService.openConfirmDialog(this.deleteDialogConfig)
+    this.uiService.openConfirmDialog(this.deleteDialogConfig);
   }
 }

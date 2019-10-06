@@ -13,7 +13,10 @@
 
     <mat-accordion class="training-accordion" fxLayout="column" fxLayoutGap="1rem">
 
-      <button mat-stroked-button color="accent"><i class="fas fa-plus mr-1"></i> Note</button>
+      <button mat-stroked-button color="accent" *ngIf="!showEditor" (click)="showEditor = true">
+        <i class="fas fa-plus mr-1"></i> Note
+      </button>
+      <ckeditor id="editor" *ngIf="showEditor" [editor]="ckEditor" [config]="ckEditorConfig" data="Add note"></ckeditor>
 
       <mat-expansion-panel class="note-panel" *ngIf="training.note">
 
