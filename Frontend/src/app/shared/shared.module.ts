@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DynamicModule } from 'ng-dynamic-component';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
@@ -27,9 +28,14 @@ import { NotImplementedComponent } from './not-implemented/not-implemented.compo
         ReactiveFormsModule,
         RouterModule,
         MaterialModule,
+        CKEditorModule,
 
-        //https://www.npmjs.com/package/ng-dynamic-component
-        DynamicModule.withComponents([ExerciseTypePreviewComponent, ExerciseTypeChipComponent, ExerciseTypeChipListComponent, ActiveFlagComponent])
+        // https://www.npmjs.com/package/ng-dynamic-component
+        DynamicModule.withComponents([
+            ExerciseTypePreviewComponent,
+            ExerciseTypeChipComponent,
+            ExerciseTypeChipListComponent,
+            ActiveFlagComponent])
     ],
     declarations: [
         MediaDialogComponent,
@@ -53,6 +59,7 @@ import { NotImplementedComponent } from './not-implemented/not-implemented.compo
         ReactiveFormsModule,
         RouterModule,
         MaterialModule,
+        CKEditorModule,
 
         MediaDialogComponent,
         ErrorSnackbarComponent,

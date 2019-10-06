@@ -1,12 +1,12 @@
-import { AuthService } from '../services/feature-services/auth.service';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { CanActivate, CanActivateChild, Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { map, take, catchError, finalize } from 'rxjs/operators';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { of, Observable } from 'rxjs';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { Observable, of } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators';
 import { updateCurrentUser } from 'src/ngrx/auth/auth.actions';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { AuthService } from '../services/feature-services/auth.service';
 import { UIProgressBar } from '../shared/ui-progress-bars.enum';
 
 export class CurrentUserLoadedGuard implements CanActivate {
@@ -19,6 +19,7 @@ export class CurrentUserLoadedGuard implements CanActivate {
     ) {
     }
 
+    // tslint:disable-next-line: max-line-length
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 
         this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SplashScreen }));
@@ -33,14 +34,15 @@ export class CurrentUserLoadedGuard implements CanActivate {
                         return of(null);
                     }),
                     map(((currentUser: CurrentUser) => {
-                        if (!currentUser) return resolve(false);
+                        if (!currentUser) { return resolve(false); }
 
+                        // tslint:disable-next-line: no-unused-expression
                         currentUser && this.store.dispatch(updateCurrentUser(currentUser));
 
                         resolve(true);
                     }))
                 ).subscribe();
-        })
+        });
     }
 
 }
