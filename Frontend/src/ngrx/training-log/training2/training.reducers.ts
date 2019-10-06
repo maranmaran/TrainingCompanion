@@ -1,9 +1,9 @@
-import { Exercise } from 'src/server-models/entities/exercise.model';
-import { TrainingState, trainingInitialState, adapterTraining, adapterExercise } from './training.state';
-import { ActionReducer, createReducer, Action, on } from '@ngrx/store';
-import { Training } from 'src/server-models/entities/training.model';
 import { Update } from '@ngrx/entity';
+import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { Training } from 'src/server-models/entities/training.model';
 import * as TrainingActions from './training.actions';
+import { adapterTraining, trainingInitialState, TrainingState } from './training.state';
 
 export const trainingReducer: ActionReducer<TrainingState, Action> = createReducer(
     trainingInitialState,
@@ -38,14 +38,18 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
         return {
             ...state,
             selectedTrainingId: payload.entity ? payload.entity.id : null,
-        }
+        };
     }),
     on(TrainingActions.setSelectedExercise, (state: TrainingState, payload: { entity: Exercise }) => {
         return {
             ...state,
             selectedExerciseId: payload.entity ? payload.entity.id : null,
-        }
+        };
     }),
+
+    on(TrainingActions.clearState, (state: TrainingState) => {
+      return undefined;
+  }),
 );
 
 export const getSelectedTrainingId = (state: TrainingState) => state.selectedTrainingId;
