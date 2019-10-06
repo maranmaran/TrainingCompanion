@@ -1,13 +1,13 @@
-import { Exercise } from 'src/server-models/entities/exercise.model';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { SubSink } from 'subsink';
-import { Training } from 'src/server-models/entities/training.model';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
-import { selectedTraining, selectedExercise } from 'src/ngrx/training-log/training2/training.selectors';
-import { setSelectedExercise, setSelectedTraining } from 'src/ngrx/training-log/training2/training.actions';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { clearState, setSelectedExercise, setSelectedTraining } from 'src/ngrx/training-log/training2/training.actions';
+import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { Training } from 'src/server-models/entities/training.model';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-training-log-home',
@@ -46,6 +46,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subsink.unsubscribe();
+    this.store.dispatch(clearState());
   }
 
   changeTab1(index: number, allowSetTrainingNull: boolean = false, allowSetExerciseNull: boolean = true) {
