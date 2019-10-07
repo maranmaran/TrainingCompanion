@@ -1,0 +1,18 @@
+@import "~@angular/material/theming";
+
+@mixin editor-component-theme($theme) {
+
+  #editor .ck-editor__editable_inline {
+    color: black;
+  }
+
+  #editor .ck-editor__editable {
+    min-height: 20rem;
+  }
+
+  @media (max-width: 600px) {
+    #editor .ck-editor__editable {
+      min-height: 10rem;
+    }
+  }
+}

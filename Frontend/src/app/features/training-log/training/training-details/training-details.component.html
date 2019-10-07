@@ -1,4 +1,4 @@
-<h3 class="title">{{ training.dateTrained | date:'dd MMM' }} ({{ training.dateTrained | date: 'dd/MM/yy'}})</h3>
+<h3 class="title"><b>{{ training.dateTrained | date:'dd MMM' }} ({{ training.dateTrained | date: 'dd/MM/yy'}})</b></h3>
 
 <div class="container main-screen" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start"
   fxLayoutGap.lt-md="1rem" fxLayout.lt-md="column">
@@ -13,10 +13,13 @@
 
     <mat-accordion class="training-accordion" fxLayout="column" fxLayoutGap="1rem">
 
-      <button mat-stroked-button color="accent" *ngIf="!showEditor" (click)="showEditor = true">
+      <button mat-stroked-button color="accent" *ngIf="!showEditor && !training.note" (click)="showEditor = true">
         <i class="fas fa-plus mr-1"></i> Note
       </button>
-      <ckeditor id="editor" *ngIf="showEditor" [editor]="ckEditor" [config]="ckEditorConfig" data="Add note"></ckeditor>
+      <ckeditor id="editor" *ngIf="showEditor" [editor]="ckEditor" [config]="ckEditorConfig" (change)="onChange($event)"></ckeditor>
+      <button mat-stroked-button color="accent" *ngIf="showEditor" (click)="saveNote()">
+        <i class="fas fa-save mr-1"></i> Save
+      </button>
 
       <mat-expansion-panel class="note-panel" *ngIf="training.note">
 

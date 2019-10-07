@@ -1,68 +1,44 @@
-﻿namespace Backend.Application.Business.Business.Training.Update
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using Backend.Application.Business.Business.Training.Update;
+using Backend.Domain;
+using Backend.Domain.Entities.TrainingLog;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace Backend.Application.Business.Business.Training.Update
 {
-    //TODO REMOVE
-    //public class UpdateTrainingRequestHandler :
-    //    IRequestHandler<UpdateTrainingRequest, UpdateTrainingRequestResponse>
-    //{
-    //    private readonly IApplicationDbContext _context;
-    //    private readonly IMapper _mapper;
+    public class UpdateTrainingRequestHandler :
+        IRequestHandler<UpdateTrainingRequest, Domain.Entities.TrainingLog.Training>
+    {
+        private readonly IApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-    //    public UpdateTrainingRequestHandler(IApplicationDbContext context, IMapper mapper)
-    //    {
-    //        _context = context;
-    //        _mapper = mapper;
-    //    }
+        public UpdateTrainingRequestHandler(IApplicationDbContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
 
-    //    //public async Task<UpdateTrainingRequestResponse> Handle(UpdateTrainingRequest request, CancellationToken cancellationToken)
-    //    //{
-    //    //    //try
-    //    //    //{
+        public async Task<Domain.Entities.TrainingLog.Training> Handle(UpdateTrainingRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var trainingToUpdate = _context.Trainings.Find(request.Id);
+                trainingToUpdate = _mapper.Map(request, trainingToUpdate);
 
-    //    //    //    foreach (var exercise in request.Training.Exercises)
-    //    //    //    {
-    //    //    //        // don't manipulate type
-    //    //    //        var type = await _context
-    //    //    //            .ExerciseTypes
-    //    //    //            .Include(x => x.Properties)
-    //    //    //            .ThenInclude(x => x.Tag)
-    //    //    //            .ThenInclude(x => x.TagGroup)
-    //    //    //            .FirstAsync(x => x.Id == exercise.ExerciseTypeId, cancellationToken);
+                _context.Trainings.Update(trainingToUpdate);
+                await _context.SaveChangesAsync(cancellationToken);
 
-    //    //    //        _context.Entry(type).State = EntityState.Detached;
-    //    //    //        exercise.ExerciseType = type;
-
-    //    //    //        foreach (var set in exercise.Sets)
-    //    //    //        {
-    //    //    //            // update additional properties
-    //    //    //            if (type.RequiresReps && type.RequiresSets)
-    //    //    //            {
-    //    //    //                if (type.RequiresWeight)
-    //    //    //                {
-    //    //    //                    set.Volume = set.Reps * set.Weight;
-    //    //    //                }
-    //    //    //                else if (type.RequiresBodyweight)
-    //    //    //                {
-    //    //    //                    // bw
-    //    //    //                }
-    //    //    //            }
-    //    //    //            _context.Sets.Update(set);
-    //    //    //        }
-    //    //    //        _context.Exercises.Update(exercise);
-    //    //    //    }
-
-    //    //    //    _context.Trainings.Update(request.Training);
-
-    //    //    //    await _context.SaveChangesAsync(cancellationToken);
-
-    //    //    //    return new UpdateTrainingRequestResponse()
-    //    //    //    {
-    //    //    //        Training = request.Training,
-    //    //    //    };
-    //    //    //}
-    //    //    //catch (Exception e)
-    //    //    //{
-    //    //    //    throw new CreateFailureException(nameof(Domain.Entities.TrainingLog.Training), e);
-    //    //    //}
-    //    //}
-    //}
+                return trainingToUpdate;
+            }
+            catch (Exception e)
+            {
+                throw new UpdateFailureException(nameof(Domain.Entities.TrainingLog.Training), e);
+            }
+        }
+    }
 }

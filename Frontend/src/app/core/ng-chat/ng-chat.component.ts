@@ -61,7 +61,8 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     public userId: any;
 
     @Input()
-    public isCollapsed: boolean = false;
+    public isCollapsed: boolean = localStorage.getItem('chat-collapsed') ?
+                                    localStorage.getItem('chat-collapsed') as unknown as boolean : false;
 
     @Input()
     public maximizeWindowOnNewMessage: boolean = true;
@@ -526,6 +527,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
             // Refer to issue #58 on Github
             let collapseWindow = invokedByUserClick ? false : !this.maximizeWindowOnNewMessage;
 
+
             let newChatWindow: Window = new Window(participant, this.historyEnabled, collapseWindow);
 
             // Loads the chat history via an RxJs Observable
@@ -557,6 +559,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         else
         {
             // Returns the existing chat window
+
             return [openedWindow, false];
         }
     }
@@ -671,7 +674,9 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
                     let participantsToRestore = this.participants.filter(u => participantIds.indexOf(u.id) >= 0);
 
                     participantsToRestore.forEach((participant) => {
-                        this.openChatWindow(participant);
+                      const window = this.openChatWindow(participant)[0];
+                      window.isCollapsed = localStorage.getItem(`chat-window-${participant.id}`) == 'true' ?
+                        true : false;
                     });
                 }
             }
@@ -822,6 +827,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     onChatTitleClicked(event: any): void
     {
         this.isCollapsed = !this.isCollapsed;
+        localStorage.setItem('chat-collapsed', this.isCollapsed.toString());
     }
 
     // Toggles a chat window visibility between maximized/minimized
@@ -829,6 +835,8 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     {
         window.isCollapsed = !window.isCollapsed;
         this.scrollChatWindow(window, ScrollDirection.Bottom);
+        var key = 'chat-window-' + window.participant.id;
+        localStorage.setItem(key, window.isCollapsed.toString());
     }
 
     // Asserts if a user avatar is visible in a chat cluster

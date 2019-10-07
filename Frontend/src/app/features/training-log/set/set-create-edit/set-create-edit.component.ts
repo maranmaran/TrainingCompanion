@@ -3,7 +3,8 @@ import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { map, switchMap, take } from 'rxjs/operators';
+import * as _ from "lodash";
+import { switchMap, take } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
@@ -11,7 +12,6 @@ import { currentUser, userSettings } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
 import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
-import { UpdateTrainingRequest, UpdateTrainingRequestResponse } from 'src/server-models/cqrs/training/requests/update-training.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { Training } from 'src/server-models/entities/training.model';
@@ -20,9 +20,6 @@ import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { UpdateManySetsRequest } from './../../../../../server-models/cqrs/set/requests/update-many-sets.request';
 import { Exercise } from './../../../../../server-models/entities/exercise.model';
-import * as _ from "lodash";
-import { timeout } from 'q';
-import { $ } from 'protractor';
 
 @Component({
   selector: 'app-set-create-edit',

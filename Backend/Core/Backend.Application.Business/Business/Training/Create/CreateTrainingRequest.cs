@@ -7,6 +7,5 @@ namespace Backend.Application.Business.Business.Training.Create
     {
         public DateTime DateTrained { get; set; }
         public Guid ApplicationUserId { get; set; }
-
     }
 }
