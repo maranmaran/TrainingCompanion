@@ -1,23 +1,20 @@
-import { UpdateExerciseRequest } from './../../../../../server-models/cqrs/exercise/requests/update-exercise.request';
-import { UpdateTrainingRequest, UpdateTrainingRequestResponse } from './../../../../../server-models/cqrs/training/requests/update-training.request';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { switchMap, take, map, concatMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
+import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
+import { selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
 import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/requests/create-exercise.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
-import { selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
-import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { Training } from 'src/server-models/entities/training.model';
-import { Update } from '@ngrx/entity';
-import { trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
-import { selectedTrainingId } from './../../../../../ngrx/training-log/training2/training.selectors';
 
 @Component({
   selector: 'app-exercise-create-edit',

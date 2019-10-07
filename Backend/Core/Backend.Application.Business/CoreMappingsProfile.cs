@@ -20,6 +20,7 @@ using Backend.Domain.Entities.User;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
+using Backend.Application.Business.Business.Training.Update;
 
 namespace Backend.Application.Business
 {
@@ -148,6 +149,7 @@ namespace Backend.Application.Business
         private void TrainingMappings()
         {
             CreateMap<CreateTrainingRequest, Training>();
+            CreateMap<UpdateTrainingRequest, Training>();
         }
         private void ExerciseMappings()
         {

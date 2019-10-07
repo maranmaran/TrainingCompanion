@@ -1,32 +1,30 @@
-
 :host {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.label {
+  font-weight: normal !important;
+}
+
+.main-screen {
+  margin-top: -2rem;
 }
 
 .title {
-    padding: 0.5rem;
+  padding: 0.5rem;
 }
 
-::ng-deep #editor .ck-editor__editable  {
-  min-height: 20rem;
-}
+@media (max-width: 600px) {
+  .label-value {
+    margin-left: 0.5rem !important;
+  }
+  .title {
+    margin: 0px !important;
+  }
 
-
-@media(max-width: 600px) {
-    .label-value {
-        margin-left: 0.5rem !important;
-    }
-    .title {
-        margin: 0px !important;
-    }
-
-    .main-screen {
-        margin-top: 0px !important;
-    }
-
-    ::ng-deep #editor .ck-editor__editable  {
-      min-height: 10rem;
-    }
+  .main-screen {
+    margin-top: 0px !important;
+  }
 }
