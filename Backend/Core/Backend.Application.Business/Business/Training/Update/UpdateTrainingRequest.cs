@@ -1,14 +1,15 @@
-﻿using MediatR;
+﻿using System;
+using System.Collections.Generic;
+using Backend.Domain.Entities.Media;
+using Backend.Domain.Entities.User;
+using MediatR;
 
 namespace Backend.Application.Business.Business.Training.Update
 {
-    public class UpdateTrainingRequest : IRequest<UpdateTrainingRequestResponse>
+    public class UpdateTrainingRequest : IRequest<Domain.Entities.TrainingLog.Training>
     {
-        public Domain.Entities.TrainingLog.Training Training { get; set; }
-
-        public UpdateTrainingRequest(Domain.Entities.TrainingLog.Training training)
-        {
-            Training = training;
-        }
+        public Guid Id { get; set; }
+        public string Note { get; set; }
+        public bool NoteRead { get; set; }
     }
 }
