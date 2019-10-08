@@ -1,6 +1,7 @@
 ﻿using Backend.Service.Infrastructure.Providers;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Backend.Service.Infrastructure.Extensions
 {
@@ -8,7 +9,18 @@ namespace Backend.Service.Infrastructure.Extensions
     {
         public static void ConfigureSignalR(this IServiceCollection services)
         {
-            services.AddSignalR(o => { o.EnableDetailedErrors = true; });
+            services
+                .AddSignalR(options =>
+                {
+                    options.EnableDetailedErrors = true;
+                })
+                .AddNewtonsoftJsonProtocol(options =>
+                {
+                    options.PayloadSerializerSettings = new JsonSerializerSettings()
+                    {
+                        Formatting = Formatting.Indented
+                    };
+                });
 
             // Change to use Name as the user identifier for SignalR
             // WARNING: This requires that the source of your JWT token 
