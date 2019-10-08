@@ -93,7 +93,8 @@ namespace Backend.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // ===== SignalR Hubs configuration / MUST BE AFTER AUTHENTICATION=====
+            // ===== SignalR Hubs configuration AND Controllers ( API ) configuration ===== 
+            // =====  MUST BE AFTER AUTHENTICATION=====
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
