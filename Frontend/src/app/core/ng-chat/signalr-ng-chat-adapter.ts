@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import * as signalR from "@aspnet/signalr";
+import * as signalR from "@microsoft/signalr";
 import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
@@ -48,6 +48,9 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
   private initializeConnection(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(environment.chatHubUrl)
+      // .addJsonProtocol(options => {
+      //   options.WriteIndented = false;
+      // })
       .build();
 
     this.hubConnection.serverTimeoutInMilliseconds = 100000; // 100 sec

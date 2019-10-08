@@ -5,7 +5,6 @@ using Backend.Persistance;
 using Backend.Service.Authorization;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +17,7 @@ using Sieve.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
 
 namespace Backend.API.Extensions
 {
@@ -48,13 +48,9 @@ namespace Backend.API.Extensions
         public static void ConfigureMvc(this IServiceCollection services)
         {
             services
-                .AddMvc(options =>
-                {
-                    //options.Filters.Add(typeof(ExceptionFilter));
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>())
-                .AddJsonOptions(options =>
+                .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -112,7 +108,7 @@ namespace Backend.API.Extensions
                     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                     x.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(x =>
+                    .AddJwtBearer(x =>
                 {
                     x.RequireHttpsMetadata = true;
                     x.SaveToken = true;
@@ -149,7 +145,6 @@ namespace Backend.API.Extensions
                         }
                     };
                 });
-
         }
 
         /// <summary>
@@ -160,14 +155,14 @@ namespace Backend.API.Extensions
         {
             services.AddSwaggerGen(action =>
             {
-                action.SwaggerDoc("v1.0", new Info() { Title = "Backend API", Version = "1.0" });
+                action.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Backend API", Version = "1.0" });
 
-                action.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                action.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
                 });
             });
         }
