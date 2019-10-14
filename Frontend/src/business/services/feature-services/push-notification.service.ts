@@ -1,12 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import * as signalR from '@aspnet/signalr';
-import { HubConnection } from '@aspnet/signalr';
+import * as signalR from '@microsoft/signalr';
 import { AppSettingsService } from '../shared/app-settings.service';
 
-@Injectable({ providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class PushNotificationsService implements OnDestroy {
 
-    private _notificationHubConn: HubConnection;
+    private _notificationHubConn: signalR.HubConnection;
     public notifications: { type: string, payload: string }[] = [];
 
     constructor(
@@ -18,7 +17,7 @@ export class PushNotificationsService implements OnDestroy {
     private configurePushNotificationHubConnection() {
         this._notificationHubConn = new signalR.HubConnectionBuilder()
             .withUrl(this.appSettingsService.notificationHubUrl)
-                // { accessTokenFactory: () => this.authService.getToken() })
+            // { accessTokenFactory: () => this.authService.getToken() })
             .build();
 
         this._notificationHubConn.start()
@@ -28,7 +27,7 @@ export class PushNotificationsService implements OnDestroy {
             .on('BroadcastMessage', (type: string, payload: string) => {
                 this.notifications.push({ type, payload });
             });
-    } 
+    }
 
     ngOnDestroy(): void {
         this._notificationHubConn.stop();

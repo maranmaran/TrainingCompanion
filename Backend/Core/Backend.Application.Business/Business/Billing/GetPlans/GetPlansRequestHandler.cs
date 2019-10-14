@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Service.Infrastructure.Exceptions;
+﻿using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.Payment.Interfaces;
 using MediatR;
 using Stripe;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Billing.GetPlans
 {
