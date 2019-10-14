@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using Backend.Service.Authorization.Interfaces;
+using Microsoft.Extensions.Hosting;
 
 namespace Backend.API
 {
@@ -15,7 +16,7 @@ namespace Backend.API
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
             {
@@ -24,11 +25,11 @@ namespace Backend.API
                 {
                     var contextInterface = services.GetService<IApplicationDbContext>();
                     var stripeConfiguration = services.GetService<IStripeConfiguration>();
-                    var passwrodHasher = services.GetService<IPasswordHasher>();
+                    var passwordHasher = services.GetService<IPasswordHasher>();
 
                     var context = (ApplicationDbContext)contextInterface;
                     context.Database.Migrate();
-                    DatabaseInitializer.Initialize(context, stripeConfiguration, passwrodHasher);//<---Do your seeding here
+                    DatabaseInitializer.Initialize(context, stripeConfiguration, passwordHasher);//<---Do your seeding here
                 }
                 catch (Exception ex)
                 {
@@ -41,8 +42,11 @@ namespace Backend.API
 
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
