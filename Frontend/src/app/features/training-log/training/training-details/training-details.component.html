@@ -13,45 +13,50 @@
 
     <mat-accordion class="training-accordion" fxLayout="column" fxLayoutGap="1rem">
 
+      <!----------EDITOR---------->
       <button mat-stroked-button color="accent" *ngIf="!showEditor && !training.note" (click)="showEditor = true">
         <i class="fas fa-plus mr-1"></i> Note
       </button>
-      <ckeditor id="editor" *ngIf="showEditor" [editor]="ckEditor" [config]="ckEditorConfig" (change)="onChange($event)"></ckeditor>
+      <ckeditor id="editor" *ngIf="showEditor" [editor]="ckEditor" [config]="ckEditorConfig" data="{{training.note}}"
+        (change)="onChange($event)"></ckeditor>
       <button mat-stroked-button color="accent" *ngIf="showEditor" (click)="saveNote()">
         <i class="fas fa-save mr-1"></i> Save
       </button>
 
-      <mat-expansion-panel class="note-panel" *ngIf="training.note">
-
+      <!--------- NOTE ---------->
+      <mat-expansion-panel class="note-panel" *ngIf="training.note && !showEditor">
         <mat-expansion-panel-header>
-          Note
+          <mat-panel-title>
+            Note
+          </mat-panel-title>
+          <mat-panel-description>
+            <span class="seen" *ngIf="training.noteRead">Coach has seen this note</span>
+          </mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-panel-description *ngIf="training.noteRead">
-          Coach has seen this note
-        </mat-panel-description>
-
+        <mat-action-row>
+          <button mat-stroked-button color="accent" (click)="showEditor = true">
+            <i class="fas fa-edit mr-1"></i>Edit
+          </button>
+        </mat-action-row>
         <div [innerHtml]="training.note"></div>
-
       </mat-expansion-panel>
 
+      <!--------- COACH NOTE ---------->
       <mat-expansion-panel class="coach-note-panel" *ngIf="training.coachNote">
-
         <mat-expansion-panel-header>
-          Coach note
+            <mat-panel-title>
+                Coach note
+              </mat-panel-title>
         </mat-expansion-panel-header>
-
         <div [innerHtml]="training.coachNote"></div>
-
       </mat-expansion-panel>
 
+      <!--------- MEDIA ---------->
       <mat-expansion-panel class="media-panel" *ngIf="training.media && training.media.length > 0">
-
         <mat-expansion-panel-header>
           Training media
         </mat-expansion-panel-header>
-
         <app-media-container></app-media-container>
-
       </mat-expansion-panel>
 
     </mat-accordion>

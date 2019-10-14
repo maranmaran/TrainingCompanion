@@ -172,7 +172,7 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExerciseProperties",
+                name: "Tags",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -270,7 +270,7 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExerciseTypeExerciseProperties",
+                name: "ExerciseTypeTags",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -284,7 +284,7 @@ namespace Backend.Persistance.Migrations
                     table.ForeignKey(
                         name: "FK_ExerciseTypeExerciseProperties_ExerciseProperties_TagId",
                         column: x => x.TagId,
-                        principalTable: "ExerciseProperties",
+                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -333,7 +333,7 @@ namespace Backend.Persistance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExerciseProperties_TagGroupId",
-                table: "ExerciseProperties",
+                table: "Tags",
                 column: "TagGroupId");
 
             migrationBuilder.CreateIndex(
@@ -353,12 +353,12 @@ namespace Backend.Persistance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExerciseTypeExerciseProperties_TagId",
-                table: "ExerciseTypeExerciseProperties",
+                table: "ExerciseTypeTags",
                 column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExerciseTypeExerciseProperties_ExerciseTypeId",
-                table: "ExerciseTypeExerciseProperties",
+                table: "ExerciseTypeTags",
                 column: "ExerciseTypeId");
 
             migrationBuilder.CreateIndex(
@@ -406,7 +406,7 @@ namespace Backend.Persistance.Migrations
                 name: "ExerciseMax");
 
             migrationBuilder.DropTable(
-                name: "ExerciseTypeExerciseProperties");
+                name: "ExerciseTypeTags");
 
             migrationBuilder.DropTable(
                 name: "MediaFiles");
@@ -418,7 +418,7 @@ namespace Backend.Persistance.Migrations
                 name: "SystemExceptions");
 
             migrationBuilder.DropTable(
-                name: "ExerciseProperties");
+                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "Exercises");

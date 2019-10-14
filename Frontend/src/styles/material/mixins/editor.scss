@@ -2,6 +2,10 @@
 
 @mixin editor-component-theme($theme) {
 
+  #editor {
+    margin-bottom: 0 !important;
+  }
+
   #editor .ck-editor__editable_inline {
     color: black;
   }

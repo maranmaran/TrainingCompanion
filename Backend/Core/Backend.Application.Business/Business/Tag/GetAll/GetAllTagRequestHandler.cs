@@ -21,7 +21,7 @@ namespace Backend.Application.Business.Business.Tag.GetAll
         {
             try
             {
-                return Task.FromResult(_context.ExerciseProperties.Where(x => x.TagGroupId == request.TagGroupId));
+                return Task.FromResult(_context.Tags.Where(x => x.TagGroupId == request.TagGroupId));
             }
             catch (Exception e)
             {
