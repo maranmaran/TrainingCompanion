@@ -92,10 +92,10 @@ namespace Backend.Persistance.Seed
                 context.SaveChangesAsync(CancellationToken.None).Wait();
 
                 // JOIN SEEDED DATA - MANY TO MANY
-                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(admin));
-                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(coach));
-                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(athlete));
-                context.ExerciseTypeExerciseProperties.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(soloAthlete));
+                context.ExerciseTypeTags.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(admin));
+                context.ExerciseTypeTags.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(coach));
+                context.ExerciseTypeTags.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(athlete));
+                context.ExerciseTypeTags.AddRange(ExerciseTypeTagFactory.JoinExerciseTypesAndProperties(soloAthlete));
 
                 context.SaveChangesAsync(CancellationToken.None).Wait();
             }

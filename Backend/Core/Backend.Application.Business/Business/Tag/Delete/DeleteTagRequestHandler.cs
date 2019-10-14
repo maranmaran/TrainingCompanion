@@ -22,9 +22,9 @@ namespace Backend.Application.Business.Business.Tag.Delete
             try
             {
                 var tag =
-                    await _context.ExerciseProperties.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                    await _context.Tags.SingleAsync(x => x.Id == request.Id, cancellationToken);
 
-                _context.ExerciseProperties.Remove(tag);
+                _context.Tags.Remove(tag);
 
                 await _context.SaveChangesAsync(cancellationToken);
 

@@ -49,7 +49,7 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  protected note = 'Add note';
+  public note = "";
   public onChange( { editor }: ChangeEvent ) {
     this.note = editor.getData();
   }

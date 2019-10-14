@@ -26,7 +26,7 @@ namespace Backend.Application.Business.Business.Tag.Create
             {
                 var tag = _mapper.Map<Domain.Entities.ExerciseType.Tag>(request);
 
-                _context.ExerciseProperties.Add(tag);
+                _context.Tags.Add(tag);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
