@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Stripe;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -16,12 +17,14 @@ namespace Backend.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            HostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment HostingEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -47,11 +50,20 @@ namespace Backend.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app,
-            IHostingEnvironment env,
-            ILoggerFactory loggerFactory)
+            IWebHostEnvironment env)
         {
+
+            // ===== SPA angular setup (wwwroot folder) =====
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            // https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-3.0&tabs=visual-studio
+            app.UseRouting();
+
             if (env.IsDevelopment())
             {
+           
+
                 app.UseCors("AllowAllCorsPolicy");
                 //app.UseMiddleware<MaintainCorsHeadersMiddleware>();
 
@@ -79,22 +91,19 @@ namespace Backend.API
             app.UseMiddleware<GlobalExceptionMiddleware>();
             app.UseMiddleware<JwtToAuthHeaderMiddleware>();
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            // ===== SignalR Hubs configuration / MUST BE AFTER AUTHENTICATION=====
-            app.UseSignalR(routes =>
+            // ===== SignalR Hubs configuration AND Controllers ( API ) configuration ===== 
+            // =====  MUST BE AFTER AUTHENTICATION=====
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapHub<PushNotificationHub>("/api/notifications-hub");
-                routes.MapHub<ChatHub>("/api/chat-hub");
+                endpoints.MapControllers();
+                endpoints.MapHub<PushNotificationHub>("/api/notifications-hub");
+                endpoints.MapHub<ChatHub>("/api/chat-hub");
             });
 
             // ===== Global error handling middleware with logging =====
             app.UseHttpsRedirection();
-            app.UseMvc();
-
-
-            // ===== SPA angular setup (wwwroot folder) =====
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
         }
     }
 }
