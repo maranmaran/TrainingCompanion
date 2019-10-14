@@ -72,7 +72,7 @@ namespace Backend.Persistance.Migrations
 
                     b.HasIndex("TagGroupId");
 
-                    b.ToTable("ExerciseProperties");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.TagGroup", b =>
@@ -164,7 +164,7 @@ namespace Backend.Persistance.Migrations
 
                     b.HasIndex("ExerciseTypeId");
 
-                    b.ToTable("ExerciseTypeExerciseProperties");
+                    b.ToTable("ExerciseTypeTags");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.Media.MediaFile", b =>

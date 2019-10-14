@@ -22,7 +22,7 @@ namespace Backend.Application.Business.Business.Tag.UpdateMany
             {
                 foreach (var requestTag in request.ExerciseProperties)
                 {
-                    _context.ExerciseProperties.Update(requestTag);
+                    _context.Tags.Update(requestTag);
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);

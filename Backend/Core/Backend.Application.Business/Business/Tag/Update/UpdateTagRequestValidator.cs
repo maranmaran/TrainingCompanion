@@ -21,7 +21,7 @@ namespace Backend.Application.Business.Business.Tag.Update
 
         private bool BeUniqueType(UpdateTagRequest request)
         {
-            var tag = _context.ExerciseProperties
+            var tag = _context.Tags
                 .Single(x => x.Id == request.Id);
 
             return _context.TagGroups.Include(x => x.Properties).Single(x => x.Id == tag.TagGroupId).Properties.All(x => x.Value != request.Value);

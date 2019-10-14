@@ -25,11 +25,11 @@ namespace Backend.Application.Business.Business.Tag.Update
         {
             try
             {
-                var propertyToUpdate = await _context.ExerciseProperties.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                var propertyToUpdate = await _context.Tags.SingleAsync(x => x.Id == request.Id, cancellationToken);
 
                 _mapper.Map(request, propertyToUpdate);
 
-                _context.ExerciseProperties.Update(propertyToUpdate);
+                _context.Tags.Update(propertyToUpdate);
 
                 await _context.SaveChangesAsync(cancellationToken);
 

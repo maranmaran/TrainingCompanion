@@ -24,8 +24,8 @@ namespace Backend.Persistance
 
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
         public DbSet<TagGroup> TagGroups { get; set; }
-        public DbSet<Tag> ExerciseProperties { get; set; }
-        public DbSet<ExerciseTypeTag> ExerciseTypeExerciseProperties { get; set; } // JOIN TABLE
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<ExerciseTypeTag> ExerciseTypeTags { get; set; } // JOIN TABLE
 
 
         #endregion

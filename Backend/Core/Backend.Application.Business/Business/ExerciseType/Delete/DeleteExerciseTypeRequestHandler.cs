@@ -22,9 +22,9 @@ namespace Backend.Application.Business.Business.ExerciseType.Delete
             try
             {
                 var exerciseType =
-                    await _context.ExerciseProperties.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                    await _context.Tags.SingleAsync(x => x.Id == request.Id, cancellationToken);
 
-                _context.ExerciseProperties.Remove(exerciseType);
+                _context.Tags.Remove(exerciseType);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
