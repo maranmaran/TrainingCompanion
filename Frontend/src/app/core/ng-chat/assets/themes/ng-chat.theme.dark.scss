@@ -45,7 +45,7 @@ $text-color: #FFF;
     .chat-window-input
     {
         background-color: $secondary-color;
-        color: $text-color;
+    color: $text-color;
     }
     .sent-chat-message-container, .file-message-container
     {
@@ -61,7 +61,7 @@ $text-color: #FFF;
     {
         background-color: $secondary-color;
     }
-    .ng-chat-message a 
+    .ng-chat-message a
     {
         color: $text-color;
     }
