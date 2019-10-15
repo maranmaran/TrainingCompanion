@@ -14,40 +14,40 @@
 @import "bootstrap-reset";
 
 // override outline from bootstrap 4
-select:focus,
-select.form-control:focus,
-textarea:focus,
-textarea.form-control:focus,
-input.form-control:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="number"]:focus,
-[type="text"].form-control:focus,
-[type="password"].form-control:focus,
-[type="email"].form-control:focus,
-[type="tel"].form-control:focus,
-[contenteditable].form-control {
-  border: 1px solid #e5e9ec;
-}
-select:focus,
-select.form-control:focus,
-textarea:focus,
-textarea.form-control:focus,
-input.form-control:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="number"]:focus,
-[type="text"].form-control:focus,
-[type="password"].form-control:focus,
-[type="email"].form-control:focus,
-[type="tel"].form-control:focus,
-[contenteditable].form-control:focus {
-  box-shadow: none;
-  outline: none;
-  background: #f4f5f7;
-}
+// select:focus,
+// select.form-control:focus,
+// textarea:focus,
+// textarea.form-control:focus,
+// input.form-control:focus,
+// input[type="text"]:focus,
+// input[type="password"]:focus,
+// input[type="email"]:focus,
+// input[type="number"]:focus,
+// [type="text"].form-control:focus,
+// [type="password"].form-control:focus,
+// [type="email"].form-control:focus,
+// [type="tel"].form-control:focus,
+// [contenteditable].form-control {
+//   border: 1px solid #e5e9ec;
+// }
+// select:focus,
+// select.form-control:focus,
+// textarea:focus,
+// textarea.form-control:focus,
+// input.form-control:focus,
+// input[type="text"]:focus,
+// input[type="password"]:focus,
+// input[type="email"]:focus,
+// input[type="number"]:focus,
+// [type="text"].form-control:focus,
+// [type="password"].form-control:focus,
+// [type="email"].form-control:focus,
+// [type="tel"].form-control:focus,
+// [contenteditable].form-control:focus {
+//   box-shadow: none;
+//   outline: none;
+//   background: #f4f5f7;
+// }
 
 .alert-danger {
   color: crimson;
