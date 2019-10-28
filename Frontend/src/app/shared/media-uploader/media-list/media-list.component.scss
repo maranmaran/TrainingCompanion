@@ -1,0 +1,39 @@
+.image-container {
+  padding: 5px;
+  height: 150px;
+  max-height: 150px;
+
+  img {
+    max-height: 100%;
+  }
+}
+
+.video-container {
+  padding: 5px;
+  height: 150px;
+  max-height: 150px;
+
+  video {
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .image-container {
+    padding: 3px;
+    height: 70px;
+    max-height: 70px;
+
+    img {
+      max-height: 100%;
+    }
+  }
+
+  .video-container {
+    padding: 5px;
+    height: 70px;
+    max-height: 70px;
+  }
+}

@@ -52,14 +52,15 @@
       </mat-expansion-panel>
 
       <!--------- MEDIA ---------->
-      <mat-expansion-panel class="media-panel" *ngIf="training.media && training.media.length > 0">
+      <mat-expansion-panel class="media-panel">
         <mat-expansion-panel-header>
           Training media
         </mat-expansion-panel-header>
-        <app-media-container></app-media-container>
+        <app-media-uploader (fileUploaded)="onFileUploaded($event)" [files]="training.media"></app-media-uploader>
       </mat-expansion-panel>
 
     </mat-accordion>
+
 
   </div>
 
