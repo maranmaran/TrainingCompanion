@@ -20,6 +20,11 @@ export const trainings = createSelector(
     fromTraining.selectAll
 );
 
+export const trainingsForMonth = createSelector(
+  trainings,
+  (trainings, month) => trainings.filter(training => training.dateTrained)
+)
+
 export const trainingCount = createSelector(
     selectTrainingState,
     fromTraining.selectTotal

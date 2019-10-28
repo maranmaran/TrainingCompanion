@@ -8,6 +8,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain.Entities.Media;
+using System.Text;
 
 namespace Backend.Application.Business.Business.Media.UploadMedia
 {
@@ -31,7 +32,7 @@ namespace Backend.Application.Business.Business.Media.UploadMedia
             try
             {
                 // save to s3
-                var filename = $"media/{request.UserId}/{request.Type.ToString()}/{Guid.NewGuid()}";
+                var filename = GetFilename(request);
                 var fileRequest = new S3FileRequest(filename);
 
                 await _s3AccessService.WriteStreamToS3(fileRequest, request.File.OpenReadStream());
@@ -40,8 +41,9 @@ namespace Backend.Application.Business.Business.Media.UploadMedia
                 // create db object and map to it
                 var media = new MediaFile()
                 {
-                    DownloadUrl = presignedUrl,
                     ApplicationUserId = request.UserId,
+                    TrainingId = request.TrainingId,
+                    DownloadUrl = presignedUrl,
                     Type = request.Type,
                     DateModified = DateTime.UtcNow,
                     DateUploaded = DateTime.UtcNow,
@@ -60,6 +62,21 @@ namespace Backend.Application.Business.Business.Media.UploadMedia
             {
                 throw new CreateFailureException($"Could not upload media {request.File.FileName}", ex);
             }
+        }
+
+        public string GetFilename(UploadMediaRequest request)
+        {
+            var builder = new StringBuilder();
+
+            if (request.UserId != Guid.Empty)
+                builder.Append($"media/{request.UserId}");
+
+            if (request.TrainingId != Guid.Empty)
+                builder.Append($"/training/{request.TrainingId}");
+
+            builder.Append($"{request.TrainingId.ToString()}/{Guid.NewGuid()}");
+
+            return builder.ToString();
         }
     }
 }

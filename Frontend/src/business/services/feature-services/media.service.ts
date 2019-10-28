@@ -1,12 +1,10 @@
-import { MediaType } from '../../../server-models/enums/media-type.enum';
-import { BaseService } from '../base.service';
-
-import { url } from 'inspector';
-
-import { constructor } from 'assert';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
+import { MediaType } from '../../../server-models/enums/media-type.enum';
+import { BaseService } from '../base.service';
+
+
 
 
 export class MediaService extends BaseService {

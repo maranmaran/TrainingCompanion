@@ -1,31 +1,30 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { map, take } from 'rxjs/operators';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { mediaUploaded } from 'src/ngrx/media/media.actions';
+import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { MediaService } from '../../../../business/services/feature-services/media.service';
 import { MediaType } from './../../../../server-models/enums/media-type.enum';
-import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { currentUser } from 'src/ngrx/auth/auth.selectors';
-import { map, take } from 'rxjs/operators';
-import { MediaFile } from 'src/server-models/entities/media-file.model';
-import { mediaUploaded } from 'src/ngrx/media/media.actions';
-import { images, files } from 'src/ngrx/media/media.selectors';
 
 @Component({
-  selector: 'app-media-uploader',
+  selector: 'app-media-uploader2',
   templateUrl: './media-uploader.component.html',
   styleUrls: ['./media-uploader.component.scss']
 })
 export class MediaUploaderComponent implements OnInit {
-  
+
 
   @Input() fileTypesToAccept: string;
-  @Input() mediaType: MediaType; 
+  @Input() mediaType: MediaType;
   @Input() mediaExtensionToSaveTo: string;
 
   private userId: string;
 
   @ViewChild('uploadInput', {static: false}) uploadInput: ElementRef;
-  
+
   constructor(
     private mediaService: MediaService,
     private store: Store<AppState>

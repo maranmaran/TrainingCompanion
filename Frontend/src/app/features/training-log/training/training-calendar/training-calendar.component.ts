@@ -1,19 +1,17 @@
-import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/create-training.request';
-import { CalendarEvent } from '../../../../shared/event-calendar/models/event-calendar.models';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as moment from 'moment'
-import { Subject } from 'rxjs/internal/Subject';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import * as moment from 'moment';
+import { ReplaySubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
-import { take } from 'rxjs/operators';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { setSelectedTraining, trainingCreated, trainingsFetched } from 'src/ngrx/training-log/training2/training.actions';
+import { trainings } from 'src/ngrx/training-log/training2/training.selectors';
+import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/create-training.request';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
-import { ReplaySubject } from 'rxjs';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { trainings } from 'src/ngrx/training-log/training2/training.selectors';
-import { trainingsFetched, trainingCreated, setSelectedTraining } from 'src/ngrx/training-log/training2/training.actions';
+import { CalendarEvent } from '../../../../shared/event-calendar/models/event-calendar.models';
 
 @Component({
   selector: 'app-training-calendar',
@@ -55,14 +53,17 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
   }
 
   // GET BY MONTH
+  // TODO: Fetch only if you need to.. (Something has been updated.. no need to refetch data that you already loaded)
   onMonthChange(date: moment.Moment) {
 
-    const month = date.month() + 1 // because it starts from 0
+    const month = date.month() + 1; // because it starts from 0
     const year = date.year();
 
     this.trainingService.getAllByMonth(this.userId, month, year).pipe(take(1))
       .subscribe((trainings: Training[]) => {
         this.store.dispatch(trainingsFetched({ entities: trainings }));
+
+        this.inputData.next(this.parseTrainingsForCalendar(trainings));
         // this.store.dispatch(normalizeTrainings({entities: trainings, action: CRUD.Read}))
       });
   }
@@ -70,10 +71,9 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
   // PARSE TO CALENDAR DATA (EVENT CALENDAR CAN READ THIS)
   parseTrainingsForCalendar(trainings: Training[]): CalendarEvent[] {
 
-    if (!trainings) return [];
+    if (!trainings) { return []; }
 
     const events = trainings.map(training => {
-
       const calendarEvent = new CalendarEvent(moment(training.dateTrained));
       calendarEvent.event = training;
 

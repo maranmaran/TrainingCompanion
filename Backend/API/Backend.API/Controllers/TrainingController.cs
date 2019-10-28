@@ -9,6 +9,7 @@ using Sieve.Models;
 using System;
 using System.Threading.Tasks;
 using Backend.Application.Business.Business.Training.Get;
+using Backend.Application.Business.Business.Media.UploadMedia;
 
 namespace Backend.API.Controllers
 {
@@ -19,7 +20,6 @@ namespace Backend.API.Controllers
         {
             return await GetQuery(async () => await Mediator.Send(new GetAllTrainingRequest() { ApplicationUserId = userId }), sieveModel);
         }
-
 
         [HttpGet("{trainingId}")]
         public async Task<IActionResult> Get(Guid trainingId, [FromQuery]SieveModel sieveModel)
@@ -56,6 +56,7 @@ namespace Backend.API.Controllers
         {
             return Ok(await Mediator.Send(new DeleteTrainingRequest() { Id = id }));
         }
+
 
     }
 }
