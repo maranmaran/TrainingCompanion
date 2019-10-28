@@ -24,6 +24,8 @@ namespace Backend.Application.Business.Business.Training.Get
             {
                 var training = _context.Trainings
 
+                    .Include(x => x.Media)
+
                     .Include(x => x.Exercises)
                     .ThenInclude(x => x.Sets)
 

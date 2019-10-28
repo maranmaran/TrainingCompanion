@@ -1,0 +1,27 @@
+<div fxLayout="row wrap" *ngIf="mediaList && mediaList.length > 0">
+
+  <ng-container *ngFor="let media of mediaList">
+
+    <div *ngIf="media.type === 'Image'" class="image-container" fxLayout="row" fxLayoutAlign="center center"
+       fxFlexAlign="center">
+
+      <img class="img-fluid" src="{{ media.downloadUrl }}" (click)="enlargeImage(media)" appMaterialElevation
+        raisedElevation="16" />
+
+      </div>
+
+    <div *ngIf="media.type === 'Video'" class="video-container" fxLayout="row" fxLayoutAlign="center center"
+       fxFlexAlign="center">
+
+      <video (click)="enlargeVideo(media)" appMaterialElevation raisedElevation="16">
+        <source src="{{media.downloadUrl}}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+    </div>
+
+  </ng-container>
+
+</div>
+
+<div *ngIf="!mediaList || mediaList.length == 0">No media files found</div>

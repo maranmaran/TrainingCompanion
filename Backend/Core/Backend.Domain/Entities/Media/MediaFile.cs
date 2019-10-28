@@ -17,5 +17,8 @@ namespace Backend.Domain.Entities.Media
 
         public Guid ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        public Guid TrainingId { get; set; }
+        public TrainingLog.Training Training { get; set; }
     }
 }

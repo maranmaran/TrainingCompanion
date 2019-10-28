@@ -18,6 +18,9 @@ import { ExerciseTypePreviewComponent } from './exercise-type-preview/exercise-t
 import { MaterialTableComponent } from './material-table/material-table.component';
 import { MediaContainerComponent } from './media-container/media-container.component';
 import { MediaDialogComponent } from './media-dialog/media-dialog.component';
+import { MediaListComponent } from './media-uploader/media-list/media-list.component';
+import { MediaUploaderComponent } from './media-uploader/media-uploader.component';
+import { UploadInputComponent } from './media-uploader/upload-input/upload-input.component';
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { NotImplementedComponent } from './not-implemented/not-implemented.component';
 
@@ -52,7 +55,10 @@ import { NotImplementedComponent } from './not-implemented/not-implemented.compo
         ExerciseTypeChipListComponent,
         ActiveFlagComponent,
         MediaContainerComponent,
-        NotImplementedComponent
+        NotImplementedComponent,
+        MediaListComponent,
+        UploadInputComponent,
+        MediaUploaderComponent,
     ],
     exports: [
         CommonModule,
@@ -75,7 +81,10 @@ import { NotImplementedComponent } from './not-implemented/not-implemented.compo
         ActiveFlagComponent,
         ExerciseTypeChipListComponent,
         MediaContainerComponent,
-        NotImplementedComponent
+        NotImplementedComponent,
+        MediaListComponent,
+        UploadInputComponent,
+        MediaUploaderComponent,
     ],
     providers: [
     ],

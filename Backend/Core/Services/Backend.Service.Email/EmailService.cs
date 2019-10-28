@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 using Backend.Service.Email.Interfaces;
 using Backend.Service.Email.Models;
 using MimeKit;
+using Microsoft.Extensions.Hosting;
 
 namespace Backend.Service.Email
 {
     public class EmailService : IEmailService
     {
         private readonly EmailSettings _settings;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
-        public EmailService(EmailSettings settings, IHostingEnvironment env)
+        public EmailService(EmailSettings settings, IWebHostEnvironment env)
         {
             _settings = settings;
             _env = env;

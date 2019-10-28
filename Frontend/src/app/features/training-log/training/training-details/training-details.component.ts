@@ -6,11 +6,14 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
 import { selectedTraining, sessionVolume } from 'src/ngrx/training-log/training2/training.selectors';
 import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/requests/update-training.request';
+import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';
+import { getMediaType } from 'src/server-models/enums/media-type.enum';
 import { SubSink } from 'subsink';
 
 @Component({
@@ -20,7 +23,13 @@ import { SubSink } from 'subsink';
 })
 export class TrainingDetailsComponent implements OnInit, OnDestroy {
 
+  constructor(
+    private store: Store<AppState>,
+    private trainingService: TrainingService,
+  ) { }
 
+
+  private userId: string;
   protected training: Training;
   protected sessionVolume: Observable<number>;
   private subs = new SubSink();
@@ -31,12 +40,12 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
       toolbar: ['bold', 'link', 'bulletedList', 'undo', 'redo', 'insertTable', 'ImageUpload', 'MediaEmbed']
   };
 
-  constructor(
-    private store: Store<AppState>,
-    private trainingService: TrainingService
-  ) { }
+  public note = '';
 
   ngOnInit() {
+
+    this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
+
     this.subs.add(
       this.store.select(selectedTraining)
       .subscribe(training => this.training = training)
@@ -48,8 +57,6 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
-
-  public note = "";
   public onChange( { editor }: ChangeEvent ) {
     this.note = editor.getData();
   }
@@ -77,8 +84,23 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
       );
   }
 
-  saveMedia() {
+  onFileUploaded(fileToUpload: File) {
+    this.trainingService.uploadMedia(this.userId, this.training.id, fileToUpload, 'jpg', getMediaType(fileToUpload))
+      .pipe(take(1))
+      .subscribe(
+        (media: MediaFile) => {
 
+          const trainingUpdate: Update<Training> = {
+            id: this.training.id,
+            changes: {
+              media: [...this.training.media, media]
+            }
+          };
+
+          this.store.dispatch(trainingUpdated({entity: trainingUpdate}));
+        },
+        err => console.log(err)
+      );
   }
 
   saveTraining(training: Training) {
