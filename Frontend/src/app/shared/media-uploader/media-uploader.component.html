@@ -1,4 +1,5 @@
 <div style="margin: -3px " fxLayout="row wrap">
-  <app-media-list [mediaList]="files"></app-media-list>
-  <app-upload-input [fileTypesToAccept]="fileTypesToAccept" (fileUploaded)="onUploadFile($event)"></app-upload-input>
+  <app-media-list [mediaList]="files" >
+      <app-upload-input [fileTypesToAccept]="fileTypesToAccept" (fileUploaded)="onUploadFile($event)"></app-upload-input>
+  </app-media-list>
 </div>

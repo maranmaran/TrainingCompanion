@@ -1,8 +1,11 @@
-<button *ngIf="!(isUploadingFile | async)" (click)="triggerUploadMediaInput()" mat-stroked-button color="primary">
-  Upload {{ mediaType | lowercase }}
-  <i matSuffix class="fas fa-upload ml-1"></i>
-</button>
+<span class="input-container" fxLayout="row" fxLayoutAlign="center center" fxFlexAlign="center" (click)="triggerUploadMediaInput()">
 
-<input fxHide="true" #uploadInput type="file" (change)="uploadMedia($event.target.files)" accept="{{fileTypesToAccept}}"/>
+  <!-- <button   mat-icon-button color="primary"> -->
+    <i matSuffix *ngIf="!(isUploadingFile | async)" [ngClass.gt-sm]="'fa-2x'" class="fas fa-upload ml-1 primary-foreground"></i>
+  <!-- </button> -->
 
+</span>
+
+<input fxHide="true" #uploadInput type="file" (change)="uploadMedia($event.target.files)"
+  accept="{{fileTypesToAccept}}" />
 <mat-progress-bar class="upload-progress-bar" *ngIf="(isUploadingFile | async)" mode="indeterminate"></mat-progress-bar>
