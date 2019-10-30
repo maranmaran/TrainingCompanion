@@ -12,12 +12,15 @@ export class MediaListComponent implements OnInit {
 
   @Input() fileTypesToAccept = 'image/*';
   @Input() mediaList: MediaFile[];
+  // @Input() uploadInput: ComponentPortal<UploadInputComponent>;
+
 
   constructor(
     private dialog: MatDialog
   ) { }
 
   ngOnInit() {
+    // console.log(this.uploadInput);
   }
 
   enlargeVideo(video: MediaFile) {
