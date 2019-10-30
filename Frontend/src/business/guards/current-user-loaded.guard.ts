@@ -28,8 +28,8 @@ export class CurrentUserLoadedGuard implements CanActivate {
             this.authService.getCurrentUserInfo()
                 .pipe(
                     take(1),
-                    catchError(() => {
-                        console.log('error');
+                    catchError((err) => {
+                        console.log(err);
                         this.router.navigate(['/auth/login']);
                         return of(null);
                     }),

@@ -15,6 +15,7 @@
 @import "./mixins/create-edit.scss";
 @import "./mixins/scrollbar.scss";
 @import "./mixins/editor.scss";
+@import "./mixins/media-uploader.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -29,6 +30,7 @@
   @include create-edit-themes($theme);
   @include scrollbar-theme($theme);
   @include editor-component-theme($theme);
+  @include media-uploader-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

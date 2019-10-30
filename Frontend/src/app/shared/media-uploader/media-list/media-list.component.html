@@ -1,19 +1,19 @@
-<div fxLayout="row wrap" *ngIf="mediaList && mediaList.length > 0">
+<div fxLayout="row wrap" fxLayoutAlign="flex-start space-evenly" *ngIf="mediaList && mediaList.length > 0">
 
   <ng-container *ngFor="let media of mediaList">
 
     <div *ngIf="media.type === 'Image'" class="image-container" fxLayout="row" fxLayoutAlign="center center"
-       fxFlexAlign="center">
+       fxFlexAlign="center" (click)="enlargeImage(media)" fxFlex="1 1 25%">
 
-      <img class="img-fluid" src="{{ media.downloadUrl }}" (click)="enlargeImage(media)" appMaterialElevation
+      <img class="img-fluid" src="{{ media.downloadUrl }}" appMaterialElevation
         raisedElevation="16" />
 
       </div>
 
     <div *ngIf="media.type === 'Video'" class="video-container" fxLayout="row" fxLayoutAlign="center center"
-       fxFlexAlign="center">
+       fxFlexAlign="center" (click)="enlargeVideo(media)">
 
-      <video (click)="enlargeVideo(media)" appMaterialElevation raisedElevation="16">
+      <video appMaterialElevation raisedElevation="16">
         <source src="{{media.downloadUrl}}" type="video/mp4">
         Your browser does not support the video tag.
       </video>
@@ -21,6 +21,11 @@
     </div>
 
   </ng-container>
+
+
+  <span class="input-wrapper" fxFlex="1 1 25%">
+    <ng-content id="upload-input"></ng-content> <!--located inside parent-->
+  </span>
 
 </div>
 
