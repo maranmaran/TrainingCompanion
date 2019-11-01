@@ -40,7 +40,6 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('Closing adapter');
     this.hubConnection.stop();
     this.subs.unsubscribe();
   }

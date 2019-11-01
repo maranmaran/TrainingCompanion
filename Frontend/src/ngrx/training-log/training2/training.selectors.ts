@@ -104,5 +104,5 @@ export const selectedExerciseSets = createSelector(
 
 export const sessionVolume = createSelector(
     selectedTraining,
-    training => training.exercises.reduce((a, b) => a + b.sets.reduce((c, d) => c + d.volume, 0), 0)
+    training => training && training.exercises && training.exercises.reduce((a, b) => a + b.sets.reduce((c, d) => c + d.volume, 0), 0)
 )
