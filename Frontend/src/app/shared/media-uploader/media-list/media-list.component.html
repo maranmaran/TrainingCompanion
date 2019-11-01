@@ -1,4 +1,4 @@
-<div fxLayout="row wrap" fxLayoutAlign="flex-start space-evenly" *ngIf="mediaList && mediaList.length > 0">
+<div fxLayout="row wrap" fxLayoutAlign="flex-start space-evenly" >
 
   <ng-container *ngFor="let media of mediaList">
 
@@ -28,5 +28,3 @@
   </span>
 
 </div>
-
-<div *ngIf="!mediaList || mediaList.length == 0">No media files found</div>

@@ -33,7 +33,6 @@ export class AthleteDetailsComponent implements OnInit {
       map(athlete => Object.assign({}, athlete)),
       switchMap(athlete => {
         athlete.active = value;
-        console.log(GetUpdateUserRequest(athlete));
         return this.userService.update(GetUpdateUserRequest(athlete));
       })).subscribe(
         (athlete: ApplicationUser) => {

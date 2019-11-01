@@ -14,73 +14,96 @@ import { enableErrorDialogs, setActiveProgressBar, switchTheme } from '../user-i
 import { SignInRequest } from './../../server-models/cqrs/authorization/requests/sign-in.request';
 import * as AuthActions from './auth.actions';
 
-
 @Injectable()
 export class AuthEffects {
+  constructor(
+    private actions$: Actions,
+    private router: Router,
+    private cookieService: CookieService,
+    private store: Store<AppState>,
+    private authService: AuthService
+  ) {}
 
-    constructor(
-        private actions$: Actions,
-        private router: Router,
-        private cookieService: CookieService,
-        private store: Store<AppState>,
-        private authService: AuthService
-    ) { }
-
-    login$ = createEffect(() =>
-        this.actions$
-            .pipe(
-                ofType(AuthActions.login),
-                switchMap((request: SignInRequest) => this.authService.signIn(request).pipe(
-                    map((currentUser: CurrentUser) => this.store.dispatch(AuthActions.loginSuccess(currentUser))),
-                    catchError((error: Error) => of(this.store.dispatch(AuthActions.loginFailure(error))))
-                ))
+  login$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.login),
+        switchMap((request: SignInRequest) =>
+          this.authService.signIn(request).pipe(
+            map((currentUser: CurrentUser) =>
+              this.store.dispatch(AuthActions.loginSuccess(currentUser))
+            ),
+            catchError((error: Error) =>
+              of(this.store.dispatch(AuthActions.loginFailure(error)))
             )
-        , { dispatch: false });
+          )
+        )
+      ),
+    { dispatch: false }
+  );
 
-    loginSuccess$ = createEffect(() =>
-        this.actions$
-            .pipe(
-                ofType(AuthActions.loginSuccess),
-                tap((currentUser: CurrentUser) => {
-                    localStorage.setItem('id', currentUser.id);
-                    this.router.navigate(['/app']);
-                    this.store.dispatch(switchTheme({ theme: currentUser.userSettings.theme }));
-                    this.store.dispatch(enableErrorDialogs());
-                })
-            )
-        , { dispatch: false });
+  loginSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.loginSuccess),
+        // TODO: Deprecated
+        switchMap(
+          (currentUser: CurrentUser) => {
+            localStorage.setItem('id', currentUser.id);
+            return this.router.navigate(['/app']);
+          },
+          (currentUser, navigationSuccess) => ({ currentUser, navigationSuccess })
+        ),
+        tap(
+          (response: { currentUser: CurrentUser; navigationSuccess: boolean; }) => {
+            if (response.navigationSuccess) {
+              this.store.dispatch(switchTheme({ theme: response.currentUser.userSettings.theme }));
+              this.store.dispatch(enableErrorDialogs());
+            }
+          }
+        )
+      ),
+    { dispatch: false }
+  );
 
-    logout$ = createEffect(() =>
-        this.actions$
-            .pipe(
-                ofType(AuthActions.logout),
-                tap(() => {
-                    this.authService.signOutEvent.next(true);
-                    localStorage.removeItem('id');
-                    this.cookieService.delete('jwt');
-                    this.router.navigate(['/auth/login']);
-                })
-            )
-        , { dispatch: false });
+  logout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => {
+          this.authService.signOutEvent.next(true);
+          localStorage.removeItem('id');
+          this.cookieService.delete('jwt');
+          this.router.navigate(['/auth/login']);
+        })
+      ),
+    { dispatch: false }
+  );
 
-    updateUserSettings$ = createEffect(() =>
-        this.actions$
-            .pipe(
-                ofType(AuthActions.updateUserSettings),
-                tap((userSettings: UserSettings) => {
-                    this.store.dispatch(switchTheme({ theme: userSettings.theme }));
-                })
-            )
-        , { dispatch: false });
+  updateUserSettings$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.updateUserSettings),
+        tap((userSettings: UserSettings) => {
+          this.store.dispatch(switchTheme({ theme: userSettings.theme }));
+        })
+      ),
+    { dispatch: false }
+  );
 
-    updateCurrentUser$ = createEffect(() =>
-        this.actions$
-            .pipe(
-                ofType(AuthActions.updateCurrentUser),
-                tap((currentUser: CurrentUser) => {
-                    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }));
-                    this.store.dispatch(switchTheme({ theme: currentUser.userSettings.theme }));
-                })
-            )
-        , { dispatch: false });
+  updateCurrentUser$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.updateCurrentUser),
+        tap((currentUser: CurrentUser) => {
+          this.store.dispatch(
+            setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen })
+          );
+          this.store.dispatch(
+            switchTheme({ theme: currentUser.userSettings.theme })
+          );
+        })
+      ),
+    { dispatch: false }
+  );
 }

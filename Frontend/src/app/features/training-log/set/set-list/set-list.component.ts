@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -10,11 +10,11 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training2/training.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
-import { selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training2/training.selectors';
 
 @Component({
   selector: 'app-set-list',
@@ -55,7 +55,6 @@ export class SetListComponent implements OnInit, OnDestroy {
       this.store.select(selectedExerciseSets)
         .pipe(map(sets => sets || []))
         .subscribe((sets: Set[]) => {
-          console.log(sets);
           this.sets = sets;
           this.tableDatasource.updateDatasource(sets);
         }),
