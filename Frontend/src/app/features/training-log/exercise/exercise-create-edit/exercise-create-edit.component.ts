@@ -78,6 +78,7 @@ export class ExerciseCreateEditComponent implements OnInit {
     // select training for id
     this.store.select(selectedTraining)
       .pipe(
+        take(1),
         switchMap(
           (training: Training) => {
             // finish and send request
