@@ -4,15 +4,16 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ExerciseTypesResolver } from 'src/business/resolvers/exercise-types.resolver';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { TagGroupService } from 'src/business/services/feature-services/tag-group.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ExerciseTypeEffects } from 'src/ngrx/exercise-type/exercise-type.effects';
 import { exerciseTypeReducer } from 'src/ngrx/exercise-type/exercise-type.reducers';
+import { ExerciseTypeCreateEditComponent } from './exercise-types-home/exercise-type-create-edit/exercise-type-create-edit.component';
 import { ExerciseTypeDetailsComponent } from './exercise-types-home/exercise-type-details/exercise-type-details.component';
 import { ExerciseTypeListComponent } from './exercise-types-home/exercise-type-list/exercise-type-list.component';
 import { ExerciseTypesHomeComponent } from './exercise-types-home/exercise-types-home.component';
 import { ExerciseTypesRoutingModule } from './exercise-types-routing.module';
-import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
-import { ExerciseTypeCreateEditComponent } from './exercise-types-home/exercise-type-create-edit/exercise-type-create-edit.component';
 
 @NgModule({
     imports: [
@@ -32,10 +33,12 @@ import { ExerciseTypeCreateEditComponent } from './exercise-types-home/exercise-
     ],
     providers: [
         UIService,
+        TagGroupService,
         ExerciseTypeService,
         ExerciseTypesResolver,
     ],
     entryComponents: [
+      ExerciseTypeCreateEditComponent
     ]
 })
 export class ExerciseTypesModule { }

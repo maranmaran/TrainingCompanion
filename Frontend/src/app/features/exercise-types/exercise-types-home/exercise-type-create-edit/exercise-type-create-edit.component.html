@@ -1,1 +1,65 @@
-<p>exercise-type-create-edit works!</p>
+<ng-container id="exercise-type-create-edit-container">
+  <h2> {{data.title}} </h2>
+
+  <mat-divider class="dialog-form-divider"></mat-divider>
+
+  <div class="form" fxLayout="column">
+    <form [formGroup]="form">
+
+      <!--FIELDS-->
+      <mat-form-field>
+        <input matInput formControlName="name" placeholder="Name">
+        <mat-error *ngIf="name?.invalid"></mat-error>
+      </mat-form-field>
+
+      <!--CHECKBOXES-->
+      <div class="checkboxes-wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
+        <div id="group1" fxLayout="column">
+          <mat-checkbox formControlName="requiresWeight" [name]="'weight'" (change)="onCheckboxChange($event)">Weight
+          </mat-checkbox>
+          <mat-checkbox formControlName="requiresReps" [name]="'reps'" (change)="onCheckboxChange($event)">Reps
+          </mat-checkbox>
+          <mat-checkbox formControlName="requiresSets">Sets</mat-checkbox>
+        </div>
+        <div id="group2" fxLayout="column">
+          <mat-checkbox formControlName="active">Active</mat-checkbox>
+          <mat-checkbox formControlName="requiresBodyweight" [name]="'bodyweight'" (change)="onCheckboxChange($event)">
+            Bodyweight only</mat-checkbox>
+          <mat-checkbox formControlName="requiresTime" [name]="'time'" (change)="onCheckboxChange($event)">Measure time
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <!--TAGS-->
+      <div fxLayout="row wrap" class="tags">
+        <ng-container *ngFor="let property of entity.properties">
+          <!--expansion panel for tag group-->
+          <mat-expansion-panel fxFlex="1 1 50%">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <app-exercise-type-chip [value]="property.tag.tagGroup.type"
+                  [backgroundColor]="property.tag.tagGroup.hexBackground" [color]="property.tag.tagGroup.hexColor">
+                </app-exercise-type-chip>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <!--assigned properties-->
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-form-field>
+                <input matInput value="{{property.tag.value}}" [readonly]="true">
+              </mat-form-field>
+
+              <mat-checkbox id="show-checkbox" [checked]="property.show">Show</mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+        </ng-container>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-button color="accent" (click)="onClose()">Close</button>
+    <button mat-stroked-button color="primary" (click)="onSubmit()"
+      [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
+  </div>
+</ng-container>
