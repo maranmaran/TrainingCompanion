@@ -1,17 +1,20 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
+import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { setSelectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.actions';
 import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { SubSink } from 'subsink';
-import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
-import { FormControl } from '@angular/forms';
-import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { ExerciseTypeCreateEditComponent } from './../exercise-type-create-edit/exercise-type-create-edit.component';
 
 @Component({
   selector: 'app-exercise-type-list',
@@ -78,44 +81,45 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
 
   onSelect = (exerciseType: ExerciseType) => this.store.dispatch(setSelectedExerciseType({ exerciseType }));
 
+  // TODO: Refactor these onAdd onUpdate methods.. make them more resuable and also define each table actions properly
   onAdd() {
-    // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '20rem',
-    //   autoFocus: false,
-    //   data: { title: 'Add athlete', action: CRUD.Create },
-    //   panelClass: []
-    // })
+    const dialogRef = this.uiService.openDialogFromComponent(ExerciseTypeCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '50rem',
+      autoFocus: false,
+      data: { title: 'Add exercise type', action: CRUD.Create },
+      panelClass: []
+    })
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((athlete: ApplicationUser) => {
-    //       if (athlete) {
-    //         this.table.onSelect(athlete, true);
-    //         this.onSelect(athlete);
-    //       }
-    //     }
-    //   )
+    dialogRef.afterClosed().pipe(take(1))
+    .subscribe((type: ExerciseType) => {
+        if (type) {
+          this.table.onSelect(type, true);
+          this.onSelect(type);
+        }
+      }
+    )
   }
 
   onUpdate(exerciseType: ExerciseType) {
-    // const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '20rem',
-    //   autoFocus: false,
-    //   data: { title: 'Update athlete', action: CRUD.Update, athlete: athlete },
-    //   panelClass: []
-    // })
+    const dialogRef = this.uiService.openDialogFromComponent(ExerciseTypeCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '50rem',
+      autoFocus: false,
+      data: { title: `Update ${exerciseType.name}`, action: CRUD.Update, entity: exerciseType },
+      panelClass: []
+    })
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((athlete: ApplicationUser) => {
-    //       if (athlete) {
-    //         this.table.onSelect(athlete, true);
-    //         this.onSelect(athlete);
-    //       }
-    //     }
-    //   )
+    dialogRef.afterClosed().pipe(take(1))
+    .subscribe((type: ExerciseType) => {
+        if (type) {
+          this.table.onSelect(type, true);
+          this.onSelect(type);
+        }
+      }
+    )
   }
 
   onDeleteSingle(exerciseType: ExerciseType) {
