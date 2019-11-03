@@ -9,7 +9,8 @@ import { TagGroupService } from "src/business/services/feature-services/tag-grou
 import { CRUD } from "src/business/shared/crud.enum";
 import { AppState } from "src/ngrx/app/app.state";
 import { ExerciseType, ExerciseTypeTag } from "src/server-models/entities/exercise-type.model";
-import { TagGroup } from "src/server-models/entities/tag-group.model";
+import { TagGroup } from 'src/server-models/entities/tag-group.model';
+import { Tag } from 'src/server-models/entities/tag.model';
 import { currentUserId } from "./../../../../../ngrx/auth/auth.selectors";
 
 @Component({
@@ -119,12 +120,20 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getProperties(tagGroupId: string) {
+  getEntityTags(tagGroupId: string) {
     return this.entity.properties ? this.entity.properties.filter(x => x.tag.tagGroup.id === tagGroupId) : [];
+  }
+
+  getGroupTags(tagGroupId: string) {
+    return this.tagGroups ? this.tagGroups.find(x => x.id === tagGroupId).tags : [];
   }
 
   trackByFn(index: number, item: ExerciseTypeTag) {
     return item ? item.id : null;
+  }
+
+  displayFn(tag: Tag) {
+    return tag.value;
   }
 
   onSubmit() {
