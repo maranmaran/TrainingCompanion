@@ -109,7 +109,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       maxWidth: '50rem',
       autoFocus: false,
       data: { title: `Update ${exerciseType.name}`, action: CRUD.Update, entity: exerciseType },
-      panelClass: []
+      panelClass: ['exercise-type-dialog-container']
     })
 
     dialogRef.afterClosed().pipe(take(1))

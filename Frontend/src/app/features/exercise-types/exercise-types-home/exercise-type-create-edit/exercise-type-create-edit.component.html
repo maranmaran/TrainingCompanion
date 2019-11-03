@@ -1,9 +1,9 @@
-<ng-container id="exercise-type-create-edit-container">
-  <h2> {{data.title}} </h2>
+<ng-container id="exercise-type-create-edit">
 
+  <h2 mat-dialog-title> {{data.title}} </h2>
   <mat-divider class="dialog-form-divider"></mat-divider>
 
-  <div class="form" fxLayout="column">
+  <div mat-dialog-content class="form" fxLayout="column">
     <form [formGroup]="form">
 
       <!--FIELDS-->
@@ -31,35 +31,54 @@
       </div>
 
       <!--TAGS-->
-      <div fxLayout="row wrap" class="tags">
-        <ng-container *ngFor="let property of entity.properties">
-          <!--expansion panel for tag group-->
-          <mat-expansion-panel fxFlex="1 1 50%">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <app-exercise-type-chip [value]="property.tag.tagGroup.type"
-                  [backgroundColor]="property.tag.tagGroup.hexBackground" [color]="property.tag.tagGroup.hexColor">
-                </app-exercise-type-chip>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <!--assigned properties-->
-            <div fxLayout="row" fxLayoutAlign="center center">
-              <mat-form-field>
-                <input matInput value="{{property.tag.value}}" [readonly]="true">
-              </mat-form-field>
-
-              <mat-checkbox id="show-checkbox" [checked]="property.show">Show</mat-checkbox>
-            </div>
-          </mat-expansion-panel>
-        </ng-container>
-      </div>
+      <mat-accordion>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" class="tags" [@.disabled]="disableAnimation">
+          <ng-container *ngFor="let tagGroup of tagGroups">
+            <ng-container *ngTemplateOutlet="tagGroupTemplate; context: { tagGroup: tagGroup }"></ng-container>
+          </ng-container>
+        </div>
+      </mat-accordion>
 
     </form>
   </div>
 
-  <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-    <button mat-button color="accent" (click)="onClose()">Close</button>
+  <div mat-dialog-actions class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-button color="accent" mat-dialog-close>Close</button>
     <button mat-stroked-button color="primary" (click)="onSubmit()"
       [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
   </div>
 </ng-container>
+
+<ng-template #tagGroupTemplate let-tagGroup="tagGroup">
+   <!--expansion panel for tag group-->
+   <mat-expansion-panel fxFlex="1 1 50%" fxFlex.lt-sm="1 1 100%">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <app-exercise-type-chip
+            [value]="tagGroup.type"
+            [backgroundColor]="tagGroup.hexBackground"
+            [color]="tagGroup.hexColor">
+          </app-exercise-type-chip>
+        </mat-panel-title>
+        <mat-panel-description>
+            <mat-checkbox id="master-show-checkbox" [checked]="property.show">Show</mat-checkbox>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <!--assigned properties-->
+      <ng-container *ngFor="let property of getProperties(tagGroup.id); trackBy: trackByFn">
+        <ng-container *ngTemplateOutlet="propertyTemplate; context: { property: property }" ></ng-container>
+      </ng-container>
+    </mat-expansion-panel>
+</ng-template>
+
+<ng-template #propertyTemplate let-property="property">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-form-field>
+          <input matInput value="{{property.tag.value}}" [readonly]="true">
+        </mat-form-field>
+
+        <mat-checkbox id="show-checkbox" [checked]="property.show">Show</mat-checkbox>
+      </div>
+</ng-template>
+
+<ng-template #addNewProperty></ng-template>

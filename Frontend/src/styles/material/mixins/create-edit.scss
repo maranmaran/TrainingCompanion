@@ -37,4 +37,27 @@
     }
   }
   // ======================================================================
+
+  // =========================== EXERCISE TYPE =====================================
+  .exercise-type-dialog-container .mat-dialog-container {
+    margin: 0;
+    overflow: auto;
+  }
+  .exercise-type-container .mat-dialog-content {
+    padding: 0px 10px;
+  }
+
+  #exercise-type-create-edit {
+    .mat-dialog-content {
+        max-height: 57vh;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .theme-dark .property-chip {
+        font-size: 11px;
+        padding: 10px 6px !important;
+    }
+  }
+  // ======================================================================
 }

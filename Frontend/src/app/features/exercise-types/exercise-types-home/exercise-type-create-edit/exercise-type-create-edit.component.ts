@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
@@ -8,7 +8,7 @@ import { ExerciseTypeService } from "src/business/services/feature-services/exer
 import { TagGroupService } from "src/business/services/feature-services/tag-group.service";
 import { CRUD } from "src/business/shared/crud.enum";
 import { AppState } from "src/ngrx/app/app.state";
-import { ExerciseType } from "src/server-models/entities/exercise-type.model";
+import { ExerciseType, ExerciseTypeTag } from "src/server-models/entities/exercise-type.model";
 import { TagGroup } from "src/server-models/entities/tag-group.model";
 import { currentUserId } from "./../../../../../ngrx/auth/auth.selectors";
 
@@ -17,7 +17,7 @@ import { currentUserId } from "./../../../../../ngrx/auth/auth.selectors";
   templateUrl: "./exercise-type-create-edit.component.html",
   styleUrls: ["./exercise-type-create-edit.component.scss"]
 })
-export class ExerciseTypeCreateEditComponent implements OnInit {
+export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<AppState>,
     private tagGroupService: TagGroupService,
@@ -55,6 +55,13 @@ export class ExerciseTypeCreateEditComponent implements OnInit {
 
     this.createForm();
   }
+
+   // Workaround for angular component issue #13870
+   disableAnimation = true;
+   ngAfterViewInit(): void {
+     // timeout required to avoid the dreaded 'ExpressionChangedAfterItHasBeenCheckedError'
+     setTimeout(() => this.disableAnimation = false);
+   }
 
   createForm() {
     this.form = new FormGroup({
@@ -110,6 +117,14 @@ export class ExerciseTypeCreateEditComponent implements OnInit {
       default:
         throw new Error('No checkbox like that defined ' + change.source);
     }
+  }
+
+  getProperties(tagGroupId: string) {
+    return this.entity.properties ? this.entity.properties.filter(x => x.tag.tagGroup.id === tagGroupId) : [];
+  }
+
+  trackByFn(index: number, item: ExerciseTypeTag) {
+    return item ? item.id : null;
   }
 
   onSubmit() {
