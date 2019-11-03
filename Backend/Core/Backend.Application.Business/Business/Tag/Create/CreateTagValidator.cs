@@ -21,7 +21,7 @@ namespace Backend.Application.Business.Business.Tag.Create
 
         private bool BeUniqueType(CreateTagRequest request)
         {
-            return _context.TagGroups.Include(x => x.Properties).Single(x => x.Id == request.TagGroupId).Properties.All(x => x.Value != request.Value);
+            return _context.TagGroups.Include(x => x.Tags).Single(x => x.Id == request.TagGroupId).Tags.All(x => x.Value != request.Value);
         }
     }
 }

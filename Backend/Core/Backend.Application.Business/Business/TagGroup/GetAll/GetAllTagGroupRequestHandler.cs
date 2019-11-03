@@ -24,7 +24,7 @@ namespace Backend.Application.Business.Business.TagGroup.GetAll
             {
                 return Task.FromResult(
                     _context.TagGroups
-                            .Include(x => x.Properties)
+                            .Include(x => x.Tags)
                             .Where(x => x.ApplicationUserId == request.ApplicationUserId));
             }
             catch (Exception e)

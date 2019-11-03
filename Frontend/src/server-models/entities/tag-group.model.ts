@@ -12,5 +12,5 @@ export class TagGroup {
     applicationUserId: string;
     applicationUser: ApplicationUser;
 
-    properties: Tag[]
+    tags: Tag[]
 }

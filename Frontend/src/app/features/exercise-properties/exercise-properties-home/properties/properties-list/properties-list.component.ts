@@ -8,9 +8,9 @@ import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTag } from 'src/ngrx/tag-group/tag-group.actions';
 import { selectedTagGroup } from 'src/ngrx/tag-group/tag-group.selectors';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Tag } from 'src/server-models/entities/tag.model';
 import { SubSink } from 'subsink';
 import { TagGroup } from '../../../../../../server-models/entities/tag-group.model';
@@ -52,7 +52,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
         )
         .subscribe((tagGroup: TagGroup) => {
           this.tagGroupName = tagGroup.type;
-          this.tableDatasource.updateDatasource(tagGroup.properties);
+          this.tableDatasource.updateDatasource(tagGroup.tags);
         })
 
     );

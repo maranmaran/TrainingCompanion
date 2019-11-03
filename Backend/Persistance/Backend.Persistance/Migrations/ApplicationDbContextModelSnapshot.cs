@@ -433,7 +433,7 @@ namespace Backend.Persistance.Migrations
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Tag", b =>
                 {
                     b.HasOne("Backend.Domain.Entities.ExerciseType.TagGroup", "TagGroup")
-                        .WithMany("Properties")
+                        .WithMany("Tags")
                         .HasForeignKey("TagGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -462,7 +462,7 @@ namespace Backend.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Backend.Domain.Entities.ExerciseType.ExerciseType", "ExerciseType")
-                        .WithMany("Properties")
+                        .WithMany("Tags")
                         .HasForeignKey("ExerciseTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

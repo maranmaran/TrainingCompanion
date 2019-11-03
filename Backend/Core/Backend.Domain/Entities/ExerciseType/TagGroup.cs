@@ -16,20 +16,6 @@ namespace Backend.Domain.Entities.ExerciseType
         public virtual Guid ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public ICollection<Tag> Properties { get; set; }
+        public ICollection<Tag> Tags { get; set; }
     }
-
-    //public enum TagGroup
-    //{
-    //    GenericProperty,
-    //    Grip,
-    //    RangeOfMotion,
-    //    Tempo,
-    //    BarType,
-    //    BarPosition,
-    //    Stance,
-    //    LoadAccomodation,
-    //    Equipment,
-    //    Category
-    //}
 }
