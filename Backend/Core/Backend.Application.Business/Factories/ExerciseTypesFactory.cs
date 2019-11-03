@@ -21,46 +21,46 @@ namespace Backend.Application.Business.Factories
                 new ExerciseType()
                 {
                     Name = "Squat - competition",
-                    //Properties = new List<ExerciseTypeTag>()
+                    //Tags = new List<ExerciseTypeTag>()
                     //{
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Bar type").Properties.First(x => x.Value == "Barbell"),
+                    //        Tag = types.First(x => x.Type == "Bar type").Tags.First(x => x.Value == "Barbell"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Bar position").Properties.First(x => x.Value == "Low bar"),
+                    //        Tag = types.First(x => x.Type == "Bar position").Tags.First(x => x.Value == "Low bar"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Category").Properties.First(x => x.Value == "Knee dominant"),
+                    //        Tag = types.First(x => x.Type == "Category").Tags.First(x => x.Value == "Knee dominant"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Equipment").Properties.First(x => x.Value == "Belt"),
+                    //        Tag = types.First(x => x.Type == "Equipment").Tags.First(x => x.Value == "Belt"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Equipment").Properties.First(x => x.Value == "Knee sleeves"),
+                    //        Tag = types.First(x => x.Type == "Equipment").Tags.First(x => x.Value == "Knee sleeves"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Stance").Properties.First(x => x.Value == "Standard"),
+                    //        Tag = types.First(x => x.Type == "Stance").Tags.First(x => x.Value == "Standard"),
                     //        Show = false
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Tempo").Properties.First(x => x.Value == "Standard"),
+                    //        Tag = types.First(x => x.Type == "Tempo").Tags.First(x => x.Value == "Standard"),
                     //        Show = false
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Range of motion").Properties.First(x => x.Value == "Standard"),
+                    //        Tag = types.First(x => x.Type == "Range of motion").Tags.First(x => x.Value == "Standard"),
                     //        Show = false
                     //    },
                     //}
@@ -68,36 +68,36 @@ namespace Backend.Application.Business.Factories
                 new ExerciseType()
                 {
                     Name = "Bench press - competition",
-                    //Properties = new List<ExerciseTypeTag>()
+                    //Tags = new List<ExerciseTypeTag>()
                     //{
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Bar type").Properties.First(x => x.Value == "Barbell"),
+                    //        Tag = types.First(x => x.Type == "Bar type").Tags.First(x => x.Value == "Barbell"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Category").Properties.First(x => x.Value == "Horizontal push"),
+                    //        Tag = types.First(x => x.Type == "Category").Tags.First(x => x.Value == "Horizontal push"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Grip").Properties.First(x => x.Value == "Wide grip"),
+                    //        Tag = types.First(x => x.Type == "Grip").Tags.First(x => x.Value == "Wide grip"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Equipment").Properties.First(x => x.Value == "Wrist wraps"),
+                    //        Tag = types.First(x => x.Type == "Equipment").Tags.First(x => x.Value == "Wrist wraps"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Range of motion").Properties.First(x => x.Value == "Standard"),
+                    //        Tag = types.First(x => x.Type == "Range of motion").Tags.First(x => x.Value == "Standard"),
                     //        Show = false
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Tempo").Properties.First(x => x.Value == "Pause - 3 count"),
+                    //        Tag = types.First(x => x.Type == "Tempo").Tags.First(x => x.Value == "Pause - 3 count"),
                     //        Show = true
                     //    },
                     //}
@@ -105,36 +105,36 @@ namespace Backend.Application.Business.Factories
                 new ExerciseType()
                 {
                     Name = "Deadlift - competition",
-                    //Properties = new List<ExerciseTypeTag>()
+                    //Tags = new List<ExerciseTypeTag>()
                     //{
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Bar type").Properties.First(x => x.Value == "Barbell"),
+                    //        Tag = types.First(x => x.Type == "Bar type").Tags.First(x => x.Value == "Barbell"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Category").Properties.First(x => x.Value == "Hip dominant"),
+                    //        Tag = types.First(x => x.Type == "Category").Tags.First(x => x.Value == "Hip dominant"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Equipment").Properties.First(x => x.Value == "Belt"),
+                    //        Tag = types.First(x => x.Type == "Equipment").Tags.First(x => x.Value == "Belt"),
                     //        Show = true
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Range of motion").Properties.First(x => x.Value == "Standard"),
+                    //        Tag = types.First(x => x.Type == "Range of motion").Tags.First(x => x.Value == "Standard"),
                     //        Show = false
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Stance").Properties.First(x => x.Value == "Sumo"),
+                    //        Tag = types.First(x => x.Type == "Stance").Tags.First(x => x.Value == "Sumo"),
                     //        Show = false
                     //    },
                     //    new ExerciseTypeTag()
                     //    {
-                    //        Tag = types.First(x => x.Type == "Tempo").Properties.First(x => x.Value == "Standard"),
+                    //        Tag = types.First(x => x.Type == "Tempo").Tags.First(x => x.Value == "Standard"),
                     //        Show = false
                     //    },
                     //}

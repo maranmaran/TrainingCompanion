@@ -24,7 +24,7 @@ namespace Backend.Application.Business.Business.Tag.Update
             var tag = _context.Tags
                 .Single(x => x.Id == request.Id);
 
-            return _context.TagGroups.Include(x => x.Properties).Single(x => x.Id == tag.TagGroupId).Properties.All(x => x.Value != request.Value);
+            return _context.TagGroups.Include(x => x.Tags).Single(x => x.Id == tag.TagGroupId).Tags.All(x => x.Value != request.Value);
         }
     }
 }

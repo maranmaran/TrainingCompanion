@@ -17,7 +17,7 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.HexColor).HasDefaultValue("#616161"); // some kind of gray
             builder.Property(x => x.HexBackground).HasDefaultValue("#fef6f9"); // white
 
-            builder.HasMany(x => x.Properties);
+            builder.HasMany(x => x.Tags);
 
         }
     }

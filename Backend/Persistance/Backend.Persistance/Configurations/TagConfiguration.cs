@@ -13,7 +13,7 @@ namespace Backend.Persistance.Configurations
         {
             builder.Property(x => x.Active).HasDefaultValue(true);
 
-            builder.HasOne(x => x.TagGroup).WithMany(x => x.Properties)
+            builder.HasOne(x => x.TagGroup).WithMany(x => x.Tags)
                 .HasForeignKey(x => x.TagGroupId);
 
         }

@@ -28,51 +28,51 @@ namespace Backend.Application.Business.Factories
                 {
                     Type = "Category",
                     Order = 0,
-                    Properties = GetExerciseCategories() as ICollection<Tag>
+                    Tags = GetExerciseCategories() as ICollection<Tag>
                 },
                 new TagGroup()
                 {
                     Type = "Bar type",
                     Order = 1,
-                    Properties = GetBarTypes() as ICollection<Tag>,
+                    Tags = GetBarTypes() as ICollection<Tag>,
 
                 },
                 new TagGroup()
                 {
                     Type = "Bar position",
                     Order = 2,
-                    Properties = GetBarPositions() as ICollection<Tag>,
+                    Tags = GetBarPositions() as ICollection<Tag>,
 
                 },
                 new TagGroup()
                 {
                     Type = "Equipment",
                     Order = 3,
-                    Properties = GetExerciseEquipments() as ICollection<Tag>
+                    Tags = GetExerciseEquipments() as ICollection<Tag>
                 },
                 new TagGroup()
                 {
                     Type = "Grip",
                     Order = 4,
-                    Properties = GetGrips() as ICollection<Tag>
+                    Tags = GetGrips() as ICollection<Tag>
                 },
                 new TagGroup()
                 {
                     Type = "Range of motion",
                     Order = 5,
-                    Properties = GetRangeOfMotions() as ICollection<Tag>
+                    Tags = GetRangeOfMotions() as ICollection<Tag>
                 },
                 new TagGroup()
                 {
                     Type = "Stance",
                     Order = 6,
-                    Properties = GetStances() as ICollection<Tag>
+                    Tags = GetStances() as ICollection<Tag>
                 },
                 new TagGroup()
                 {
                     Type = "Tempo",
                     Order = 7,
-                    Properties = GetTempos() as ICollection<Tag>
+                    Tags = GetTempos() as ICollection<Tag>
                 },
             };
         }
