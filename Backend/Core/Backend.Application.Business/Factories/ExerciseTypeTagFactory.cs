@@ -20,49 +20,49 @@ namespace Backend.Application.Business.Factories
                 // SQUAT
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Bar type").Properties.First(x => x.Value == "Barbell"),
+                    Tag = tagGroups.First(x => x.Type == "Bar type").Tags.First(x => x.Value == "Barbell"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Squat - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Bar position").Properties.First(x => x.Value == "Low bar"),
+                    Tag = tagGroups.First(x => x.Type == "Bar position").Tags.First(x => x.Value == "Low bar"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Squat - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Category").Properties.First(x => x.Value == "Knee dominant"),
+                    Tag = tagGroups.First(x => x.Type == "Category").Tags.First(x => x.Value == "Knee dominant"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Squat - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Equipment").Properties.First(x => x.Value == "Belt"),
+                    Tag = tagGroups.First(x => x.Type == "Equipment").Tags.First(x => x.Value == "Belt"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Squat - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Equipment").Properties.First(x => x.Value == "Knee sleeves"),
+                    Tag = tagGroups.First(x => x.Type == "Equipment").Tags.First(x => x.Value == "Knee sleeves"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Squat - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Stance").Properties.First(x => x.Value == "Standard"),
+                    Tag = tagGroups.First(x => x.Type == "Stance").Tags.First(x => x.Value == "Standard"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Squat - competition"),
                     Show = false
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Tempo").Properties.First(x => x.Value == "Standard"),
+                    Tag = tagGroups.First(x => x.Type == "Tempo").Tags.First(x => x.Value == "Standard"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Squat - competition"),
                     Show = false
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Range of motion").Properties.First(x => x.Value == "Standard"),
+                    Tag = tagGroups.First(x => x.Type == "Range of motion").Tags.First(x => x.Value == "Standard"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Squat - competition"),
                     Show = false
                 },
@@ -70,37 +70,37 @@ namespace Backend.Application.Business.Factories
                 // BENCH PRESS
              new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Bar type").Properties.First(x => x.Value == "Barbell"),
+                    Tag = tagGroups.First(x => x.Type == "Bar type").Tags.First(x => x.Value == "Barbell"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Bench press - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Category").Properties.First(x => x.Value == "Horizontal push"),
+                    Tag = tagGroups.First(x => x.Type == "Category").Tags.First(x => x.Value == "Horizontal push"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Bench press - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Grip").Properties.First(x => x.Value == "Wide grip"),
+                    Tag = tagGroups.First(x => x.Type == "Grip").Tags.First(x => x.Value == "Wide grip"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Bench press - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Equipment").Properties.First(x => x.Value == "Wrist wraps"),
+                    Tag = tagGroups.First(x => x.Type == "Equipment").Tags.First(x => x.Value == "Wrist wraps"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Bench press - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Range of motion").Properties.First(x => x.Value == "Standard"),
+                    Tag = tagGroups.First(x => x.Type == "Range of motion").Tags.First(x => x.Value == "Standard"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Bench press - competition"),
                     Show = false
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Tempo").Properties.First(x => x.Value == "Pause - 3 count"),
+                    Tag = tagGroups.First(x => x.Type == "Tempo").Tags.First(x => x.Value == "Pause - 3 count"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Bench press - competition"),
                     Show = true
                 },
@@ -108,37 +108,37 @@ namespace Backend.Application.Business.Factories
                 // DEADLIFT 
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Bar type").Properties.First(x => x.Value == "Barbell"),
+                    Tag = tagGroups.First(x => x.Type == "Bar type").Tags.First(x => x.Value == "Barbell"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Deadlift - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Category").Properties.First(x => x.Value == "Hip dominant"),
+                    Tag = tagGroups.First(x => x.Type == "Category").Tags.First(x => x.Value == "Hip dominant"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Deadlift - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Equipment").Properties.First(x => x.Value == "Belt"),
+                    Tag = tagGroups.First(x => x.Type == "Equipment").Tags.First(x => x.Value == "Belt"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Deadlift - competition"),
                     Show = true
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Range of motion").Properties.First(x => x.Value == "Standard"),
+                    Tag = tagGroups.First(x => x.Type == "Range of motion").Tags.First(x => x.Value == "Standard"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Deadlift - competition"),
                     Show = false
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Stance").Properties.First(x => x.Value == "Sumo"),
+                    Tag = tagGroups.First(x => x.Type == "Stance").Tags.First(x => x.Value == "Sumo"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Deadlift - competition"),
                     Show = false
                 },
                 new ExerciseTypeTag()
                 {
-                    Tag = tagGroups.First(x => x.Type == "Tempo").Properties.First(x => x.Value == "Standard"),
+                    Tag = tagGroups.First(x => x.Type == "Tempo").Tags.First(x => x.Value == "Standard"),
                     ExerciseType = exerciseTypes.First(x => x.Name == "Deadlift - competition"),
                     Show = false
                 },

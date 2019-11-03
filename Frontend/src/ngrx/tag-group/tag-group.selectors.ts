@@ -1,6 +1,6 @@
-import { TagGroupState } from './tag-group.state';
-import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromType from './tag-group.reducers';
+import { TagGroupState } from './tag-group.state';
 
 
 export const selectTagGroupState = createFeatureSelector<TagGroupState>("tagGroup");
@@ -45,7 +45,7 @@ export const selectedTag = createSelector(
         var type = (state.entities[state.selectedTypeId]);
 
         if (type) {
-            return type.properties.filter(x => x.id == state.selectedPropertyId)[0]; // not normalized
+            return type.tags.filter(x => x.id == state.selectedPropertyId)[0]; // not normalized
         }
 
         return null;

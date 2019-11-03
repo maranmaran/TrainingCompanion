@@ -1,19 +1,17 @@
-import { TagGroup } from 'src/server-models/entities/tag-group.model';
-import { Component, OnInit, Inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AthleteCreateEditComponent } from 'src/app/features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
-import { TagService } from 'src/business/services/feature-services/tag.service';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { Tag } from 'src/server-models/entities/tag.model';
-import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { take, map, concatMap } from 'rxjs/operators';
 import { Update } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { concatMap, map, take } from 'rxjs/operators';
 import { TagGroupService } from 'src/business/services/feature-services/tag-group.service';
-import { selectedTagGroup } from 'src/ngrx/tag-group/tag-group.selectors';
+import { CRUD } from 'src/business/shared/crud.enum';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { tagGroupUpdated } from 'src/ngrx/tag-group/tag-group.actions';
+import { selectedTagGroup } from 'src/ngrx/tag-group/tag-group.selectors';
+import { TagGroup } from 'src/server-models/entities/tag-group.model';
+import { Tag } from 'src/server-models/entities/tag.model';
 
 @Component({
   selector: 'app-properties-create-edit',
@@ -94,7 +92,7 @@ export class TagsCreateEditComponent implements OnInit {
       take(1),
       map(tagGroup => Object.assign({}, tagGroup)),
       concatMap((tagGroup: TagGroup) => {
-        tagGroup.properties = newProperty ? [...tagGroup.properties, property] : tagGroup.properties.map(prop => prop.id == property.id ? property : prop);
+        tagGroup.tags = newProperty ? [...tagGroup.tags, property] : tagGroup.tags.map(prop => prop.id == property.id ? property : prop);
         return this.tagGroupService.update(tagGroup);
       }),
       take(1)
