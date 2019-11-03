@@ -31,12 +31,37 @@
       </div>
 
       <!--TAGS-->
-      <mat-accordion>
-        <div fxLayout="row wrap" fxLayout.lt-sm="column" class="tags" [@.disabled]="disableAnimation">
-          <ng-container *ngFor="let tagGroup of tagGroups">
-            <ng-container *ngTemplateOutlet="tagGroupTemplate; context: { tagGroup: tagGroup }"></ng-container>
-          </ng-container>
-        </div>
+      <mat-accordion [displayMode]="'flat'" [multi]="false" fxLayout="row wrap" fxLayout.lt-sm="column" class="tags"
+        [@.disabled]="disableAnimation">
+        <ng-container *ngFor="let tagGroup of tagGroups">
+
+          <!-- works -->
+          <mat-expansion-panel fxFlex="1 1 50%" fxFlex.lt-sm="1 1 100%">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <app-exercise-type-chip [value]="tagGroup.type" [backgroundColor]="tagGroup.hexBackground"
+                  [color]="tagGroup.hexColor">
+                </app-exercise-type-chip>
+              </mat-panel-title>
+              <mat-panel-description fxLayout="row" fxLayoutAlign="end">
+                <mat-checkbox id="master-show-checkbox" (click)="$event.stopPropagation()" [name]="tagGroup.id">
+                </mat-checkbox>
+                <span id="master-show-checkbox-label">Don't display</span>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <!--assigned properties-->
+            <ng-container *ngFor="let property of getEntityTags(tagGroup.id); trackBy: trackByFn">
+              <ng-container *ngTemplateOutlet="propertyTemplate; context: { property: property }"></ng-container>
+            </ng-container>
+
+            <ng-container *ngTemplateOutlet="newPropertyTemplate; context: { tagGroupId: tagGroup.id }"></ng-container>
+
+          </mat-expansion-panel>
+
+          <!-- does not work properly with mat-accordion -->
+          <!-- <ng-container *ngTemplateOutlet="tagGroupTemplate; context: { tagGroup: tagGroup }"></ng-container> -->
+
+        </ng-container>
       </mat-accordion>
 
     </form>
@@ -49,8 +74,36 @@
   </div>
 </ng-container>
 
-<ng-template #tagGroupTemplate let-tagGroup="tagGroup">
-  <!--expansion panel for tag group-->
+<ng-template #propertyTemplate let-property="property">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <span>{{property.tag.value}}</span>
+
+    <span id="actions">
+      <mat-checkbox id="show-checkbox" [checked]="property.show" matTooltip="Display this tag in the exercise type details"></mat-checkbox>
+      <button mat-icon-button color="accent" (click)="removeTag()">
+          <i class="fas fa-times"></i>
+      </button>
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #newPropertyTemplate let-groupId="tagGroupId">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
+    <mat-form-field>
+      <mat-label>Add tag</mat-label>
+      <mat-select>
+          <mat-option *ngFor="let property of getGroupTags(groupId)" [value]="property">
+              {{ property.value }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- <mat-checkbox fxLayout="column" fxLayoutAlign="center" id="show-checkbox">Show</mat-checkbox> -->
+  </div>
+</ng-template>
+
+<!-- not working with mat-accordion -->
+<!-- <ng-template #tagGroupTemplate let-tagGroup="tagGroup">
   <mat-expansion-panel fxFlex="1 1 50%" fxFlex.lt-sm="1 1 100%">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -63,24 +116,8 @@
         <span id="master-show-checkbox-label">Don't display</span>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <!--assigned properties-->
     <ng-container *ngFor="let property of getProperties(tagGroup.id); trackBy: trackByFn">
       <ng-container *ngTemplateOutlet="propertyTemplate; context: { property: property }"></ng-container>
     </ng-container>
   </mat-expansion-panel>
-</ng-template>
-
-<ng-template #propertyTemplate let-property="property">
-  <div fxLayout="row" fxLayoutAlign="space-between">
-    <!-- <mat-form-field>
-      <input matInput value="{{property.tag.value}}" [readonly]="true">
-    </mat-form-field> -->
-    <span>{{property.tag.value}}</span>
-
-    <mat-checkbox id="show-checkbox" [checked]="property.show">Show</mat-checkbox>
-  </div>
-</ng-template>
-
-<ng-template #addNewProperty>
-
-</ng-template>
+</ng-template> -->

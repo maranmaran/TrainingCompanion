@@ -4,7 +4,7 @@
 
 <div class="form" fxLayout="column">
     <form [formGroup]="form">
-       
+
       <mat-form-field>
           <input matInput placeholder="Exercise type" [matAutocomplete]="auto" [formControl]="exerciseType">
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
@@ -30,4 +30,3 @@
     <button mat-stroked-button color="primary"(click)="onSubmit()"
       [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
   </div>
-  
