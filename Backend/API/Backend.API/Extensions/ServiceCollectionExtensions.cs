@@ -71,7 +71,7 @@ namespace Backend.API.Extensions
                 //options.UseLazyLoadingProxies();
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking); //TODO: Revisit this setting
                 options.UseSqlServer(connectionString);
             });
 

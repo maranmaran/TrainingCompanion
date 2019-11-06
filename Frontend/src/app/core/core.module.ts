@@ -15,7 +15,7 @@ import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.
 import { ErrorInterceptor } from 'src/business/interceptors/error.interceptor';
 import { HttpInterceptor } from 'src/business/interceptors/http.interceptor';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
-import { PushNotificationsService } from 'src/business/services/feature-services/push-notification.service';
+import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { APP_SETTINGS_PROVIDER } from 'src/business/services/shared/app-settings.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { environment } from 'src/environments/environment';
@@ -94,7 +94,7 @@ import { SettingsComponent } from './settings/settings.component';
         CurrentUserLoadedGuard,
         UIService,
         ChatService, // signalr connections must be singleton in this case
-        PushNotificationsService,
+        NotificationSignalrService,
         CookieService,
         APP_SETTINGS_PROVIDER,
         { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },

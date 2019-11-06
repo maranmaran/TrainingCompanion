@@ -20,7 +20,9 @@ using Backend.Domain.Entities.User;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
+using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
 using Backend.Application.Business.Business.Training.Update;
+using Backend.Domain.Entities.Notification;
 
 namespace Backend.Application.Business
 {
@@ -37,8 +39,13 @@ namespace Backend.Application.Business
             this.TrainingMappings();
             this.ExerciseMappings();
             this.SetMappings();
+            this.NotificationMappings();
         }
 
+        private void NotificationMappings()
+        {
+            CreateMap<CreatePushNotificationRequest, Notification>();
+        }
 
 
         private void AuthorizationMappings()

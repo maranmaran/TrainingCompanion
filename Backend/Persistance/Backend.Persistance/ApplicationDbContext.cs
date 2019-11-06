@@ -1,11 +1,16 @@
-﻿using Backend.Domain;
+﻿
+using System.IO;
+using Backend.Domain;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.Media;
+using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace Backend.Persistance
 {
@@ -17,6 +22,7 @@ namespace Backend.Persistance
         public DbSet<SoloAthlete> SoloAthletes { get; set; }
         public DbSet<UserSettings> UserSettings { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<MediaFile> MediaFiles { get; set; }
         public DbSet<SystemException> SystemExceptions { get; set; }
 
@@ -45,10 +51,30 @@ namespace Backend.Persistance
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
 
+    }
+
+    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    {
+
+
+        public ApplicationDbContextFactory()
+        {
+            
+        }
+
+        //TODO: Revisit this hardcoded conn string
+        // Used only for EF.NET Core CLI tools(update database / migrations etc.)
+        public ApplicationDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer("Data Source = (localdb)\\mssqllocaldb;Initial Catalog=api_database;Integrated Security=True");
+
+            return new ApplicationDbContext(optionsBuilder.Options);
+        }
     }
 }
