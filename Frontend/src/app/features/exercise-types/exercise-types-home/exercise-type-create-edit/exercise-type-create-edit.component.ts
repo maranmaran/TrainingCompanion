@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/fo
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
+import * as _ from "lodash";
 import { concatMap, take } from "rxjs/operators";
 import { ExerciseTypeService } from "src/business/services/feature-services/exercise-type.service";
 import { TagGroupService } from "src/business/services/feature-services/tag-group.service";
@@ -35,7 +36,7 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.data.action === CRUD.Update) {
-      this.entity = Object.assign({}, this.data.entity);
+      this.entity = _.cloneDeep(this.data.entity);
     }
 
     // prerequisite data
@@ -134,6 +135,17 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
 
   displayFn(tag: Tag) {
     return tag.value;
+  }
+
+  onShowChange(event: MatCheckboxChange) {
+    let property = this.entity.properties.find(x => x.id === event.source.name);
+    property.show = event.checked;
+  }
+
+  onMasterShowChange(event: MatCheckboxChange) {
+    let group = this.tagGroups.find(x => x.id == event.source.name);
+    group['masterShow'] = event.checked;
+    this.tagGroups = this.tagGroups.map(x => x.id == group.id ? group : x);
   }
 
   onSubmit() {

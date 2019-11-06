@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SignalrNgChatAdapter } from 'src/app/core/ng-chat/signalr-ng-chat-adapter';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
+import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
@@ -15,6 +16,7 @@ import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme, getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { NotificationType } from 'src/server-models/enums/notification-type.enum';
 import { SubSink } from 'subsink';
 import { Message } from '../ng-chat/core/message';
 import { NgChatTheme } from '../ng-chat/core/ng-chat-theme.enum';
@@ -45,6 +47,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   constructor(
     public store: Store<AppState>,
     protected chatService: ChatService,
+    private notificationService: NotificationSignalrService,
     protected chatAdapter: SignalrNgChatAdapter,
     private route: ActivatedRoute,
     private uiService: UIService,
@@ -75,6 +78,11 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
     // if routing to settings -> open dialog with specific section from route data
     this.section && this.onOpenSettings(this.section);
+
+  }
+
+  activateNotif() {
+    this.notificationService.sendNotification(NotificationType.Test, "hej", "8308CAE5-EF47-49C9-6278-08D74BDD88B3", "BD38F173-E6BB-4C1F-6277-08D74BDD88B3");
   }
 
   ngOnDestroy() {
