@@ -1,7 +1,10 @@
-﻿using Backend.Service.Infrastructure.Providers;
+﻿using System.Collections.Generic;
+using Backend.Service.Infrastructure.Providers;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Backend.Service.Infrastructure.Extensions
 {
@@ -18,7 +21,13 @@ namespace Backend.Service.Infrastructure.Extensions
                 {
                     options.PayloadSerializerSettings = new JsonSerializerSettings()
                     {
-                        Formatting = Formatting.Indented
+                        Formatting = Formatting.Indented,
+                        Converters = new List<JsonConverter>()
+                        {
+                            new StringEnumConverter()
+                        },
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                     };
                 });
 

@@ -1,4 +1,5 @@
-﻿using Backend.Domain.Entities.Chat;
+﻿
+using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Enum;
@@ -37,6 +38,7 @@ namespace Backend.Domain.Entities.User
         public virtual UserSettings UserSettings { get; set; } = new UserSettings();
 
         public virtual ICollection<ChatMessage> ChatMessages { get; set; } = new HashSet<ChatMessage>();
+        public virtual ICollection<Notification.Notification> Notifications { get; set; } = new HashSet<Notification.Notification>();
         public virtual ICollection<MediaFile> MediaFiles { get; set; } = new HashSet<MediaFile>();
         public virtual ICollection<ExerciseType.ExerciseType> ExerciseTypes { get; set; } = new HashSet<ExerciseType.ExerciseType>();
         public virtual ICollection<Training> Trainings { get; set; } = new HashSet<Training>();

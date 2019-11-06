@@ -53,7 +53,7 @@ namespace Backend.Service.Payment
                 new SubscriptionItemUpdateOption ()
                 {
                     Id = customerSubscription.Id,
-                    PlanId = payment.PlanId,
+                    Plan = payment.PlanId,
                 }
             };
 
@@ -79,7 +79,7 @@ namespace Backend.Service.Payment
             {
                 new SubscriptionItemOption()
                 {
-                    PlanId = payment.PlanId,
+                    Plan = payment.PlanId,
                     Quantity = 1,
                 }
             };
@@ -87,7 +87,7 @@ namespace Backend.Service.Payment
             var subscriptionService = new SubscriptionService();
             var subscriptionOptions = new SubscriptionCreateOptions()
             {
-                CustomerId = payment.CustomerId,
+                Customer = payment.CustomerId,
                 CancelAtPeriodEnd = false,
                 Items = subscriptions,
 
@@ -101,7 +101,7 @@ namespace Backend.Service.Payment
             var subscriptionService = new SubscriptionService();
             var subscriptions = await subscriptionService.ListAsync(new SubscriptionListOptions()
             {
-                CustomerId = customerId,
+                Customer = customerId,
             });
 
 

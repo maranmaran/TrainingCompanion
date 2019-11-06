@@ -24,6 +24,12 @@ namespace Backend.Persistance.Configurations
                 .HasOne(x => x.ApplicationUser)
                 .WithMany(x => x.MediaFiles)
                 .HasForeignKey(x => x.ApplicationUserId);
+
+            builder
+                .HasOne(x => x.Training)
+                .WithMany(x => x.Media)
+                .OnDelete(DeleteBehavior.SetNull);
+
         }
     }
 

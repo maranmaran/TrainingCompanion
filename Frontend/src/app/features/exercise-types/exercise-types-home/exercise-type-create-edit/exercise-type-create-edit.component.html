@@ -44,7 +44,12 @@
                 </app-exercise-type-chip>
               </mat-panel-title>
               <mat-panel-description fxLayout="row" fxLayoutAlign="end">
-                <mat-checkbox id="master-show-checkbox" (click)="$event.stopPropagation()" [name]="tagGroup.id">
+                <mat-checkbox
+                  id="master-show-checkbox"
+                  (click)="$event.stopPropagation()"
+                  [name]="tagGroup.id"
+                  [checked]="tagGroup.masterShow"
+                  (change)="onMasterShowChange($event)">
                 </mat-checkbox>
                 <span id="master-show-checkbox-label">Don't display</span>
               </mat-panel-description>
@@ -79,7 +84,7 @@
     <span>{{property.tag.value}}</span>
 
     <span id="actions">
-      <mat-checkbox id="show-checkbox" [checked]="property.show" matTooltip="Display this tag in the exercise type details"></mat-checkbox>
+      <mat-checkbox id="show-checkbox" [name]="property.id" (change)="onShowChange($event)" [checked]="property.show" matTooltip="Display this tag in the exercise type details"></mat-checkbox>
       <button mat-icon-button color="accent" (click)="removeTag()">
           <i class="fas fa-times"></i>
       </button>
@@ -97,8 +102,6 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-
-    <!-- <mat-checkbox fxLayout="column" fxLayoutAlign="center" id="show-checkbox">Show</mat-checkbox> -->
   </div>
 </ng-template>
 

@@ -1,4 +1,5 @@
-﻿using Backend.Domain.Entities.Chat;
+﻿
+using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.System;
@@ -7,6 +8,7 @@ using Backend.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain.Entities.Notification;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Backend.Domain
@@ -19,6 +21,7 @@ namespace Backend.Domain
         DbSet<SoloAthlete> SoloAthletes { get; set; }
         DbSet<UserSettings> UserSettings { get; set; }
         DbSet<ChatMessage> ChatMessages { get; set; }
+        DbSet<Notification> Notifications { get; set; }
         DbSet<MediaFile> MediaFiles { get; set; }
         DbSet<SystemException> SystemExceptions { get; set; }
 

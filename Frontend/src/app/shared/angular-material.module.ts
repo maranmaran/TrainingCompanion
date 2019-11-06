@@ -4,6 +4,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
@@ -41,6 +42,7 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
         FlexLayoutModule,
         OverlayModule,
         MatCheckboxModule,
+        MatBadgeModule,
         MatCheckboxModule,
         MatButtonModule,
         MatInputModule,
@@ -79,6 +81,7 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
     exports: [
         PortalModule,
         FlexLayoutModule,
+        MatBadgeModule,
         MatCheckboxModule,
         MatCheckboxModule,
         MatButtonModule,
