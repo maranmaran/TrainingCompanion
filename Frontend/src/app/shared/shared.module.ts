@@ -23,6 +23,7 @@ import { MediaUploaderComponent } from './media-uploader/media-uploader.componen
 import { UploadInputComponent } from './media-uploader/upload-input/upload-input.component';
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { NotImplementedComponent } from './not-implemented/not-implemented.component';
+import { NotificationItemComponent } from './notification-item/notification-item.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { NotImplementedComponent } from './not-implemented/not-implemented.compo
         MediaListComponent,
         UploadInputComponent,
         MediaUploaderComponent,
+        NotificationItemComponent,
     ],
     exports: [
         CommonModule,
@@ -85,6 +87,7 @@ import { NotImplementedComponent } from './not-implemented/not-implemented.compo
         MediaListComponent,
         UploadInputComponent,
         MediaUploaderComponent,
+        NotificationItemComponent
     ],
     providers: [
     ],

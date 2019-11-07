@@ -1,36 +1,37 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
 #toolbar-row {
-    width: 100%
-  }
-  
-  .toolbar-title {
-    margin: 0;
-    margin-left: 1rem;
-    padding: 0;
-    cursor: default;
-  }
-  
-  ngx-avatar {
-    cursor: pointer;
-  }
-  
-  #settings {
-    margin-right: 0.5rem;
-    font-size: 1.3rem;
-    cursor: pointer;
-  }
-  
-  #avatar-actions-row {
-    margin-top: 1.5rem;
-  }
-  
-  #content-avatar {
-    cursor: default;
-    pointer-events: none;
-  }
+  width: 100%;
+}
 
-  .loading-bar {
-    height: 3px;
-    position: absolute;
-  }
+.toolbar-title {
+  margin: 0;
+  margin-left: 1rem;
+  padding: 0;
+  cursor: default;
+}
+
+ngx-avatar {
+  cursor: pointer;
+}
+
+#settings {
+  margin-right: 0.5rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+#avatar-actions-row {
+  margin-top: 1.5rem;
+}
+
+#content-avatar {
+  cursor: default;
+  pointer-events: none;
+}
+
+.loading-bar {
+  height: 3px;
+  position: absolute;
+}
+
