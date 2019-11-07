@@ -1,0 +1,82 @@
+@import "~@angular/material/theming";
+
+@mixin notifications-menu-theme($theme) {
+  $primary: mat-color(map-get($theme, primary));
+  $accent: mat-color(map-get($theme, accent));
+  $warn: mat-color(map-get($theme, warn));
+
+
+     // menu container
+     .notifications-menu-container {
+      &.mat-menu-panel {
+        min-width: 430px;
+        height: 360px;
+      }
+
+      .mat-menu-content:not(:empty) {
+        padding: 0px;
+      }
+
+      .mat-menu-content {
+
+        height: 100%;
+        width: 100%;
+
+        .virtual-scroll-viewport {
+          height: 100%;
+          width: 100%;
+
+          .cdk-virtual-scroll-content-wrapper {
+            height: 100%;
+          }
+
+          .virtual-scroll-item {
+            height: 60px;
+            width: 100%;
+
+            &:hover {
+              background-color: rgba(0, 0, 0, 0.1);
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+
+    }
+
+
+
+  @media (max-width: 600px) {
+    // menu container
+    .notifications-menu-container {
+      &.mat-menu-panel {
+        min-width: 250px;
+        height: 360px;
+      }
+
+      .mat-menu-content {
+
+        height: 100%;
+        width: 100%;
+
+        .virtual-scroll-viewport {
+          height: 100%;
+          width: 100%;
+
+          .virtual-scroll-item {
+            height: 40px;
+            width: 100%;
+
+            &:hover {
+              background-color: rgba(0, 0, 0, 0.1);
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+
+    }
+  }
+}

@@ -3,7 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/app/app.state';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { SubSink } from 'subsink';
@@ -69,13 +69,12 @@ export class NotificationSignalrService implements OnDestroy {
   }
 
   // TODO: Add paging...
-  getHistory(userId: any): Observable<PushNotification[]> {
+  getHistory(page: number, pageSize: number = 10): Observable<PushNotification[]> {
     // This could be an API call to your web application that would go to the database
     // and retrieve a N amount of history messages between the users.
     return this.http
-      .get('notification/GetNotificationHistory/' + this.userId)
+      .get<PushNotification[]>('pushNotifications/GetPushNotificationHistory/' + this.userId + '/' + page + '/' + pageSize)
       .pipe(
-        map((res: any) => res),
         catchError((error: any) => throwError(error.error || 'Server error'))
       );
   }

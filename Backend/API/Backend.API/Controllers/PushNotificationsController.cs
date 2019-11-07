@@ -19,7 +19,10 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}/{page}/{pageSize}")]
         public async Task<IActionResult> GetPushNotificationHistory(Guid userId, int page, int pageSize)
         {
-            return Ok(await Mediator.Send(new GetPushNotificationHistoryRequest(userId, page, pageSize)));
+            return await GetQuery(
+                async () => await Mediator.Send(new GetPushNotificationHistoryRequest(userId, page, pageSize)), 
+                null
+            );
         }
 
     }

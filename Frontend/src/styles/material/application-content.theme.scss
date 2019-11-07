@@ -16,6 +16,7 @@
 @import "./mixins/scrollbar.scss";
 @import "./mixins/editor.scss";
 @import "./mixins/media-uploader.scss";
+@import "./mixins/notifications-menu.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -31,6 +32,7 @@
   @include scrollbar-theme($theme);
   @include editor-component-theme($theme);
   @include media-uploader-theme($theme);
+  @include notifications-menu-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

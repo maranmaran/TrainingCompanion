@@ -32,8 +32,8 @@
                 <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef> {{ col.title }} </mat-header-cell>
             </ng-container>
 
-            <mat-cell class="{{col.cellClass}}" *matCellDef="let row"> 
-                <div *ngIf="!col.useComponent" [innerHtml]="(col.displayFunction(row) | sanitizeHtml)"></div> 
+            <mat-cell class="{{col.cellClass}}" *matCellDef="let row">
+                <div *ngIf="!col.useComponent" [innerHtml]="(col.displayFunction(row) | sanitizeHtml)"></div>
                 <ndc-dynamic *ngIf="col.useComponent" [ndcDynamicComponent]="col.component" [ndcDynamicInputs]="col.inputs(row)"></ndc-dynamic>
             </mat-cell>
 
@@ -69,7 +69,7 @@
                 <i class="fa fa-ellipsis-v"></i>
             </button>
 
-            <mat-menu #headerMenu="matMenu">
+            <mat-menu id="material-table-menu" #headerMenu="matMenu">
                 <button mat-icon-button *ngIf="config.addEnabled" color="accent" (click)="addEvent.emit()" (click)="$event.stopPropagation()">
                     <i class="fas fa-plus"></i>
                 </button>
@@ -92,8 +92,8 @@
                 <button *ngIf="!noCellAction" mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu" (click)="$event.stopPropagation()">
                         <i class="fa fa-ellipsis-v"></i>
                 </button>
-    
-                <mat-menu #cellMenu="matMenu">
+
+                <mat-menu id="material-table-menu" #cellMenu="matMenu">
                     <button *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)">
                         <i class="fas fa-edit"></i>
                     </button>
