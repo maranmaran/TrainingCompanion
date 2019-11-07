@@ -20,8 +20,8 @@ namespace Backend.API.Controllers
         private IMediator _mediator;
         private ISieveProcessor _sieveProcessor;
 
-        protected IMediator Mediator => _mediator ?? (_mediator = HttpContext.RequestServices.GetService<IMediator>());
-        protected ISieveProcessor SieveProcessor => _sieveProcessor ?? (_sieveProcessor = HttpContext.RequestServices.GetService<ISieveProcessor>());
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        protected ISieveProcessor SieveProcessor => _sieveProcessor ??= HttpContext.RequestServices.GetService<ISieveProcessor>();
 
         [NonAction]
         public async Task<IActionResult> GetQuery<T>(Func<Task<IQueryable<T>>> getEntitiesFunc, SieveModel sieveModel)

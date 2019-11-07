@@ -1,6 +1,7 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -38,6 +39,7 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
 
 @NgModule({
     imports: [
+        ScrollingModule,
         PortalModule,
         FlexLayoutModule,
         OverlayModule,
@@ -79,6 +81,7 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
         HighlightRowOnHover,
     ],
     exports: [
+        ScrollingModule,
         PortalModule,
         FlexLayoutModule,
         MatBadgeModule,
