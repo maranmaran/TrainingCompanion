@@ -58,13 +58,18 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.subSink.unsubscribe();
   }
 
-  loadMoreNotifications(index: number) {
-    console.log(index);
-    index += 7;
+  // BUG with mat menu integration https://github.com/angular/components/issues/10122
+  // loadMoreNotifications(index: number) {
+  //   console.log(index);
+  //   index += 7;
 
-    if (index === this.notifications.length && !this.stopFetch) {
+  //   if (index === this.notifications.length && !this.stopFetch) {
+  //     this.getHistory(this.page++, this.pageSize);
+  //   }
+  // }
+
+  loadMoreNotifications() {
       this.getHistory(this.page++, this.pageSize);
-    }
   }
 
   getHistory(page, pageSize) {

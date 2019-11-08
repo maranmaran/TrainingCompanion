@@ -35,3 +35,12 @@ ngx-avatar {
   position: absolute;
 }
 
+.notifications-viewport {
+  height: 360px;
+  width: 430px;
+
+  .notification-item {
+    height: 60px;
+  }
+}
+
