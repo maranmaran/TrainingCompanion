@@ -19,17 +19,22 @@
       [matMenuTriggerFor]="notificationsMenu"></i>
 
 
-    <mat-menu #notificationsMenu="matMenu" class="notifications-menu-container">
+      <mat-menu #notificationsMenu="matMenu" class="notifications-menu-container" >
 
-      <cdk-virtual-scroll-viewport class="virtual-scroll-viewport" itemSize="{{60}}" minBufferPx="{{60 * 3}}"
-        maxBufferPx="{{60 * 3 * 3}}" (scrolledIndexChange)="loadMoreNotifications($event)">
-        <div *cdkVirtualFor="let item of notifications; let i = index; let c = count" class="virtual-scroll-item">
-          <app-notification-item *ngIf="item; else loading"[model]="item" (clickEvent)="notificationClicked($event)"></app-notification-item>
-          <ng-template #loading>Loading</ng-template>
-          <!-- <mat-divider *ngIf="!(i + 1 == c - 1)"></mat-divider> -->
-        </div>
-        <!-- <button classy="w-100 mt-3" mat-stroked-button color="primary" (click)="loadMoreNotifications()" (click)="$event.stopPropagation()">Show more notifications</button> -->
-      </cdk-virtual-scroll-viewport>
+        <!--BUG with mat menu integration https://github.com/angular/components/issues/10122 -->
+        <!-- <cdk-virtual-scroll-viewport class="virtual-scroll-viewport" itemSize="{{60}}" minBufferPx="{{60 * 3}}" maxBufferPx="{{60 * 3 * 3}}" (scrolledIndexChange)="loadMoreNotifications($event)">
+            <div *cdkVirtualFor="let item of notifications; let i = index; let c = count" class="virtual-scroll-item">
+               <app-notification-item [model]="item" (clickEvent)="notificationClicked($event)"></app-notification-item>
+               <mat-divider *ngIf="!(i + 1 == c - 1)"></mat-divider>
+            </div>
+            <button classy="w-100 mt-3" mat-stroked-button color="primary" (click)="loadMoreNotifications()" (click)="$event.stopPropagation()">Show more notifications</button>
+          </cdk-virtual-scroll-viewport> -->
+
+          <div *ngFor="let item of notifications; let i = index; let c = count" class="virtual-scroll-item">
+              <app-notification-item [model]="item" (clickEvent)="notificationClicked($event)"></app-notification-item>
+              <mat-divider *ngIf="!(i + 1 == c)"></mat-divider>
+           </div>
+           <button class="w-100 mt-3" mat-stroked-button color="primary" (click)="loadMoreNotifications()" (click)="$event.stopPropagation()">Show more notifications</button>
 
     </mat-menu>
 
@@ -61,7 +66,6 @@
       </div>
 
     </mat-menu>
-
   </div>
 
 
