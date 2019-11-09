@@ -5,6 +5,7 @@ using Backend.Application.Business.Business.Authorization.CurrentUser;
 using Backend.Application.Business.Business.Authorization.SignIn;
 using Backend.Domain;
 using Backend.Service.Authorization.Interfaces;
+using Backend.Service.Authorization.Utils;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,13 +14,11 @@ namespace Backend.Application.Business.Business.Authorization.SetPassword
     public class SetPasswordRequestHandler : IRequestHandler<SetPasswordRequest, (CurrentUserRequestResponse response, string token)>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IPasswordHasher _passwordHasher;
         private readonly IMediator _mediator;
 
-        public SetPasswordRequestHandler(IApplicationDbContext context, IPasswordHasher passwordHasher, IMediator mediator)
+        public SetPasswordRequestHandler(IApplicationDbContext context, IMediator mediator)
         {
             _context = context;
-            _passwordHasher = passwordHasher;
             _mediator = mediator;
         }
 
@@ -28,7 +27,7 @@ namespace Backend.Application.Business.Business.Authorization.SetPassword
             try
             {
                 var user = await _context.Users.SingleAsync(x => x.Id == request.UserId, cancellationToken);
-                user.PasswordHash = _passwordHasher.GetPasswordHash(request.Password);
+                user.PasswordHash = PasswordHasher.GetPasswordHash(request.Password);
 
                 _context.Users.Update(user);
                 await _context.SaveChangesAsync(cancellationToken);

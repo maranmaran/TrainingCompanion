@@ -10,17 +10,17 @@ using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Persistance.Seed;
+using Backend.Service.Authorization.Utils;
+using Backend.Service.Payment.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Persistance
 {
     public static class DbInitializer
     {
-        public static void Seed(this ModelBuilder b, IStripeConfiguration stripeConfig, IPasswordHasher pwHasher)
+        public static void Seed(this ModelBuilder b)
         {
-            stripeConfig.ConfigureProducts();
-
-            var userIds = SeedUsers(b, pwHasher);
+            var userIds = SeedUsers(b);
             var userSettingIds = SeedUserSettings(b, userIds);
             SeedNotificationSettings(b, userSettingIds);
             
@@ -73,6 +73,7 @@ namespace Backend.Persistance
                         b.Entity<Tag>().HasData(tag);
                     }
 
+                    tagGroup.Tags = null; // to avoid "Navigation property is set" error because you have to ONLY connect entities through pre-set IDs
                     b.Entity<TagGroup>().HasData(tagGroup);
                 }
             }
@@ -110,139 +111,22 @@ namespace Backend.Persistance
 
             return userSettingIds;
         }
-        private static IEnumerable<Guid> SeedUsers(ModelBuilder b, IPasswordHasher hasher)
+        private static IEnumerable<Guid> SeedUsers(ModelBuilder b)
         {
-            var userIds = new Guid[4];
-            Array.Fill(userIds, Guid.NewGuid());
+            var users = UsersFactory.GetUsers();
 
-            var admin = new Admin()
-            {
-                Id = userIds[0],
-                FirstName = "Admin",
-                LastName = "",
-                Username = "admin",
-                Email = "admin@trainingcompanion.com",
-                Gender = Gender.Male,
-                PasswordHash = hasher.GetPasswordHash("admin"),
-                CreatedOn = DateTime.UtcNow,
-                LastModified = DateTime.UtcNow,
-                CustomerId = "cus_FLi7gZv8w0j0GB",
-            };
-            var athlete = new Athlete()
-            {
-                Id = userIds[1],
-                FirstName = "Athlete",
-                LastName = "",
-                Username = "athlete",
-                Email = "athlete@trainingcompanion.com",
-                Gender = Gender.Male,
-                PasswordHash = hasher.GetPasswordHash("athlete"),
-                CreatedOn = DateTime.UtcNow,
-                LastModified = DateTime.UtcNow,
-            };
-            var soloAthlete = new SoloAthlete()
-            {
-                Id = userIds[2],
-                FirstName = "Solo",
-                LastName = "Athlete",
-                Username = "soloathlete",
-                Email = "solo.athlete@trainingcompanion.com",
-                Gender = Gender.Male,
-                PasswordHash = hasher.GetPasswordHash("soloathlete"),
-                CreatedOn = DateTime.UtcNow,
-                LastModified = DateTime.UtcNow,
-            };
-            var coach = new Coach()
-            {
-                Id = userIds[3],
-                FirstName = "Coach",
-                LastName = "",
-                Username = "coach",
-                Email = "coach@trainingcompanion.com",
-                Gender = Gender.Male,
-                PasswordHash = hasher.GetPasswordHash("coach"),
-                CreatedOn = DateTime.UtcNow,
-                LastModified = DateTime.UtcNow,
-                CustomerId = "cus_FHk5RepADdfm5H",
-                UserSetting = new UserSetting(),
-            };
+            b.Entity<Admin>().HasData(users.Item1);
+            b.Entity<Athlete>().HasData(users.Item2);
+            b.Entity<Coach>().HasData(users.Item3);
+            b.Entity<SoloAthlete>().HasData(users.Item4);
 
-            b.Entity<Admin>().HasData(admin);
-            b.Entity<Athlete>().HasData(athlete);
-            b.Entity<SoloAthlete>().HasData(soloAthlete);
-            b.Entity<Coach>().HasData(coach);
-
-            return userIds;
+            return new List<Guid>()
+            {
+                users.Item1.Id,
+                users.Item2.Id,
+                users.Item3.Id,
+                users.Item4.Id
+            };
         }
     }
-
-    //public class DatabaseInitializer
-    //{
-    //    private readonly IApplicationDbContext _context;
-    //    private readonly IStripeConfiguration _stripeConfiguration;
-    //    private readonly IPasswordHasher _passwordHasher;
-
-    //    public DatabaseInitializer(
-    //        IApplicationDbContext context,
-    //        IStripeConfiguration stripeConfiguration,
-    //        IPasswordHasher passwordHasher)
-    //    {
-    //        _context = context;
-    //        _stripeConfiguration = stripeConfiguration;
-    //        _passwordHasher = passwordHasher;
-    //    }
-
-
-    //    public static void Initialize(
-    //        IApplicationDbContext context,
-    //        IStripeConfiguration stripeConfiguration,
-    //        IPasswordHasher passwordHasher)
-    //    {
-    //        var initializer = new DatabaseInitializer(context, stripeConfiguration, passwordHasher);
-    //        initializer.SeedDatabase(context);
-    //    }
-
-    //    public void SeedDatabase(IApplicationDbContext context)
-    //    {
-    //        if (context.Users != null && context.Users.Any())
-    //        {
-    //            return; //Db seeded
-    //        }
-
-    //        SeedUsers(context);
-    //        SeedNotificationSettings(context);
-    //        _stripeConfiguration.ConfigureProducts();
-    //    }
-
-    //    public void SeedUsers(IApplicationDbContext context)
-    //    {
-    //        try
-    //        {
-    //            UsersSeeder.SeedUsers(_context, _passwordHasher);
-    //        }
-    //        catch (Exception e)
-    //        {
-    //            throw new Exception("Seeding users went wrong", e);
-    //        }
-    //    }
-
-    //    public void SeedNotificationSettings(IApplicationDbContext context)
-    //    {
-    //        try
-    //        {
-    //            var values = EnumSeeder.SeedEnum<NotificationType, NotificationSetting>((value) => new NotificationSetting()
-    //            {
-    //                NotificationType = value
-    //            });
-
-    //            context.NotificationSetting.AddRange(values);
-    //            context.SaveChangesAsync(CancellationToken.None).Wait();
-    //        }
-    //        catch (Exception e)
-    //        {
-    //            throw new Exception("Seeding notification settings went wrong");
-    //        }
-    //    }
-
-    //}
 }

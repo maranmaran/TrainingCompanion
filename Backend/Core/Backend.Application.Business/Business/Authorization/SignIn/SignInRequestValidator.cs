@@ -6,19 +6,18 @@ using Backend.Service.Payment.Interfaces;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Backend.Service.Authorization.Utils;
 
 namespace Backend.Application.Business.Business.Authorization.SignIn
 {
     public class SignInRequestValidator : AbstractValidator<SignInRequest>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IPasswordHasher _passwordHasher;
         private readonly IPaymentService _paymentService;
 
-        public SignInRequestValidator(IApplicationDbContext context, IPasswordHasher passwordHasher, IPaymentService paymentService)
+        public SignInRequestValidator(IApplicationDbContext context,  IPaymentService paymentService)
         {
             _context = context;
-            _passwordHasher = passwordHasher;
             _paymentService = paymentService;
 
             RuleFor(x => x)
@@ -51,7 +50,7 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
         {
             var passwordHash = _context.Users.Where(x => x.Username == request.Username).Select(x => x.PasswordHash).Single();
 
-            return passwordHash == _passwordHasher.GetPasswordHash(request.Password);
+            return passwordHash == PasswordHasher.GetPasswordHash(request.Password);
         }
 
         private bool CoachHasPaidSubscriptionIfUserIsAthlete(SignInRequest request)
