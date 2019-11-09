@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Service.Payment.Configuration;
 
 namespace Backend.Application.Business.Business.Users.CreateUser
 {
@@ -20,20 +21,16 @@ namespace Backend.Application.Business.Business.Users.CreateUser
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly IStripeConfiguration _stripeConfiguration;
-
 
 
         public CreateUserRequestHandler(
             IMediator mediator,
             IMapper mapper,
-            IApplicationDbContext context,
-            IStripeConfiguration stripeConfiguration)
+            IApplicationDbContext context)
         {
             _mediator = mediator;
             _mapper = mapper;
             _context = context;
-            _stripeConfiguration = stripeConfiguration;
         }
 
         public async Task<ApplicationUser> Handle(CreateUserRequest request, CancellationToken cancellationToken)
@@ -65,7 +62,7 @@ namespace Backend.Application.Business.Business.Users.CreateUser
         private async Task<ApplicationUser> CreateCoach(CreateUserRequest request)
         {
             var coach = _mapper.Map<CreateUserRequest, Coach>(request);
-            coach.CustomerId = await _stripeConfiguration.AddCustomer(coach.GetFullName(), coach.Email); // add to stripe
+            coach.CustomerId = await StripeConfiguration.AddCustomer(coach.GetFullName(), coach.Email); // add to stripe
 
             coach = ExerciseTagGroupsFactory.ApplyProperties<Coach>(coach);
 

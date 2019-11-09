@@ -50,33 +50,23 @@ namespace Backend.Persistance
         #endregion
 
 
-        private readonly IStripeConfiguration _stripeConfiguration;
-        private readonly IPasswordHasher _passwordHasher;
         public ApplicationDbContext(
-            IStripeConfiguration stripeConfiguration,
-            IPasswordHasher passwordHasher,
             DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            _stripeConfiguration = stripeConfiguration;
-            _passwordHasher = passwordHasher;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Seed(_stripeConfiguration, _passwordHasher);
+            modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);
             
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
-
-
     }
 
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
-
-
         public ApplicationDbContextFactory()
         {
             

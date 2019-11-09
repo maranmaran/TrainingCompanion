@@ -49,12 +49,18 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasMany(x => x.ExerciseTypes)
                 .WithOne(x => x.ApplicationUser)
-                .HasForeignKey(x => x.ApplicationUserId);
+                .HasForeignKey(x => x.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasMany(x => x.Trainings)
                 .WithOne(x => x.ApplicationUser)
                 .HasForeignKey(x => x.ApplicationUserId);
+
+            builder
+                .HasOne(x => x.UserSetting)
+                .WithOne(x => x.ApplicationUser)
+                .HasForeignKey<UserSetting>(x => x.ApplicationUserId);
 
         }
     }

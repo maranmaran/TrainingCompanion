@@ -21,7 +21,6 @@ namespace Backend.Service.Payment.Extensions
         public static void ConfigurePaymentServices(this IServiceCollection services)
         {
             services.AddTransient<IPaymentService, PaymentService>();
-            services.AddSingleton<IStripeConfiguration, StripeConfiguration>();
         }
     }
 }
