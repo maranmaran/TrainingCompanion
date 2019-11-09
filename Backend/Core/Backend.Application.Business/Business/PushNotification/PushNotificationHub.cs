@@ -20,23 +20,23 @@ namespace Backend.Application.Business.Business.PushNotification
     [Authorize]
     public class PushNotificationHub : Hub<IPushNotificationHub>
     {
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
 
-        public PushNotificationHub(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        //public PushNotificationHub(IMediator mediator)
+        //{
+        //    _mediator = mediator;
+        //}
 
-        public async Task SendNotification(NotificationType type, string payload, Guid senderId, Guid receiverId)
-        {
+        //public async Task SendNotification(NotificationType type, string payload, Guid senderId, Guid receiverId)
+        //{
 
-            // save to db
-            var notification = await _mediator.Send(new CreatePushNotificationRequest(type, payload, senderId, receiverId));
+        //    // save to db
+        //    var notification = await _mediator.Send(new CreatePushNotificationRequest(type, payload, senderId, receiverId));
 
-            // send
-            //await Clients.User(receiverId.ToString()).SendNotification(type, payload, senderId);
-            await Clients.All.SendNotification(notification);
-        }
+        //    // send
+        //    //await Clients.User(receiverId.ToString()).SendNotification(type, payload, senderId);
+        //    await Clients.All.SendNotification(notification);
+        //}
 
 
     }
