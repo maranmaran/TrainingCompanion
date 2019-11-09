@@ -21,7 +21,7 @@ namespace Backend.Application.Business.Business.Authorization.CurrentUser
 
         public AccountType AccountType { get; set; }
         public bool Active { get; set; }
-        public UserSettings UserSettings { get; set; }
+        public UserSetting UserSetting { get; set; }
 
 
         // Billing

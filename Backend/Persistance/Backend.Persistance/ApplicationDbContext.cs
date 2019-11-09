@@ -8,6 +8,10 @@ using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
+using Backend.Domain.Enum;
+using Backend.Persistance.Seed;
+using Backend.Service.Authorization.Interfaces;
+using Backend.Service.Payment.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +24,8 @@ namespace Backend.Persistance
         public DbSet<Coach> Coaches { get; set; }
         public DbSet<Athlete> Athletes { get; set; }
         public DbSet<SoloAthlete> SoloAthletes { get; set; }
-        public DbSet<UserSettings> UserSettings { get; set; }
+        public DbSet<UserSetting> UserSettings { get; set; }
+        public DbSet<NotificationSetting> NotificationSetting { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<MediaFile> MediaFiles { get; set; }
@@ -44,12 +49,22 @@ namespace Backend.Persistance
 
         #endregion
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+
+        private readonly IStripeConfiguration _stripeConfiguration;
+        private readonly IPasswordHasher _passwordHasher;
+        public ApplicationDbContext(
+            IStripeConfiguration stripeConfiguration,
+            IPasswordHasher passwordHasher,
+            DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+            _stripeConfiguration = stripeConfiguration;
+            _passwordHasher = passwordHasher;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Seed(_stripeConfiguration, _passwordHasher);
+
             base.OnModelCreating(modelBuilder);
             
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

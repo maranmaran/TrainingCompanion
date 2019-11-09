@@ -6,6 +6,8 @@ namespace Backend.Domain.Enum
 {
     public enum NotificationType
     {
-        Test,
+        TrainingCreated,
+        NoteAdded,
+        MediaAdded
     }
 }

@@ -80,7 +80,7 @@ namespace Backend.API.Extensions
 
         /// <summary>
         /// Configures Biarity/Sieve library for out of the box sorting, filtering and paginating functionality
-        /// CreateUseres sieve options from application settings
+        /// CreateUseres sieve options from application setting
         /// CreateUsers dependency injection for sieve processor and any custom filtering and sorting 
         /// </summary>
         /// <param name="services"></param>
@@ -98,7 +98,7 @@ namespace Backend.API.Extensions
         /// <param name="configuration"></param>
         public static void ConfigureJwtAuth(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettingsSection = configuration.GetSection("JwtSettings"); // get app settings section
+            var jwtSettingsSection = configuration.GetSection("JwtSettings"); // get app setting section
             var jwtSettings = jwtSettingsSection.Get<JwtSettings>(); // get instance of forementioned POCO CLASS
             var jwtSecretKey = Encoding.ASCII.GetBytes(jwtSettings.JwtSecret); // extract secret
 

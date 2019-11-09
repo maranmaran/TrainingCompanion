@@ -23,7 +23,7 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserSettings",
+                name: "UserSetting",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -64,7 +64,7 @@ namespace Backend.Persistance.Migrations
                     table.ForeignKey(
                         name: "FK_Users_UserSettings_UserSettingsId",
                         column: x => x.UserSettingsId,
-                        principalTable: "UserSettings",
+                        principalTable: "UserSetting",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -436,7 +436,7 @@ namespace Backend.Persistance.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "UserSettings");
+                name: "UserSetting");
         }
     }
 }

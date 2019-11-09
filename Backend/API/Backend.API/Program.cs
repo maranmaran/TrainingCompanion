@@ -23,13 +23,13 @@ namespace Backend.API
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var contextInterface = services.GetService<IApplicationDbContext>();
-                    var stripeConfiguration = services.GetService<IStripeConfiguration>();
-                    var passwordHasher = services.GetService<IPasswordHasher>();
+                    //var contextInterface = services.GetService<IApplicationDbContext>();
+                    //var stripeConfiguration = services.GetService<IStripeConfiguration>();
+                    //var passwordHasher = services.GetService<IPasswordHasher>();
 
-                    var context = (ApplicationDbContext)contextInterface;
-                    context.Database.Migrate();
-                    DatabaseInitializer.Initialize(context, stripeConfiguration, passwordHasher);//<---Do your seeding here
+                    //var context = (ApplicationDbContext)contextInterface;
+                    //context.Database.Migrate();
+                    //DatabaseInitializer.Initialize(context, stripeConfiguration, passwordHasher);//<---Do your seeding here
                 }
                 catch (Exception ex)
                 {
