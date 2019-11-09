@@ -11,8 +11,11 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<ExerciseType> builder)
         {
-            builder.HasOne(x => x.ApplicationUser).WithMany(x => x.ExerciseTypes).HasForeignKey(x => x.ApplicationUserId).OnDelete(DeleteBehavior.Restrict);
-            //builder.HasMany(x => x.ExerciseMaxes).WithOne(x => x.ExerciseType).HasForeignKey(x => x.ExerciseTypeId);
+            builder
+                .HasOne(x => x.ApplicationUser)
+                .WithMany(x => x.ExerciseTypes)
+                .HasForeignKey(x => x.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(x => x.Active).HasDefaultValue(true);
             builder.Property(x => x.RequiresReps).HasDefaultValue(true);

@@ -14,24 +14,17 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
     public class SignInCommandHandler : IRequestHandler<SignInRequest, (CurrentUserRequestResponse response, string token)>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IPaymentService _paymentService;
         private readonly IJwtTokenGenerator _jwtGenerator;
-        private readonly IPasswordHasher _passwordHasher;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
         public SignInCommandHandler(
             IApplicationDbContext context,
             IPaymentService paymentService,
             IJwtTokenGenerator jwtGenerator,
-            IPasswordHasher passwordHasher,
             IMapper mapper, IMediator mediator)
         {
             _context = context;
-            _paymentService = paymentService;
             _jwtGenerator = jwtGenerator;
-            _passwordHasher = passwordHasher;
-            _mapper = mapper;
             _mediator = mediator;
         }
 

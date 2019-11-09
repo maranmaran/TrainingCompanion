@@ -10,15 +10,14 @@ using System.Threading.Tasks;
 
 namespace Backend.Service.Payment.Configuration
 {
-    public class StripeConfiguration : IStripeConfiguration
+    public class StripeConfiguration
     {
-        private readonly StripeSettings _stripeSettings;
-        public StripeConfiguration(StripeSettings stripeSettings)
-        {
-            _stripeSettings = stripeSettings;
-        }
-
-        public async Task ConfigureProducts()
+        /// <summary>
+        /// Stripe configuration: If no products or plans are set up on Stripe or if any is missing.
+        /// This will always bring back the specified configuration
+        /// This method is called once in Startup.Configuration on beggining of apps runtime
+        /// </summary>
+        public static async Task ConfigureProducts()
         {
             var productService = new ProductService();
             var products = await productService.ListAsync();
@@ -28,19 +27,24 @@ namespace Backend.Service.Payment.Configuration
 
             foreach (var product in GetProducts().Products)
             {
-                await this.AddProduct(productService, products, product);
+                await AddProduct(productService, products, product);
 
                 var productId = product.Id ?? products.First(x =>
                                     x.Name.Equals(product.Name, StringComparison.InvariantCultureIgnoreCase)).Id;
 
                 foreach (var plan in product.Plans)
                 {
-                    await this.AddPlan(planService, plans, plan, productId);
+                    await AddPlan(planService, plans, plan, productId);
                 }
             }
         }
 
-        public async Task<string> AddCustomer(string fullName, string email)
+        /// <summary>
+        /// Adds paying customer to stripe
+        /// Returns UID customer ID which is associated with app user
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<string> AddCustomer(string fullName, string email)
         {
             var customerService = new CustomerService();
             var customer = await customerService.CreateAsync(new CustomerCreateOptions()
@@ -52,8 +56,11 @@ namespace Backend.Service.Payment.Configuration
             return customer.Id;
         }
 
-
-        public ProductsViewModel GetProducts()
+        /// <summary>
+        /// Gets serialized model of products from Products.json
+        /// </summary>
+        /// <returns></returns>
+        public static ProductsViewModel GetProducts()
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
                        + "/Configuration/Products.json";
@@ -65,7 +72,7 @@ namespace Backend.Service.Payment.Configuration
         /// <summary>
         /// Adds specified product to stripe if it doesn't exist
         /// </summary>
-        private async Task AddProduct(ProductService productService, StripeList<Stripe.Product> products, Models.Product product)
+        private static async Task AddProduct(ProductService productService, StripeList<Stripe.Product> products, Models.Product product)
         {
             if (!products.Any(x => x.Name.Equals(product.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
@@ -84,7 +91,7 @@ namespace Backend.Service.Payment.Configuration
         /// <summary>
         /// Adds specified plan to stripe if it doesn't exist
         /// </summary>
-        private async Task AddPlan(PlanService planService, StripeList<Stripe.Plan> plans, Models.Plan plan, string productId)
+        private static async Task AddPlan(PlanService planService, StripeList<Stripe.Plan> plans, Models.Plan plan, string productId)
         {
             if (!plans.Any(x => x.Nickname.Equals(plan.Name)))
             {

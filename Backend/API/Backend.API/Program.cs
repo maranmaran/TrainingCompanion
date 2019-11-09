@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using Backend.Service.Authorization.Interfaces;
+using Backend.Service.Payment.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Backend.API
@@ -26,6 +27,8 @@ namespace Backend.API
                     //var contextInterface = services.GetService<IApplicationDbContext>();
                     //var stripeConfiguration = services.GetService<IStripeConfiguration>();
                     //var passwordHasher = services.GetService<IPasswordHasher>();
+
+                    StripeConfiguration.ConfigureProducts().Wait();
 
                     //var context = (ApplicationDbContext)contextInterface;
                     //context.Database.Migrate();

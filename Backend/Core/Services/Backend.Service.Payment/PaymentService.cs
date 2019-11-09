@@ -9,16 +9,15 @@ using System.Threading.Tasks;
 using CustomerService = Stripe.CustomerService;
 using Plan = Stripe.Plan;
 using PlanService = Stripe.PlanService;
+using StripeConfiguration = Backend.Service.Payment.Configuration.StripeConfiguration;
 
 namespace Backend.Service.Payment
 {
     public class PaymentService : IPaymentService
     {
-        private IStripeConfiguration _stripeConfiguration;
 
-        public PaymentService(IStripeConfiguration stripeConfiguration)
+        public PaymentService()
         {
-            _stripeConfiguration = stripeConfiguration;
         }
 
         public async Task AddPaymentOption(PaymentOption paymentOption)
@@ -130,7 +129,7 @@ namespace Backend.Service.Payment
             // only get those specified in products.json
             if (basic && plans.Any())
             {
-                var productNames = _stripeConfiguration.GetProducts().Products.First().Plans.Select(x => x.Name); // only one product.. 3 subscriptions
+                var productNames = StripeConfiguration.GetProducts().Products.First().Plans.Select(x => x.Name); // only one product.. 3 subscriptions
 
                 plans.Data = plans.Data.Where(x => productNames.Contains(x.Nickname)).ToList();
             }

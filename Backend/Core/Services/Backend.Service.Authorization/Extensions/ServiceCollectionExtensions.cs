@@ -25,7 +25,6 @@ namespace Backend.Service.Authorization.Extensions
         /// <param name="services"></param>
         public static void ConfigureAuthorizationServices(this IServiceCollection services)
         {
-            services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
         }
     }
