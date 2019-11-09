@@ -9,12 +9,12 @@ namespace Backend.Application.Business.Factories
     {
         public static T ApplyExercises<T>(ApplicationUser user) where T : class
         {
-            user.ExerciseTypes = GetExerciseTypes(user.TagGroups.ToList()) as ICollection<ExerciseType>;
+            user.ExerciseTypes = GetExerciseTypes() as ICollection<ExerciseType>;
 
             return user as T;
         }
 
-        private static IEnumerable<ExerciseType> GetExerciseTypes(List<TagGroup> types)
+        public static IEnumerable<ExerciseType> GetExerciseTypes()
         {
             return new List<ExerciseType>()
             {

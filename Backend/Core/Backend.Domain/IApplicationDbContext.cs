@@ -19,7 +19,8 @@ namespace Backend.Domain
         DbSet<Coach> Coaches { get; set; }
         DbSet<Athlete> Athletes { get; set; }
         DbSet<SoloAthlete> SoloAthletes { get; set; }
-        DbSet<UserSettings> UserSettings { get; set; }
+        DbSet<UserSetting> UserSettings { get; set; }
+        DbSet<NotificationSetting> NotificationSetting{ get; set; }
         DbSet<ChatMessage> ChatMessages { get; set; }
         DbSet<Notification> Notifications { get; set; }
         DbSet<MediaFile> MediaFiles { get; set; }

@@ -6,6 +6,7 @@ using Backend.Service.Authorization.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Persistance.Seed
 {
@@ -26,7 +27,7 @@ namespace Backend.Persistance.Seed
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     CustomerId = "cus_FLi7gZv8w0j0GB",
-                    UserSettings = new UserSettings(),
+                    UserSetting = new UserSetting(),
                 };
 
 
@@ -40,7 +41,7 @@ namespace Backend.Persistance.Seed
                     PasswordHash = passwordHasher.GetPasswordHash("athlete"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
-                    UserSettings = new UserSettings(),
+                    UserSetting = new UserSetting(),
                 };
 
 
@@ -54,7 +55,7 @@ namespace Backend.Persistance.Seed
                     PasswordHash = passwordHasher.GetPasswordHash("soloathlete"),
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
-                    UserSettings = new UserSettings(),
+                    UserSetting = new UserSetting(),
                 };
 
                 var coach = new Coach()
@@ -68,23 +69,22 @@ namespace Backend.Persistance.Seed
                     CreatedOn = DateTime.UtcNow,
                     LastModified = DateTime.UtcNow,
                     CustomerId = "cus_FHk5RepADdfm5H",
-                    UserSettings = new UserSettings(),
+                    UserSetting = new UserSetting(),
                     Athletes = new List<Athlete>() { athlete }
                 };
 
                 // SEED OTHER DATA
-                admin = ExercisePropertiesFactory.ApplyProperties<Admin>(admin);
+                admin = ExerciseTagGroupsFactory.ApplyProperties<Admin>(admin);
                 admin = ExerciseTypesFactory.ApplyExercises<Admin>(admin);
 
-                coach = ExercisePropertiesFactory.ApplyProperties<Coach>(coach);
+                coach = ExerciseTagGroupsFactory.ApplyProperties<Coach>(coach);
                 coach = ExerciseTypesFactory.ApplyExercises<Coach>(coach);
 
-                soloAthlete = ExercisePropertiesFactory.ApplyProperties<SoloAthlete>(soloAthlete);
+                soloAthlete = ExerciseTagGroupsFactory.ApplyProperties<SoloAthlete>(soloAthlete);
                 soloAthlete = ExerciseTypesFactory.ApplyExercises<SoloAthlete>(soloAthlete);
 
-                athlete = ExercisePropertiesFactory.ApplyProperties<Athlete>(athlete);
+                athlete = ExerciseTagGroupsFactory.ApplyProperties<Athlete>(athlete);
                 athlete = ExerciseTypesFactory.ApplyExercises<Athlete>(athlete);
-
 
                 context.Users.Add(admin);
                 context.Users.Add(coach);
