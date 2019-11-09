@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DynamicModule } from 'ng-dynamic-component';
+import { AvatarModule } from 'ngx-avatar';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
@@ -39,7 +40,9 @@ import { NotificationItemComponent } from './notification-item/notification-item
             ExerciseTypePreviewComponent,
             ExerciseTypeChipComponent,
             ExerciseTypeChipListComponent,
-            ActiveFlagComponent])
+            ActiveFlagComponent]),
+
+        AvatarModule,
     ],
     declarations: [
         MediaDialogComponent,
@@ -69,6 +72,7 @@ import { NotificationItemComponent } from './notification-item/notification-item
         MaterialModule,
         CKEditorModule,
 
+        AvatarModule,
         MediaDialogComponent,
         ErrorSnackbarComponent,
         MessageDialogComponent,

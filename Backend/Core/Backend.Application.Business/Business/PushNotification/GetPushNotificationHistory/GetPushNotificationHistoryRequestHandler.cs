@@ -7,6 +7,7 @@ using Backend.Domain;
 using Backend.Domain.Entities.Notification;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.PushNotification.GetPushNotificationHistory
 {
@@ -24,7 +25,9 @@ namespace Backend.Application.Business.Business.PushNotification.GetPushNotifica
             try
             {
                 return await Task.FromResult(_context.Notifications
+                        .Include(x => x.Sender)
                         .Where(x => x.ReceiverId == request.UserId)
+                        .OrderByDescending(x => x.SentAt)
                         .Skip(request.Page * request.PageSize)
                         .Take(request.PageSize));
             }

@@ -82,7 +82,11 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   }
 
   activateNotif() {
-    this.notificationService.sendNotification(NotificationType.Test, "hej", "8308CAE5-EF47-49C9-6278-08D74BDD88B3", "BD38F173-E6BB-4C1F-6277-08D74BDD88B3");
+    this.notificationService.sendNotification(
+      NotificationType.Test,
+      "hej",
+      "8308CAE5-EF47-49C9-6278-08D74BDD88B3",
+      "BD38F173-E6BB-4C1F-6277-08D74BDD88B3");
   }
 
   ngOnDestroy() {

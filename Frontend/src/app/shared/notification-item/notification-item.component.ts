@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PushNotification } from './../../../server-models/entities/push-notification.model';
 
 @Component({
@@ -9,11 +9,11 @@ import { PushNotification } from './../../../server-models/entities/push-notific
 export class NotificationItemComponent implements OnInit {
 
   @Input() model: PushNotification;
-  @Output() clickEvent = new EventEmitter<PushNotification>();
 
   constructor() { }
 
   ngOnInit() {
   }
+
 
 }

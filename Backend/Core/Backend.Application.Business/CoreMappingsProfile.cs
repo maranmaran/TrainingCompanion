@@ -21,6 +21,7 @@ using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
 using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
+using Backend.Application.Business.Business.PushNotification.SendPushNotification;
 using Backend.Application.Business.Business.Training.Update;
 using Backend.Domain.Entities.Notification;
 
@@ -45,6 +46,7 @@ namespace Backend.Application.Business
         private void NotificationMappings()
         {
             CreateMap<CreatePushNotificationRequest, Notification>();
+            CreateMap<SendPushNotificationRequest, CreatePushNotificationRequest>();
         }
 
 
