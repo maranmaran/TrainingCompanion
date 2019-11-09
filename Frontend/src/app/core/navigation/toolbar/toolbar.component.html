@@ -31,10 +31,15 @@
           </cdk-virtual-scroll-viewport> -->
 
           <div *ngFor="let item of notifications; let i = index; let c = count" class="virtual-scroll-item">
-              <app-notification-item [model]="item" (clickEvent)="notificationClicked($event)"></app-notification-item>
+              <app-notification-item
+                [model]="item"
+                (click)="$event.stopPropagation()"
+                (click)="onClickNotification(item)"
+                (mouseover)="!item.read ? onHoverNotification(item) : ''"
+              ></app-notification-item>
               <mat-divider *ngIf="!(i + 1 == c)"></mat-divider>
            </div>
-           <button class="w-100 mt-3" mat-stroked-button color="primary" (click)="loadMoreNotifications()" (click)="$event.stopPropagation()">Show more notifications</button>
+           <button class="w-100" mat-stroked-button color="primary" (click)="$event.stopPropagation()" (click)="loadMoreNotifications()" >Show more notifications</button>
 
     </mat-menu>
 

@@ -1,13 +1,19 @@
-<div class="notification-container" fxLayout="row" (click)="clickEvent.emit(model)">
-  <div fxFlex="0 0 30%">
-    Avatar
+<div
+class="notification-container"
+fxLayout="row"
+fxLayoutGap="15px"
+[ngClass]="{'unread': !model.read}">
+
+  <div fxFlex="0 0 auto" fxLayoutAlign="center">
+    <ngx-avatar size="40" name="{{ model.sender.fullName }}"></ngx-avatar>
   </div>
   <div class="notification-body-container" fxLayout="column" fxFlex="1 1 70%">
-    <div fxFlex="0 0 70%">
-      Payload
+    <div id="payload" fxFlex="0 0 70%">
+      <b>{{model.sender.fullName}}</b> {{ model.payload }}
     </div>
-    <div fxFlex="0 0 30%">
-      Metadata
+    <div id="metadata" fxFlex="0 0 30%">
+      {{ model.type }} {{ model.sentAt | date:'medium' }}
     </div>
   </div>
+
 </div>

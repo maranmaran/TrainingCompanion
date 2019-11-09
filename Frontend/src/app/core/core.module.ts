@@ -8,7 +8,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { AvatarModule } from 'ngx-avatar';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxStripeModule } from 'ngx-stripe';
 import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.guard';
@@ -51,7 +50,6 @@ import { SettingsComponent } from './settings/settings.component';
         HttpClientModule,
         ReactiveFormsModule,
         MaterialModule,
-        AvatarModule,
         NgxStripeModule.forRoot(environment.stripePublishableKey),
         NgChatModule,
         StoreModule.forRoot(reducers, {
@@ -84,7 +82,6 @@ import { SettingsComponent } from './settings/settings.component';
         GeneralComponent,
     ],
     exports: [
-        AvatarModule,
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
