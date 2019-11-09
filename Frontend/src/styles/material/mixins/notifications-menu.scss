@@ -5,76 +5,6 @@
   $accent: mat-color(map-get($theme, accent));
   $warn: mat-color(map-get($theme, warn));
 
-  //    // menu container
-  //    .notifications-menu-container {
-  //     &.mat-menu-panel {
-  //       min-width: 430px;
-  //       height: 360px;
-  //     }
-
-  //     .mat-menu-content:not(:empty) {
-  //       padding: 0px;
-  //     }
-
-  //     .mat-menu-content {
-
-  //       height: 100%;
-  //       width: 100%;
-
-  //       .virtual-scroll-viewport {
-  //         height: 100%;
-  //         width: 100%;
-
-  //         .cdk-virtual-scroll-content-wrapper {
-  //           height: 100%;
-  //         }
-
-  //         .virtual-scroll-item {
-  //           height: 60px;
-  //           width: 100%;
-
-  //           &:hover {
-  //             background-color: rgba(0, 0, 0, 0.1);
-  //             cursor: pointer;
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //   }
-
-  // @media (max-width: 600px) {
-  //   // menu container
-  //   .notifications-menu-container {
-  //     &.mat-menu-panel {
-  //       min-width: 250px;
-  //       height: 360px;
-  //     }
-
-  //     .mat-menu-content {
-
-  //       height: 100%;
-  //       width: 100%;
-
-  //       .virtual-scroll-viewport {
-  //         height: 100%;
-  //         width: 100%;
-
-  //         .virtual-scroll-item {
-  //           height: 40px;
-  //           width: 100%;
-
-  //           &:hover {
-  //             background-color: rgba(0, 0, 0, 0.1);
-  //             cursor: pointer;
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //   }
-  // }
-
   .notifications-menu-container {
     &.mat-menu-panel {
       min-width: 430px;
@@ -96,13 +26,27 @@
         .notification-container {
           height: 100%;
           padding: 10px;
-        }
 
-        &:hover {
-          background-color: rgba(0, 0, 0, 0.1);
-          cursor: pointer;
+          &.unread {
+            background-color: rgba(0, 0, 0, 0.4);
+          }
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.1) !important;
+            cursor: pointer;
+          }
         }
       }
+    }
+  }
+
+  .notification-body-container {
+    #payload{
+      font-size: 15px;
+    }
+
+    #metadata{
+      font-size: 10px;
     }
   }
 
@@ -117,6 +61,16 @@
       .virtual-scroll-item {
         height: 40px;
 
+      }
+    }
+
+    .notification-body-container {
+      #payload{
+        font-size: 12px;
+      }
+
+      #metadata{
+        font-size: 7px;
       }
     }
   }

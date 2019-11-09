@@ -36,15 +36,16 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     // subscribe to notifications
+    // only new ones.. in real time
     // this.notifications$ = this.notificationService.notifications$;
     this.subSink.add(
       this.notificationService.notifications$.subscribe(
         (notification: PushNotification) => {
 
-          this.notifications = [...this.notifications, notification];
+          this.notifications = [notification, ...this.notifications];
           !notification.read && this.unreadNotificationCounter++;
 
-          //do stuff... Display some toastr or something
+          // do stuff... Display some toastr or something for new notifications while user is logged in
         },
         err => console.log(err)
       )
@@ -81,13 +82,22 @@ export class ToolbarComponent implements OnInit, OnDestroy {
           return this.stopFetch = true;
         }
 
-        notifications.forEach(item => {
-          this.notificationService.notifications$.next(item);
-        });
+        notifications.forEach(n => !n.read && this.unreadNotificationCounter++);
+        this.notifications = [...this.notifications, ...notifications];
       });
   }
 
-  notificationClicked(notification: PushNotification) {
+  // TODO: Route probably
+  onClickNotification(notification: PushNotification) {
+    console.log('click');
+    return;
+  }
 
+  // TODO: Update notification
+  onHoverNotification(notification: PushNotification) {
+    console.log('hover');
+    notification.read = true;
+    this.unreadNotificationCounter--;
+    return;
   }
 }

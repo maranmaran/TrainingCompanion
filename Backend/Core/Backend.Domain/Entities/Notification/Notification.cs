@@ -12,6 +12,7 @@ namespace Backend.Domain.Entities.Notification
 
         public NotificationType Type { get; set; }
         public string Payload { get; set; }
+        public DateTime SentAt { get; set; }
 
         public bool Read { get; set; }
         public string RedirectUrl { get; set; }

@@ -29,6 +29,8 @@ namespace Backend.Application.Business.Business.PushNotification.CreatePushNotif
                 _context.Notifications.Add(newNotification);
                 await _context.SaveChangesAsync(cancellationToken);
 
+                _context.Entry(newNotification).Reference(x => x.Sender).Load();
+
                 return newNotification;
             }
             catch (Exception e)
