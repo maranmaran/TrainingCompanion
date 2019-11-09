@@ -23,7 +23,7 @@ namespace Backend.Application.Business.Business.Users.SaveUserSettings
         {
             try
             {
-                _context.UserSettings.Update(request.UserSettings);
+                _context.UserSettings.Update(request.UserSetting);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
@@ -31,7 +31,7 @@ namespace Backend.Application.Business.Business.Users.SaveUserSettings
             }
             catch (Exception e)
             {
-                throw new UpdateFailureException(nameof(UserSettings), request.UserSettings.Id, e);
+                throw new UpdateFailureException(nameof(UserSetting), request.UserSetting.Id, e);
             }
         }
     }

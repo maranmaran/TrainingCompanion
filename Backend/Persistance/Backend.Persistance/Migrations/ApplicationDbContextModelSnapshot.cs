@@ -490,7 +490,7 @@ namespace Backend.Persistance.Migrations
                     b.HasDiscriminator<string>("AccountType").HasValue("User");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.User.UserSettings", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.User.UserSetting", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -521,7 +521,7 @@ namespace Backend.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserSettings");
+                    b.ToTable("UserSetting");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.User.Admin", b =>
@@ -678,7 +678,7 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.User.ApplicationUser", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.User.UserSettings", "UserSettings")
+                    b.HasOne("Backend.Domain.Entities.User.UserSetting", "UserSetting")
                         .WithMany()
                         .HasForeignKey("UserSettingsId");
                 });

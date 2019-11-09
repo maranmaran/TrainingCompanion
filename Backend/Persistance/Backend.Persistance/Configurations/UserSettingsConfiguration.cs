@@ -6,9 +6,9 @@ using System;
 
 namespace Backend.Persistance.Configurations
 {
-    public class UserSettingsConfiguration : IEntityTypeConfiguration<UserSettings>
+    public class UserSettingsConfiguration : IEntityTypeConfiguration<UserSetting>
     {
-        public void Configure(EntityTypeBuilder<UserSettings> builder)
+        public void Configure(EntityTypeBuilder<UserSetting> builder)
         {
             builder.Property(x => x.Theme)
                 .HasDefaultValue(Themes.Light)
@@ -29,6 +29,10 @@ namespace Backend.Persistance.Configurations
                     v => v.ToString(),
                     v => (RpeSystem)Enum.Parse(typeof(RpeSystem), v));
 
+            builder
+                .HasMany(x => x.NotificationSettings)
+                .WithOne(x => x.UserSetting)
+                .HasForeignKey(x => x.UserSettingId);
 
         }
     }

@@ -36,7 +36,7 @@ namespace Backend.Application.Business.Business.Authorization.CurrentUser
             try
             {
                 var user = await _context.Users
-                                            .Include(x => x.UserSettings)
+                                            .Include(x => x.UserSetting)
                                             .SingleAsync(x => x.Id == request.UserId, cancellationToken: cancellationToken);
 
                 if (user == null) throw new NotFoundException(nameof(ApplicationUser), request.UserId);

@@ -1,10 +1,11 @@
-﻿using Backend.Domain.Entities.ExerciseType;
+﻿using System;
+using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using System.Collections.Generic;
 
 namespace Backend.Application.Business.Factories
 {
-    public static class ExercisePropertiesFactory
+    public static class ExerciseTagGroupsFactory
     {
         public static T ApplyProperties<T>(ApplicationUser user) where T : class
         {
@@ -26,6 +27,7 @@ namespace Backend.Application.Business.Factories
             {
                 new TagGroup()
                 {
+                    Id = Guid.NewGuid(),
                     Type = "Category",
                     Order = 0,
                     Tags = GetExerciseCategories() as ICollection<Tag>
@@ -73,6 +75,12 @@ namespace Backend.Application.Business.Factories
                     Type = "Tempo",
                     Order = 7,
                     Tags = GetTempos() as ICollection<Tag>
+                },
+                new TagGroup()
+                {
+                    Type = "Load accommodation",
+                    Order = 8,
+                    Tags = GetLoadAccommodations() as ICollection<Tag>
                 },
             };
         }
@@ -242,7 +250,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
-        public static IEnumerable<Tag> GetLoadAccomodations()
+        public static IEnumerable<Tag> GetLoadAccommodations()
         {
             return new List<Tag>()
             {

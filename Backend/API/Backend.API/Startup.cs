@@ -36,7 +36,7 @@ namespace Backend.API
             services.ConfigureMediatR();
             services.ConfigureSignalR();
 
-            // settings and services from core
+            // setting and services from core
             services.ConfigureCoreSettings(Configuration);
             services.ConfigureCoreServices();
 
