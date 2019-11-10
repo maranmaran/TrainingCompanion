@@ -81,6 +81,7 @@ export class NotificationSignalrService implements OnDestroy {
 
   sendNotification(type: NotificationType, payload: string, senderId: string, receiverId: string): void {
     if (this.hubConnection && this.hubConnection.state === signalR.HubConnectionState.Connected) {
+      console.log('sending notification');
       this.hubConnection.send('SendNotification', type, payload, senderId, receiverId);
     }
   }

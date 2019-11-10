@@ -56,7 +56,7 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveUserSettings([FromBody] SaveUserSettingsRequest request)
+        public async Task<IActionResult> SaveUserSetting([FromBody] SaveUserSettingsRequest request)
         {
             await Mediator.Send(request);
 

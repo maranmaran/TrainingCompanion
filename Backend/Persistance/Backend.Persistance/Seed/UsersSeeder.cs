@@ -27,7 +27,7 @@ namespace Backend.Persistance.Seed
                 CreatedOn = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
                 CustomerId = "cus_FLi7gZv8w0j0GB",
-                UserSetting = null
+                UserSettingId = Guid.NewGuid()
             };
 
 
@@ -42,7 +42,7 @@ namespace Backend.Persistance.Seed
                 PasswordHash = PasswordHasher.GetPasswordHash("athlete"),
                 CreatedOn = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
-                UserSetting = null
+                UserSettingId = Guid.NewGuid()
             };
 
 
@@ -57,7 +57,7 @@ namespace Backend.Persistance.Seed
                 PasswordHash = PasswordHasher.GetPasswordHash("soloathlete"),
                 CreatedOn = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
-                UserSetting = null
+                UserSettingId = Guid.NewGuid()
             };
 
             var coach = new Coach()
@@ -72,7 +72,7 @@ namespace Backend.Persistance.Seed
                 CreatedOn = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
                 CustomerId = "cus_FHk5RepADdfm5H",
-                UserSetting = null
+                UserSettingId = Guid.NewGuid()
             };
 
             athlete.CoachId = coach.Id;

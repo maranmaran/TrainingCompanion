@@ -1,7 +1,7 @@
-import { Gender } from './../enums/gender.enum';
 import { AccountType } from '../enums/account-type.enum';
 import { SubscriptionStatus } from '../enums/subscription-status.enum';
-import { UserSettings } from './user-settings.model';
+import { Gender } from './../enums/gender.enum';
+import { UserSetting } from './user-settings.model';
 
 export class ApplicationUser {
      id: string;
@@ -16,10 +16,10 @@ export class ApplicationUser {
      fullName: string;
 
      gender: Gender = Gender.Male;
-     
+
      createdOn: string;
      lastModified: string;
-     
+
      active: boolean;
      accountType: AccountType;
      subscriptionStatus: SubscriptionStatus;
@@ -28,11 +28,11 @@ export class ApplicationUser {
      coachId?: string;
      coach: ApplicationUser;
 
-     userSettingsId?: string;
-     userSettings: UserSettings;
+     userSettingId?: string;
+     userSetting: UserSetting;
 
      athletes: ApplicationUser[];
-     
+
      // get fullName(): string {
      //      return `${this.firstName} ${this.lastName}`;
      // };
