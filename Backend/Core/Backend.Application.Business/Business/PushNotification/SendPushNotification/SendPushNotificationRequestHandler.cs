@@ -12,14 +12,14 @@ namespace Backend.Application.Business.Business.PushNotification.SendPushNotific
     public class SendPushNotificationRequestHandler : IRequestHandler<SendPushNotificationRequest, Unit>
     {
         private readonly IMapper _mapper;
-        private readonly IHubContext<PushNotificationHub, IPushNotificationHub> _hubContext;
+        private readonly INotificationService _notificationService;
         private readonly IMediator _mediator;
 
-        public SendPushNotificationRequestHandler(IMapper mapper, IHubContext<PushNotificationHub, IPushNotificationHub> hubContext, IMediator mediator)
+        public SendPushNotificationRequestHandler(IMapper mapper, IMediator mediator, INotificationService notificationService)
         {
             _mapper = mapper;
-            _hubContext = hubContext;
             _mediator = mediator;
+            _notificationService = notificationService;
         }
 
         public async Task<Unit> Handle(SendPushNotificationRequest request, CancellationToken cancellationToken)
@@ -29,9 +29,11 @@ namespace Backend.Application.Business.Business.PushNotification.SendPushNotific
                 var newNotificationRequest = _mapper.Map<SendPushNotificationRequest, CreatePushNotificationRequest>(request);
                 
                 var notification = await _mediator.Send(newNotificationRequest, cancellationToken);
-                
-                await _hubContext.Clients.All.SendNotification(notification);
-                
+
+                await _notificationService.NotifyUser(notification, 
+                                                      notification.Receiver.UserSetting.NotificationSettings, 
+                                                      cancellationToken);
+                                                                
                 return Unit.Value;
             }
             catch (Exception ex)

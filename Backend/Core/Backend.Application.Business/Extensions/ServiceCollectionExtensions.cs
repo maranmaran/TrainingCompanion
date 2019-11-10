@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Backend.Application.Business.Business.PushNotification;
 
 namespace Backend.Application.Business.Extensions
 {
@@ -23,6 +24,7 @@ namespace Backend.Application.Business.Extensions
             services.ConfigureEmailServices();
             services.ConfigurePaymentServices();
             services.ConfigureS3Services();
+            services.ConfigureNotificationServices();
         }
 
         public static void ConfigureCoreSettings(this IServiceCollection services, IConfiguration config)
@@ -53,5 +55,13 @@ namespace Backend.Application.Business.Extensions
             services.AddAutoMapper(typeof(CoreMappingsProfile));
         }
 
+        /// <summary>
+        /// Configures Core mailing services
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureNotificationServices(this IServiceCollection services)
+        {
+            services.AddTransient<INotificationService, NotificationService>();
+        }
     }
 }

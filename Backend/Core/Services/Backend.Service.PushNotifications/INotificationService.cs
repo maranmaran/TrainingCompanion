@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.User;
@@ -12,6 +13,6 @@ namespace Backend.Application.Business.Business.PushNotification
         /// Notifies user by mail and push notification based on user setting
         /// </summary>
         /// <returns></returns>
-        Task NotifyUser(Notification notification, UserSetting setting, CancellationToken cancellationToken);
+        Task NotifyUser(Notification notification, IEnumerable<NotificationSetting> settings, CancellationToken cancellationToken);
     }
 }

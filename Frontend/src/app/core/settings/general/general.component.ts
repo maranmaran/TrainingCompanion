@@ -73,6 +73,7 @@ export class GeneralComponent implements OnInit {
   }
 
 public onNotificationSettingCheckboxChecked(event: MatCheckboxChange, setting: NotificationSetting) {
+
     let settingCopy = _.cloneDeep(setting);
     switch (event.source.name) {
       case 'receiveMail':
@@ -85,7 +86,7 @@ public onNotificationSettingCheckboxChecked(event: MatCheckboxChange, setting: N
         throw new Error("No source like that defined");
     }
 
-    this.userSetting.notificationSettings.map(x => x.id == settingCopy.id ? settingCopy : x);
+    this.userSetting.notificationSettings = this.userSetting.notificationSettings.map(x => x.id == settingCopy.id ? settingCopy : x);
     this.store.dispatch(updateUserSetting(this.userSetting));
     this.onSaveSettings(this.userSetting);
   }
