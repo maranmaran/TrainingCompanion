@@ -8,14 +8,14 @@ import { switchMap, take } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
-import { currentUser, userSettings } from 'src/ngrx/auth/auth.selectors';
+import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
 import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { Training } from 'src/server-models/entities/training.model';
-import { UserSettings } from 'src/server-models/entities/user-settings.model';
+import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { UpdateManySetsRequest } from './../../../../../server-models/cqrs/set/requests/update-many-sets.request';
@@ -42,13 +42,13 @@ export class SetCreateEditComponent implements OnInit {
   sets: Set[] = [];
 
   coachId: string;
-  settings: UserSettings;
+  settings: UserSetting;
   exerciseType: ExerciseType;
   exerciseId: string;
 
   ngOnInit() {
     this.sets = [...this.data.sets];
-    this.store.select(userSettings).pipe(take(1)).subscribe(settings => this.settings = settings);
+    this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.settings = settings);
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this.coachId = user.id);
     this.store.select(selectedExercise).pipe(take(1)).subscribe(exercise => {
       this.exerciseId = exercise.id;

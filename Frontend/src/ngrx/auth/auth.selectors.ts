@@ -1,9 +1,8 @@
-import { UnitSystem } from './../../server-models/enums/unit-system.enum';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AuthState } from './auth.state';
-import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
+import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';
+import { AuthState } from './auth.state';
 
 export const selectAuthState = createFeatureSelector<AuthState>("auth");
 
@@ -17,13 +16,13 @@ export const currentUserId = createSelector(
     (authState: AuthState) => authState.currentUser.id
 );
 
-export const userSettings = createSelector(
+export const userSetting = createSelector(
     currentUser,
-    (currentUser: CurrentUser) => currentUser.userSettings
+    (currentUser: CurrentUser) => currentUser.userSetting
 );
 export const unitSystem = createSelector(
     currentUser,
-    (currentUser: CurrentUser) => currentUser.userSettings.unitSystem
+    (currentUser: CurrentUser) => currentUser.userSetting.unitSystem
 );
 
 export const isLoggedIn = createSelector(
@@ -49,7 +48,7 @@ export const subscriptionStatus = createSelector(
 export const isSubscribed = createSelector(
     subscriptionStatus,
     (subStatus: SubscriptionStatus) => {
-  
+
         switch (subStatus.toString().toLowerCase()) {
             case SubscriptionStatus.active:
                 return true;

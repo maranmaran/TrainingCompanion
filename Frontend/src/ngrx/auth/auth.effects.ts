@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { UserSettings } from 'src/server-models/entities/user-settings.model';
+import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { AuthService } from '../../business/services/feature-services/auth.service';
 import { AppState } from '../global-setup.ngrx';
 import { enableErrorDialogs, setActiveProgressBar, switchTheme } from '../user-interface/ui.actions';
@@ -57,7 +57,7 @@ export class AuthEffects {
         tap(
           (response: { currentUser: CurrentUser; navigationSuccess: boolean; }) => {
             if (response.navigationSuccess) {
-              this.store.dispatch(switchTheme({ theme: response.currentUser.userSettings.theme }));
+              this.store.dispatch(switchTheme({ theme: response.currentUser.userSetting.theme }));
               this.store.dispatch(enableErrorDialogs());
             }
           }
@@ -80,12 +80,12 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  updateUserSettings$ = createEffect(
+  updateuserSetting$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.updateUserSettings),
-        tap((userSettings: UserSettings) => {
-          this.store.dispatch(switchTheme({ theme: userSettings.theme }));
+        ofType(AuthActions.updateuserSetting),
+        tap((userSetting: UserSetting) => {
+          this.store.dispatch(switchTheme({ theme: userSetting.theme }));
         })
       ),
     { dispatch: false }
@@ -100,7 +100,7 @@ export class AuthEffects {
             setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen })
           );
           this.store.dispatch(
-            switchTheme({ theme: currentUser.userSettings.theme })
+            switchTheme({ theme: currentUser.userSetting.theme })
           );
         })
       ),

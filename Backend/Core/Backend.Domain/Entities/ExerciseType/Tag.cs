@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Backend.Domain.Entities.ExerciseType
 {
@@ -11,5 +12,7 @@ namespace Backend.Domain.Entities.ExerciseType
 
         public virtual Guid TagGroupId { get; set; }
         public virtual TagGroup TagGroup { get; set; }
+
+        public virtual ICollection<ExerciseTypeTag> ExerciseTypeTags { get; set; }
     }
 }

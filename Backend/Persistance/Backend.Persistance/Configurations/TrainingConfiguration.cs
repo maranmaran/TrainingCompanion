@@ -21,7 +21,8 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasMany(x => x.Exercises)
                 .WithOne(x => x.Training)
-                .HasForeignKey(x => x.TrainingId);
+                .HasForeignKey(x => x.TrainingId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasMany(x => x.Media)
