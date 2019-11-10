@@ -1,5 +1,7 @@
 export enum NotificationType {
   TrainingCreated = 'TrainingCreated',
-        NoteAdded = 'NoteAdded',
-        MediaAdded = 'MediaAdded'
+  NoteAdded = 'NoteAdded',
+  MediaAdded = 'MediaAdded'
 }
+
+

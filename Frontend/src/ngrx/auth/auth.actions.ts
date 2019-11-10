@@ -43,7 +43,7 @@ export const updateCurrentUser = createAction(
 //#region Current user modifier actions
 
 
-export const updateuserSetting = createAction(
+export const updateUserSetting = createAction(
     '[User API] Update user settings',
     props<UserSetting>()
 )
