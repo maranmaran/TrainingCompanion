@@ -28,10 +28,10 @@ namespace Backend.Application.Business.Business.Set.UpdateMany
                     .Include(x => x.ExerciseType)
                     .First(x => x.Id == request.ExerciseId).ExerciseType;
 
-                var sets = _context.Sets.Where(x => x.ExerciseId == request.ExerciseId).AsNoTracking();
+                var sets = await _context.Sets.Where(x => x.ExerciseId == request.ExerciseId).AsNoTracking().ToListAsync(cancellationToken);
                 TransformSets(request.Sets, type);
 
-                var setsToRemove = await sets.Where(x => request.Sets.All(y => y.Id != x.Id)).ToListAsync(cancellationToken);
+                var setsToRemove = sets.Where(x => request.Sets.All(y => y.Id != x.Id));
                 var setsToAdd = request.Sets.Where(x => x.Id == Guid.Empty);
                 var setsToUpdate = request.Sets.Where(x => x.Id != Guid.Empty);
 

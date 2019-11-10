@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using Backend.Service.Authorization.Interfaces;
 using Backend.Service.Payment.Configuration;
 using Microsoft.Extensions.Hosting;
 
@@ -24,14 +23,14 @@ namespace Backend.API
                 var services = scope.ServiceProvider;
                 try
                 {
-                    //var contextInterface = services.GetService<IApplicationDbContext>();
+                    var contextInterface = services.GetService<IApplicationDbContext>();
                     //var stripeConfiguration = services.GetService<IStripeConfiguration>();
                     //var passwordHasher = services.GetService<IPasswordHasher>();
 
                     StripeConfiguration.ConfigureProducts().Wait();
 
-                    //var context = (ApplicationDbContext)contextInterface;
-                    //context.Database.Migrate();
+                    var context = (ApplicationDbContext)contextInterface;
+                    context.Database.Migrate();
                     //DatabaseInitializer.Initialize(context, stripeConfiguration, passwordHasher);//<---Do your seeding here
                 }
                 catch (Exception ex)
