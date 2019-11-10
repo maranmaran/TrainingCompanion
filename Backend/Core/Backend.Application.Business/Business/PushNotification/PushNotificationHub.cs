@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
-using Backend.Domain.Entities.Notification;
 using Backend.Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,31 +10,29 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Backend.Application.Business.Business.PushNotification
 {
-    public interface IPushNotificationHub
-    {
-        Task SendNotification(Notification notification);
-        Task GetHistory(IEnumerable<Notification> notifications);
-    }
-
     [Authorize]
     public class PushNotificationHub : Hub<IPushNotificationHub>
     {
         private readonly IMediator _mediator;
+        private readonly INotificationService _notificationService;
 
-        public PushNotificationHub(IMediator mediator)
+        public PushNotificationHub(IMediator mediator, INotificationService notificationService)
         {
             _mediator = mediator;
+            _notificationService = notificationService;
         }
 
+        // TODO:
+        // CancellationToken support closed on march 31 https://github.com/aspnet/AspNetCore/issues/8813
+        // Check when new version releases
         public async Task SendNotification(NotificationType type, string payload, Guid senderId, Guid receiverId)
         {
 
             // save to db
-            var notification = await _mediator.Send(new CreatePushNotificationRequest(type, payload, senderId, receiverId));
+            var notification = await _mediator.Send(new CreatePushNotificationRequest(type, payload, senderId, receiverId), CancellationToken.None);
 
-            // send
-            //await Clients.User(receiverId.ToString()).SendNotification(type, payload, senderId);
-            await Clients.All.SendNotification(notification);
+            await _notificationService.NotifyUser(notification, notification.Receiver.UserSetting.NotificationSettings,
+                CancellationToken.None);
         }
 
 
