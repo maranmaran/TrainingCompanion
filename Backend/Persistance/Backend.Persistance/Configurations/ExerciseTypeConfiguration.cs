@@ -14,8 +14,7 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasOne(x => x.ApplicationUser)
                 .WithMany(x => x.ExerciseTypes)
-                .HasForeignKey(x => x.ApplicationUserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(x => x.ApplicationUserId);
 
             builder.Property(x => x.Active).HasDefaultValue(true);
             builder.Property(x => x.RequiresReps).HasDefaultValue(true);

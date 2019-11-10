@@ -34,8 +34,8 @@ namespace Backend.Domain.Entities.User
         public AccountType AccountType { get; set; }
         public int TrialDuration { get; set; }
 
-        public Guid? UserSettingsId { get; set; }
-        public virtual UserSetting UserSetting { get; set; } = new UserSetting();
+        public Guid UserSettingId { get; set; }
+        public virtual UserSetting UserSetting { get; set; }
 
         public virtual ICollection<ChatMessage> ChatMessages { get; set; } = new HashSet<ChatMessage>();
         public virtual ICollection<Notification.Notification> Notifications { get; set; } = new HashSet<Notification.Notification>();

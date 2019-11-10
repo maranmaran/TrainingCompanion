@@ -10,6 +10,8 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<UserSetting> builder)
         {
+            builder.HasKey(x => x.Id);
+
             builder.Property(x => x.Theme)
                 .HasDefaultValue(Themes.Light)
                 .HasConversion(
@@ -33,6 +35,9 @@ namespace Backend.Persistance.Configurations
                 .HasMany(x => x.NotificationSettings)
                 .WithOne(x => x.UserSetting)
                 .HasForeignKey(x => x.UserSettingId);
+
+            builder.HasOne(x => x.ApplicationUser).WithOne(x => x.UserSetting)
+                .HasForeignKey<ApplicationUser>(x => x.UserSettingId);
 
         }
     }

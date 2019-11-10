@@ -1,7 +1,7 @@
-import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { createAction, props } from '@ngrx/store';
+import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { UserSettings } from 'src/server-models/entities/user-settings.model';
+import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
 
 //#region Login actions
@@ -38,14 +38,14 @@ export const updateCurrentUser = createAction(
     props<CurrentUser>()
 )
 
-//#endregion 
+//#endregion
 
 //#region Current user modifier actions
 
 
-export const updateUserSettings = createAction(
+export const updateuserSetting = createAction(
     '[User API] Update user settings',
-    props<UserSettings>()
+    props<UserSetting>()
 )
 
 export const addSubscription = createAction(

@@ -3,13 +3,11 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { Theme } from 'src/business/shared/theme.enum';
-import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
-import { updateUserSettings } from 'src/ngrx/auth/auth.actions';
-import { userSettings } from 'src/ngrx/auth/auth.selectors';
+import { updateuserSetting } from 'src/ngrx/auth/auth.actions';
+import { userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { UserService } from '../../../../business/services/feature-services/user.service';
-import { UserSettings } from './../../../../server-models/entities/user-settings.model';
+import { UserSetting } from './../../../../server-models/entities/user-settings.model';
 
 @Component({
   selector: 'app-general',
@@ -18,7 +16,7 @@ import { UserSettings } from './../../../../server-models/entities/user-settings
 })
 export class GeneralComponent implements OnInit {
 
-  public userSettings: UserSettings;
+  public userSetting: UserSetting;
 
   constructor(
     private store: Store<AppState>,
@@ -26,25 +24,25 @@ export class GeneralComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.store.select(userSettings).pipe(take(1))
-      .subscribe((userSettings: UserSettings) => {
-        this.userSettings = { ...userSettings };
+    this.store.select(userSetting).pipe(take(1))
+      .subscribe((userSetting: UserSetting) => {
+        this.userSetting = { ...userSetting };
       });
   }
 
-  get themeButtonChecked(): boolean { return this.userSettings.theme == Theme.Dark; }
+  get themeButtonChecked(): boolean { return this.userSetting.theme == Theme.Dark; }
 
   public onThemeChange(event: MatSlideToggleChange) {
-    if (event.checked) this.userSettings.theme = Theme.Dark;
-    if (!event.checked) this.userSettings.theme = Theme.Light;
+    if (event.checked) this.userSetting.theme = Theme.Dark;
+    if (!event.checked) this.userSetting.theme = Theme.Light;
 
-    this.store.dispatch(updateUserSettings(this.userSettings));
-    this.onSaveSettings(this.userSettings);
+    this.store.dispatch(updateuserSetting(this.userSetting));
+    this.onSaveSettings(this.userSetting);
   }
 
-  private onSaveSettings(userSettings: UserSettings) {
+  private onSaveSettings(userSetting: UserSetting) {
 
-    this.usersService.saveSettings(userSettings)
+    this.usersService.saveSettings(userSetting)
       .pipe(take(1))
       .subscribe(
         () => { },

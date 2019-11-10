@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
-import { UserSettings } from 'src/server-models/entities/user-settings.model';
+import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { CrudService } from '../crud.service';
 
@@ -44,9 +44,9 @@ export class UserService extends CrudService<ApplicationUser> {
             );
     }
 
-    public saveSettings(userSettings: UserSettings) {
-        const payload = { userSettings: userSettings };
-        return this.http.post(this.url + 'SaveUserSettings/', payload)
+    public saveSettings(userSetting: UserSetting) {
+        const payload = { userSetting: userSetting };
+        return this.http.post(this.url + 'SaveuserSetting/', payload)
             .pipe(
                 catchError(this.handleError)
             );
