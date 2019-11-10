@@ -80,10 +80,10 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  updateuserSetting$ = createEffect(
+  updateUserSetting$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.updateuserSetting),
+        ofType(AuthActions.updateUserSetting),
         tap((userSetting: UserSetting) => {
           this.store.dispatch(switchTheme({ theme: userSetting.theme }));
         })

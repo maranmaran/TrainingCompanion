@@ -32,7 +32,7 @@ export const authReducer: ActionReducer<AuthState, Action> = createReducer(
         }
     }),
 
-    on(AuthActions.updateuserSetting, (state: AuthState, userSetting: UserSetting) => {
+    on(AuthActions.updateUserSetting, (state: AuthState, userSetting: UserSetting) => {
         return {
             ...state,
             currentUser: {
