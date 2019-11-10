@@ -11,8 +11,15 @@ fxLayoutGap="15px"
     <div id="payload" fxFlex="0 0 70%">
       <b>{{model.sender.fullName}}</b> {{ model.payload }}
     </div>
-    <div id="metadata" fxFlex="0 0 30%">
-      {{ model.type }} {{ model.sentAt | date:'medium' }}
+    <div id="metadata" fxFlex="0 0 30%" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+
+      <ng-container [ngSwitch]="model.type">
+        <i *ngSwitchCase="'TrainingCreated'" class="fas fa-dumbbell"></i>
+        <i *ngSwitchCase="'NoteAdded'" class="fas fa-envelope-open-text"></i>
+        <i *ngSwitchCase="'MediaAdded'" class="fas fa-photo-video"></i>
+      </ng-container>
+
+      <span id="date">{{ model.sentAt | date:'medium' }}</span>
     </div>
   </div>
 
