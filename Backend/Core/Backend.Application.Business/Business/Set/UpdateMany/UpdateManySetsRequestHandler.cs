@@ -31,7 +31,7 @@ namespace Backend.Application.Business.Business.Set.UpdateMany
                 var sets = _context.Sets.Where(x => x.ExerciseId == request.ExerciseId).AsNoTracking();
                 TransformSets(request.Sets, type);
 
-                var setsToRemove = sets.Where(x => request.Sets.All(y => y.Id != x.Id));
+                var setsToRemove = await sets.Where(x => request.Sets.All(y => y.Id != x.Id)).ToListAsync(cancellationToken);
                 var setsToAdd = request.Sets.Where(x => x.Id == Guid.Empty);
                 var setsToUpdate = request.Sets.Where(x => x.Id != Guid.Empty);
 
@@ -45,7 +45,7 @@ namespace Backend.Application.Business.Business.Set.UpdateMany
             }
             catch (Exception e)
             {
-                throw new CreateFailureException(nameof(Domain.Entities.ExerciseType.Tag), e);
+                throw new CreateFailureException(nameof(Domain.Entities.TrainingLog.Set), e);
             }
         }
 
