@@ -95,9 +95,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   // TODO: Update notification
   onHoverNotification(notification: PushNotification) {
-    console.log('hover');
     notification.read = true;
     this.unreadNotificationCounter--;
+    this.notificationService.readNotification(notification.id);
     return;
   }
 }
