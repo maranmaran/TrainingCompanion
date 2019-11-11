@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/app/app.state';
@@ -25,7 +26,8 @@ export class NotificationSignalrService implements OnDestroy {
     private authService: AuthService,
     private store: Store<AppState>,
     private http: HttpClient,
-    private appSettingsService: AppSettingsService
+    private appSettingsService: AppSettingsService,
+    private toastService: ToastrService
   ) {
     // subscribe to logout
     this.subs.add(
@@ -40,6 +42,10 @@ export class NotificationSignalrService implements OnDestroy {
 
     // configure connection
     this.configureHubConnection();
+  }
+
+  public readNotification(id: string) {
+    console.log(`Read ${id} notification`);
   }
 
   private configureHubConnection() {
@@ -63,6 +69,7 @@ export class NotificationSignalrService implements OnDestroy {
   initializeListeners() {
     this.hubConnection.on('SendNotification', (notification: PushNotification) => {
       this.notifications$.next(notification);
+      this.toastService.show(JSON.stringify(notification), 'Notification')
     });
   }
 

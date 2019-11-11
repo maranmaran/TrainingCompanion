@@ -46,6 +46,7 @@
     "ngx-color-picker": "^8.1.0",
     "ngx-cookie-service": "^2.2.0",
     "ngx-stripe": "^7.4.3",
+    "ngx-toastr": "^11.2.1",
     "normalizr": "^3.4.1",
     "rxjs": "~6.5.2",
     "subsink": "^1.0.0",
