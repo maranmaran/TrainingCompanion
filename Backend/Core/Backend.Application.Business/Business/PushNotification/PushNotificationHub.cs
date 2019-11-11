@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
+using Backend.Domain.Entities.Notification;
 using Backend.Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -35,6 +36,16 @@ namespace Backend.Application.Business.Business.PushNotification
                 CancellationToken.None);
         }
 
+
+        public async Task ReadNotification(Notification notification)
+        {
+
+            // save to db
+            //await _mediator.Send(new UpdateNotificationRequestHandler(), CancellationToken.None);
+
+            await _notificationService.NotifyUser(notification, notification.Receiver.UserSetting.NotificationSettings,
+                CancellationToken.None);
+        }
 
     }
 }

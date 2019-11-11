@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxStripeModule } from 'ngx-stripe';
+import { ToastrModule } from 'ngx-toastr';
 import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.guard';
 import { ErrorInterceptor } from 'src/business/interceptors/error.interceptor';
 import { HttpInterceptor } from 'src/business/interceptors/http.interceptor';
@@ -23,6 +24,7 @@ import { metaReducers, reducers } from 'src/ngrx/global-setup.ngrx';
 import { MaterialModule } from '../shared/angular-material.module';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
 import { ErrorSnackbarComponent } from '../shared/error-snackbar/error-snackbar.component';
+import { NotificationToastComponent } from '../shared/notification-toast/notification-toast.component';
 import { SharedModule } from '../shared/shared.module';
 import { CoreEffects } from './../../ngrx/global-setup.ngrx';
 import { MessageDialogComponent } from './../shared/message-dialog/message-dialog.component';
@@ -39,7 +41,6 @@ import { PlansComponent } from './settings/billing/plans/plans.component';
 import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stripe-checkout.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
-
 
 @NgModule({
     imports: [
@@ -66,7 +67,13 @@ import { SettingsComponent } from './settings/settings.component';
             routerState: RouterState.Minimal,
             serializer: CustomSerializer
         }),
-
+        ToastrModule.forRoot({
+          timeOut: 0,
+          disableTimeOut : true,
+          positionClass: 'toast-bottom-right',
+          preventDuplicates: false,
+          toastComponent: NotificationToastComponent // added custom toast!
+        }) // ToastrModule added
     ],
     declarations: [
         AppContainerComponent,
@@ -80,6 +87,7 @@ import { SettingsComponent } from './settings/settings.component';
         StripeCheckoutComponent,
         AccountComponent,
         GeneralComponent,
+        NotificationToastComponent
     ],
     exports: [
         CommonModule,
@@ -103,7 +111,8 @@ import { SettingsComponent } from './settings/settings.component';
         SettingsComponent,
         StripeCheckoutComponent,
         ConfirmDialogComponent,
-        MessageDialogComponent
+        MessageDialogComponent,
+        NotificationToastComponent
     ]
 })
 export class CoreModule { }

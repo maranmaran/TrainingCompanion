@@ -5,6 +5,29 @@
   $accent: mat-color(map-get($theme, accent));
   $warn: mat-color(map-get($theme, warn));
 
+  $background-palette: map-get($theme, background);
+  $background-color: map-get($background-palette, background);
+  $border-color: map-get($background-palette, focused-button);
+  $color: map-get($background-palette, foreground);
+
+  .toast-container .ngx-toastr {
+    background: darken($primary, 25%);
+    // background: darken($background-color, 10%);
+    color: $color !important;
+
+    border-radius: 15px;
+    border: 0.5px solid $border-color;
+
+    box-shadow: none;
+
+    &:hover {
+      box-shadow: 0 0 12px $border-color;
+      cursor: pointer;
+      /* background-color: rgba(0,0,0,0.1); */
+      opacity: 1;
+    }
+  }
+
   .notifications-menu-container {
     &.mat-menu-panel {
       min-width: 430px;
@@ -41,11 +64,11 @@
   }
 
   .notification-body-container {
-    #payload{
+    #payload {
       font-size: 15px;
     }
 
-    #metadata{
+    #metadata {
       font-size: 10px;
     }
   }
@@ -60,16 +83,15 @@
 
       .virtual-scroll-item {
         height: 40px;
-
       }
     }
 
     .notification-body-container {
-      #payload{
+      #payload {
         font-size: 12px;
       }
 
-      #metadata{
+      #metadata {
         font-size: 7px;
       }
     }

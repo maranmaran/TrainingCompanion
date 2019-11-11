@@ -1,0 +1,28 @@
+<div
+class="notification-container"
+fxLayout="row"
+fxLayoutGap="15px"
+[ngClass]="{'unread': !notification.read}"
+(click)="readNotification()">
+
+  <div fxFlex="0 0 auto" fxLayoutAlign="center">
+    <ngx-avatar size="40" name="{{ notification.sender.fullName }}"></ngx-avatar>
+  </div>
+
+  <div class="notification-body-container" fxLayout="column" fxFlex="1 1 70%">
+    <div id="payload" fxFlex="0 0 70%">
+      <b>{{notification.sender.fullName}}</b> {{ notification.payload }}
+    </div>
+    <div id="metadata" fxFlex="0 0 30%" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+
+      <ng-container [ngSwitch]="notification.type">
+        <i *ngSwitchCase="'TrainingCreated'" class="fas fa-dumbbell"></i>
+        <i *ngSwitchCase="'NoteAdded'" class="fas fa-envelope-open-text"></i>
+        <i *ngSwitchCase="'MediaAdded'" class="fas fa-photo-video"></i>
+      </ng-container>
+
+      <span id="date">{{ notification.sentAt | date:'medium' }}</span>
+    </div>
+  </div>
+
+</div>
