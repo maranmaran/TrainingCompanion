@@ -1,5 +1,6 @@
 ﻿using Backend.Service.Payment.Interfaces;
 using Backend.Service.Payment.Models;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Stripe;
 using System;
@@ -17,9 +18,16 @@ namespace Backend.Service.Payment.Configuration
         /// This will always bring back the specified configuration
         /// This method is called once in Startup.Configuration on beggining of apps runtime
         /// </summary>
-        public static async Task ConfigureProducts()
+        public static async Task ConfigureProducts(StripeSettings settings = null)
         {
+            if(settings != null)
+            {
+                // calling from program.cs
+                Stripe.StripeConfiguration.ApiKey = settings.SecretKey;
+            }
+
             var productService = new ProductService();
+
             var products = await productService.ListAsync();
 
             var planService = new PlanService();

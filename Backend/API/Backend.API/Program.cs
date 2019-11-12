@@ -1,7 +1,5 @@
 ﻿using Backend.Domain;
 using Backend.Persistance;
-using Backend.Service.Payment.Interfaces;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,10 +22,10 @@ namespace Backend.API
                 try
                 {
                     var contextInterface = services.GetService<IApplicationDbContext>();
-                    //var stripeConfiguration = services.GetService<IStripeConfiguration>();
+                    var stripeSettings = services.GetService<StripeSettings>();
                     //var passwordHasher = services.GetService<IPasswordHasher>();
 
-                    StripeConfiguration.ConfigureProducts().Wait();
+                    StripeConfiguration.ConfigureProducts(stripeSettings).Wait();
 
                     var context = (ApplicationDbContext)contextInterface;
                     context.Database.Migrate();
