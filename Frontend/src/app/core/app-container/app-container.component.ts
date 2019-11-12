@@ -16,7 +16,6 @@ import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme, getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { NotificationType } from 'src/server-models/enums/notification-type.enum';
 import { SubSink } from 'subsink';
 import { Message } from '../ng-chat/core/message';
 import { NgChatTheme } from '../ng-chat/core/ng-chat-theme.enum';
@@ -79,14 +78,6 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     // if routing to settings -> open dialog with specific section from route data
     this.section && this.onOpenSettings(this.section);
 
-  }
-
-  activateNotif() {
-    this.notificationService.sendNotification(
-      NotificationType.TrainingCreated,
-      "Test notification text from client",
-      "E28EBA53-52E4-4FF9-AD02-FDA480BAFB67",
-      "91FBE82A-9BA3-4BEA-A744-8766751F8357");
   }
 
   ngOnDestroy() {

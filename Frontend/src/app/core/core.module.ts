@@ -68,8 +68,8 @@ import { SettingsComponent } from './settings/settings.component';
             serializer: CustomSerializer
         }),
         ToastrModule.forRoot({
-          timeOut: 0,
-          disableTimeOut : true,
+          timeOut: 2000,
+          disableTimeOut : false,
           positionClass: 'toast-bottom-right',
           preventDuplicates: false,
           toastComponent: NotificationToastComponent // added custom toast!
