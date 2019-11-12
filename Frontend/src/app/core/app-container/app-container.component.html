@@ -14,7 +14,6 @@
           (logoutEvent)="onLogout($event)"
       ></app-toolbar>
 
-      <button (click)="activateNotif()">Receive notification</button>
       <router-outlet></router-outlet>
       <ng-chat [hideFriendsList]="false" fxHide.xs [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>
 
