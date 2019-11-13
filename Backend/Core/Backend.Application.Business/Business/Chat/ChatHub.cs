@@ -18,6 +18,8 @@ using Backend.Domain.Entities.Chat;
 using MediatR;
 using Backend.Application.Business.Business.Chat.ReadMessages;
 using Backend.Application.Business.Business.Chat.CreateChatMessage;
+using System.Runtime.CompilerServices;
+using Backend.Application.Business.Business.Users.GetUser;
 
 namespace Backend.Application.Business.Business.Chat
 {
@@ -27,18 +29,9 @@ namespace Backend.Application.Business.Business.Chat
         private static ConcurrentDictionary<string, ParticipantResponseViewModel> AllConnectedParticipants { get; set; } = new ConcurrentDictionary<string, ParticipantResponseViewModel>();
         private static ConcurrentDictionary<string, ParticipantResponseViewModel> DisconnectedParticipants { get; set; } = new ConcurrentDictionary<string, ParticipantResponseViewModel>();
 
-        private readonly object _initLock = new object();
-        private static readonly object ConnectedParticipantsLock = new object();
-        private readonly object _messageLock = new object();
-        private readonly object _messagesLock = new object();
-        private readonly object _connectedLock = new object();
-        private readonly object _disconnectedLock = new object();
-        private readonly object _contextLock = new object();
-
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IS3AccessService _s3AccessService;
-        //private bool _init = false;
 
         public ChatHub(IMediator mediator, IMapper mapper, IS3AccessService s3AccessService)
         {
@@ -47,13 +40,12 @@ namespace Backend.Application.Business.Business.Chat
             _s3AccessService = s3AccessService;
         }
 
-
         /// <summary>
         /// Handler for message sending.
         /// Persists message in database and then sends it through the hub to listeners
         /// </summary>
         /// <param name="message"></param>
-        public async void SendMessage(MessageViewModel message)
+        public async Task SendMessage(MessageViewModel message)
         {
             var createRequest = _mapper.Map<MessageViewModel, CreateChatMessageRequest>(message);
             await _mediator.Send(createRequest);
@@ -74,7 +66,7 @@ namespace Backend.Application.Business.Business.Chat
         /// Persists seen attribute in database
         /// </summary>
         /// <param name="message"></param>
-        public async void MessagesSeen(IEnumerable<MessageViewModel> messages)
+        public async Task MessagesSeen(IEnumerable<MessageViewModel> messages)
         {
             await _mediator.Send(new ReadMessagesRequest() {  Messages = messages });
         }
@@ -85,28 +77,19 @@ namespace Backend.Application.Business.Business.Chat
         /// </summary>
         /// <param name="exception"></param>
         /// <returns></returns>
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
-            lock (_disconnectedLock)
+            var userId = Context.User.Identity.Name;
+            AllConnectedParticipants.TryGetValue(userId, out var participant);
+
+            if (participant != null)
             {
-                var userId = Context.User.Identity.Name;
-                AllConnectedParticipants.TryGetValue(userId, out var participant);
+                participant.Participant.Status = ChatParticipantStatus.Offline;
 
-                if (participant != null)
-                {
-                    participant.Participant.Status = ChatParticipantStatus.Offline;
+                AllConnectedParticipants.TryRemove(userId, out var removedParticipant);
+                DisconnectedParticipants.TryAdd(userId, removedParticipant);
 
-                    AllConnectedParticipants.TryRemove(userId, out var removedParticipant);
-                    DisconnectedParticipants.TryAdd(userId, removedParticipant);
-
-                    Clients.All.SendAsync("friendsListChanged");
-                }
-                //else
-                //{
-                //    throw new InvalidOperationException("ApplicationUser can't be disconnecting if he never connected");
-                //}
-
-                return base.OnDisconnectedAsync(exception);
+                await Clients.All.SendAsync("friendsListChanged");
             }
         }
 
@@ -116,40 +99,34 @@ namespace Backend.Application.Business.Business.Chat
         /// </summary>
         /// <param name="exception"></param>
         /// <returns></returns>
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
+            var userId = Context.User.Identity.Name; // fetch id
+            DisconnectedParticipants.TryGetValue(userId, out var disconnectedParticipant); // get from disconnected participants
+            AllConnectedParticipants.TryGetValue(userId, out var connectedParticipant); // get from disconnected participants
 
-            lock (_connectedLock)
+            if (disconnectedParticipant != null && connectedParticipant == null)
             {
+                // if participant exists in disconnected dictionary. Move it to Connected
+                disconnectedParticipant.Participant.Status = ChatParticipantStatus.Online;
 
-                var userId = Context.User.Identity.Name; // fetch id
-                DisconnectedParticipants.TryGetValue(userId, out var disconnectedParticipant); // get from disconnected participants
-                AllConnectedParticipants.TryGetValue(userId, out var connectedParticipant); // get from disconnected participants
+                DisconnectedParticipants.TryRemove(userId, out var removedParticipant);
+                AllConnectedParticipants.TryAdd(userId, removedParticipant);
 
-                if (disconnectedParticipant != null && connectedParticipant == null)
-                {
-                    // if participant exists in disconnected dictionary. Move it to Connected
-                    disconnectedParticipant.Participant.Status = ChatParticipantStatus.Online;
-
-                    DisconnectedParticipants.TryRemove(userId, out var removedParticipant);
-                    AllConnectedParticipants.TryAdd(userId, removedParticipant);
-
-                    Clients.All.SendAsync("friendsListChanged");
-                }
-
-                // if participant doesn't exist in disconnected dict. Fetch user and move it to Connected dictionary
-                if (disconnectedParticipant == null && connectedParticipant == null)
-                {
-                    var newParticipant = _mapper.Map<ParticipantResponseViewModel>(_context.Users.SingleAsync(x => x.Id.ToString() == userId).Result);
-                    newParticipant.Participant.Status = ChatParticipantStatus.Online;
-                    AllConnectedParticipants.TryAdd(userId, newParticipant);
-                }
-
-                // else if connected participant exists.. do nothing because user probably logged in two times on two browsers
-
-
-                return base.OnConnectedAsync();
+                await Clients.All.SendAsync("friendsListChanged");
             }
+
+            // if participant doesn't exist in disconnected dict. Fetch user and move it to Connected dictionary
+            if (disconnectedParticipant == null && connectedParticipant == null)
+            {
+                var user = await _mediator.Send(new GetUserRequest(Guid.Parse(userId), AccountType.User));
+                var newParticipant = _mapper.Map<ParticipantResponseViewModel>(user);
+
+                newParticipant.Participant.Status = ChatParticipantStatus.Online;
+
+                AllConnectedParticipants.TryAdd(userId, newParticipant);
+            }
+            // else if connected participant exists.. do nothing because user probably logged in on multiple browsers
         }
     }
 }

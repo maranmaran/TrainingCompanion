@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Backend.Application.Business.Business.Chat.ReadMessages
 {
-    public class ReadMessagesRequest: IRequest<Unit>
+    public class ReadMessagesRequest: MediatR.IRequest
     {
         public IEnumerable<MessageViewModel> Messages { get; set; }
     }
