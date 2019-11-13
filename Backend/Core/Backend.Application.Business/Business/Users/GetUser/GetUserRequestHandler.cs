@@ -41,6 +41,11 @@ namespace Backend.Application.Business.Business.Users.GetUser
 
                         return await GetSoloAthlete(request);
 
+                    case AccountType.User:
+
+                        return await GetGenericUser(request);
+
+
                     default:
                         throw new NotImplementedException($"This account type does not exist: {request.AccountType}");
                 }
@@ -51,21 +56,27 @@ namespace Backend.Application.Business.Business.Users.GetUser
             }
         }
 
+        private async Task<ApplicationUser> GetGenericUser(GetUserRequest request)
+        {
+            var coach = await _context.Users.FirstAsync(x => x.Id == request.Id);
+            return _mapper.Map<ApplicationUser>(coach);
+        } 
+        
         private async Task<ApplicationUser> GetCoach(GetUserRequest request)
         {
-            var coach = await _context.Coaches.SingleAsync(x => x.Id == request.Id);
+            var coach = await _context.Coaches.FirstAsync(x => x.Id == request.Id);
             return _mapper.Map<ApplicationUser>(coach);
         }
 
         private async Task<ApplicationUser> GetAthlete(GetUserRequest request)
         {
-            var athlete = await _context.Athletes.SingleAsync(x => x.Id == request.Id);
+            var athlete = await _context.Athletes.FirstAsync(x => x.Id == request.Id);
             return _mapper.Map<ApplicationUser>(athlete);
         }
 
         private async Task<ApplicationUser> GetSoloAthlete(GetUserRequest request)
         {
-            var soloAthlete = await _context.SoloAthletes.SingleAsync(x => x.Id == request.Id);
+            var soloAthlete = await _context.SoloAthletes.FirstAsync(x => x.Id == request.Id);
             return _mapper.Map<ApplicationUser>(soloAthlete);
         }
     }
