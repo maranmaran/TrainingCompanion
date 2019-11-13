@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Chat.ReadMessages
 {
-    public class ReadMessageRequestHandler : IRequestHandler<ReadMessagesRequest, Unit>
+    public class ReadMessageRequestHandler : AsyncRequestHandler<ReadMessagesRequest>
     {
         private readonly IApplicationDbContext _context;
 
@@ -18,7 +18,7 @@ namespace Backend.Application.Business.Business.Chat.ReadMessages
             _context = context;
         }
 
-        public async Task<Unit> Handle(ReadMessagesRequest request, CancellationToken cancellationToken)
+        protected override async Task Handle(ReadMessagesRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -43,8 +43,6 @@ namespace Backend.Application.Business.Business.Chat.ReadMessages
                     _context.ChatMessages.UpdateRange(chatMessagesToUpdate);
                     _context.SaveChangesAsync(CancellationToken.None).Wait();
                 }
-
-                return Unit.Value;
             }
             catch (Exception e)
             {

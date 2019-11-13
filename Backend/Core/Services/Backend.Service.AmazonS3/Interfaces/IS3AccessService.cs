@@ -42,6 +42,6 @@ namespace Backend.Service.AmazonS3.Interfaces
         /// <param name="url"></param>
         /// <param name="filename"></param>
         /// <returns></returns>
-        Task<string> RenewPresignedUrl(string url, string filename)
+        Task<string> RenewPresignedUrl(string url, string filename);
     }
 }
