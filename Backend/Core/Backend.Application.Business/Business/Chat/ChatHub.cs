@@ -15,6 +15,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain.Entities.Chat;
+using MediatR;
+using Backend.Application.Business.Business.Chat.ReadMessages;
+using Backend.Application.Business.Business.Chat.CreateChatMessage;
 
 namespace Backend.Application.Business.Business.Chat
 {
@@ -32,14 +35,14 @@ namespace Backend.Application.Business.Business.Chat
         private readonly object _disconnectedLock = new object();
         private readonly object _contextLock = new object();
 
-        private readonly IApplicationDbContext _context;
+        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IS3AccessService _s3AccessService;
         //private bool _init = false;
 
-        public ChatHub(IApplicationDbContext context, IMapper mapper, IS3AccessService s3AccessService)
+        public ChatHub(IMediator mediator, IMapper mapper, IS3AccessService s3AccessService)
         {
-            _context = context;
+            _mediator = mediator;
             _mapper = mapper;
             _s3AccessService = s3AccessService;
         }
@@ -50,43 +53,19 @@ namespace Backend.Application.Business.Business.Chat
         /// Persists message in database and then sends it through the hub to listeners
         /// </summary>
         /// <param name="message"></param>
-        public void SendMessage(MessageViewModel message)
+        public async void SendMessage(MessageViewModel message)
         {
-            lock (_messageLock)
+            var createRequest = _mapper.Map<MessageViewModel, CreateChatMessageRequest>(message);
+            await _mediator.Send(createRequest);
+
+            var sender = AllConnectedParticipants.FirstOrDefault(x => x.Key == message.FromId);
+            if (sender.Value != null)
             {
-                var sender = AllConnectedParticipants.FirstOrDefault(x => x.Key == message.FromId);
+                // get fresh presigned url for display
+                message.DownloadUrl = await _s3AccessService.RenewPresignedUrl(message.DownloadUrl, message.S3Filename);
 
-                lock (_contextLock)
-                {
-                    _context.ChatMessages.Add(new ChatMessage()
-                    {
-                        Message = message.Message,
-                        SenderId = Guid.Parse(message.FromId),
-                        ReceiverId = Guid.Parse(message.ToId),
-                        SentAt = DateTime.UtcNow,
-                        Type = (MessageType)Enum.Parse(typeof(MessageType), message.Type.ToString()),
-                        SeenAt = message.DateSeen,
-                        DownloadUrl = message.DownloadUrl, // get s3 presigned url down always
-                        S3Filename = message.S3Filename, // get s3 presigned url down always
-                        FileSizeInBytes = message.FileSizeInBytes,
-                    });
-
-
-                    _context.SaveChangesAsync(CancellationToken.None).Wait();
-                }
-
-                if (sender.Value != null)
-                {
-                    // get fresh presigned url for display
-                    if (
-                        !string.IsNullOrWhiteSpace(message.DownloadUrl) &&
-                        _s3AccessService.CheckIfPresignedUrlIsExpired(message.DownloadUrl))
-                    {
-                        message.DownloadUrl = _s3AccessService.GetPresignedUrlAsync(new S3FileRequest(message.S3Filename)).Result;
-                    }
-
-                    Clients.User(message.ToId).SendAsync("messageReceived", sender.Value.Participant, message);
-                }
+                // send message
+                await Clients.User(message.ToId).SendAsync("messageReceived", sender.Value.Participant, message);
             }
         }
 
@@ -95,35 +74,9 @@ namespace Backend.Application.Business.Business.Chat
         /// Persists seen attribute in database
         /// </summary>
         /// <param name="message"></param>
-        public void MessagesSeen(IEnumerable<MessageViewModel> messages)
+        public async void MessagesSeen(IEnumerable<MessageViewModel> messages)
         {
-            lock (_messagesLock)
-            {
-                lock (_contextLock)
-                {
-                    var chatMessagesToUpdate = new List<ChatMessage>();
-                    foreach (var message in messages)
-                    {
-                        var chatMessageToUpdate = _context.ChatMessages
-                            .SingleOrDefault(
-                                x => String.Equals(x.SenderId.ToString(), message.FromId, StringComparison.CurrentCultureIgnoreCase)
-                                    && String.Equals(x.ReceiverId.Value.ToString(), message.ToId, StringComparison.CurrentCultureIgnoreCase)
-                                    && x.SentAt.ToUniversalTime() == message.DateSent.Value.ToUniversalTime());
-
-                        if (chatMessageToUpdate != null)
-                        {
-                            chatMessageToUpdate.SeenAt = DateTime.UtcNow;
-                            chatMessagesToUpdate.Add(chatMessageToUpdate);
-                        }
-                    }
-
-                    if (chatMessagesToUpdate.Count > 0)
-                    {
-                        _context.ChatMessages.UpdateRange(chatMessagesToUpdate);
-                        _context.SaveChangesAsync(CancellationToken.None).Wait();
-                    }
-                }
-            }
+            await _mediator.Send(new ReadMessagesRequest() {  Messages = messages });
         }
 
         /// <summary>

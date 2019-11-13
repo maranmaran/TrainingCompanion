@@ -208,5 +208,18 @@ namespace Backend.Service.AmazonS3
                 }
             }
         }
+
+        public async Task<string> RenewPresignedUrl(string url, string filename)
+        {
+            // get fresh presigned url for display
+            if (
+                !string.IsNullOrWhiteSpace(url) &&
+                CheckIfPresignedUrlIsExpired(url))
+            {
+                return await GetPresignedUrlAsync(new S3FileRequest(filename));
+            }
+
+            return url;
+        }
     }
 }
