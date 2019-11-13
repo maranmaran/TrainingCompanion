@@ -35,5 +35,13 @@ namespace Backend.Service.AmazonS3.Interfaces
         /// Returns false if not expired
         /// </summary>
         bool CheckIfPresignedUrlIsExpired(string url);
+
+        /// <summary>
+        /// Refreshes presigned url if it's expired. Else it returns the same one that was given as input
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        Task<string> RenewPresignedUrl(string url, string filename)
     }
 }
