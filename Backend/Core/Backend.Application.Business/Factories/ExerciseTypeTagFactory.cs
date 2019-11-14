@@ -1,4 +1,5 @@
-﻿using Backend.Domain.Entities.ExerciseType;
+﻿using System;
+using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using System.Collections.Generic;
 using System.Linq;
