@@ -24,6 +24,8 @@ using Backend.Application.Business.Business.PushNotification.CreatePushNotificat
 using Backend.Application.Business.Business.PushNotification.SendPushNotification;
 using Backend.Application.Business.Business.Training.Update;
 using Backend.Domain.Entities.Notification;
+using Backend.Application.Business.Business.Chat.CreateChatMessage;
+using Stripe;
 
 namespace Backend.Application.Business
 {
@@ -89,6 +91,15 @@ namespace Backend.Application.Business
         }
         private void ChatMappings()
         {
+            CreateMap<MessageViewModel, CreateChatMessageRequest>()
+                    .ForMember(x => x.SentAt, o => o.MapFrom(x => x.DateSent))
+                    .ForMember(x => x.SeenAt, o => o.MapFrom(x => x.DateSeen))
+                    .ForMember(x => x.ReceiverId, o => o.MapFrom(x => x.ToId))
+                    .ForMember(x => x.SenderId, o => o.MapFrom(x => x.FromId));
+                    //.ForMember(x => x.SenderId, o => o.ConvertUsing<Guid>(c => Guid.Parse(c.FromId)));
+
+            CreateMap<CreateChatMessageRequest, ChatMessage>();
+
             // subscribe
             CreateMap<SendChatMessageRequest, ChatMessage>();
             CreateMap<ChatMessage, MessageViewModel>()

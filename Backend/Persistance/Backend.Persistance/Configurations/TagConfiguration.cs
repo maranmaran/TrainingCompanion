@@ -1,6 +1,7 @@
 ﻿using Backend.Domain.Entities.ExerciseType;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace Backend.Persistance.Configurations
 {
@@ -13,8 +14,16 @@ namespace Backend.Persistance.Configurations
         {
             builder.Property(x => x.Active).HasDefaultValue(true);
 
-            builder.HasOne(x => x.TagGroup).WithMany(x => x.Tags)
+            builder
+                .HasOne(x => x.TagGroup)
+                .WithMany(x => x.Tags)
                 .HasForeignKey(x => x.TagGroupId);
+
+            builder
+                .HasMany(x => x.ExerciseTypeTags)
+                .WithOne(x => x.Tag)
+                .HasForeignKey(x => x.TagId)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
         }
     }

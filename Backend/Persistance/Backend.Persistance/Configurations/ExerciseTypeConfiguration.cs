@@ -22,6 +22,12 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.RequiresWeight).HasDefaultValue(true);
             builder.Property(x => x.RequiresBodyweight).HasDefaultValue(false);
             builder.Property(x => x.RequiresTime).HasDefaultValue(false);
+
+            builder
+                .HasMany(x => x.Properties)
+                .WithOne(x => x.ExerciseType)
+                .HasForeignKey(x => x.ExerciseTypeId)
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

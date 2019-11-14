@@ -5,14 +5,16 @@ using Backend.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191114141811_seedTagTypes")]
+    partial class seedTagTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,9 +118,9 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("79af9e6f-bd30-4ba7-ae17-8f6cc35af0fe"),
+                            Id = new Guid("8c922905-6966-4529-9eeb-a25185e99503"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Name = "Squat - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -128,9 +130,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("86561a50-415d-4eea-a3b8-acf8de37665f"),
+                            Id = new Guid("dc16e394-2be9-49db-bb37-bbc1681e8e4b"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Name = "Bench press - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -140,9 +142,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aa0f9623-bc07-4be8-a51b-a0dbac717ec7"),
+                            Id = new Guid("b7415078-d298-428c-8745-f5a5a0faf9a2"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Name = "Deadlift - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -152,9 +154,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2264ac5b-79d5-460b-ae69-bf67aadb8b9b"),
+                            Id = new Guid("472ddd24-9a65-4e74-a816-708d14584e4e"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Name = "Squat - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -164,9 +166,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9d1cfd1a-f18c-41c8-8f85-c2cbb3d5b955"),
+                            Id = new Guid("aa9e4102-dd51-4a5f-abe6-5f3593699809"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Name = "Bench press - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -176,9 +178,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("301d70a5-74f3-4899-b051-ff49ef8776ce"),
+                            Id = new Guid("cc4d51bf-553d-46fa-b7c5-b42189af78fb"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Name = "Deadlift - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -188,9 +190,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("638481bd-0616-44cf-8b79-fc97b7b47381"),
+                            Id = new Guid("cdf31cb5-3080-4b6d-9460-808189352444"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Name = "Squat - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -200,9 +202,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3e780da2-1ae3-4503-a862-b83cb1200cd7"),
+                            Id = new Guid("e3f7797a-7098-4872-b9c7-204f859b2b2e"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Name = "Bench press - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -212,9 +214,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b091e404-67f1-4bef-baab-eb084ee4c7f7"),
+                            Id = new Guid("7a1230c0-f694-48f7-98af-cbdeed362b43"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Name = "Deadlift - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -224,9 +226,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("51753106-ab2f-469b-b6b8-7b6d2249a9e7"),
+                            Id = new Guid("df4aad97-6db3-4e2f-aaf0-994451186477"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Name = "Squat - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -236,9 +238,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8106fcdc-3a1e-4170-81a1-980e9f9791f8"),
+                            Id = new Guid("b8f82777-1243-4c8d-a5c9-088e26744af4"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Name = "Bench press - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -248,9 +250,9 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f7c12ec8-1fa3-4613-a4fb-bbc8c661d2f2"),
+                            Id = new Guid("0e9f030b-2156-484b-8777-f7b0153bd476"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Name = "Deadlift - competition",
                             RequiresBodyweight = false,
                             RequiresReps = false,
@@ -286,563 +288,563 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a3df15e7-6cc0-4b42-94f3-c0847c8c936e"),
-                            ExerciseTypeId = new Guid("79af9e6f-bd30-4ba7-ae17-8f6cc35af0fe"),
+                            Id = new Guid("5d217d9c-fc50-465e-8253-edf067e79e33"),
+                            ExerciseTypeId = new Guid("8c922905-6966-4529-9eeb-a25185e99503"),
                             Show = true,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("a0fc60dd-31c7-472c-9768-3b315a3ec4f1"),
-                            ExerciseTypeId = new Guid("79af9e6f-bd30-4ba7-ae17-8f6cc35af0fe"),
+                            Id = new Guid("b18ed549-d4de-46bc-bb0c-22794c0559d8"),
+                            ExerciseTypeId = new Guid("8c922905-6966-4529-9eeb-a25185e99503"),
                             Show = true,
-                            TagId = new Guid("28818a62-a4fc-4637-b17f-69df006e18f7")
+                            TagId = new Guid("140b54b9-cc37-4071-ba5b-58da06c8548e")
                         },
                         new
                         {
-                            Id = new Guid("f1309804-fb8a-4671-ab82-b8013d589c8c"),
-                            ExerciseTypeId = new Guid("79af9e6f-bd30-4ba7-ae17-8f6cc35af0fe"),
+                            Id = new Guid("c467b36f-453f-44b8-9f8f-eb0623580185"),
+                            ExerciseTypeId = new Guid("8c922905-6966-4529-9eeb-a25185e99503"),
                             Show = true,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("859a1ed9-4f91-483e-b933-87a11787f3de"),
-                            ExerciseTypeId = new Guid("79af9e6f-bd30-4ba7-ae17-8f6cc35af0fe"),
+                            Id = new Guid("c7c12e7a-4c59-44f3-9375-d893a96a7acf"),
+                            ExerciseTypeId = new Guid("8c922905-6966-4529-9eeb-a25185e99503"),
                             Show = true,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("240fc9d3-7e09-47bb-9b63-93da7323d169"),
-                            ExerciseTypeId = new Guid("79af9e6f-bd30-4ba7-ae17-8f6cc35af0fe"),
+                            Id = new Guid("c1fcd971-8c84-4ac8-85aa-09cec63cafd9"),
+                            ExerciseTypeId = new Guid("8c922905-6966-4529-9eeb-a25185e99503"),
                             Show = true,
-                            TagId = new Guid("0d0e9474-7fef-436a-95f9-24e09b6d5d89")
+                            TagId = new Guid("9f4c991f-7cd2-4c59-b58c-e748d4a77e7b")
                         },
                         new
                         {
-                            Id = new Guid("9da05255-61cc-44ca-98c8-df8cc88d612f"),
-                            ExerciseTypeId = new Guid("79af9e6f-bd30-4ba7-ae17-8f6cc35af0fe"),
+                            Id = new Guid("29194c7d-880e-436b-89ea-fad6740d1ee2"),
+                            ExerciseTypeId = new Guid("8c922905-6966-4529-9eeb-a25185e99503"),
                             Show = false,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("de9abee9-25b3-4891-ac1b-8d1902ef6eb1"),
-                            ExerciseTypeId = new Guid("79af9e6f-bd30-4ba7-ae17-8f6cc35af0fe"),
+                            Id = new Guid("8fc77a76-4636-4752-bb34-1be0d9efc47d"),
+                            ExerciseTypeId = new Guid("8c922905-6966-4529-9eeb-a25185e99503"),
                             Show = false,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("b39804db-15d0-49a4-9357-7f80a35eae8a"),
-                            ExerciseTypeId = new Guid("79af9e6f-bd30-4ba7-ae17-8f6cc35af0fe"),
+                            Id = new Guid("91e81252-dcee-4b85-97b1-dd3a905b69bf"),
+                            ExerciseTypeId = new Guid("8c922905-6966-4529-9eeb-a25185e99503"),
                             Show = false,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("5ea915ce-76df-4ddf-af76-91c9a5d8802a"),
-                            ExerciseTypeId = new Guid("86561a50-415d-4eea-a3b8-acf8de37665f"),
+                            Id = new Guid("2e8bfd0c-547e-4067-af83-c13998a973d8"),
+                            ExerciseTypeId = new Guid("dc16e394-2be9-49db-bb37-bbc1681e8e4b"),
                             Show = true,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("81305055-c764-41de-9e12-f4e725591401"),
-                            ExerciseTypeId = new Guid("86561a50-415d-4eea-a3b8-acf8de37665f"),
+                            Id = new Guid("260ae942-e0ff-4369-a236-bae8c0adcf9e"),
+                            ExerciseTypeId = new Guid("dc16e394-2be9-49db-bb37-bbc1681e8e4b"),
                             Show = true,
-                            TagId = new Guid("28818a62-a4fc-4637-b17f-69df006e18f7")
+                            TagId = new Guid("140b54b9-cc37-4071-ba5b-58da06c8548e")
                         },
                         new
                         {
-                            Id = new Guid("4da2f228-baab-4f65-a7e8-13c54ae1bc1b"),
-                            ExerciseTypeId = new Guid("86561a50-415d-4eea-a3b8-acf8de37665f"),
+                            Id = new Guid("36dd06d5-ff3b-48bd-89e7-9c9893a608c7"),
+                            ExerciseTypeId = new Guid("dc16e394-2be9-49db-bb37-bbc1681e8e4b"),
                             Show = true,
-                            TagId = new Guid("329ff2c8-6b2f-4dcc-997d-72d0fd2b2ae8")
+                            TagId = new Guid("4e2c95ff-192c-4388-8a6f-cff9b1cd0ded")
                         },
                         new
                         {
-                            Id = new Guid("48454071-68ad-447d-8490-5f1c1668fdc6"),
-                            ExerciseTypeId = new Guid("86561a50-415d-4eea-a3b8-acf8de37665f"),
+                            Id = new Guid("8082e29c-b153-4c28-90bd-03e44032843a"),
+                            ExerciseTypeId = new Guid("dc16e394-2be9-49db-bb37-bbc1681e8e4b"),
                             Show = true,
-                            TagId = new Guid("19f53885-108e-40be-bcc4-a60c1bdf83ca")
+                            TagId = new Guid("7834624c-5399-4275-86ba-4048c1cf343f")
                         },
                         new
                         {
-                            Id = new Guid("1db86c2c-0457-49e4-bb72-85c8a6ce2d92"),
-                            ExerciseTypeId = new Guid("86561a50-415d-4eea-a3b8-acf8de37665f"),
+                            Id = new Guid("abb6ad64-55a1-4546-88a3-1428fc45623c"),
+                            ExerciseTypeId = new Guid("dc16e394-2be9-49db-bb37-bbc1681e8e4b"),
                             Show = false,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("412b75ae-c663-47df-860c-7d271991ad9c"),
-                            ExerciseTypeId = new Guid("86561a50-415d-4eea-a3b8-acf8de37665f"),
+                            Id = new Guid("64d261d5-1aea-4638-a103-604c815f88a9"),
+                            ExerciseTypeId = new Guid("dc16e394-2be9-49db-bb37-bbc1681e8e4b"),
                             Show = true,
-                            TagId = new Guid("329ff2c8-6b2f-4dcc-997d-72d0fd2b2ae8")
+                            TagId = new Guid("4e2c95ff-192c-4388-8a6f-cff9b1cd0ded")
                         },
                         new
                         {
-                            Id = new Guid("d41b0d30-7ac0-4c7f-b585-49255a565a42"),
-                            ExerciseTypeId = new Guid("aa0f9623-bc07-4be8-a51b-a0dbac717ec7"),
+                            Id = new Guid("5be24172-a034-4da4-8069-bb0732c2696c"),
+                            ExerciseTypeId = new Guid("b7415078-d298-428c-8745-f5a5a0faf9a2"),
                             Show = true,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("055408cf-9a25-415a-aeff-1fa86e7951c4"),
-                            ExerciseTypeId = new Guid("aa0f9623-bc07-4be8-a51b-a0dbac717ec7"),
+                            Id = new Guid("3bfb76e7-83d4-4680-a3af-1824b0069e52"),
+                            ExerciseTypeId = new Guid("b7415078-d298-428c-8745-f5a5a0faf9a2"),
                             Show = true,
-                            TagId = new Guid("0d0e9474-7fef-436a-95f9-24e09b6d5d89")
+                            TagId = new Guid("9f4c991f-7cd2-4c59-b58c-e748d4a77e7b")
                         },
                         new
                         {
-                            Id = new Guid("26ab80e5-f0b9-4b94-a12e-476ab7d2e460"),
-                            ExerciseTypeId = new Guid("aa0f9623-bc07-4be8-a51b-a0dbac717ec7"),
+                            Id = new Guid("b8e06dca-fa86-4523-b85f-07250b4e9d88"),
+                            ExerciseTypeId = new Guid("b7415078-d298-428c-8745-f5a5a0faf9a2"),
                             Show = true,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("a6940807-ce68-4f58-b5fa-cb139e630702"),
-                            ExerciseTypeId = new Guid("aa0f9623-bc07-4be8-a51b-a0dbac717ec7"),
+                            Id = new Guid("5f4c86da-e9eb-4f3d-b334-9817d3f23bc4"),
+                            ExerciseTypeId = new Guid("b7415078-d298-428c-8745-f5a5a0faf9a2"),
                             Show = false,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("d4b961c3-2954-4514-98c4-62c7c34fd822"),
-                            ExerciseTypeId = new Guid("aa0f9623-bc07-4be8-a51b-a0dbac717ec7"),
+                            Id = new Guid("e199fc35-ee09-4230-a2dd-036c5701b6a2"),
+                            ExerciseTypeId = new Guid("b7415078-d298-428c-8745-f5a5a0faf9a2"),
                             Show = false,
-                            TagId = new Guid("329ff2c8-6b2f-4dcc-997d-72d0fd2b2ae8")
+                            TagId = new Guid("4e2c95ff-192c-4388-8a6f-cff9b1cd0ded")
                         },
                         new
                         {
-                            Id = new Guid("c9904642-8f97-4790-bade-4ac316b54fbb"),
-                            ExerciseTypeId = new Guid("aa0f9623-bc07-4be8-a51b-a0dbac717ec7"),
+                            Id = new Guid("16bae1c4-b61a-44f8-8a99-f6ccc1c7b6fa"),
+                            ExerciseTypeId = new Guid("b7415078-d298-428c-8745-f5a5a0faf9a2"),
                             Show = false,
-                            TagId = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7")
+                            TagId = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26")
                         },
                         new
                         {
-                            Id = new Guid("e4421525-e79d-49b6-862e-cc62d13efeaa"),
-                            ExerciseTypeId = new Guid("2264ac5b-79d5-460b-ae69-bf67aadb8b9b"),
+                            Id = new Guid("49b542c9-9e1b-4ff3-b707-954e581b1f5d"),
+                            ExerciseTypeId = new Guid("472ddd24-9a65-4e74-a816-708d14584e4e"),
                             Show = true,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("4f5ae3da-390f-4f88-a4ad-1bb803bc6179"),
-                            ExerciseTypeId = new Guid("2264ac5b-79d5-460b-ae69-bf67aadb8b9b"),
+                            Id = new Guid("44ac6825-f789-4430-b283-9a2ba22ea258"),
+                            ExerciseTypeId = new Guid("472ddd24-9a65-4e74-a816-708d14584e4e"),
                             Show = true,
-                            TagId = new Guid("fcda3cb4-4cc7-4fe4-ac36-ecd6aaccec6f")
+                            TagId = new Guid("222dd73b-f392-499a-8c6c-cd5ba6155c7f")
                         },
                         new
                         {
-                            Id = new Guid("e5551e62-6e66-47f1-a1f2-61378dd78540"),
-                            ExerciseTypeId = new Guid("2264ac5b-79d5-460b-ae69-bf67aadb8b9b"),
+                            Id = new Guid("243107d1-3069-4aa7-8c29-076deb684520"),
+                            ExerciseTypeId = new Guid("472ddd24-9a65-4e74-a816-708d14584e4e"),
                             Show = true,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("1223f793-977a-4972-945f-49064bc6437b"),
-                            ExerciseTypeId = new Guid("2264ac5b-79d5-460b-ae69-bf67aadb8b9b"),
+                            Id = new Guid("dff536e3-5910-4c32-b6ee-11d7fdd7f925"),
+                            ExerciseTypeId = new Guid("472ddd24-9a65-4e74-a816-708d14584e4e"),
                             Show = true,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("89c1db37-55f5-431e-9f67-cfca342874b4"),
-                            ExerciseTypeId = new Guid("2264ac5b-79d5-460b-ae69-bf67aadb8b9b"),
+                            Id = new Guid("e4f501c1-d075-4e4e-8728-80303017ccaf"),
+                            ExerciseTypeId = new Guid("472ddd24-9a65-4e74-a816-708d14584e4e"),
                             Show = true,
-                            TagId = new Guid("19f53885-108e-40be-bcc4-a60c1bdf83ca")
+                            TagId = new Guid("10ddac69-7943-4090-afea-a7eea423608a")
                         },
                         new
                         {
-                            Id = new Guid("0b8306de-a216-4a04-93b6-1bfa8268dd1e"),
-                            ExerciseTypeId = new Guid("2264ac5b-79d5-460b-ae69-bf67aadb8b9b"),
+                            Id = new Guid("c5152f80-7226-4f06-88b0-46560ffe85ae"),
+                            ExerciseTypeId = new Guid("472ddd24-9a65-4e74-a816-708d14584e4e"),
                             Show = false,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("c2bec783-6a37-4be6-880b-1066d17ba803"),
-                            ExerciseTypeId = new Guid("2264ac5b-79d5-460b-ae69-bf67aadb8b9b"),
+                            Id = new Guid("2bda75b7-3d6f-4ed1-8e27-b9ff7fa7190d"),
+                            ExerciseTypeId = new Guid("472ddd24-9a65-4e74-a816-708d14584e4e"),
                             Show = false,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("4399395c-08bd-4165-9254-90d58e92ded2"),
-                            ExerciseTypeId = new Guid("2264ac5b-79d5-460b-ae69-bf67aadb8b9b"),
+                            Id = new Guid("31dbed55-0d83-4e94-8c0c-6cb878db104a"),
+                            ExerciseTypeId = new Guid("472ddd24-9a65-4e74-a816-708d14584e4e"),
                             Show = false,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("c587bbe7-402f-4300-91e1-3c0890a6e65c"),
-                            ExerciseTypeId = new Guid("9d1cfd1a-f18c-41c8-8f85-c2cbb3d5b955"),
+                            Id = new Guid("dd255440-10d7-4d51-befb-8a74a94815e4"),
+                            ExerciseTypeId = new Guid("aa9e4102-dd51-4a5f-abe6-5f3593699809"),
                             Show = true,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("d4afd53b-4474-407f-a3b8-34c59217384a"),
-                            ExerciseTypeId = new Guid("9d1cfd1a-f18c-41c8-8f85-c2cbb3d5b955"),
+                            Id = new Guid("333796dc-e24f-4e87-9c4e-e4d438fa94ee"),
+                            ExerciseTypeId = new Guid("aa9e4102-dd51-4a5f-abe6-5f3593699809"),
                             Show = true,
-                            TagId = new Guid("fcda3cb4-4cc7-4fe4-ac36-ecd6aaccec6f")
+                            TagId = new Guid("222dd73b-f392-499a-8c6c-cd5ba6155c7f")
                         },
                         new
                         {
-                            Id = new Guid("58356a5a-3867-4b82-86ce-02d194710038"),
-                            ExerciseTypeId = new Guid("9d1cfd1a-f18c-41c8-8f85-c2cbb3d5b955"),
+                            Id = new Guid("a17c4bc2-c06c-4ad9-9ea9-388cc8a59427"),
+                            ExerciseTypeId = new Guid("aa9e4102-dd51-4a5f-abe6-5f3593699809"),
                             Show = true,
-                            TagId = new Guid("c58c14b5-8761-4aa8-9594-43abe3766383")
+                            TagId = new Guid("6f67893c-337a-4c9b-845e-5ffdce460b61")
                         },
                         new
                         {
-                            Id = new Guid("af5efbd3-8725-4a46-83b2-472dca222050"),
-                            ExerciseTypeId = new Guid("9d1cfd1a-f18c-41c8-8f85-c2cbb3d5b955"),
+                            Id = new Guid("c34b4c1d-f4cb-40df-b569-f7ff30e42d06"),
+                            ExerciseTypeId = new Guid("aa9e4102-dd51-4a5f-abe6-5f3593699809"),
                             Show = true,
-                            TagId = new Guid("b7d17089-6398-4e89-9a6c-7332b1b56334")
+                            TagId = new Guid("82ada276-374e-4be0-9a62-56090872b554")
                         },
                         new
                         {
-                            Id = new Guid("99af03c7-2eca-4cbe-a39e-033998d5e370"),
-                            ExerciseTypeId = new Guid("9d1cfd1a-f18c-41c8-8f85-c2cbb3d5b955"),
+                            Id = new Guid("239f4f6e-ba97-47ed-bef9-5a102ed61b73"),
+                            ExerciseTypeId = new Guid("aa9e4102-dd51-4a5f-abe6-5f3593699809"),
                             Show = false,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("e173cd82-b436-420d-a3d6-8d0a8a9acae9"),
-                            ExerciseTypeId = new Guid("9d1cfd1a-f18c-41c8-8f85-c2cbb3d5b955"),
+                            Id = new Guid("6b9beffb-65df-4561-a3f6-7708b1efb74e"),
+                            ExerciseTypeId = new Guid("aa9e4102-dd51-4a5f-abe6-5f3593699809"),
                             Show = true,
-                            TagId = new Guid("c58c14b5-8761-4aa8-9594-43abe3766383")
+                            TagId = new Guid("6f67893c-337a-4c9b-845e-5ffdce460b61")
                         },
                         new
                         {
-                            Id = new Guid("d87dc983-6bc9-428e-b17f-e894ef42edaa"),
-                            ExerciseTypeId = new Guid("301d70a5-74f3-4899-b051-ff49ef8776ce"),
+                            Id = new Guid("df7c2269-60fa-4fc7-84ea-a47f7585c944"),
+                            ExerciseTypeId = new Guid("cc4d51bf-553d-46fa-b7c5-b42189af78fb"),
                             Show = true,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("2c9f2783-df0b-4de4-8d89-feacd4fdb87a"),
-                            ExerciseTypeId = new Guid("301d70a5-74f3-4899-b051-ff49ef8776ce"),
+                            Id = new Guid("60aa84c7-27c3-4fc4-abb7-ccf90618d785"),
+                            ExerciseTypeId = new Guid("cc4d51bf-553d-46fa-b7c5-b42189af78fb"),
                             Show = true,
-                            TagId = new Guid("19f53885-108e-40be-bcc4-a60c1bdf83ca")
+                            TagId = new Guid("10ddac69-7943-4090-afea-a7eea423608a")
                         },
                         new
                         {
-                            Id = new Guid("6ca0dc83-c61a-497e-8a43-0abfc237b2a2"),
-                            ExerciseTypeId = new Guid("301d70a5-74f3-4899-b051-ff49ef8776ce"),
+                            Id = new Guid("2d500d54-7091-40e4-920c-dfd921087a6f"),
+                            ExerciseTypeId = new Guid("cc4d51bf-553d-46fa-b7c5-b42189af78fb"),
                             Show = true,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("0379dbd6-2d6f-42af-a6f9-ef98dd49491b"),
-                            ExerciseTypeId = new Guid("301d70a5-74f3-4899-b051-ff49ef8776ce"),
+                            Id = new Guid("89c63b0e-0290-4071-b74a-f8bc22131c3d"),
+                            ExerciseTypeId = new Guid("cc4d51bf-553d-46fa-b7c5-b42189af78fb"),
                             Show = false,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("3399df62-b83d-42b3-ba22-81aab8987199"),
-                            ExerciseTypeId = new Guid("301d70a5-74f3-4899-b051-ff49ef8776ce"),
+                            Id = new Guid("5a2cedfb-0213-477d-afda-fb4656636e4f"),
+                            ExerciseTypeId = new Guid("cc4d51bf-553d-46fa-b7c5-b42189af78fb"),
                             Show = false,
-                            TagId = new Guid("c58c14b5-8761-4aa8-9594-43abe3766383")
+                            TagId = new Guid("6f67893c-337a-4c9b-845e-5ffdce460b61")
                         },
                         new
                         {
-                            Id = new Guid("6f1770e5-a439-49da-8144-71593d6054cc"),
-                            ExerciseTypeId = new Guid("301d70a5-74f3-4899-b051-ff49ef8776ce"),
+                            Id = new Guid("9be7f633-2d9b-41da-b4fb-01186ddd379e"),
+                            ExerciseTypeId = new Guid("cc4d51bf-553d-46fa-b7c5-b42189af78fb"),
                             Show = false,
-                            TagId = new Guid("440e2699-a523-43fe-beeb-540c6a855b37")
+                            TagId = new Guid("c59e9707-ba51-471d-afa1-986506028b92")
                         },
                         new
                         {
-                            Id = new Guid("54ed3cf8-fdce-45a8-af98-3502f0d31b48"),
-                            ExerciseTypeId = new Guid("638481bd-0616-44cf-8b79-fc97b7b47381"),
+                            Id = new Guid("6dad6995-a5b0-47ab-95fb-4aaeb6cd5afe"),
+                            ExerciseTypeId = new Guid("cdf31cb5-3080-4b6d-9460-808189352444"),
                             Show = true,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("cb56ba5c-9805-48ab-b080-b80ca2c023b2"),
-                            ExerciseTypeId = new Guid("638481bd-0616-44cf-8b79-fc97b7b47381"),
+                            Id = new Guid("7974cb01-4a4f-42e8-aba7-c77e2ab1e96e"),
+                            ExerciseTypeId = new Guid("cdf31cb5-3080-4b6d-9460-808189352444"),
                             Show = true,
-                            TagId = new Guid("61b44a99-1e3f-4f09-94e4-a3f0ac8f41b7")
+                            TagId = new Guid("017e560b-3716-4468-b4cc-e2c61ee4d057")
                         },
                         new
                         {
-                            Id = new Guid("42c75b77-5e6e-4358-af45-2d42f08943ca"),
-                            ExerciseTypeId = new Guid("638481bd-0616-44cf-8b79-fc97b7b47381"),
+                            Id = new Guid("a07c3c8a-6367-49fc-b668-e181dc8bd383"),
+                            ExerciseTypeId = new Guid("cdf31cb5-3080-4b6d-9460-808189352444"),
                             Show = true,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("f1152b56-371c-4d4c-83b5-642267e1febd"),
-                            ExerciseTypeId = new Guid("638481bd-0616-44cf-8b79-fc97b7b47381"),
+                            Id = new Guid("39a64771-c1f3-4285-9bc2-0b79e6f3ec1b"),
+                            ExerciseTypeId = new Guid("cdf31cb5-3080-4b6d-9460-808189352444"),
                             Show = true,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("a166b9d4-5c3e-422d-a8aa-368d40ff8213"),
-                            ExerciseTypeId = new Guid("638481bd-0616-44cf-8b79-fc97b7b47381"),
+                            Id = new Guid("e8a10059-702c-419e-8bce-eb0a4b732678"),
+                            ExerciseTypeId = new Guid("cdf31cb5-3080-4b6d-9460-808189352444"),
                             Show = true,
-                            TagId = new Guid("b7d17089-6398-4e89-9a6c-7332b1b56334")
+                            TagId = new Guid("2d9e9db2-e2a3-4eb7-aa93-bf639b657dd1")
                         },
                         new
                         {
-                            Id = new Guid("9c12cae3-8941-4443-b310-07e37d8d9313"),
-                            ExerciseTypeId = new Guid("638481bd-0616-44cf-8b79-fc97b7b47381"),
+                            Id = new Guid("9ad170c4-f42d-4ea1-8f20-9e348a8fafeb"),
+                            ExerciseTypeId = new Guid("cdf31cb5-3080-4b6d-9460-808189352444"),
                             Show = false,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("55e127f8-f87e-45e7-a908-950c2c2fd298"),
-                            ExerciseTypeId = new Guid("638481bd-0616-44cf-8b79-fc97b7b47381"),
+                            Id = new Guid("163b61eb-e56b-402b-9798-dedb27451410"),
+                            ExerciseTypeId = new Guid("cdf31cb5-3080-4b6d-9460-808189352444"),
                             Show = false,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("32cb8838-e25a-42c0-a03f-92ab17860b42"),
-                            ExerciseTypeId = new Guid("638481bd-0616-44cf-8b79-fc97b7b47381"),
+                            Id = new Guid("f57a312a-9bbf-4f19-82de-7a89dfa539be"),
+                            ExerciseTypeId = new Guid("cdf31cb5-3080-4b6d-9460-808189352444"),
                             Show = false,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("d0a2a30b-371f-44ba-86d8-5adb108b9ee7"),
-                            ExerciseTypeId = new Guid("3e780da2-1ae3-4503-a862-b83cb1200cd7"),
+                            Id = new Guid("12d088d5-c40a-4d82-9a1c-1a769286d99a"),
+                            ExerciseTypeId = new Guid("e3f7797a-7098-4872-b9c7-204f859b2b2e"),
                             Show = true,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("26a33af5-a4aa-4fc2-842a-1d1b94cf0342"),
-                            ExerciseTypeId = new Guid("3e780da2-1ae3-4503-a862-b83cb1200cd7"),
+                            Id = new Guid("7d36a76d-bacc-49eb-8697-2d2f7e648ed5"),
+                            ExerciseTypeId = new Guid("e3f7797a-7098-4872-b9c7-204f859b2b2e"),
                             Show = true,
-                            TagId = new Guid("61b44a99-1e3f-4f09-94e4-a3f0ac8f41b7")
+                            TagId = new Guid("017e560b-3716-4468-b4cc-e2c61ee4d057")
                         },
                         new
                         {
-                            Id = new Guid("095dd56a-35ba-4f24-ac48-e20ef5a9420d"),
-                            ExerciseTypeId = new Guid("3e780da2-1ae3-4503-a862-b83cb1200cd7"),
+                            Id = new Guid("ec5ae05c-f3bf-494b-8b6e-ef2a64b227d2"),
+                            ExerciseTypeId = new Guid("e3f7797a-7098-4872-b9c7-204f859b2b2e"),
                             Show = true,
-                            TagId = new Guid("f85233d9-9e4d-45f7-a3bc-262d5c04c3ef")
+                            TagId = new Guid("40f8dd46-71b7-46c3-94bb-526808a5e67f")
                         },
                         new
                         {
-                            Id = new Guid("8e5e7396-2d8f-4f3b-9ed2-4749a3055aca"),
-                            ExerciseTypeId = new Guid("3e780da2-1ae3-4503-a862-b83cb1200cd7"),
+                            Id = new Guid("63b7f845-1ee4-4134-8c5d-802d719d9d25"),
+                            ExerciseTypeId = new Guid("e3f7797a-7098-4872-b9c7-204f859b2b2e"),
                             Show = true,
-                            TagId = new Guid("43cd1750-aff6-4b1c-a95f-c2ec572d6898")
+                            TagId = new Guid("3ee45a20-a9ad-4781-82ed-bd099087f80b")
                         },
                         new
                         {
-                            Id = new Guid("258da8c8-21dd-4f26-b93c-4ccdaf64f353"),
-                            ExerciseTypeId = new Guid("3e780da2-1ae3-4503-a862-b83cb1200cd7"),
+                            Id = new Guid("e4ddd962-f775-4a89-9238-d5eb5f2947ca"),
+                            ExerciseTypeId = new Guid("e3f7797a-7098-4872-b9c7-204f859b2b2e"),
                             Show = false,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("5dd4303b-dba0-4512-bd66-9c578402ddd4"),
-                            ExerciseTypeId = new Guid("3e780da2-1ae3-4503-a862-b83cb1200cd7"),
+                            Id = new Guid("eea1276e-0e18-4762-a7d7-4548c546d146"),
+                            ExerciseTypeId = new Guid("e3f7797a-7098-4872-b9c7-204f859b2b2e"),
                             Show = true,
-                            TagId = new Guid("f85233d9-9e4d-45f7-a3bc-262d5c04c3ef")
+                            TagId = new Guid("40f8dd46-71b7-46c3-94bb-526808a5e67f")
                         },
                         new
                         {
-                            Id = new Guid("3bb5541c-9870-4d83-85f8-e5c798ba25b9"),
-                            ExerciseTypeId = new Guid("b091e404-67f1-4bef-baab-eb084ee4c7f7"),
+                            Id = new Guid("e1429192-fba6-4bc5-910e-220e57ea033c"),
+                            ExerciseTypeId = new Guid("7a1230c0-f694-48f7-98af-cbdeed362b43"),
                             Show = true,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("49dc87ab-73e7-4734-ae70-5870d67a4be8"),
-                            ExerciseTypeId = new Guid("b091e404-67f1-4bef-baab-eb084ee4c7f7"),
+                            Id = new Guid("abaad8d8-4461-4cf1-a4c4-77864de80674"),
+                            ExerciseTypeId = new Guid("7a1230c0-f694-48f7-98af-cbdeed362b43"),
                             Show = true,
-                            TagId = new Guid("b7d17089-6398-4e89-9a6c-7332b1b56334")
+                            TagId = new Guid("2d9e9db2-e2a3-4eb7-aa93-bf639b657dd1")
                         },
                         new
                         {
-                            Id = new Guid("2de32f70-e069-400d-b9f8-62c2116ba24d"),
-                            ExerciseTypeId = new Guid("b091e404-67f1-4bef-baab-eb084ee4c7f7"),
+                            Id = new Guid("75460a63-7cdb-48ce-aec1-c5dc9628fc03"),
+                            ExerciseTypeId = new Guid("7a1230c0-f694-48f7-98af-cbdeed362b43"),
                             Show = true,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("7e7dc5d5-17b0-447c-a589-ecba1b11514e"),
-                            ExerciseTypeId = new Guid("b091e404-67f1-4bef-baab-eb084ee4c7f7"),
+                            Id = new Guid("2a537b3f-056c-46f8-9f5e-0527631fd427"),
+                            ExerciseTypeId = new Guid("7a1230c0-f694-48f7-98af-cbdeed362b43"),
                             Show = false,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("e3aa984c-0270-4c9e-ab0a-286845e26813"),
-                            ExerciseTypeId = new Guid("b091e404-67f1-4bef-baab-eb084ee4c7f7"),
+                            Id = new Guid("fc59458c-4147-4dc6-8429-a3534a86ea9f"),
+                            ExerciseTypeId = new Guid("7a1230c0-f694-48f7-98af-cbdeed362b43"),
                             Show = false,
-                            TagId = new Guid("f85233d9-9e4d-45f7-a3bc-262d5c04c3ef")
+                            TagId = new Guid("40f8dd46-71b7-46c3-94bb-526808a5e67f")
                         },
                         new
                         {
-                            Id = new Guid("08a385d1-e57b-41da-a62d-bfb2ed7dc92e"),
-                            ExerciseTypeId = new Guid("b091e404-67f1-4bef-baab-eb084ee4c7f7"),
+                            Id = new Guid("4cb6cb8f-6855-484d-a745-7e1edfd8658d"),
+                            ExerciseTypeId = new Guid("7a1230c0-f694-48f7-98af-cbdeed362b43"),
                             Show = false,
-                            TagId = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1")
+                            TagId = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510")
                         },
                         new
                         {
-                            Id = new Guid("919d1249-e941-4dbd-870f-ee6a34fbb4e7"),
-                            ExerciseTypeId = new Guid("51753106-ab2f-469b-b6b8-7b6d2249a9e7"),
+                            Id = new Guid("1b8204bc-38e5-42b5-942a-5177437acc7c"),
+                            ExerciseTypeId = new Guid("df4aad97-6db3-4e2f-aaf0-994451186477"),
                             Show = true,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("18931b55-0b0a-42a1-8808-a53299e0ab38"),
-                            ExerciseTypeId = new Guid("51753106-ab2f-469b-b6b8-7b6d2249a9e7"),
+                            Id = new Guid("ed9400b3-7f0b-4ed2-922a-ad2a19e7275f"),
+                            ExerciseTypeId = new Guid("df4aad97-6db3-4e2f-aaf0-994451186477"),
                             Show = true,
-                            TagId = new Guid("d2f24684-24db-46d8-a9a6-491d13bc6340")
+                            TagId = new Guid("4953e86e-0b3b-4c4e-b854-7875bdad3b2c")
                         },
                         new
                         {
-                            Id = new Guid("c21c62b6-2991-40ec-ba2c-52254efc56b0"),
-                            ExerciseTypeId = new Guid("51753106-ab2f-469b-b6b8-7b6d2249a9e7"),
+                            Id = new Guid("6784b527-e83d-4f0b-a527-cedd955151ed"),
+                            ExerciseTypeId = new Guid("df4aad97-6db3-4e2f-aaf0-994451186477"),
                             Show = true,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("994f4f2e-345d-40a4-a209-bf9a04f4d2fa"),
-                            ExerciseTypeId = new Guid("51753106-ab2f-469b-b6b8-7b6d2249a9e7"),
+                            Id = new Guid("e9b66523-b7b9-49ff-ae0a-54c5906d0fd8"),
+                            ExerciseTypeId = new Guid("df4aad97-6db3-4e2f-aaf0-994451186477"),
                             Show = true,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("af30d44d-6f67-43ef-8cb8-02b76975687e"),
-                            ExerciseTypeId = new Guid("51753106-ab2f-469b-b6b8-7b6d2249a9e7"),
+                            Id = new Guid("3744c2df-dd6c-4355-bd7f-2bdf29a9230d"),
+                            ExerciseTypeId = new Guid("df4aad97-6db3-4e2f-aaf0-994451186477"),
                             Show = true,
-                            TagId = new Guid("43cd1750-aff6-4b1c-a95f-c2ec572d6898")
+                            TagId = new Guid("51bb3144-fd37-40af-adb5-707bccdccb47")
                         },
                         new
                         {
-                            Id = new Guid("8a6edddc-52e1-4412-86d3-2eb4e81c36f8"),
-                            ExerciseTypeId = new Guid("51753106-ab2f-469b-b6b8-7b6d2249a9e7"),
+                            Id = new Guid("53bda973-6f7a-4901-8b9f-f7ddb923d678"),
+                            ExerciseTypeId = new Guid("df4aad97-6db3-4e2f-aaf0-994451186477"),
                             Show = false,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("c949f7fe-d532-4994-afcb-76edd6034908"),
-                            ExerciseTypeId = new Guid("51753106-ab2f-469b-b6b8-7b6d2249a9e7"),
+                            Id = new Guid("e761da8d-6c89-4152-a897-e06c5b4b2986"),
+                            ExerciseTypeId = new Guid("df4aad97-6db3-4e2f-aaf0-994451186477"),
                             Show = false,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("06955580-6e36-4a29-9fc7-789bd5341fa9"),
-                            ExerciseTypeId = new Guid("51753106-ab2f-469b-b6b8-7b6d2249a9e7"),
+                            Id = new Guid("660f3258-77fb-4451-b802-50a72655d33f"),
+                            ExerciseTypeId = new Guid("df4aad97-6db3-4e2f-aaf0-994451186477"),
                             Show = false,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("77ad614a-ff90-4b7e-b14a-d3831ec7f186"),
-                            ExerciseTypeId = new Guid("8106fcdc-3a1e-4170-81a1-980e9f9791f8"),
+                            Id = new Guid("15c08b01-a20d-451c-b692-70420bbc44ac"),
+                            ExerciseTypeId = new Guid("b8f82777-1243-4c8d-a5c9-088e26744af4"),
                             Show = true,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("48a47f05-faa7-445d-94ef-64811e64a45b"),
-                            ExerciseTypeId = new Guid("8106fcdc-3a1e-4170-81a1-980e9f9791f8"),
+                            Id = new Guid("fe955e38-8666-406b-88f3-0d6d072d28e8"),
+                            ExerciseTypeId = new Guid("b8f82777-1243-4c8d-a5c9-088e26744af4"),
                             Show = true,
-                            TagId = new Guid("d2f24684-24db-46d8-a9a6-491d13bc6340")
+                            TagId = new Guid("4953e86e-0b3b-4c4e-b854-7875bdad3b2c")
                         },
                         new
                         {
-                            Id = new Guid("6b90acdf-0a3f-43b0-83e4-77409eb61b16"),
-                            ExerciseTypeId = new Guid("8106fcdc-3a1e-4170-81a1-980e9f9791f8"),
+                            Id = new Guid("38f2909f-a60f-477f-9c6b-2eae52e32c88"),
+                            ExerciseTypeId = new Guid("b8f82777-1243-4c8d-a5c9-088e26744af4"),
                             Show = true,
-                            TagId = new Guid("44ef6c4f-a7b4-4d3d-a856-f3b71d0b44e5")
+                            TagId = new Guid("eeec4ded-e242-4414-bba6-24d803eebb69")
                         },
                         new
                         {
-                            Id = new Guid("f5c7a91c-3145-49e2-bf1a-de3a887de5a1"),
-                            ExerciseTypeId = new Guid("8106fcdc-3a1e-4170-81a1-980e9f9791f8"),
+                            Id = new Guid("01f50464-d2a5-4db9-a237-b643dcd805da"),
+                            ExerciseTypeId = new Guid("b8f82777-1243-4c8d-a5c9-088e26744af4"),
                             Show = true,
-                            TagId = new Guid("2b66e6fe-2f2f-4ba5-8aff-5353d5072280")
+                            TagId = new Guid("0ba92e39-a69c-4990-82a5-442adb6ef5c3")
                         },
                         new
                         {
-                            Id = new Guid("b17183cf-b392-4676-8f64-4ff3dc052d57"),
-                            ExerciseTypeId = new Guid("8106fcdc-3a1e-4170-81a1-980e9f9791f8"),
+                            Id = new Guid("7a4bd395-30f3-49d2-8a12-1c2810d51103"),
+                            ExerciseTypeId = new Guid("b8f82777-1243-4c8d-a5c9-088e26744af4"),
                             Show = false,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("75301a4c-bb5e-468d-ba44-163b9246e2bc"),
-                            ExerciseTypeId = new Guid("8106fcdc-3a1e-4170-81a1-980e9f9791f8"),
+                            Id = new Guid("bd5cb986-15e1-4739-9f83-2a3f196d2350"),
+                            ExerciseTypeId = new Guid("b8f82777-1243-4c8d-a5c9-088e26744af4"),
                             Show = true,
-                            TagId = new Guid("44ef6c4f-a7b4-4d3d-a856-f3b71d0b44e5")
+                            TagId = new Guid("eeec4ded-e242-4414-bba6-24d803eebb69")
                         },
                         new
                         {
-                            Id = new Guid("5f241082-626c-4235-879e-6c22d6147730"),
-                            ExerciseTypeId = new Guid("f7c12ec8-1fa3-4613-a4fb-bbc8c661d2f2"),
+                            Id = new Guid("28b5a239-3019-410c-9531-57df930b11e3"),
+                            ExerciseTypeId = new Guid("0e9f030b-2156-484b-8777-f7b0153bd476"),
                             Show = true,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("7cbd61b0-5b01-45c5-8d75-118851affdb3"),
-                            ExerciseTypeId = new Guid("f7c12ec8-1fa3-4613-a4fb-bbc8c661d2f2"),
+                            Id = new Guid("dc21d955-e060-4dc3-9e07-dc7e33bb04d8"),
+                            ExerciseTypeId = new Guid("0e9f030b-2156-484b-8777-f7b0153bd476"),
                             Show = true,
-                            TagId = new Guid("43cd1750-aff6-4b1c-a95f-c2ec572d6898")
+                            TagId = new Guid("51bb3144-fd37-40af-adb5-707bccdccb47")
                         },
                         new
                         {
-                            Id = new Guid("bfc1243e-4774-42d7-9542-aa470710f90c"),
-                            ExerciseTypeId = new Guid("f7c12ec8-1fa3-4613-a4fb-bbc8c661d2f2"),
+                            Id = new Guid("e8d822c1-ea69-4c1f-9e46-408fbe5f0580"),
+                            ExerciseTypeId = new Guid("0e9f030b-2156-484b-8777-f7b0153bd476"),
                             Show = true,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("89925946-5899-4151-97ac-3fb640df1858"),
-                            ExerciseTypeId = new Guid("f7c12ec8-1fa3-4613-a4fb-bbc8c661d2f2"),
+                            Id = new Guid("d55f4dae-1b53-4d5a-8558-aa01a5c181bc"),
+                            ExerciseTypeId = new Guid("0e9f030b-2156-484b-8777-f7b0153bd476"),
                             Show = false,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         },
                         new
                         {
-                            Id = new Guid("531706f0-2f2a-4f60-af3a-5f253e528c97"),
-                            ExerciseTypeId = new Guid("f7c12ec8-1fa3-4613-a4fb-bbc8c661d2f2"),
+                            Id = new Guid("445ddf4d-fb3b-4a68-a89b-d03723f184f3"),
+                            ExerciseTypeId = new Guid("0e9f030b-2156-484b-8777-f7b0153bd476"),
                             Show = false,
-                            TagId = new Guid("44ef6c4f-a7b4-4d3d-a856-f3b71d0b44e5")
+                            TagId = new Guid("eeec4ded-e242-4414-bba6-24d803eebb69")
                         },
                         new
                         {
-                            Id = new Guid("0215de9e-2c14-49df-b161-91c2dd44be86"),
-                            ExerciseTypeId = new Guid("f7c12ec8-1fa3-4613-a4fb-bbc8c661d2f2"),
+                            Id = new Guid("4e54fb07-2483-46ad-aa5e-dfc1947a2c28"),
+                            ExerciseTypeId = new Guid("0e9f030b-2156-484b-8777-f7b0153bd476"),
                             Show = false,
-                            TagId = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb")
+                            TagId = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d")
                         });
                 });
 
@@ -875,2242 +877,2242 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1dfe6fb9-cfec-406b-be52-ba2504ed10f7"),
+                            Id = new Guid("c87b9042-97a3-4369-8bfa-a6b301f00f26"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("64ef2dde-68ce-4bc9-aa49-fdc9b3881345"),
+                            TagGroupId = new Guid("715ac2b6-8281-49ec-abd3-a22b6c1ca78a"),
                             Value = "Knee dominant"
                         },
                         new
                         {
-                            Id = new Guid("0d0e9474-7fef-436a-95f9-24e09b6d5d89"),
+                            Id = new Guid("9f4c991f-7cd2-4c59-b58c-e748d4a77e7b"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("64ef2dde-68ce-4bc9-aa49-fdc9b3881345"),
+                            TagGroupId = new Guid("715ac2b6-8281-49ec-abd3-a22b6c1ca78a"),
                             Value = "Hip dominant"
                         },
                         new
                         {
-                            Id = new Guid("28818a62-a4fc-4637-b17f-69df006e18f7"),
+                            Id = new Guid("140b54b9-cc37-4071-ba5b-58da06c8548e"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("64ef2dde-68ce-4bc9-aa49-fdc9b3881345"),
+                            TagGroupId = new Guid("715ac2b6-8281-49ec-abd3-a22b6c1ca78a"),
                             Value = "Horizontal push"
                         },
                         new
                         {
-                            Id = new Guid("329ff2c8-6b2f-4dcc-997d-72d0fd2b2ae8"),
+                            Id = new Guid("4e2c95ff-192c-4388-8a6f-cff9b1cd0ded"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("64ef2dde-68ce-4bc9-aa49-fdc9b3881345"),
+                            TagGroupId = new Guid("715ac2b6-8281-49ec-abd3-a22b6c1ca78a"),
                             Value = "Horizontal pull"
                         },
                         new
                         {
-                            Id = new Guid("b3a0dd26-24dc-431e-876b-a166f3e7dc41"),
+                            Id = new Guid("83519c42-828f-48cd-b7dc-930318182164"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("64ef2dde-68ce-4bc9-aa49-fdc9b3881345"),
+                            TagGroupId = new Guid("715ac2b6-8281-49ec-abd3-a22b6c1ca78a"),
                             Value = "Vertical push"
                         },
                         new
                         {
-                            Id = new Guid("292fcacb-158a-4023-946b-1768541e3ff0"),
+                            Id = new Guid("abe4cd55-70f0-4d59-aa93-4e1504cbf2ce"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("64ef2dde-68ce-4bc9-aa49-fdc9b3881345"),
+                            TagGroupId = new Guid("715ac2b6-8281-49ec-abd3-a22b6c1ca78a"),
                             Value = "Vertical pull"
                         },
                         new
                         {
-                            Id = new Guid("ef714cc8-0a41-425f-a9d9-ed579d9ef618"),
+                            Id = new Guid("8db54080-2642-46a0-938f-eedf11ec3f6d"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("64ef2dde-68ce-4bc9-aa49-fdc9b3881345"),
+                            TagGroupId = new Guid("715ac2b6-8281-49ec-abd3-a22b6c1ca78a"),
                             Value = "Other"
                         },
                         new
                         {
-                            Id = new Guid("440e2699-a523-43fe-beeb-540c6a855b37"),
+                            Id = new Guid("96d3d992-8868-42d3-9bac-2b94589f58bf"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("06d37823-6378-4c8d-893c-ce62f19a4a34"),
+                            TagGroupId = new Guid("f2e04f0a-47ac-48ab-b14a-3b10a5936c8d"),
                             Value = "Barbell"
                         },
                         new
                         {
-                            Id = new Guid("19f53885-108e-40be-bcc4-a60c1bdf83ca"),
+                            Id = new Guid("7834624c-5399-4275-86ba-4048c1cf343f"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("06d37823-6378-4c8d-893c-ce62f19a4a34"),
+                            TagGroupId = new Guid("f2e04f0a-47ac-48ab-b14a-3b10a5936c8d"),
                             Value = "Dumbbell"
                         },
                         new
                         {
-                            Id = new Guid("fcda3cb4-4cc7-4fe4-ac36-ecd6aaccec6f"),
+                            Id = new Guid("c59e9707-ba51-471d-afa1-986506028b92"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("06d37823-6378-4c8d-893c-ce62f19a4a34"),
+                            TagGroupId = new Guid("f2e04f0a-47ac-48ab-b14a-3b10a5936c8d"),
                             Value = "Saftey bar"
                         },
                         new
                         {
-                            Id = new Guid("c58c14b5-8761-4aa8-9594-43abe3766383"),
+                            Id = new Guid("10ddac69-7943-4090-afea-a7eea423608a"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("06d37823-6378-4c8d-893c-ce62f19a4a34"),
+                            TagGroupId = new Guid("f2e04f0a-47ac-48ab-b14a-3b10a5936c8d"),
                             Value = "Cambered bar"
                         },
                         new
                         {
-                            Id = new Guid("6baec875-848d-46b6-8c8b-70b26b4e5af0"),
+                            Id = new Guid("222dd73b-f392-499a-8c6c-cd5ba6155c7f"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("06d37823-6378-4c8d-893c-ce62f19a4a34"),
+                            TagGroupId = new Guid("f2e04f0a-47ac-48ab-b14a-3b10a5936c8d"),
                             Value = "Neutral-grip bar"
                         },
                         new
                         {
-                            Id = new Guid("23bf5aa2-32d1-4400-aca0-0fc854772107"),
+                            Id = new Guid("6f67893c-337a-4c9b-845e-5ffdce460b61"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("06d37823-6378-4c8d-893c-ce62f19a4a34"),
+                            TagGroupId = new Guid("f2e04f0a-47ac-48ab-b14a-3b10a5936c8d"),
                             Value = "Trap bar"
                         },
                         new
                         {
-                            Id = new Guid("2b3d4daa-5f0a-4bab-a1f4-678e88f781ba"),
+                            Id = new Guid("851e6458-b3d9-447b-9d88-1b1cf11a6021"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("06d37823-6378-4c8d-893c-ce62f19a4a34"),
+                            TagGroupId = new Guid("f2e04f0a-47ac-48ab-b14a-3b10a5936c8d"),
                             Value = "Buffalo bar"
                         },
                         new
                         {
-                            Id = new Guid("772e73ad-d31c-4a0c-a566-63fa53c86fb1"),
+                            Id = new Guid("b1790ff1-297b-4342-b7bb-f870eefb054b"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("06d37823-6378-4c8d-893c-ce62f19a4a34"),
+                            TagGroupId = new Guid("f2e04f0a-47ac-48ab-b14a-3b10a5936c8d"),
                             Value = "Machine"
                         },
                         new
                         {
-                            Id = new Guid("b7d17089-6398-4e89-9a6c-7332b1b56334"),
+                            Id = new Guid("ca430845-2e72-46c1-8cc0-9d968f31ba61"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("85937fbf-ffda-4223-a9fc-dc463b3ef762"),
+                            TagGroupId = new Guid("01d00039-2c2c-49a8-be2d-d0a208c25482"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("61b44a99-1e3f-4f09-94e4-a3f0ac8f41b7"),
+                            Id = new Guid("54e685c5-9285-4446-8f42-f88ae581d30a"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("85937fbf-ffda-4223-a9fc-dc463b3ef762"),
+                            TagGroupId = new Guid("01d00039-2c2c-49a8-be2d-d0a208c25482"),
                             Value = "High bar"
                         },
                         new
                         {
-                            Id = new Guid("f85233d9-9e4d-45f7-a3bc-262d5c04c3ef"),
+                            Id = new Guid("82ada276-374e-4be0-9a62-56090872b554"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("85937fbf-ffda-4223-a9fc-dc463b3ef762"),
+                            TagGroupId = new Guid("01d00039-2c2c-49a8-be2d-d0a208c25482"),
                             Value = "Low bar"
                         },
                         new
                         {
-                            Id = new Guid("3d2d8478-3435-4156-9b61-51910be53449"),
+                            Id = new Guid("b7df519d-8447-4826-a56f-f5f3b1726510"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("85937fbf-ffda-4223-a9fc-dc463b3ef762"),
+                            TagGroupId = new Guid("01d00039-2c2c-49a8-be2d-d0a208c25482"),
                             Value = "Front rack"
                         },
                         new
                         {
-                            Id = new Guid("b5a1f4ea-8dd5-46cc-8212-aab8b3296df5"),
+                            Id = new Guid("2d9e9db2-e2a3-4eb7-aa93-bf639b657dd1"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            TagGroupId = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Value = "Belt"
                         },
                         new
                         {
-                            Id = new Guid("c2f4ec41-dea9-4889-a936-69ece378aa7e"),
+                            Id = new Guid("017e560b-3716-4468-b4cc-e2c61ee4d057"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            TagGroupId = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Value = "Knee sleeves"
                         },
                         new
                         {
-                            Id = new Guid("f008373c-2dac-4c49-b1a1-a4a17e2bbafb"),
+                            Id = new Guid("40f8dd46-71b7-46c3-94bb-526808a5e67f"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            TagGroupId = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Value = "Knee wraps"
                         },
                         new
                         {
-                            Id = new Guid("43cd1750-aff6-4b1c-a95f-c2ec572d6898"),
+                            Id = new Guid("4ef96a0a-97b1-451f-9793-90c072ba1e85"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            TagGroupId = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Value = "Slingshot"
                         },
                         new
                         {
-                            Id = new Guid("d2f24684-24db-46d8-a9a6-491d13bc6340"),
+                            Id = new Guid("8df122d1-9b65-4419-bde9-ba2101f65962"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            TagGroupId = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Value = "Breifs"
                         },
                         new
                         {
-                            Id = new Guid("44ef6c4f-a7b4-4d3d-a856-f3b71d0b44e5"),
+                            Id = new Guid("471d4efd-5ff8-4ac1-8470-c215ba468f69"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            TagGroupId = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Value = "Squat suit"
                         },
                         new
                         {
-                            Id = new Guid("87d58e46-f8b6-41e8-b573-0a19de349753"),
+                            Id = new Guid("4f343a53-668c-47e1-a5cb-aff361c0c496"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            TagGroupId = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Value = "Bench shirt"
                         },
                         new
                         {
-                            Id = new Guid("83e64ea8-434c-4d45-a15f-d577e5847882"),
+                            Id = new Guid("3ee45a20-a9ad-4781-82ed-bd099087f80b"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            TagGroupId = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Value = "Deadlift suit"
                         },
                         new
                         {
-                            Id = new Guid("c16e19eb-4cac-4a70-9748-a598787bc7e8"),
+                            Id = new Guid("bb3c4244-9f86-4a6c-a38d-4dcb24567f8d"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            TagGroupId = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Value = "Wrist wraps"
                         },
                         new
                         {
-                            Id = new Guid("7f900a50-4981-4d42-8176-845a42590a0c"),
+                            Id = new Guid("51bb3144-fd37-40af-adb5-707bccdccb47"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("96d4b464-09fd-43a9-b23f-90190cce3cd7"),
+                            TagGroupId = new Guid("db07e313-9eda-428e-86d3-5a4b301bd7a5"),
                             Value = "Snatch grip"
                         },
                         new
                         {
-                            Id = new Guid("2b66e6fe-2f2f-4ba5-8aff-5353d5072280"),
+                            Id = new Guid("4953e86e-0b3b-4c4e-b854-7875bdad3b2c"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("96d4b464-09fd-43a9-b23f-90190cce3cd7"),
+                            TagGroupId = new Guid("db07e313-9eda-428e-86d3-5a4b301bd7a5"),
                             Value = "Reverse grip"
                         },
                         new
                         {
-                            Id = new Guid("ada97ecd-1f8e-49d9-8d67-ddcf32d05ec2"),
+                            Id = new Guid("eeec4ded-e242-4414-bba6-24d803eebb69"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("96d4b464-09fd-43a9-b23f-90190cce3cd7"),
+                            TagGroupId = new Guid("db07e313-9eda-428e-86d3-5a4b301bd7a5"),
                             Value = "Close grip"
                         },
                         new
                         {
-                            Id = new Guid("4e5a36b2-7224-47aa-a0a1-33abf648f76c"),
+                            Id = new Guid("00e4951a-a557-4100-a664-d2fe5fd8fa41"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("96d4b464-09fd-43a9-b23f-90190cce3cd7"),
+                            TagGroupId = new Guid("db07e313-9eda-428e-86d3-5a4b301bd7a5"),
                             Value = "Wide grip"
                         },
                         new
                         {
-                            Id = new Guid("5aa73dc8-5deb-4bc8-a780-723df6338e12"),
+                            Id = new Guid("b48f4433-bae8-468a-adc1-0e443f0f64e3"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("b02cfd0b-cdb3-40d4-8165-9e0589ac32b1"),
+                            Id = new Guid("f542d33f-d309-4104-ba30-ec367154ea86"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Box"
                         },
                         new
                         {
-                            Id = new Guid("18450ce6-648d-4749-9b25-456b6bd1226c"),
+                            Id = new Guid("2df5ba55-60cd-4292-8860-f4d23a5bec73"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Towel"
                         },
                         new
                         {
-                            Id = new Guid("ab8d5626-a178-48a2-861d-8227ef25854d"),
+                            Id = new Guid("0ba92e39-a69c-4990-82a5-442adb6ef5c3"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Low pin"
                         },
                         new
                         {
-                            Id = new Guid("65efa7ed-827f-4e19-b609-1e400cfdfcbf"),
+                            Id = new Guid("d81a9249-f52e-4161-90c4-af023d839ea5"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Middle pin"
                         },
                         new
                         {
-                            Id = new Guid("4bb6548a-d0f6-4f10-95a6-4ffbf025d44e"),
+                            Id = new Guid("69842641-98df-42e0-affe-516647009921"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "High pin"
                         },
                         new
                         {
-                            Id = new Guid("9d6a47de-3e04-41e1-a179-248a7b62bc92"),
+                            Id = new Guid("84b7f3e5-8508-424d-8b38-5e3548ccb82a"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Two inch deficit"
                         },
                         new
                         {
-                            Id = new Guid("95b9639e-03eb-48e9-8c8a-7edb15192361"),
+                            Id = new Guid("02acf8c8-51ec-465e-a3eb-d0a961e9038f"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Half board"
                         },
                         new
                         {
-                            Id = new Guid("d649bfc6-a434-4f39-bd4a-2f72a4f43ea6"),
+                            Id = new Guid("384759ed-ac70-4d70-bbc2-4bdf20988270"),
                             Active = false,
                             Order = 8,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Two board"
                         },
                         new
                         {
-                            Id = new Guid("1a7cc5d6-554b-4ee8-bd45-d36986baa2c9"),
+                            Id = new Guid("0e9ad192-694a-47bd-ac0d-c73fdf25701a"),
                             Active = false,
                             Order = 9,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Three board"
                         },
                         new
                         {
-                            Id = new Guid("d94d25b1-30ac-4a47-b06c-3ede51659f07"),
+                            Id = new Guid("77db74b0-ec79-449f-b6b5-ccc944d095bc"),
                             Active = false,
                             Order = 10,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Four board"
                         },
                         new
                         {
-                            Id = new Guid("a2be175d-df89-40a0-a170-c42d7b7ee403"),
+                            Id = new Guid("8824207a-130f-45e6-959d-985e3cb930a7"),
                             Active = false,
                             Order = 11,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Five board"
                         },
                         new
                         {
-                            Id = new Guid("b5c61512-e1c8-496c-9eea-554446708249"),
+                            Id = new Guid("96ea5e50-5f15-49ef-b9d3-c9e56601b49c"),
                             Active = false,
                             Order = 12,
-                            TagGroupId = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            TagGroupId = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Value = "Towel - 8 cm "
                         },
                         new
                         {
-                            Id = new Guid("5952c1cc-5a36-4686-a8d1-26eb807882bc"),
+                            Id = new Guid("a3a0266a-9081-45a6-9345-85a9d5a2b0df"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("a3235b25-da9c-4946-85bd-036dd9e5e511"),
+                            TagGroupId = new Guid("78e47db6-ba61-4d72-ae1e-8ac35a4343b5"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("3ad5f2e1-04a2-4a02-8e65-ab1a5f739006"),
+                            Id = new Guid("2c95439e-83e0-4f6f-833a-18a4dc978190"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("a3235b25-da9c-4946-85bd-036dd9e5e511"),
+                            TagGroupId = new Guid("78e47db6-ba61-4d72-ae1e-8ac35a4343b5"),
                             Value = "Narrow"
                         },
                         new
                         {
-                            Id = new Guid("6b123236-b0b9-4199-aa39-09a3c487bc2e"),
+                            Id = new Guid("c43ded62-68fd-4337-8a0b-2cd4bc3e9e3a"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("a3235b25-da9c-4946-85bd-036dd9e5e511"),
+                            TagGroupId = new Guid("78e47db6-ba61-4d72-ae1e-8ac35a4343b5"),
                             Value = "Wide"
                         },
                         new
                         {
-                            Id = new Guid("ccb1459d-988e-4213-8d8c-8dc0ac86b22d"),
+                            Id = new Guid("2db1af96-e104-412e-8bb0-2fe76c0fea29"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("a3235b25-da9c-4946-85bd-036dd9e5e511"),
+                            TagGroupId = new Guid("78e47db6-ba61-4d72-ae1e-8ac35a4343b5"),
                             Value = "Sumo"
                         },
                         new
                         {
-                            Id = new Guid("3d4db2ee-a84f-46c6-9240-203d2ea15343"),
+                            Id = new Guid("d3c08db5-3d17-45fe-978b-69b67be5106c"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("a3235b25-da9c-4946-85bd-036dd9e5e511"),
+                            TagGroupId = new Guid("78e47db6-ba61-4d72-ae1e-8ac35a4343b5"),
                             Value = "Conventional"
                         },
                         new
                         {
-                            Id = new Guid("6c6706c6-72d6-4cc3-9fa9-bd87b90d7179"),
+                            Id = new Guid("9efa99a5-53b3-4915-a455-fcc2ebde5fdc"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("a3235b25-da9c-4946-85bd-036dd9e5e511"),
+                            TagGroupId = new Guid("78e47db6-ba61-4d72-ae1e-8ac35a4343b5"),
                             Value = "Stiff legged"
                         },
                         new
                         {
-                            Id = new Guid("b45b1b70-9dbe-47ea-9bd4-e226f3f17933"),
+                            Id = new Guid("2c2c478a-0b0e-4bd7-83a8-3ee9116b7e63"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("a3235b25-da9c-4946-85bd-036dd9e5e511"),
+                            TagGroupId = new Guid("78e47db6-ba61-4d72-ae1e-8ac35a4343b5"),
                             Value = "Feet up"
                         },
                         new
                         {
-                            Id = new Guid("5bde0c85-6a1d-4aa3-820e-7ec7aae01e2d"),
+                            Id = new Guid("a0906b97-a00f-44b0-8c11-da51222ee50a"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("2ef3d1fe-3336-4bdc-a655-bb4d3043cfc2"),
+                            Id = new Guid("0e04e401-d7c1-4dd5-9621-9a4236a75901"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Touch and go"
                         },
                         new
                         {
-                            Id = new Guid("d3edde12-7570-4397-90fe-ad315bdc6297"),
+                            Id = new Guid("7df2fdf8-4da9-49aa-9164-0b1376e69d80"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Pause - 2 count"
                         },
                         new
                         {
-                            Id = new Guid("8e863ed1-d819-4b55-b17b-c99aca5067cb"),
+                            Id = new Guid("313e639b-4f06-4986-8396-eae2ba6051e7"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Pause - 3 count"
                         },
                         new
                         {
-                            Id = new Guid("550b03a2-11f8-46a9-8cb1-a6e3a4a62c03"),
+                            Id = new Guid("6d37e54f-994d-4c61-9ca2-5562334ba749"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Pause - 5 count"
                         },
                         new
                         {
-                            Id = new Guid("140c604c-eecc-42a6-a830-774b2d91f88a"),
+                            Id = new Guid("7b76acc7-49e1-40b0-b238-3351a776d295"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Pause - 7 count"
                         },
                         new
                         {
-                            Id = new Guid("d7d4b686-8abe-4cc7-a2c6-8472e3be24e8"),
+                            Id = new Guid("8bf8b971-4242-494a-af76-7c4335da5dce"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Tempo - 600"
                         },
                         new
                         {
-                            Id = new Guid("bed3c6a7-c91e-4ee9-841a-d33b318a7749"),
+                            Id = new Guid("22a3311b-bb06-4894-87fa-bc557bdae238"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Tempo - 320"
                         },
                         new
                         {
-                            Id = new Guid("c9f1663e-764a-48d6-b4a1-6b47bd70e68e"),
+                            Id = new Guid("898b54cb-157e-4e4c-9eef-de905af16a1a"),
                             Active = false,
                             Order = 8,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Tempo - 530"
                         },
                         new
                         {
-                            Id = new Guid("0bb1e615-b654-48eb-86cb-1653141c7cf3"),
+                            Id = new Guid("cf1a1c83-de64-452c-99aa-ceff0492af73"),
                             Active = false,
                             Order = 9,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Tempo - 303"
                         },
                         new
                         {
-                            Id = new Guid("d8d7505d-6ebd-4b2b-beb3-971a2a4da01f"),
+                            Id = new Guid("d82e1c77-2bb5-48ce-92c4-499b5117fb2f"),
                             Active = false,
                             Order = 10,
-                            TagGroupId = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            TagGroupId = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Value = "Tempo - 003"
                         },
                         new
                         {
-                            Id = new Guid("92adb9aa-3055-4514-8a38-bb027ad02df1"),
+                            Id = new Guid("1e333570-172c-454c-973d-bfb0fcc6d7f2"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("2516bf1c-073f-49da-8b0f-21c881eee41e"),
+                            TagGroupId = new Guid("fbb2126c-c48b-4ba7-a528-8c1df0b0f60c"),
                             Value = "Light band"
                         },
                         new
                         {
-                            Id = new Guid("c1b3bb72-7995-4cf6-86cb-a7b1f5673251"),
+                            Id = new Guid("f4ccf2e6-bbc1-48a2-98fe-d791e31fb791"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("2516bf1c-073f-49da-8b0f-21c881eee41e"),
+                            TagGroupId = new Guid("fbb2126c-c48b-4ba7-a528-8c1df0b0f60c"),
                             Value = "Average band"
                         },
                         new
                         {
-                            Id = new Guid("2a730535-89c5-4c53-bc43-8bbaa42748f0"),
+                            Id = new Guid("58195b49-8112-4ea8-b29b-6046a3e00a05"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("2516bf1c-073f-49da-8b0f-21c881eee41e"),
+                            TagGroupId = new Guid("fbb2126c-c48b-4ba7-a528-8c1df0b0f60c"),
                             Value = "Strong band"
                         },
                         new
                         {
-                            Id = new Guid("5a66172e-fad3-43a3-896f-01c1071de161"),
+                            Id = new Guid("27aa0552-d55e-4618-8fb3-9154776bf5fb"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("2516bf1c-073f-49da-8b0f-21c881eee41e"),
+                            TagGroupId = new Guid("fbb2126c-c48b-4ba7-a528-8c1df0b0f60c"),
                             Value = "Chains"
                         },
                         new
                         {
-                            Id = new Guid("38565921-1aef-466f-946f-253ead331497"),
+                            Id = new Guid("83af7320-0dcc-45bc-a02e-87a64f33bf79"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("2516bf1c-073f-49da-8b0f-21c881eee41e"),
+                            TagGroupId = new Guid("fbb2126c-c48b-4ba7-a528-8c1df0b0f60c"),
                             Value = "Reverse light band"
                         },
                         new
                         {
-                            Id = new Guid("c6607691-9f8f-4f02-ad2e-8dc323f2bb26"),
+                            Id = new Guid("2e388482-6ecf-4c02-9267-c0e5da6f14eb"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("2516bf1c-073f-49da-8b0f-21c881eee41e"),
+                            TagGroupId = new Guid("fbb2126c-c48b-4ba7-a528-8c1df0b0f60c"),
                             Value = "Reverse average band"
                         },
                         new
                         {
-                            Id = new Guid("9b492b22-c9b7-4504-8605-737a033db465"),
+                            Id = new Guid("50abe01f-0012-4fd0-b06f-ec46b2c5dfb2"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("2516bf1c-073f-49da-8b0f-21c881eee41e"),
+                            TagGroupId = new Guid("fbb2126c-c48b-4ba7-a528-8c1df0b0f60c"),
                             Value = "Reverse strong band"
                         },
                         new
                         {
-                            Id = new Guid("7e400e1e-f522-424b-b03b-cb32f8ae6cb0"),
+                            Id = new Guid("cf08f238-a447-41a7-8c4e-c254677c0d99"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("17df1bd6-ed62-48b3-a346-59851f9de751"),
+                            TagGroupId = new Guid("0f1f42cf-7808-417c-a541-64b8ef8c3a99"),
                             Value = "Knee dominant"
                         },
                         new
                         {
-                            Id = new Guid("f2bf20cb-23ed-4741-8e0c-1f942f47f127"),
+                            Id = new Guid("0f4f5f4d-45b2-48c2-906b-8b5e2469f8ab"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("17df1bd6-ed62-48b3-a346-59851f9de751"),
+                            TagGroupId = new Guid("0f1f42cf-7808-417c-a541-64b8ef8c3a99"),
                             Value = "Hip dominant"
                         },
                         new
                         {
-                            Id = new Guid("8069db83-4b25-4da9-aa68-b968246bb2d2"),
+                            Id = new Guid("a6935dc8-28a9-4d93-83d6-33b0205630e9"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("17df1bd6-ed62-48b3-a346-59851f9de751"),
+                            TagGroupId = new Guid("0f1f42cf-7808-417c-a541-64b8ef8c3a99"),
                             Value = "Horizontal push"
                         },
                         new
                         {
-                            Id = new Guid("dfa53168-71e4-40bb-97ac-c9c897e6f516"),
+                            Id = new Guid("c9a6fb80-8237-410c-b5e8-dd1c24a7c04f"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("17df1bd6-ed62-48b3-a346-59851f9de751"),
+                            TagGroupId = new Guid("0f1f42cf-7808-417c-a541-64b8ef8c3a99"),
                             Value = "Horizontal pull"
                         },
                         new
                         {
-                            Id = new Guid("80f9c1a6-a9b8-4ed5-9f4b-abdfca099887"),
+                            Id = new Guid("4caea851-e412-4637-a447-b6c966262975"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("17df1bd6-ed62-48b3-a346-59851f9de751"),
+                            TagGroupId = new Guid("0f1f42cf-7808-417c-a541-64b8ef8c3a99"),
                             Value = "Vertical push"
                         },
                         new
                         {
-                            Id = new Guid("2a155566-7b7c-4abb-89fd-7f442b0d7bd5"),
+                            Id = new Guid("8772e703-c021-41c7-8545-fbd5762089e4"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("17df1bd6-ed62-48b3-a346-59851f9de751"),
+                            TagGroupId = new Guid("0f1f42cf-7808-417c-a541-64b8ef8c3a99"),
                             Value = "Vertical pull"
                         },
                         new
                         {
-                            Id = new Guid("3bd0b1b1-22c8-4685-9c86-cc110a28ff76"),
+                            Id = new Guid("2e8c41f9-76ad-4621-ad31-a1ff644bd87c"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("17df1bd6-ed62-48b3-a346-59851f9de751"),
+                            TagGroupId = new Guid("0f1f42cf-7808-417c-a541-64b8ef8c3a99"),
                             Value = "Other"
                         },
                         new
                         {
-                            Id = new Guid("2224b365-3a0d-46d6-9729-d56df90d3722"),
+                            Id = new Guid("10ca81f7-3b13-442c-8c52-16bc439e771b"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("81b16d58-b50a-43d1-90c0-856e8c821c4b"),
+                            TagGroupId = new Guid("1fb4c505-2426-480e-aec3-88b0a1561607"),
                             Value = "Barbell"
                         },
                         new
                         {
-                            Id = new Guid("25d6eb80-cb10-4619-a23a-491df609ad90"),
+                            Id = new Guid("d3ef9152-9114-43f8-8c9c-eeb882bd2a34"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("81b16d58-b50a-43d1-90c0-856e8c821c4b"),
+                            TagGroupId = new Guid("1fb4c505-2426-480e-aec3-88b0a1561607"),
                             Value = "Dumbbell"
                         },
                         new
                         {
-                            Id = new Guid("23c1dab3-9e23-4dc6-9914-a41243641fd7"),
+                            Id = new Guid("c8fd0030-7403-4bb2-8afa-6f07c4d727d9"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("81b16d58-b50a-43d1-90c0-856e8c821c4b"),
+                            TagGroupId = new Guid("1fb4c505-2426-480e-aec3-88b0a1561607"),
                             Value = "Saftey bar"
                         },
                         new
                         {
-                            Id = new Guid("103e3d6b-01eb-4416-85af-dc83bc704da2"),
+                            Id = new Guid("900ae343-cd77-4a2b-b616-b6022de8e4e6"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("81b16d58-b50a-43d1-90c0-856e8c821c4b"),
+                            TagGroupId = new Guid("1fb4c505-2426-480e-aec3-88b0a1561607"),
                             Value = "Cambered bar"
                         },
                         new
                         {
-                            Id = new Guid("98f89eef-ba41-42ac-96d8-bd0d0613ff05"),
+                            Id = new Guid("36d1012c-ec10-4b65-b082-8638c61381a6"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("81b16d58-b50a-43d1-90c0-856e8c821c4b"),
+                            TagGroupId = new Guid("1fb4c505-2426-480e-aec3-88b0a1561607"),
                             Value = "Neutral-grip bar"
                         },
                         new
                         {
-                            Id = new Guid("e6f3e272-1d14-4184-afee-affadbdf0a90"),
+                            Id = new Guid("91a3a511-8183-4ee1-91b6-3737cb7fc3c1"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("81b16d58-b50a-43d1-90c0-856e8c821c4b"),
+                            TagGroupId = new Guid("1fb4c505-2426-480e-aec3-88b0a1561607"),
                             Value = "Trap bar"
                         },
                         new
                         {
-                            Id = new Guid("b34f65d4-860d-4b1c-9f17-748b21234848"),
+                            Id = new Guid("916a1d79-cd60-4ab4-95ed-e5966e41095f"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("81b16d58-b50a-43d1-90c0-856e8c821c4b"),
+                            TagGroupId = new Guid("1fb4c505-2426-480e-aec3-88b0a1561607"),
                             Value = "Buffalo bar"
                         },
                         new
                         {
-                            Id = new Guid("7b1f3265-838d-4267-9830-96f7d407c733"),
+                            Id = new Guid("7351a2d2-3b55-4167-8e7d-891427b755ff"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("81b16d58-b50a-43d1-90c0-856e8c821c4b"),
+                            TagGroupId = new Guid("1fb4c505-2426-480e-aec3-88b0a1561607"),
                             Value = "Machine"
                         },
                         new
                         {
-                            Id = new Guid("8f510dd4-f737-4e2b-bef1-61647f2ddd07"),
+                            Id = new Guid("f694fc14-20df-4997-9167-0dde44013047"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("870a51ac-dc80-48b2-a997-7835fcc5cc27"),
+                            TagGroupId = new Guid("48bcf44c-57b8-4ead-bca8-f3c8923b3eb0"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("ad850f0f-9c71-4f04-ba15-e2083212028e"),
+                            Id = new Guid("ebe9064a-aa92-4f24-8350-51e854ab07e7"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("870a51ac-dc80-48b2-a997-7835fcc5cc27"),
+                            TagGroupId = new Guid("48bcf44c-57b8-4ead-bca8-f3c8923b3eb0"),
                             Value = "High bar"
                         },
                         new
                         {
-                            Id = new Guid("0fc4878f-4db2-48b8-83f1-9ef1fc364508"),
+                            Id = new Guid("03f17556-0393-4358-b4b9-71ce598dbde5"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("870a51ac-dc80-48b2-a997-7835fcc5cc27"),
+                            TagGroupId = new Guid("48bcf44c-57b8-4ead-bca8-f3c8923b3eb0"),
                             Value = "Low bar"
                         },
                         new
                         {
-                            Id = new Guid("4301b7ae-5a5a-4b11-8699-f299c50be26d"),
+                            Id = new Guid("97d89a52-e395-401b-ab88-1d8812961b5f"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("870a51ac-dc80-48b2-a997-7835fcc5cc27"),
+                            TagGroupId = new Guid("48bcf44c-57b8-4ead-bca8-f3c8923b3eb0"),
                             Value = "Front rack"
                         },
                         new
                         {
-                            Id = new Guid("79841cc9-ba5e-4adb-96d7-0adb2ba7dc32"),
+                            Id = new Guid("252f349e-cc8e-47d7-b02b-b5315ad9b6db"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            TagGroupId = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Value = "Belt"
                         },
                         new
                         {
-                            Id = new Guid("1745e2fa-6a4c-4504-892a-82ffaea841ca"),
+                            Id = new Guid("84ba414a-2930-4adb-941f-018c3c83fbf4"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            TagGroupId = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Value = "Knee sleeves"
                         },
                         new
                         {
-                            Id = new Guid("5c441d37-ff35-45e1-b128-4c2c32392786"),
+                            Id = new Guid("72111663-8a48-4b19-9fb0-bc057fb32929"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            TagGroupId = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Value = "Knee wraps"
                         },
                         new
                         {
-                            Id = new Guid("8fa25050-73b7-4532-9a10-5ebcb0177e64"),
+                            Id = new Guid("b22786a7-2fa5-4cc7-af2a-4a9757be8196"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            TagGroupId = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Value = "Slingshot"
                         },
                         new
                         {
-                            Id = new Guid("62885c3e-c00c-46ad-9e8e-d404a6738357"),
+                            Id = new Guid("9ac6b1db-b962-4a59-8a5e-60c27673739d"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            TagGroupId = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Value = "Breifs"
                         },
                         new
                         {
-                            Id = new Guid("7b597d91-99ff-49bb-9773-daa4d4b37582"),
+                            Id = new Guid("8fefe3a1-6f6b-4c1e-acef-7a73bdde8d12"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            TagGroupId = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Value = "Squat suit"
                         },
                         new
                         {
-                            Id = new Guid("da11aef5-fc5a-490b-add9-2d3ea116fbca"),
+                            Id = new Guid("3d0f8fae-5a7e-4a12-bdab-592852bd5b81"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            TagGroupId = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Value = "Bench shirt"
                         },
                         new
                         {
-                            Id = new Guid("d5f9c302-a3c9-4056-9180-5d7fea7c7875"),
+                            Id = new Guid("fdeb1689-c807-4bc5-b481-d5bfb5b2b2bc"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            TagGroupId = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Value = "Deadlift suit"
                         },
                         new
                         {
-                            Id = new Guid("4ab433db-b109-490f-a59f-dfc116e1dc3e"),
+                            Id = new Guid("7ae4a7d0-b8f3-424c-8712-0308c5bfbf78"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            TagGroupId = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Value = "Wrist wraps"
                         },
                         new
                         {
-                            Id = new Guid("2e356698-13e2-4f69-a24e-8539ef577357"),
+                            Id = new Guid("6630e91f-8d2d-4317-8496-238e59a1f277"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("3d498c02-9d47-4a01-a6dc-b358324af2fc"),
+                            TagGroupId = new Guid("03fdec1e-73cc-4ae7-abe7-4a6e6cf7d603"),
                             Value = "Snatch grip"
                         },
                         new
                         {
-                            Id = new Guid("77e88354-7015-4993-8fa1-14278f774a40"),
+                            Id = new Guid("b94b0d86-c41a-4c9e-a271-3d3ae513dc02"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("3d498c02-9d47-4a01-a6dc-b358324af2fc"),
+                            TagGroupId = new Guid("03fdec1e-73cc-4ae7-abe7-4a6e6cf7d603"),
                             Value = "Reverse grip"
                         },
                         new
                         {
-                            Id = new Guid("73da7306-aa91-44f7-81db-717e4fa78397"),
+                            Id = new Guid("1b38e235-9567-4dc1-81bf-235dd9fd5f9e"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("3d498c02-9d47-4a01-a6dc-b358324af2fc"),
+                            TagGroupId = new Guid("03fdec1e-73cc-4ae7-abe7-4a6e6cf7d603"),
                             Value = "Close grip"
                         },
                         new
                         {
-                            Id = new Guid("4f35c43f-d849-4e8b-a602-01e986a3748a"),
+                            Id = new Guid("1c567ebb-0a30-4f25-a967-97ce319db25f"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("3d498c02-9d47-4a01-a6dc-b358324af2fc"),
+                            TagGroupId = new Guid("03fdec1e-73cc-4ae7-abe7-4a6e6cf7d603"),
                             Value = "Wide grip"
                         },
                         new
                         {
-                            Id = new Guid("6938ad5f-b34e-4195-bf6d-cfb0aee436a8"),
+                            Id = new Guid("9260551d-7c53-4fce-b502-7b20a33a19ee"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("5bdad7c4-47a2-486e-8670-e3e834bb6bc9"),
+                            Id = new Guid("cd1cf111-f580-4619-91de-8d69397c4770"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Box"
                         },
                         new
                         {
-                            Id = new Guid("97292c28-53d9-4f03-9c93-d217c0804a29"),
+                            Id = new Guid("541a5468-6605-4f30-82c2-74c074afa84b"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Towel"
                         },
                         new
                         {
-                            Id = new Guid("672705a8-371e-4596-89c8-bbf4f4103e16"),
+                            Id = new Guid("e9f91104-b846-48aa-adc5-7d02fd5e54e4"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Low pin"
                         },
                         new
                         {
-                            Id = new Guid("bf3d5ecf-140f-4625-a89c-74bcd1afd1e4"),
+                            Id = new Guid("c27367f7-7054-4c68-9aec-015d6173e70c"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Middle pin"
                         },
                         new
                         {
-                            Id = new Guid("bc5f7614-c230-4bd4-a1e6-e4a417e5ea4d"),
+                            Id = new Guid("ac19b341-68a1-416b-b443-95fa68b1be64"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "High pin"
                         },
                         new
                         {
-                            Id = new Guid("a2996ba7-395e-4024-ac1c-a226a16be875"),
+                            Id = new Guid("8323bb2e-9d69-4d11-b13e-016e9473ee7c"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Two inch deficit"
                         },
                         new
                         {
-                            Id = new Guid("c0f466a8-eae6-4094-8547-064e7cf55ccb"),
+                            Id = new Guid("b0718099-4dad-4d6e-ac0a-025aadb2d526"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Half board"
                         },
                         new
                         {
-                            Id = new Guid("19596abc-5385-4fa8-91cf-2f0e5bc65ea7"),
+                            Id = new Guid("04f62a44-9abe-4129-b347-8356794d73b4"),
                             Active = false,
                             Order = 8,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Two board"
                         },
                         new
                         {
-                            Id = new Guid("fc0c881d-4780-465e-a0d4-4101ee414d41"),
+                            Id = new Guid("d35a0ab4-446b-4cd6-92dd-d4ae0fa2e314"),
                             Active = false,
                             Order = 9,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Three board"
                         },
                         new
                         {
-                            Id = new Guid("8529a093-67e2-47a6-85d7-29f5d8541fd0"),
+                            Id = new Guid("b7976a3e-3f62-413b-96f6-d168bb455983"),
                             Active = false,
                             Order = 10,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Four board"
                         },
                         new
                         {
-                            Id = new Guid("40cf5bc2-99a9-4d10-9611-ac0a0117429b"),
+                            Id = new Guid("6b90f669-a9e5-4479-9390-e3bb06726936"),
                             Active = false,
                             Order = 11,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Five board"
                         },
                         new
                         {
-                            Id = new Guid("70ffb3c5-1802-4934-b0e3-d8dbe5299f21"),
+                            Id = new Guid("bcde5a22-8bbb-4791-bc44-5649d7491452"),
                             Active = false,
                             Order = 12,
-                            TagGroupId = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            TagGroupId = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Value = "Towel - 8 cm "
                         },
                         new
                         {
-                            Id = new Guid("a497255e-30cb-4aed-9b0a-3a3e604ea15d"),
+                            Id = new Guid("f59fedd3-b8fb-4b43-89b3-c3426eaa18a4"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("3beb9779-8ba4-49c0-942d-d441c0152a0f"),
+                            TagGroupId = new Guid("7127dc12-5b37-4d33-82d8-9f63ddd7aeba"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("0c660688-be9b-4be7-a0ad-0d480aec948d"),
+                            Id = new Guid("d907fa89-3718-449d-ab8b-4468aa9e7844"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("3beb9779-8ba4-49c0-942d-d441c0152a0f"),
+                            TagGroupId = new Guid("7127dc12-5b37-4d33-82d8-9f63ddd7aeba"),
                             Value = "Narrow"
                         },
                         new
                         {
-                            Id = new Guid("008cc483-e018-4514-b5a3-15630e22fc1e"),
+                            Id = new Guid("baf8b95f-c9bd-4039-85c4-b2906572f302"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("3beb9779-8ba4-49c0-942d-d441c0152a0f"),
+                            TagGroupId = new Guid("7127dc12-5b37-4d33-82d8-9f63ddd7aeba"),
                             Value = "Wide"
                         },
                         new
                         {
-                            Id = new Guid("7832801b-0414-4516-bc98-34c71f5feb9c"),
+                            Id = new Guid("94120d5d-be60-418d-b39c-83301c35295c"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("3beb9779-8ba4-49c0-942d-d441c0152a0f"),
+                            TagGroupId = new Guid("7127dc12-5b37-4d33-82d8-9f63ddd7aeba"),
                             Value = "Sumo"
                         },
                         new
                         {
-                            Id = new Guid("826c1ba4-bbc6-4049-aee1-27f9fff664d9"),
+                            Id = new Guid("50280cc6-08fe-4ed1-aa89-f4baecb73de2"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("3beb9779-8ba4-49c0-942d-d441c0152a0f"),
+                            TagGroupId = new Guid("7127dc12-5b37-4d33-82d8-9f63ddd7aeba"),
                             Value = "Conventional"
                         },
                         new
                         {
-                            Id = new Guid("f5d463b9-80ef-4522-8996-808d428386eb"),
+                            Id = new Guid("af934bfc-5bd6-4bc8-8093-cbe534a79e23"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("3beb9779-8ba4-49c0-942d-d441c0152a0f"),
+                            TagGroupId = new Guid("7127dc12-5b37-4d33-82d8-9f63ddd7aeba"),
                             Value = "Stiff legged"
                         },
                         new
                         {
-                            Id = new Guid("d9e717f7-843f-4111-9fcc-cbab3acd8918"),
+                            Id = new Guid("f71f3340-9eb3-42c5-971e-8256269620e8"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("3beb9779-8ba4-49c0-942d-d441c0152a0f"),
+                            TagGroupId = new Guid("7127dc12-5b37-4d33-82d8-9f63ddd7aeba"),
                             Value = "Feet up"
                         },
                         new
                         {
-                            Id = new Guid("872a1495-8fb2-4d40-adad-7d4c9faa4aba"),
+                            Id = new Guid("4c00609d-9579-471d-b44b-9db22eba46ef"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("3ad540c7-8f9c-4890-abea-e9bafb296e58"),
+                            Id = new Guid("7851ad16-bb06-485d-9d8c-337351148a62"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Touch and go"
                         },
                         new
                         {
-                            Id = new Guid("ef0559a0-173d-4f7c-8f0d-57f62f755fec"),
+                            Id = new Guid("d4cf189a-8f6f-4cd4-8d92-67f8784b38e3"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Pause - 2 count"
                         },
                         new
                         {
-                            Id = new Guid("609e369e-78ff-4a94-a838-fe1dcc56a954"),
+                            Id = new Guid("c7933a2a-b795-4287-8366-a5ac2ab02520"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Pause - 3 count"
                         },
                         new
                         {
-                            Id = new Guid("6d8cf5e5-9e3a-4e8e-89cd-90663410c7ea"),
+                            Id = new Guid("942b957a-3681-4f39-bef1-247b7b9bf969"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Pause - 5 count"
                         },
                         new
                         {
-                            Id = new Guid("389c6011-a827-47aa-96a9-886cc2095be8"),
+                            Id = new Guid("ad8bb001-8418-4c27-9565-fe91153ae3f6"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Pause - 7 count"
                         },
                         new
                         {
-                            Id = new Guid("856f7f0c-d8a6-47a7-b126-e85a034b4f10"),
+                            Id = new Guid("da307047-4981-4d81-830b-5f4b5d45d327"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Tempo - 600"
                         },
                         new
                         {
-                            Id = new Guid("a427d94b-f3e9-48d9-bfe4-3f2245c2e99e"),
+                            Id = new Guid("27b7f83f-ff9b-4906-9626-52ab483c572b"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Tempo - 320"
                         },
                         new
                         {
-                            Id = new Guid("2d7a0fc5-263e-4baf-bee8-c768ee44b1a9"),
+                            Id = new Guid("3b73cb85-654d-4b00-b849-3cf0f7ab58ed"),
                             Active = false,
                             Order = 8,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Tempo - 530"
                         },
                         new
                         {
-                            Id = new Guid("1b20c1fb-cc43-4b5a-8798-1e82a37c71fb"),
+                            Id = new Guid("fa29255a-5ff5-4694-b79f-8d04f5832b0a"),
                             Active = false,
                             Order = 9,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Tempo - 303"
                         },
                         new
                         {
-                            Id = new Guid("3e791d3b-ac3a-4caf-b96f-feeb06e034eb"),
+                            Id = new Guid("9dd0615b-c2ac-4eb0-8233-85bfdf9a1363"),
                             Active = false,
                             Order = 10,
-                            TagGroupId = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            TagGroupId = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Value = "Tempo - 003"
                         },
                         new
                         {
-                            Id = new Guid("9eb7a3a4-1681-4397-a89a-ddde5e021962"),
+                            Id = new Guid("0a5a4759-2c40-4317-a108-8df69f9496ce"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("fcc4d1d4-6145-454b-a20a-4b72d9773e8f"),
+                            TagGroupId = new Guid("ba93a4b0-51b0-4635-b151-1a9d508da581"),
                             Value = "Light band"
                         },
                         new
                         {
-                            Id = new Guid("df36570f-f281-4482-992b-76de9738dc2c"),
+                            Id = new Guid("c1d8623c-4bcd-4d62-b35e-a924fac95ba2"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("fcc4d1d4-6145-454b-a20a-4b72d9773e8f"),
+                            TagGroupId = new Guid("ba93a4b0-51b0-4635-b151-1a9d508da581"),
                             Value = "Average band"
                         },
                         new
                         {
-                            Id = new Guid("f48ad050-5318-4782-a3d3-e68d86b952b8"),
+                            Id = new Guid("1f995f02-f681-416e-8234-f1f16e9d98e5"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("fcc4d1d4-6145-454b-a20a-4b72d9773e8f"),
+                            TagGroupId = new Guid("ba93a4b0-51b0-4635-b151-1a9d508da581"),
                             Value = "Strong band"
                         },
                         new
                         {
-                            Id = new Guid("1ca1c5f9-d2f3-4481-bf38-a695652af8a7"),
+                            Id = new Guid("7acaf5d7-4058-45dc-b02c-fdbf1f4e34bf"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("fcc4d1d4-6145-454b-a20a-4b72d9773e8f"),
+                            TagGroupId = new Guid("ba93a4b0-51b0-4635-b151-1a9d508da581"),
                             Value = "Chains"
                         },
                         new
                         {
-                            Id = new Guid("79154583-aa83-4f61-af96-8c0b51356f21"),
+                            Id = new Guid("4bc59b7d-8cae-468d-9d52-16c02dca04d7"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("fcc4d1d4-6145-454b-a20a-4b72d9773e8f"),
+                            TagGroupId = new Guid("ba93a4b0-51b0-4635-b151-1a9d508da581"),
                             Value = "Reverse light band"
                         },
                         new
                         {
-                            Id = new Guid("cdbaf769-c771-40a9-9a98-997e1359c6b6"),
+                            Id = new Guid("cb79eee2-9c5d-4979-83f0-521244f2cf13"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("fcc4d1d4-6145-454b-a20a-4b72d9773e8f"),
+                            TagGroupId = new Guid("ba93a4b0-51b0-4635-b151-1a9d508da581"),
                             Value = "Reverse average band"
                         },
                         new
                         {
-                            Id = new Guid("c6d9a17c-64ce-43b2-b542-dc18acf92174"),
+                            Id = new Guid("e48316d7-d324-4ee1-9acf-6877012176e3"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("fcc4d1d4-6145-454b-a20a-4b72d9773e8f"),
+                            TagGroupId = new Guid("ba93a4b0-51b0-4635-b151-1a9d508da581"),
                             Value = "Reverse strong band"
                         },
                         new
                         {
-                            Id = new Guid("6f49729b-b345-4616-8203-79ec16d30cce"),
+                            Id = new Guid("43f9a46f-14b5-4943-9a9d-415ace8e2a5a"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("b8ef07bd-cd67-4cbb-a71a-1c9eb22069bb"),
+                            TagGroupId = new Guid("02846e19-4c78-4f50-9d3a-ce0981e57fc4"),
                             Value = "Knee dominant"
                         },
                         new
                         {
-                            Id = new Guid("309c9bf2-0cea-4d2c-8ba3-6547d9c87d77"),
+                            Id = new Guid("550b2027-e428-4712-8032-8f0c8e492d3a"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("b8ef07bd-cd67-4cbb-a71a-1c9eb22069bb"),
+                            TagGroupId = new Guid("02846e19-4c78-4f50-9d3a-ce0981e57fc4"),
                             Value = "Hip dominant"
                         },
                         new
                         {
-                            Id = new Guid("c458b399-9ac2-4465-92e7-47747391a1ed"),
+                            Id = new Guid("1a8c4848-3ff6-4b66-8bbf-ed05301e5353"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("b8ef07bd-cd67-4cbb-a71a-1c9eb22069bb"),
+                            TagGroupId = new Guid("02846e19-4c78-4f50-9d3a-ce0981e57fc4"),
                             Value = "Horizontal push"
                         },
                         new
                         {
-                            Id = new Guid("9b7a94c8-204c-4db0-9a48-7e92d379ea36"),
+                            Id = new Guid("19bb9692-7049-4f5b-87b6-08fc37ffddb7"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("b8ef07bd-cd67-4cbb-a71a-1c9eb22069bb"),
+                            TagGroupId = new Guid("02846e19-4c78-4f50-9d3a-ce0981e57fc4"),
                             Value = "Horizontal pull"
                         },
                         new
                         {
-                            Id = new Guid("bff92b61-be03-4e1b-8644-96742de90909"),
+                            Id = new Guid("46f929e4-ca70-4171-a780-87826c61f54b"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("b8ef07bd-cd67-4cbb-a71a-1c9eb22069bb"),
+                            TagGroupId = new Guid("02846e19-4c78-4f50-9d3a-ce0981e57fc4"),
                             Value = "Vertical push"
                         },
                         new
                         {
-                            Id = new Guid("161d54a9-b79c-419a-9891-9f986b770736"),
+                            Id = new Guid("037c1dc8-add1-42fc-a0bd-47eefbd4544e"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("b8ef07bd-cd67-4cbb-a71a-1c9eb22069bb"),
+                            TagGroupId = new Guid("02846e19-4c78-4f50-9d3a-ce0981e57fc4"),
                             Value = "Vertical pull"
                         },
                         new
                         {
-                            Id = new Guid("e27bb46b-f3cd-43b2-a638-92f0c9a1b87b"),
+                            Id = new Guid("4bde037f-7695-4114-892c-809a5e9ea6d6"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("b8ef07bd-cd67-4cbb-a71a-1c9eb22069bb"),
+                            TagGroupId = new Guid("02846e19-4c78-4f50-9d3a-ce0981e57fc4"),
                             Value = "Other"
                         },
                         new
                         {
-                            Id = new Guid("f2c6da31-1f48-4a47-8c51-1099b2b4278a"),
+                            Id = new Guid("9bf4ac10-8a06-42d2-8fdc-cb73585ed62a"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("f191e9de-f962-4ad3-adcd-f619e8d70c3a"),
+                            TagGroupId = new Guid("8b082afe-e14c-4cd2-8f45-b8b321679095"),
                             Value = "Barbell"
                         },
                         new
                         {
-                            Id = new Guid("ae9016b5-bb6e-4313-9c06-09db4adfbbd3"),
+                            Id = new Guid("b21ac250-4732-402b-8304-cbde3be29142"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("f191e9de-f962-4ad3-adcd-f619e8d70c3a"),
+                            TagGroupId = new Guid("8b082afe-e14c-4cd2-8f45-b8b321679095"),
                             Value = "Dumbbell"
                         },
                         new
                         {
-                            Id = new Guid("9ee0f256-1cea-4a67-b11e-55d340d231f9"),
+                            Id = new Guid("f6098f69-3389-4ac5-a788-940776adad3e"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("f191e9de-f962-4ad3-adcd-f619e8d70c3a"),
+                            TagGroupId = new Guid("8b082afe-e14c-4cd2-8f45-b8b321679095"),
                             Value = "Saftey bar"
                         },
                         new
                         {
-                            Id = new Guid("1101a8ce-db53-4732-95b5-a1b235e10a65"),
+                            Id = new Guid("9c86ed96-5856-4f80-99ae-5928809a78e9"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("f191e9de-f962-4ad3-adcd-f619e8d70c3a"),
+                            TagGroupId = new Guid("8b082afe-e14c-4cd2-8f45-b8b321679095"),
                             Value = "Cambered bar"
                         },
                         new
                         {
-                            Id = new Guid("8071b402-7a19-4b0f-a579-99e7c7f441ef"),
+                            Id = new Guid("6731ea3c-c92d-4fe3-acc7-ac340bfeebaf"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("f191e9de-f962-4ad3-adcd-f619e8d70c3a"),
+                            TagGroupId = new Guid("8b082afe-e14c-4cd2-8f45-b8b321679095"),
                             Value = "Neutral-grip bar"
                         },
                         new
                         {
-                            Id = new Guid("b7f4c798-0e90-4df5-8207-d20b2bfe2f5c"),
+                            Id = new Guid("baf709bf-6fd4-4752-bf21-806a55a47d1d"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("f191e9de-f962-4ad3-adcd-f619e8d70c3a"),
+                            TagGroupId = new Guid("8b082afe-e14c-4cd2-8f45-b8b321679095"),
                             Value = "Trap bar"
                         },
                         new
                         {
-                            Id = new Guid("7ef87e12-253e-4f7f-972b-783e8a053456"),
+                            Id = new Guid("b863e74b-b17b-4b52-a907-de563cc053d1"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("f191e9de-f962-4ad3-adcd-f619e8d70c3a"),
+                            TagGroupId = new Guid("8b082afe-e14c-4cd2-8f45-b8b321679095"),
                             Value = "Buffalo bar"
                         },
                         new
                         {
-                            Id = new Guid("01c30247-8765-4cdd-8717-19a7e6dc60fd"),
+                            Id = new Guid("f84250cb-5fce-4b01-b21d-82512e9a1a7e"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("f191e9de-f962-4ad3-adcd-f619e8d70c3a"),
+                            TagGroupId = new Guid("8b082afe-e14c-4cd2-8f45-b8b321679095"),
                             Value = "Machine"
                         },
                         new
                         {
-                            Id = new Guid("14144b8d-d36d-4732-b5f0-323e2fc1a770"),
+                            Id = new Guid("7d99213a-2f19-42dd-a9b6-780ff25bd369"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("b6d4a5c6-f594-4295-9169-014b056af7ea"),
+                            TagGroupId = new Guid("476dbcc2-d1de-41c1-8fb8-51b9809ce4de"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("f3904822-d518-4eba-9c21-a78737cc508e"),
+                            Id = new Guid("47393843-df95-4838-bbe9-c5c26d4d5d2b"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("b6d4a5c6-f594-4295-9169-014b056af7ea"),
+                            TagGroupId = new Guid("476dbcc2-d1de-41c1-8fb8-51b9809ce4de"),
                             Value = "High bar"
                         },
                         new
                         {
-                            Id = new Guid("6ea70470-6637-4c9e-9514-d7d17f0b026a"),
+                            Id = new Guid("113efa6a-616c-4aad-9a6a-09762a644a61"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("b6d4a5c6-f594-4295-9169-014b056af7ea"),
+                            TagGroupId = new Guid("476dbcc2-d1de-41c1-8fb8-51b9809ce4de"),
                             Value = "Low bar"
                         },
                         new
                         {
-                            Id = new Guid("3bd420ea-43cd-42da-b76a-adf4802ec5a2"),
+                            Id = new Guid("dde3c86f-2428-42f1-9a4b-d0eb6ae78935"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("b6d4a5c6-f594-4295-9169-014b056af7ea"),
+                            TagGroupId = new Guid("476dbcc2-d1de-41c1-8fb8-51b9809ce4de"),
                             Value = "Front rack"
                         },
                         new
                         {
-                            Id = new Guid("c237ebfc-f487-4188-a91b-56a8df16730a"),
+                            Id = new Guid("f9dcd52b-d111-4ef9-9a3e-eb5a553cf355"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            TagGroupId = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Value = "Belt"
                         },
                         new
                         {
-                            Id = new Guid("35ba64af-34c7-4550-b3b8-4569769a368a"),
+                            Id = new Guid("9f425b62-430b-4c56-be71-506885efd7ca"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            TagGroupId = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Value = "Knee sleeves"
                         },
                         new
                         {
-                            Id = new Guid("d3d03686-cf39-4e0a-9d03-68c707725075"),
+                            Id = new Guid("580bf4dd-bfce-4112-8fb2-1f6f18426e05"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            TagGroupId = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Value = "Knee wraps"
                         },
                         new
                         {
-                            Id = new Guid("c6d26e39-5be1-4d16-9342-0aca38cc4ac4"),
+                            Id = new Guid("f4d43f80-da84-4753-ba1c-47047bfa89ec"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            TagGroupId = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Value = "Slingshot"
                         },
                         new
                         {
-                            Id = new Guid("2af214c7-c91a-4db7-9816-d63f65a97d9b"),
+                            Id = new Guid("053a124c-5779-476e-9228-d7fafbbc95d2"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            TagGroupId = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Value = "Breifs"
                         },
                         new
                         {
-                            Id = new Guid("2afc03d1-71e5-4a39-aff4-32a86e62d127"),
+                            Id = new Guid("a7423d01-bd34-4f5d-9f28-46fccfc1cfc5"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            TagGroupId = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Value = "Squat suit"
                         },
                         new
                         {
-                            Id = new Guid("35c17cf5-5ee1-490d-bc77-5f648cd7f563"),
+                            Id = new Guid("1cc37bad-1efb-450b-85f2-d39286c1bcb1"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            TagGroupId = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Value = "Bench shirt"
                         },
                         new
                         {
-                            Id = new Guid("debe2025-89ae-4e72-b174-33045280f486"),
+                            Id = new Guid("af10ed1d-8685-421f-b048-85d3c699343c"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            TagGroupId = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Value = "Deadlift suit"
                         },
                         new
                         {
-                            Id = new Guid("3be251a7-cf40-4032-b89a-4ec04a460bbb"),
+                            Id = new Guid("4487e2b7-a373-483a-95e6-e51efe4fe786"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            TagGroupId = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Value = "Wrist wraps"
                         },
                         new
                         {
-                            Id = new Guid("5ae903f7-1438-4fbc-aed3-83f4b2560fc5"),
+                            Id = new Guid("6ed9fe43-1863-412c-b913-1062a4bad3c0"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("5f1623c5-4d55-4aa7-a921-072008f82baa"),
+                            TagGroupId = new Guid("e4e50881-b19e-438c-8f5d-d001278df7e6"),
                             Value = "Snatch grip"
                         },
                         new
                         {
-                            Id = new Guid("60656a77-6763-41f3-aae3-91ea2434a2ad"),
+                            Id = new Guid("036889ff-673c-475d-8391-13aa665166af"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("5f1623c5-4d55-4aa7-a921-072008f82baa"),
+                            TagGroupId = new Guid("e4e50881-b19e-438c-8f5d-d001278df7e6"),
                             Value = "Reverse grip"
                         },
                         new
                         {
-                            Id = new Guid("6eb01eb5-8acd-4adc-99ab-cbb8530734ae"),
+                            Id = new Guid("8f85c20b-a44d-4a40-9696-c8d43746c48c"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("5f1623c5-4d55-4aa7-a921-072008f82baa"),
+                            TagGroupId = new Guid("e4e50881-b19e-438c-8f5d-d001278df7e6"),
                             Value = "Close grip"
                         },
                         new
                         {
-                            Id = new Guid("dd78e9d4-78f4-4bba-8ccf-eb56e741efeb"),
+                            Id = new Guid("6b8912d8-7db0-4042-aef9-8d8c3c99d25b"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("5f1623c5-4d55-4aa7-a921-072008f82baa"),
+                            TagGroupId = new Guid("e4e50881-b19e-438c-8f5d-d001278df7e6"),
                             Value = "Wide grip"
                         },
                         new
                         {
-                            Id = new Guid("2a5e8b90-3020-4e55-8f2c-c12044b1959f"),
+                            Id = new Guid("bb342297-f881-44f5-aea8-658f59cb92ba"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("23f3ef9d-b4c0-4322-875d-4f83f3a28d9e"),
+                            Id = new Guid("fe8ddef1-1579-4db2-ae80-ece4539a3578"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Box"
                         },
                         new
                         {
-                            Id = new Guid("51e49bb6-f4ca-413a-b7f2-4f16720798bb"),
+                            Id = new Guid("0e88bb0a-508c-49b8-b217-afeb466e5b0c"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Towel"
                         },
                         new
                         {
-                            Id = new Guid("74ae363f-0933-4a30-8213-e2385ee194a5"),
+                            Id = new Guid("46290264-fb2d-4577-8a17-b7ecfb24d1d0"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Low pin"
                         },
                         new
                         {
-                            Id = new Guid("c8085f3c-f02c-4cc7-8037-4c5df56a93d4"),
+                            Id = new Guid("75f0b405-0fea-4490-b352-a4d2bdf40857"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Middle pin"
                         },
                         new
                         {
-                            Id = new Guid("417fc219-df17-4d3d-8a8e-874dcb4bc95b"),
+                            Id = new Guid("196dce35-5cd0-49d3-bebb-a46649d1fffc"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "High pin"
                         },
                         new
                         {
-                            Id = new Guid("164d8f02-b677-42a5-8c2f-c2f68ec0f9da"),
+                            Id = new Guid("a8d069ae-d975-4ae8-9b7b-4bea544194f2"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Two inch deficit"
                         },
                         new
                         {
-                            Id = new Guid("e07a28cd-9e79-4f93-a76c-a52aff2e527a"),
+                            Id = new Guid("77882298-5d2d-498f-b1ff-2440dabadac3"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Half board"
                         },
                         new
                         {
-                            Id = new Guid("59e314de-a110-40be-80a6-d054aeec39dd"),
+                            Id = new Guid("b6926860-f4a8-4c2f-b2e0-58cecc91cd5b"),
                             Active = false,
                             Order = 8,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Two board"
                         },
                         new
                         {
-                            Id = new Guid("9c25cf0f-7a59-4327-b748-3682889221b0"),
+                            Id = new Guid("82d0d728-d5cd-4279-938d-fc1d1e760b64"),
                             Active = false,
                             Order = 9,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Three board"
                         },
                         new
                         {
-                            Id = new Guid("12ac1158-6960-45bf-8ed1-e9462177c1e4"),
+                            Id = new Guid("66c9cf24-fe30-4662-a833-f8c05310c6f3"),
                             Active = false,
                             Order = 10,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Four board"
                         },
                         new
                         {
-                            Id = new Guid("d068cff9-1666-4c31-a5d3-608c2c6a4463"),
+                            Id = new Guid("e63d37f3-b1f5-47ff-baa0-4c5000536934"),
                             Active = false,
                             Order = 11,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Five board"
                         },
                         new
                         {
-                            Id = new Guid("5cd417a0-abe0-4720-b32d-2fef59f4a57a"),
+                            Id = new Guid("c69d672c-2b09-4d49-9263-b6399f961390"),
                             Active = false,
                             Order = 12,
-                            TagGroupId = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            TagGroupId = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Value = "Towel - 8 cm "
                         },
                         new
                         {
-                            Id = new Guid("9ef66867-5b85-4de4-97f3-b1fd2ee98386"),
+                            Id = new Guid("b98a27f5-0de8-4676-94ef-65d1399b622e"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("8f8b33c5-8b60-4768-a69b-f9da666af678"),
+                            TagGroupId = new Guid("ad750baa-e2a4-442a-a521-447a8018b739"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("591ce238-0c3d-45a1-90a0-6c044f7c855b"),
+                            Id = new Guid("1be1fc23-680b-4a1f-a15c-396b3a67b3f0"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("8f8b33c5-8b60-4768-a69b-f9da666af678"),
+                            TagGroupId = new Guid("ad750baa-e2a4-442a-a521-447a8018b739"),
                             Value = "Narrow"
                         },
                         new
                         {
-                            Id = new Guid("509aa35a-2084-4ecf-aec6-023bbd6f4cd7"),
+                            Id = new Guid("c1a18a65-f92f-4106-80c5-a7b049f9d992"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("8f8b33c5-8b60-4768-a69b-f9da666af678"),
+                            TagGroupId = new Guid("ad750baa-e2a4-442a-a521-447a8018b739"),
                             Value = "Wide"
                         },
                         new
                         {
-                            Id = new Guid("744fc7cd-d507-4036-93f8-5fcd74c5edd9"),
+                            Id = new Guid("433ba5eb-0d3f-40e1-bf38-6cfae51e7021"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("8f8b33c5-8b60-4768-a69b-f9da666af678"),
+                            TagGroupId = new Guid("ad750baa-e2a4-442a-a521-447a8018b739"),
                             Value = "Sumo"
                         },
                         new
                         {
-                            Id = new Guid("04b7d7f7-fbeb-4c06-9316-131819a2758f"),
+                            Id = new Guid("f2ea1a2a-9f38-4bde-9612-5a9c8801dffb"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("8f8b33c5-8b60-4768-a69b-f9da666af678"),
+                            TagGroupId = new Guid("ad750baa-e2a4-442a-a521-447a8018b739"),
                             Value = "Conventional"
                         },
                         new
                         {
-                            Id = new Guid("4b0c3adf-cad9-4344-9d30-db7a16438d68"),
+                            Id = new Guid("c9e48370-1613-470b-9be9-c55f8fb86d50"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("8f8b33c5-8b60-4768-a69b-f9da666af678"),
+                            TagGroupId = new Guid("ad750baa-e2a4-442a-a521-447a8018b739"),
                             Value = "Stiff legged"
                         },
                         new
                         {
-                            Id = new Guid("3a4ef731-0501-4e5e-bc7a-9ab49c4c4889"),
+                            Id = new Guid("9b026adb-09e2-42ba-a9cc-9fb135627ace"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("8f8b33c5-8b60-4768-a69b-f9da666af678"),
+                            TagGroupId = new Guid("ad750baa-e2a4-442a-a521-447a8018b739"),
                             Value = "Feet up"
                         },
                         new
                         {
-                            Id = new Guid("47392ba7-9af1-4cff-b025-ee9225261b1e"),
+                            Id = new Guid("34d5fa7e-57f8-476f-b5fc-38f772138351"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("c52ca97e-7d88-4001-99d1-1e5b01ff0f9d"),
+                            Id = new Guid("f74249d0-4a53-4fb9-a1c7-15cd644d135a"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Touch and go"
                         },
                         new
                         {
-                            Id = new Guid("2175aa53-984f-4b09-918b-3c363d8cb456"),
+                            Id = new Guid("adb8f12c-17a5-4ec1-a7e2-7154ee82038a"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Pause - 2 count"
                         },
                         new
                         {
-                            Id = new Guid("692fda82-22ba-4e3e-8dc9-5d8450c4fff1"),
+                            Id = new Guid("69e447ec-6b14-4dc7-aab3-f6fcf3a482f5"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Pause - 3 count"
                         },
                         new
                         {
-                            Id = new Guid("dc2b2689-05a0-4a07-af42-24f87da803df"),
+                            Id = new Guid("f23d9d04-a5b1-4aa2-b1cb-6c86e556dbcb"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Pause - 5 count"
                         },
                         new
                         {
-                            Id = new Guid("c1e9e39a-cd3e-4fbc-888e-1a54fcaf1814"),
+                            Id = new Guid("a83f2f85-8d54-48b0-bd72-da69cd475dd8"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Pause - 7 count"
                         },
                         new
                         {
-                            Id = new Guid("f1e74cc3-8c34-40bf-853a-52c4d0ffbc55"),
+                            Id = new Guid("78016f37-f2d1-4c6c-8231-c123611f0cac"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Tempo - 600"
                         },
                         new
                         {
-                            Id = new Guid("d281c4cc-c05d-466a-9c64-581c0a13086c"),
+                            Id = new Guid("60253084-ca72-442a-9e72-ccd3de0ef9d7"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Tempo - 320"
                         },
                         new
                         {
-                            Id = new Guid("9c3db0dc-eee2-4b44-9ca3-474acd65d57f"),
+                            Id = new Guid("6717ff52-b7f8-48f3-b2d3-e5e52930930a"),
                             Active = false,
                             Order = 8,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Tempo - 530"
                         },
                         new
                         {
-                            Id = new Guid("c5742c95-7ce5-41f4-bbb5-dd559dc83d4c"),
+                            Id = new Guid("63587a3f-82d2-478d-a713-4e292d8d3619"),
                             Active = false,
                             Order = 9,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Tempo - 303"
                         },
                         new
                         {
-                            Id = new Guid("f611a33c-6c9a-420a-96e0-9d85ead4a791"),
+                            Id = new Guid("395226fa-317d-416d-b756-c241f221c0f3"),
                             Active = false,
                             Order = 10,
-                            TagGroupId = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            TagGroupId = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Value = "Tempo - 003"
                         },
                         new
                         {
-                            Id = new Guid("a3c3f2f2-1d7c-43ae-b62e-1dde3ffc7067"),
+                            Id = new Guid("7cbe9127-4dbf-480b-9918-1497dffbeb38"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("5608692c-4a6d-42da-8df6-efd56b2c99cd"),
+                            TagGroupId = new Guid("5d63d91d-ec23-4150-9f99-183bab2812b2"),
                             Value = "Light band"
                         },
                         new
                         {
-                            Id = new Guid("7b70cd6f-17e9-44a4-88f6-9ccf064e7c79"),
+                            Id = new Guid("5f48bb5e-2b43-4f44-8204-5349bc7b7712"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("5608692c-4a6d-42da-8df6-efd56b2c99cd"),
+                            TagGroupId = new Guid("5d63d91d-ec23-4150-9f99-183bab2812b2"),
                             Value = "Average band"
                         },
                         new
                         {
-                            Id = new Guid("7435416e-1bdf-44b3-bc0c-d16329134dc7"),
+                            Id = new Guid("78270e2b-2670-4b4a-a2fb-f77566a1be51"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("5608692c-4a6d-42da-8df6-efd56b2c99cd"),
+                            TagGroupId = new Guid("5d63d91d-ec23-4150-9f99-183bab2812b2"),
                             Value = "Strong band"
                         },
                         new
                         {
-                            Id = new Guid("bcde8284-6a25-4679-8dac-156cae7129b2"),
+                            Id = new Guid("913c60dd-0f86-4650-a699-2b06663658f3"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("5608692c-4a6d-42da-8df6-efd56b2c99cd"),
+                            TagGroupId = new Guid("5d63d91d-ec23-4150-9f99-183bab2812b2"),
                             Value = "Chains"
                         },
                         new
                         {
-                            Id = new Guid("e7429ef4-4b3f-43c9-894b-2284c769d273"),
+                            Id = new Guid("f1f2e8c6-79d2-424c-8fd3-bab86b4be089"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("5608692c-4a6d-42da-8df6-efd56b2c99cd"),
+                            TagGroupId = new Guid("5d63d91d-ec23-4150-9f99-183bab2812b2"),
                             Value = "Reverse light band"
                         },
                         new
                         {
-                            Id = new Guid("1b59d285-4c2b-424d-9264-3558c9420264"),
+                            Id = new Guid("ba0c5e31-4d50-4d9b-a240-f383aef07835"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("5608692c-4a6d-42da-8df6-efd56b2c99cd"),
+                            TagGroupId = new Guid("5d63d91d-ec23-4150-9f99-183bab2812b2"),
                             Value = "Reverse average band"
                         },
                         new
                         {
-                            Id = new Guid("215cf688-3181-4bd0-a575-131cbd3334e3"),
+                            Id = new Guid("e7a20e5c-e71f-431a-9815-e5249aef3828"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("5608692c-4a6d-42da-8df6-efd56b2c99cd"),
+                            TagGroupId = new Guid("5d63d91d-ec23-4150-9f99-183bab2812b2"),
                             Value = "Reverse strong band"
                         },
                         new
                         {
-                            Id = new Guid("d02910ea-1119-418c-b3bf-ac9f7bbc27b7"),
+                            Id = new Guid("e2f1d724-4d7c-4334-85fa-af5c07174012"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("2a3241d7-9fbd-4f8b-b899-2f041e13ad65"),
+                            TagGroupId = new Guid("da87cc7e-b336-4c18-a4ed-721da175127f"),
                             Value = "Knee dominant"
                         },
                         new
                         {
-                            Id = new Guid("5cde68c6-cb5f-4e66-994c-3ed608fa5521"),
+                            Id = new Guid("8547c341-42ba-4768-80b3-9957063eda5e"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("2a3241d7-9fbd-4f8b-b899-2f041e13ad65"),
+                            TagGroupId = new Guid("da87cc7e-b336-4c18-a4ed-721da175127f"),
                             Value = "Hip dominant"
                         },
                         new
                         {
-                            Id = new Guid("16b029aa-fb1a-4a87-9e57-071037a5031c"),
+                            Id = new Guid("14e9aed5-fd05-49d9-9210-5b0cf7b875fc"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("2a3241d7-9fbd-4f8b-b899-2f041e13ad65"),
+                            TagGroupId = new Guid("da87cc7e-b336-4c18-a4ed-721da175127f"),
                             Value = "Horizontal push"
                         },
                         new
                         {
-                            Id = new Guid("9c5bc90d-0d27-4a5b-96ed-b33da3600733"),
+                            Id = new Guid("60bdf5d0-7ec3-4bf9-88dd-d7c90a2534c4"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("2a3241d7-9fbd-4f8b-b899-2f041e13ad65"),
+                            TagGroupId = new Guid("da87cc7e-b336-4c18-a4ed-721da175127f"),
                             Value = "Horizontal pull"
                         },
                         new
                         {
-                            Id = new Guid("c0a73e97-edba-4b65-8a95-239ff74aafe8"),
+                            Id = new Guid("d7cf1538-21e2-4ea8-b231-e194be636f83"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("2a3241d7-9fbd-4f8b-b899-2f041e13ad65"),
+                            TagGroupId = new Guid("da87cc7e-b336-4c18-a4ed-721da175127f"),
                             Value = "Vertical push"
                         },
                         new
                         {
-                            Id = new Guid("97e3e296-b03a-49cf-9208-e1055ae4e273"),
+                            Id = new Guid("b45bb1c4-67a2-4a54-a3ac-5ab478ef9389"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("2a3241d7-9fbd-4f8b-b899-2f041e13ad65"),
+                            TagGroupId = new Guid("da87cc7e-b336-4c18-a4ed-721da175127f"),
                             Value = "Vertical pull"
                         },
                         new
                         {
-                            Id = new Guid("979ae93d-b484-4a8a-8add-b3883e8a2e17"),
+                            Id = new Guid("d5f57771-c53c-4e2c-a8e7-21ac9a8d6230"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("2a3241d7-9fbd-4f8b-b899-2f041e13ad65"),
+                            TagGroupId = new Guid("da87cc7e-b336-4c18-a4ed-721da175127f"),
                             Value = "Other"
                         },
                         new
                         {
-                            Id = new Guid("66c6ce82-51fa-465d-971f-22b5a2f76e30"),
+                            Id = new Guid("c4e2fc2e-bd22-43fa-926f-5d96969fbc46"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("c59fdadd-46a9-41a1-a788-dbaa1d8ab312"),
+                            TagGroupId = new Guid("9be4d296-6554-4cc6-8dec-11b593fc15c7"),
                             Value = "Barbell"
                         },
                         new
                         {
-                            Id = new Guid("02d83a9d-8f69-4831-81ed-f499188febee"),
+                            Id = new Guid("15c7b8d9-734d-4058-b784-5595d8e6b9ed"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("c59fdadd-46a9-41a1-a788-dbaa1d8ab312"),
+                            TagGroupId = new Guid("9be4d296-6554-4cc6-8dec-11b593fc15c7"),
                             Value = "Dumbbell"
                         },
                         new
                         {
-                            Id = new Guid("4f7a2029-529c-4301-9623-c41e1666287d"),
+                            Id = new Guid("324681c5-f3f0-4b74-b24a-e01dccff8003"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("c59fdadd-46a9-41a1-a788-dbaa1d8ab312"),
+                            TagGroupId = new Guid("9be4d296-6554-4cc6-8dec-11b593fc15c7"),
                             Value = "Saftey bar"
                         },
                         new
                         {
-                            Id = new Guid("60ddbb03-2d5e-4ecc-846a-32610b57a12f"),
+                            Id = new Guid("1d850321-6674-448a-93e4-c01ba27852c4"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("c59fdadd-46a9-41a1-a788-dbaa1d8ab312"),
+                            TagGroupId = new Guid("9be4d296-6554-4cc6-8dec-11b593fc15c7"),
                             Value = "Cambered bar"
                         },
                         new
                         {
-                            Id = new Guid("91283120-4a79-464f-b772-0e70b93c4a6a"),
+                            Id = new Guid("442a95d3-2908-4049-9f88-4cb78817ff4b"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("c59fdadd-46a9-41a1-a788-dbaa1d8ab312"),
+                            TagGroupId = new Guid("9be4d296-6554-4cc6-8dec-11b593fc15c7"),
                             Value = "Neutral-grip bar"
                         },
                         new
                         {
-                            Id = new Guid("17e5b956-6d50-407a-a202-aca2a12bcaa3"),
+                            Id = new Guid("36c05f14-932c-4537-b566-1d3449e038dd"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("c59fdadd-46a9-41a1-a788-dbaa1d8ab312"),
+                            TagGroupId = new Guid("9be4d296-6554-4cc6-8dec-11b593fc15c7"),
                             Value = "Trap bar"
                         },
                         new
                         {
-                            Id = new Guid("bfe26932-2d00-4431-becf-96e7bc384f42"),
+                            Id = new Guid("215d80ce-f2c6-4f7e-b29b-ff6be34c2612"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("c59fdadd-46a9-41a1-a788-dbaa1d8ab312"),
+                            TagGroupId = new Guid("9be4d296-6554-4cc6-8dec-11b593fc15c7"),
                             Value = "Buffalo bar"
                         },
                         new
                         {
-                            Id = new Guid("cddbc80c-206b-4234-89c2-a0e451a5d240"),
+                            Id = new Guid("7b1bbb8a-d32c-44bd-9d7d-75813bfd3a83"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("c59fdadd-46a9-41a1-a788-dbaa1d8ab312"),
+                            TagGroupId = new Guid("9be4d296-6554-4cc6-8dec-11b593fc15c7"),
                             Value = "Machine"
                         },
                         new
                         {
-                            Id = new Guid("96004d69-debf-47a0-b639-ccecd58947ef"),
+                            Id = new Guid("999175a7-9ac3-4702-8179-08beb430753f"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("61c4a26b-0c00-4a0b-adb0-904e70b56eac"),
+                            TagGroupId = new Guid("dcda8d1a-9fc0-42ba-b449-bad6a06eb12f"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("4bc5cb5e-3d92-463c-a918-36d89c73707f"),
+                            Id = new Guid("5cc64b12-3f10-4d96-b53c-fe8db4c4a876"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("61c4a26b-0c00-4a0b-adb0-904e70b56eac"),
+                            TagGroupId = new Guid("dcda8d1a-9fc0-42ba-b449-bad6a06eb12f"),
                             Value = "High bar"
                         },
                         new
                         {
-                            Id = new Guid("68446ff2-4cdd-47e6-adef-2eff8d9b8af7"),
+                            Id = new Guid("a555cea3-a83e-422d-9634-9e5fe7aefd3a"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("61c4a26b-0c00-4a0b-adb0-904e70b56eac"),
+                            TagGroupId = new Guid("dcda8d1a-9fc0-42ba-b449-bad6a06eb12f"),
                             Value = "Low bar"
                         },
                         new
                         {
-                            Id = new Guid("27791cd0-8b3e-4b80-bade-4f17c240a9a3"),
+                            Id = new Guid("c4f65dbf-1416-405a-b734-88c3b3c2c147"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("61c4a26b-0c00-4a0b-adb0-904e70b56eac"),
+                            TagGroupId = new Guid("dcda8d1a-9fc0-42ba-b449-bad6a06eb12f"),
                             Value = "Front rack"
                         },
                         new
                         {
-                            Id = new Guid("1559208d-807d-4574-bde6-37617e2b5a06"),
+                            Id = new Guid("9f5d6c27-bce4-4b77-84ac-48d42895c0a2"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            TagGroupId = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Value = "Belt"
                         },
                         new
                         {
-                            Id = new Guid("ccb9af68-aaf9-4714-be50-2c1921aef1be"),
+                            Id = new Guid("3bae668c-74da-4dcd-a550-c56951455347"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            TagGroupId = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Value = "Knee sleeves"
                         },
                         new
                         {
-                            Id = new Guid("b937f9be-c34e-4a68-8419-8aec1f1fd803"),
+                            Id = new Guid("2701eb85-c334-4bf6-8b1e-a3a947ebf6f2"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            TagGroupId = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Value = "Knee wraps"
                         },
                         new
                         {
-                            Id = new Guid("23a00114-0561-4a1f-84a2-2c316536a703"),
+                            Id = new Guid("bf72a61f-80d5-4800-84f5-22472f9de4c7"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            TagGroupId = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Value = "Slingshot"
                         },
                         new
                         {
-                            Id = new Guid("8c83ba0b-6dfa-4b3d-a3e3-a8a19138d115"),
+                            Id = new Guid("9abb7931-7f0c-4af8-8692-d1e3df2167b9"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            TagGroupId = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Value = "Breifs"
                         },
                         new
                         {
-                            Id = new Guid("4f8a29c6-816f-45d1-a4fa-1c9cd038dc7e"),
+                            Id = new Guid("f8dfad82-1b75-4d8a-8709-49c8dffef3da"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            TagGroupId = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Value = "Squat suit"
                         },
                         new
                         {
-                            Id = new Guid("b07618ae-5a9e-4bfa-84ce-f270bac05f83"),
+                            Id = new Guid("4393faae-74d9-4a19-b139-68dbde3c0631"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            TagGroupId = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Value = "Bench shirt"
                         },
                         new
                         {
-                            Id = new Guid("e9c39e3e-65a0-4198-ab8a-5d62dcefa037"),
+                            Id = new Guid("fec24f70-3429-4294-b8b8-58732f19afbc"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            TagGroupId = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Value = "Deadlift suit"
                         },
                         new
                         {
-                            Id = new Guid("aaaae20e-747d-4bb3-91dd-921240ffe41f"),
+                            Id = new Guid("733a45bd-09d8-4e3a-ba1a-a7709697972c"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            TagGroupId = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Value = "Wrist wraps"
                         },
                         new
                         {
-                            Id = new Guid("32dc61f2-79ff-4815-8d95-e36556e24270"),
+                            Id = new Guid("fc22feaf-4cac-424b-838d-f5ffe8ebb165"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("58e10596-8192-46d7-8ead-6029642f126e"),
+                            TagGroupId = new Guid("f72d92a9-16d9-492d-9226-e9e529e740df"),
                             Value = "Snatch grip"
                         },
                         new
                         {
-                            Id = new Guid("fa69df14-f6c5-4008-a90a-548303161684"),
+                            Id = new Guid("1bfed914-8f54-4fde-8a31-fc0b3a6dae9a"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("58e10596-8192-46d7-8ead-6029642f126e"),
+                            TagGroupId = new Guid("f72d92a9-16d9-492d-9226-e9e529e740df"),
                             Value = "Reverse grip"
                         },
                         new
                         {
-                            Id = new Guid("9afcad53-48b7-4b0f-b7fe-d4420a0f65fa"),
+                            Id = new Guid("a646bffd-4f64-44ac-ae11-795595fee461"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("58e10596-8192-46d7-8ead-6029642f126e"),
+                            TagGroupId = new Guid("f72d92a9-16d9-492d-9226-e9e529e740df"),
                             Value = "Close grip"
                         },
                         new
                         {
-                            Id = new Guid("66cf18e9-af9b-4814-b858-3704737791cb"),
+                            Id = new Guid("918193c4-d1ed-4333-b734-cebd44b120fb"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("58e10596-8192-46d7-8ead-6029642f126e"),
+                            TagGroupId = new Guid("f72d92a9-16d9-492d-9226-e9e529e740df"),
                             Value = "Wide grip"
                         },
                         new
                         {
-                            Id = new Guid("1fa0b5db-3e9d-4e7e-b820-8a9bcb27782d"),
+                            Id = new Guid("92ffd2c2-c19d-446a-9fda-9e4ee38591d3"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("f2520615-6702-4db8-b494-0586926b8407"),
+                            Id = new Guid("6a9719fe-eaa3-4379-a0a9-a28908954fdf"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Box"
                         },
                         new
                         {
-                            Id = new Guid("f3adf1bd-f8f0-4672-9e97-460b1bd42ba8"),
+                            Id = new Guid("9de05a0e-f722-407a-8f43-13b7005c37fb"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Towel"
                         },
                         new
                         {
-                            Id = new Guid("84498078-fe4e-4d06-a07b-de17bf465b54"),
+                            Id = new Guid("72d02287-eb3e-499a-9b69-1108ecee1069"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Low pin"
                         },
                         new
                         {
-                            Id = new Guid("c07f24ab-abdb-4eea-b0e8-335f70bb28d1"),
+                            Id = new Guid("f9ca66da-ad1c-4fc7-a5d3-82b708ee9ad1"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Middle pin"
                         },
                         new
                         {
-                            Id = new Guid("86fb15dc-f217-4996-94d3-20eb54363c99"),
+                            Id = new Guid("08260c23-382c-415f-b6a0-6a66c52b5d63"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "High pin"
                         },
                         new
                         {
-                            Id = new Guid("5c17dfb8-c9e9-4692-9c9b-11a3e9172fcb"),
+                            Id = new Guid("cf5f28f1-394f-4235-bd5b-eb10176a9333"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Two inch deficit"
                         },
                         new
                         {
-                            Id = new Guid("ef8af653-cae5-4250-a2d3-013449ef61c1"),
+                            Id = new Guid("2f9f0b0f-0033-4ff0-a68a-4913db750caa"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Half board"
                         },
                         new
                         {
-                            Id = new Guid("1e6f8371-4c36-4a44-8fa1-28e0f77727b3"),
+                            Id = new Guid("bdc3f1c2-6a7d-4444-b538-e711c30a4369"),
                             Active = false,
                             Order = 8,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Two board"
                         },
                         new
                         {
-                            Id = new Guid("51dcad68-4468-461c-b867-d411ab3b986a"),
+                            Id = new Guid("e446ac85-b5b5-4069-849b-2bb4c98b8372"),
                             Active = false,
                             Order = 9,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Three board"
                         },
                         new
                         {
-                            Id = new Guid("94fcb880-6680-43b8-b18b-3cd6c5557baf"),
+                            Id = new Guid("a530335b-b9a1-457c-bd33-1589c2a64ac8"),
                             Active = false,
                             Order = 10,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Four board"
                         },
                         new
                         {
-                            Id = new Guid("34334dc1-25fe-403c-a563-0644acb83218"),
+                            Id = new Guid("9f1a04e7-ec45-48f4-b79e-6f1ee9e12e76"),
                             Active = false,
                             Order = 11,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Five board"
                         },
                         new
                         {
-                            Id = new Guid("200b0def-cccf-4671-a5dc-dcaced71536b"),
+                            Id = new Guid("89933abc-76a5-427c-92ae-b4a09ba8cf32"),
                             Active = false,
                             Order = 12,
-                            TagGroupId = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            TagGroupId = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Value = "Towel - 8 cm "
                         },
                         new
                         {
-                            Id = new Guid("5d8d2bfe-66ae-4f15-95b8-dcdcebf80810"),
+                            Id = new Guid("5059acea-9513-46c3-8e49-71a23d2eec72"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("e381e31e-4953-4043-93e3-1f6025117db1"),
+                            TagGroupId = new Guid("d9e0ccfb-5739-4137-b69c-e8b2536d4dd5"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("fc7d8630-b64f-4ddf-b5c9-5cce5469c52e"),
+                            Id = new Guid("58eae981-cb7b-4479-ac68-fbfb6eef70d0"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("e381e31e-4953-4043-93e3-1f6025117db1"),
+                            TagGroupId = new Guid("d9e0ccfb-5739-4137-b69c-e8b2536d4dd5"),
                             Value = "Narrow"
                         },
                         new
                         {
-                            Id = new Guid("b51cb721-4e0c-4fb9-bc10-9f19b38284f2"),
+                            Id = new Guid("46a93b97-eb4e-48bb-8eda-8a779d94bb66"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("e381e31e-4953-4043-93e3-1f6025117db1"),
+                            TagGroupId = new Guid("d9e0ccfb-5739-4137-b69c-e8b2536d4dd5"),
                             Value = "Wide"
                         },
                         new
                         {
-                            Id = new Guid("4f50c7ad-ac58-499d-91dc-4b85ab7fed78"),
+                            Id = new Guid("0dfef486-7b13-4e30-becf-91a17d95943d"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("e381e31e-4953-4043-93e3-1f6025117db1"),
+                            TagGroupId = new Guid("d9e0ccfb-5739-4137-b69c-e8b2536d4dd5"),
                             Value = "Sumo"
                         },
                         new
                         {
-                            Id = new Guid("c70ddb56-9fbf-457f-8c0c-707137ee5ba2"),
+                            Id = new Guid("b40616be-33d8-4436-99ef-594711e81194"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("e381e31e-4953-4043-93e3-1f6025117db1"),
+                            TagGroupId = new Guid("d9e0ccfb-5739-4137-b69c-e8b2536d4dd5"),
                             Value = "Conventional"
                         },
                         new
                         {
-                            Id = new Guid("57d59afe-c327-49fe-9f1f-1b2ed4e727db"),
+                            Id = new Guid("0abec136-5b04-4dd7-a0b1-c8f6e1420eaa"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("e381e31e-4953-4043-93e3-1f6025117db1"),
+                            TagGroupId = new Guid("d9e0ccfb-5739-4137-b69c-e8b2536d4dd5"),
                             Value = "Stiff legged"
                         },
                         new
                         {
-                            Id = new Guid("4737473a-dcb0-474d-8268-12fbee366d20"),
+                            Id = new Guid("c323c699-e60e-4630-b28c-a67c9329642d"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("e381e31e-4953-4043-93e3-1f6025117db1"),
+                            TagGroupId = new Guid("d9e0ccfb-5739-4137-b69c-e8b2536d4dd5"),
                             Value = "Feet up"
                         },
                         new
                         {
-                            Id = new Guid("19c5c004-f777-49a9-b2e5-cca45cd116e7"),
+                            Id = new Guid("e1dbfcc3-3e9f-43b1-91c7-96a7543e1162"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Standard"
                         },
                         new
                         {
-                            Id = new Guid("d1bf8667-a5e2-42ba-ad3c-a089a3b4131f"),
+                            Id = new Guid("b4434eb5-cf47-4a88-8969-835485b863e5"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Touch and go"
                         },
                         new
                         {
-                            Id = new Guid("10f99651-0add-4d2c-b6ac-6416a8331dd6"),
+                            Id = new Guid("5ccc936b-b803-48cc-a216-f3ab25d0aa06"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Pause - 2 count"
                         },
                         new
                         {
-                            Id = new Guid("3a9a471d-3de3-44d7-a57a-2514d3b794dd"),
+                            Id = new Guid("34ea6cae-1f9e-4f42-bb43-64751ed81a48"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Pause - 3 count"
                         },
                         new
                         {
-                            Id = new Guid("5218c8be-f4b1-40ea-a40e-ccafc43bc359"),
+                            Id = new Guid("e04b0e68-1b07-4a99-aac5-04bb5be0c02d"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Pause - 5 count"
                         },
                         new
                         {
-                            Id = new Guid("8b14e30b-b832-4dff-b34f-76304b8a2377"),
+                            Id = new Guid("1e2f10fa-6ecf-4a39-bfd4-5ed13c0bb9db"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Pause - 7 count"
                         },
                         new
                         {
-                            Id = new Guid("75f70911-8420-47d0-9bc4-267482d2180f"),
+                            Id = new Guid("9a90c283-f8b2-414e-aa30-d9885c814a1a"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Tempo - 600"
                         },
                         new
                         {
-                            Id = new Guid("d1f27329-7a0f-40dd-a29a-eaadc295bf83"),
+                            Id = new Guid("4505ddfe-0736-4489-a7e9-0aff20f72e67"),
                             Active = false,
                             Order = 7,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Tempo - 320"
                         },
                         new
                         {
-                            Id = new Guid("1c35c058-1f3b-42ef-b4da-14cf67c04bab"),
+                            Id = new Guid("0c3f81e3-7258-42c8-a8a4-9b650f9c69a8"),
                             Active = false,
                             Order = 8,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Tempo - 530"
                         },
                         new
                         {
-                            Id = new Guid("f6ad9bbc-d266-47bd-b1f3-bafdfe3554dd"),
+                            Id = new Guid("acc341e8-d2a7-4080-926d-c852b250544d"),
                             Active = false,
                             Order = 9,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Tempo - 303"
                         },
                         new
                         {
-                            Id = new Guid("8fa8353e-2f4a-42fa-96f4-1940bcee7a44"),
+                            Id = new Guid("8ecf87e1-424e-49e1-99e7-d429b3667a99"),
                             Active = false,
                             Order = 10,
-                            TagGroupId = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            TagGroupId = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Value = "Tempo - 003"
                         },
                         new
                         {
-                            Id = new Guid("b5e62702-fb28-4f65-9139-15fcd8c380e3"),
+                            Id = new Guid("84a8d235-11a6-4c5e-9e5f-d08a824b7350"),
                             Active = false,
                             Order = 0,
-                            TagGroupId = new Guid("c994980a-0b67-4561-803b-3c088719fbd0"),
+                            TagGroupId = new Guid("60f070a6-7aa0-47bc-84a4-b05d2f68650a"),
                             Value = "Light band"
                         },
                         new
                         {
-                            Id = new Guid("7d06811d-569b-4f46-8d04-2064b8fbb5e1"),
+                            Id = new Guid("e927a5f4-d6bc-4169-9ce2-6de307210c30"),
                             Active = false,
                             Order = 1,
-                            TagGroupId = new Guid("c994980a-0b67-4561-803b-3c088719fbd0"),
+                            TagGroupId = new Guid("60f070a6-7aa0-47bc-84a4-b05d2f68650a"),
                             Value = "Average band"
                         },
                         new
                         {
-                            Id = new Guid("91d3e8c9-1101-4fe7-bd53-7be4f8edd36c"),
+                            Id = new Guid("e268aeea-21b4-4114-a086-96e4c78de026"),
                             Active = false,
                             Order = 2,
-                            TagGroupId = new Guid("c994980a-0b67-4561-803b-3c088719fbd0"),
+                            TagGroupId = new Guid("60f070a6-7aa0-47bc-84a4-b05d2f68650a"),
                             Value = "Strong band"
                         },
                         new
                         {
-                            Id = new Guid("b4754438-06c0-4eff-8ade-23a0b58f5092"),
+                            Id = new Guid("ca435e46-fa52-4f54-815f-fa263800dbcd"),
                             Active = false,
                             Order = 3,
-                            TagGroupId = new Guid("c994980a-0b67-4561-803b-3c088719fbd0"),
+                            TagGroupId = new Guid("60f070a6-7aa0-47bc-84a4-b05d2f68650a"),
                             Value = "Chains"
                         },
                         new
                         {
-                            Id = new Guid("fa94cb04-00a9-422d-8460-24367d619074"),
+                            Id = new Guid("b24b575b-d4f3-433d-8e6d-9b2bef823346"),
                             Active = false,
                             Order = 4,
-                            TagGroupId = new Guid("c994980a-0b67-4561-803b-3c088719fbd0"),
+                            TagGroupId = new Guid("60f070a6-7aa0-47bc-84a4-b05d2f68650a"),
                             Value = "Reverse light band"
                         },
                         new
                         {
-                            Id = new Guid("f425e937-4365-4356-852d-4f671c3d1c3d"),
+                            Id = new Guid("06ca0aa5-1731-4ca1-b913-96bf3fca1b61"),
                             Active = false,
                             Order = 5,
-                            TagGroupId = new Guid("c994980a-0b67-4561-803b-3c088719fbd0"),
+                            TagGroupId = new Guid("60f070a6-7aa0-47bc-84a4-b05d2f68650a"),
                             Value = "Reverse average band"
                         },
                         new
                         {
-                            Id = new Guid("e621cb3b-86d8-49bf-b6ab-99ae5473af1c"),
+                            Id = new Guid("d92e3dd9-bc13-42ff-a414-d181c691ea91"),
                             Active = false,
                             Order = 6,
-                            TagGroupId = new Guid("c994980a-0b67-4561-803b-3c088719fbd0"),
+                            TagGroupId = new Guid("60f070a6-7aa0-47bc-84a4-b05d2f68650a"),
                             Value = "Reverse strong band"
                         });
                 });
@@ -3154,289 +3156,289 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("64ef2dde-68ce-4bc9-aa49-fdc9b3881345"),
+                            Id = new Guid("715ac2b6-8281-49ec-abd3-a22b6c1ca78a"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Order = 0,
                             Type = "Category"
                         },
                         new
                         {
-                            Id = new Guid("06d37823-6378-4c8d-893c-ce62f19a4a34"),
+                            Id = new Guid("f2e04f0a-47ac-48ab-b14a-3b10a5936c8d"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Order = 1,
                             Type = "Bar type"
                         },
                         new
                         {
-                            Id = new Guid("85937fbf-ffda-4223-a9fc-dc463b3ef762"),
+                            Id = new Guid("01d00039-2c2c-49a8-be2d-d0a208c25482"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Order = 2,
                             Type = "Bar position"
                         },
                         new
                         {
-                            Id = new Guid("13e8b2a5-468d-4def-8f59-748a2a5def77"),
+                            Id = new Guid("e37b3f43-0727-4f0f-b4d4-cc3f3c4aa95e"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Order = 3,
                             Type = "Equipment"
                         },
                         new
                         {
-                            Id = new Guid("96d4b464-09fd-43a9-b23f-90190cce3cd7"),
+                            Id = new Guid("db07e313-9eda-428e-86d3-5a4b301bd7a5"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Order = 4,
                             Type = "Grip"
                         },
                         new
                         {
-                            Id = new Guid("f0d15564-cda7-4028-8fd8-39dac9f627fd"),
+                            Id = new Guid("c4167e7a-82f5-4200-99af-bc0a46ca229f"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Order = 5,
                             Type = "Range of motion"
                         },
                         new
                         {
-                            Id = new Guid("a3235b25-da9c-4946-85bd-036dd9e5e511"),
+                            Id = new Guid("78e47db6-ba61-4d72-ae1e-8ac35a4343b5"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Order = 6,
                             Type = "Stance"
                         },
                         new
                         {
-                            Id = new Guid("be663612-a70d-4c16-85d9-1303e4a90af5"),
+                            Id = new Guid("202e7bef-e82e-492d-93df-b882d7c964bf"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Order = 7,
                             Type = "Tempo"
                         },
                         new
                         {
-                            Id = new Guid("2516bf1c-073f-49da-8b0f-21c881eee41e"),
+                            Id = new Guid("fbb2126c-c48b-4ba7-a528-8c1df0b0f60c"),
                             Active = false,
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             Order = 8,
                             Type = "Load accommodation"
                         },
                         new
                         {
-                            Id = new Guid("17df1bd6-ed62-48b3-a346-59851f9de751"),
+                            Id = new Guid("0f1f42cf-7808-417c-a541-64b8ef8c3a99"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Order = 0,
                             Type = "Category"
                         },
                         new
                         {
-                            Id = new Guid("81b16d58-b50a-43d1-90c0-856e8c821c4b"),
+                            Id = new Guid("1fb4c505-2426-480e-aec3-88b0a1561607"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Order = 1,
                             Type = "Bar type"
                         },
                         new
                         {
-                            Id = new Guid("870a51ac-dc80-48b2-a997-7835fcc5cc27"),
+                            Id = new Guid("48bcf44c-57b8-4ead-bca8-f3c8923b3eb0"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Order = 2,
                             Type = "Bar position"
                         },
                         new
                         {
-                            Id = new Guid("b97f3e29-afb7-442b-a758-edb1e3e8d56f"),
+                            Id = new Guid("15847986-1ca8-4e8f-869f-37fd855e1879"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Order = 3,
                             Type = "Equipment"
                         },
                         new
                         {
-                            Id = new Guid("3d498c02-9d47-4a01-a6dc-b358324af2fc"),
+                            Id = new Guid("03fdec1e-73cc-4ae7-abe7-4a6e6cf7d603"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Order = 4,
                             Type = "Grip"
                         },
                         new
                         {
-                            Id = new Guid("cdf8e4d6-d4e9-4acb-a7d3-b124e69569bd"),
+                            Id = new Guid("bc728e45-99f0-4779-be69-b90c323186e9"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Order = 5,
                             Type = "Range of motion"
                         },
                         new
                         {
-                            Id = new Guid("3beb9779-8ba4-49c0-942d-d441c0152a0f"),
+                            Id = new Guid("7127dc12-5b37-4d33-82d8-9f63ddd7aeba"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Order = 6,
                             Type = "Stance"
                         },
                         new
                         {
-                            Id = new Guid("0bf563a1-f6a1-43eb-9dea-335695f5c1a9"),
+                            Id = new Guid("ccda0482-ad76-4009-be38-3bcfd3366cc4"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Order = 7,
                             Type = "Tempo"
                         },
                         new
                         {
-                            Id = new Guid("fcc4d1d4-6145-454b-a20a-4b72d9773e8f"),
+                            Id = new Guid("ba93a4b0-51b0-4635-b151-1a9d508da581"),
                             Active = false,
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             Order = 8,
                             Type = "Load accommodation"
                         },
                         new
                         {
-                            Id = new Guid("b8ef07bd-cd67-4cbb-a71a-1c9eb22069bb"),
+                            Id = new Guid("02846e19-4c78-4f50-9d3a-ce0981e57fc4"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Order = 0,
                             Type = "Category"
                         },
                         new
                         {
-                            Id = new Guid("f191e9de-f962-4ad3-adcd-f619e8d70c3a"),
+                            Id = new Guid("8b082afe-e14c-4cd2-8f45-b8b321679095"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Order = 1,
                             Type = "Bar type"
                         },
                         new
                         {
-                            Id = new Guid("b6d4a5c6-f594-4295-9169-014b056af7ea"),
+                            Id = new Guid("476dbcc2-d1de-41c1-8fb8-51b9809ce4de"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Order = 2,
                             Type = "Bar position"
                         },
                         new
                         {
-                            Id = new Guid("e95d7ea5-eaf8-4bcd-b5c0-6dcc5056d7fc"),
+                            Id = new Guid("c426801f-0904-4d70-a42a-f066fbabdf14"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Order = 3,
                             Type = "Equipment"
                         },
                         new
                         {
-                            Id = new Guid("5f1623c5-4d55-4aa7-a921-072008f82baa"),
+                            Id = new Guid("e4e50881-b19e-438c-8f5d-d001278df7e6"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Order = 4,
                             Type = "Grip"
                         },
                         new
                         {
-                            Id = new Guid("d250cf58-dcbc-4c4c-9530-8c23ac12b112"),
+                            Id = new Guid("f38dba01-fad0-4ca2-8b31-4e9682dec09c"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Order = 5,
                             Type = "Range of motion"
                         },
                         new
                         {
-                            Id = new Guid("8f8b33c5-8b60-4768-a69b-f9da666af678"),
+                            Id = new Guid("ad750baa-e2a4-442a-a521-447a8018b739"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Order = 6,
                             Type = "Stance"
                         },
                         new
                         {
-                            Id = new Guid("c16d5520-9702-4463-830b-7090ca005994"),
+                            Id = new Guid("90149d99-8d07-4e10-8561-04fd0659e75f"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Order = 7,
                             Type = "Tempo"
                         },
                         new
                         {
-                            Id = new Guid("5608692c-4a6d-42da-8df6-efd56b2c99cd"),
+                            Id = new Guid("5d63d91d-ec23-4150-9f99-183bab2812b2"),
                             Active = false,
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             Order = 8,
                             Type = "Load accommodation"
                         },
                         new
                         {
-                            Id = new Guid("2a3241d7-9fbd-4f8b-b899-2f041e13ad65"),
+                            Id = new Guid("da87cc7e-b336-4c18-a4ed-721da175127f"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Order = 0,
                             Type = "Category"
                         },
                         new
                         {
-                            Id = new Guid("c59fdadd-46a9-41a1-a788-dbaa1d8ab312"),
+                            Id = new Guid("9be4d296-6554-4cc6-8dec-11b593fc15c7"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Order = 1,
                             Type = "Bar type"
                         },
                         new
                         {
-                            Id = new Guid("61c4a26b-0c00-4a0b-adb0-904e70b56eac"),
+                            Id = new Guid("dcda8d1a-9fc0-42ba-b449-bad6a06eb12f"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Order = 2,
                             Type = "Bar position"
                         },
                         new
                         {
-                            Id = new Guid("95c89ad4-e4d1-4663-a97c-dd29be9e688f"),
+                            Id = new Guid("4aca7df6-873e-418c-b51a-abcfee80e78c"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Order = 3,
                             Type = "Equipment"
                         },
                         new
                         {
-                            Id = new Guid("58e10596-8192-46d7-8ead-6029642f126e"),
+                            Id = new Guid("f72d92a9-16d9-492d-9226-e9e529e740df"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Order = 4,
                             Type = "Grip"
                         },
                         new
                         {
-                            Id = new Guid("2fcaa1b4-88bd-45c3-82d3-2ba68f0a758b"),
+                            Id = new Guid("bd5be0ea-5fff-4e7d-a79c-75996bb340fb"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Order = 5,
                             Type = "Range of motion"
                         },
                         new
                         {
-                            Id = new Guid("e381e31e-4953-4043-93e3-1f6025117db1"),
+                            Id = new Guid("d9e0ccfb-5739-4137-b69c-e8b2536d4dd5"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Order = 6,
                             Type = "Stance"
                         },
                         new
                         {
-                            Id = new Guid("d0b81aff-ba99-409f-8123-92637e060b20"),
+                            Id = new Guid("a64a33af-ec60-4c2b-bd23-469bc108990f"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Order = 7,
                             Type = "Tempo"
                         },
                         new
                         {
-                            Id = new Guid("c994980a-0b67-4561-803b-3c088719fbd0"),
+                            Id = new Guid("60f070a6-7aa0-47bc-84a4-b05d2f68650a"),
                             Active = false,
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             Order = 8,
                             Type = "Load accommodation"
                         });
@@ -3763,99 +3765,99 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2474be23-a9e0-4fb3-8c45-65c6e3d489e7"),
+                            Id = new Guid("75b266ed-024d-4bc5-a5f0-5f5d1a1bd455"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("08d46944-437a-4cc5-b005-db891d42caad")
+                            UserSettingId = new Guid("6adde0f9-dbe8-4b4f-a1e2-36b5c88d11c2")
                         },
                         new
                         {
-                            Id = new Guid("afd703d7-d5fb-4ffb-97bf-471456dfdd3b"),
+                            Id = new Guid("49620b75-ee76-495e-83d0-f3c689e51571"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("08d46944-437a-4cc5-b005-db891d42caad")
+                            UserSettingId = new Guid("6adde0f9-dbe8-4b4f-a1e2-36b5c88d11c2")
                         },
                         new
                         {
-                            Id = new Guid("5cb987e5-ddbd-41c9-b9f4-962dc98b0811"),
+                            Id = new Guid("60fcd88c-12c7-49e2-9981-bfed933860ae"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("08d46944-437a-4cc5-b005-db891d42caad")
+                            UserSettingId = new Guid("6adde0f9-dbe8-4b4f-a1e2-36b5c88d11c2")
                         },
                         new
                         {
-                            Id = new Guid("06aa692f-f729-49e8-9162-422ad3d64079"),
+                            Id = new Guid("8e322a22-1a36-4387-9393-c8fb90ac0c7c"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("305b1a3e-9cbe-4d08-b96d-bebe6e1f8a32")
+                            UserSettingId = new Guid("2141d935-3b9c-4734-abb8-3ede32752166")
                         },
                         new
                         {
-                            Id = new Guid("e93c9c67-1744-4cd2-ac97-be4145d59810"),
+                            Id = new Guid("a311bfef-7477-49ec-97ff-7eef1fca06f5"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("305b1a3e-9cbe-4d08-b96d-bebe6e1f8a32")
+                            UserSettingId = new Guid("2141d935-3b9c-4734-abb8-3ede32752166")
                         },
                         new
                         {
-                            Id = new Guid("484e599b-95fa-4b65-ae80-f98b3ca5fede"),
+                            Id = new Guid("42007cda-854f-4b13-9b6c-481053539ece"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("305b1a3e-9cbe-4d08-b96d-bebe6e1f8a32")
+                            UserSettingId = new Guid("2141d935-3b9c-4734-abb8-3ede32752166")
                         },
                         new
                         {
-                            Id = new Guid("79a087a3-212b-4812-8569-479606e135db"),
+                            Id = new Guid("f8aa736c-c23b-4873-9e2b-33c5a197b691"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("13b7e412-56e2-484c-9c07-e6c8621d9e10")
+                            UserSettingId = new Guid("4c699b31-6665-4a2d-bd0c-220365664b09")
                         },
                         new
                         {
-                            Id = new Guid("b1c8d9bf-e3a2-49cf-b4e3-4905917f02d8"),
+                            Id = new Guid("46f3282f-1a33-4cd9-baf6-c6fa28a4fa12"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("13b7e412-56e2-484c-9c07-e6c8621d9e10")
+                            UserSettingId = new Guid("4c699b31-6665-4a2d-bd0c-220365664b09")
                         },
                         new
                         {
-                            Id = new Guid("08c2cbc0-c301-4dd6-a6cd-01c80de23ed0"),
+                            Id = new Guid("61cc5893-e466-4076-866e-b2f471df6948"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("13b7e412-56e2-484c-9c07-e6c8621d9e10")
+                            UserSettingId = new Guid("4c699b31-6665-4a2d-bd0c-220365664b09")
                         },
                         new
                         {
-                            Id = new Guid("93591e95-c019-4a65-a73a-6509ef650cae"),
+                            Id = new Guid("5cf9ffb9-9b2a-4f91-b8ae-e771dad7e965"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("96b0a501-16e6-4bdb-bafa-625dc22ec88e")
+                            UserSettingId = new Guid("43586d3d-51d9-4e88-9633-d04e197db885")
                         },
                         new
                         {
-                            Id = new Guid("19243cb0-7b29-4e5c-94c3-547b0e53bfa7"),
+                            Id = new Guid("e181d0b0-1b67-4d1e-b679-63b8f74fd89d"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("96b0a501-16e6-4bdb-bafa-625dc22ec88e")
+                            UserSettingId = new Guid("43586d3d-51d9-4e88-9633-d04e197db885")
                         },
                         new
                         {
-                            Id = new Guid("4c46411d-a942-4717-b079-f7444db89eba"),
+                            Id = new Guid("59ff97e1-bacb-4d49-b48e-84e65ac4c2ab"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("96b0a501-16e6-4bdb-bafa-625dc22ec88e")
+                            UserSettingId = new Guid("43586d3d-51d9-4e88-9633-d04e197db885")
                         });
                 });
 
@@ -3898,8 +3900,8 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("08d46944-437a-4cc5-b005-db891d42caad"),
-                            ApplicationUserId = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            Id = new Guid("6adde0f9-dbe8-4b4f-a1e2-36b5c88d11c2"),
+                            ApplicationUserId = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -3907,8 +3909,8 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("305b1a3e-9cbe-4d08-b96d-bebe6e1f8a32"),
-                            ApplicationUserId = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            Id = new Guid("2141d935-3b9c-4734-abb8-3ede32752166"),
+                            ApplicationUserId = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -3916,8 +3918,8 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("13b7e412-56e2-484c-9c07-e6c8621d9e10"),
-                            ApplicationUserId = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            Id = new Guid("4c699b31-6665-4a2d-bd0c-220365664b09"),
+                            ApplicationUserId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -3925,8 +3927,8 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("96b0a501-16e6-4bdb-bafa-625dc22ec88e"),
-                            ApplicationUserId = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            Id = new Guid("43586d3d-51d9-4e88-9633-d04e197db885"),
+                            ApplicationUserId = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -3943,19 +3945,19 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1b47be8f-43c9-44b3-a7e1-3c79029bf464"),
+                            Id = new Guid("873b3a79-d62e-4945-ae0b-a22e8dd67cc0"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2019, 11, 14, 15, 45, 12, 509, DateTimeKind.Utc).AddTicks(4628),
+                            CreatedOn = new DateTime(2019, 11, 14, 14, 18, 9, 928, DateTimeKind.Utc).AddTicks(1738),
                             CustomerId = "cus_FLi7gZv8w0j0GB",
                             Email = "admin@trainingcompanion.com",
                             FirstName = "Admin",
                             Gender = "Male",
-                            LastModified = new DateTime(2019, 11, 14, 15, 45, 12, 509, DateTimeKind.Utc).AddTicks(5481),
+                            LastModified = new DateTime(2019, 11, 14, 14, 18, 9, 928, DateTimeKind.Utc).AddTicks(2640),
                             LastName = "",
                             PasswordHash = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("08d46944-437a-4cc5-b005-db891d42caad"),
+                            UserSettingId = new Guid("6adde0f9-dbe8-4b4f-a1e2-36b5c88d11c2"),
                             Username = "admin"
                         });
                 });
@@ -3974,20 +3976,20 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("17527ec7-662c-4765-8d66-8a118ea65be3"),
+                            Id = new Guid("94ed241e-86c5-41a9-bf29-8ea4385ecf1c"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2019, 11, 14, 15, 45, 12, 509, DateTimeKind.Utc).AddTicks(8277),
+                            CreatedOn = new DateTime(2019, 11, 14, 14, 18, 9, 928, DateTimeKind.Utc).AddTicks(5520),
                             Email = "athlete@trainingcompanion.com",
                             FirstName = "Athlete",
                             Gender = "Male",
-                            LastModified = new DateTime(2019, 11, 14, 15, 45, 12, 509, DateTimeKind.Utc).AddTicks(8293),
+                            LastModified = new DateTime(2019, 11, 14, 14, 18, 9, 928, DateTimeKind.Utc).AddTicks(5537),
                             LastName = "",
                             PasswordHash = "23a1f74bc589fe525387f8d2c40f1e552a564fe5de00af935bb7a0592fc976c6",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("305b1a3e-9cbe-4d08-b96d-bebe6e1f8a32"),
+                            UserSettingId = new Guid("2141d935-3b9c-4734-abb8-3ede32752166"),
                             Username = "athlete",
-                            CoachId = new Guid("d268adad-be0a-492e-a875-5db98035008b")
+                            CoachId = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7")
                         });
                 });
 
@@ -4000,19 +4002,19 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d268adad-be0a-492e-a875-5db98035008b"),
+                            Id = new Guid("65e21530-bba3-45c7-ab68-06960c2dc6c7"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2019, 11, 14, 15, 45, 12, 510, DateTimeKind.Utc).AddTicks(270),
+                            CreatedOn = new DateTime(2019, 11, 14, 14, 18, 9, 928, DateTimeKind.Utc).AddTicks(7661),
                             CustomerId = "cus_FHk5RepADdfm5H",
                             Email = "coach@trainingcompanion.com",
                             FirstName = "Coach",
                             Gender = "Male",
-                            LastModified = new DateTime(2019, 11, 14, 15, 45, 12, 510, DateTimeKind.Utc).AddTicks(274),
+                            LastModified = new DateTime(2019, 11, 14, 14, 18, 9, 928, DateTimeKind.Utc).AddTicks(7664),
                             LastName = "",
                             PasswordHash = "e0f167bc84b881bc06f6884fb48e02f41dfc5579e25489db6c6bde238e4aed15",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("13b7e412-56e2-484c-9c07-e6c8621d9e10"),
+                            UserSettingId = new Guid("4c699b31-6665-4a2d-bd0c-220365664b09"),
                             Username = "coach"
                         });
                 });
@@ -4026,18 +4028,18 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("231cf6ed-cbfc-4122-adfa-e5552d14e1d4"),
+                            Id = new Guid("7ce1bbef-b410-4ff2-98b7-560c098e9270"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2019, 11, 14, 15, 45, 12, 509, DateTimeKind.Utc).AddTicks(8904),
+                            CreatedOn = new DateTime(2019, 11, 14, 14, 18, 9, 928, DateTimeKind.Utc).AddTicks(6169),
                             Email = "solo.athlete@trainingcompanion.com",
                             FirstName = "Solo",
                             Gender = "Male",
-                            LastModified = new DateTime(2019, 11, 14, 15, 45, 12, 509, DateTimeKind.Utc).AddTicks(8907),
+                            LastModified = new DateTime(2019, 11, 14, 14, 18, 9, 928, DateTimeKind.Utc).AddTicks(6173),
                             LastName = "Athlete",
                             PasswordHash = "304301ea5935cd1d38e55206e09eebcfe95fcb56f96ddf0ef2d8557a295728c8",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("96b0a501-16e6-4bdb-bafa-625dc22ec88e"),
+                            UserSettingId = new Guid("43586d3d-51d9-4e88-9633-d04e197db885"),
                             Username = "soloathlete"
                         });
                 });
