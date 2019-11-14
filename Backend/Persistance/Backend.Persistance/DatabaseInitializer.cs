@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Backend.Persistance
 {
-    public static class DbInitializer
+    public static class DatabaseInitializer
     {
         public static void Seed(this ModelBuilder b)
         {
@@ -27,34 +27,55 @@ namespace Backend.Persistance
             
             var tagIds = SeedTags(b, users.Select(x => x.Id));
             var typeIds = SeedExerciseTypes(b, users.Select(x => x.Id));
-            SeedExerciseTypeTags(b, tagIds.Item1.ToArray(), tagIds.Item2.ToArray(), typeIds.ToArray());
+            SeedExerciseTypeTags(b, tagIds.Item1.ToArray(), tagIds.Item2.ToArray(), typeIds.ToArray(), users.Count());
         }
 
-        private static void SeedExerciseTypeTags(ModelBuilder b, Guid[] groupIds, Guid[] tagIds, Guid[] typeIds)
+        // JOIN TABLE FOR EXERCISE TYPE - TAGS (Properties)
+        private static void SeedExerciseTypeTags(ModelBuilder b, Guid[] groupIds, Guid[] tagIds, Guid[] typeIds, int userCount)
         {
             var types = ExerciseTypesFactory.GetExerciseTypes().ToList();
-            for (var i = 0; i < types.Count; i++)
-            {
-                types[i].Id = typeIds[i];
-            }
-
             var tags = ExerciseTagGroupsFactory.GetTagGroups().ToList();
-            for (var i = 0; i < tags.Count; i++)
+            
+            // foreach user
+            while(userCount > 0) 
             {
-                tags[i].Id = groupIds[i];
-                for (var j = 0; j < tags[i].Tags.Count; j++)
+                // assign type id
+                for (var i = 0; i < types.Count; i++)
                 {
-                    tags[i].Tags.ToArray()[j].Id = tagIds[j];
+                    types[i].Id = typeIds[i];
                 }
+
+                // assign all tag group and tag ids
+                for (var i = 0; i < tags.Count; i++)
+                {
+                    tags[i].Id = groupIds[i];
+                    var tagsArr = tags[i].Tags.ToArray();
+                
+                    for (var j = 0; j < tagsArr.Length; j++)
+                    {
+                        tagsArr[j].Id = tagIds[j];
+                    }
+
+                    tags[i].Tags = tagsArr;
+                }
+
+                // make join entities
+                var joinValues = ExerciseTypeTagFactory.GetJoinValues(tags, types);
+                foreach (var joinValue in joinValues)
+                {
+                    joinValue.Id = Guid.NewGuid();
+                    b.Entity<ExerciseTypeTag>().HasData(joinValue);
+                }
+
+                // reset
+                userCount--;
+                typeIds = typeIds.Skip(types.Count).ToArray();
+                tagIds = tagIds.Skip(tags.Count).ToArray();
             }
 
-            var joinValues = ExerciseTypeTagFactory.GetJoinValues(tags, types);
-            foreach (var joinValue in joinValues)
-            {
-                joinValue.Id = Guid.NewGuid();
-                b.Entity<ExerciseTypeTag>().HasData(joinValue);
-            }
         }
+        
+        // EXERCISE TYPES
         private static IEnumerable<Guid> SeedExerciseTypes(ModelBuilder b, IEnumerable<Guid> userIds)
         {
             var ids = new List<Guid>();
@@ -74,6 +95,8 @@ namespace Backend.Persistance
 
             return ids;
         }
+
+        // TAG GROUPS AND TAGS 
         private static (IEnumerable<Guid>, IEnumerable<Guid>) SeedTags(ModelBuilder b, IEnumerable<Guid> userIds)
         {
             var groupIds = new List<Guid>();
@@ -104,12 +127,14 @@ namespace Backend.Persistance
 
             return (groupIds, tagIds);
         }
+
+        // USERS
         private static void SeedNotificationSettings(ModelBuilder b, IEnumerable<Guid> userSettingIds)
         {
             foreach (var userSettingId in userSettingIds)
             {
 
-                var values = EnumSeeder.SeedEnum<NotificationType, NotificationSetting>((value) => new NotificationSetting() 
+                var values = EnumFactory.SeedEnum<NotificationType, NotificationSetting>((value) => new NotificationSetting() 
                 {
                     Id = Guid.NewGuid(),
                     NotificationType = value,
@@ -138,7 +163,7 @@ namespace Backend.Persistance
         }
         private static IEnumerable<ApplicationUser> SeedUsers(ModelBuilder b)
         {
-            var users = UsersFactory.GetUsers();
+            var users = UsersSeeder.GetUsers();
 
             b.Entity<Admin>().HasData(users.Item1);
             b.Entity<Athlete>().HasData(users.Item2);
