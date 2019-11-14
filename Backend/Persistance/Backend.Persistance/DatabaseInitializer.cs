@@ -2,10 +2,15 @@
 using Backend.Service.Authorization.Interfaces;
 using Backend.Service.Payment.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Amazon.S3.Model;
 using Backend.Application.Business.Factories;
+using Backend.Common.Extensions;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
@@ -14,7 +19,10 @@ using Backend.Service.Authorization.Utils;
 using Backend.Service.Payment.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Newtonsoft.Json;
 using Org.BouncyCastle.Math.EC.Rfc7748;
+using Stripe;
+using Tag = Backend.Domain.Entities.ExerciseType.Tag;
 
 namespace Backend.Persistance
 {
@@ -26,39 +34,23 @@ namespace Backend.Persistance
             var userSettingIds = SeedUserSettings(b, users.Select(x => x.Id).ToArray(), users.Select(x=>x.UserSettingId).ToArray());
             SeedNotificationSettings(b, userSettingIds);
             
-            var tagIds = SeedTags(b, users.Select(x => x.Id));
-            var typeIds = SeedExerciseTypes(b, users.Select(x => x.Id));
-            SeedExerciseTypeTags(b, tagIds.Item1.ToArray(), tagIds.Item2.ToArray(), typeIds.ToArray(), users.Count());
+            var tagGroupDictionary = SeedTags(b, users.Select(x => x.Id));
+            var exerciseTypeDictionary = SeedExerciseTypes(b, users.Select(x => x.Id));
+            SeedExerciseTypeTags(b, tagGroupDictionary, exerciseTypeDictionary, users.Select(x => x.Id).ToList());
         }
 
         // JOIN TABLE FOR EXERCISE TYPE - TAGS (Properties)
-        private static void SeedExerciseTypeTags(ModelBuilder b, Guid[] tagGroupIds, Guid[] tagIds, Guid[] typeIds, int userCount)
+        private static void SeedExerciseTypeTags(
+            ModelBuilder b, 
+            IDictionary<Guid, IEnumerable<TagGroup>> tagGroupDict, 
+            IDictionary<Guid, IEnumerable<ExerciseType>> exerciseTypeDict, 
+            IEnumerable<Guid> users)
         {
-            var types = ExerciseTypesFactory.GetExerciseTypes().ToList();
-            var tagGroups = ExerciseTagGroupsFactory.GetTagGroups().ToList();
-            
             // foreach user
-            while(userCount > 0) 
+            foreach(var userId in users)
             {
-                // assign type id
-                for (var i = 0; i < types.Count; i++)
-                {
-                    types[i].Id = typeIds[i];
-                }
-
-                // assign all tag group and tag ids
-                for (var i = 0; i < tagGroups.Count; i++)
-                {
-                    tagGroups[i].Id = tagGroupIds[i];
-                    var tagsArr = tagGroups[i].Tags.ToArray();
-                
-                    for (var j = 0; j < tagsArr.Length; j++)
-                    {
-                        tagsArr[j].Id = tagIds[j];
-                    }
-
-                    tagGroups[i].Tags = tagsArr;
-                }
+                var tagGroups = (tagGroupDict[userId] ?? throw new InvalidOperationException()).ToList();
+                var types = (exerciseTypeDict[userId] ?? throw new InvalidOperationException()).ToList();
 
                 // make join entities
                 var joinValues = ExerciseTypeTagFactory.GetJoinValues(tagGroups, types);
@@ -67,46 +59,40 @@ namespace Backend.Persistance
                     joinValue.Id = Guid.NewGuid();
                     b.Entity<ExerciseTypeTag>().HasData(joinValue);
                 }
-
-                // reset
-                userCount--;
-                typeIds = typeIds.Skip(types.Count).ToArray();
-                tagGroupIds = tagGroupIds.Skip(tagGroups.Count).ToArray();
-                tagIds = tagIds.Skip(tagGroups.Aggregate(0, (acc, source) => source.Tags.Count)).ToArray();
             }
-
         }
         
         // EXERCISE TYPES
-        private static IEnumerable<Guid> SeedExerciseTypes(ModelBuilder b, IEnumerable<Guid> userIds)
+        private static IDictionary<Guid, IEnumerable<ExerciseType>> SeedExerciseTypes(ModelBuilder b, IEnumerable<Guid> userIds)
         {
-            var ids = new List<Guid>();
+            var dict = new Dictionary<Guid, IEnumerable<ExerciseType>>();
 
             foreach (var userId in userIds)
             { 
-                ExerciseTypesFactory.GetExerciseTypes().ToList()
-                    .ForEach(type =>
-                    {
-                        type.Id = Guid.NewGuid();
-                        type.ApplicationUserId = userId;
+                var exerciseTypes = ExerciseTypesFactory.GetExerciseTypes().ToList();
+                exerciseTypes.ForEach(type =>
+                {
+                    type.Id = Guid.NewGuid();
+                    type.ApplicationUserId = userId;
 
-                        ids.Add(type.Id);
-                        b.Entity<ExerciseType>().HasData(type);
-                    });
+                    b.Entity<ExerciseType>().HasData(type);
+                });
+
+                dict.Add(userId, exerciseTypes.ToList());
             }
 
-            return ids;
+            return dict;
         }
 
         // TAG GROUPS AND TAGS 
-        private static (IEnumerable<Guid>, IEnumerable<Guid>) SeedTags(ModelBuilder b, IEnumerable<Guid> userIds)
+        private static IDictionary<Guid, IEnumerable<TagGroup>> SeedTags(ModelBuilder b, IEnumerable<Guid> userIds)
         {
-            var groupIds = new List<Guid>();
-            var tagIds = new List<Guid>();
+            var dict = new Dictionary<Guid, IEnumerable<TagGroup>>();
 
             foreach (var userId in userIds)
             {
-                var tagGroups = ExerciseTagGroupsFactory.GetTagGroups();
+                var tagGroups = ExerciseTagGroupsFactory.GetTagGroups().ToList();
+
                 foreach (var tagGroup in tagGroups)
                 {
                     tagGroup.Id = Guid.NewGuid();
@@ -117,17 +103,20 @@ namespace Backend.Persistance
                         tag.TagGroupId = tagGroup.Id;
                         tag.Id = Guid.NewGuid();
 
-                        tagIds.Add(tag.Id);
                         b.Entity<Tag>().HasData(tag);
                     }
-
-                    groupIds.Add(tagGroup.Id);
-                    tagGroup.Tags = null; // to avoid "Navigation property is set" error because you have to ONLY connect entities through pre-set IDs
-                    b.Entity<TagGroup>().HasData(tagGroup);
                 }
+
+                dict.Add(userId, tagGroups.Clone()); // clone the list
+
+                tagGroups.ForEach(tg =>
+                {
+                    tg.Tags = null; // to avoid "Navigation property is set" error because you have to ONLY connect entities through pre-set IDs
+                    b.Entity<TagGroup>().HasData(tg);
+                });
             }
 
-            return (groupIds, tagIds);
+            return dict;
         }
 
         // USERS
