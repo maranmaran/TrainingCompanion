@@ -27,7 +27,6 @@ namespace Backend.Application.Business.Factories
             {
                 new TagGroup()
                 {
-                    Id = Guid.NewGuid(),
                     Type = "Category",
                     Order = 0,
                     Tags = GetExerciseCategories() as ICollection<Tag>
@@ -44,7 +43,6 @@ namespace Backend.Application.Business.Factories
                     Type = "Bar position",
                     Order = 2,
                     Tags = GetBarPositions() as ICollection<Tag>,
-
                 },
                 new TagGroup()
                 {
