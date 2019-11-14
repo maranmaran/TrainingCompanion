@@ -51,7 +51,10 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
         take(1)
       )
       .subscribe(
-        (tagGroups: TagGroup[]) => this.tagGroups = tagGroups,
+        (tagGroups: TagGroup[]) => {
+          this.tagGroups = tagGroups;
+          console.log(this.tagGroups);
+        },
         err => console.log(err)
       );
 
