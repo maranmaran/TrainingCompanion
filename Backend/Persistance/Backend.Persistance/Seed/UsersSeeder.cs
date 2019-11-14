@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Persistance.Seed
 {
-    public static class UsersFactory
+    public static class UsersSeeder
     {
         public static (Admin, Athlete, Coach, SoloAthlete) GetUsers()
         {
@@ -29,8 +29,6 @@ namespace Backend.Persistance.Seed
                 CustomerId = "cus_FLi7gZv8w0j0GB",
                 UserSettingId = Guid.NewGuid()
             };
-
-
             var athlete = new Athlete()
             {
                 Id = Guid.NewGuid(),
@@ -44,8 +42,6 @@ namespace Backend.Persistance.Seed
                 LastModified = DateTime.UtcNow,
                 UserSettingId = Guid.NewGuid()
             };
-
-
             var soloAthlete = new SoloAthlete()
             {
                 Id = Guid.NewGuid(),
@@ -59,7 +55,6 @@ namespace Backend.Persistance.Seed
                 LastModified = DateTime.UtcNow,
                 UserSettingId = Guid.NewGuid()
             };
-
             var coach = new Coach()
             {
                 Id = Guid.NewGuid(),
@@ -76,7 +71,6 @@ namespace Backend.Persistance.Seed
             };
 
             athlete.CoachId = coach.Id;
-
             return (admin, athlete, coach, soloAthlete);
         }
     }

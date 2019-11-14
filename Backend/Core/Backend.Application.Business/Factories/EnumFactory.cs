@@ -9,7 +9,7 @@ using Org.BouncyCastle.Asn1.X509.Qualified;
 
 namespace Backend.Persistance.Seed
 {
-    public static class EnumSeeder
+    public static class EnumFactory
     {
         public static IEnumerable<TClass> SeedEnum<TEnum, TClass>(Func<TEnum, TClass> factory) 
             where TEnum: struct 

@@ -69,7 +69,7 @@
                 <i class="fa fa-ellipsis-v"></i>
             </button>
 
-            <mat-menu id="material-table-menu" #headerMenu="matMenu">
+            <mat-menu class="material-table-menu" #headerMenu="matMenu">
                 <button mat-icon-button *ngIf="config.addEnabled" color="accent" (click)="addEvent.emit()" (click)="$event.stopPropagation()">
                     <i class="fas fa-plus"></i>
                 </button>
@@ -93,7 +93,7 @@
                         <i class="fa fa-ellipsis-v"></i>
                 </button>
 
-                <mat-menu id="material-table-menu" #cellMenu="matMenu">
+                <mat-menu class="material-table-menu" #cellMenu="matMenu">
                     <button *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)">
                         <i class="fas fa-edit"></i>
                     </button>
