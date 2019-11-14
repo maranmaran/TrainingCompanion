@@ -14,6 +14,7 @@ using Backend.Service.Authorization.Utils;
 using Backend.Service.Payment.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace Backend.Persistance
 {
@@ -31,10 +32,10 @@ namespace Backend.Persistance
         }
 
         // JOIN TABLE FOR EXERCISE TYPE - TAGS (Properties)
-        private static void SeedExerciseTypeTags(ModelBuilder b, Guid[] groupIds, Guid[] tagIds, Guid[] typeIds, int userCount)
+        private static void SeedExerciseTypeTags(ModelBuilder b, Guid[] tagGroupIds, Guid[] tagIds, Guid[] typeIds, int userCount)
         {
             var types = ExerciseTypesFactory.GetExerciseTypes().ToList();
-            var tags = ExerciseTagGroupsFactory.GetTagGroups().ToList();
+            var tagGroups = ExerciseTagGroupsFactory.GetTagGroups().ToList();
             
             // foreach user
             while(userCount > 0) 
@@ -46,21 +47,21 @@ namespace Backend.Persistance
                 }
 
                 // assign all tag group and tag ids
-                for (var i = 0; i < tags.Count; i++)
+                for (var i = 0; i < tagGroups.Count; i++)
                 {
-                    tags[i].Id = groupIds[i];
-                    var tagsArr = tags[i].Tags.ToArray();
+                    tagGroups[i].Id = tagGroupIds[i];
+                    var tagsArr = tagGroups[i].Tags.ToArray();
                 
                     for (var j = 0; j < tagsArr.Length; j++)
                     {
                         tagsArr[j].Id = tagIds[j];
                     }
 
-                    tags[i].Tags = tagsArr;
+                    tagGroups[i].Tags = tagsArr;
                 }
 
                 // make join entities
-                var joinValues = ExerciseTypeTagFactory.GetJoinValues(tags, types);
+                var joinValues = ExerciseTypeTagFactory.GetJoinValues(tagGroups, types);
                 foreach (var joinValue in joinValues)
                 {
                     joinValue.Id = Guid.NewGuid();
@@ -70,7 +71,8 @@ namespace Backend.Persistance
                 // reset
                 userCount--;
                 typeIds = typeIds.Skip(types.Count).ToArray();
-                tagIds = tagIds.Skip(tags.Count).ToArray();
+                tagGroupIds = tagGroupIds.Skip(tagGroups.Count).ToArray();
+                tagIds = tagIds.Skip(tagGroups.Aggregate(0, (acc, source) => source.Tags.Count)).ToArray();
             }
 
         }

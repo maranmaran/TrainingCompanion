@@ -32,15 +32,13 @@
     font-style: italic;
   }
 
-  #material-table-menu {
-    .mat-menu-panel {
+  .material-table-menu.mat-menu-panel {
       min-width: unset;
 
       .mat-menu-content {
         display: flex;
         flex-direction: column;
       }
-    }
   }
 
   // DRAG AND DROP
