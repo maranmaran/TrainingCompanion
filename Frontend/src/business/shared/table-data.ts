@@ -33,7 +33,7 @@ export class CustomColumn {
         }) {
 
         if (fields) Object.assign(this, fields);
-        
+
     }
 
 }
@@ -53,10 +53,10 @@ export class TableConfig {
     deleteEnabled = false;
     disableEnabled = true;
 
-    enableDragAndDrop: boolean = false;
+    enableDragAndDrop = false;
     pageSize = 5;
     pageSizeOptions = [5, 10, 15];
-    
+
     filterFunction: (data: any, filter: string) => boolean
 
     public constructor(init?:Partial<TableConfig>) {

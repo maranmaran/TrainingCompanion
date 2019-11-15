@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { concatMap, map, take } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
@@ -9,11 +9,14 @@ import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { setSelectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.actions';
 import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { SubSink } from 'subsink';
+import { TagGroupService } from './../../../../../business/services/feature-services/tag-group.service';
 import { ExerciseTypeCreateEditComponent } from './../exercise-type-create-edit/exercise-type-create-edit.component';
 
 @Component({
@@ -37,6 +40,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
   constructor(
     private uiService: UIService,
     private exerciseTypeService: ExerciseTypeService,
+    private tagGroupService: TagGroupService,
     private store: Store<AppState>
   ) { }
 
@@ -49,7 +53,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       this.store.select(exerciseTypes)
         .subscribe((exerciseTypes: ExerciseType[]) => {
           this.exerciseTypes = exerciseTypes;
-          this.tableDatasource.updateDatasource(exerciseTypes);
+          this.tableDatasource.updateDatasource([...exerciseTypes]);
         }));
 
   }
@@ -61,7 +65,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
   getTableConfig() {
     const tableConfig = new TableConfig();
     tableConfig.filterFunction = (data: ExerciseType, filter: string) => data.name.toLocaleLowerCase().indexOf(filter) !== -1
-    tableConfig.enableDragAndDrop = true;
+    tableConfig.enableDragAndDrop = false;
 
     return tableConfig;
   }
@@ -103,12 +107,37 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
   }
 
   onUpdate(exerciseType: ExerciseType) {
+    // prerequisite data
+    // can't filter included data https://github.com/aspnet/EntityFrameworkCore/issues/1833
+    // do it in frontend...
+    this.store
+      .select(currentUserId)
+      .pipe(
+        concatMap((userId: string) => {
+          return this.tagGroupService.getAll(userId);
+        }),
+        map((groups: TagGroup[]) => groups.map(group => {
+          // filter out assigned tags and unactive tags
+          group.tags = group.tags.filter(tag => !!tag.active && exerciseType.properties.find(x => x.tagId !== tag.id));
+          return group;
+        }))
+      )
+      .subscribe(
+        (tagGroups: TagGroup[]) => {
+          this.openUpdateDialog(exerciseType, tagGroups);
+        },
+        err => console.log(err)
+      );
+  }
+
+  openUpdateDialog(exerciseType: ExerciseType, tagGroups: TagGroup[]) {
     const dialogRef = this.uiService.openDialogFromComponent(ExerciseTypeCreateEditComponent, {
       height: 'auto',
       width: '98%',
-      maxWidth: '50rem',
+      maxWidth: '30rem',
+      // maxHeight: '50vh',
       autoFocus: false,
-      data: { title: `Update ${exerciseType.name}`, action: CRUD.Update, entity: exerciseType },
+      data: { title: `Update ${exerciseType.name}`, action: CRUD.Update, entity: exerciseType, tagGroups},
       panelClass: ['exercise-type-dialog-container']
     })
 
