@@ -5,6 +5,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.TagGroup.Update
 {
@@ -24,7 +25,8 @@ namespace Backend.Application.Business.Business.TagGroup.Update
         {
             try
             {
-                _context.TagGroups.Attach(request.TagGroup).CurrentValues.SetValues(request.TagGroup);
+                _context.Entry(request.TagGroup).CurrentValues.SetValues(request.TagGroup);
+
                 _context.TagGroups.Update(request.TagGroup); // update
 
                 await _context.SaveChangesAsync(cancellationToken);
