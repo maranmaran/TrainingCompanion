@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, Inject, OnInit, ViewChild, ViewChildren, QueryList } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnInit, QueryList, ViewChildren } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Store } from "@ngrx/store";
 import * as _ from "lodash";
-import { concatMap, take, map } from "rxjs/operators";
 import { ExerciseTypeService } from "src/business/services/feature-services/exercise-type.service";
 import { TagGroupService } from "src/business/services/feature-services/tag-group.service";
 import { CRUD } from "src/business/shared/crud.enum";
@@ -12,8 +12,6 @@ import { AppState } from "src/ngrx/app/app.state";
 import { ExerciseType, ExerciseTypeTag } from "src/server-models/entities/exercise-type.model";
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { Tag } from 'src/server-models/entities/tag.model';
-import { currentUserId } from "./../../../../../ngrx/auth/auth.selectors";
-import { MatSelectChange, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: "app-exercise-type-create-edit",
@@ -27,13 +25,12 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
     protected dialogRef: MatDialogRef<ExerciseTypeCreateEditComponent>,
     private typeService: ExerciseTypeService,
     @Inject(MAT_DIALOG_DATA)
-    public data: { title: string; action: CRUD; entity: ExerciseType }
+    public data: { title: string; action: CRUD; entity: ExerciseType, tagGroups: TagGroup[] }
   ) { }
 
   form: FormGroup;
-  userId: string;
   entity = new ExerciseType();
-  protected tagGroups: TagGroup[] = [];
+  tagGroups: TagGroup[] = [];
 
   @ViewChildren(MatSelect) tagSelects: QueryList<MatSelect>;
 
@@ -42,29 +39,7 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
       this.entity = _.cloneDeep(this.data.entity);
     }
 
-    // prerequisite data
-    // can't filter included data https://github.com/aspnet/EntityFrameworkCore/issues/1833
-    // do it in frontend...
-    this.store
-      .select(currentUserId)
-      .pipe(
-        take(1),
-        concatMap((userId: string) => {
-          this.userId = userId;
-          return this.tagGroupService.getAll(userId);
-        }),
-        take(1),
-        map((groups: TagGroup[]) => groups.map(group => {
-          group.tags = group.tags.filter(tag => !!tag.active && this.entity.properties.find(x => x.tagId != tag.id)); // filter out assigned tags and unactive tags
-          return group;
-        }))
-      )
-      .subscribe(
-        (tagGroups: TagGroup[]) => {
-          this.tagGroups = tagGroups;
-        },
-        err => console.log(err)
-      );
+    this.tagGroups = this.data.tagGroups;
 
     this.createForm();
   }
