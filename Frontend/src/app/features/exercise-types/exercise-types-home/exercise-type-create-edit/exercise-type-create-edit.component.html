@@ -33,40 +33,40 @@
       <!--TAGS-->
       <mat-accordion [displayMode]="'flat'" [multi]="false" fxLayout="row wrap" fxLayout.lt-sm="column" class="tags"
         [@.disabled]="disableAnimation">
-        <ng-container *ngFor="let tagGroup of tagGroups">
+          <ng-container *ngFor="let tagGroup of tagGroups; let i = index">
+  
+            <!-- works -->
+            <mat-expansion-panel fxFlex="1 1 50%" fxFlex.lt-sm="1 1 100%">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <app-exercise-type-chip [value]="tagGroup.type" [backgroundColor]="tagGroup.hexBackground"
+                    [color]="tagGroup.hexColor">
+                  </app-exercise-type-chip>
+                </mat-panel-title>
+                <mat-panel-description fxLayout="row" fxLayoutAlign="end">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    [checked]="tagGroup.active"
+                    (change)="onTagGroupActiveChange($event, i)"
+                    matTooltip="If checked off, no tag from this group will be displayed in exercise details.">
+                  </mat-checkbox>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-divider></mat-divider>
+              <!--assigned properties-->
+              <ng-container *ngFor="let property of getEntityTags(tagGroup.id); trackBy: trackByFn">
+                <ng-container *ngTemplateOutlet="propertyTemplate; context: { property: property }"></ng-container>
+              </ng-container>
+  
+              <ng-container *ngTemplateOutlet="newPropertyTemplate; context: { tagGroupId: tagGroup.id }"></ng-container>
+              <mat-divider></mat-divider>
 
-          <!-- works -->
-          <mat-expansion-panel fxFlex="1 1 50%" fxFlex.lt-sm="1 1 100%">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <app-exercise-type-chip [value]="tagGroup.type" [backgroundColor]="tagGroup.hexBackground"
-                  [color]="tagGroup.hexColor">
-                </app-exercise-type-chip>
-              </mat-panel-title>
-              <mat-panel-description fxLayout="row" fxLayoutAlign="end">
-                <mat-checkbox
-                  id="master-show-checkbox"
-                  (click)="$event.stopPropagation()"
-                  [name]="tagGroup.id"
-                  [checked]="tagGroup.masterShow"
-                  (change)="onMasterShowChange($event)">
-                </mat-checkbox>
-                <span fxHide.xs id="master-show-checkbox-label">Don't display</span>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <!--assigned properties-->
-            <ng-container *ngFor="let property of getEntityTags(tagGroup.id); trackBy: trackByFn">
-              <ng-container *ngTemplateOutlet="propertyTemplate; context: { property: property }"></ng-container>
-            </ng-container>
-
-            <ng-container *ngTemplateOutlet="newPropertyTemplate; context: { tagGroupId: tagGroup.id }"></ng-container>
-
-          </mat-expansion-panel>
-
-          <!-- does not work properly with mat-accordion -->
-          <!-- <ng-container *ngTemplateOutlet="tagGroupTemplate; context: { tagGroup: tagGroup }"></ng-container> -->
-
-        </ng-container>
+            </mat-expansion-panel>
+  
+            <!-- does not work properly with mat-accordion -->
+            <!-- <ng-container *ngTemplateOutlet="tagGroupTemplate; context: { tagGroup: tagGroup }"></ng-container> -->
+  
+          </ng-container>
       </mat-accordion>
 
     </form>
@@ -84,8 +84,8 @@
     <span>{{property.tag.value}}</span>
 
     <span id="actions">
-      <mat-checkbox id="show-checkbox" [name]="property.id" (change)="onShowChange($event)" [checked]="property.show" matTooltip="Display this tag in the exercise type details"></mat-checkbox>
-      <button mat-icon-button color="accent" (click)="removeTag()">
+      <mat-checkbox [name]="property.id" (change)="onShowChange($event)" [checked]="property.show" matTooltip="Display this tag in the exercise details."></mat-checkbox>
+      <button mat-icon-button color="accent" (click)="removeTag(property)">
           <i class="fas fa-times"></i>
       </button>
     </span>
@@ -93,10 +93,10 @@
 </ng-template>
 
 <ng-template #newPropertyTemplate let-groupId="tagGroupId">
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
+  <div class="mt-4" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
     <mat-form-field>
       <mat-label>Add tag</mat-label>
-      <mat-select>
+      <mat-select #tagSelector (selectionChange)="tagSelectionChanged($event)">
           <mat-option *ngFor="let property of getGroupTags(groupId)" [value]="property">
               {{ property.value }}
             </mat-option>

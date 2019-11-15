@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnInit, ViewChild, ViewChildren, QueryList } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
 import * as _ from "lodash";
-import { concatMap, take } from "rxjs/operators";
+import { concatMap, take, map } from "rxjs/operators";
 import { ExerciseTypeService } from "src/business/services/feature-services/exercise-type.service";
 import { TagGroupService } from "src/business/services/feature-services/tag-group.service";
 import { CRUD } from "src/business/shared/crud.enum";
@@ -13,6 +13,7 @@ import { ExerciseType, ExerciseTypeTag } from "src/server-models/entities/exerci
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { Tag } from 'src/server-models/entities/tag.model';
 import { currentUserId } from "./../../../../../ngrx/auth/auth.selectors";
+import { MatSelectChange, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: "app-exercise-type-create-edit",
@@ -27,12 +28,14 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
     private typeService: ExerciseTypeService,
     @Inject(MAT_DIALOG_DATA)
     public data: { title: string; action: CRUD; entity: ExerciseType }
-  ) {}
+  ) { }
 
   form: FormGroup;
   userId: string;
   entity = new ExerciseType();
-  tagGroups: TagGroup[] = [];
+  protected tagGroups: TagGroup[] = [];
+
+  @ViewChildren(MatSelect) tagSelects: QueryList<MatSelect>;
 
   ngOnInit() {
     if (this.data.action === CRUD.Update) {
@@ -40,6 +43,8 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
     }
 
     // prerequisite data
+    // can't filter included data https://github.com/aspnet/EntityFrameworkCore/issues/1833
+    // do it in frontend...
     this.store
       .select(currentUserId)
       .pipe(
@@ -48,12 +53,15 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
           this.userId = userId;
           return this.tagGroupService.getAll(userId);
         }),
-        take(1)
+        take(1),
+        map((groups: TagGroup[]) => groups.map(group => {
+          group.tags = group.tags.filter(tag => !!tag.active && this.entity.properties.find(x => x.tagId != tag.id)); // filter out assigned tags and unactive tags
+          return group;
+        }))
       )
       .subscribe(
         (tagGroups: TagGroup[]) => {
           this.tagGroups = tagGroups;
-          console.log(this.tagGroups);
         },
         err => console.log(err)
       );
@@ -61,12 +69,12 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
     this.createForm();
   }
 
-   // Workaround for angular component issue #13870
-   disableAnimation = true;
-   ngAfterViewInit(): void {
-     // timeout required to avoid the dreaded 'ExpressionChangedAfterItHasBeenCheckedError'
-     setTimeout(() => this.disableAnimation = false);
-   }
+  // Workaround for angular component issue #13870
+  disableAnimation = true;
+  ngAfterViewInit(): void {
+    // timeout required to avoid the dreaded 'ExpressionChangedAfterItHasBeenCheckedError'
+    setTimeout(() => this.disableAnimation = false);
+  }
 
   createForm() {
     this.form = new FormGroup({
@@ -125,7 +133,7 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
   }
 
   getEntityTags(tagGroupId: string) {
-    return this.entity.properties ? this.entity.properties.filter(x => x.tag.tagGroup.id === tagGroupId) : [];
+    return this.entity.properties ? this.entity.properties.filter(x => x.tag.tagGroupId === tagGroupId) : [];
   }
 
   getGroupTags(tagGroupId: string) {
@@ -141,14 +149,43 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
   }
 
   onShowChange(event: MatCheckboxChange) {
-    let property = this.entity.properties.find(x => x.id === event.source.name);
-    property.show = event.checked;
+    this.entity.properties[event.source.name].show = event.checked;
   }
 
-  onMasterShowChange(event: MatCheckboxChange) {
-    let group = this.tagGroups.find(x => x.id == event.source.name);
-    group['masterShow'] = event.checked;
-    this.tagGroups = this.tagGroups.map(x => x.id == group.id ? group : x);
+  onTagGroupActiveChange(event: MatCheckboxChange, index: number) {
+    this.tagGroups[index].active = event.checked;
+  }
+
+  tagSelectionChanged(change: MatSelectChange) {
+
+    var tag = change.value;
+    var exerciseTypeTag = new ExerciseTypeTag();
+    exerciseTypeTag.exerciseTypeId = this.entity.id;
+    exerciseTypeTag.tag = tag;
+    exerciseTypeTag.tagId = tag.id;
+    exerciseTypeTag.show = true;
+
+    // add
+    this.entity.properties.push(exerciseTypeTag);
+
+    // remove added tag
+    var tagGroup = this.tagGroups.find(x => x.id == tag.tagGroupId);
+    tagGroup.tags = tagGroup.tags.filter(t => t.id != tag.id);
+    this.tagGroups = this.tagGroups.map(x => x.id == tagGroup.id ? tagGroup : x);
+
+    //clear
+    var selectInput = this.tagSelects.find(x => x.id == change.source.id);
+    selectInput.writeValue(null);
+  }
+
+  removeTag(property: ExerciseTypeTag) {
+    // remove from properties
+    this.entity.properties = this.entity.properties.filter(x => x.tagId != property.tagId);
+
+    // add to tags that can be selected
+    var tagGroup = this.tagGroups.find(x => x.id == property.tag.tagGroupId);
+    tagGroup.tags.push(property.tag);
+    this.tagGroups = this.tagGroups.map(x => x.id == tagGroup.id ? tagGroup : x);
   }
 
   onSubmit() {

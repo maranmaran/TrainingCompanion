@@ -5,6 +5,11 @@
   // $accent: mat-color(map-get($theme, accent));
   // $warn: mat-color(map-get($theme, warn));
 
+  
+  .theme-dark .tags .mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+  }
+
   .details-container {
     .detail{
       margin-bottom: 5px;
@@ -41,5 +46,18 @@
       padding-top: 0.5rem !important;
       padding-left: 0.5rem !important;
     }
-  }
+
+    .tags {
+
+      .mat-expansion-panel-header {
+        padding: 0px;
+      }
+      
+      .mat-expansion-panel-body {
+        padding-left: 0px;
+        padding-right: 0px;
+      }
+
+    }
+  } 
 }
