@@ -26,6 +26,12 @@
     cursor: pointer;
   }
 
+  mat-cell, mat-header-cell {
+    mat-divider {
+      height: 30px;
+    }
+  }
+
   .no-records {
     padding: 1rem 0px;
     text-align: center;

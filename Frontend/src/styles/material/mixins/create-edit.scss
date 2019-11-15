@@ -5,11 +5,13 @@
   $accent: mat-color(map-get($theme, accent));
   $warn: mat-color(map-get($theme, warn));
 
-  // =========================== SETS =====================================
+  /*#region Sets - Create Edit*/
+
   .sets-dialog-container .mat-dialog-container {
     margin: 0;
     overflow: hidden;
   }
+
   .sets-dialog-container .mat-dialog-content {
     padding: 0px 10px;
   }
@@ -24,8 +26,8 @@
       display: flex;
       align-items: center;
       color: $accent;
-      margin-top:5px;
-      margin-right:10px;
+      margin-top: 5px;
+      margin-right: 10px;
     }
 
     .mat-icon-button {
@@ -33,12 +35,14 @@
     }
 
     .mat-dialog-content {
-        max-height: 57vh;
+      max-height: 57vh;
     }
   }
-  // ======================================================================
 
-  // =========================== EXERCISE TYPE =====================================
+  /*#endregion RegionName*/
+
+  /*#region Exercise type - Create Edit */
+
   .exercise-type-dialog-container .mat-dialog-container {
     margin: 0;
     overflow: auto;
@@ -48,16 +52,50 @@
   }
 
   #exercise-type-create-edit {
+
+    .tags .mat-expansion-panel:not([class*="mat-elevation-z"]) {
+      box-shadow: none;
+    }
+
     .mat-dialog-content {
-        max-height: 57vh;
+      max-height: 57vh;
+    }
+
+    .tags.mat-accordion {
+
+      .mat-expansion-panel {
+        background: rgba(0, 0, 0, 0.1);
+
+        &:hover:not(.mat-expanded) {
+          background: rgba(0, 0, 0, 0.3);
+        }
+
+        &.mat-expanded {
+          .mat-expansion-panel-header {
+            background: rgba(0, 0, 0, 0.16);
+          }
+        }
+
+        .mat-expansion-panel-body {
+          padding: 12px 24px;
+        }
+      }
     }
   }
 
   @media (max-width: 599px) {
-    .theme-dark .property-chip {
+    #exercise-type-create-edit {
+
+      .mat-dialog-content {
+        padding: 0 15px;
+      }
+
+      .theme-dark .property-chip {
         font-size: 11px;
         padding: 10px 6px !important;
+      }
     }
   }
-  // ======================================================================
+
+  /*#endregion Exercise type - Create Edit */
 }
