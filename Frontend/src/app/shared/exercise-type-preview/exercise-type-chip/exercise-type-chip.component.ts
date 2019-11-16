@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-exercise-type-chip',
@@ -9,8 +9,11 @@ export class ExerciseTypeChipComponent implements OnInit {
 
   @Input() backgroundColor: string;
   @Input() color: string;
-  @Input() show: boolean = true;
-  @Input() value: string = "Tag";
+  @Input() show = true;
+  @Input() groupActive = true;
+  @Input() value = 'Tag';
+  @Input() showInactiveGroups = true;
+  @Input() showInactiveTags = true;
 
 
   constructor() { }

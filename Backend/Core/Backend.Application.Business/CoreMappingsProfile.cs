@@ -164,6 +164,14 @@ namespace Backend.Application.Business
         {
             CreateMap<CreateExerciseTypeRequest, ExerciseType>();
             CreateMap<UpdateExerciseTypeRequest, ExerciseType>();
+
+            CreateMap<ExerciseType, ExerciseType>()
+                .ForMember(x => x.ApplicationUser, o => o.Ignore());
+
+            CreateMap<ExerciseTypeTag, ExerciseTypeTag>()
+                .ForMember(x => x.ExerciseType, o => o.Ignore())
+                .ForMember(x => x.Tag, o => o.Ignore());
+
         }
 
         private void TrainingMappings()

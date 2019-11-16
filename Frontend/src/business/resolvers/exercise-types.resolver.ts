@@ -10,8 +10,7 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { currentUser } from '../../ngrx/auth/auth.selectors';
 import { ExerciseTypeService } from '../services/feature-services/exercise-type.service';
-import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
-import { UIProgressBar } from '../shared/ui-progress-bars.enum';
+import { isEmpty } from '../utils/utils';
 
 @Injectable()
 export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] | void>> {
@@ -26,7 +25,7 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
 
         return this.store.select(currentUser)
             .pipe(
-                take(1), 
+                take(1),
                 map((user: CurrentUser) => user.id),
                 concatMap((userId: string) => {
                     return this.getState(userId);
@@ -38,24 +37,24 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
         return this.store
             .select(exerciseTypes)
             .pipe(
-                take(1), 
+                take(1),
                 concatMap((exerciseTypes: ExerciseType[]) => {
 
-                if (!exerciseTypes) {
+                if (isEmpty(exerciseTypes)) {
                     return this.updateState(userId);
                 }
-                        
+
                 return of(exerciseTypes);
             }));
     }
 
     private updateState(userId: string) {
-        
+
         return this.exerciseTypeService.getAll(userId)
         .pipe(
             take(1),
             map(((exerciseTypes: ExerciseType[]) => {
-                this.store.dispatch(exerciseTypesFetched({exerciseTypes}));
+                this.store.dispatch(exerciseTypesFetched({ entities: exerciseTypes}));
             }))
         );
     }

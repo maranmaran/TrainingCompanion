@@ -47,7 +47,7 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
         };
     }),
 
-    on(TrainingActions.clearState, (state: TrainingState) => {
+    on(TrainingActions.clearTrainingState, (state: TrainingState) => {
       return undefined;
   }),
 );

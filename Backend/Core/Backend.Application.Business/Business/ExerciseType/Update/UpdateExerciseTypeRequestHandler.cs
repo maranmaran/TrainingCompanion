@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.ExerciseType.Update
 {
@@ -25,14 +26,23 @@ namespace Backend.Application.Business.Business.ExerciseType.Update
         {
             try
             {
-                var entityToUpdate = _context.ExerciseTypes.Single(x => x.Id == request.Id);
+                var entityToUpdate = _context.ExerciseTypes.Include(x => x.Properties).First(x => x.Id == request.ExerciseType.Id);
 
-                _mapper.Map(request, entityToUpdate);
+                // delete property relations
+                foreach (var prop in entityToUpdate.Properties)
+                {
+                    if (request.ExerciseType.Properties.All(x => x.Id != prop.Id))
+                    {
+                        _context.Entry(prop).State = EntityState.Deleted;
+                    }
+                }
+
+                _mapper.Map(request.ExerciseType, entityToUpdate);
 
                 _context.ExerciseTypes.Update(entityToUpdate);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return entityToUpdate;
+                return request.ExerciseType;
             }
             catch (Exception e)
             {

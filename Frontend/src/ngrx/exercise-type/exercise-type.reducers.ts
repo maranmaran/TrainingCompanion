@@ -1,58 +1,56 @@
-import { first } from 'rxjs/operators';
-import { ActionReducer, Action, createReducer, on, createFeatureSelector } from '@ngrx/store';
-import * as ExerciseTypeActions from './exercise-type.actions';
-import { ExerciseTypeState, initialExerciseTypeState } from './exercise-type.state';
+import { Update } from '@ngrx/entity';
+import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
-
+import * as ExerciseTypeActions from './exercise-type.actions';
+import { adapterExerciseType, exerciseTypeInitialState, ExerciseTypeState } from './exercise-type.state';
 
 export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = createReducer(
-    initialExerciseTypeState,
+  exerciseTypeInitialState,
 
-    // CREATE
-    on(ExerciseTypeActions.exerciseTypeCreated, (state: ExerciseTypeState, payload: {exerciseType: ExerciseType}) => {
-        return {
-            ...state,
-            types: [...state.types, payload.exerciseType]
-        }
-    }),
+  // CREATE
+  on(ExerciseTypeActions.exerciseTypeCreated, (state: ExerciseTypeState, payload: { entity: ExerciseType }) => {
+      return adapterExerciseType.addOne(payload.entity, state);
+  }),
 
-    // UPDATE
-    on(ExerciseTypeActions.exerciseTypeUpdated, (state: ExerciseTypeState, payload: {exerciseType: ExerciseType}) => {
-        return {
-            ...state,
-            types: state.types.map(x => x.id == payload.exerciseType.id  ? payload.exerciseType : x)
-        }
-    }),
+  // UPDATE
+  on(ExerciseTypeActions.exerciseTypeUpdated, (state: ExerciseTypeState, payload: { entity: Update<ExerciseType> }) => {
+      return adapterExerciseType.updateOne(payload.entity, state);
+  }),
 
-    // UPDATE MANY
-    on(ExerciseTypeActions.manyExercisePropertiesUpdated, (state: ExerciseTypeState, payload: {exerciseTypes: ExerciseType[]}) => {
-        return {
-            ...state,
-            types: [...payload.exerciseTypes]
-        }
-    }),
+  // UPDATE MANY
+  on(ExerciseTypeActions.manyExerciseTypesUpdated, (state: ExerciseTypeState, payload: { entities: Update<ExerciseType>[] }) => {
+      return adapterExerciseType.updateMany(payload.entities, state);
+  }),
 
-    // DELETE
-    on(ExerciseTypeActions.exerciseTypeDeleted, (state: ExerciseTypeState, payload: {id: string}) => {
-        return {
-            ...state,
-            types: state.types.filter(x => x.id != payload.id)
-        }
-    }),
+  // DELETE
+  on(ExerciseTypeActions.exerciseTypeDeleted, (state: ExerciseTypeState, payload: { id: string }) => {
+      return adapterExerciseType.removeOne(payload.id, state);
+  }),
 
-    // GET ALL
-    on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: {exerciseTypes: ExerciseType[]}) => {
-        return {
-            ...state,
-            types: [...payload.exerciseTypes]
-        }
-    }),
+  // GET ALL
+  on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[] }) => {
+      return adapterExerciseType.addMany(payload.entities, state);
+  }),
 
-    // SET SELECTED
-    on(ExerciseTypeActions.setSelectedExerciseType, (state: ExerciseTypeState, payload: {exerciseType: ExerciseType}) => {
-        return {
-            ...state,
-            selected: payload.exerciseType
-        }
-    }),
+  // SET SELECTED
+  on(ExerciseTypeActions.setSelectedExerciseType, (state: ExerciseTypeState, payload: { entity: ExerciseType }) => {
+      return {
+          ...state,
+          selectedExerciseTypeId: payload.entity ? payload.entity.id : null,
+      };
+  }),
+
+  on(ExerciseTypeActions.clearExerciseTypeState, (state: ExerciseTypeState) => {
+    return undefined;
+}),
 );
+
+export const getSelectedExerciseTypeId = (state: ExerciseTypeState) => state.selectedExerciseTypeId;
+
+// get the selectors
+export const {
+  selectIds,
+  selectEntities,
+  selectAll,
+  selectTotal,
+} = adapterExerciseType.getSelectors();
