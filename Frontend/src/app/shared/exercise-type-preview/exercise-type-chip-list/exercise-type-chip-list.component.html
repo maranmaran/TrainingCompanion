@@ -2,8 +2,15 @@
 
     <ng-container *ngFor="let property of propertyList">
 
-        <app-exercise-type-chip [value]="property.tag.value" [show]="property.show"
-            [backgroundColor]="property.tag.tagGroup.hexBackground" [color]="property.tag.tagGroup.hexColor">
+        <app-exercise-type-chip
+          [value]="property.tag.value"
+          [show]="property.show"
+          [groupActive]="property.tag.tagGroup.active"
+          [backgroundColor]="property.tag.tagGroup.hexBackground"
+          [color]="property.tag.tagGroup.hexColor"
+          [showInactiveGroups]="showInactiveGroups"
+          [showInactiveTags]="showInactiveTags"
+        >
         </app-exercise-type-chip>
 
     </ng-container>

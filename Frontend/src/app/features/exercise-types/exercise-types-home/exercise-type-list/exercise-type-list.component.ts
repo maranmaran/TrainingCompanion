@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import * as _ from "lodash";
 import { concatMap, map, take } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
@@ -78,12 +79,18 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
         sort: true,
         useComponent: true,
         component: ExerciseTypePreviewComponent,
-        inputs: (item: ExerciseType) => { return { exerciseType: item }; },
+        inputs: (item: ExerciseType) => {
+          return {
+                  exerciseType: item,
+                  showInactiveGroups: true,
+                  showInactiveTags: true
+                };
+        },
       }),
     ]
   }
 
-  onSelect = (exerciseType: ExerciseType) => this.store.dispatch(setSelectedExerciseType({ exerciseType }));
+  onSelect = (exerciseType: ExerciseType) => this.store.dispatch(setSelectedExerciseType({ entity: exerciseType }));
 
   // TODO: Refactor these onAdd onUpdate methods.. make them more resuable and also define each table actions properly
   onAdd() {
@@ -120,10 +127,11 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
           // filter out assigned tags and unactive tags
           group.tags = group.tags.filter(tag => !!tag.active && exerciseType.properties.find(x => x.tagId !== tag.id));
           return group;
-        }))
+        })),
       )
       .subscribe(
         (tagGroups: TagGroup[]) => {
+          tagGroups = _.sortBy(tagGroups, ['type']);
           this.openUpdateDialog(exerciseType, tagGroups);
         },
         err => console.log(err)

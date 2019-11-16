@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { concatMap, map, take } from 'rxjs/operators';
 import { TagGroupService } from 'src/business/services/feature-services/tag-group.service';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { clearExerciseTypeState } from 'src/ngrx/exercise-type/exercise-type.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { tagGroupUpdated } from 'src/ngrx/tag-group/tag-group.actions';
 import { selectedTagGroup } from 'src/ngrx/tag-group/tag-group.selectors';
@@ -104,6 +105,8 @@ export class TagsCreateEditComponent implements OnInit {
       };
 
       this.store.dispatch(tagGroupUpdated({ tagGroup: tagGroupUpdate }));
+      // clear exercise type state.. so we can fetch new tags and everything
+      this.store.dispatch(clearExerciseTypeState());
       this.onClose(property);
     });
   }

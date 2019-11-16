@@ -1,10 +1,14 @@
 <mat-chip-list class="property-chips-list">
-  <mat-chip class="property-chip" *ngIf="show" [disabled]="true" 
-  [ngStyle]="
-    {
-        'background-color': backgroundColor,
-        'color': color
-    }"
+  <mat-chip
+    class="property-chip"
+    *ngIf="(show || showInactiveTags) && (groupActive || showInactiveGroups)"
+    [disabled]="true"
+    [ngClass]="{'disabled-chip': !(show && groupActive) }"
+    [ngStyle]="
+      {
+          'background-color': backgroundColor,
+          'color': color
+      }"
   >
     {{value}}
   </mat-chip>

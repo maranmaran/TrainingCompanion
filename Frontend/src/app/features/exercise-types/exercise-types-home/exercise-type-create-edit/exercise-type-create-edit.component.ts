@@ -3,12 +3,16 @@ import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/fo
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { Update } from '@ngrx/entity';
 import { Store } from "@ngrx/store";
 import * as _ from "lodash";
+import { take } from 'rxjs/operators';
 import { ExerciseTypeService } from "src/business/services/feature-services/exercise-type.service";
 import { TagGroupService } from "src/business/services/feature-services/tag-group.service";
 import { CRUD } from "src/business/shared/crud.enum";
 import { AppState } from "src/ngrx/app/app.state";
+import { exerciseTypeUpdated } from 'src/ngrx/exercise-type/exercise-type.actions';
+import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/requests/update-exercise-type.request';
 import { ExerciseType, ExerciseTypeTag } from "src/server-models/entities/exercise-type.model";
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { Tag } from 'src/server-models/entities/tag.model';
@@ -54,6 +58,7 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
   createForm() {
     this.form = new FormGroup({
       name: new FormControl(this.entity.name, [
+        Validators.required,
         Validators.min(1),
         Validators.max(50)
       ]),
@@ -123,8 +128,8 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
     return tag.value;
   }
 
-  onShowChange(event: MatCheckboxChange) {
-    this.entity.properties[event.source.name].show = event.checked;
+  onShowChange(event: MatCheckboxChange, index: number) {
+    this.entity.properties[index].show = event.checked;
   }
 
   onTagGroupActiveChange(event: MatCheckboxChange, index: number) {
@@ -134,19 +139,20 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
   tagSelectionChanged(change: MatSelectChange) {
 
     var tag = change.value;
-    var exerciseTypeTag = new ExerciseTypeTag();
-    exerciseTypeTag.exerciseTypeId = this.entity.id;
-    exerciseTypeTag.tag = tag;
-    exerciseTypeTag.tagId = tag.id;
-    exerciseTypeTag.show = true;
-
-    // add
-    this.entity.properties.push(exerciseTypeTag);
-
     // remove added tag
     var tagGroup = this.tagGroups.find(x => x.id == tag.tagGroupId);
     tagGroup.tags = tagGroup.tags.filter(t => t.id != tag.id);
     this.tagGroups = this.tagGroups.map(x => x.id == tagGroup.id ? tagGroup : x);
+
+    // add
+    var exerciseTypeTag = new ExerciseTypeTag();
+    exerciseTypeTag.exerciseTypeId = this.entity.id;
+    exerciseTypeTag.tag = tag;
+    exerciseTypeTag.tag.tagGroup = tagGroup;
+    exerciseTypeTag.tagId = tag.id;
+    exerciseTypeTag.show = true;
+
+    this.entity.properties.push(exerciseTypeTag);
 
     //clear
     var selectInput = this.tagSelects.find(x => x.id == change.source.id);
@@ -164,7 +170,19 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    this.createType();
+    this.entity.name = this.name.value;
+    this.entity.active = this.active.value;
+    this.entity.requiresBodyweight = this.requiresBodyweight.value;
+    this.entity.requiresReps = this.requiresReps.value;
+    this.entity.requiresSets = this.requiresSets.value;
+    this.entity.requiresTime = this.requiresTime.value;
+    this.entity.requiresWeight = this.requiresWeight.value;
+
+    if (this.data.action == CRUD.Create) {
+      this.createType();
+    } else {
+      this.updateType();
+    }
   }
 
   onClose(type?: ExerciseType) {
@@ -173,5 +191,26 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
 
   createType() {
 
+  }
+
+  updateType() {
+
+    const request = new UpdateExerciseTypeRequest();
+    request.exerciseType = this.entity;
+
+    this.typeService.update<UpdateExerciseTypeRequest, ExerciseType>(request).pipe(take(1))
+      .subscribe(
+        (exerciseType: ExerciseType) => {
+
+          const exerciseTypeUpdate: Update<ExerciseType> = {
+            id: exerciseType.id,
+            changes: exerciseType
+          };
+
+          this.store.dispatch(exerciseTypeUpdated({ entity: exerciseTypeUpdate }));
+          this.onClose(exerciseType);
+        },
+        err => console.log(err)
+      );
   }
 }

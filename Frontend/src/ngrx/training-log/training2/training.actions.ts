@@ -41,6 +41,6 @@ export const setSelectedExercise = createAction(
     props<{ entity: Exercise }>()
 );
 
-export const clearState = createAction(
+export const clearTrainingState = createAction(
   '[Training] Clear',
 );
