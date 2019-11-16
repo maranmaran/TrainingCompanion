@@ -53,8 +53,8 @@
 
             <!--assigned properties-->
             <ng-container *ngIf="getEntityTags(tagGroup.id).length > 0; else noProperties">
-              <ng-container *ngFor="let property of getEntityTags(tagGroup.id); trackBy: trackByFn">
-                <ng-container *ngTemplateOutlet="propertyTemplate; context: { property: property }"></ng-container>
+              <ng-container *ngFor="let property of getEntityTags(tagGroup.id); let i = index; trackBy: trackByFn">
+                <ng-container *ngTemplateOutlet="propertyTemplate; context: { property: property, index: i }"></ng-container>
               </ng-container>
             </ng-container>
 
@@ -87,12 +87,12 @@
 </span>
 
 <!---------------------------------TEMPLATES-------------------------------------->
-<ng-template #propertyTemplate let-property="property">
+<ng-template #propertyTemplate let-property="property" let-index="index">
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <span>{{property.tag.value}}</span>
 
     <span id="actions">
-      <mat-checkbox [name]="property.id" (change)="onShowChange($event)" [checked]="property.show"
+      <mat-checkbox [name]="property.id" (change)="onShowChange($event, index)" [checked]="property.show"
         matTooltip="Display this tag in the exercise details."></mat-checkbox>
       <button mat-icon-button color="accent" (click)="removeTag(property)">
         <i class="fas fa-times"></i>

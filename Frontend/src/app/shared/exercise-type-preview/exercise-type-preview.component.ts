@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 
 @Component({
@@ -9,7 +9,9 @@ import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 export class ExerciseTypePreviewComponent implements OnInit {
 
   @Input() exerciseType: ExerciseType;
-  
+  @Input() showInactiveGroups: boolean;
+  @Input() showInactiveTags: boolean;
+
   constructor() { }
 
   ngOnInit() {

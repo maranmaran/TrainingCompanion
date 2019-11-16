@@ -3,7 +3,7 @@ import { MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/ngrx/global-setup.ngrx";
-import { clearState, setSelectedExercise, setSelectedTraining } from "src/ngrx/training-log/training2/training.actions";
+import { clearTrainingState, setSelectedExercise, setSelectedTraining } from "src/ngrx/training-log/training2/training.actions";
 import { selectedExercise, selectedTraining } from "src/ngrx/training-log/training2/training.selectors";
 import { Exercise } from "src/server-models/entities/exercise.model";
 import { Training } from "src/server-models/entities/training.model";
@@ -41,7 +41,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subsink.unsubscribe();
-    this.store.dispatch(clearState());
+    this.store.dispatch(clearTrainingState());
   }
 
   changeTab1(

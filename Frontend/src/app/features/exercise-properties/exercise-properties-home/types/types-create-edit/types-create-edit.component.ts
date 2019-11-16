@@ -6,12 +6,12 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { AthleteCreateEditComponent } from 'src/app/features/athlete-management/athletes-home/athlete-create-edit/athlete-create-edit.component';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { clearExerciseTypeState } from 'src/ngrx/exercise-type/exercise-type.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { tagGroupUpdated } from 'src/ngrx/tag-group/tag-group.actions';
 import { TagGroupService } from '../../../../../../business/services/feature-services/tag-group.service';
 import { TagGroup } from './../../../../../../server-models/entities/tag-group.model';
-import { tagGroupUpdated } from 'src/ngrx/tag-group/tag-group.actions';
 
 @Component({
   selector: 'app-types-create-edit',
@@ -110,6 +110,8 @@ export class TypesCreateEditComponent implements OnInit {
           };
 
           this.store.dispatch(tagGroupUpdated({ tagGroup: tagGroupUpdate }));
+          // clear exercise type state.. so we can fetch new tags and everything
+          this.store.dispatch(clearExerciseTypeState());
           this.onClose(tagGroup);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)

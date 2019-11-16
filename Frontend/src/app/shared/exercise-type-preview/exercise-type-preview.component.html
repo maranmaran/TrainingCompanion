@@ -1,4 +1,9 @@
 <div class="exercise-type-preview-container">
     <span class="name-label">{{exerciseType.name}}</span>
-    <app-exercise-type-chip-list [propertyList]="exerciseType.properties"></app-exercise-type-chip-list>
+    <app-exercise-type-chip-list
+        [propertyList]="exerciseType.properties"
+        [showInactiveGroups]="showInactiveGroups"
+        [showInactiveTags]="showInactiveTags"
+      >
+    </app-exercise-type-chip-list>
 </div>

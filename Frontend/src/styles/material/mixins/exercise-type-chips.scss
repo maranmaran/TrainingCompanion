@@ -4,14 +4,18 @@
 
     mat-chip {
         cursor: pointer;
+
+
     }
-    
+
     .exercise-type-preview-container{
         margin-top: 5px;
         padding-top: 5px;
         padding-bottom: 5px;
     }
-    
+
+
+
     .property-chip {
         margin: unset !important;
         margin-top: 1px !important;
@@ -36,6 +40,11 @@
 
     .mat-chip.mat-standard-chip.mat-chip-disabled {
         opacity: 1 !important;
+
+        &.disabled-chip {
+          opacity: 0.6 !important;
+          text-decoration: line-through;
+        }
     }
 
     @media(max-width: 599px) {
