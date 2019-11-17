@@ -13,9 +13,14 @@
 <mat-nav-list class="navlist" id="main-navlist">
   <mat-accordion class="headers-align" [displayMode]="'flat'">
 
+    <a mat-list-item routerLink="/app/dashboard" (click)="onRoute()">
+      <i class="fas fa-home"></i>
+      <span class="label">Dashboard</span>
+    </a>
+
     <a *ngIf="(isCoach$ | async)" mat-list-item routerLink="/app/athletes" (click)="onRoute()">
       <i class="fas fa-users"></i>
-      <span class="label">Manage all users</span>
+      <span class="label">Manage users</span>
     </a>
 
     <mat-expansion-panel>
@@ -36,14 +41,31 @@
         <i class="fas fa-dumbbell"></i>
         <span class="label"> Exercises</span>
       </a>
-  
-     
+
+
     </mat-expansion-panel>
 
     <a mat-list-item routerLink="/app/training-log" (click)="onRoute()">
       <i class="fas fa-calendar-alt"></i>
       <span class="label">Training log</span>
     </a>
+
+
+    <!-- <a mat-list-item routerLink="/app/dashboard" (click)="onRoute()">
+      <i class="fas fa-chart-line"></i>
+      <span class="label">Metrics</span>
+    </a>
+
+    <a mat-list-item routerLink="/app/dashboard" (click)="onRoute()">
+      <i class="fas fa-tachometer-alt"></i>
+      <span class="label">Bodyweight</span>
+    </a>
+
+    <a mat-list-item routerLink="/app/dashboard" (click)="onRoute()">
+      <i class="fas fa-utensils"></i>
+      <span class="label">Nutrition</span>
+    </a> -->
+
 
   </mat-accordion>
 </mat-nav-list>
