@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import * as _ from "lodash";
 import { ExerciseTypeTag } from 'src/server-models/entities/exercise-type.model';
 import { Tag } from 'src/server-models/entities/tag.model';
@@ -8,16 +8,24 @@ import { Tag } from 'src/server-models/entities/tag.model';
   templateUrl: './exercise-type-chip-list.component.html',
   styleUrls: ['./exercise-type-chip-list.component.scss']
 })
-export class ExerciseTypeChipListComponent implements OnInit {
+export class ExerciseTypeChipListComponent implements OnInit, OnChanges {
 
   @Input() propertyList: ExerciseTypeTag[];
   @Input() showInactiveGroups: boolean;
   @Input() showInactiveTags: boolean;
 
   constructor() {
-   }
+  }
 
   ngOnInit() {
+
+  }
+
+  ngOnChanges() {
+    this.sortProperties();
+  }
+
+  sortProperties() {
     // sort by disabled then tagGroup alphabetically and then by tag order inside that group
     this.propertyList = _.sortBy(this.propertyList, [
       property => !(property.show && property.tag.tagGroup.active),

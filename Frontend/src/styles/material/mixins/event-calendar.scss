@@ -23,9 +23,8 @@
 
   .date {
     border: 1px solid $border;
-    cursor: pointer;
 
-    
+
     .add-button {
       visibility: hidden;
     }
@@ -64,7 +63,7 @@
     }
 
     .actions {
-      padding-left: 14px; 
+      padding-left: 14px;
 
       button {
         font-size: 1.5rem;
@@ -106,11 +105,11 @@
     .controls {
       padding-right: 10px;
       margin-bottom: 0px;
-  
+
       .current-month-year-label {
         font-size: 15px;
       }
-  
+
       .actions {
         padding-left: 3px;
         button {

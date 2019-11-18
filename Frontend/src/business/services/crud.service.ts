@@ -1,8 +1,6 @@
-import { BaseService } from './base.service';
-import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Inject } from '@angular/core';
-import { ApplicationUser } from 'src/server-models/entities/application-user.model';
+import { catchError } from 'rxjs/operators';
+import { BaseService } from './base.service';
 
 export abstract class CrudService<T> extends BaseService {
 
@@ -54,7 +52,7 @@ export abstract class CrudService<T> extends BaseService {
     }
 
     public delete(id: string) {
-        return this.http.get(this.url + 'Delete/' + id)
+        return this.http.delete(this.url + 'Delete/' + id)
             .pipe(
                 catchError(this.handleError)
             );

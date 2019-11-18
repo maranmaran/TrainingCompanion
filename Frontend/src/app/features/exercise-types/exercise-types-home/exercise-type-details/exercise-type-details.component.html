@@ -13,21 +13,21 @@
     <div fxLayout="row" fxLayoutGap="4rem" fxLayout.lt-sm="row">
 
         <div fxLayout="row" fxLayoutGap="0.5rem">
-    
+
             <div gdArea="left-label">
                 <div class="detail">
                     <mat-label class="label">Active:</mat-label>
-                
+
                 </div>
                 <div class="detail">
                     <mat-label class="label">Bodyweight:</mat-label>
-                  
+
                 </div>
                 <div class="detail">
                     <mat-label class="label">Time:</mat-label>
                 </div>
             </div>
-    
+
             <div gdArea="left-value">
                 <div class="detail">
                     <span class="label-value">
@@ -45,11 +45,11 @@
                     </span>
                 </div>
             </div>
-    
+
         </div>
-    
+
         <div fxLayout="row" fxLayoutGap="0.5rem">
-    
+
             <div gdArea="right-label">
                 <div class="detail">
                     <mat-label class="label">Reps:</mat-label>
@@ -61,7 +61,7 @@
                     <mat-label class="label">Weight:</mat-label>
                 </div>
             </div>
-    
+
             <div gdArea="right-value">
                 <div class="detail">
                     <span class="label-value">
@@ -79,16 +79,20 @@
                     </span>
                 </div>
             </div>
-            
+
         </div>
 
     </div>
-    
+
 
         <div class="detail">
             <mat-label class="label">Properties:</mat-label>
             <span class="label-value" style="display: inline-flex">
-                <app-exercise-type-chip-list [propertyList]="type.properties"></app-exercise-type-chip-list>
+                <app-exercise-type-chip-list
+                  [propertyList]="type.properties"
+                  [showInactiveGroups]="true"
+                  [showInactiveTags]="true"
+                ></app-exercise-type-chip-list>
             </span>
         </div>
     </div>

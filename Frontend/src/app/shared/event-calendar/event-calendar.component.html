@@ -13,37 +13,39 @@
 
     <label class="current-month-year-label">{{ displayMonthAndYear(currentDay) }}</label>
 </div>
-<div class="month-container" fxLayout="column" fxFlexFill> 
+<div class="month-container" fxLayout="column" fxFlexFill>
     <ng-container *ngFor="let week of calendar.weeks" >
 
         <div class="weekdays-container" fxLayout="row" fxFlex="1 1 100%">
             <ng-container *ngFor="let calDay of week.days">
                 <div
                 fxFlex="1 1 100%"
-                class="date" 
-                [ngClass]="{'sunday': isSunday(calDay.day), 'today': isToday(calDay.day)}"
+                class="date"
+                [ngClass]="{'sunday': isSunday(calDay.day), 'today': isToday(calDay.day), 'pointer': !calDay.event}"
                 fxLayout="column"
                 (click)="selectDay(calDay)"
                 >
 
-                    <label [ngClass]=" belongsToThisMonth(calDay.day, currentDay) ? 'day-label' : 'not-relevant-day-label' "> 
-                        {{ displayDateDay(calDay.day) }} 
-                    </label> 
-                    
+                    <label [ngClass]=" belongsToThisMonth(calDay.day, currentDay) ? 'day-label' : 'not-relevant-day-label' ">
+                        {{ displayDateDay(calDay.day) }}
+                    </label>
+
                     <div class="day-content" fxLayout="column" fxLayoutAlign="center center">
 
                         <button *ngIf="!calDay.event" class="add-button" mat-icon-button color="accent" (click)="add(calDay.day)">
                             <i class="fas fa-plus"></i>
                         </button>
 
-                        <button *ngIf="calDay.event" class="event-button" mat-icon-button color="warn" (click)="open(calDay.event)">
-                            <i class="{{ eventIcon }}"></i>
-                        </button>
+                        <ndc-dynamic *ngIf="config.useComponent && calDay.event" [ndcDynamicComponent]="config.component" [ndcDynamicInputs]="config.componentInputs(calDay.event)"></ndc-dynamic>
+
+                        <!-- <button *ngIf="calDay.event" class="event-button" mat-icon-button color="warn" (click)="open(calDay.event)">
+                            <i class="{{ config.eventIcon }}"></i>
+                        </button> -->
                     </div>
 
                 </div>
             </ng-container>
         </div>
-        
+
     </ng-container>
 </div>
