@@ -8,6 +8,7 @@ import { AvatarModule } from 'ngx-avatar';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
+import { TrainingCalendarDayComponent } from './../features/training-log/training/training-calendar/training-calendar-day/training-calendar-day.component';
 import { ActiveFlagComponent } from './active-flag/active-flag.component';
 import { MaterialModule } from './angular-material.module';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
@@ -40,7 +41,9 @@ import { NotificationItemComponent } from './notification-item/notification-item
             ExerciseTypePreviewComponent,
             ExerciseTypeChipComponent,
             ExerciseTypeChipListComponent,
-            ActiveFlagComponent]),
+            ActiveFlagComponent,
+            TrainingCalendarDayComponent
+          ]),
 
         AvatarModule,
     ],
@@ -64,6 +67,7 @@ import { NotificationItemComponent } from './notification-item/notification-item
         UploadInputComponent,
         MediaUploaderComponent,
         NotificationItemComponent,
+        TrainingCalendarDayComponent
     ],
     exports: [
         CommonModule,
@@ -91,7 +95,8 @@ import { NotificationItemComponent } from './notification-item/notification-item
         MediaListComponent,
         UploadInputComponent,
         MediaUploaderComponent,
-        NotificationItemComponent
+        NotificationItemComponent,
+        TrainingCalendarDayComponent
     ],
     providers: [
     ],
