@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, Input, HostListener, OnDestroy } from '@angular/core';
-import * as moment from 'moment'
-import { EventCalendar, CalendarEvent, CalendarDay } from './models/event-calendar.models';
-import { getEventCalendarModel, belongsToThisMonth, populateCalendar } from './models/event.calendar.utils';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { SubSink } from 'subsink';
+import { CalendarConfig } from './models/calendar-config.model';
+import { CalendarDay, CalendarEvent, EventCalendar } from './models/event-calendar.models';
+import { belongsToThisMonth, getEventCalendarModel, populateCalendar } from './models/event.calendar.utils';
 
 @Component({
   selector: 'app-event-calendar',
@@ -24,7 +25,7 @@ export class EventCalendarComponent implements OnInit, OnDestroy {
   @Output() openEvent = new EventEmitter<any>();
 
   @Input() events$: Observable<CalendarEvent[]>;
-  @Input() eventIcon: string = '';
+  @Input() config: CalendarConfig;
 
   private subsink = new SubSink();
 
@@ -32,7 +33,7 @@ export class EventCalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.calendar = getEventCalendarModel(this.currentDay);
-    
+
     this.subsink.add(
       this.events$.subscribe(
         events => {
@@ -43,7 +44,7 @@ export class EventCalendarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subsink.unsubscribe();    
+    this.subsink.unsubscribe();
   }
 
   @HostListener('document:keydown.ArrowLeft', ['$event']) keyLeft = () => this.previousMonth();
@@ -85,10 +86,10 @@ export class EventCalendarComponent implements OnInit, OnDestroy {
 
   displayDateDay = (date: moment.Moment) => date.format('D');
   displayMonthAndYear = (date: moment.Moment) => date.format('MMMM, M/YY');
-  
+
   belongsToThisMonth = belongsToThisMonth;
   isSunday = (date: moment.Moment) => moment(date).weekday() == 0;
   isToday = (date: moment.Moment) => moment(date).isSame(new Date(), 'day');
-  
+
 }
 

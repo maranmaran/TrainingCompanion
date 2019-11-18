@@ -82,8 +82,6 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
         inputs: (item: ExerciseType) => {
           return {
                   exerciseType: item,
-                  showInactiveGroups: true,
-                  showInactiveTags: true
                 };
         },
       }),

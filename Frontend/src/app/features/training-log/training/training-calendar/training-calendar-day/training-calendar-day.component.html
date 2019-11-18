@@ -1,0 +1,23 @@
+<div id="training-calendar-day-container" class="h-100 w-100" fxLayout="row" fxLayoutAlign="space-evenly center">
+  <div id="icon">
+
+    <button mat-icon-button color="warn" (click)="onTrainingClick()">
+      <i class="fas fa-dumbbell warn-foreground" [ngClass.xs]="'fa-1-5x'" [ngClass.gt-xs]="'fa-1-5x'"
+        [ngClass.gt-sm]="'fa-1-7-5x'" [ngClass.gt-md]="'fa-2x'"></i>
+    </button>
+
+  </div>
+
+  <div id="actions" fxHide.xs fxLayout="column" fxLayoutGap="10px" fxLayoutGap.gt-xs="10px" fxLayoutGap.gt-sm="15px"
+    fxLayoutGap.gt-md="20px">
+
+    <button mat-icon-button color="accent" (click)="onCopy()">
+      <i class="fas fa-copy accent-foreground"></i>
+    </button>
+
+    <button mat-icon-button color="accent" (click)="onDelete()">
+      <i class="fas fa-trash accent-foreground"></i>
+    </button>
+
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CalendarConfig } from 'src/app/shared/event-calendar/models/calendar-config.model';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -12,6 +13,7 @@ import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { CalendarEvent } from '../../../../shared/event-calendar/models/event-calendar.models';
+import { TrainingCalendarDayComponent } from './training-calendar-day/training-calendar-day.component';
 
 @Component({
   selector: 'app-training-calendar',
@@ -23,6 +25,7 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
   protected inputData = new ReplaySubject<CalendarEvent[]>();
   private userId: string;
   private subsink = new SubSink();
+  protected calendarConfig: CalendarConfig;
 
   constructor(
     private trainingService: TrainingService,
@@ -30,6 +33,8 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    this.calendarConfig = this.getConfig();
 
     // current user id for request
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
@@ -46,6 +51,20 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
       }
     ));
 
+  }
+
+  getConfig(): CalendarConfig {
+    const config = new CalendarConfig();
+    config.eventIcon = 'fas fa-dumbbell'
+    config.useComponent = true;
+    config.component = TrainingCalendarDayComponent;
+    config.componentInputs = (calendarEventModel: CalendarEvent) => {
+      return {
+         training: calendarEventModel.event
+        }
+    }
+
+    return config;
   }
 
   ngOnDestroy() {
