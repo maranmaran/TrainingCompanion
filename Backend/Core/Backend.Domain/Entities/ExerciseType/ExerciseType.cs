@@ -2,6 +2,7 @@
 using Backend.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
+using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.Domain.Entities.ExerciseType
 {
@@ -26,5 +27,6 @@ namespace Backend.Domain.Entities.ExerciseType
 
         public virtual ICollection<ExerciseTypeTag> Properties { get; set; } = new HashSet<ExerciseTypeTag>();
         public virtual ICollection<ExerciseMax> ExerciseMaxes { get; set; } = new HashSet<ExerciseMax>();
+        public virtual ICollection<Exercise> Exercises { get; set; } = new HashSet<Exercise>();
     }
 }

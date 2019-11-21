@@ -10,8 +10,8 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
 import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
-import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
+import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
+import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { Training } from 'src/server-models/entities/training.model';

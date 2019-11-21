@@ -1,12 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { take } from 'rxjs/operators';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
+import { sortBy } from 'src/business/utils/utils';
 import { AppState } from 'src/ngrx/app/app.state';
-import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training2/training.actions';
+import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training/training.actions';
+import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { UIService } from './../../../../../../business/services/shared/ui.service';
+import { Exercise } from './../../../../../../server-models/entities/exercise.model';
 import { Training } from './../../../../../../server-models/entities/training.model';
 
 @Component({
@@ -18,6 +22,11 @@ export class TrainingCalendarDayComponent implements OnInit {
 
   @Input() training: Training;
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete training', confirmLabel: 'Delete' });
+  private isMobile: boolean;
+  @ViewChild('trainingPreviewTrigger', {static: false}) trainingPreviewTrigger: MatMenuTrigger;
+  @ViewChild('actionsTrigger', {static: false}) actionsTrigger: MatMenuTrigger;
+  // private userAction: 'click' | 'mouseEnter' | 'mouseLeave' | 'press' = 'click'; // default
+
 
   constructor(
     private store: Store<AppState>,
@@ -26,7 +35,8 @@ export class TrainingCalendarDayComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  }
+    this.store.select(isMobile).subscribe((isMobile: boolean) => this.isMobile = isMobile)
+   }
 
   onTrainingClick() {
     this.store.dispatch(setSelectedTraining({ entity: Object.assign({}, this.training) }));
@@ -53,6 +63,38 @@ export class TrainingCalendarDayComponent implements OnInit {
         },
         err => console.log(err)
       )
+  }
+
+  filterBy(data: Exercise[], prop: string) {
+    return sortBy(data, [prop]);
+  }
+
+  onMouseEnter() {
+    if(this.training.exercises.length > 0 && !isMobile)  {
+      this.trainingPreviewTrigger.openMenu();
+    }
+  }
+
+  onMouseLeave() {
+    if(this.trainingPreviewTrigger.menuOpen) {
+      this.trainingPreviewTrigger.closeMenu();
+    }
+  }
+
+  onPress(event) {
+    if(isMobile) {
+      this.actionsTrigger.openMenu();
+    }
+  }
+  onPressUp(event) {
+  }
+
+  onClick() {
+    if(isMobile && this.actionsTrigger.menuOpen) {
+      this.actionsTrigger.closeMenu();
+    } else if (this.actionsTrigger.menuClosed) {
+      this.onTrainingClick();
+    }
   }
 
   onDeleteClick() {

@@ -1,21 +1,61 @@
 <div id="training-calendar-day-container" class="h-100 w-100" fxLayout="row" fxLayoutAlign="space-evenly center">
   <div id="icon">
 
-    <button mat-icon-button color="warn" (click)="onTrainingClick()">
+    <button
+        mat-icon-button
+        color="warn"
+        [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
+        [matTooltipPosition]="'above'"
+
+        (mouseenter)="onMouseEnter($event)"
+        (mouseleave)="onMouseLeave($event)"
+        (press)="onPress($event)"
+        (pressUp)="onPressUp($event)"
+        (click)="onClick($event)"
+      >
       <i class="fas fa-dumbbell warn-foreground" [ngClass.xs]="'fa-1-5x'" [ngClass.gt-xs]="'fa-1-5x'"
         [ngClass.gt-sm]="'fa-1-7-5x'" [ngClass.gt-md]="'fa-2x'"></i>
+        <div #trainingPreviewTrigger="matMenuTrigger" [matMenuTriggerFor]="trainingPreview"></div>
+        <div #actionsTrigger="matMenuTrigger" [matMenuTriggerFor]="actionsMenu"></div>
     </button>
 
+    <mat-menu class="menu-container" #trainingPreview="matMenu" [hasBackdrop]="false" >
+      <div class="menu-container">
+        <h5><b>Summary</b></h5>
+        <mat-divider></mat-divider>
+        <div class="exercise-preview-container">
+          <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
+            <div>
+              {{i + 1}}. {{exercise.exerciseType.name}}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </mat-menu>
+
+    <mat-menu class="actions-menu-container" #actionsMenu="matMenu" [hasBackdrop]="false" >
+      <div fxLayout="column">
+        <button mat-menu-item (click)="onCopy()" >
+          <i class="fas fa-copy accent-foreground"></i>
+          <span class="ml-2">Copy training</span>
+        </button>
+
+        <button mat-menu-item (click)="onDelete()">
+          <i class="fas fa-trash accent-foreground"></i>
+          <span class="ml-2">Delete training</span>
+        </button>
+      </div>
+    </mat-menu>
   </div>
 
   <div id="actions" fxHide.xs fxLayout="column" fxLayoutGap="10px" fxLayoutGap.gt-xs="10px" fxLayoutGap.gt-sm="15px"
     fxLayoutGap.gt-md="20px">
 
-    <button mat-icon-button color="accent" (click)="onCopy()">
+    <button mat-icon-button color="accent" (click)="onCopy()" [matTooltip]="'Copy training'" [matTooltipPosition]="'right'">
       <i class="fas fa-copy accent-foreground"></i>
     </button>
 
-    <button mat-icon-button color="accent" (click)="onDelete()">
+    <button mat-icon-button color="accent" (click)="onDelete()" [matTooltip]="'Delete training'" [matTooltipPosition]="'right'">
       <i class="fas fa-trash accent-foreground"></i>
     </button>
 

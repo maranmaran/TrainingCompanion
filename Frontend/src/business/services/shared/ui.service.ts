@@ -1,5 +1,5 @@
 import { ComponentType, OverlayContainer } from '@angular/cdk/overlay';
-import { Injectable, HostListener } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,8 +17,6 @@ import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum
 import { Dictionary } from 'src/business/utils/dictionary';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ConfirmResult } from './../../shared/confirm-dialog.config';
-import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
-import { setMobileScreenFlag, setWebScreenFlag } from 'src/ngrx/user-interface/ui.actions';
 
 @Injectable()
 export class UIService {
@@ -30,16 +28,16 @@ export class UIService {
         private overlayContainer: OverlayContainer,
     ) { }
 
-    // #region ================ SNACKBARS ================ 
+    // #region ================ SNACKBARS ================
 
     public openSnackbarFromComponent(component: ComponentType<any>, config?: SnackBarConfig) {
         const opts = Object.assign({}, snackBarDefaultConfig, config);
         this.snackBar.openFromComponent(component, opts);
     }
 
-    // #endregion  
+    // #endregion
 
-    // #region ================ DIALOGS ================ 
+    // #region ================ DIALOGS ================
 
     public openDialogFromComponent(component: ComponentType<any>, config?: MatDialogConfig,
         callbackAction?: Function, callbackActionParams?: any[]) {
@@ -93,9 +91,9 @@ export class UIService {
         }, timeout);
     }
 
-    // #endregion  
+    // #endregion
 
-    // #region ================ THEME ================ 
+    // #region ================ THEME ================
 
     public setupTheme(theme: Theme) {
 
@@ -117,9 +115,9 @@ export class UIService {
 
     }
 
-    // #endregion  
+    // #endregion
 
-    // #region ================ SIDEBARS ================ 
+    // #region ================ SIDEBARS ================
 
     private sidenavs = new Dictionary<MatSidenav>();
 
@@ -158,10 +156,10 @@ export class UIService {
         return of(this.sidenavs.item(name).opened);
     }
 
-    // #endregion  
+    // #endregion
 
 
-    // #region ================ CUSTOM POPUP MESSAGES ================ 
+    // #region ================ CUSTOM POPUP MESSAGES ================
 
     public showSubscriptioninfoDialogOnLogin(isTrialing: boolean, isSubscribed: boolean, trialDaysRemaining: number) {
 
@@ -207,5 +205,5 @@ export class UIService {
         return !date || date != moment(new Date()).utc().format('L');
     }
 
-    // #endregion  
+    // #endregion
 }

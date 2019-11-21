@@ -1,7 +1,7 @@
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { Training } from 'src/server-models/entities/training.model';
-import { Exercise } from './../../../server-models/entities/exercise.model';
+import { Exercise } from '../../../server-models/entities/exercise.model';
 
 export const trainingCreated = createAction(
     '[Training] Created',
