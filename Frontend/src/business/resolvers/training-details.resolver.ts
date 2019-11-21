@@ -1,17 +1,14 @@
-import { LocalStorageKeys } from '../shared/localstorage.keys.enum';
-import { TrainingService } from '../services/feature-services/training.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { concatMap, map, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { setSelectedExercise, setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training/training.actions';
+import { selectedTraining, selectedTrainingId } from 'src/ngrx/training-log/training/training.selectors';
 import { Training } from 'src/server-models/entities/training.model';
-import { CRUD } from '../shared/crud.enum';
-import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
-import { UIProgressBar } from '../shared/ui-progress-bars.enum';
-import { selectedTrainingId, selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
-import { trainingsFetched, setSelectedTraining, setSelectedExercise } from 'src/ngrx/training-log/training2/training.actions';
+import { TrainingService } from '../services/feature-services/training.service';
+import { LocalStorageKeys } from '../shared/localstorage.keys.enum';
 
 @Injectable()
 export class TrainingDetailsResolver implements Resolve<Observable<Training | void>> {

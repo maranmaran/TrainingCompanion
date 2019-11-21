@@ -20,8 +20,8 @@ export class DashboardHomeComponent implements OnInit {
     this.notificationService.sendNotification(
       NotificationType.TrainingCreated,
       "Test notification text from client",
-      "E28EBA53-52E4-4FF9-AD02-FDA480BAFB67",
-      "91FBE82A-9BA3-4BEA-A744-8766751F8357");
+      "FDD5335D-8FA5-4D10-8435-D4AEC7B6245A",
+      "86C2222F-D07D-4540-A667-FBB663AAC40B");
   }
 
 }

@@ -28,6 +28,12 @@ namespace Backend.Persistance.Configurations
                 .WithOne(x => x.ExerciseType)
                 .HasForeignKey(x => x.ExerciseTypeId)
                 .OnDelete(DeleteBehavior.ClientCascade);
+
+            builder
+                .HasMany(x => x.Exercises)
+                .WithOne(x => x.ExerciseType)
+                .HasForeignKey(x => x.ExerciseTypeId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

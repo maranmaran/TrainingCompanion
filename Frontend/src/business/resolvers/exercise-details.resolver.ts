@@ -1,14 +1,10 @@
-import { LocalStorageKeys } from './../shared/localstorage.keys.enum';
-import { ExerciseService } from '../services/feature-services/exercise.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { concatMap, map, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Exercise } from 'src/server-models/entities/exercise.model';
-import { CRUD } from '../shared/crud.enum';
-import { selectedExerciseId, selectedExercise } from 'src/ngrx/training-log/training2/training.selectors';
+import { ExerciseService } from '../services/feature-services/exercise.service';
 
 @Injectable()
 export class ExerciseDetailsResolver implements Resolve<Observable<Exercise | void>> {
@@ -24,12 +20,12 @@ export class ExerciseDetailsResolver implements Resolve<Observable<Exercise | vo
         return of(null);
         // return this.store.select(selectedExerciseId)
         //     .pipe(
-        //         take(1), 
+        //         take(1),
         //         concatMap((id: string) => {
         //             if(!id) {
         //                 id = localStorage.getItem(LocalStorageKeys.exerciseId);
         //                 return this.getState(id);
-        //             } 
+        //             }
 
         //             return this.store.select(selectedExercise).pipe(take(1));
         //         }));

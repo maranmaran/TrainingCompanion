@@ -9,8 +9,8 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
-import { selectedTraining } from 'src/ngrx/training-log/training2/training.selectors';
+import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
+import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
 import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/requests/create-exercise.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
