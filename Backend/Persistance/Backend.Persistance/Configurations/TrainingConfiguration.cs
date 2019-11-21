@@ -22,7 +22,7 @@ namespace Backend.Persistance.Configurations
                 .HasMany(x => x.Exercises)
                 .WithOne(x => x.Training)
                 .HasForeignKey(x => x.TrainingId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasMany(x => x.Media)

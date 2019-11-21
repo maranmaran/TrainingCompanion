@@ -10,7 +10,7 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training2/training.selectors';
+import { selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training/training.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { SubSink } from 'subsink';

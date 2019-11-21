@@ -7,8 +7,8 @@ import { CalendarConfig } from 'src/app/shared/event-calendar/models/calendar-co
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTraining, trainingCreated, trainingsFetched } from 'src/ngrx/training-log/training2/training.actions';
-import { trainings } from 'src/ngrx/training-log/training2/training.selectors';
+import { setSelectedTraining, trainingCreated, trainingsFetched } from 'src/ngrx/training-log/training/training.actions';
+import { trainings } from 'src/ngrx/training-log/training/training.selectors';
 import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/create-training.request';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';

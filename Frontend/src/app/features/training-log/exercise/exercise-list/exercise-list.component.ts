@@ -13,13 +13,13 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training2/training.actions';
+import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
+import { selectedTraining, selectedTrainingExercises } from '../../../../../ngrx/training-log/training/training.selectors';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
-import { selectedTraining, selectedTrainingExercises } from './../../../../../ngrx/training-log/training2/training.selectors';
 
 @Component({
   selector: 'app-exercise-list',

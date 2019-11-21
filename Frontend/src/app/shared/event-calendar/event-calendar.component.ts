@@ -38,6 +38,7 @@ export class EventCalendarComponent implements OnInit, OnDestroy {
       this.events$.subscribe(
         events => {
           this.calendar = populateCalendar(this.calendar, events);
+          console.log(this.calendar);
         }
       )
     );
