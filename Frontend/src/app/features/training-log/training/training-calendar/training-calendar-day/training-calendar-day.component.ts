@@ -35,7 +35,7 @@ export class TrainingCalendarDayComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.store.select(isMobile).subscribe((isMobile: boolean) => this.isMobile = isMobile)
+    this.store.select(isMobile).pipe(take(1)).subscribe((isMobile: boolean) => this.isMobile = isMobile);
    }
 
   onTrainingClick() {
@@ -70,7 +70,7 @@ export class TrainingCalendarDayComponent implements OnInit {
   }
 
   onMouseEnter() {
-    if(this.training.exercises.length > 0 && !isMobile)  {
+    if(this.training.exercises.length > 0 && !this.isMobile)  {
       this.trainingPreviewTrigger.openMenu();
     }
   }
@@ -82,7 +82,7 @@ export class TrainingCalendarDayComponent implements OnInit {
   }
 
   onPress(event) {
-    if(isMobile) {
+    if(this.isMobile) {
       this.actionsTrigger.openMenu();
     }
   }
@@ -90,7 +90,7 @@ export class TrainingCalendarDayComponent implements OnInit {
   }
 
   onClick() {
-    if(isMobile && this.actionsTrigger.menuOpen) {
+    if(this.isMobile && this.actionsTrigger.menuOpen) {
       this.actionsTrigger.closeMenu();
     } else if (this.actionsTrigger.menuClosed) {
       this.onTrainingClick();
