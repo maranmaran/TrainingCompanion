@@ -1,6 +1,5 @@
-import { CalendarWeek, EventCalendar, CalendarEvent } from './event-calendar.models';
-import * as moment from 'moment'
-import { format } from 'src/business/utils/moment.format';
+import * as moment from 'moment';
+import { CalendarEvent, CalendarWeek, EventCalendar } from './event-calendar.models';
 
 export function getEventCalendarModel(today: moment.Moment): EventCalendar {
 
@@ -21,12 +20,13 @@ export function getEventCalendarModel(today: moment.Moment): EventCalendar {
 }
 
 export function populateCalendar(calendar: EventCalendar, events: CalendarEvent[]) {
+
   if(!events) return calendar;
 
   calendar.weeks.forEach((calWeek, i) => {
     calWeek.days.forEach((calDay, j) => {
       let calEvent = events.find(x => isEqual(x.day, calDay.day));
-      if(calEvent) calendar.weeks[i].days[j].event = calEvent;
+      calendar.weeks[i].days[j].event = calEvent;
     });
   });
 

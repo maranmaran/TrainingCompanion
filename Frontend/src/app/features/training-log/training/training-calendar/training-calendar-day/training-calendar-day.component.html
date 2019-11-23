@@ -2,6 +2,7 @@
   <div id="icon">
 
     <button
+        #trainingButton
         mat-icon-button
         color="warn"
         [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
@@ -9,8 +10,7 @@
 
         (mouseenter)="onMouseEnter($event)"
         (mouseleave)="onMouseLeave($event)"
-        (press)="onPress($event)"
-        (pressUp)="onPressUp($event)"
+        (press)="onPress()"
         (click)="onClick($event)"
       >
       <i class="fas fa-dumbbell warn-foreground" [ngClass.xs]="'fa-1-5x'" [ngClass.gt-xs]="'fa-1-5x'"
