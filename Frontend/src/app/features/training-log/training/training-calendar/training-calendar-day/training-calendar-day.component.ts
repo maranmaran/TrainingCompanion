@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
@@ -25,13 +26,14 @@ export class TrainingCalendarDayComponent implements OnInit {
   private isMobile: boolean;
   @ViewChild('trainingPreviewTrigger', {static: false}) trainingPreviewTrigger: MatMenuTrigger;
   @ViewChild('actionsTrigger', {static: false}) actionsTrigger: MatMenuTrigger;
+  @ViewChild('trainingButton', {static: false}) trainingButton: MatButton;
   // private userAction: 'click' | 'mouseEnter' | 'mouseLeave' | 'press' = 'click'; // default
 
 
   constructor(
     private store: Store<AppState>,
     private trainingService: TrainingService,
-    private uiService: UIService
+    private uiService: UIService,
   ) { }
 
   ngOnInit() {
@@ -81,24 +83,31 @@ export class TrainingCalendarDayComponent implements OnInit {
     }
   }
 
-  onPress(event) {
+  pressEvent = false;
+  onPress() {
+
+    this.pressEvent = true;
+    setTimeout(() => {
+      this.pressEvent = false;
+    }, 500);
+
     if(this.isMobile) {
       this.actionsTrigger.openMenu();
     }
-  }
-  onPressUp(event) {
+
   }
 
   onClick() {
-    if(this.isMobile && this.actionsTrigger.menuOpen) {
-      this.actionsTrigger.closeMenu();
-    } else if (this.actionsTrigger.menuClosed) {
-      this.onTrainingClick();
+    if(!this.pressEvent) {
+      if(this.isMobile && this.actionsTrigger.menuOpen) {
+        this.actionsTrigger.closeMenu();
+      } else if (this.actionsTrigger.menuClosed) {
+        this.onTrainingClick();
+      }
     }
   }
 
   onDeleteClick() {
-
     this.trainingService.delete(this.training.id).pipe(take(1))
       .subscribe(
         () => this.store.dispatch(trainingDeleted({ id: this.training.id })),
