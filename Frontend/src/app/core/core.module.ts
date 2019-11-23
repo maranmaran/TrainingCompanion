@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MAT_HAMMER_OPTIONS } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -19,7 +18,6 @@ import { ChatService } from 'src/business/services/feature-services/chat.service
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { APP_SETTINGS_PROVIDER } from 'src/business/services/shared/app-settings.service';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { CustomHammerJsConfig } from 'src/business/shared/custom-hammerjs.config';
 import { environment } from 'src/environments/environment';
 import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
 import { metaReducers, reducers } from 'src/ngrx/global-setup.ngrx';
@@ -105,7 +103,7 @@ import { SettingsComponent } from './settings/settings.component';
         APP_SETTINGS_PROVIDER,
         { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: MAT_HAMMER_OPTIONS, useClass: CustomHammerJsConfig }
+        // { provide: MAT_HAMMER_OPTIONS, useClass: CustomHammerJsConfig }
         // { provide: APP_INITIALIZER, useFactory: initApplication, multi: true, deps: [Store, Actions] }
     ],
     entryComponents: [
