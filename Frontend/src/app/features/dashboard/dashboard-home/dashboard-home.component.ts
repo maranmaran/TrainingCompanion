@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getTestPieChartConfig } from 'src/app/shared/charts/chart-config.factory';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
 
@@ -8,6 +9,8 @@ import { NotificationType } from 'src/server-models/enums/notification-type.enum
   styleUrls: ['./dashboard-home.component.scss']
 })
 export class DashboardHomeComponent implements OnInit {
+
+  pieChartConfig = getTestPieChartConfig();
 
   constructor(
     private notificationService: NotificationSignalrService
