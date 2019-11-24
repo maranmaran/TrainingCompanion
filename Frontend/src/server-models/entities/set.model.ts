@@ -2,10 +2,10 @@ import { Time } from '@angular/common';
 
 export class Set {
     id: string;
-    weight: number = 0;
-    reps: number = 0;
+    weight: number;
+    reps: number;
     time: Time;
-    rpe: number = 0;
+    rpe: number;
     intensity: string;
     volume: number = 0;
     averageVelocity: string;

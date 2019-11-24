@@ -22,4 +22,12 @@ export class ExerciseDetailsComponent implements OnInit {
     this.store.select(selectedExercise).pipe(take(1))
       .subscribe(exercise => this.exercise = exercise);
   }
+
+  get totalVolume() {
+    return this.exercise.sets.reduce((total, set) => total + set.volume, 0);
+  }
+
+  get projectedMax() {
+    return this.exercise.sets.reduce((max, set) => set.projectedMax > max ? set.projectedMax : max, 0);
+  }
 }
