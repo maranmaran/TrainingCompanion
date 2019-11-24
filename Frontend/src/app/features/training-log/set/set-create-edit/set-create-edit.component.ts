@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
+import { Guid } from 'guid-typescript';
 import * as _ from "lodash";
 import { switchMap, take } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';
-import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
 import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -31,14 +31,14 @@ export class SetCreateEditComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private unitSystemService: UnitSystemService,
-    private trainingService: TrainingService,
+    private formBuilder: FormBuilder,
+    private unitService: UnitSystemService,
     private setService: SetService,
     protected dialogRef: MatDialogRef<SetCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, sets: Set[] }) { }
 
-  form: FormGroup;
-  get formControls() { return (<FormArray>this.form.get('sets')).controls; }
+  setFormGroups: FormGroup[] = [];
+  // get formControls() { return (<FormArray>this.form.get('sets')).controls; }
   sets: Set[] = [];
 
   coachId: string;
@@ -55,40 +55,61 @@ export class SetCreateEditComponent implements OnInit {
       this.exerciseType = exercise.exerciseType
     });
 
-    this.createForm();
+    this.createForms();
   }
 
-  createForm() {
-    const controls = [];
+  createForms() {
     this.sets.forEach(set => {
-      controls.push(
+      this.setFormGroups.push(
         new FormGroup(this.getControls(set))
       )
-    })
-
-    this.form = new FormGroup({
-      sets: new FormArray(controls)
     });
+
+    console.log(this.setFormGroups);
   }
 
-  addControl() {
-    let control = new FormGroup(this.getControls(new Set()));
-    const array = (this.form.get('sets') as FormArray);
-    array.push(control);
+  addGroup(set: Set = null) {
+
+    set = set || new Set();
+    const controls = this.getControls(set);
+    const newSetFormGroup = new FormGroup(controls);
+
+    this.setFormGroups.push(newSetFormGroup);
   }
 
-  removeControl(index: number) {
-    (<FormArray>this.form.get('sets')).removeAt(index);
+  removeGroup(index: number) {
+    this.setFormGroups.splice(index, 1);
+  }
+
+  copyDown(index: number) {
+    const setGroup = this.setFormGroups[index];
+    let nextGroup = this.setFormGroups[index + 1];
+
+    const set = this.getSet(setGroup);
+    if(nextGroup) {
+      // update
+      set.id = nextGroup.controls["id"].value;
+
+      const groupControls = this.getControls(set);
+      nextGroup = new FormGroup(groupControls);
+
+      this.setFormGroups[index + 1] = nextGroup;
+
+    } else {
+      // add
+      set.id = Guid.createEmpty().toString();
+      this.addGroup(set);
+    }
   }
 
   getControls(set: Set): { [key: string]: AbstractControl } {
     const controls = {};
 
-    controls["id"] = new FormControl({ value: set.id });
+    controls["id"] = new FormControl(set.id);
 
     // todo.. add weight attribute to application user
     if (this.exerciseType.requiresBodyweight)
-      controls["weight"] = new FormControl({ value: set.weight, disabled: true }, [Validators.min(0), Validators.max(200)]);
+      controls["weight"] = new FormControl( set.weight, [Validators.min(0), Validators.max(200)]);
 
     if (this.exerciseType.requiresReps)
       controls["reps"] = new FormControl(set.reps, [Validators.min(0), Validators.max(100)]);
@@ -107,7 +128,7 @@ export class SetCreateEditComponent implements OnInit {
 
     if (this.settings.useRpeSystem) {
       if (this.settings.rpeSystem == RpeSystem.Rir)
-        controls["rpe"] = new FormControl((10 - set.rpe), [Validators.required, Validators.min(0), Validators.max(10)]);
+        controls["rir"] = new FormControl((10 - set.rpe), [Validators.required, Validators.min(0), Validators.max(10)]);
 
 
       if (this.settings.rpeSystem == RpeSystem.Rpe)
@@ -117,48 +138,61 @@ export class SetCreateEditComponent implements OnInit {
     return controls;
   }
 
-  getSetsFromControls(): Set[] {
+  getSets(formGroups: FormGroup[]): Set[] {
+
     const sets = [];
+    var setFormGroups = formGroups;
 
-    this.form.get('sets').value.forEach(setControl => {
+    for (let i = 0; i < setFormGroups.length; i++) {
 
-      let set = new Set();
-      set.exerciseId = this.exerciseId;
-      set.id = setControl["id"].value;
+      const setFormGroup = setFormGroups[i];
 
-      // todo.. add weight attribute to application user
-      if (this.exerciseType.requiresBodyweight)
-        set.weight = setControl["weight"];
-
-      if (this.exerciseType.requiresReps)
-        set.reps = setControl["reps"];
-
-      if (this.exerciseType.requiresTime)
-        set.time = setControl["time"];
-
-      //handle weight transformations.. everything is system is in metric
-      if (this.exerciseType.requiresWeight)
-        set.weight = setControl["weight"];
-
-      if (this.settings.useRpeSystem) {
-
-        if (this.settings.rpeSystem == RpeSystem.Rir)
-          set.rpe = setControl["rpe"];
-
-        if (this.settings.rpeSystem == RpeSystem.Rpe)
-          set.rpe = setControl["rpe"];
-      }
-
+      const set = this.getSet(setFormGroup);
       sets.push(set);
-    });
+    }
 
     return sets;
   }
 
-  onSubmit() {
-    if (!this.form.valid) return;
+  getSet(group: FormGroup): Set {
 
-    let sets = this.getSetsFromControls();
+    const controls = group.controls;
+
+    let set = new Set();
+    set.exerciseId = this.exerciseId;
+    set.id = controls["id"].value;
+
+    // todo.. add weight attribute to application user
+    if (this.exerciseType.requiresBodyweight)
+      set.weight = controls["weight"].value || 0;
+
+    if (this.exerciseType.requiresReps)
+      set.reps = controls["reps"].value || 0;
+
+    if (this.exerciseType.requiresTime)
+      set.time = controls["time"].value || 0;
+
+    //handle weight transformations.. everything is system is in metric
+    if (this.exerciseType.requiresWeight)
+      set.weight = this.unitService.transformWeightToNumber(controls["weight"].value) || 0;
+
+    if (this.settings.useRpeSystem) {
+
+      if (this.settings.rpeSystem == RpeSystem.Rpe)
+        set.rpe = controls["rpe"].value;
+
+      if (this.settings.rpeSystem == RpeSystem.Rir)
+        set.rpe = 10 - controls["rpe"].value;
+    }
+
+    return set;
+  }
+
+  onSubmit() {
+    // are all forms valid
+    if(!this.isFormValid) return;
+
+    let sets = <Set[]>(this.getSets(this.setFormGroups));
 
     var request = new UpdateManySetsRequest();
     request.sets = sets;
@@ -192,6 +226,10 @@ export class SetCreateEditComponent implements OnInit {
         },
         err => console.log(err)
       )
+  }
+
+  get isFormValid() {
+    return this.setFormGroups.reduce((prev, curr) => prev && curr.valid, true);
   }
 
   onClose(sets?: Set[]) {
