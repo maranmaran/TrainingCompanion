@@ -1,13 +1,26 @@
-<h3 class="title">TITLE</h3>
+<h3 class="title ml-3">
+  <app-exercise-type-preview [exerciseType]="exercise.exerciseType"></app-exercise-type-preview>
+</h3>
 
 <div class="container main-screen" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayoutGap.lt-md="1rem" fxLayout.lt-md="column">
 
-    <div class="exercise-details-container details-container" fxFlex="0 1 calc(49.5%)" fxFlex.lt-md="0 1 auto" fxLayout="column" fxLayoutGap="1rem">
-       
+    <div class="exercise-details-container details-container" fxFlex="0 1 calc(49.5%)" fxFlex.lt-md="0 1 auto" fxLayout="column" fxLayoutGap="1rem" fxFlexOrder.xs="2">
+
      <!-- GRAPHS -->
-        
+
+     <div class="detail">
+        <mat-label class="label">Exercise volume:</mat-label>
+        <span class="label-value">{{totalVolume}}</span>
+      </div>
+
+      <div class="detail">
+          <mat-label class="label">Projected max:</mat-label>
+          <span class="label-value">{{projectedMax}}</span>
+        </div>
+
+
     </div>
 
-    <app-set-list *ngIf="exercise.exerciseType.requiresSets" fxFlex="0 0 calc(49.5%)" fxFlex.lt-md="0 1 auto"></app-set-list>
+    <app-set-list *ngIf="exercise.exerciseType.requiresSets" fxFlex="0 0 calc(49.5%)" fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="1"></app-set-list>
 
 </div>

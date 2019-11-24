@@ -8,11 +8,13 @@ import { UnitSystemService } from 'src/business/services/shared/unit-system.serv
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { currentUserId, userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training/training.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
+import { UserSetting } from 'src/server-models/entities/user-settings.model';
+import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
 
@@ -32,6 +34,7 @@ export class SetListComponent implements OnInit, OnDestroy {
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
   private userId: string;
+  private userSettings: UserSetting;
   private exerciseType: ExerciseType;
   private sets: Set[];
 
@@ -47,6 +50,7 @@ export class SetListComponent implements OnInit, OnDestroy {
     this.tableConfig = this.getTableConfig();
 
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
+    this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.userSettings = settings);
     this.store.select(selectedExercise).pipe(take(1), map(exercise => exercise.exerciseType)).subscribe(type => {
       this.tableColumns = this.getTableColumns(type) as CustomColumn[];
     });
@@ -121,7 +125,15 @@ export class SetListComponent implements OnInit, OnDestroy {
           displayFunction: (item: Set) => item.time, // transform
         }));
     }
-
+    if (this.userSettings.useRpeSystem) {
+      columns.push(
+        new CustomColumn({
+          definition: this.userSettings.rpeSystem,
+          title: this.userSettings.rpeSystem == RpeSystem.Rpe ? 'RPE' : 'RIR',
+          sort: true,
+          displayFunction: (item: Set) => this.userSettings.rpeSystem == RpeSystem.Rpe ? item.rpe : 10 - item.rpe, // transform
+        }));
+    }
 
     return columns;
   }
