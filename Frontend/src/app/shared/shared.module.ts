@@ -11,6 +11,9 @@ import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { TrainingCalendarDayComponent } from './../features/training-log/training/training-calendar/training-calendar-day/training-calendar-day.component';
 import { ActiveFlagComponent } from './active-flag/active-flag.component';
 import { MaterialModule } from './angular-material.module';
+import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
+import { LineChartComponent } from './charts/line-chart/line-chart.component';
+import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ErrorSnackbarComponent } from './error-snackbar/error-snackbar.component';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
@@ -67,7 +70,10 @@ import { NotificationItemComponent } from './notification-item/notification-item
         UploadInputComponent,
         MediaUploaderComponent,
         NotificationItemComponent,
-        TrainingCalendarDayComponent
+        TrainingCalendarDayComponent,
+        PieChartComponent,
+        BarChartComponent,
+        LineChartComponent
     ],
     exports: [
         CommonModule,
@@ -96,7 +102,10 @@ import { NotificationItemComponent } from './notification-item/notification-item
         UploadInputComponent,
         MediaUploaderComponent,
         NotificationItemComponent,
-        TrainingCalendarDayComponent
+        TrainingCalendarDayComponent,
+        PieChartComponent,
+        BarChartComponent,
+        LineChartComponent
     ],
     providers: [
     ],
