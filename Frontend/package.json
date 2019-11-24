@@ -24,7 +24,6 @@
     "@angular/router": "^8.2.14",
     "@ckeditor/ckeditor5-angular": "^1.1.2",
     "@ckeditor/ckeditor5-build-classic": "^12.4.0",
-    "@kolkov/angular-editor": "^1.0.0-rc.1",
     "@microsoft/signalr": "^3.0.1",
     "@ngrx/effects": "^8.5.2",
     "@ngrx/entity": "^8.5.2",
