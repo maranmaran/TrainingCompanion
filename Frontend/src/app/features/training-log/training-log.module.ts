@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { AngularEditorModule } from '@kolkov/angular-editor';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -30,7 +29,6 @@ import { TrainingDetailsComponent } from './training/training-details/training-d
         // StoreModule.forFeature('trainingLogState', trainingLogReducerMap),
         StoreModule.forFeature('training', trainingReducer),
         EffectsModule.forFeature([TrainingEffects]),
-        AngularEditorModule
     ],
     declarations: [
         TrainingLogHomeComponent,
