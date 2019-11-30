@@ -22,6 +22,10 @@ namespace Backend.Persistance.Configurations
                 .WithMany(x => x.Exercises)
                 .HasForeignKey(x => x.ExerciseTypeId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(x => x.Media)
+                .WithOne(x => x.Exercise)
+                .HasForeignKey(x => x.ExerciseId);
         }
     }
 }

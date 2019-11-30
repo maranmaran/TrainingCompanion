@@ -2,25 +2,35 @@
   <app-exercise-type-preview [exerciseType]="exercise.exerciseType"></app-exercise-type-preview>
 </h3>
 
-<div class="container main-screen" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayoutGap.lt-md="1rem" fxLayout.lt-md="column">
+<div class="container main-screen" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start"
+  fxLayoutGap.lt-md="1rem" fxLayout.lt-md="column">
 
-    <div class="exercise-details-container details-container" fxFlex="0 1 calc(49.5%)" fxFlex.lt-md="0 1 auto" fxLayout="column" fxLayoutGap="1rem" fxFlexOrder.xs="2">
+  <div class="exercise-details-container details-container" fxFlex="0 1 calc(49.5%)" fxFlex.lt-md="0 1 auto"
+    fxLayout="column" fxLayoutGap="1rem" fxFlexOrder.xs="2">
 
-     <!-- GRAPHS -->
+    <!-- GRAPHS -->
 
-     <div class="detail">
-        <mat-label class="label">Exercise volume:</mat-label>
-        <span class="label-value">{{ totalVolume }}</span>
-      </div>
-
-      <div class="detail">
-          <mat-label class="label">Projected max:</mat-label>
-          <span class="label-value">{{ projectedMax }}</span>
-        </div>
-
-
+    <div class="detail">
+      <mat-label class="label">Exercise volume:</mat-label>
+      <span class="label-value">{{ totalVolume }}</span>
     </div>
 
-    <app-set-list *ngIf="exercise.exerciseType.requiresSets" fxFlex="0 0 calc(49.5%)" fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="1"></app-set-list>
+    <div class="detail">
+      <mat-label class="label">Projected max:</mat-label>
+      <span class="label-value">{{ projectedMax }}</span>
+    </div>
+
+    <!--------- MEDIA ---------->
+    <mat-expansion-panel class="media-panel">
+      <mat-expansion-panel-header>
+        Exercise media
+      </mat-expansion-panel-header>
+      <app-media-uploader (fileUploaded)="onFileUploaded($event)" [files]="exercise.media"></app-media-uploader>
+    </mat-expansion-panel>
+
+  </div>
+
+  <app-set-list *ngIf="exercise.exerciseType.requiresSets" fxFlex="0 0 calc(49.5%)" fxFlex.lt-md="0 1 auto"
+    fxFlexOrder.xs="1"></app-set-list>
 
 </div>

@@ -13,7 +13,7 @@ export class PieChartComponent implements OnInit {
   canvasCtx: CanvasRenderingContext2D;
 
   @Input() configuration: ChartConfiguration;
-  @ViewChild('pieChartCanvas2', {static: true}) canvas2: ElementRef;
+  @ViewChild('pieChartCanvas', {static: true}) canvas2: ElementRef;
 
   constructor() { }
 

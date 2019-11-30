@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain.Entities.Media;
 using System.Text;
+using Backend.Common.Extensions;
 
 namespace Backend.Application.Business.Business.Media.UploadMedia
 {
@@ -43,6 +44,7 @@ namespace Backend.Application.Business.Business.Media.UploadMedia
                 {
                     ApplicationUserId = request.UserId,
                     TrainingId = request.TrainingId,
+                    ExerciseId = request.ExerciseId,
                     DownloadUrl = presignedUrl,
                     Type = request.Type,
                     DateModified = DateTime.UtcNow,
@@ -71,8 +73,11 @@ namespace Backend.Application.Business.Business.Media.UploadMedia
             if (request.UserId != Guid.Empty)
                 builder.Append($"media/{request.UserId}");
 
-            if (request.TrainingId != Guid.Empty)
+            if (!request.TrainingId.IsNullOrEmpty())
                 builder.Append($"/training/{request.TrainingId}");
+
+            if (!request.ExerciseId.IsNullOrEmpty())
+                builder.Append($"/exercise/{request.ExerciseId}");
 
             builder.Append($"{request.TrainingId.ToString()}/{Guid.NewGuid()}");
 
