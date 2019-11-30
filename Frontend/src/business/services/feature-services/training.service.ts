@@ -37,7 +37,7 @@ export class TrainingService extends CrudService<Training> {
       formData.append('type', type);
 
       return this.http
-        .post<MediaFile>('Media/UploadMedia/', formData)
+        .post<MediaFile>('Media/UploadTrainingMedia/', formData)
         .pipe(catchError(this.handleError));
     }
 

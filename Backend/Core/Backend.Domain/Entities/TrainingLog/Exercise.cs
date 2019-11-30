@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Backend.Domain.Entities.Media;
 
 namespace Backend.Domain.Entities.TrainingLog
 {
@@ -14,5 +15,6 @@ namespace Backend.Domain.Entities.TrainingLog
         public virtual Training Training { get; set; }
 
         public virtual ICollection<Set> Sets { get; set; } = new HashSet<Set>();
+        public virtual ICollection<MediaFile> Media { get; set; } = new HashSet<MediaFile>();
     }
 }

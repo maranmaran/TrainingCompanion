@@ -20,7 +20,7 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadMedia(
+        public async Task<IActionResult> UploadTrainingMedia(
             [FromForm] Guid userId,
             [FromForm] Guid trainingId,
             [FromForm] IFormFile file,
@@ -30,6 +30,22 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(new UploadMediaRequest(userId, file, extension, type)
             {
                 TrainingId = trainingId
+            }));
+        }
+
+      [HttpPost]
+        public async Task<IActionResult> UploadExerciseMedia(
+            [FromForm] Guid userId,
+            [FromForm] Guid trainingId,
+            [FromForm] Guid exerciseId,
+            [FromForm] IFormFile file,
+            [FromForm] string extension,
+            [FromForm] MediaType type)
+        {
+            return Ok(await Mediator.Send(new UploadMediaRequest(userId, file, extension, type)
+            {
+                TrainingId = trainingId,
+                ExerciseId = exerciseId
             }));
         }
 
