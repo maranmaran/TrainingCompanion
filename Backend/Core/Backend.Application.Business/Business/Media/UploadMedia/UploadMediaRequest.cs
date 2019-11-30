@@ -14,7 +14,8 @@ namespace Backend.Application.Business.Business.Media.UploadMedia
     public class UploadMediaRequest : IRequest<MediaFile>
     {
         public Guid UserId { get; set; }
-        public Guid TrainingId { get; set; }
+        public Guid? TrainingId { get; set; }
+        public Guid? ExerciseId { get; set; }
         public IFormFile File { get; set; }
         public string Extension { get; set; }
         public MediaType Type { get; set; }

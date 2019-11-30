@@ -20,5 +20,8 @@ namespace Backend.Domain.Entities.Media
 
         public Guid? TrainingId { get; set; }
         public TrainingLog.Training Training { get; set; }
+
+        public Guid? ExerciseId { get; set; }
+        public TrainingLog.Exercise Exercise { get; set; }
     }
 }
