@@ -28,45 +28,43 @@ namespace Backend.Service.AmazonS3
 
         public async Task<Stream> GetFromS3(S3FileRequest request)
         {
-            using (var client = !string.IsNullOrEmpty(_s3Settings.AccesKey) ?
-                                    new AmazonS3Client(_s3Settings.AccesKey, _s3Settings.SecretAccessKey, region)
-                                    : new AmazonS3Client(region))
+            using var client = !string.IsNullOrEmpty(_s3Settings.AccesKey) ?
+                new AmazonS3Client(_s3Settings.AccesKey, _s3Settings.SecretAccessKey, region)
+                : new AmazonS3Client(region);
+            var objRequest = new GetObjectRequest
             {
-                var objRequest = new GetObjectRequest
+                BucketName = _s3Settings.BucketName,
+                Key = request.FileName
+            };
+
+            var triedTimes = 0;
+
+            while (triedTimes <= _s3Settings.MaxRetryTimes)
+            {
+                try
                 {
-                    BucketName = _s3Settings.BucketName,
-                    Key = request.FileName
-                };
+                    triedTimes++;
 
-                var triedTimes = 0;
+                    // actual data fetch (this can take awhile for larger files)
+                    var s3Response = await client.GetObjectAsync(objRequest);
 
-                while (triedTimes <= _s3Settings.MaxRetryTimes)
-                {
-                    try
-                    {
-                        triedTimes++;
-
-                        // actual data fetch (this can take awhile for larger files)
-                        var s3Response = await client.GetObjectAsync(objRequest);
-
-                        // do NOT use "using (var resp = ...)" because the using block disposes everything once done
-                        //     meaning that the stream would already be closed once it has been returned outside
-                        return s3Response.ResponseStream;
-                    }
-                    catch (Exception)
-                    {
-                        if (triedTimes < _s3Settings.MaxRetryTimes)
-                        {
-                            Thread.Sleep(_s3Settings.MilisecondsBeforeRetry);
-                            continue;
-                        }
-
-                        break;
-                    }
+                    // do NOT use "using (var resp = ...)" because the using block disposes everything once done
+                    //     meaning that the stream would already be closed once it has been returned outside
+                    return s3Response.ResponseStream;
                 }
+                catch (Exception)
+                {
+                    if (triedTimes < _s3Settings.MaxRetryTimes)
+                    {
+                        Thread.Sleep(_s3Settings.MilisecondsBeforeRetry);
+                        continue;
+                    }
 
-                return null;
+                    break;
+                }
             }
+
+            return null;
         }
 
         public async Task WriteStringToS3(S3FileRequest request, string data)
@@ -99,43 +97,40 @@ namespace Backend.Service.AmazonS3
 
         public Task<string> GetPresignedUrlAsync(S3FileRequest request)
         {
-            using (var client = !string.IsNullOrEmpty(_s3Settings.AccesKey) ?
+            using var client = !string.IsNullOrEmpty(_s3Settings.AccesKey) ?
                 new AmazonS3Client(_s3Settings.AccesKey, _s3Settings.SecretAccessKey, region)
-                : new AmazonS3Client(region))
+                : new AmazonS3Client(region);
+            var preSignedUrlRequest = new GetPreSignedUrlRequest()
             {
-                var preSignedUrlRequest = new GetPreSignedUrlRequest()
-                {
-                    BucketName = _s3Settings.BucketName,
-                    Key = request.FileName,
-                    Expires = GetExpirationDate(),
-                };
+                BucketName = _s3Settings.BucketName,
+                Key = request.FileName,
+                Expires = GetExpirationDate(),
+            };
 
                 
-                var triedTimes = 0;
+            var triedTimes = 0;
 
-                while (triedTimes <= _s3Settings.MaxRetryTimes)
+            while (triedTimes <= _s3Settings.MaxRetryTimes)
+            {
+                try
                 {
-                    try
-                    {
-                        triedTimes++;
+                    triedTimes++;
 
-                        return Task.FromResult(client.GetPreSignedURL(preSignedUrlRequest));
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                        if (triedTimes < _s3Settings.MaxRetryTimes)
-                        {
-                            Thread.Sleep(_s3Settings.MilisecondsBeforeRetry);
-                            continue;
-                        }
-
-                        break;
-                    }
+                    return Task.FromResult(client.GetPreSignedURL(preSignedUrlRequest));
                 }
+                catch (Exception e)
+                {
+                    if (triedTimes < _s3Settings.MaxRetryTimes)
+                    {
+                        Thread.Sleep(_s3Settings.MilisecondsBeforeRetry);
+                        continue;
+                    }
 
-                return Task.FromResult(string.Empty);
+                    break;
+                }
             }
+
+            return Task.FromResult(string.Empty);
         }
 
         public bool CheckIfPresignedUrlIsExpired(string url)
