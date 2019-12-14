@@ -19,7 +19,7 @@
       [matMenuTriggerFor]="notificationsMenu"></i>
 
 
-      <mat-menu #notificationsMenu="matMenu" class="notifications-menu-container" >
+      <mat-menu #notificationsMenu="matMenu" class="notifications-menu-container">
 
         <!--BUG with mat menu integration https://github.com/angular/components/issues/10122 -->
         <!-- <cdk-virtual-scroll-viewport class="virtual-scroll-viewport" itemSize="{{60}}" minBufferPx="{{60 * 3}}" maxBufferPx="{{60 * 3 * 3}}" (scrolledIndexChange)="loadMoreNotifications($event)">
@@ -30,7 +30,9 @@
             <button classy="w-100 mt-3" mat-stroked-button color="primary" (click)="loadMoreNotifications()" (click)="$event.stopPropagation()">Show more notifications</button>
           </cdk-virtual-scroll-viewport> -->
 
-          <div *ngFor="let item of notifications; let i = index; let c = count" class="virtual-scroll-item">
+          <div id="notification-item-wrapper">
+
+            <div *ngFor="let item of notifications; let i = index; let c = count" class="virtual-scroll-item">
               <app-notification-item
                 [model]="item"
                 (click)="$event.stopPropagation()"
@@ -38,8 +40,11 @@
                 (mouseover)="!item.read ? onHoverNotification(item) : ''"
               ></app-notification-item>
               <mat-divider *ngIf="!(i + 1 == c)"></mat-divider>
-           </div>
-           <button class="w-100" mat-stroked-button color="primary" (click)="$event.stopPropagation()" (click)="loadMoreNotifications()" >Show more notifications</button>
+            </div>
+
+          </div>
+
+           <button class="w-100" *ngIf="!stopFetch" mat-stroked-button color="primary" (click)="$event.stopPropagation()" (click)="loadMoreNotifications()" >Show more notifications</button>
 
     </mat-menu>
 
