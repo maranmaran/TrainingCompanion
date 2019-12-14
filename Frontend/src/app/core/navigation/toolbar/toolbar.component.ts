@@ -51,7 +51,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.getHistory(this.page, this.pageSize);
+    this.getHistory(this.page++, this.pageSize);
 
   }
 
@@ -75,16 +75,20 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   getHistory(page, pageSize) {
 
-    this.notificationService.getHistory(page, pageSize)
-      .pipe(take(1))
-      .subscribe(notifications => {
-        if (notifications.length == 0) {
-          return this.stopFetch = true;
-        }
+    if(!this.stopFetch) {
+      this.notificationService.getHistory(page, pageSize)
+        .pipe(take(1))
+        .subscribe(notifications => {
 
-        notifications.forEach(n => !n.read && this.unreadNotificationCounter++);
-        this.notifications = [...this.notifications, ...notifications];
-      });
+          if (!notifications || notifications.length == 0) {
+            return this.stopFetch = true;
+          }
+
+          notifications.forEach(n => !n.read && this.unreadNotificationCounter++);
+          this.notifications = [...this.notifications, ...notifications];
+
+        });
+    }
   }
 
   // TODO: Route probably

@@ -13,7 +13,7 @@ import { AppSettingsService } from '../shared/app-settings.service';
 import { PushNotification } from './../../../server-models/entities/push-notification.model';
 import { AuthService } from './auth.service';
 
-@Injectable({ providedIn: 'root' })
+Injectable()
 export class NotificationSignalrService implements OnDestroy {
 
   private hubConnection: signalR.HubConnection;
@@ -38,7 +38,10 @@ export class NotificationSignalrService implements OnDestroy {
     this.store
       .select(currentUserId)
       .pipe(take(1))
-      .subscribe(userId => (this.userId = userId));
+      .subscribe(userId => {
+        this.userId = userId;
+        console.log(this.userId);
+      });
 
     // configure connection
     this.configureHubConnection();

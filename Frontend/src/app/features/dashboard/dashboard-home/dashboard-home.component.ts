@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 import { getTestBarChartConfig, getTestLineChartConfig, getTestPieChartConfig } from 'src/app/shared/charts/chart-config.factory';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
+import { AppState } from 'src/ngrx/app/app.state';
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
+import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -14,19 +18,23 @@ export class DashboardHomeComponent implements OnInit {
   lineChartConfig = getTestLineChartConfig();
   barChartConfig = getTestBarChartConfig();
 
+  private userId: string;
+
   constructor(
-    private notificationService: NotificationSignalrService
+    private notificationService: NotificationSignalrService,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
+    this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
   }
 
   activateNotif() {
     this.notificationService.sendNotification(
       NotificationType.TrainingCreated,
       "Test notification text from client",
-      "FDD5335D-8FA5-4D10-8435-D4AEC7B6245A",
-      "86C2222F-D07D-4540-A667-FBB663AAC40B");
+      this.userId,
+      this.userId);
   }
 
 }
