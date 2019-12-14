@@ -63,14 +63,14 @@ namespace Backend.Application.Business.Business.Training.Get
         {
             foreach (var media in training.Media)
             {
-                media.DownloadUrl = await _s3AccessService.RenewPresignedUrl(media.DownloadUrl, media.Filename);
+                media.DownloadUrl = await _s3AccessService.RenewPresignedUrl(media.DownloadUrl, media.FtpFilePath);
             }
 
             foreach (var exercise in training.Exercises)
             {
                 foreach (var media in exercise.Media)
                 {
-                    media.DownloadUrl = await _s3AccessService.RenewPresignedUrl(media.DownloadUrl, media.Filename);
+                    media.DownloadUrl = await _s3AccessService.RenewPresignedUrl(media.DownloadUrl, media.FtpFilePath);
                 }
             }
         }
