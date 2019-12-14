@@ -45,41 +45,41 @@
             <mat-header-cell *matHeaderCellDef>
 
             <!--ADD ACTION-->
-            <button mat-icon-button *ngIf="config.addEnabled && oneHeaderAction" color="accent" (click)="addEvent.emit()"
+            <button matTooltip="Add item" mat-icon-button *ngIf="config.addEnabled && oneHeaderAction" color="accent" (click)="addEvent.emit()"
                 (click)="$event.stopPropagation()">
                 <i class="fas fa-plus"></i>
             </button>
             <!--UPDATE MANY ACTION-->
-            <button mat-icon-button *ngIf="config.editManyEnabled && oneHeaderAction" color="accent" (click)="updateManyEvent.emit()"
+            <button matTooltip="Edit selected items" mat-icon-button *ngIf="config.editManyEnabled && oneHeaderAction" color="accent" (click)="updateManyEvent.emit()"
                 (click)="$event.stopPropagation()">
                 <i class="fas fa-edit"></i>
             </button>
             <!--DISABLE MANY ACTION-->
-            <button mat-icon-button *ngIf="disableManyVisible && oneHeaderAction" color="accent" (click)="onDisableSelection()"
+            <button matTooltip="Disable selected items" mat-icon-button *ngIf="disableManyVisible && oneHeaderAction" color="accent" (click)="onDisableSelection()"
                 (click)="$event.stopPropagation()">
                 <i class="fas fa-times"></i>
             </button>
             <!--DELETE MANY ACTION-->
-            <button mat-icon-button *ngIf="deleteManyVisible && oneHeaderAction" color="accent" (click)="onDeleteSelection()"
+            <button matTooltip="Delete selected items" mat-icon-button *ngIf="deleteManyVisible && oneHeaderAction" color="accent" (click)="onDeleteSelection()"
                 (click)="$event.stopPropagation()">
                 <i class="fas fa-trash"></i>
             </button>
             <!--Cluster of actions-->
-            <button *ngIf="!oneHeaderAction && !noHeaderAction" mat-icon-button color="accent" [matMenuTriggerFor]="headerMenu">
+            <button matTooltip="Actions" *ngIf="!oneHeaderAction && !noHeaderAction" mat-icon-button color="accent" [matMenuTriggerFor]="headerMenu">
                 <i class="fa fa-ellipsis-v"></i>
             </button>
 
             <mat-menu class="material-table-menu" #headerMenu="matMenu">
-                <button mat-icon-button *ngIf="config.addEnabled" color="accent" (click)="addEvent.emit()" (click)="$event.stopPropagation()">
+                <button matTooltip="Add item" mat-icon-button *ngIf="config.addEnabled" color="accent" (click)="addEvent.emit()" (click)="$event.stopPropagation()">
                     <i class="fas fa-plus"></i>
                 </button>
-                <button mat-icon-button *ngIf="config.editManyEnabled" color="accent" (click)="updateManyEvent.emit()" (click)="$event.stopPropagation()">
+                <button matTooltip="Edit selected items" mat-icon-button *ngIf="config.editManyEnabled" color="accent" (click)="updateManyEvent.emit()" (click)="$event.stopPropagation()">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button mat-icon-button *ngIf="disableManyVisible" color="accent" (click)="onDisableSelection()" (click)="$event.stopPropagation()">
+                <button matTooltip="Disable selected items" mat-icon-button *ngIf="disableManyVisible" color="accent" (click)="onDisableSelection()" (click)="$event.stopPropagation()">
                     <i class="fas fa-times"></i>
                 </button>
-                <button mat-icon-button *ngIf="deleteManyVisible" color="accent" (click)="onDeleteSelection()" (click)="$event.stopPropagation()">
+                <button matTooltip="Delete selected items" mat-icon-button *ngIf="deleteManyVisible" color="accent" (click)="onDeleteSelection()" (click)="$event.stopPropagation()">
                     <i class="fas fa-trash"></i>
                 </button>
             </mat-menu>
@@ -87,20 +87,20 @@
             </mat-header-cell>
 
             <!--CELL ACTIONS-->
-            <mat-cell *matCellDef="let row">
+            <mat-cell  *matCellDef="let row">
 
-                <button *ngIf="!noCellAction" mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu" (click)="$event.stopPropagation()">
+                <button matTooltip="Actions" *ngIf="!noCellAction" mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu" (click)="$event.stopPropagation()">
                         <i class="fa fa-ellipsis-v"></i>
                 </button>
 
                 <mat-menu class="material-table-menu" #cellMenu="matMenu">
-                    <button *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)">
+                    <button matTooltip="Edit item" *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button *ngIf="config.disableEnabled" mat-icon-button color="accent" (click)="disableEvent.emit(row)">
+                    <button matTooltip="Disable item" *ngIf="config.disableEnabled" mat-icon-button color="accent" (click)="disableEvent.emit(row)">
                         <i class="fas fa-times"></i>
                     </button>
-                    <button *ngIf="config.deleteEnabled" mat-icon-button color="accent" (click)="deleteEvent.emit(row)">
+                    <button matTooltip="Delete item" *ngIf="config.deleteEnabled" mat-icon-button color="accent" (click)="deleteEvent.emit(row)">
                         <i class="fas fa-trash"></i>
                     </button>
                 </mat-menu>
