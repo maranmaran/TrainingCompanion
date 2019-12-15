@@ -7,6 +7,7 @@ import { PushNotification } from './../../../server-models/entities/push-notific
 
 @Component({
   selector: '[pink-toast-component]',
+  providers: [NotificationSignalrService],
   styleUrls: ['./notification-toast.component.scss'],
     templateUrl: './notification-toast.component.html',
     animations: [
@@ -56,6 +57,7 @@ export class NotificationToastComponent extends Toast {
     private notificationService: NotificationSignalrService
   ) {
     super(toastrService, toastPackage);
+
     this.notification = JSON.parse(this.message);
   }
 

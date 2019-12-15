@@ -40,7 +40,6 @@ export class NotificationSignalrService implements OnDestroy {
       .pipe(take(1))
       .subscribe(userId => {
         this.userId = userId;
-        console.log(this.userId);
       });
 
     // configure connection

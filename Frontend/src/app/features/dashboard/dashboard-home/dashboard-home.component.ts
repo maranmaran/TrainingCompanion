@@ -32,7 +32,7 @@ export class DashboardHomeComponent implements OnInit {
   activateNotif() {
     this.notificationService.sendNotification(
       NotificationType.TrainingCreated,
-      "Test notification text from client",
+      "Test notification " + Math.round(Math.random() * 10) + " from client",
       this.userId,
       this.userId);
   }
