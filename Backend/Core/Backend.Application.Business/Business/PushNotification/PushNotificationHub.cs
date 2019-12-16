@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
+using Backend.Application.Business.Business.PushNotification.ReadNotification;
 using Backend.Domain.Entities.Notification;
 using Backend.Domain.Enum;
 using MediatR;
@@ -37,14 +38,9 @@ namespace Backend.Application.Business.Business.PushNotification
         }
 
 
-        public async Task ReadNotification(Notification notification)
+        public async Task ReadNotification(Guid id)
         {
-
-            // save to db
-            //await _mediator.Send(new UpdateNotificationRequestHandler(), CancellationToken.None);
-
-            await _notificationService.NotifyUser(notification, notification.Receiver.UserSetting.NotificationSettings,
-                CancellationToken.None);
+            await _mediator.Send(new ReadNotificationRequest() {Id = id});
         }
 
     }
