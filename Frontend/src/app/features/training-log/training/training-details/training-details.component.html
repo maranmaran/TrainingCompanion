@@ -6,58 +6,20 @@
   <div class="training-details-container details-container" fxFlex="0 1 calc(49.5%)" fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="2"
     fxLayout="column" fxLayoutGap="1rem">
 
-    <div class="detail">
-      <mat-label class="label">Session volume:</mat-label>
-      <span class="label-value">{{sessionVolume | async}}</span>
-    </div>
+    <app-training-details-data [data]="trainingDetailsData"></app-training-details-data>
 
     <mat-accordion class="training-accordion" fxLayout="column" fxLayoutGap="1rem">
 
-      <!----------EDITOR---------->
-      <button mat-stroked-button color="accent" *ngIf="!showEditor && !training.note" (click)="showEditor = true">
-        <i class="fas fa-plus mr-1"></i> Note
-      </button>
-      <ckeditor id="editor" *ngIf="showEditor" [editor]="ckEditor" [config]="ckEditorConfig" data="{{training.note}}"
-        (change)="onChange($event)"></ckeditor>
-      <button mat-stroked-button color="accent" *ngIf="showEditor" (click)="saveNote()">
-        <i class="fas fa-save mr-1"></i> Save
-      </button>
+      <app-training-note
+        [note]="training.note"
+        [coachNote]="training.coachNote"
+        [noteRead]="training.noteRead"
+        (saveNoteEvent)="saveNote($event)"
+      ></app-training-note>
 
-      <!--------- NOTE ---------->
-      <mat-expansion-panel class="note-panel" *ngIf="training.note && !showEditor">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Note
-          </mat-panel-title>
-          <mat-panel-description>
-            <span class="seen" *ngIf="training.noteRead">Coach has seen this note</span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <mat-action-row>
-          <button mat-stroked-button color="accent" (click)="showEditor = true">
-            <i class="fas fa-edit mr-1"></i>Edit
-          </button>
-        </mat-action-row>
-        <div [innerHtml]="training.note"></div>
-      </mat-expansion-panel>
+      <app-training-media [media]="training.media" (fileUploaded)="onFileUploaded($event)"></app-training-media>
 
-      <!--------- COACH NOTE ---------->
-      <mat-expansion-panel class="coach-note-panel" *ngIf="training.coachNote">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                Coach note
-              </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div [innerHtml]="training.coachNote"></div>
-      </mat-expansion-panel>
-
-      <!--------- MEDIA ---------->
-      <mat-expansion-panel class="media-panel">
-        <mat-expansion-panel-header>
-          Training media
-        </mat-expansion-panel-header>
-        <app-media-uploader (fileUploaded)="onFileUploaded($event)" [files]="training.media"></app-media-uploader>
-      </mat-expansion-panel>
+      <app-training-metrics></app-training-metrics>
 
     </mat-accordion>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-training-details-data',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./training-details-data.component.scss']
 })
 export class TrainingDetailsDataComponent implements OnInit {
+
+  @Input() data: any;
 
   constructor() { }
 
