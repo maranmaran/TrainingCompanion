@@ -3,5 +3,5 @@
   <mat-expansion-panel-header>
     Training media
   </mat-expansion-panel-header>
-  <app-media-uploader (fileUploaded)="onFileUploadedEvent.emit($event)" [files]="media"></app-media-uploader>
+  <app-media-uploader (fileUploaded)="onFileUploaded.emit($event)" [files]="media"></app-media-uploader>
 </mat-expansion-panel>

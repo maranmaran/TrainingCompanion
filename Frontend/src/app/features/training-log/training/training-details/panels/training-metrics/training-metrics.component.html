@@ -1,7 +1,17 @@
- <!--------- METRICS ---------->
- <mat-expansion-panel class="metrics-panel">
+<!--------- METRICS ---------->
+<mat-expansion-panel class="metrics-panel">
   <mat-expansion-panel-header>
     Metrics
   </mat-expansion-panel-header>
-  Something
+  <div class="charts-container" fxLayout="row wrap" fxLayoutAlign="center">
+    <div class="chart-wrapper" fxFlex="33%" fxFlex.xs="50%">
+      <app-pie-chart [configuration]="pieChartConfig"></app-pie-chart>
+    </div>
+    <div class="chart-wrapper" fxFlex="33%" fxFlex.xs="50%">
+      <app-pie-chart [configuration]="pieChartConfig"></app-pie-chart>
+    </div>
+    <div class="chart-wrapper" fxFlex="33%" fxFlex.xs="50%">
+      <app-pie-chart [configuration]="pieChartConfig"></app-pie-chart>
+    </div>
+  </div>
 </mat-expansion-panel>

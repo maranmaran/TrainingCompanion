@@ -14,10 +14,6 @@ import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
 })
 export class DashboardHomeComponent implements OnInit {
 
-  pieChartConfig = getTestPieChartConfig();
-  lineChartConfig = getTestLineChartConfig();
-  barChartConfig = getTestBarChartConfig();
-
   private userId: string;
 
   constructor(
