@@ -1,1 +1,6 @@
-<p>training-details-data works!</p>
+<ng-container *ngIf="data">
+  <div class="detail">
+    <mat-label class="label">Session volume:</mat-label>
+    <span class="label-value">{{data.sessionVolume | async}}</span>
+  </div>
+</ng-container>

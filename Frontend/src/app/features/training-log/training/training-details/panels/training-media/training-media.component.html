@@ -1,0 +1,7 @@
+<!--------- MEDIA ---------->
+<mat-expansion-panel class="media-panel">
+  <mat-expansion-panel-header>
+    Training media
+  </mat-expansion-panel-header>
+  <app-media-uploader (fileUploaded)="onFileUploadedEvent.emit($event)" [files]="media"></app-media-uploader>
+</mat-expansion-panel>
