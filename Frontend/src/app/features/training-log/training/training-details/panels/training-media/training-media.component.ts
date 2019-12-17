@@ -9,7 +9,7 @@ import { MediaFile } from './../../../../../../../server-models/entities/media-f
 export class TrainingMediaComponent implements OnInit {
 
   @Input() media: MediaFile[];
-  @Output() onFileUploadedEvent = new EventEmitter<MediaFile>();
+  @Output() onFileUploaded = new EventEmitter<File>();
 
   constructor() { }
 

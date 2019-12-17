@@ -3,21 +3,17 @@
 <div class="container main-screen" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start"
   fxLayoutGap.lt-md="1rem" fxLayout.lt-md="column">
 
-  <div class="training-details-container details-container" fxFlex="0 1 calc(49.5%)" fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="2"
-    fxLayout="column" fxLayoutGap="1rem">
+  <div class="training-details-container details-container" fxFlex="0 1 calc(49.5%)" fxFlex.lt-md="0 1 auto"
+    fxFlexOrder.xs="2" fxLayout="column" fxLayoutGap="1rem">
 
     <app-training-details-data [data]="trainingDetailsData"></app-training-details-data>
 
     <mat-accordion class="training-accordion" fxLayout="column" fxLayoutGap="1rem">
 
-      <app-training-note
-        [note]="training.note"
-        [coachNote]="training.coachNote"
-        [noteRead]="training.noteRead"
-        (saveNoteEvent)="saveNote($event)"
-      ></app-training-note>
+      <app-training-note [note]="training.note" [coachNote]="training.coachNote" [noteRead]="training.noteRead"
+        (saveNoteEvent)="saveNote($event)"></app-training-note>
 
-      <app-training-media [media]="training.media" (fileUploaded)="onFileUploaded($event)"></app-training-media>
+      <app-training-media [media]="training.media" (onFileUploaded)="onFileUploaded($event)"></app-training-media>
 
       <app-training-metrics></app-training-metrics>
 
