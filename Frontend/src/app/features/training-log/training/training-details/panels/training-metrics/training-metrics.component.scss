@@ -2,6 +2,10 @@
   padding: 30px;
 }
 
+.metrics-panel .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
 @media (max-width: 600px) {
   .chart-wrapper {
     padding: 10px;

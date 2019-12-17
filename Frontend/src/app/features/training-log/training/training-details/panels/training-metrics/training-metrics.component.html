@@ -4,14 +4,25 @@
     Metrics
   </mat-expansion-panel-header>
   <div class="charts-container" fxLayout="row wrap" fxLayoutAlign="center">
-    <div class="chart-wrapper" fxFlex="33%" fxFlex.xs="50%">
-      <app-pie-chart [configuration]="pieChartConfig"></app-pie-chart>
+
+    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="50%">
+      <app-chart [configuration]="totalVolumeChart"></app-chart>
     </div>
-    <div class="chart-wrapper" fxFlex="33%" fxFlex.xs="50%">
-      <app-pie-chart [configuration]="pieChartConfig"></app-pie-chart>
+    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="50%">
+      <app-chart [configuration]="volumeSplitChart"></app-chart>
     </div>
-    <div class="chart-wrapper" fxFlex="33%" fxFlex.xs="50%">
-      <app-pie-chart [configuration]="pieChartConfig"></app-pie-chart>
+
+    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="50%">
+      <app-chart [configuration]="weightedAverageIntensityChart"></app-chart>
     </div>
+    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="50%">
+      <app-chart [configuration]="numberOfLiftsChart"></app-chart>
+    </div>
+
+    <div class="chart-wrapper" fxFlex="60%" fxFlex.xs="60%">
+      <app-chart [configuration]="zoneOfIntensity"></app-chart>
+    </div>
+
+
   </div>
 </mat-expansion-panel>

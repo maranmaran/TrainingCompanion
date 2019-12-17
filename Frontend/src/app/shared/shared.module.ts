@@ -11,9 +11,6 @@ import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { TrainingCalendarDayComponent } from './../features/training-log/training/training-calendar/training-calendar-day/training-calendar-day.component';
 import { ActiveFlagComponent } from './active-flag/active-flag.component';
 import { MaterialModule } from './angular-material.module';
-import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
-import { LineChartComponent } from './charts/line-chart/line-chart.component';
-import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ErrorSnackbarComponent } from './error-snackbar/error-snackbar.component';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
@@ -29,6 +26,7 @@ import { UploadInputComponent } from './media-uploader/upload-input/upload-input
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { NotImplementedComponent } from './not-implemented/not-implemented.component';
 import { NotificationItemComponent } from './notification-item/notification-item.component';
+import { ChartComponent } from './charts/chart/chart.component';
 
 
 @NgModule({
@@ -46,7 +44,7 @@ import { NotificationItemComponent } from './notification-item/notification-item
             ExerciseTypeChipListComponent,
             ActiveFlagComponent,
             TrainingCalendarDayComponent
-          ]),
+        ]),
 
         AvatarModule,
     ],
@@ -71,9 +69,7 @@ import { NotificationItemComponent } from './notification-item/notification-item
         MediaUploaderComponent,
         NotificationItemComponent,
         TrainingCalendarDayComponent,
-        PieChartComponent,
-        BarChartComponent,
-        LineChartComponent
+        ChartComponent
     ],
     exports: [
         CommonModule,
@@ -103,9 +99,7 @@ import { NotificationItemComponent } from './notification-item/notification-item
         MediaUploaderComponent,
         NotificationItemComponent,
         TrainingCalendarDayComponent,
-        PieChartComponent,
-        BarChartComponent,
-        LineChartComponent
+        ChartComponent
     ],
     providers: [
     ],
