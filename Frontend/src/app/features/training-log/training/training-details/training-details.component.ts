@@ -1,6 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -31,16 +29,11 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
 
   private userId: string;
   protected training: Training;
-  protected sessionVolume: Observable<number>;
-  private subs = new SubSink();
-
-  protected ckEditor = ClassicEditor;
-  protected showEditor = false;
-  protected ckEditorConfig = {
-      toolbar: ['bold', 'link', 'bulletedList', 'undo', 'redo', 'insertTable', 'ImageUpload', 'MediaEmbed']
+  protected trainingDetailsData = {
+    sessionVolume: new Observable<number>()
   };
 
-  public note = '';
+  private subs = new SubSink();
 
   ngOnInit() {
 
@@ -51,24 +44,20 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
       .subscribe(training => this.training = training)
     );
 
-    this.sessionVolume = this.store.select(sessionVolume);
+    this.trainingDetailsData.sessionVolume = this.store.select(sessionVolume);
   }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
-  public onChange( { editor }: ChangeEvent ) {
-    this.note = editor.getData();
-  }
 
-  saveNote() {
+  saveNote(note: string) {
     const trainingCopy = Object.assign(new Training(), this.training);
-    trainingCopy.note = this.note;
+    trainingCopy.note = note;
+
     this.saveTraining(trainingCopy)
       .subscribe(
         (training: Training) => {
-
-          this.showEditor = false;
 
           const trainingUpdate: Update<Training> = {
             id: training.id,
