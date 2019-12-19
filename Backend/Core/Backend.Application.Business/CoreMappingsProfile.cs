@@ -20,11 +20,14 @@ using Backend.Domain.Entities.User;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Payment.Models;
 using System;
+using System.Linq;
 using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
 using Backend.Application.Business.Business.PushNotification.SendPushNotification;
 using Backend.Application.Business.Business.Training.Update;
 using Backend.Domain.Entities.Notification;
 using Backend.Application.Business.Business.Chat.CreateChatMessage;
+using Backend.Service.Excel.Models;
+using Microsoft.EntityFrameworkCore.Internal;
 using Stripe;
 
 namespace Backend.Application.Business
@@ -43,6 +46,7 @@ namespace Backend.Application.Business
             this.ExerciseMappings();
             this.SetMappings();
             this.NotificationMappings();
+            this.ExportMappings();
         }
 
         private void NotificationMappings()
@@ -186,6 +190,22 @@ namespace Backend.Application.Business
         private void SetMappings()
         {
             CreateMap<CreateSetRequest, Set>();
+        }
+
+        private void ExportMappings()
+        {
+            CreateMap<Training, ExportTraining>()
+                .ForMember(x => x.Date, y => y.MapFrom(x => x.DateTrained.Date));
+
+            CreateMap<Exercise, ExportTrainingExercise>()
+                .ForMember(x => x.Exercise, y => y.MapFrom(x => x.ExerciseType.Name))
+                .ForMember(x => x.ExerciseTags, y => y.MapFrom(x =>
+                    EnumerableExtensions.Join(x.ExerciseType.Properties
+                        .OrderBy(x => x.Tag.TagGroup.Order)
+                        .Select(x => x.Tag.Value), " ")
+                ));
+
+            CreateMap<Set, ExportTrainingSet>();
         }
 
     }

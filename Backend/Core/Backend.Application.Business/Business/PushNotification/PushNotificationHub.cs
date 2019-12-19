@@ -6,6 +6,7 @@ using Backend.Application.Business.Business.PushNotification.CreatePushNotificat
 using Backend.Application.Business.Business.PushNotification.ReadNotification;
 using Backend.Domain.Entities.Notification;
 using Backend.Domain.Enum;
+using Backend.Service.PushNotifications;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;

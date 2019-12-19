@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.User;
 
-namespace Backend.Application.Business.Business.PushNotification
+namespace Backend.Service.PushNotifications
 {
     public interface INotificationService
     {

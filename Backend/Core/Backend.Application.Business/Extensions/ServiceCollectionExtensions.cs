@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Backend.Application.Business.Business.PushNotification;
+using Backend.Service.PushNotifications;
 
 namespace Backend.Application.Business.Extensions
 {
