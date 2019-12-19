@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain.Entities.Notification;
 
-namespace Backend.Application.Business.Business.PushNotification
+namespace Backend.Service.PushNotifications
 {
     public interface IPushNotificationHub
     {

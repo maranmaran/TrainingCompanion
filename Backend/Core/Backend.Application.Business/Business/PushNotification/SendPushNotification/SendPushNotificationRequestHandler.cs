@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
 using Backend.Service.Infrastructure.Exceptions;
+using Backend.Service.PushNotifications;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
