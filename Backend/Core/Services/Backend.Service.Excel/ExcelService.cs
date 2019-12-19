@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Backend.Common;
 using Backend.Service.Excel.Interfaces;
 using Backend.Service.Excel.Models;
 using OfficeOpenXml;
@@ -14,12 +16,13 @@ namespace Backend.Service.Excel
         {
             using (var package = new ExcelPackage())
             {
-                var worksheet = package.Workbook.Worksheets.Add($"{data.User.FullName} - Training data");
+                var sheetTitle = $"{data.User.FullName} - Training data";
+                var worksheet = package.Workbook.Worksheets.Add(sheetTitle);
 
                 var row = 0;
+                var cell = 0;
                 foreach (var training in data.Trainings)
                 {
-                    var cell = 0;
                     foreach (var column in data.Columns)
                     {
                         worksheet.Cells[row, cell++].Value = column;
@@ -48,7 +51,32 @@ namespace Backend.Service.Excel
                         cell = 1;
                         row += 1;
                     }
+
+                    cell = 0;
+
+                    worksheet.Cells[row, cell].Value = "Total volume";
+
+                    worksheet.Cells[row, cell].Formula =
+                        $"Sum({new ExcelAddress(row - training.Exercises.Count(), data.Columns.Count(), row, data.Columns.Count()).Address})";
                 }
+
+                worksheet.Calculate();
+                worksheet.Cells.AutoFitColumns(0);  // auto fit columns for all cells
+
+                // set some document properties
+                package.Workbook.Properties.Title = sheetTitle;
+                package.Workbook.Properties.Author = "COACH"; // TODO:
+                package.Workbook.Properties.Comments = "Training report from - to - ... or entire"; // TODO
+
+                // set some extended property values
+                package.Workbook.Properties.Company = "Training companion d.o.o";
+
+                // set some custom property values
+                var xmlFile = Utils.GetFileInfo($"{sheetTitle}.xlsx");
+                // save our new workbook in the output directory and we are done!
+                package.SaveAs(xmlFile);
+
+                //TODO ... return something
             }
         }
     }
