@@ -21,6 +21,8 @@
     <ProjectReference Include="..\Services\Backend.Service.Authorization\Backend.Service.Authorization.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.Chat\Backend.Service.Chat.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.Email\Backend.Service.Email.csproj" />
+    <ProjectReference Include="..\Services\Backend.Service.Excel\Backend.Service.Excel.csproj" />
+    <ProjectReference Include="..\Services\Backend.Service.Import\Backend.Service.Import.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.Payment\Backend.Service.Payment.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.PushNotifications\Backend.Service.PushNotifications.csproj" />
   </ItemGroup>

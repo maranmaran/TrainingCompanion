@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using Backend.Domain;
-using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Asn1.X509.Qualified;
 
-namespace Backend.Persistance.Seed
+namespace Backend.Application.Business.Factories
 {
     public static class EnumFactory
     {
