@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Backend.Application.Business.Business.PushNotification;
+using Backend.Service.Excel.Extensions;
 using Backend.Service.PushNotifications;
 
 namespace Backend.Application.Business.Extensions
@@ -26,6 +27,7 @@ namespace Backend.Application.Business.Extensions
             services.ConfigurePaymentServices();
             services.ConfigureS3Services();
             services.ConfigureNotificationServices();
+            services.ConfigureExcelService();
         }
 
         public static void ConfigureCoreSettings(this IServiceCollection services, IConfiguration config)
