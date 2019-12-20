@@ -13,13 +13,12 @@ namespace Backend.Service.Excel.Models
 
     public class ExportTrainingExercise
     {
-        public Guid ExerciseId { get; set; }
         public string Exercise { get; set; }
         public string ExerciseTags { get; set; }
-        public IEnumerable<ExportTrainingSets> Sets { get; set; }
+        public IEnumerable<ExportTrainingSet> Sets { get; set; }
     }
 
-    public class ExportTrainingSets
+    public class ExportTrainingSet
     {
         public double Weight { get; set; }
         public double Reps { get; set; }

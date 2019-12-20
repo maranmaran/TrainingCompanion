@@ -4,11 +4,14 @@ using System.Text;
 using Amazon.Runtime.Internal;
 using Backend.Application.Business.Business.PushNotification;
 using Backend.Domain.Entities.Notification;
+using Backend.Service.Excel.Models;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using IRequest = MediatR.IRequest;
 
 namespace Backend.Application.Business.Business.Export.Training
 {
-    public class ExportTrainingDataRequest: IRequest
+    public class ExportTrainingDataRequest: IRequest<ExportResult>
     {
         public Guid UserId { get; set; }
         public DateTime? DateFrom { get; set; }
