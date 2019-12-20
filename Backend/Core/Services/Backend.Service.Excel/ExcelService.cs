@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Backend.Common;
 using Backend.Service.Excel.Interfaces;
 using Backend.Service.Excel.Models;
+using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
@@ -12,72 +15,85 @@ namespace Backend.Service.Excel
 {
     public class ExcelService: IExcelService
     {
-        public void ExportTraining(ExportTrainingContainer data)
+        public async Task<ExportResult> ExportTraining(ExportTrainingContainer data)
         {
-            using (var package = new ExcelPackage())
+            using var stream = new MemoryStream();
+            using var package = new ExcelPackage(stream);
+
+            var sheetTitle = $"{data.User.FullName} - Training data";
+            var worksheet = package.Workbook.Worksheets.Add(sheetTitle);
+                
+            WriteTraining(worksheet, data.Columns, data.Trainings);
+         
+            worksheet.Calculate();
+            worksheet.Cells.AutoFitColumns(0);  // auto fit columns for all cells
+
+            // set some document properties
+            package.Workbook.Properties.Title = sheetTitle;
+            package.Workbook.Properties.Author = "COACH"; // TODO:
+            package.Workbook.Properties.Comments = "Training report from - to - ... or entire"; // TODO
+
+            // set some extended property values
+            package.Workbook.Properties.Company = "Training companion d.o.o";
+
+            package.Save();
+
+            stream.Position = 0;
+
+            var resultStream = new MemoryStream();
+            await stream.CopyToAsync(resultStream);
+            resultStream.Position = 0;
+
+            return new ExportResult {
+                Stream = resultStream, 
+                ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+                Title = sheetTitle
+            };
+        }
+
+        private void WriteTraining(ExcelWorksheet sheet, IEnumerable<string> columns, IEnumerable<ExportTraining> trainings)
+        {
+            var row = 1;
+            var cell = 1;
+            foreach (var training in trainings)
             {
-                var sheetTitle = $"{data.User.FullName} - Training data";
-                var worksheet = package.Workbook.Worksheets.Add(sheetTitle);
-
-                var row = 0;
-                var cell = 0;
-                foreach (var training in data.Trainings)
+                foreach (var column in columns)
                 {
-                    foreach (var column in data.Columns)
+                    sheet.Cells[row, cell++].Value = column;
+                }
+
+                row += 1;
+                cell = 1;
+
+                sheet.Cells[row, cell++].Value = training.Date?.ToString("dd/MM/yyyy");
+
+                foreach (var exercise in training.Exercises)
+                {
+                    sheet.Cells[row, cell++].Value = exercise.Exercise;
+
+                    foreach (var set in exercise.Sets)
                     {
-                        worksheet.Cells[row, cell++].Value = column;
-                    }
+                        sheet.Cells[row, cell++].Value = set.Weight;
+                        sheet.Cells[row, cell++].Value = set.Reps;
+                        sheet.Cells[row, cell++].Value = set.Time;
+                        sheet.Cells[row, cell++].Value = set.Volume;
 
-                    row += 1;
-                    cell = 0;
-
-                    worksheet.Cells[row, cell++].Value = training.Date?.ToString("dd/MM/yyyy");
-                    
-                    foreach (var exercise in training.Exercises)
-                    {
-                        worksheet.Cells[row, cell++].Value = exercise.Exercise;
-
-                        foreach (var set in exercise.Sets)
-                        {
-                            worksheet.Cells[row, cell++].Value = set.Weight;
-                            worksheet.Cells[row, cell++].Value = set.Reps;
-                            worksheet.Cells[row, cell++].Value = set.Time;
-                            worksheet.Cells[row, cell++].Value = set.Volume;
-
-                            cell -= 4;
-                            row += 1;
-                        }
-
-                        cell = 1;
+                        cell -= 4;
                         row += 1;
                     }
 
-                    cell = 0;
-
-                    worksheet.Cells[row, cell].Value = "Total volume";
-
-                    worksheet.Cells[row, cell].Formula =
-                        $"Sum({new ExcelAddress(row - training.Exercises.Count(), data.Columns.Count(), row, data.Columns.Count()).Address})";
+                    cell = 1;
+                    row += 1;
                 }
 
-                worksheet.Calculate();
-                worksheet.Cells.AutoFitColumns(0);  // auto fit columns for all cells
+                cell = 1;
 
-                // set some document properties
-                package.Workbook.Properties.Title = sheetTitle;
-                package.Workbook.Properties.Author = "COACH"; // TODO:
-                package.Workbook.Properties.Comments = "Training report from - to - ... or entire"; // TODO
+                sheet.Cells[row, cell].Value = "Total volume";
 
-                // set some extended property values
-                package.Workbook.Properties.Company = "Training companion d.o.o";
-
-                // set some custom property values
-                var xmlFile = Utils.GetFileInfo($"{sheetTitle}.xlsx");
-                // save our new workbook in the output directory and we are done!
-                package.SaveAs(xmlFile);
-
-                //TODO ... return something
+                sheet.Cells[row, cell].Formula =
+                    $"Sum({new ExcelAddress(row - training.Exercises.Count(), columns.Count(), row, columns.Count()).Address})";
             }
+
         }
     }
 }

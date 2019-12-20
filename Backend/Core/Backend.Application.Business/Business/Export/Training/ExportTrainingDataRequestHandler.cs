@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,13 +12,14 @@ using Backend.Domain.Enum;
 using Backend.Service.Excel.Interfaces;
 using Backend.Service.Excel.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Backend.Application.Business.Business.Export.Training
 {
-    public class ExportTrainingDataRequestHandler : IRequestHandler<ExportTrainingDataRequest>
+    public class ExportTrainingDataRequestHandler : IRequestHandler<ExportTrainingDataRequest, ExportResult>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -35,7 +37,7 @@ namespace Backend.Application.Business.Business.Export.Training
             _excelService = excelService;
         }
 
-        public async Task<Unit> Handle(ExportTrainingDataRequest request, CancellationToken cancellationToken)
+        public async Task<ExportResult> Handle(ExportTrainingDataRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -49,9 +51,9 @@ namespace Backend.Application.Business.Business.Export.Training
                     Trainings = _mapper.Map<IEnumerable<ExportTraining>>(trainings)
                 };
 
-                _excelService.ExportTraining(exportData);
+                var fileData = await _excelService.ExportTraining(exportData);
 
-                return Unit.Value;
+                return fileData;
 
                 // TODO: Make this asynchronous call completely and detach it from frontend
                 // inform user through notification and email that export is done and provide link for payload inside notification download url.. ?
@@ -75,16 +77,15 @@ namespace Backend.Application.Business.Business.Export.Training
                 .Include(x => x.Exercises)
                 .ThenInclude(x => x.Sets);
 
-            var filteredData = await nonFilteredData.Where(x =>
-                x.ApplicationUserId == request.UserId &&
-                request.DateFrom.HasValue && x.DateTrained.Date >= request.DateFrom.Value.Date &&
-                request.DateTo.HasValue && x.DateTrained.Date <= request.DateTo.Value.Date).ToListAsync(cancellationToken);
+            var filteredData = nonFilteredData.Where(x => x.ApplicationUserId == request.UserId);
 
-            return filteredData;
-        }
+            if (request.DateFrom.HasValue)
+                filteredData.Where(x => x.DateTrained.Date >= request.DateFrom.Value.Date);
 
-        private IEnumerable<ExportTraining> FormatData(IEnumerable<Domain.Entities.TrainingLog.Training> trainings)
-        {
+            if(request.DateTo.HasValue)
+                filteredData.Where(x => x.DateTrained.Date <= request.DateTo.Value.Date); 
+            
+            return await filteredData.ToListAsync(cancellationToken);
         }
 
         private IEnumerable<string> GetColumns(ApplicationUser user, IEnumerable<Domain.Entities.TrainingLog.Training> trainings)
