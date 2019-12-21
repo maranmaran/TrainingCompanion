@@ -44,14 +44,14 @@ namespace Backend.Application.Business.Business.Export.Training
                 var user = _context.Users.Include(x => x.UserSetting).First(x => x.Id == request.UserId);
                 var trainings = await GetTrainingData(request, cancellationToken);
 
-                var exportData = new ExportTrainingContainer
+                var exportData = new ExportTrainingDataContainer
                 {
                     User = user,
                     Columns = GetColumns(user, trainings),
                     Trainings = _mapper.Map<IEnumerable<ExportTraining>>(trainings)
                 };
 
-                var fileData = await _excelService.ExportTraining(exportData);
+                var fileData = await _excelService.Export(exportData);
 
                 return fileData;
 

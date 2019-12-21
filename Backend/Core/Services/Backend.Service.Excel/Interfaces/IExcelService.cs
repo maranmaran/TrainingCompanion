@@ -10,7 +10,7 @@ namespace Backend.Service.Excel.Interfaces
 {
     public interface IExcelService
     {
-        Task<ExportResult> ExportTraining(ExportTrainingContainer data);
+        Task<ExportResult> Export(IExportDataContainer data);
     }
 
 }
