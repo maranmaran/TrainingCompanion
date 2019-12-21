@@ -47,7 +47,7 @@ namespace Backend.Service.Excel.Models
 
                 foreach (var column in Columns)
                 {
-                    sheet.Cells[indexes.Row, indexes.Cell++].Value = column;
+                    sheet.Cells[indexes.Row, indexes.Cell++].Value = column.ToUpper();
                 }
 
                 indexes.Row += 1;
@@ -59,14 +59,25 @@ namespace Backend.Service.Excel.Models
                 {
                     sheet.Cells[indexes.Row, indexes.Cell++].Value = exercise.Exercise;
 
+                    var startCellValue = indexes.Cell;
                     foreach (var set in exercise.Sets)
                     {
-                        sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Weight;
-                        sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Reps;
-                        sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Time;
-                        sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Volume;
+                        if(Columns.Contains("Weight"))
+                            sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Weight;
+                        
+                        if (Columns.Contains("Reps"))
+                            sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Reps;
+                        
+                        if (Columns.Contains("Time"))
+                            sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Time;
 
-                        indexes.Cell -= 4;
+                        if (Columns.Contains("RPE") || Columns.Contains("RIR"))
+                            sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Rpe;
+
+                        if (Columns.Contains("Volume"))
+                            sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Volume;
+
+                        indexes.Cell = startCellValue;
                         indexes.Row += 1;
                     }
 
