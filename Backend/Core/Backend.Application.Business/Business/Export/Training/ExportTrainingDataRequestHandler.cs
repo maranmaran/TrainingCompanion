@@ -122,9 +122,6 @@ namespace Backend.Application.Business.Business.Export.Training
             if (exerciseTypes.Any(x => x.RequiresReps))
                 columns.Add("Reps");
 
-            if (exerciseTypes.Any(x => x.RequiresSets))
-                columns.Add("Sets");
-
             if (exerciseTypes.Any(x => x.RequiresTime))
                 columns.Add("Time");
 
