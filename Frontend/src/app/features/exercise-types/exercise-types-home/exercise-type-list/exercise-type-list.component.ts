@@ -85,6 +85,13 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
                 };
         },
       }),
+      new CustomColumn({
+        definition: 'code',
+        title: 'Code',
+        sort: false,
+        useComponent: false,
+        displayFunction: (item: ExerciseType) => item.code
+      }),
     ]
   }
 

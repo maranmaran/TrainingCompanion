@@ -4,6 +4,7 @@ import { Tag } from './tag.model';
 export class ExerciseType {
     id: string;
     name: string;
+    code: string;
     active: boolean;
 
     requiresReps?: boolean;
