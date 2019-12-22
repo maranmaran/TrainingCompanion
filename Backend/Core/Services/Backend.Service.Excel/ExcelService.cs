@@ -41,7 +41,7 @@ namespace Backend.Service.Excel
             };
         }
 
-        public async Task Import(IFormFile file, CancellationToken cancellationToken)
+        public async Task<IEnumerable<T>> ParseImportData<T>(IFormFile file, CancellationToken cancellationToken) where T : new()
         {
             await using var stream = new MemoryStream();
             file.CopyTo(stream);
@@ -51,7 +51,7 @@ namespace Backend.Service.Excel
                 ? package.Workbook.Worksheets[1]
                 : package.Workbook.Worksheets[0];
 
-            var data = worksheet.ConvertSheetToObjects<ImportTrainingDto>();
+            return worksheet.ConvertSheetToObjects<T>();
         }
 
     }
