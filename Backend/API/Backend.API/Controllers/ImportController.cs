@@ -11,9 +11,9 @@ namespace Backend.API.Controllers
     public class ImportController: BaseController
     {
         [HttpPost]
-        public async Task<IActionResult> ImportTraining(IFormFile importFile)
+        public async Task<IActionResult> ImportTraining(IFormFile importFile, Guid userId)
         {
-            return Ok(await Mediator.Send(new ImportTrainingRequest() {File = importFile}));
+            return Ok(await Mediator.Send(new ImportTrainingRequest() {File = importFile, Userid = userId}));
         }
     }
 }

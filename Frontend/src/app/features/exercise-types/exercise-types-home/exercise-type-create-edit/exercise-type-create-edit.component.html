@@ -12,6 +12,10 @@
         <input matInput formControlName="name" placeholder="Name">
         <mat-error *ngIf="name?.invalid"></mat-error>
       </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="code" placeholder="Code">
+        <mat-error *ngIf="code?.invalid"></mat-error>
+      </mat-form-field>
 
       <!--CHECKBOXES-->
       <div class="checkboxes-wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
