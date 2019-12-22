@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Backend.Domain.Enum;
 
-namespace Backend.Service.Excel.Models
+namespace Backend.Service.Excel.Models.Export.Training
 {
-    public class ExportTraining
+    public class ExportTrainingDto
     {
         public DateTime? Date { get; set; }
-        public IEnumerable<ExportTrainingExercise> Exercises { get; set; }
+        public IEnumerable<ExportExerciseDto> Exercises { get; set; }
     }
 
-    public class ExportTrainingExercise
+    public class ExportExerciseDto
     {
         public string Exercise { get; set; }
         public string ExerciseTags { get; set; }
-        public IEnumerable<ExportTrainingSet> Sets { get; set; }
+        public IEnumerable<ExportSetDto> Sets { get; set; }
     }
 
-    public class ExportTrainingSet
+    public class ExportSetDto
     {
         public double Weight { get; set; }
         public double Reps { get; set; }

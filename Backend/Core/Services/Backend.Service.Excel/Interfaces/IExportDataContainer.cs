@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style.XmlAccess;
 
-namespace Backend.Service.Excel.Models
+namespace Backend.Service.Excel.Interfaces
 {
     public interface IExportDataContainer
     {

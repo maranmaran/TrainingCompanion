@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 
-namespace Backend.Service.Excel
+namespace Backend.Service.Excel.Utils
 {
     public static class StylesHelper
     {
