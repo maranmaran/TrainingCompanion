@@ -9,13 +9,17 @@ namespace Backend.Service.Excel.Models.Import.Training
         Weight,
         Reps,
         Rpe,
-        Time
+        Time,
+        Code
     }
 
     public class ImportTrainingDto
     {
         [Column(nameof(ImportTrainingColumns.Date))]
         public DateTime Date { get; set; }
+        
+        [Column(nameof(ImportTrainingColumns.Code))]
+        public string Code { get; set; }
 
         [Column(nameof(ImportTrainingColumns.Exercise))]
         public string Exercise { get; set; }
