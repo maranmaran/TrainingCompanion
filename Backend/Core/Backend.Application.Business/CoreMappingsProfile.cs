@@ -26,7 +26,7 @@ using Backend.Application.Business.Business.PushNotification.SendPushNotificatio
 using Backend.Application.Business.Business.Training.Update;
 using Backend.Domain.Entities.Notification;
 using Backend.Application.Business.Business.Chat.CreateChatMessage;
-using Backend.Service.Excel.Models;
+using Backend.Service.Excel.Models.Export.Training;
 using Microsoft.EntityFrameworkCore.Internal;
 using Stripe;
 
@@ -194,10 +194,10 @@ namespace Backend.Application.Business
 
         private void ExportMappings()
         {
-            CreateMap<Training, ExportTraining>()
+            CreateMap<Training, ExportTrainingDto>()
                 .ForMember(x => x.Date, y => y.MapFrom(x => x.DateTrained.Date));
 
-            CreateMap<Exercise, ExportTrainingExercise>()
+            CreateMap<Exercise, ExportExerciseDto>()
                 .ForMember(x => x.Exercise, y => y.MapFrom(x => x.ExerciseType.Name))
                 .ForMember(x => x.ExerciseTags, y => y.MapFrom(x =>
                     EnumerableExtensions.Join(x.ExerciseType.Properties
@@ -205,7 +205,7 @@ namespace Backend.Application.Business
                         .Select(x => x.Tag.Value), " ")
                 ));
 
-            CreateMap<Set, ExportTrainingSet>();
+            CreateMap<Set, ExportSetDto>();
         }
 
     }

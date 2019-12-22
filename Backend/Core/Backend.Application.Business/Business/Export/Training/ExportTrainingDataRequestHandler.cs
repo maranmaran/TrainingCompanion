@@ -10,7 +10,8 @@ using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Service.Excel.Interfaces;
-using Backend.Service.Excel.Models;
+using Backend.Service.Excel.Models.Export;
+using Backend.Service.Excel.Models.Export.Training;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -48,10 +49,10 @@ namespace Backend.Application.Business.Business.Export.Training
                 {
                     User = user,
                     Columns = GetColumns(user, trainings),
-                    Trainings = _mapper.Map<IEnumerable<ExportTraining>>(trainings)
+                    Trainings = _mapper.Map<IEnumerable<ExportTrainingDto>>(trainings)
                 };
 
-                var fileData = await _excelService.Export(exportData);
+                var fileData = await _excelService.Export(exportData, cancellationToken);
 
                 return fileData;
 

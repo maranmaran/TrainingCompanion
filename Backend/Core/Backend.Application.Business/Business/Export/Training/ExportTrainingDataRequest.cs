@@ -4,7 +4,7 @@ using System.Text;
 using Amazon.Runtime.Internal;
 using Backend.Application.Business.Business.PushNotification;
 using Backend.Domain.Entities.Notification;
-using Backend.Service.Excel.Models;
+using Backend.Service.Excel.Models.Export;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using IRequest = MediatR.IRequest;
