@@ -1,22 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Dynamic;
 using System.Linq;
 using Backend.Common;
 using Backend.Domain.Entities.User;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
+using Backend.Service.Excel.Interfaces;
 using Microsoft.EntityFrameworkCore.Internal;
 using OfficeOpenXml;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 
-namespace Backend.Service.Excel.Models
+namespace Backend.Service.Excel.Models.Export.Training
 {
     public class ExportTrainingDataContainer: IExportDataContainer
     {
         public ApplicationUser User { get; set; }
-        public IEnumerable<ExportTraining> Trainings { get; set; }
+        public IEnumerable<ExportTrainingDto> Trainings { get; set; }
         public IEnumerable<string> Columns { get; set; }
 
         public (string Title, string Author, string Comments, string Company) GetExportFileProperties()

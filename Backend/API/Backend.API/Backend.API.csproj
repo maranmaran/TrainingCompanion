@@ -22,4 +22,8 @@
     <ProjectReference Include="..\..\Persistance\Backend.Persistance\Backend.Persistance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="LibraryConfigurations\Swagger\" />
+  </ItemGroup>
+
 </Project>

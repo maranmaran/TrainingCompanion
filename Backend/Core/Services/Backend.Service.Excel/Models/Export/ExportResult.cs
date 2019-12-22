@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
-namespace Backend.Service.Excel.Models
+namespace Backend.Service.Excel.Models.Export
 {
     public class ExportResult
     {
