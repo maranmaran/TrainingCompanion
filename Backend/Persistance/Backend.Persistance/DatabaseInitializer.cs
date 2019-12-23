@@ -34,9 +34,9 @@ namespace Backend.Persistance
             var userSettingIds = SeedUserSettings(b, users.Select(x => x.Id).ToArray(), users.Select(x=>x.UserSettingId).ToArray());
             SeedNotificationSettings(b, userSettingIds);
             
-            var tagGroupDictionary = SeedTags(b, users.Select(x => x.Id));
-            var exerciseTypeDictionary = SeedExerciseTypes(b, users.Select(x => x.Id));
-            SeedExerciseTypeTags(b, tagGroupDictionary, exerciseTypeDictionary, users.Select(x => x.Id).ToList());
+            //var tagGroupDictionary = SeedTags(b, users.Select(x => x.Id));
+            //var exerciseTypeDictionary = SeedExerciseTypes(b, users.Select(x => x.Id));
+            //SeedExerciseTypeTags(b, tagGroupDictionary, exerciseTypeDictionary, users.Select(x => x.Id).ToList());
         }
 
         // JOIN TABLE FOR EXERCISE TYPE - TAGS (Properties)

@@ -99,6 +99,11 @@ namespace Backend.Service.Excel.Utils
                         typeColumn.Property.SetValue(newType, val.GetValue<DateTime>());
                         continue;
                     }
+                    if (typeColumn.Property.PropertyType == typeof(bool))
+                    {
+                        typeColumn.Property.SetValue(newType, val.GetValue<bool>());
+                        continue;
+                    }
 
                     //Its a string
                     typeColumn.Property.SetValue(newType, val.GetValue<string>());
