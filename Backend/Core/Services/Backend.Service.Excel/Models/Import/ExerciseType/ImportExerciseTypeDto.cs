@@ -4,43 +4,51 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 namespace Backend.Service.Excel.Models.Import.ExerciseType
 {
-    public class ImportExerciseTypeColumns
+    public static class ImportExerciseTypeColumns
     {
-        public (string ColumnName, bool Required) Code = ("Code", true);
-        public (string ColumnName, bool Required) Name = ("Name", true);
-        public (string ColumnName, bool Required) Active = ("Active", false);
-        public (string ColumnName, bool Required) RequiresReps = ("RequiresReps", false);
-        public (string ColumnName, bool Required) RequiresSets = ("RequiresSets", false);
-        public (string ColumnName, bool Required) RequiresWeight = ("RequiresWeight", false);
-        public (string ColumnName, bool Required) RequiresBodyweight = ("RequiresBodyweight", false);
-        public (string ColumnName, bool Required) RequiresTime = ("RequiresTime", false);
+        public static (string ColumnName, bool Required) Code = ("Code", true);
+        public static (string ColumnName, bool Required) Name = ("Name", true);
+        public static (string ColumnName, bool Required) Active = ("Active", false);
+        public static (string ColumnName, bool Required) RequiresReps = ("RequiresReps", false);
+        public static (string ColumnName, bool Required) RequiresSets = ("RequiresSets", false);
+        public static (string ColumnName, bool Required) RequiresWeight = ("RequiresWeight", false);
+        public static (string ColumnName, bool Required) RequiresBodyweight = ("RequiresBodyweight", false);
+        public static (string ColumnName, bool Required) RequiresTime = ("RequiresTime", false);
+        public static (string ColumnName, bool Required) TagGroups = ("TagGroups", false);
+        public static (string ColumnName, bool Required) Tags = ("Tags", false);
     }
 
     public class ImportExerciseTypeDto
     {
-        [Column(nameof(ImportExerciseTypeColumns.Code.ColumnName))]
+        [Column("Code")]
         public string Code { get; set; }
         
-        [Column(nameof(ImportExerciseTypeColumns.Name.ColumnName))]
+        [Column("Name")]
         public string Name { get; set; }
         
-        [Column(nameof(ImportExerciseTypeColumns.Active.ColumnName))]
+        [Column("Active")]
         public bool Active { get; set; }
         
-        [Column(nameof(ImportExerciseTypeColumns.RequiresReps.ColumnName))]
+        [Column("RequiresReps")]
         public bool RequiresReps { get; set; }
         
-        [Column(nameof(ImportExerciseTypeColumns.RequiresSets.ColumnName))]
+        [Column("RequiresSets")]
         public bool RequiresSets { get; set; }
         
-        [Column(nameof(ImportExerciseTypeColumns.RequiresWeight.ColumnName))]
+        [Column("RequiresWeight")]
         public bool RequiresWeight { get; set; }
         
-        [Column(nameof(ImportExerciseTypeColumns.RequiresBodyweight.ColumnName))]
+        [Column("RequiresBodyweight")]
         public bool RequiresBodyweight { get; set; }
 
-        [Column(nameof(ImportExerciseTypeColumns.RequiresTime.ColumnName))]
+        [Column("RequiresTime")]
         public bool RequiresTime { get; set; }
+
+        [Column("TagGroups")]
+        public string TagGroups { get; set; }
+
+        [Column("Tags")]
+        public string Tags{ get; set; }
 
     }
 }
