@@ -47,9 +47,9 @@ namespace Backend.Service.Payment
             var customerSubscription = await GetCustomerSubscription(payment.CustomerId); // get current
             var subscriptionService = new SubscriptionService();
 
-            var subscriptions = new List<SubscriptionItemUpdateOption>()
+            var subscriptions = new List<SubscriptionItemOptions>()
             {
-                new SubscriptionItemUpdateOption ()
+                new SubscriptionItemOptions ()
                 {
                     Id = customerSubscription.Id,
                     Plan = payment.PlanId,
@@ -74,9 +74,9 @@ namespace Backend.Service.Payment
         /// <returns></returns>
         private async Task<Subscription> Subscribe(PaymentModel payment)
         {
-            var subscriptions = new List<SubscriptionItemOption>()
+            var subscriptions = new List<SubscriptionItemOptions>()
             {
-                new SubscriptionItemOption()
+                new SubscriptionItemOptions()
                 {
                     Plan = payment.PlanId,
                     Quantity = 1,
