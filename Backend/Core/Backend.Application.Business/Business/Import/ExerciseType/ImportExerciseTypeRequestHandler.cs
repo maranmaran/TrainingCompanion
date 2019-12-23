@@ -64,16 +64,20 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
 
             var exerciseTypes = await Task.WhenAll(data.Select(async x =>
             {
-                // parse all tags and tag groups
-                var exerciseProperties = new List<ExerciseTypeTag>();
-                if(!string.IsNullOrWhiteSpace(x.Tags) && !string.IsNullOrWhiteSpace(x.TagGroups)) 
-                    exerciseProperties = (await ParseExerciseProperties(userId, x.TagGroups, x.Tags, existingTagGroups, cancellationToken)).ToList();
-
+             
                 existingExerciseTypes.TryGetValue(x.Code, out var existingType);
                 var result = new Domain.Entities.ExerciseType.ExerciseType();
 
                 if (existingType != null)
+                {
                     result = existingType;
+                    _context.Entry(result).State = EntityState.Modified;
+                }
+                else
+                {
+                    result.Id = Guid.NewGuid();
+                    _context.Entry(result).State = EntityState.Added;
+                }
 
                 result.Active = x.Active;
                 result.Name = x.Name;
@@ -84,7 +88,11 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
                 result.RequiresTime = x.RequiresTime;
                 result.RequiresReps = x.RequiresReps;
                 result.ApplicationUserId = userId;
-                result.Properties = exerciseProperties;
+
+                // parse all tags and tag groups
+                if (!string.IsNullOrWhiteSpace(x.Tags) && !string.IsNullOrWhiteSpace(x.TagGroups))
+                    result.Properties = (await ParseExerciseProperties(userId, x.TagGroups, x.Tags, result, existingTagGroups)).ToList();
+
 
                 return result;
             }));
@@ -96,8 +104,8 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
             Guid userId, 
             string importGroups,
             string importTags, 
-            IDictionary<string, Domain.Entities.ExerciseType.TagGroup> existingTagGroups,
-            CancellationToken cancellationToken)
+            Domain.Entities.ExerciseType.ExerciseType newExerciseType,
+            IDictionary<string, Domain.Entities.ExerciseType.TagGroup> existingTagGroups)
         {
                 var importTagGroupsArr = importGroups.Split(",").Select(x => x.Trim()).ToArray();
                 var importTagsArr = importTags.Split(",").Select(x => x.Trim()).ToArray();
@@ -125,7 +133,8 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
                         existingTagGroup.Tags = tagsToAdd;
 
                         resultTagGroups.Add(existingTagGroup);
-                    }
+                        _context.Entry(existingTagGroup).State = EntityState.Modified;
+                }
                     // if group doesn't exist - create it and add all given tags
                     else
                     {
@@ -140,6 +149,12 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
                         };
 
                         resultTagGroups.Add(newTagGroup);
+                        _context.Entry(newTagGroup).State = EntityState.Added;
+
+                        foreach (var newTagGroupTag in newTagGroup.Tags)
+                        {
+                            _context.Entry(newTagGroupTag).State = EntityState.Added;
+                        }
                     }
                 }
 
@@ -154,6 +169,10 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
                 {
                     Tag = x,
                     TagId = x.Id,
+                    ExerciseTypeId = newExerciseType.Id,
+                    ExerciseType = newExerciseType,
+                    Show = true,
+                    
                 });
         }
     }
