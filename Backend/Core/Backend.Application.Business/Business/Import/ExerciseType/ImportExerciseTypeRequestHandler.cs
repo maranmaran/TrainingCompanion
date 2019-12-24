@@ -7,10 +7,8 @@ using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Service.Excel.Interfaces;
 using Backend.Service.Excel.Models.Import.ExerciseType;
-using Backend.Service.Excel.Models.Import.Training;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MimeKit.Encodings;
 
 namespace Backend.Application.Business.Business.Import.ExerciseType
 {
@@ -32,8 +30,9 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
                 var dataRows = await _excelService.ParseImportData<ImportExerciseTypeDto>(request.File, cancellationToken);
 
                 var exerciseTypes = await ConverImportDataToEntityRepresentation(dataRows, request.Userid, cancellationToken);
-
-                _context.ExerciseTypes.UpdateRange(exerciseTypes);
+                
+                //_context.ExerciseTypes.UpdateRange(exerciseTypes);
+                
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;
@@ -104,76 +103,128 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
             Guid userId, 
             string importGroups,
             string importTags, 
-            Domain.Entities.ExerciseType.ExerciseType newExerciseType,
-            IDictionary<string, Domain.Entities.ExerciseType.TagGroup> existingTagGroups)
+            Domain.Entities.ExerciseType.ExerciseType newType,
+            IDictionary<string, Domain.Entities.ExerciseType.TagGroup> existingGroups)
         {
                 var importTagGroupsArr = importGroups.Split(",").Select(x => x.Trim()).ToArray();
                 var importTagsArr = importTags.Split(",").Select(x => x.Trim()).ToArray();
 
                 // parse to some kind of better collection that represents nesting
-                var tagsDict = new Dictionary<string, List<string>>(); // group, tags
-                for (var i = 0; i < importTagGroupsArr.Length; i++)
-                {
-                    if (!tagsDict.TryAdd(importTagGroupsArr[i], new List<string>() { importTagsArr[i] }))
-                    {
-                        tagsDict[importTagGroupsArr[i]].Add(importTagsArr[i]);
-                    }
-                }
+                var tagsDict = GetTagsDictionary(importTagGroupsArr, importTagsArr); // group, tags
 
-                var resultTagGroups = new List<Domain.Entities.ExerciseType.TagGroup>();
+                var cacheTags = new Dictionary<string, Domain.Entities.ExerciseType.Tag>();
+                var cacheGroups = new Dictionary<string, Domain.Entities.ExerciseType.TagGroup>();
+                var resultGroups = new List<Domain.Entities.ExerciseType.TagGroup>();
                 foreach (var (group, tags) in tagsDict)
                 {
                     // if group exists
                     // check all given tags who exists and those who not - create new tag
                     // update existing group
-                    if (existingTagGroups.TryGetValue(group, out var existingTagGroup))
+                    if (existingGroups.TryGetValue(group, out var existingTagGroup))
                     {
-                        var tagsToAdd = tags.Select(tag => existingTagGroup.Tags.FirstOrDefault(x => x.Value == tag) ?? new Domain.Entities.ExerciseType.Tag() {Value = tag}).ToList();
+                        var tagsToAdd = tags.Select(tag =>
+                        {
+                            var tagToAdd = existingTagGroup.Tags.FirstOrDefault(x => x.Value == tag);
+                            if (tagToAdd == null)
+                            {
+                                if (!cacheTags.TryGetValue(tag, out tagToAdd))
+                                {
+                                    tagToAdd = new Domain.Entities.ExerciseType.Tag()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Value = tag
+                                    };
+
+                                    cacheTags.Add(tagToAdd.Value, tagToAdd);
+                                }
+
+                                _context.Entry(tagToAdd).State = EntityState.Added;
+                            }
+
+                            return tagToAdd;
+                        }).ToList();
+
 
                         existingTagGroup.Tags = tagsToAdd;
 
-                        resultTagGroups.Add(existingTagGroup);
+                        resultGroups.Add(existingTagGroup);
                         _context.Entry(existingTagGroup).State = EntityState.Modified;
-                }
+                    }
                     // if group doesn't exist - create it and add all given tags
                     else
                     {
-                        var newTagGroup = new Domain.Entities.ExerciseType.TagGroup
+                        var newTags = tags.Select(x =>
                         {
-                            ApplicationUserId = userId,
-                            Type = group,
-                            Tags = tags.Select(x => new Domain.Entities.ExerciseType.Tag
+                            var newTag = new Domain.Entities.ExerciseType.Tag
                             {
+                                Id = Guid.NewGuid(),
                                 Value = x,
-                            }).ToList()
-                        };
+                            };
 
-                        resultTagGroups.Add(newTagGroup);
-                        _context.Entry(newTagGroup).State = EntityState.Added;
+                            _context.Entry(newTag).State = EntityState.Added;
 
-                        foreach (var newTagGroupTag in newTagGroup.Tags)
-                        {
-                            _context.Entry(newTagGroupTag).State = EntityState.Added;
+                            return newTag;
+                        }).ToList();
+
+                        if (!cacheGroups.TryGetValue(group, out var newTagGroup))
+                        { 
+                            newTagGroup = new Domain.Entities.ExerciseType.TagGroup
+                            {
+                                Id = Guid.NewGuid(),
+                                ApplicationUserId = userId,
+                                Type = group,
+                            };
+
+                            cacheGroups[newTagGroup.Type] = newTagGroup;
+                            _context.Entry(newTagGroup).State = EntityState.Added;
                         }
+
+                        newTagGroup.Tags = newTags;
+                        resultGroups.Add(newTagGroup);
                     }
                 }
 
                 // assign group to tags.. so when we add this collection to exercise type.. newly created groups will be created with EF
-                var resultTags = resultTagGroups.SelectMany(x =>
+                var resultTags = resultGroups.SelectMany(x =>
                 {
                     x.Tags.ToList().ForEach(y =>  y.TagGroup = x);
                     return x.Tags;
                 });
 
-                return resultTags.Select(x => new ExerciseTypeTag
+                return resultTags.Select(x =>
                 {
-                    Tag = x,
-                    TagId = x.Id,
-                    ExerciseTypeId = newExerciseType.Id,
-                    ExerciseType = newExerciseType,
-                    Show = true,
-                    
+                    var property = new ExerciseTypeTag
+                    {
+                        Tag = x,
+                        TagId = x.Id,
+                        ExerciseTypeId = newType.Id,
+                        ExerciseType = newType,
+                        Show = true,
+                    };
+
+                    _context.Entry(property).State = EntityState.Added;
+
+                    return property;
                 });
         }
+   
+        private Dictionary<string, List<string>> GetTagsDictionary(string[] groups, string[] tags) {
+            
+            var result = new Dictionary<string, List<string>>();
+
+            for (var i = 0; i < groups.Length; i++)
+            {
+                var group = groups[i];
+                var tag = tags[i];
+
+                if (!result.TryAdd(group, new List<string>() { tag }))
+                {
+                    result[group].Add(tag);
+                }
+            }
+
+            return result;
+        }
     }
+
 }
