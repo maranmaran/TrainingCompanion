@@ -24,6 +24,7 @@ using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Excel.Models.Export.Training;
+using Backend.Service.Excel.Models.Import.ExerciseType;
 using Backend.Service.Payment.Models;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -46,6 +47,7 @@ namespace Backend.Application.Business
             this.SetMappings();
             this.NotificationMappings();
             this.ExportMappings();
+            this.ImportMappings();
         }
 
         private void NotificationMappings()
@@ -205,6 +207,11 @@ namespace Backend.Application.Business
                 ));
 
             CreateMap<Set, ExportSetDto>();
+        }
+
+        private void ImportMappings()
+        {
+            CreateMap<ImportExerciseTypeDto, ExerciseType>().ReverseMap();
         }
     }
 }
