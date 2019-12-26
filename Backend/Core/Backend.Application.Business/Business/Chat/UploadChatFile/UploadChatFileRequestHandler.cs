@@ -45,9 +45,11 @@ namespace Backend.Application.Business.Business.Chat.UploadChatFile
                     case MessageType.Image:
                         filename.Append(".jpeg");
                         break;
+
                     case MessageType.Video:
                         filename.Append(".mp4");
                         break;
+
                     default:
                         break;
                 }
@@ -62,7 +64,7 @@ namespace Backend.Application.Business.Business.Chat.UploadChatFile
                 {
                     DateSent = DateTime.UtcNow,
                     S3Filename = fileRequest.FileName, // s3 filename which will be stored inside sql. It will then be presigned every fetch.. because it doesn't cost any
-                    DownloadUrl = presignedUrl, 
+                    DownloadUrl = presignedUrl,
                     ToId = request.UserId,
                     Message = request.File.FileName,
                     FileSizeInBytes = Convert.ToInt32(request.File.Length),

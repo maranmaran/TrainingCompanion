@@ -1,8 +1,7 @@
-﻿using MediatR;
+﻿using Backend.Domain.Entities.Notification;
+using MediatR;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Backend.Domain.Entities.Notification;
 
 namespace Backend.Application.Business.Business.PushNotification.GetPushNotificationHistory
 {

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
-using Backend.Domain.Enum;
-using Backend.Service.Authorization.Interfaces;
+﻿using Backend.Domain;
 using Backend.Service.Authorization.Utils;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Security;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Authorization.ChangePassword
 {
@@ -43,4 +41,3 @@ namespace Backend.Application.Business.Business.Authorization.ChangePassword
         }
     }
 }
-

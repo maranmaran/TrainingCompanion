@@ -8,6 +8,7 @@ namespace Backend.Application.Business.Business.Tag.Update
     public class UpdateTagRequestValidator : AbstractValidator<UpdateTagRequest>
     {
         private readonly IApplicationDbContext _context;
+
         public UpdateTagRequestValidator(IApplicationDbContext context)
         {
             _context = context;

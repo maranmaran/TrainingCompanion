@@ -1,8 +1,8 @@
 ﻿using Backend.Domain.Entities.ProgressTracking.Max;
+using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
-using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.Domain.Entities.ExerciseType
 {

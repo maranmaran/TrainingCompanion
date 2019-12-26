@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Chat.GetChatHistory
 {
@@ -29,8 +29,8 @@ namespace Backend.Application.Business.Business.Chat.GetChatHistory
             {
                 var chatMessages = await _context
                     .ChatMessages
-                    .Where(x => ( x.SenderId == request.UserId && x.ReceiverId == request.ReceiverId )
-                                || ( x.SenderId == request.ReceiverId && x.ReceiverId == request.UserId ))
+                    .Where(x => (x.SenderId == request.UserId && x.ReceiverId == request.ReceiverId)
+                                || (x.SenderId == request.ReceiverId && x.ReceiverId == request.UserId))
                     .AsNoTracking()
                     .ToListAsync(cancellationToken);
 

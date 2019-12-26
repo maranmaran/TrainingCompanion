@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
+using System;
 
 namespace Backend.Domain.Entities.Notification
 {

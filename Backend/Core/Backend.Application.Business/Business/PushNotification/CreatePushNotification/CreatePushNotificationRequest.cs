@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Domain.Entities.Notification;
+﻿using Backend.Domain.Entities.Notification;
 using Backend.Domain.Enum;
 using MediatR;
+using System;
 
 namespace Backend.Application.Business.Business.PushNotification.CreatePushNotification
 {
-    public class CreatePushNotificationRequest: IRequest<Notification>
+    public class CreatePushNotificationRequest : IRequest<Notification>
     {
         public NotificationType Type { get; set; }
         public string Payload { get; set; }
@@ -16,7 +14,6 @@ namespace Backend.Application.Business.Business.PushNotification.CreatePushNotif
 
         public CreatePushNotificationRequest()
         {
-            
         }
 
         public CreatePushNotificationRequest(NotificationType type, string payload, Guid senderId, Guid receiverId)
@@ -26,6 +23,5 @@ namespace Backend.Application.Business.Business.PushNotification.CreatePushNotif
             this.SenderId = senderId;
             this.ReceiverId = receiverId;
         }
-
     }
 }

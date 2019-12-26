@@ -1,17 +1,15 @@
 ﻿using Backend.Application.Business.Business.Set.Create;
 using Backend.Application.Business.Business.Set.Delete;
 using Backend.Application.Business.Business.Set.Update;
+using Backend.Application.Business.Business.Set.UpdateMany;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Set.UpdateMany;
-using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.API.Controllers
 {
     public class SetController : BaseController
     {
-
         [HttpPost]
         public async Task<IActionResult> Create(CreateSetRequest request)
         {
@@ -35,6 +33,5 @@ namespace Backend.API.Controllers
         {
             return Ok(await Mediator.Send(new DeleteSetRequest() { Id = id }));
         }
-
     }
 }

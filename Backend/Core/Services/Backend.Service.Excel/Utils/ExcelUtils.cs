@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Backend.Common;
+using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Backend.Common;
-using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace Backend.Service.Excel.Utils
 {
@@ -43,7 +42,7 @@ namespace Backend.Service.Excel.Utils
             .Select(p => new
             {
                 Property = p,
-                Column = p.GetCustomAttributes<Models.Import.Column>().First().ColumnName 
+                Column = p.GetCustomAttributes<Models.Import.Column>().First().ColumnName
             }).ToList();
 
             var rows = worksheet.Cells
@@ -114,6 +113,5 @@ namespace Backend.Service.Excel.Utils
 
             return collection;
         }
-
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Backend.Domain.Entities.Notification;
+using Backend.Domain.Entities.User;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.Notification;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Service.PushNotifications
 {

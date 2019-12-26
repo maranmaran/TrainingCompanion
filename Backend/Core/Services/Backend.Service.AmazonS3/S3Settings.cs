@@ -10,7 +10,6 @@
 
         public S3Settings()
         {
-
         }
 
         public S3Settings(string accessKey, string secretAccessKey, string bucketName, int millisecondsBeforeRetry, int maxRetryTimes)

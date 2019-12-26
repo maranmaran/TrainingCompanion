@@ -4,13 +4,14 @@ using System;
 
 namespace Backend.API.Models
 {
-
     public class ErrorDetails
     {
         [JsonProperty("status")]
         public int Status { get; set; }
+
         [JsonProperty("message")]
         public string Message { get; set; }
+
         [JsonProperty("exception")]
         public Exception Exception { get; set; }
 

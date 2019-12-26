@@ -15,6 +15,5 @@ namespace Backend.Application.Business.Business.Authorization.SetPassword
 
             RuleFor(x => x.RepeatPassword).Matches(x => x.Password);
         }
-
     }
 }

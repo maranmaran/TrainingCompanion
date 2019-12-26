@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using Backend.Domain;
-using Backend.Domain.Entities;
+using Backend.Domain.Entities.Chat;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.Chat;
 
 namespace Backend.Application.Business.Business.Chat.SendChatMessage
 {

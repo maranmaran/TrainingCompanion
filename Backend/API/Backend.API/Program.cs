@@ -1,12 +1,12 @@
 ﻿using Backend.Domain;
 using Backend.Persistance;
+using Backend.Service.Payment.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using Backend.Service.Payment.Configuration;
-using Microsoft.Extensions.Hosting;
 
 namespace Backend.API
 {
@@ -39,7 +39,6 @@ namespace Backend.API
             }
 
             host.Run();
-
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

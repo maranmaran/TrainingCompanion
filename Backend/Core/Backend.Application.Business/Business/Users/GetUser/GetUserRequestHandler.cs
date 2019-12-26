@@ -1,14 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
-using Backend.Domain.Entities;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Users.GetUser
 {
@@ -45,7 +44,6 @@ namespace Backend.Application.Business.Business.Users.GetUser
 
                         return await GetGenericUser(request);
 
-
                     default:
                         throw new NotImplementedException($"This account type does not exist: {request.AccountType}");
                 }
@@ -60,8 +58,8 @@ namespace Backend.Application.Business.Business.Users.GetUser
         {
             var coach = await _context.Users.FirstAsync(x => x.Id == request.Id);
             return _mapper.Map<ApplicationUser>(coach);
-        } 
-        
+        }
+
         private async Task<ApplicationUser> GetCoach(GetUserRequest request)
         {
             var coach = await _context.Coaches.FirstAsync(x => x.Id == request.Id);

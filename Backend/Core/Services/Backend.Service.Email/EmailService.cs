@@ -1,13 +1,13 @@
-﻿using MailKit.Net.Smtp;
+﻿using Backend.Service.Email.Interfaces;
+using Backend.Service.Email.Models;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using MimeKit;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Service.Email.Interfaces;
-using Backend.Service.Email.Models;
-using MimeKit;
-using Microsoft.Extensions.Hosting;
 
 namespace Backend.Service.Email
 {

@@ -1,15 +1,16 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Users.SetActive
 {
     public class SetActiveRequestHandler : IRequestHandler<SetActiveUserRequest, Unit>
     {
         private readonly IApplicationDbContext _context;
+
         public SetActiveRequestHandler(IApplicationDbContext context)
         {
             _context = context;

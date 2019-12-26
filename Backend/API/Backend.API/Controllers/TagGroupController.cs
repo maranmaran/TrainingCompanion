@@ -42,6 +42,5 @@ namespace Backend.API.Controllers
         {
             return Ok(await Mediator.Send(new DeleteTagGroupRequest() { Id = id }));
         }
-
     }
 }

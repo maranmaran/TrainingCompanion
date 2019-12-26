@@ -8,8 +8,6 @@ namespace Backend.Common
     /// </summary>
     public class GenericAvatarConstructor
     {
-
-
         private readonly string _baseUrl = "https://ui-avatars.com/api/?";
         private readonly StringBuilder _constructedUrl;
 

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Backend.Service.Authorization.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Backend.Service.Authorization.Interfaces;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Backend.Service.Authorization.Utils
 {
-    public class JwtTokenGenerator: IJwtTokenGenerator
+    public class JwtTokenGenerator : IJwtTokenGenerator
     {
         private readonly JwtSettings _jwtSettings;
 

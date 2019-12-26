@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Backend.Service.Chat.NgChatModels;
+﻿using Backend.Service.Chat.NgChatModels;
 using MediatR;
+using System;
+using System.Collections.Generic;
 
 namespace Backend.Application.Business.Business.Chat.GetChatHistory
 {

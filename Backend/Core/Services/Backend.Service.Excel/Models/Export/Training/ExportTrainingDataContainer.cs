@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Backend.Common;
+﻿using Backend.Common;
 using Backend.Domain.Entities.User;
 using Backend.Service.Excel.Interfaces;
 using Microsoft.EntityFrameworkCore.Internal;
 using OfficeOpenXml;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Backend.Service.Excel.Models.Export.Training
 {
-    public class ExportTrainingDataContainer: IExportDataContainer
+    public class ExportTrainingDataContainer : IExportDataContainer
     {
         public ApplicationUser User { get; set; }
         public IEnumerable<ExportTrainingDto> Trainings { get; set; }
@@ -59,12 +59,12 @@ namespace Backend.Service.Excel.Models.Export.Training
                     var startCellValue = indexes.Cell;
                     foreach (var set in exercise.Sets)
                     {
-                        if(Columns.Contains("Weight"))
+                        if (Columns.Contains("Weight"))
                             sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Weight;
-                        
+
                         if (Columns.Contains("Reps"))
                             sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Reps;
-                        
+
                         if (Columns.Contains("Time"))
                             sheet.Cells[indexes.Row, indexes.Cell++].Value = set.Time;
 
@@ -87,9 +87,9 @@ namespace Backend.Service.Excel.Models.Export.Training
         }
 
         private void CreateTable(
-            ExcelWorksheet sheet, 
-            (int FromColumn, int ToColumn, int Row, int Cell, int ToRow) indexes, 
-            string tableName, 
+            ExcelWorksheet sheet,
+            (int FromColumn, int ToColumn, int Row, int Cell, int ToRow) indexes,
+            string tableName,
             (ExcelNamedStyleXml HeaderStyle, ExcelNamedStyleXml CellStyle) styles)
         {
             var table = sheet.Tables.Add(new ExcelAddressBase(indexes.Row, indexes.FromColumn, indexes.Row + indexes.ToRow, indexes.ToColumn), tableName);

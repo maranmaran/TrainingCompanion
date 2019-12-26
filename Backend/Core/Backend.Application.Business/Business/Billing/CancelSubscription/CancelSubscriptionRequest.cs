@@ -8,7 +8,6 @@ namespace Backend.Application.Business.Business.Billing.CancelSubscription
 
         public CancelSubscriptionRequest()
         {
-
         }
 
         public CancelSubscriptionRequest(string subscriptionId)

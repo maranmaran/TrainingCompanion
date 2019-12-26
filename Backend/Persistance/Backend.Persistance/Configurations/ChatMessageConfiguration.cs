@@ -1,5 +1,4 @@
-﻿using Backend.Domain.Entities;
-using Backend.Domain.Entities.Chat;
+﻿using Backend.Domain.Entities.Chat;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

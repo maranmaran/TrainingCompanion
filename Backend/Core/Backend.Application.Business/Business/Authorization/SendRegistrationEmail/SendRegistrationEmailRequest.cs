@@ -1,5 +1,4 @@
-﻿using Backend.Domain.Entities;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using MediatR;
 
@@ -7,12 +6,10 @@ namespace Backend.Application.Business.Business.Authorization.SendRegistrationEm
 {
     public class SendRegistrationEmailRequest : IRequest<Unit>
     {
-
         public AccountType AccountType { get; set; }
         public Athlete Athlete { get; set; }
         public Coach Coach { get; set; }
         public SoloAthlete SoloAthlete { get; set; }
-
 
         public SendRegistrationEmailRequest(Athlete athlete)
         {

@@ -1,6 +1,4 @@
 ﻿using System;
-using Backend.Domain.Entities.TrainingLog;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 namespace Backend.Service.Excel.Models.Import.Training
 {
@@ -9,7 +7,7 @@ namespace Backend.Service.Excel.Models.Import.Training
         public (string ColumnName, bool Required) Date = ("Date", true);
         public (string ColumnName, bool Required) ExerciseCode = ("ExerciseCode", true);
         public (string ColumnName, bool Required) Weight = ("Weight", false);
-        public (string ColumnName, bool Required) Reps= ("Reps", false);
+        public (string ColumnName, bool Required) Reps = ("Reps", false);
         public (string ColumnName, bool Required) Rpe = ("Rpe", false);
         public (string ColumnName, bool Required) Time = ("Time", false);
     }
@@ -18,7 +16,7 @@ namespace Backend.Service.Excel.Models.Import.Training
     {
         [Column(nameof(ImportTrainingColumns.Date.ColumnName))]
         public DateTime Date { get; set; }
-        
+
         [Column(nameof(ImportTrainingColumns.ExerciseCode.ColumnName))]
         public string Code { get; set; }
 

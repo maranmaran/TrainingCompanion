@@ -39,7 +39,6 @@ namespace Backend.API.Filters
                 return;
             }
 
-
             if (context.Exception is NotFoundException || context.Exception is DeleteFailureException)
             {
                 code = HttpStatusCode.NotFound;

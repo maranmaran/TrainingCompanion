@@ -1,12 +1,12 @@
 ﻿using Backend.Application.Business.Business.Exercise.Create;
 using Backend.Application.Business.Business.Exercise.Delete;
+using Backend.Application.Business.Business.Exercise.Get;
 using Backend.Application.Business.Business.Exercise.GetAll;
 using Backend.Application.Business.Business.Exercise.Update;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Exercise.Get;
 
 namespace Backend.API.Controllers
 {
@@ -17,7 +17,6 @@ namespace Backend.API.Controllers
         {
             return await GetQuery(async () => await Mediator.Send(new GetAllExerciseRequest() { TrainingId = trainingId }), sieveModel);
         }
-
 
         [HttpGet("{exerciseId}")]
         public async Task<IActionResult> Get(Guid exerciseId)
@@ -42,6 +41,5 @@ namespace Backend.API.Controllers
         {
             return Ok(await Mediator.Send(new DeleteExerciseRequest() { Id = id }));
         }
-
     }
 }

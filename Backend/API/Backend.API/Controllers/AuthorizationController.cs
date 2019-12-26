@@ -1,12 +1,12 @@
-﻿using System;
-using Backend.Application.Business.Business.Authorization.SignIn;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using Backend.Application.Business.Business.Authorization.ChangePassword;
+﻿using Backend.Application.Business.Business.Authorization.ChangePassword;
 using Backend.Application.Business.Business.Authorization.CurrentUser;
 using Backend.Application.Business.Business.Authorization.ResetPassword;
 using Backend.Application.Business.Business.Authorization.SetPassword;
+using Backend.Application.Business.Business.Authorization.SignIn;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {

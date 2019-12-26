@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System;
 
 namespace Backend.Application.Business.Business.Authorization.ResetPassword
 {

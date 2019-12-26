@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Backend.Application.Business.Business.Authorization.SignIn
+﻿namespace Backend.Application.Business.Business.Authorization.SignIn
 {
     public enum SignInValidationStatusCodes
     {

@@ -18,7 +18,6 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.HexBackground).HasDefaultValue("#fef6f9"); // white
 
             builder.HasMany(x => x.Tags);
-
         }
     }
 }

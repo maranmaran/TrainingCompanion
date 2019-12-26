@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Service.Excel.Models.Import
 {
@@ -12,7 +11,5 @@ namespace Backend.Service.Excel.Models.Import
         {
             ColumnName = name;
         }
-
     }
-
 }

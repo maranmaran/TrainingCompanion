@@ -3,9 +3,8 @@
 		{
 			"Name": "Template app",
 			"StatementDescription": "Template app",
-			"Type": "service", 
+			"Type": "service",
 			"Metadata": {
-
 			},
 			"Plans": [
 				{

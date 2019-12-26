@@ -1,6 +1,4 @@
-﻿using Backend.Service.Payment.Interfaces;
-using Backend.Service.Payment.Models;
-using Microsoft.Extensions.Options;
+﻿using Backend.Service.Payment.Models;
 using Newtonsoft.Json;
 using Stripe;
 using System;
@@ -20,8 +18,8 @@ namespace Backend.Service.Payment.Configuration
         /// </summary>
         public static async Task ConfigureProducts(StripeSettings settings = null)
         {
-            // TODO: Read and utilize IOptionsSnapshot<SETTINGS> for settings 
-            if(settings != null)
+            // TODO: Read and utilize IOptionsSnapshot<SETTINGS> for settings
+            if (settings != null)
             {
                 // calling from program.cs
                 Stripe.StripeConfiguration.ApiKey = settings.SecretKey;
