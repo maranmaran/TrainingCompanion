@@ -3,7 +3,7 @@ using System;
 
 namespace Backend.Application.Business.Business.Chat.CreateChatMessage
 {
-    public class CreateChatMessageRequest: MediatR.IRequest
+    public class CreateChatMessageRequest : MediatR.IRequest
     {
         public string Message { get; set; }
         public Guid SenderId { get; set; }

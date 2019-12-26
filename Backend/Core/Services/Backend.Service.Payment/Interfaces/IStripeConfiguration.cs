@@ -1,7 +1,4 @@
-﻿using Backend.Service.Payment.Models;
-using System.Threading.Tasks;
-
-namespace Backend.Service.Payment.Interfaces
+﻿namespace Backend.Service.Payment.Interfaces
 {
     //public interface IStripeConfiguration
     //{

@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Application.Business.Extensions;
+﻿using Backend.Application.Business.Extensions;
 using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.User;
 using Backend.Service.Email.Interfaces;
 using Backend.Service.Email.Models;
 using Backend.Service.PushNotifications;
-using MailKit;
 using Microsoft.AspNetCore.SignalR;
 using MimeKit;
 using MimeKit.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.PushNotification
 {
-    public class NotificationService: INotificationService
+    public class NotificationService : INotificationService
     {
         private readonly IHubContext<PushNotificationHub, IPushNotificationHub> _hubContext;
         private readonly IEmailService _emailService;

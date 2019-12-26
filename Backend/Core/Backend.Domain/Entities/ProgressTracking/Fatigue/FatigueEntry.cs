@@ -31,6 +31,5 @@ namespace Backend.Domain.Entities.ProgressTracking.Fatigue
 
         public Guid FatigueResultId { get; set; }
         public virtual FatigueResult FatigueResult { get; set; }
-
     }
 }

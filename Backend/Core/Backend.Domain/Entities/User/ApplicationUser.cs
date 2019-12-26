@@ -1,5 +1,4 @@
-﻿
-using Backend.Domain.Entities.Chat;
+﻿using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Enum;
@@ -24,7 +23,6 @@ namespace Backend.Domain.Entities.User
 
         public string Avatar { get; set; }
         public Gender Gender { get; set; }
-
 
         public DateTime CreatedOn { get; set; }
         public DateTime LastModified { get; set; }

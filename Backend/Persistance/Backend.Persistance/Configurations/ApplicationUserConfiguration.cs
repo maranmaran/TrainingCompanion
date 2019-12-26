@@ -60,7 +60,6 @@ namespace Backend.Persistance.Configurations
                 .HasOne(x => x.UserSetting)
                 .WithOne(x => x.ApplicationUser)
                 .HasForeignKey<UserSetting>(x => x.ApplicationUserId);
-
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Backend.Domain.Entities.Media;
-using Backend.Domain.Entities.User;
-using MediatR;
+﻿using MediatR;
+using System;
 
 namespace Backend.Application.Business.Business.Training.Update
 {

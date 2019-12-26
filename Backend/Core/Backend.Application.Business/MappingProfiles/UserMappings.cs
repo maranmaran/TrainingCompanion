@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Backend.Application.Business.MappingProfiles
+﻿namespace Backend.Application.Business.MappingProfiles
 {
-    class UserMappings
+    internal class UserMappings
     {
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MediatR;
+﻿using MediatR;
+using System;
 
 namespace Backend.Application.Business.Business.PushNotification.ReadNotification
 {
-    public class ReadNotificationRequest: IRequest<Unit>
+    public class ReadNotificationRequest : IRequest<Unit>
     {
-        public Guid Id { get; set; }      
+        public Guid Id { get; set; }
     }
 }

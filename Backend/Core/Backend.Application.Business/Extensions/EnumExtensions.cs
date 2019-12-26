@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Amazon.S3.Model;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
 
 namespace Backend.Application.Business.Extensions
 {

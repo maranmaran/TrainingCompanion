@@ -1,13 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Backend.Application.Business.Business.Training.Update;
+﻿using AutoMapper;
 using Backend.Domain;
-using Backend.Domain.Entities.TrainingLog;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Training.Update
 {

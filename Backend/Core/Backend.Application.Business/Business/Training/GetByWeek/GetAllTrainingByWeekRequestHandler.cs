@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Backend.Domain;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
 
 namespace Backend.Application.Business.Business.Training.GetByWeek
 {
@@ -24,7 +24,6 @@ namespace Backend.Application.Business.Business.Training.GetByWeek
                 var trainings = _context.Trainings.Where(x => x.ApplicationUserId == request.ApplicationUserId &&
                                                               x.DateTrained >= request.WeekStart &&
                                                               x.DateTrained <= request.WeekEnd);
-
 
                 return Task.FromResult(trainings);
             }

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Training.Get
 {
@@ -34,7 +34,6 @@ namespace Backend.Application.Business.Business.Training.Get
                     .Include(x => x.Exercises)
                     .ThenInclude(x => x.Sets)
 
-
                     .Include(x => x.Exercises)
                     .ThenInclude(x => x.ExerciseType)
                     .ThenInclude(x => x.Properties)
@@ -52,7 +51,6 @@ namespace Backend.Application.Business.Business.Training.Get
                 throw new NotFoundException(nameof(Domain.Entities.TrainingLog.Training), $"Could not find training for {request.TrainingId} Training", e);
             }
         }
-
 
         /// <summary>
         /// Refresh all pre-signed urls that need to be refreshed

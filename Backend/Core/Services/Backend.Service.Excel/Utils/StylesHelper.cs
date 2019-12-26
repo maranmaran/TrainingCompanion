@@ -6,7 +6,6 @@ namespace Backend.Service.Excel.Utils
 {
     public static class StylesHelper
     {
-
         public static (ExcelNamedStyleXml HeaderStyles, ExcelNamedStyleXml DataCellStyles) GetExportTrainingDataColumnNamedStyle(this ExcelWorkbook book)
         {
             var style = book.Styles.CreateNamedStyle("TrainingCellStyle");

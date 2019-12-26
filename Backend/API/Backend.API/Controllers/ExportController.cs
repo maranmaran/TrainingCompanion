@@ -1,15 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Backend.Application.Business.Business.Exercise.Create;
-using Backend.Application.Business.Business.Export.Training;
+﻿using Backend.Application.Business.Business.Export.Training;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {
     public class ExportController : BaseController
     {
-
         [HttpPost]
         public async Task<IActionResult> ExportTraining(ExportTrainingDataRequest request)
         {
@@ -17,6 +13,5 @@ namespace Backend.API.Controllers
 
             return File(result.Stream, result.ContentType, result.Title);
         }
-
     }
 }

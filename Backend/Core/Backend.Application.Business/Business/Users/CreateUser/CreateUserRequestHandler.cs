@@ -6,13 +6,12 @@ using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Domain.Extensions;
 using Backend.Service.Infrastructure.Exceptions;
-using Backend.Service.Payment.Interfaces;
+using Backend.Service.Payment.Configuration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Service.Payment.Configuration;
 
 namespace Backend.Application.Business.Business.Users.CreateUser
 {
@@ -21,7 +20,6 @@ namespace Backend.Application.Business.Business.Users.CreateUser
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-
 
         public CreateUserRequestHandler(
             IMediator mediator,
@@ -51,7 +49,6 @@ namespace Backend.Application.Business.Business.Users.CreateUser
                     default:
                         throw new NotImplementedException($"This account type does not exist: {request.AccountType}");
                 }
-
             }
             catch (Exception e)
             {

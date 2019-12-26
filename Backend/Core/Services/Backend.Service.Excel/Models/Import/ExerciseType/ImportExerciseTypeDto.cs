@@ -1,8 +1,4 @@
-﻿using System;
-using Backend.Domain.Entities.TrainingLog;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
-
-namespace Backend.Service.Excel.Models.Import.ExerciseType
+﻿namespace Backend.Service.Excel.Models.Import.ExerciseType
 {
     public static class ImportExerciseTypeColumns
     {
@@ -22,22 +18,22 @@ namespace Backend.Service.Excel.Models.Import.ExerciseType
     {
         [Column("Code")]
         public string Code { get; set; }
-        
+
         [Column("Name")]
         public string Name { get; set; }
-        
+
         [Column("Active")]
         public bool Active { get; set; }
-        
+
         [Column("RequiresReps")]
         public bool RequiresReps { get; set; }
-        
+
         [Column("RequiresSets")]
         public bool RequiresSets { get; set; }
-        
+
         [Column("RequiresWeight")]
         public bool RequiresWeight { get; set; }
-        
+
         [Column("RequiresBodyweight")]
         public bool RequiresBodyweight { get; set; }
 
@@ -48,7 +44,6 @@ namespace Backend.Service.Excel.Models.Import.ExerciseType
         public string TagGroups { get; set; }
 
         [Column("Tags")]
-        public string Tags{ get; set; }
-
+        public string Tags { get; set; }
     }
 }

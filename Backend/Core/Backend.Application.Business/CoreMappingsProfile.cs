@@ -2,33 +2,32 @@
 using Backend.Application.Business.Business.Authorization.CurrentUser;
 using Backend.Application.Business.Business.Billing.AddPayment;
 using Backend.Application.Business.Business.Billing.Subscribe;
+using Backend.Application.Business.Business.Chat.CreateChatMessage;
 using Backend.Application.Business.Business.Chat.SendChatMessage;
 using Backend.Application.Business.Business.Exercise.Create;
 using Backend.Application.Business.Business.ExerciseType.Create;
 using Backend.Application.Business.Business.ExerciseType.Update;
+using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
+using Backend.Application.Business.Business.PushNotification.SendPushNotification;
 using Backend.Application.Business.Business.Set.Create;
 using Backend.Application.Business.Business.TagGroup.Create;
 using Backend.Application.Business.Business.TagGroup.Update;
 using Backend.Application.Business.Business.Training.Create;
+using Backend.Application.Business.Business.Training.Update;
 using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Application.Business.Business.Users.UpdateUser;
 using Backend.Application.Business.Extensions;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.ExerciseType;
+using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Backend.Service.Chat.NgChatModels;
+using Backend.Service.Excel.Models.Export.Training;
 using Backend.Service.Payment.Models;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Linq;
-using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
-using Backend.Application.Business.Business.PushNotification.SendPushNotification;
-using Backend.Application.Business.Business.Training.Update;
-using Backend.Domain.Entities.Notification;
-using Backend.Application.Business.Business.Chat.CreateChatMessage;
-using Backend.Service.Excel.Models.Export.Training;
-using Microsoft.EntityFrameworkCore.Internal;
-using Stripe;
 
 namespace Backend.Application.Business
 {
@@ -55,15 +54,13 @@ namespace Backend.Application.Business
             CreateMap<SendPushNotificationRequest, CreatePushNotificationRequest>();
         }
 
-
         private void AuthorizationMappings()
         {
-
             CreateMap<ApplicationUser, CurrentUserRequestResponse>()
                 .ForMember(x => x.SubscriptionStatus, o => o.Ignore())
                 .ForMember(x => x.TrialDaysRemaining, opt => opt.MapFrom(user => CalculateTrial(user)));
-
         }
+
         private int CalculateTrial(ApplicationUser user)
         {
             var dayDifference = DateTime.UtcNow.Date - user.CreatedOn.Date;
@@ -72,6 +69,7 @@ namespace Backend.Application.Business
 
             return user.TrialDuration - dayDifference.Days;
         }
+
         private void UserMappings()
         {
             CreateMap<CreateUserRequest, Coach>().IgnoreAllVirtual();
@@ -85,14 +83,15 @@ namespace Backend.Application.Business
             CreateMap<ApplicationUser, Coach>().ReverseMap();
             CreateMap<ApplicationUser, Athlete>().ReverseMap();
             CreateMap<ApplicationUser, SoloAthlete>().ReverseMap();
-
         }
+
         private void BillingMappings()
         {
             // subscribe
             CreateMap<SubscribeRequest, PaymentModel>();
             CreateMap<AddPaymentRequest, PaymentOption>();
         }
+
         private void ChatMappings()
         {
             CreateMap<MessageViewModel, CreateChatMessageRequest>()
@@ -100,7 +99,7 @@ namespace Backend.Application.Business
                     .ForMember(x => x.SeenAt, o => o.MapFrom(x => x.DateSeen))
                     .ForMember(x => x.ReceiverId, o => o.MapFrom(x => x.ToId))
                     .ForMember(x => x.SenderId, o => o.MapFrom(x => x.FromId));
-                    //.ForMember(x => x.SenderId, o => o.ConvertUsing<Guid>(c => Guid.Parse(c.FromId)));
+            //.ForMember(x => x.SenderId, o => o.ConvertUsing<Guid>(c => Guid.Parse(c.FromId)));
 
             CreateMap<CreateChatMessageRequest, ChatMessage>();
 
@@ -115,7 +114,6 @@ namespace Backend.Application.Business
                 .ForMember(x => x.Type, y => y.MapFrom(z => z.Type))
                 .ForMember(x => x.DownloadUrl, y => y.MapFrom(z => z.DownloadUrl))
                 .ForMember(x => x.FileSizeInBytes, y => y.MapFrom(z => z.FileSizeInBytes));
-
 
             CreateMap<ApplicationUser, ParticipantResponseViewModel>()
                 .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
@@ -175,7 +173,6 @@ namespace Backend.Application.Business
             CreateMap<ExerciseTypeTag, ExerciseTypeTag>()
                 .ForMember(x => x.ExerciseType, o => o.Ignore())
                 .ForMember(x => x.Tag, o => o.Ignore());
-
         }
 
         private void TrainingMappings()
@@ -183,10 +180,12 @@ namespace Backend.Application.Business
             CreateMap<CreateTrainingRequest, Training>();
             CreateMap<UpdateTrainingRequest, Training>();
         }
+
         private void ExerciseMappings()
         {
             CreateMap<CreateExerciseRequest, Exercise>();
         }
+
         private void SetMappings()
         {
             CreateMap<CreateSetRequest, Set>();
@@ -207,6 +206,5 @@ namespace Backend.Application.Business
 
             CreateMap<Set, ExportSetDto>();
         }
-
     }
 }

@@ -26,7 +26,6 @@ namespace Backend.API.Controllers
         [NonAction]
         public async Task<IActionResult> GetQuery<T>(Func<Task<IQueryable<T>>> getEntitiesFunc, SieveModel sieveModel)
         {
-
             var entities = await getEntitiesFunc();
 
             var processedEntities = SieveProcessor.Apply(sieveModel, entities);
@@ -37,7 +36,6 @@ namespace Backend.API.Controllers
         [NonAction]
         public async Task<IActionResult> GetSingle<T>(Func<Task<T>> getEntityFunc)
         {
-
             var singleEntity = await getEntityFunc();
 
             if (singleEntity == null)

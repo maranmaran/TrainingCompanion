@@ -15,7 +15,6 @@ namespace Backend.Service.Payment
 {
     public class PaymentService : IPaymentService
     {
-
         public PaymentService()
         {
         }
@@ -67,7 +66,6 @@ namespace Backend.Service.Payment
             return subscription;
         }
 
-
         /// <summary>
         /// Subscribes - new subscription
         /// </summary>
@@ -89,7 +87,6 @@ namespace Backend.Service.Payment
                 Customer = payment.CustomerId,
                 CancelAtPeriodEnd = false,
                 Items = subscriptions,
-
             };
 
             return await subscriptionService.CreateAsync(subscriptionOptions);
@@ -102,7 +99,6 @@ namespace Backend.Service.Payment
             {
                 Customer = customerId,
             });
-
 
             return subscriptions.Data.FirstOrDefault();
         }
@@ -136,7 +132,6 @@ namespace Backend.Service.Payment
 
             return plans;
         }
-
 
         public async Task<SubscriptionStatus> GetCustomerSubscriptionStatus(string customerId)
         {

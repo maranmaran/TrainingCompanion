@@ -1,9 +1,8 @@
-﻿using Backend.Domain.Entities;
+﻿using Backend.Domain.Entities.Media;
 using Backend.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using Backend.Domain.Entities.Media;
 
 namespace Backend.Persistance.Configurations
 {
@@ -29,9 +28,6 @@ namespace Backend.Persistance.Configurations
                 .HasOne(x => x.Training)
                 .WithMany(x => x.Media)
                 .OnDelete(DeleteBehavior.SetNull);
-
         }
     }
-
-
 }

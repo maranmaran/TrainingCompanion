@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace Backend.Domain.Entities.User
 {
-
     public class UserSetting
     {
         public Guid Id { get; set; }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Domain.Entities;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 
 namespace Backend.Domain.Extensions
 {

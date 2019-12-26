@@ -1,6 +1,6 @@
 ﻿namespace Backend.API.LibraryConfigurations.MediatR
 {
-    class RequestPerformanceBehaviour
+    internal class RequestPerformanceBehaviour
     {
     }
 }

@@ -31,7 +31,6 @@ namespace Backend.Application.Business.Business.Training.GetByMonth
                     .Include(x => x.Exercises)
                     .ThenInclude(x => x.Media)
 
-
                     .Include(x => x.Exercises)
                     .ThenInclude(x => x.ExerciseType)
                     .ThenInclude(x => x.Properties)

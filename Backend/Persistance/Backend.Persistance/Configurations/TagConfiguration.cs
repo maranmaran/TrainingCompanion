@@ -1,7 +1,6 @@
 ﻿using Backend.Domain.Entities.ExerciseType;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace Backend.Persistance.Configurations
 {
@@ -24,7 +23,6 @@ namespace Backend.Persistance.Configurations
                 .WithOne(x => x.Tag)
                 .HasForeignKey(x => x.TagId)
                 .OnDelete(DeleteBehavior.ClientCascade);
-
         }
     }
 }

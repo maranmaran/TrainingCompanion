@@ -1,5 +1,4 @@
-﻿
-namespace Backend.Application.Business.Business.Exercise.Update
+﻿namespace Backend.Application.Business.Business.Exercise.Update
 {
     public class UpdateExerciseRequestResponse
     {

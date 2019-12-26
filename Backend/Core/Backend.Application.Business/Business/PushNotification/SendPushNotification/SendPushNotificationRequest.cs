@@ -1,8 +1,6 @@
-﻿using Backend.Domain;
+﻿using Backend.Domain.Enum;
 using MediatR;
 using System;
-using Backend.Domain.Entities.Notification;
-using Backend.Domain.Enum;
 
 namespace Backend.Application.Business.Business.PushNotification.SendPushNotification
 {

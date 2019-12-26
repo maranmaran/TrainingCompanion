@@ -1,7 +1,4 @@
-﻿using Backend.Domain.Entities.ExerciseType;
-using MediatR;
-using System;
-using System.Collections.Generic;
+﻿using MediatR;
 
 namespace Backend.Application.Business.Business.ExerciseType.Update
 {

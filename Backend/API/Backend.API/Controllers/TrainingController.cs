@@ -1,5 +1,6 @@
 ﻿using Backend.Application.Business.Business.Training.Create;
 using Backend.Application.Business.Business.Training.Delete;
+using Backend.Application.Business.Business.Training.Get;
 using Backend.Application.Business.Business.Training.GetAll;
 using Backend.Application.Business.Business.Training.GetByMonth;
 using Backend.Application.Business.Business.Training.GetByWeek;
@@ -8,8 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Training.Get;
-using Backend.Application.Business.Business.Media.UploadMedia;
 
 namespace Backend.API.Controllers
 {
@@ -24,7 +23,7 @@ namespace Backend.API.Controllers
         [HttpGet("{trainingId}")]
         public async Task<IActionResult> Get(Guid trainingId, [FromQuery]SieveModel sieveModel)
         {
-            return Ok( await Mediator.Send(new GetTrainingRequest(trainingId)) );
+            return Ok(await Mediator.Send(new GetTrainingRequest(trainingId)));
         }
 
         [HttpGet("{userId}/{month}/{year}")]
@@ -56,7 +55,5 @@ namespace Backend.API.Controllers
         {
             return Ok(await Mediator.Send(new DeleteTrainingRequest() { Id = id }));
         }
-
-
     }
 }

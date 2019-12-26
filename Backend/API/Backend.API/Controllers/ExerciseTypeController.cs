@@ -34,6 +34,5 @@ namespace Backend.API.Controllers
         {
             return Ok(await Mediator.Send(new DeleteExerciseTypeRequest() { Id = id }));
         }
-
     }
 }

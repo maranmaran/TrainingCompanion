@@ -47,8 +47,6 @@ namespace Backend.API.Controllers
             return await Delete(async () => await Mediator.Send(new DeleteUserRequest(id, accountType)));
         }
 
-
-
         [HttpGet("{id}/{active}")]
         public async Task<IActionResult> SetActive(Guid id, bool active)
         {

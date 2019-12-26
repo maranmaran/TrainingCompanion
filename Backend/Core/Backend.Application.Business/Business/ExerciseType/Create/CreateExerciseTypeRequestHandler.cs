@@ -1,14 +1,14 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.ExerciseType.Create
 {
-    public class CreateExerciseTypeRequestHandler : 
+    public class CreateExerciseTypeRequestHandler :
         IRequestHandler<CreateExerciseTypeRequest, Domain.Entities.ExerciseType.ExerciseType>
     {
         private readonly IApplicationDbContext _context;

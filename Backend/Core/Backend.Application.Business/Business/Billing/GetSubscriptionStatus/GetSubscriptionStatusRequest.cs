@@ -3,13 +3,12 @@ using MediatR;
 
 namespace Backend.Application.Business.Business.Billing.GetSubscriptionStatus
 {
-    public class GetSubscriptionStatusRequest: IRequest<SubscriptionStatus>
+    public class GetSubscriptionStatusRequest : IRequest<SubscriptionStatus>
     {
         public string Id { get; set; }
 
         public GetSubscriptionStatusRequest()
         {
-            
         }
 
         public GetSubscriptionStatusRequest(string id)

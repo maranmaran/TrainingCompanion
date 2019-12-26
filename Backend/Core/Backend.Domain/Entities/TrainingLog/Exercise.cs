@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Backend.Domain.Entities.Media;
+using System;
 using System.Collections.Generic;
-using Backend.Domain.Entities.Media;
 
 namespace Backend.Domain.Entities.TrainingLog
 {

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using Backend.Domain.Entities;
-using Backend.Domain.Entities.Media;
+﻿using Backend.Domain.Entities.Media;
 using MediatR;
+using System;
+using System.Collections.Generic;
 using MediaType = Backend.Domain.Enum.MediaType;
 
 namespace Backend.Application.Business.Business.Media.GetUserMediaByType

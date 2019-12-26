@@ -1,12 +1,11 @@
 ﻿using Backend.Domain;
 using Backend.Domain.Enum;
-using Backend.Service.Authorization.Interfaces;
+using Backend.Service.Authorization.Utils;
 using Backend.Service.Payment.Enums;
 using Backend.Service.Payment.Interfaces;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Backend.Service.Authorization.Utils;
 
 namespace Backend.Application.Business.Business.Authorization.SignIn
 {
@@ -15,7 +14,7 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
         private readonly IApplicationDbContext _context;
         private readonly IPaymentService _paymentService;
 
-        public SignInRequestValidator(IApplicationDbContext context,  IPaymentService paymentService)
+        public SignInRequestValidator(IApplicationDbContext context, IPaymentService paymentService)
         {
             _context = context;
             _paymentService = paymentService;
@@ -38,7 +37,6 @@ namespace Backend.Application.Business.Business.Authorization.SignIn
         private bool UserExists(SignInRequest request)
         {
             return _context.Users.Any(x => x.Username == request.Username);
-
         }
 
         private bool UserActive(SignInRequest request)

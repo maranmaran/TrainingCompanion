@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Backend.Domain.Entities;
+using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Service.Email;
 using Backend.Service.Email.Interfaces;
@@ -12,13 +12,11 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business.Business.Authorization.SendRegistrationEmail
 {
     public class SendRegistrationEmailRequestHandler : IRequestHandler<SendRegistrationEmailRequest, Unit>
     {
-
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly EmailSettings _emailSettings;

@@ -1,5 +1,4 @@
-﻿using System;
-using Backend.Domain.Entities.ExerciseType;
+﻿using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,6 @@ namespace Backend.Application.Business.Factories
         {
             return new List<ExerciseTypeTag>()
             {
-
                 // SQUAT
                 new ExerciseTypeTag()
                 {
@@ -106,7 +104,7 @@ namespace Backend.Application.Business.Factories
                     Show = true
                 },
 
-                // DEADLIFT 
+                // DEADLIFT
                 new ExerciseTypeTag()
                 {
                     TagId = tagGroups.First(x => x.Type == "Bar type").Tags.First(x => x.Value == "Barbell").Id,

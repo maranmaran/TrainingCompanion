@@ -1,8 +1,7 @@
-﻿using Backend.Domain.Enum;
+﻿using Backend.Domain.Entities.User;
+using Backend.Domain.Enum;
 using MediatR;
 using System;
-using Backend.Domain.Entities;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business.Business.Users.UpdateUser
 {
@@ -13,12 +12,10 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
 
         public bool Active { get; set; }
 
-
         public string Username { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Gender Gender { get; set; }
-
     }
 }

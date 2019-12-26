@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
+using System;
 
 namespace Backend.Domain.Entities.Chat
 {
@@ -14,7 +14,6 @@ namespace Backend.Domain.Entities.Chat
         public DateTime SentAt { get; set; }
         public DateTime? SeenAt { get; set; }
 
-
         public bool ContainsMedia { get; set; }
         public string DownloadUrl { get; set; }
         public int? FileSizeInBytes { get; set; }
@@ -25,6 +24,5 @@ namespace Backend.Domain.Entities.Chat
 
         public Guid? ReceiverId { get; set; }
         //public virtual ApplicationUser Receiver { get; set; }
-
     }
 }

@@ -3,7 +3,7 @@ using Backend.Application.Business.Business.Billing.GetPlans;
 using Backend.Application.Business.Business.Billing.GetSubscription;
 using Backend.Application.Business.Business.Billing.GetSubscriptionStatus;
 using Backend.Domain;
-using Backend.Domain.Entities;
+using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.Payment.Interfaces;
@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business.Business.Authorization.CurrentUser
 {
@@ -57,7 +56,6 @@ namespace Backend.Application.Business.Business.Authorization.CurrentUser
             {
                 throw new NotFoundException(nameof(CurrentUser), request.UserId, e);
             }
-
         }
     }
 }

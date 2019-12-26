@@ -9,7 +9,6 @@ namespace Backend.Application.Business.Business.Billing.GetSubscription
 
         public GetSubscriptionRequest()
         {
-
         }
 
         public GetSubscriptionRequest(string customerId)

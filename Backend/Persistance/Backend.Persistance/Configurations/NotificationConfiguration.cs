@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Domain.Entities.Chat;
-using Backend.Domain.Entities.Notification;
+﻿using Backend.Domain.Entities.Notification;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

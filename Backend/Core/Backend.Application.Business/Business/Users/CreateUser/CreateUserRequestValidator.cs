@@ -1,5 +1,4 @@
-﻿
-using Backend.Domain;
+﻿using Backend.Domain;
 using FluentValidation;
 using System.Linq;
 
@@ -38,6 +37,5 @@ namespace Backend.Application.Business.Business.Users.CreateUser
         {
             return !_context.Users.Any(x => x.Email == email);
         }
-
     }
 }

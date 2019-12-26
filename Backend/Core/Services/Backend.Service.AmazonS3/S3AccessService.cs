@@ -9,13 +9,11 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon.S3.Util;
 
 namespace Backend.Service.AmazonS3
 {
     internal class S3AccessService : IS3AccessService
     {
-
         private readonly S3Settings _s3Settings;
         private readonly Amazon.RegionEndpoint region;
 
@@ -24,7 +22,6 @@ namespace Backend.Service.AmazonS3
             this._s3Settings = s3Settings;
             region = Amazon.RegionEndpoint.EUCentral1;
         }
-
 
         public async Task<Stream> GetFromS3(S3FileRequest request)
         {
@@ -107,7 +104,6 @@ namespace Backend.Service.AmazonS3
                 Expires = GetExpirationDate(),
             };
 
-                
             var triedTimes = 0;
 
             while (triedTimes <= _s3Settings.MaxRetryTimes)

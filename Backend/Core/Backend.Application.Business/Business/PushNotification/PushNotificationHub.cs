@@ -1,15 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
+﻿using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
 using Backend.Application.Business.Business.PushNotification.ReadNotification;
-using Backend.Domain.Entities.Notification;
 using Backend.Domain.Enum;
 using Backend.Service.PushNotifications;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.PushNotification
 {
@@ -30,7 +28,6 @@ namespace Backend.Application.Business.Business.PushNotification
         // Check when new version releases
         public async Task SendNotification(NotificationType type, string payload, Guid senderId, Guid receiverId)
         {
-
             // save to db
             var notification = await _mediator.Send(new CreatePushNotificationRequest(type, payload, senderId, receiverId), CancellationToken.None);
 
@@ -38,11 +35,9 @@ namespace Backend.Application.Business.Business.PushNotification
                 CancellationToken.None);
         }
 
-
         public async Task ReadNotification(Guid id)
         {
-            await _mediator.Send(new ReadNotificationRequest() {Id = id});
+            await _mediator.Send(new ReadNotificationRequest() { Id = id });
         }
-
     }
 }
