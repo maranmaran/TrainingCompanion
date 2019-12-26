@@ -1,5 +1,4 @@
-﻿using System;
-using Backend.Domain.Entities.ExerciseType;
+﻿using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using System.Collections.Generic;
 
@@ -36,7 +35,6 @@ namespace Backend.Application.Business.Factories
                     Type = "Bar type",
                     Order = 1,
                     Tags = GetBarTypes() as ICollection<Tag>,
-
                 },
                 new TagGroup()
                 {
@@ -82,6 +80,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
+
         public static IEnumerable<Tag> GetBarTypes()
         {
             return new List<Tag>()
@@ -128,6 +127,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
+
         public static IEnumerable<Tag> GetBarPositions()
         {
             return new List<Tag>()
@@ -150,6 +150,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
+
         public static IEnumerable<Tag> GetExerciseCategories()
         {
             return new List<Tag>()
@@ -184,6 +185,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
+
         public static IEnumerable<Tag> GetGrips()
         {
             return new List<Tag>()
@@ -206,6 +208,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
+
         public static IEnumerable<Tag> GetExerciseEquipments()
         {
             return new List<Tag>()
@@ -248,6 +251,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
+
         public static IEnumerable<Tag> GetLoadAccommodations()
         {
             return new List<Tag>()
@@ -282,6 +286,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
+
         public static IEnumerable<Tag> GetRangeOfMotions()
         {
             return new List<Tag>()
@@ -340,6 +345,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
+
         public static IEnumerable<Tag> GetStances()
         {
             return new List<Tag>()
@@ -374,6 +380,7 @@ namespace Backend.Application.Business.Factories
                 },
             };
         }
+
         public static IEnumerable<Tag> GetTempos()
         {
             return new List<Tag>()
@@ -526,11 +533,11 @@ namespace Backend.Application.Business.Factories
         //    Pause5Ct,
         //    Pause7Ct,
 
-        //    Tempo600, 
-        //    Tempo320, 
-        //    Tempo530, 
-        //    Tempo303, 
-        //    Tempo003, 
+        //    Tempo600,
+        //    Tempo320,
+        //    Tempo530,
+        //    Tempo303,
+        //    Tempo003,
         //}
     }
 }

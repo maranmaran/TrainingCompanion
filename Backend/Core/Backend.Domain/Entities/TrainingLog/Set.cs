@@ -17,6 +17,5 @@ namespace Backend.Domain.Entities.TrainingLog
 
         public Guid ExerciseId { get; set; }
         public virtual Exercise Exercise { get; set; }
-
     }
 }

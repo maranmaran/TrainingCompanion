@@ -1,5 +1,4 @@
-﻿
-namespace Backend.Application.Business.Business.Set.Update
+﻿namespace Backend.Application.Business.Business.Set.Update
 {
     public class UpdateSetRequestResponse
     {

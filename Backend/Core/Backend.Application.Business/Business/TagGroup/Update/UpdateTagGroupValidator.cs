@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Backend.Application.Business.Business.TagGroup.Update
 {
-
     public class UpdateTagGroupValidator : AbstractValidator<Domain.Entities.ExerciseType.TagGroup>
     {
         private readonly IApplicationDbContext _context;
+
         public UpdateTagGroupValidator(IApplicationDbContext context)
         {
             _context = context;

@@ -1,27 +1,13 @@
-﻿using Backend.Domain;
-using Backend.Service.Authorization.Interfaces;
-using Backend.Service.Payment.Interfaces;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using Amazon.S3.Model;
-using Backend.Application.Business.Factories;
+﻿using Backend.Application.Business.Factories;
 using Backend.Common.Extensions;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Persistance.Seed;
-using Backend.Service.Authorization.Utils;
-using Backend.Service.Payment.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Math.EC.Rfc7748;
-using Stripe;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Tag = Backend.Domain.Entities.ExerciseType.Tag;
 
 namespace Backend.Persistance
@@ -31,9 +17,9 @@ namespace Backend.Persistance
         public static void Seed(this ModelBuilder b)
         {
             var users = SeedUsers(b);
-            var userSettingIds = SeedUserSettings(b, users.Select(x => x.Id).ToArray(), users.Select(x=>x.UserSettingId).ToArray());
+            var userSettingIds = SeedUserSettings(b, users.Select(x => x.Id).ToArray(), users.Select(x => x.UserSettingId).ToArray());
             SeedNotificationSettings(b, userSettingIds);
-            
+
             //var tagGroupDictionary = SeedTags(b, users.Select(x => x.Id));
             //var exerciseTypeDictionary = SeedExerciseTypes(b, users.Select(x => x.Id));
             //SeedExerciseTypeTags(b, tagGroupDictionary, exerciseTypeDictionary, users.Select(x => x.Id).ToList());
@@ -41,13 +27,13 @@ namespace Backend.Persistance
 
         // JOIN TABLE FOR EXERCISE TYPE - TAGS (Properties)
         private static void SeedExerciseTypeTags(
-            ModelBuilder b, 
-            IDictionary<Guid, IEnumerable<TagGroup>> tagGroupDict, 
-            IDictionary<Guid, IEnumerable<ExerciseType>> exerciseTypeDict, 
+            ModelBuilder b,
+            IDictionary<Guid, IEnumerable<TagGroup>> tagGroupDict,
+            IDictionary<Guid, IEnumerable<ExerciseType>> exerciseTypeDict,
             IEnumerable<Guid> users)
         {
             // foreach user
-            foreach(var userId in users)
+            foreach (var userId in users)
             {
                 var tagGroups = (tagGroupDict[userId] ?? throw new InvalidOperationException()).ToList();
                 var types = (exerciseTypeDict[userId] ?? throw new InvalidOperationException()).ToList();
@@ -61,14 +47,14 @@ namespace Backend.Persistance
                 }
             }
         }
-        
+
         // EXERCISE TYPES
         private static IDictionary<Guid, IEnumerable<ExerciseType>> SeedExerciseTypes(ModelBuilder b, IEnumerable<Guid> userIds)
         {
             var dict = new Dictionary<Guid, IEnumerable<ExerciseType>>();
 
             foreach (var userId in userIds)
-            { 
+            {
                 var exerciseTypes = ExerciseTypesFactory.GetExerciseTypes().ToList();
                 exerciseTypes.ForEach(type =>
                 {
@@ -84,7 +70,7 @@ namespace Backend.Persistance
             return dict;
         }
 
-        // TAG GROUPS AND TAGS 
+        // TAG GROUPS AND TAGS
         private static IDictionary<Guid, IEnumerable<TagGroup>> SeedTags(ModelBuilder b, IEnumerable<Guid> userIds)
         {
             var dict = new Dictionary<Guid, IEnumerable<TagGroup>>();
@@ -124,21 +110,19 @@ namespace Backend.Persistance
         {
             foreach (var userSettingId in userSettingIds)
             {
-
-                var values = EnumFactory.SeedEnum<NotificationType, NotificationSetting>((value) => new NotificationSetting() 
+                var values = EnumFactory.SeedEnum<NotificationType, NotificationSetting>((value) => new NotificationSetting()
                 {
                     Id = Guid.NewGuid(),
                     NotificationType = value,
                     UserSettingId = userSettingId
-                    
                 }).ToList();
-                
+
                 b.Entity<NotificationSetting>().HasData(values);
             }
         }
+
         private static IEnumerable<Guid> SeedUserSettings(ModelBuilder b, Guid[] userIds, Guid[] settingIds)
         {
-
             for (int i = 0; i < userIds.Length; i++)
             {
                 var userSetting = new UserSetting()
@@ -152,6 +136,7 @@ namespace Backend.Persistance
 
             return settingIds;
         }
+
         private static IEnumerable<ApplicationUser> SeedUsers(ModelBuilder b)
         {
             var users = UsersSeeder.GetUsers();

@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
-using Backend.Domain.Entities;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Service.Chat.NgChatModels;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Chat.GetFriendList
 {
@@ -44,6 +43,7 @@ namespace Backend.Application.Business.Business.Chat.GetFriendList
 
                         friendList.AddRange(_mapper.Map<HashSet<ParticipantResponseViewModel>>(adminFriends));
                         break;
+
                     case AccountType.Coach:
 
                         // only athletes are reachable to coach
@@ -52,10 +52,11 @@ namespace Backend.Application.Business.Business.Chat.GetFriendList
                         friendList.AddRange(_mapper.Map<HashSet<ParticipantResponseViewModel>>(coachFriends));
                         friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
                         break;
+
                     case AccountType.Athlete:
 
                         // only coach is reachable to athlete
-                        var athleteFriend = (ApplicationUser) (await _context.Athletes.Include(x => x.Coach).SingleAsync(x => x.Id == request.UserId, cancellationToken)).Coach;
+                        var athleteFriend = (ApplicationUser)(await _context.Athletes.Include(x => x.Coach).SingleAsync(x => x.Id == request.UserId, cancellationToken)).Coach;
 
                         friendList.Add(_mapper.Map<ParticipantResponseViewModel>(athleteFriend));
                         friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
@@ -64,7 +65,6 @@ namespace Backend.Application.Business.Business.Chat.GetFriendList
                     default:
                         throw new InvalidEnumArgumentException();
                 }
-
 
                 return friendList;
             }

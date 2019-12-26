@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Service.Infrastructure.Exceptions;
+﻿using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.Payment.Interfaces;
 using MediatR;
 using Stripe;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Billing.GetSubscription
 {
@@ -16,7 +16,6 @@ namespace Backend.Application.Business.Business.Billing.GetSubscription
         {
             _paymentService = paymentService;
         }
-
 
         public async Task<Subscription> Handle(GetSubscriptionRequest request, CancellationToken cancellationToken)
         {

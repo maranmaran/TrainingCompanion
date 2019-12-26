@@ -1,10 +1,7 @@
-﻿
-
-using System;
-using Backend.Domain.Entities;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using MediatR;
+using System;
 
 namespace Backend.Application.Business.Business.Users.GetUser
 {

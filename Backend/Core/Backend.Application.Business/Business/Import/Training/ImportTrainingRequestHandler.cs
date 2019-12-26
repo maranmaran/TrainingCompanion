@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Service.Excel.Interfaces;
 using Backend.Service.Excel.Models.Import.Training;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Import.Training
 {
@@ -56,7 +56,7 @@ namespace Backend.Application.Business.Business.Import.Training
                     Rpe = row.Rpe,
                     Volume = row.Reps * row.Weight
                 };
-                
+
                 if (!trainingDict.TryGetValue(row.Date, out var existingTraining))
                 {
                     var exerciseType = exerciseTypes.FirstOrDefault(x => x.Code == row.Code);
@@ -82,7 +82,7 @@ namespace Backend.Application.Business.Business.Import.Training
                         {
                             ExerciseType = exerciseType,
                             ExerciseTypeId = exerciseType.Id,
-                            Sets = new List<Domain.Entities.TrainingLog.Set>() {set}
+                            Sets = new List<Domain.Entities.TrainingLog.Set>() { set }
                         };
 
                         existingTraining.Add(row.Code, exercise);

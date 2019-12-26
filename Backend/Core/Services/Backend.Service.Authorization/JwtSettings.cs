@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Backend.Service.Authorization
+﻿namespace Backend.Service.Authorization
 {
     public class JwtSettings
     {

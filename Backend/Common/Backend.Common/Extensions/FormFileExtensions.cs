@@ -34,9 +34,9 @@ namespace Backend.Common.Extensions
                 return false;
             }
 
-
             return true;
         }
+
         public static bool IsVideo(this IFormFile postedFile)
         {
             //-------------------------------------------
@@ -56,7 +56,6 @@ namespace Backend.Common.Extensions
             {
                 return false;
             }
-
 
             return true;
         }

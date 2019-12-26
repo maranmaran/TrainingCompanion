@@ -1,5 +1,5 @@
 ﻿using Backend.Domain;
-using Backend.Domain.Entities;
+using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business.Business.Users.DeleteUser
 {
@@ -15,12 +14,10 @@ namespace Backend.Application.Business.Business.Users.DeleteUser
     {
         private readonly IApplicationDbContext _context;
 
-
         public DeleteUserRequestHandler(IApplicationDbContext context)
         {
             _context = context;
         }
-
 
         public Task<Unit> Handle(DeleteUserRequest request, CancellationToken cancellationToken)
         {
@@ -92,6 +89,5 @@ namespace Backend.Application.Business.Business.Users.DeleteUser
 
             await _context.SaveChangesAsync();
         }
-
     }
 }

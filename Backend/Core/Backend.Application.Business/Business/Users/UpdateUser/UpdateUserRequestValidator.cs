@@ -39,6 +39,5 @@ namespace Backend.Application.Business.Business.Users.UpdateUser
             var user = _context.Users.Single(x => x.Id == request.Id);
             return !_context.Users.Any(x => x.Email == user.Email && x.Id != user.Id);
         }
-
     }
 }

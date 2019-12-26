@@ -9,15 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Sieve.Models;
 using Sieve.Services;
-using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.OpenApi.Models;
 
 namespace Backend.API.Extensions
 {
@@ -81,7 +80,7 @@ namespace Backend.API.Extensions
         /// <summary>
         /// Configures Biarity/Sieve library for out of the box sorting, filtering and paginating functionality
         /// CreateUseres sieve options from application setting
-        /// CreateUsers dependency injection for sieve processor and any custom filtering and sorting 
+        /// CreateUsers dependency injection for sieve processor and any custom filtering and sorting
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
@@ -122,7 +121,7 @@ namespace Backend.API.Extensions
 
                     // We have to hook the OnMessageReceived event in order to
                     // allow the JWT authentication handler to read the access
-                    // token from the query string when a WebSocket or 
+                    // token from the query string when a WebSocket or
                     // Server-Sent Events request comes in.
                     //https://docs.microsoft.com/en-us/aspnet/core/signalr/authn-and-authz?view=aspnetcore-2.2
                     x.Events = new JwtBearerEvents()

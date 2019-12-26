@@ -7,6 +7,7 @@ namespace Backend.Application.Business.Business.TagGroup.Create
     public class CreateTagGroupValidator : AbstractValidator<CreateTagGroupRequest>
     {
         private readonly IApplicationDbContext _context;
+
         public CreateTagGroupValidator(IApplicationDbContext context)
         {
             _context = context;

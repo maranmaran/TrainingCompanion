@@ -1,5 +1,4 @@
-﻿
-using Backend.API.Extensions;
+﻿using Backend.API.Extensions;
 using Backend.API.Middleware;
 using Backend.Application.Business.Business.Chat;
 using Backend.Application.Business.Business.PushNotification;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Stripe;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -53,7 +51,6 @@ namespace Backend.API
             IApplicationBuilder app,
             IWebHostEnvironment env)
         {
-
             // ===== SPA angular setup (wwwroot folder) =====
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -63,8 +60,6 @@ namespace Backend.API
 
             if (env.IsDevelopment())
             {
-           
-
                 app.UseCors("AllowAllCorsPolicy");
                 //app.UseMiddleware<MaintainCorsHeadersMiddleware>();
 
@@ -94,7 +89,7 @@ namespace Backend.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // ===== SignalR Hubs configuration AND Controllers ( API ) configuration ===== 
+            // ===== SignalR Hubs configuration AND Controllers ( API ) configuration =====
             // =====  MUST BE AFTER AUTHENTICATION=====
             app.UseEndpoints(endpoints =>
             {

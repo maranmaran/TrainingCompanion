@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Backend.Application.Business.Business.Training.Get;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
@@ -13,10 +6,13 @@ using Backend.Service.Excel.Interfaces;
 using Backend.Service.Excel.Models.Export;
 using Backend.Service.Excel.Models.Export.Training;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Export.Training
 {
@@ -83,9 +79,9 @@ namespace Backend.Application.Business.Business.Export.Training
             if (request.DateFrom.HasValue)
                 filteredData.Where(x => x.DateTrained.Date >= request.DateFrom.Value.Date);
 
-            if(request.DateTo.HasValue)
-                filteredData.Where(x => x.DateTrained.Date <= request.DateTo.Value.Date); 
-            
+            if (request.DateTo.HasValue)
+                filteredData.Where(x => x.DateTrained.Date <= request.DateTo.Value.Date);
+
             return await filteredData.ToListAsync(cancellationToken);
         }
 
@@ -117,7 +113,7 @@ namespace Backend.Application.Business.Business.Export.Training
                 "Exercise"
             };
 
-            if(exerciseTypes.Any(x => x.RequiresWeight || x.RequiresBodyweight))
+            if (exerciseTypes.Any(x => x.RequiresWeight || x.RequiresBodyweight))
                 columns.Add("Weight");
 
             if (exerciseTypes.Any(x => x.RequiresReps))

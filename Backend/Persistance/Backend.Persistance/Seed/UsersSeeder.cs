@@ -1,13 +1,7 @@
-﻿using Backend.Application.Business.Factories;
-using Backend.Domain;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
-using Backend.Service.Authorization.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 using Backend.Service.Authorization.Utils;
-using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Backend.Persistance.Seed
 {

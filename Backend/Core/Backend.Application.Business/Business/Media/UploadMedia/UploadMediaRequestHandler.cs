@@ -1,15 +1,14 @@
-﻿using Backend.Domain;
-using Backend.Domain.Entities;
+﻿using Backend.Common.Extensions;
+using Backend.Domain;
+using Backend.Domain.Entities.Media;
 using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.AmazonS3.Models;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.Media;
-using System.Text;
-using Backend.Common.Extensions;
 
 namespace Backend.Application.Business.Business.Media.UploadMedia
 {

@@ -1,5 +1,4 @@
-﻿using Backend.Domain.Entities;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 using Sieve.Services;
 
 namespace Backend.API.LibraryConfigurations.Sieve.Mappings

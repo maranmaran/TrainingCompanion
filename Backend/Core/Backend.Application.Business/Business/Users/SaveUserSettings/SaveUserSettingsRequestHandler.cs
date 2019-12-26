@@ -1,13 +1,10 @@
 ﻿using Backend.Domain;
+using Backend.Domain.Entities.User;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities;
-using Backend.Domain.Entities.User;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.Users.SaveUserSettings
 {

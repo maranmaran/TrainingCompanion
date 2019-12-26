@@ -1,5 +1,5 @@
 ﻿using Backend.Domain;
-using Backend.Domain.Entities;
+using Backend.Domain.Entities.User;
 using Backend.Service.Email;
 using Backend.Service.Email.Interfaces;
 using Backend.Service.Email.Models;
@@ -12,7 +12,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Application.Business.Business.Authorization.ResetPassword
 {

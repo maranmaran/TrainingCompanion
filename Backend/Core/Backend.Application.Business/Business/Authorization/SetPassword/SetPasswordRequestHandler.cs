@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Application.Business.Business.Authorization.CurrentUser;
+﻿using Backend.Application.Business.Business.Authorization.CurrentUser;
 using Backend.Application.Business.Business.Authorization.SignIn;
 using Backend.Domain;
-using Backend.Service.Authorization.Interfaces;
 using Backend.Service.Authorization.Utils;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Authorization.SetPassword
 {

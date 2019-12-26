@@ -1,6 +1,4 @@
-﻿
-using System.IO;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.Media;
@@ -8,13 +6,8 @@ using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
-using Backend.Domain.Enum;
-using Backend.Persistance.Seed;
-using Backend.Service.Authorization.Interfaces;
-using Backend.Service.Payment.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 
 namespace Backend.Persistance
 {
@@ -38,8 +31,7 @@ namespace Backend.Persistance
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ExerciseTypeTag> ExerciseTypeTags { get; set; } // JOIN TABLE
 
-
-        #endregion
+        #endregion Exercise type + Properties
 
         #region Training log
 
@@ -47,8 +39,7 @@ namespace Backend.Persistance
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Set> Sets { get; set; } // lifts
 
-        #endregion
-
+        #endregion Training log
 
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -60,7 +51,7 @@ namespace Backend.Persistance
             modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);
-            
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
     }
@@ -69,7 +60,6 @@ namespace Backend.Persistance
     {
         public ApplicationDbContextFactory()
         {
-            
         }
 
         //TODO: Revisit this hardcoded conn string

@@ -1,5 +1,5 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
+using System;
 
 namespace Backend.Application.Business.Business.Authorization.ChangePassword
 {

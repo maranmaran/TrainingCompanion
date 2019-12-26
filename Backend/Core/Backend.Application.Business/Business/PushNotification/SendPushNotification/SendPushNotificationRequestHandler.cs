@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
 using Backend.Service.Infrastructure.Exceptions;
 using Backend.Service.PushNotifications;
 using MediatR;
-using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.PushNotification.SendPushNotification
 {
@@ -28,13 +27,13 @@ namespace Backend.Application.Business.Business.PushNotification.SendPushNotific
             try
             {
                 var newNotificationRequest = _mapper.Map<SendPushNotificationRequest, CreatePushNotificationRequest>(request);
-                
+
                 var notification = await _mediator.Send(newNotificationRequest, cancellationToken);
 
-                await _notificationService.NotifyUser(notification, 
-                                                      notification.Receiver.UserSetting.NotificationSettings, 
+                await _notificationService.NotifyUser(notification,
+                                                      notification.Receiver.UserSetting.NotificationSettings,
                                                       cancellationToken);
-                                                                
+
                 return Unit.Value;
             }
             catch (Exception ex)

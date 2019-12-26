@@ -8,7 +8,6 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<Set> builder)
         {
-
         }
     }
 }

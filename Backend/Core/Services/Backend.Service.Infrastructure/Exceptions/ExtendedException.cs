@@ -33,6 +33,5 @@ namespace Backend.Service.Infrastructure.Exceptions
             Message = message;
             Exception = exception;
         }
-
     }
 }

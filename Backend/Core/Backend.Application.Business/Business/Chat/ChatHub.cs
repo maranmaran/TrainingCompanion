@@ -1,25 +1,18 @@
 ﻿using AutoMapper;
-using Backend.Domain;
-using Backend.Domain.Entities;
+using Backend.Application.Business.Business.Chat.CreateChatMessage;
+using Backend.Application.Business.Business.Chat.ReadMessages;
+using Backend.Application.Business.Business.Users.GetUser;
 using Backend.Domain.Enum;
 using Backend.Service.AmazonS3.Interfaces;
-using Backend.Service.AmazonS3.Models;
 using Backend.Service.Chat.NgChatModels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.Chat;
-using MediatR;
-using Backend.Application.Business.Business.Chat.ReadMessages;
-using Backend.Application.Business.Business.Chat.CreateChatMessage;
-using System.Runtime.CompilerServices;
-using Backend.Application.Business.Business.Users.GetUser;
 
 namespace Backend.Application.Business.Business.Chat
 {
@@ -68,7 +61,7 @@ namespace Backend.Application.Business.Business.Chat
         /// <param name="message"></param>
         public async Task MessagesSeen(IEnumerable<MessageViewModel> messages)
         {
-            await _mediator.Send(new ReadMessagesRequest() {  Messages = messages });
+            await _mediator.Send(new ReadMessagesRequest() { Messages = messages });
         }
 
         /// <summary>
