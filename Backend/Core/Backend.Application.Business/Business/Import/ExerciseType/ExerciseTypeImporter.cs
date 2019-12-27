@@ -4,6 +4,7 @@ using Backend.Domain.Entities.ExerciseType;
 using Backend.Service.Excel.Models.Import.ExerciseType;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -21,9 +22,8 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
         private readonly IMapper _mapper;
 
         private readonly Guid _userId;
-        private readonly IDictionary<string, Domain.Entities.ExerciseType.TagGroup> _existingGroups;
-        private readonly IDictionary<string, Domain.Entities.ExerciseType.Tag> _existingTags;
-        private readonly IDictionary<string, Domain.Entities.ExerciseType.ExerciseType> _existingTypes;
+        private readonly ConcurrentDictionary<string, Domain.Entities.ExerciseType.TagGroup> _existingGroups;
+        private readonly ConcurrentDictionary<string, Domain.Entities.ExerciseType.ExerciseType> _existingTypes;
 
         public ExerciseTypeImporter(IApplicationDbContext context, Guid userId, IMapper mapper)
         {
@@ -31,62 +31,100 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
             _userId = userId;
             _mapper = mapper;
 
-            _existingTypes = _context
+            var existingTypes = _context
                 .ExerciseTypes
                 .Where(x => x.ApplicationUserId == userId)
-                .AsNoTracking()
-                .ToDictionary(x => x.Code, x => x);
+                //.AsNoTracking()
+                .ToDictionary(x => x.Code, x => x)
+                .ToList();
 
-            _existingGroups = _context
+            _existingTypes = new ConcurrentDictionary<string, Domain.Entities.ExerciseType.ExerciseType>(existingTypes);
+
+            var existingGroups = _context
                 .TagGroups
                 .Include(x => x.Tags)
                 .Where(x => x.ApplicationUserId == userId)
-                .AsNoTracking()
-                .ToDictionary(x => x.Type, x => x);
+                //.AsNoTracking()
+                .ToDictionary(x => x.Type, x => x)
+                .ToList();
 
-            _existingTags = _existingGroups.Values.SelectMany(x => x.Tags).ToDictionary(x => x.Value, x => x);
+            _existingGroups = new ConcurrentDictionary<string, Domain.Entities.ExerciseType.TagGroup>(existingGroups);
         }
 
         public async Task DoImport(IEnumerable<ImportExerciseTypeDto> data, CancellationToken cancellationToken = default)
         {
-            Parallel.ForEach(
-                source: data,  // source data
-                body: DoWork // unit of work
-            );
+            //Parallel.ForEach(
+            //    source: data, 
+            //    body: DoWork,
+            //    () => { }
+            //);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            foreach (var row in data)
+            {
+                DoWork(row, null);
+            }
+
+
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new Exception("Concurrency exception", e);
+            }
         }
 
         private void DoWork(ImportExerciseTypeDto row, ParallelLoopState loopState)
         {
-            // parse and get exercise type from data row
-            var type = ParseExerciseType(row);
-
             // parse all tags and tag groups and assign exercise properties (join table entity) on exercise type
+            var properties = new List<ExerciseTypeTag>();
             if (!string.IsNullOrWhiteSpace(row.Tags) && !string.IsNullOrWhiteSpace(row.TagGroups))
-                type.Properties = ParseExerciseTypeProperties(row.TagGroups, row.Tags).ToList();
+                properties = ParseExerciseTypeProperties(row.TagGroups, row.Tags).ToList();
+
+            // parse and get exercise type from data row
+            ParseExerciseType(row, properties);
         }
 
-        private Domain.Entities.ExerciseType.ExerciseType ParseExerciseType(ImportExerciseTypeDto row)
+        private void ParseExerciseType(ImportExerciseTypeDto row, List<ExerciseTypeTag> properties)
         {
             _existingTypes.TryGetValue(row.Code, out var existingType);
 
-            var type = new Domain.Entities.ExerciseType.ExerciseType();
+            var type = _mapper.Map<Domain.Entities.ExerciseType.ExerciseType>(row);
+
             if (existingType != null)
             {
                 type = existingType;
+
+                type.ApplicationUserId = _userId;
+                type.Properties = properties;
                 _context.Entry(type).State = EntityState.Modified;
+
+                foreach (var property in type.Properties)
+                {
+                    property.ExerciseTypeId = type.Id;
+                    _context.Entry(property).State = EntityState.Added;
+                }
+                //_context.Entry(type).State = EntityState.Modified;
             }
             else
             {
                 type.Id = Guid.NewGuid();
+
+                type.ApplicationUserId = _userId;
+                type.Properties = properties;
                 _context.Entry(type).State = EntityState.Added;
+
+                foreach (var property in type.Properties)
+                {
+                    property.ExerciseTypeId = type.Id;
+                    _context.Entry(property).State = EntityState.Added;
+                }
+                //_context.Entry(type).State = EntityState.Added;
+                _context.ExerciseTypes.Add(type);
             }
 
-            _mapper.Map<Domain.Entities.ExerciseType.ExerciseType>(row);
-            type.ApplicationUserId = _userId;
-
-            return type;
+            _existingTypes.AddOrUpdate(type.Code, (id) => type, (id, item) => type);
         }
 
         private IEnumerable<ExerciseTypeTag> ParseExerciseTypeProperties(string importGroups, string importTags)
@@ -94,21 +132,22 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
             // parse to some kind of better collection that represents nesting
             var tagsDict = GetTagsDictionary(importGroups, importTags);
 
-            var result = new List<Domain.Entities.ExerciseType.TagGroup>();
+            var resultGroups = new Dictionary<Guid, Domain.Entities.ExerciseType.TagGroup>();
+            var resultTags = new Dictionary<Guid, Domain.Entities.ExerciseType.Tag>();
 
             foreach (var (group, tags) in tagsDict)
             {
                 if (_existingGroups.TryGetValue(group, out var existingTagGroup))
                 {
-                    HandleExistingTagGroup(tags, existingTagGroup, result);
+                    HandleExistingTagGroup(tags, existingTagGroup, resultGroups, resultTags);
                 }
                 else
                 {
-                    HandleNewTagGroup(group, tags, result);
+                    HandleNewTagGroup(group, tags, resultGroups, resultTags);
                 }
             }
 
-            var properties = GetExerciseProperties(result);
+            var properties = GetExerciseProperties(resultTags);
             return properties;
         }
 
@@ -122,36 +161,37 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
         ///         Add it to cache
         ///
         /// </summary>
-        private void HandleExistingTagGroup(IEnumerable<string> importedTags, Domain.Entities.ExerciseType.TagGroup existingGroup, List<Domain.Entities.ExerciseType.TagGroup> result)
+        private void HandleExistingTagGroup(IEnumerable<string> importedTags, Domain.Entities.ExerciseType.TagGroup existingGroup, Dictionary<Guid, Domain.Entities.ExerciseType.TagGroup> resultGroups, Dictionary<Guid, Domain.Entities.ExerciseType.Tag> resultTags)
         {
-            if (result == null) throw new ArgumentNullException(nameof(result));
-
-            var tagsToAdd = importedTags.Select(tag =>
+            foreach (var importedTagStr in importedTags)
             {
-                var tagToAdd = existingGroup.Tags.FirstOrDefault(x => x.Value == tag);
-                if (tagToAdd == null)
+                var tag = existingGroup.Tags.FirstOrDefault(x => x.Value == importedTagStr);
+
+                if (tag == null)
                 {
-                    if (!_existingTags.TryGetValue(tag, out tagToAdd))
+                    tag = new Domain.Entities.ExerciseType.Tag()
                     {
-                        tagToAdd = new Domain.Entities.ExerciseType.Tag()
-                        {
-                            Id = Guid.NewGuid(),
-                            Value = tag
-                        };
+                        Id = Guid.NewGuid(),
+                        Value = importedTagStr,
+                        TagGroupId = existingGroup.Id
+                    };
 
-                        _existingTags.Add(tagToAdd.Value, tagToAdd);
-                    }
+                    existingGroup.Tags.Add(tag);
 
-                    _context.Entry(tagToAdd).State = EntityState.Added;
+                    _context.Entry(existingGroup).State = _context.Entry(existingGroup).State != EntityState.Added ? EntityState.Modified : EntityState.Added;
+
+                    _context.Entry(tag).State = EntityState.Added;
+
+                    //_context.Tags.Add(tag);
                 }
 
-                return tagToAdd;
-            }).ToList();
+                resultGroups[existingGroup.Id] = existingGroup;
+                resultTags[tag.Id] = tag;
 
-            existingGroup.Tags = tagsToAdd;
+            }
 
-            result.Add(existingGroup);
-            _context.Entry(existingGroup).State = EntityState.Modified;
+            //_context.Entry(existingGroup).State = EntityState.Modified;
+
         }
 
         /// <summary>
@@ -163,33 +203,40 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
         ///         Modify context to add all tags
         ///         Add tags to cache
         /// </summary>
-        private void HandleNewTagGroup(string importedGroup, List<string> importedTags, List<Domain.Entities.ExerciseType.TagGroup> result)
+        private void HandleNewTagGroup(string importedGroup, List<string> importedTags, Dictionary<Guid, Domain.Entities.ExerciseType.TagGroup> resultGroups, Dictionary<Guid, Domain.Entities.ExerciseType.Tag> resultTags)
         {
-            var newTags = importedTags.Select(x =>
-            {
-                var newTag = new Domain.Entities.ExerciseType.Tag
-                {
-                    Id = Guid.NewGuid(),
-                    Value = x,
-                };
-
-                _context.Entry(newTag).State = EntityState.Added;
-
-                return newTag;
-            }).ToList();
-
             var newTagGroup = new Domain.Entities.ExerciseType.TagGroup
             {
                 Id = Guid.NewGuid(),
                 ApplicationUserId = _userId,
                 Type = importedGroup,
-                Tags = newTags
+                Active = true,
             };
 
-            _existingGroups[newTagGroup.Type] = newTagGroup;
-            _context.Entry(newTagGroup).State = EntityState.Added;
+            var newTags = importedTags.Select(x =>
+            {
+                var newTag = new Domain.Entities.ExerciseType.Tag
+                {
+                    Id = Guid.NewGuid(),
+                    TagGroupId = newTagGroup.Id,
+                    Value = x,
+                };
 
-            result.Add(newTagGroup);
+                //_context.Entry(newTag).State = EntityState.Added;
+                _context.Tags.Add(newTag);
+
+                resultTags[newTag.Id] = newTag;
+
+                return newTag;
+            }).ToList();
+
+            newTagGroup.Tags = newTags;
+
+            _existingGroups.AddOrUpdate(newTagGroup.Type, (id) => newTagGroup, (id, group) => group = newTagGroup); ;
+            _context.TagGroups.Add(newTagGroup);
+            //_context.Entry(newTagGroup).State = EntityState.Added;
+
+            resultGroups[newTagGroup.Id] = newTagGroup;
         }
 
         /// <summary>
@@ -197,26 +244,21 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
         /// </summary>
         /// <param name="tagGroups"></param>
         /// <returns></returns>
-        private IEnumerable<ExerciseTypeTag> GetExerciseProperties(IEnumerable<Domain.Entities.ExerciseType.TagGroup> tagGroups)
+        private IEnumerable<ExerciseTypeTag> GetExerciseProperties(Dictionary<Guid, Domain.Entities.ExerciseType.Tag> tagsDict)
         {
-            var tags = tagGroups.SelectMany(x =>
-            {
-                x.Tags.ToList().ForEach(y => y.TagGroup = x);
-                return x.Tags;
-            });
+            var tags = tagsDict.Values;
 
-            return tags.Select(x =>
+            // now from all tags create exercise property 
+            return tags.Select(tag =>
             {
                 var property = new ExerciseTypeTag
                 {
-                    Tag = x,
-                    TagId = x.Id,
-                    //ExerciseTypeId = newType.Id,
-                    //ExerciseType = newType,
+                    TagId = tag.Id,
                     Show = true,
                 };
 
-                _context.Entry(property).State = EntityState.Added;
+                //_context.Entry(property).State = EntityState.Added;
+                _context.ExerciseTypeTags.Add(property);
 
                 return property;
             });
