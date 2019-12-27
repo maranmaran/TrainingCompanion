@@ -2,16 +2,16 @@
 {
     public static class ImportExerciseTypeColumns
     {
-        public static (string ColumnName, bool Required) Code = ("Code", true);
-        public static (string ColumnName, bool Required) Name = ("Name", true);
-        public static (string ColumnName, bool Required) Active = ("Active", false);
-        public static (string ColumnName, bool Required) RequiresReps = ("RequiresReps", false);
-        public static (string ColumnName, bool Required) RequiresSets = ("RequiresSets", false);
-        public static (string ColumnName, bool Required) RequiresWeight = ("RequiresWeight", false);
-        public static (string ColumnName, bool Required) RequiresBodyweight = ("RequiresBodyweight", false);
-        public static (string ColumnName, bool Required) RequiresTime = ("RequiresTime", false);
-        public static (string ColumnName, bool Required) TagGroups = ("TagGroups", false);
-        public static (string ColumnName, bool Required) Tags = ("Tags", false);
+        public static ImportColumn Code = new ImportColumn("Code", true);
+        public static ImportColumn Name = new ImportColumn("Name", true);
+        public static ImportColumn Active = new ImportColumn("Active", false);
+        public static ImportColumn RequiresReps = new ImportColumn("RequiresReps", false);
+        public static ImportColumn RequiresSets = new ImportColumn("RequiresSets", false);
+        public static ImportColumn RequiresWeight = new ImportColumn("RequiresWeight", false);
+        public static ImportColumn RequiresBodyweight = new ImportColumn("RequiresBodyweight", false);
+        public static ImportColumn RequiresTime = new ImportColumn("RequiresTime", false);
+        public static ImportColumn TagGroups = new ImportColumn("TagGroups", false);
+        public static ImportColumn Tags = new ImportColumn("Tags", false);
     }
 
     public class ImportExerciseTypeDto
