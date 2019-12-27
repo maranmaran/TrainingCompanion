@@ -43,6 +43,8 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
                 .Where(x => x.ApplicationUserId == userId)
                 .AsNoTracking()
                 .ToDictionary(x => x.Type, x => x);
+
+            _existingTags = _existingGroups.Values.SelectMany(x => x.Tags).ToDictionary(x => x.Value, x => x);
         }
 
         public async Task DoImport(IEnumerable<ImportExerciseTypeDto> data, CancellationToken cancellationToken = default)
