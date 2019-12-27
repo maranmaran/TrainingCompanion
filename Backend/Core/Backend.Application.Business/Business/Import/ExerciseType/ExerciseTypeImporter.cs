@@ -22,6 +22,7 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
 
         private readonly Guid _userId;
         private readonly IDictionary<string, Domain.Entities.ExerciseType.TagGroup> _existingGroups;
+        private readonly IDictionary<string, Domain.Entities.ExerciseType.Tag> _existingTags;
         private readonly IDictionary<string, Domain.Entities.ExerciseType.ExerciseType> _existingTypes;
 
         public ExerciseTypeImporter(IApplicationDbContext context, Guid userId, IMapper mapper)
@@ -86,95 +87,123 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
             return type;
         }
 
-
-        // TODO: REFACTOR
         private IEnumerable<ExerciseTypeTag> ParseExerciseTypeProperties(string importGroups, string importTags)
         {
-            var importTagGroupsArr = importGroups.Split(",").Select(x => x.Trim()).ToArray();
-            var importTagsArr = importTags.Split(",").Select(x => x.Trim()).ToArray();
-
             // parse to some kind of better collection that represents nesting
-            var tagsDict = GetTagsDictionary(importTagGroupsArr, importTagsArr); // group, tags
+            var tagsDict = GetTagsDictionary(importGroups, importTags);
 
-            var cacheTags = new Dictionary<string, Domain.Entities.ExerciseType.Tag>();
-            var cacheGroups = new Dictionary<string, Domain.Entities.ExerciseType.TagGroup>();
-            var resultGroups = new List<Domain.Entities.ExerciseType.TagGroup>();
+            var result = new List<Domain.Entities.ExerciseType.TagGroup>();
+
             foreach (var (group, tags) in tagsDict)
             {
-                // if group exists
-                // check all given tags who exists and those who not - create new tag
-                // update existing group
                 if (_existingGroups.TryGetValue(group, out var existingTagGroup))
                 {
-                    var tagsToAdd = tags.Select(tag =>
-                    {
-                        var tagToAdd = existingTagGroup.Tags.FirstOrDefault(x => x.Value == tag);
-                        if (tagToAdd == null)
-                        {
-                            if (!cacheTags.TryGetValue(tag, out tagToAdd))
-                            {
-                                tagToAdd = new Domain.Entities.ExerciseType.Tag()
-                                {
-                                    Id = Guid.NewGuid(),
-                                    Value = tag
-                                };
-
-                                cacheTags.Add(tagToAdd.Value, tagToAdd);
-                            }
-
-                            _context.Entry(tagToAdd).State = EntityState.Added;
-                        }
-
-                        return tagToAdd;
-                    }).ToList();
-
-                    existingTagGroup.Tags = tagsToAdd;
-
-                    resultGroups.Add(existingTagGroup);
-                    _context.Entry(existingTagGroup).State = EntityState.Modified;
+                    HandleExistingTagGroup(tags, existingTagGroup, result);
                 }
-                // if group doesn't exist - create it and add all given tags
                 else
                 {
-                    var newTags = tags.Select(x =>
-                    {
-                        var newTag = new Domain.Entities.ExerciseType.Tag
-                        {
-                            Id = Guid.NewGuid(),
-                            Value = x,
-                        };
-
-                        _context.Entry(newTag).State = EntityState.Added;
-
-                        return newTag;
-                    }).ToList();
-
-                    if (!cacheGroups.TryGetValue(group, out var newTagGroup))
-                    {
-                        newTagGroup = new Domain.Entities.ExerciseType.TagGroup
-                        {
-                            Id = Guid.NewGuid(),
-                            ApplicationUserId = _userId,
-                            Type = group,
-                        };
-
-                        cacheGroups[newTagGroup.Type] = newTagGroup;
-                        _context.Entry(newTagGroup).State = EntityState.Added;
-                    }
-
-                    newTagGroup.Tags = newTags;
-                    resultGroups.Add(newTagGroup);
+                    HandleNewTagGroup(group, tags, result);
                 }
             }
 
-            // assign group to tags.. so when we add this collection to exercise type.. newly created groups will be created with EF
-            var resultTags = resultGroups.SelectMany(x =>
+            var properties = GetExerciseProperties(result);
+            return properties;
+        }
+
+        /// <summary>
+        ///
+        /// Group exists
+        ///     Tag exists - just add to result
+        ///     New Tag
+        ///         Add it to context
+        ///         Modify existing group
+        ///         Add it to cache
+        ///
+        /// </summary>
+        private void HandleExistingTagGroup(IEnumerable<string> importedTags, Domain.Entities.ExerciseType.TagGroup existingGroup, List<Domain.Entities.ExerciseType.TagGroup> result)
+        {
+            if (result == null) throw new ArgumentNullException(nameof(result));
+
+            var tagsToAdd = importedTags.Select(tag =>
+            {
+                var tagToAdd = existingGroup.Tags.FirstOrDefault(x => x.Value == tag);
+                if (tagToAdd == null)
+                {
+                    if (!_existingTags.TryGetValue(tag, out tagToAdd))
+                    {
+                        tagToAdd = new Domain.Entities.ExerciseType.Tag()
+                        {
+                            Id = Guid.NewGuid(),
+                            Value = tag
+                        };
+
+                        _existingTags.Add(tagToAdd.Value, tagToAdd);
+                    }
+
+                    _context.Entry(tagToAdd).State = EntityState.Added;
+                }
+
+                return tagToAdd;
+            }).ToList();
+
+            existingGroup.Tags = tagsToAdd;
+
+            result.Add(existingGroup);
+            _context.Entry(existingGroup).State = EntityState.Modified;
+        }
+
+        /// <summary>
+        /// Group does not exist
+        ///     Create group
+        ///         Add group to cache
+        ///         Modify context to add it
+        ///     Add all tags to group
+        ///         Modify context to add all tags
+        ///         Add tags to cache
+        /// </summary>
+        private void HandleNewTagGroup(string importedGroup, List<string> importedTags, List<Domain.Entities.ExerciseType.TagGroup> result)
+        {
+            var newTags = importedTags.Select(x =>
+            {
+                var newTag = new Domain.Entities.ExerciseType.Tag
+                {
+                    Id = Guid.NewGuid(),
+                    Value = x,
+                };
+
+                _context.Entry(newTag).State = EntityState.Added;
+
+                return newTag;
+            }).ToList();
+
+            var newTagGroup = new Domain.Entities.ExerciseType.TagGroup
+            {
+                Id = Guid.NewGuid(),
+                ApplicationUserId = _userId,
+                Type = importedGroup,
+                Tags = newTags
+            };
+
+            _existingGroups[newTagGroup.Type] = newTagGroup;
+            _context.Entry(newTagGroup).State = EntityState.Added;
+
+            result.Add(newTagGroup);
+        }
+
+        /// <summary>
+        /// Constructs exercise properties from given tag groups
+        /// </summary>
+        /// <param name="tagGroups"></param>
+        /// <returns></returns>
+        private IEnumerable<ExerciseTypeTag> GetExerciseProperties(IEnumerable<Domain.Entities.ExerciseType.TagGroup> tagGroups)
+        {
+            var tags = tagGroups.SelectMany(x =>
             {
                 x.Tags.ToList().ForEach(y => y.TagGroup = x);
                 return x.Tags;
             });
 
-            return resultTags.Select(x =>
+            return tags.Select(x =>
             {
                 var property = new ExerciseTypeTag
                 {
@@ -191,12 +220,17 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
             });
         }
 
-        //TODO REFACTOR
-        private IDictionary<string, List<string>> GetTagsDictionary(IReadOnlyList<string> groups, IReadOnlyList<string> tags)
+        /// <summary>
+        /// Converts single line imports of groups and their tags to some meaningful structure. Groups has many tags
+        /// </summary>
+        private IDictionary<string, List<string>> GetTagsDictionary(string importGroups, string importTags)
         {
+            var groups = importGroups.Split(",").Select(x => x.Trim()).ToArray();
+            var tags = importTags.Split(",").Select(x => x.Trim()).ToArray();
+
             var result = new Dictionary<string, List<string>>();
 
-            for (var i = 0; i < groups.Count; i++)
+            for (var i = 0; i < groups.Length; i++)
             {
                 var group = groups[i];
                 var tag = tags[i];
