@@ -1,5 +1,7 @@
-﻿using Backend.Service.Excel.Interfaces;
+﻿using Backend.Common;
+using Backend.Service.Excel.Interfaces;
 using Backend.Service.Excel.Models.Export;
+using Backend.Service.Excel.Models.Import;
 using Backend.Service.Excel.Utils;
 using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
@@ -47,6 +49,11 @@ namespace Backend.Service.Excel
                 : package.Workbook.Worksheets[0];
 
             return worksheet.ConvertSheetToObjects<T>();
+        }
+
+        public Task<IEnumerable<ValidationError>> ValidateData(IFormFile file, IList<ImportColumn> allowedColumns, CancellationToken cancellationToken)
+        {
+            return null; // TODO
         }
     }
 }

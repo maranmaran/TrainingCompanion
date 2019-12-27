@@ -8,5 +8,6 @@ namespace Backend.Service.Excel.Interfaces
         (string Title, string Author, string Comments, string Company) GetExportFileProperties();
 
         void WriteToSheet(ExcelWorksheet sheet, (ExcelNamedStyleXml HeaderStyle, ExcelNamedStyleXml CellStyle) styles);
+
     }
 }
