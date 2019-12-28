@@ -49,6 +49,7 @@
   <ItemGroup>
     <Folder Include="Assets\EmailTemplates\Registration\Coach\" />
     <Folder Include="Assets\EmailTemplates\Registration\SoloAthlete\" />
+    <Folder Include="Business\Import\GetImportColumns\" />
   </ItemGroup>
 
 </Project>

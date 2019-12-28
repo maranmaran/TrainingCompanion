@@ -19,6 +19,7 @@ const routes: Routes = [
                 { path: 'training-log', loadChildren: () => import('src/app/features/training-log/training-log.module').then(mod => mod.TrainingLogModule)},
                 { path: 'exercise-properties', loadChildren: () => import('src/app/features/exercise-properties/exercise-properties.module').then(mod => mod.ExercisePropertiesModule)},
                 { path: 'exercise-types', loadChildren: () => import('src/app/features/exercise-types/exercise-types.module').then(mod => mod.ExerciseTypesModule)},
+                { path: 'export-import', loadChildren: () => import('src/app/features/export-import/export-import.module').then(mod => mod.ExportImportModule)},
             ]
         },
         {
