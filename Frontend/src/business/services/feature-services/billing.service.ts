@@ -1,21 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
+import { AddPaymentOptionRequest } from 'src/server-models/cqrs/billing/requests/add-payment-option.request';
+import { GetSubscriptionRequest } from 'src/server-models/cqrs/billing/requests/get-subscription.request';
+import { SubscribeRequest } from 'src/server-models/cqrs/billing/requests/subscribe.request';
 import { GetPlansResponse } from 'src/server-models/cqrs/billing/responses/get-plans.response';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { BaseService } from '../base.service';
-import { SubscribeRequest } from 'src/server-models/cqrs/billing/requests/subscribe.request';
-import { GetSubscriptionRequest } from 'src/server-models/cqrs/billing/requests/get-subscription.request';
-import { AddPaymentOptionRequest } from 'src/server-models/cqrs/billing/requests/add-payment-option.request';
 
 @Injectable()
 export class BillingService extends BaseService {
-  private url = 'Billing/';
 
   constructor(
-    private http: HttpClient,
-  ) {
-    super();
+    private httpDI: HttpClient,
+    ) {
+    super(httpDI, 'Billing');
   }
 
   public getSubscriptionInformation(query: GetSubscriptionRequest) {

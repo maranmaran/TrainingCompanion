@@ -6,7 +6,7 @@ export class ExportService extends BaseService {
     constructor(
         private httpDI: HttpClient,
     ) {
-        super(httpDI, "Exercise");
+        super(httpDI, "Export");
     }
 
 

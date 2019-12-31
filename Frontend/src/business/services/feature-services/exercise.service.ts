@@ -7,26 +7,26 @@ import { CrudService } from '../crud.service';
 
 export class ExerciseService extends CrudService<Exercise> {
 
-    constructor(
-        private httpDI: HttpClient,
-    ) {
-        super(httpDI, "Exercise");
-    }
+  constructor(
+    private httpDI: HttpClient
+  ) {
+    super(httpDI, 'Exercise');
+  }
 
-    public uploadMedia(userId: string, trainingId: string, exerciseId: string, file: File, extension: string, type: MediaType) {
+  public uploadMedia(userId: string, trainingId: string, exerciseId: string, file: File, extension: string, type: MediaType) {
 
-      const formData: FormData = new FormData();
-      formData.append('userId', userId);
-      formData.append('trainingId', trainingId);
-      formData.append('exerciseId', exerciseId);
-      formData.append('file', file);
-      formData.append('extension', extension);
-      formData.append('type', type);
+    const formData: FormData = new FormData();
+    formData.append('userId', userId);
+    formData.append('trainingId', trainingId);
+    formData.append('exerciseId', exerciseId);
+    formData.append('file', file);
+    formData.append('extension', extension);
+    formData.append('type', type);
 
-      return this.http
-        .post<MediaFile>('Media/UploadExerciseMedia/', formData)
-        .pipe(catchError(this.handleError));
-    }
+    return this.http
+      .post<MediaFile>('Media/UploadExerciseMedia/', formData)
+      .pipe(catchError(this.handleError));
+  }
 
 }
 

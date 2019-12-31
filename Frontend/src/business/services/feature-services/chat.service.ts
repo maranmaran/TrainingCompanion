@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base.service';
 
@@ -5,10 +6,9 @@ import { BaseService } from '../base.service';
 @Injectable({ providedIn: 'root'})
 export class ChatService extends BaseService {
 
-    private url = 'Chat/';
-
     constructor(
+      private httpDI: HttpClient
     ) {
-        super();
+      super(httpDI, 'Chat');
     }
 }
