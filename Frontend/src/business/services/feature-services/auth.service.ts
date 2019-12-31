@@ -3,25 +3,24 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
-import { Subject, EMPTY, of, throwError } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/requests/set-password.request';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { BaseService } from '../base.service';
-import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/requests/set-password.request';
 
 @Injectable({ providedIn: 'root'})
 export class AuthService extends BaseService {
 
-  private url = `Authorization/`;
   public signOutEvent = new Subject();
 
   constructor(
-    private http: HttpClient,
+    private httpDI: HttpClient,
     private router: Router,
     private cookieService: CookieService,
   ) {
-    super();
+    super(httpDI, 'Authorization');
   }
 
   public signIn(request: SignInRequest) {
