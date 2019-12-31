@@ -1,3 +1,4 @@
+import { ImportEntities } from './../../../server-models/enums/import-entities.enum';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { BaseService } from '../base.service';
@@ -12,17 +13,10 @@ export class ImportService extends BaseService {
         super(httpDI, "Import");
     }
 
-
-    public import(userId: string, file: File) {
-
-      var request = new ImportRequest();
-      request.userId = userId;
-      request.file = file;
-
-      return this.http
-        .post<ImportResponse>(this.url + 'ImportExerciseTypes/', request)
-        .pipe(catchError(this.handleError));
+    public import<TRequest, TResponse>(request: TRequest, entity: ImportEntities) {
+        return this.http
+            .post<TResponse>(this.url + 'Import' + entity + '/', request)
+            .pipe(catchError(this.handleError));
     }
 
 }
-
