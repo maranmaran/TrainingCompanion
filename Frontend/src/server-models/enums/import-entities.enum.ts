@@ -1,4 +1,4 @@
 export enum ImportEntities {
-  Training,
-  ExerciseTypes
+  Training = 'Training',
+  ExerciseTypes = 'ExerciseTypes'
 }
