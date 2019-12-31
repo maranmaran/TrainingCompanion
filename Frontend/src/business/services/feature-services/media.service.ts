@@ -9,12 +9,10 @@ import { BaseService } from '../base.service';
 
 export class MediaService extends BaseService {
 
-    private url = 'Media/';
-
     constructor(
-        private http: HttpClient,
+      private httpDI: HttpClient
     ) {
-        super();
+      super(httpDI, 'Media');
     }
 
 
