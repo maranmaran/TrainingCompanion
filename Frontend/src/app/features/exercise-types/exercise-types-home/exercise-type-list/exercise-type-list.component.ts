@@ -5,11 +5,14 @@ import * as _ from "lodash";
 import { concatMap, map, take } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
+import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
+import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
-import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { setSelectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.actions';
 import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
@@ -201,5 +204,8 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
 
     //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
     // }
+  }
+
+  onPagingChange(model: PagingModel) {
   }
 }
