@@ -4,14 +4,16 @@ import { take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
+import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
+import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { TagGroupService } from 'src/business/services/feature-services/tag-group.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
-import { CustomColumn, TableConfig, TableDatasource } from 'src/business/shared/table-data';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { reorderTagGroups, setSelectedTagGroup, tagGroupDeleted } from 'src/ngrx/tag-group/tag-group.actions';
 import { allTagGroups } from 'src/ngrx/tag-group/tag-group.selectors';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { SubSink } from 'subsink';
 import { TypesCreateEditComponent } from './../types-create-edit/types-create-edit.component';
@@ -47,7 +49,6 @@ export class TypesListComponent implements OnInit, OnDestroy {
         .subscribe((tagGroups: TagGroup[]) => {
           this.tableDatasource.updateDatasource(tagGroups);
         }));
-
   }
 
   ngOnDestroy() {
@@ -59,6 +60,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
     tableConfig.filterFunction = (data: TagGroup, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = true;
     tableConfig.pageSizeOptions = [5];
+    tableConfig.serverSidePaging = true;
 
     return tableConfig;
   }
@@ -190,4 +192,6 @@ export class TypesListComponent implements OnInit, OnDestroy {
         }
       })
   }
+
+
 }

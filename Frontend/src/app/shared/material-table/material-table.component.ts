@@ -1,18 +1,20 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import _ from "lodash";
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { TableConfig, TableDatasource } from 'src/business/shared/table-data';
+import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
-import { CustomColumn } from './../../../business/shared/table-data';
+import { CustomColumn } from "./table-models/custom-column.model";
+import { PagingModel } from './table-models/paging.model';
 
 @Component({
   selector: 'app-material-table',
@@ -43,6 +45,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   @Output() disableManyEvent = new EventEmitter<any[]>();
   @Output() deleteManyEvent = new EventEmitter<any[]>();
 
+  @Output() pagingChangeEvent = new EventEmitter<PagingModel>();
+
   protected displayColumns: string[] = [];
   protected selection = new SelectionModel<string>(true, []);
   protected pageSize: number;
@@ -53,6 +57,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   private applyFilterEvent = new Subject<string>();
 
+  private pagingModel: PagingModel;
 
   private subs = new SubSink();
 
@@ -73,6 +78,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   ngAfterViewInit() {
     this.datasource.paginator = this.paginator;
     this.datasource.sort = this.sort;
+
+    this.pagingModel = new PagingModel();
   }
 
   ngOnDestroy() {
@@ -98,17 +105,25 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   applyFilter(filterValue: string) {
+
     filterValue = filterValue.trim().toLocaleLowerCase();
 
-    if (this.config.filterFunction) {
-      this.datasource.filterPredicate = this.config.filterFunction;
+    if(this.config.serverSidePaging) {
+
+      return this.pagingModel.filter = filterValue;
+    } else {
+
+      if (this.config.filterFunction) {
+        this.datasource.filterPredicate = this.config.filterFunction;
+      }
+
+      this.datasource.filter = filterValue;
+
+      if (this.datasource.paginator) {
+        this.datasource.paginator.firstPage();
+      }
     }
 
-    this.datasource.filter = filterValue;
-
-    if (this.datasource.paginator) {
-      this.datasource.paginator.firstPage();
-    }
   }
 
   public clearSelection() {
@@ -218,6 +233,18 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     const deleteActive = this.config.deleteEnabled ? 1 : 0;
     const disableActive = this.config.disableEnabled ? 1 : 0;
     return editActive + deleteActive + disableActive === 0;
+  }
+
+  public onPageChange(page: PageEvent) {
+    this.pagingModel.page = page.pageIndex;
+    this.pagingModel.pageSize = page.pageSize;
+    this.pagingChangeEvent.emit(this.pagingModel);
+  }
+
+  public onSortChange(sort: Sort) {
+    this.pagingModel.sortBy = sort.active;
+    this.pagingModel.sortDirection = sort.direction;
+    this.pagingChangeEvent.emit(this.pagingModel);
   }
 
 
