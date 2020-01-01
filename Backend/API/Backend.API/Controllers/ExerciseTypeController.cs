@@ -1,5 +1,6 @@
 ﻿using Backend.Application.Business.Business.ExerciseType.Create;
 using Backend.Application.Business.Business.ExerciseType.Delete;
+using Backend.Application.Business.Business.ExerciseType.Get;
 using Backend.Application.Business.Business.ExerciseType.GetAll;
 using Backend.Application.Business.Business.ExerciseType.Update;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,13 @@ namespace Backend.API.Controllers
         {
             return await GetQuery(async () => await Mediator.Send(new GetAllExerciseTypeRequest() { UserId = userId }), sieveModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Get(GetExerciseTypeRequest request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateExerciseTypeRequest request)

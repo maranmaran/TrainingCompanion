@@ -11,6 +11,8 @@ import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { currentUser } from '../../ngrx/auth/auth.selectors';
 import { ExerciseTypeService } from '../services/feature-services/exercise-type.service';
 import { isEmpty } from '../utils/utils';
+import { PagingModel } from './../../app/shared/material-table/table-models/paging.model';
+import { PagedList } from './../../server-models/shared/paged-list.model';
 
 @Injectable()
 export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] | void>> {
@@ -50,13 +52,17 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
 
     private updateState(userId: string) {
 
-        return this.exerciseTypeService.getAll(userId)
+        let defaultPagingModel = new PagingModel();
+        defaultPagingModel.sortBy = 'name';
+        defaultPagingModel.sortDirection = 'asc';
+
+        return this.exerciseTypeService.get(userId, defaultPagingModel)
         .pipe(
             take(1),
-            map(((exerciseTypes: ExerciseType[]) => {
-                this.store.dispatch(exerciseTypesFetched({ entities: exerciseTypes}));
+            map(((pagedListModel: PagedList<ExerciseType>) => {
+                console.log(pagedListModel);
+                this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list}));
             }))
         );
     }
 }
-

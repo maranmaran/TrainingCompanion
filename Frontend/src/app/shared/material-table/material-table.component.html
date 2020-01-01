@@ -4,7 +4,7 @@
 
 <div class="mat-elevation-z1">
 
-    <mat-table [dataSource]="datasource" matSort cdkDropList [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop" (cdkDropListDropped)="onListDrop($event)">
+    <mat-table [dataSource]="datasource" matSort (matSortChange)="config.serverSidePaging && onSortChange($event)" cdkDropList [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop" (cdkDropListDropped)="onListDrop($event)">
 
         <!-- SELECTION ( CHECKBOXES ) -->
         <ng-container matColumnDef="select" *ngIf="config.selectionEnabled">
@@ -25,7 +25,7 @@
         <ng-container *ngFor="let col of columns" matColumnDef="{{ col.definition }}">
 
             <ng-container *ngIf="col.sort">
-                <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef mat-sort-header> {{ col.title }} </mat-header-cell>
+                <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef mat-sort-header > {{ col.title }} </mat-header-cell>
             </ng-container>
 
             <ng-container *ngIf="!col.sort">
@@ -119,6 +119,6 @@
         <span>No records</span>
     </div>
 
-    <mat-paginator [hidden]="paginatorHidden" showFirstLastButtons
+    <mat-paginator [hidden]="paginatorHidden" showFirstLastButtons (page)="config.serverSidePaging && onPageChange($event)"
         [pageSize]="pageSize" [length]="datasource.data.length" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
 </div>
