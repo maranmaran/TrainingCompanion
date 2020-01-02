@@ -40,6 +40,7 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
             .select(exerciseTypes)
             .pipe(
                 take(1),
+                map(state => state.entities),
                 concatMap((exerciseTypes: ExerciseType[]) => {
 
                 if (isEmpty(exerciseTypes)) {
@@ -60,8 +61,7 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
         .pipe(
             take(1),
             map(((pagedListModel: PagedList<ExerciseType>) => {
-                console.log(pagedListModel);
-                this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list}));
+                this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list, totalItems: pagedListModel.totalItems }));
             }))
         );
     }

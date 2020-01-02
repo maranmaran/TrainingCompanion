@@ -10,7 +10,7 @@ export const exerciseTypeCreated = createAction(
 
 export const exerciseTypesFetched = createAction(
   '[ExerciseType] Fetched',
-  props<{ entities: ExerciseType[] }>()
+  props<{ entities: ExerciseType[], totalItems: number }>()
 );
 
 export const exerciseTypeUpdated = createAction(

@@ -9,18 +9,19 @@ import { CustomColumn } from "src/app/shared/material-table/table-models/custom-
 import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
-import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
-import { setSelectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.actions';
+import { exerciseTypesFetched, setSelectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.actions';
 import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
+import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
+import { ExerciseTypeService } from './../../../../../business/services/feature-services/exercise-type.service';
 import { TagGroupService } from './../../../../../business/services/feature-services/tag-group.service';
+import { currentUserId } from './../../../../../ngrx/auth/auth.selectors';
 import { ExerciseTypeCreateEditComponent } from './../exercise-type-create-edit/exercise-type-create-edit.component';
 
 @Component({
@@ -40,6 +41,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
 
   exerciseTypeControl = new FormControl();
   exerciseTypes: ExerciseType[] = [];
+  _userId: string;
 
   constructor(
     private uiService: UIService,
@@ -53,11 +55,14 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     this.tableConfig = this.getTableConfig();
     this.tableColumns = this.getTableColumns() as CustomColumn[];
 
+    this.store.select(currentUserId).pipe(take(1)).subscribe(id => this._userId = id);
+
     this.subs.add(
       this.store.select(exerciseTypes)
-        .subscribe((exerciseTypes: ExerciseType[]) => {
-          this.exerciseTypes = exerciseTypes;
-          this.tableDatasource.updateDatasource([...exerciseTypes]);
+        .subscribe((state: {entities: ExerciseType[], totalItems: number}) => {
+          this.exerciseTypes = state.entities;
+          this.tableDatasource.updateDatasource([...state.entities]);
+          this.tableDatasource.setTotalLength(state.totalItems);
         }));
 
   }
@@ -70,7 +75,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     const tableConfig = new TableConfig();
     tableConfig.filterFunction = (data: ExerciseType, filter: string) => data.name.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = false;
-
+    tableConfig.serverSidePaging = true;
     return tableConfig;
   }
 
@@ -207,5 +212,15 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
   }
 
   onPagingChange(model: PagingModel) {
+    this._fetchExerciseTypes(model).subscribe(_ => _, err => console.log(err));
   }
+
+  _fetchExerciseTypes = (model: PagingModel) =>
+      this.exerciseTypeService.get(this._userId, model)
+      .pipe(
+          take(1),
+          map(((pagedListModel: PagedList<ExerciseType>) => {
+              this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list, totalItems: pagedListModel.totalItems }));
+          }))
+      );
 }

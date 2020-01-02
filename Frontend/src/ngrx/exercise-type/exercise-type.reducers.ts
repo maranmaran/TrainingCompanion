@@ -28,8 +28,11 @@ export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = cre
   }),
 
   // GET ALL
-  on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[] }) => {
-      return adapterExerciseType.addMany(payload.entities, state);
+  on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[], totalItems: number }) => {
+      return {
+        ...adapterExerciseType.addAll(payload.entities, state),
+        totalItems: payload.totalItems
+      };
   }),
 
   // SET SELECTED
