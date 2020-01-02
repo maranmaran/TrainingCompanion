@@ -4,7 +4,7 @@ import { PAGE_SIZE } from './table-config.model';
 export class PagingModel {
   page: number = 0;
   pageSize: number = PAGE_SIZE;
-  filter: string;
+  filterQuery: string;
   sortBy: string;
   sortDirection: SortDirection
 }

@@ -6,7 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import _ from "lodash";
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
@@ -51,6 +51,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   protected selection = new SelectionModel<string>(true, []);
   protected pageSize: number;
   protected pageSizeOptions: number[];
+  protected totalItems: Observable<number>;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -76,10 +77,16 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    this.datasource.paginator = this.paginator;
-    this.datasource.sort = this.sort;
 
     this.pagingModel = new PagingModel();
+
+    if(!this.config.serverSidePaging) {
+      this.datasource.paginator = this.paginator;
+      this.datasource.sort = this.sort;
+    } else {
+      setTimeout(() => this.totalItems = this.datasource.totalLength());
+    }
+
   }
 
   ngOnDestroy() {
@@ -108,9 +115,12 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
     filterValue = filterValue.trim().toLocaleLowerCase();
 
+    // TODO - filter this server side - send event for pagination change
     if(this.config.serverSidePaging) {
 
-      return this.pagingModel.filter = filterValue;
+      this.pagingModel.filterQuery = filterValue;
+      this.pagingChangeEvent.emit(this.pagingModel);
+
     } else {
 
       if (this.config.filterFunction) {
