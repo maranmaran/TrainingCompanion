@@ -1,4 +1,5 @@
 ﻿using Backend.Common;
+using Backend.Common.Extensions;
 using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
@@ -34,21 +35,22 @@ namespace Backend.Application.Business.Business.ExerciseType.Get
 
                 // filter
                 if (!string.IsNullOrWhiteSpace(paginationModel.FilterQuery))
-                    exerciseTypes.Where(x =>
-                        x.Name.Contains(paginationModel.FilterQuery) || x.Code.Contains(paginationModel.FilterQuery));
+                    exerciseTypes = exerciseTypes.Where(x =>
+                        x.Name.ToLower().Contains(paginationModel.FilterQuery.ToLower()) || x.Code.ToLower().Contains(paginationModel.FilterQuery.ToLower()));
 
                 // get count of items
                 var totalItems = exerciseTypes.Count();
 
                 // sort
-                exerciseTypes.OrderBy(x =>
-                        paginationModel.SortDirection == "asc" && paginationModel.SortBy == "name" ? x.Name : "")
-                    .OrderByDescending(x =>
-                        paginationModel.SortDirection == "desc" && paginationModel.SortBy == "name" ? x.Name : "")
-                    .OrderBy(x =>
-                        paginationModel.SortDirection == "asc" && paginationModel.SortBy == "code" ? x.Code : "")
-                    .OrderByDescending(x =>
-                        paginationModel.SortDirection == "desc" && paginationModel.SortBy == "code" ? x.Code : "");
+                if (!string.IsNullOrWhiteSpace(paginationModel.SortBy))
+                {
+                    exerciseTypes = (paginationModel.SortBy switch
+                    {
+                        "name" => exerciseTypes.Sort(type => type.Name, paginationModel.SortDirection),
+                        "code" => exerciseTypes.Sort(type => type.Name, paginationModel.SortDirection),
+                        _ => throw new Exception($"Can't filter by {paginationModel.SortBy}")
+                    });
+                }
 
                 // page
                 var exerciseTypesPagedList = exerciseTypes.Skip(paginationModel.Page * paginationModel.PageSize).Take(paginationModel.PageSize);
@@ -67,5 +69,7 @@ namespace Backend.Application.Business.Business.ExerciseType.Get
                 throw new NotFoundException(nameof(Domain.Entities.ExerciseType.ExerciseType), $"Could not find exercise type for {request.UserId} USER", e);
             }
         }
+
+
     }
 }

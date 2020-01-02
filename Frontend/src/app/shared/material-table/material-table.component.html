@@ -120,5 +120,5 @@
     </div>
 
     <mat-paginator [hidden]="paginatorHidden" showFirstLastButtons (page)="config.serverSidePaging && onPageChange($event)"
-        [pageSize]="pageSize" [length]="datasource.data.length" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+        [pageSize]="pageSize" [length]="(totalItems | async)" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
 </div>

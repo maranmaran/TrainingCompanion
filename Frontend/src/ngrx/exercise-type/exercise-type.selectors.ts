@@ -17,7 +17,8 @@ export const exerciseTypeEntities = createSelector(
 
 export const exerciseTypes = createSelector(
     selectExerciseTypeState,
-    fromExerciseType.selectAll
+    (state) => ({ entities: fromExerciseType.selectAll(state), totalItems: state.totalItems }),
+    // (state, entities) => ({ entities: entities, totalItems: state.totalItems })
 );
 
 export const exerciseTypesForMonth = createSelector(
