@@ -217,7 +217,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
   }
 
   _fetchExerciseTypes = (model: PagingModel) =>
-      this.exerciseTypeService.get(this._userId, model)
+      this.exerciseTypeService.getPaged(this._userId, model)
       .pipe(
           take(1),
           map(((pagedListModel: PagedList<ExerciseType>) => {

@@ -6,5 +6,6 @@ export class PagingModel {
   pageSize: number = PAGE_SIZE;
   filterQuery: string;
   sortBy: string;
-  sortDirection: SortDirection
+  sortDirection: SortDirection;
+  fetchAll: boolean = false;
 }

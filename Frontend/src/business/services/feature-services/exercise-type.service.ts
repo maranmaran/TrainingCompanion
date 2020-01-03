@@ -13,14 +13,14 @@ export class ExerciseTypeService extends CrudService<ExerciseType> {
       super(httpDI, 'ExerciseType');
     }
 
-    public get(id: string, paginationModel: PagingModel) {
+    public getPaged(id: string, paginationModel: PagingModel) {
 
       var request = {
         userId: id,
         paginationModel
       }
 
-      return this.http.post<PagedList<ExerciseType>>(this.url + 'Get/', request)
+      return this.http.post<PagedList<ExerciseType>>(this.url + 'GetPaged/', request)
         .pipe(
           catchError(this.handleError)
         );
