@@ -19,7 +19,7 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Get(GetExerciseTypeRequest request)
+        public async Task<IActionResult> GetPaged(GetPagedExerciseTypeRequest request)
         {
             return Ok(await Mediator.Send(request));
         }

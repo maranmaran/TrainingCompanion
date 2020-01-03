@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.ExerciseType.Get
 {
-    public class GetExerciseTypeRequestHandler : IRequestHandler<GetExerciseTypeRequest, PagedList<Domain.Entities.ExerciseType.ExerciseType>>
+    public class GetPagedExerciseTypeRequestHandler : IRequestHandler<GetPagedExerciseTypeRequest, PagedList<Domain.Entities.ExerciseType.ExerciseType>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetExerciseTypeRequestHandler(IApplicationDbContext context)
+        public GetPagedExerciseTypeRequestHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<PagedList<Domain.Entities.ExerciseType.ExerciseType>> Handle(GetExerciseTypeRequest request, CancellationToken cancellationToken)
+        public async Task<PagedList<Domain.Entities.ExerciseType.ExerciseType>> Handle(GetPagedExerciseTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -52,8 +52,8 @@ namespace Backend.Application.Business.Business.ExerciseType.Get
                     });
                 }
 
-                // page
-                var exerciseTypesPagedList = exerciseTypes.Skip(paginationModel.Page * paginationModel.PageSize).Take(paginationModel.PageSize);
+                // page --- or fetch all results 
+                var exerciseTypesPagedList = !request.PaginationModel.FetchAll ? exerciseTypes.Skip(paginationModel.Page * paginationModel.PageSize).Take(paginationModel.PageSize) : exerciseTypes;
 
                 //TODO: Technical debt.. this needs to be done better
                 foreach (var exerciseType in exerciseTypesPagedList)
