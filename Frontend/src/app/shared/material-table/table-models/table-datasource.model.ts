@@ -1,5 +1,6 @@
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
+import { PagingModel } from './paging.model';
 export class TableDatasource<T> extends MatTableDataSource<T> {
   // tslint:disable-next-line:variable-name
   private _internalData: T[];
@@ -25,10 +26,15 @@ export class TableDatasource<T> extends MatTableDataSource<T> {
     this.data = this._internalData;
   }
 
-  private totalItems = new BehaviorSubject<number>(0);
+  private _totalItems = new BehaviorSubject<number>(0);
+  totalLength = () => this._totalItems.asObservable();
   setTotalLength(totalItems: number) {
-    this.totalItems.next(totalItems);
+    this._totalItems.next(totalItems);
   }
 
-  totalLength = () => this.totalItems.asObservable();
+  private _pagingModel = new BehaviorSubject<PagingModel>(new PagingModel());
+  pagingModel = () => this._pagingModel.asObservable()
+  setPagingModel(model: PagingModel) {
+    this._pagingModel.next(model);
+  }
 }

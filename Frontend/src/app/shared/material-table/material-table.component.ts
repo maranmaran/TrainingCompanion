@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
@@ -52,10 +52,12 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   protected pageSize: number;
   protected pageSizeOptions: number[];
   protected totalItems: Observable<number>;
+  protected page: Observable<number>;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('filter', { static: false }) filter: ElementRef;
   private applyFilterEvent = new Subject<string>();
 
   private pagingModel: PagingModel;
@@ -72,21 +74,34 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.subs.add(
       this.applyFilterEvent.pipe(debounceTime(300)).subscribe(filter => this.applyFilter(filter)),
-      this.store.select(isMobile).subscribe((isMobile: boolean) => this.setupColumns(isMobile))
+      this.store.select(isMobile).subscribe((isMobile: boolean) => this.setupColumns(isMobile)),
+      this.datasource.pagingModel().subscribe(model => {
+        this.pagingModel = model;
+        this.setTablePagingVariables(model, this.datasource.totalLength());
+      })
     );
   }
 
   ngAfterViewInit() {
-
-    this.pagingModel = new PagingModel();
-
+    // assign paginator and sort components to datasource only if we'r not using server side paging
     if(!this.config.serverSidePaging) {
       this.datasource.paginator = this.paginator;
       this.datasource.sort = this.sort;
     } else {
-      setTimeout(() => this.totalItems = this.datasource.totalLength());
+      setTimeout( () => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()) );
     }
 
+  }
+
+  setTablePagingVariables(model: PagingModel, totalItems: Observable<number>) {
+      this.totalItems = totalItems;
+      this.paginator.pageIndex = model.page;
+      this.sort.active = model.sortBy;
+      this.sort.direction = model.sortDirection;
+
+      if(this.filter) {
+        this.filter.nativeElement.value = model.filterQuery ? model.filterQuery : '';
+      }
   }
 
   ngOnDestroy() {
@@ -142,11 +157,15 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   masterToggle() {
     if (this.isAllSelected) {
+      console.log('clear emit');
       this.selection.clear();
       this.selectEvent.emit(null);
     } else {
+      console.log('foreach');
       this.datasource.data.forEach(row => this.selection.select(row.id));
     }
+
+    console.log(this.isAllSelected);
   }
 
   get isOneSelected() {

@@ -1,5 +1,6 @@
 import { Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import * as ExerciseTypeActions from './exercise-type.actions';
 import { adapterExerciseType, exerciseTypeInitialState, ExerciseTypeState } from './exercise-type.state';
@@ -28,10 +29,11 @@ export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = cre
   }),
 
   // GET ALL
-  on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[], totalItems: number }) => {
+  on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[], totalItems: number, pagingModel: PagingModel  }) => {
       return {
         ...adapterExerciseType.addAll(payload.entities, state),
-        totalItems: payload.totalItems
+        totalItems: payload.totalItems,
+        pagingModel: payload.pagingModel
       };
   }),
 

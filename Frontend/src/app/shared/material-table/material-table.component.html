@@ -1,5 +1,5 @@
 <mat-form-field *ngIf="config.filterEnabled">
-    <input matInput (keyup)="applyFilterEvent.next($event.target.value)" placeholder="Filter">
+    <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)" placeholder="Filter">
 </mat-form-field>
 
 <div class="mat-elevation-z1">
