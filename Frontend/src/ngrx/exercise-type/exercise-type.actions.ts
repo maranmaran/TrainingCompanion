@@ -1,6 +1,7 @@
 import { Update } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { PagingModel } from './../../app/shared/material-table/table-models/paging.model';
 
 
 export const exerciseTypeCreated = createAction(
@@ -10,7 +11,7 @@ export const exerciseTypeCreated = createAction(
 
 export const exerciseTypesFetched = createAction(
   '[ExerciseType] Fetched',
-  props<{ entities: ExerciseType[], totalItems: number }>()
+  props<{ entities: ExerciseType[], totalItems: number, pagingModel: PagingModel }>()
 );
 
 export const exerciseTypeUpdated = createAction(

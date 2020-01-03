@@ -3,3 +3,6 @@
 3. CRUD - vise genericki i nekakav uniformni kod da nema previse kerefeka
 4. Exercise types load everything even tag groups (for hex colors)... flatten ? We don't need all that info i believe
 5. Training fetch for calendar -> Fetch it in dictionary on server so you don't have to parse it and map to CalendarEvent
+6. Virtual scroll + filtering + paging or whatever for all autocompletes that use exercise types
+7. Virtual scroll for notifications https://github.com/angular/components/issues/10122
+8. Dropdown box looks (basic mat select) terrible

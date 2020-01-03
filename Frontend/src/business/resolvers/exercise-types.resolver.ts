@@ -61,7 +61,7 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
         .pipe(
             take(1),
             map(((pagedListModel: PagedList<ExerciseType>) => {
-                this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list, totalItems: pagedListModel.totalItems }));
+                this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list, totalItems: pagedListModel.totalItems, pagingModel: defaultPagingModel }));
             }))
         );
     }
