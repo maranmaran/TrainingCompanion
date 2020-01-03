@@ -57,7 +57,7 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
         defaultPagingModel.sortBy = 'name';
         defaultPagingModel.sortDirection = 'asc';
 
-        return this.exerciseTypeService.get(userId, defaultPagingModel)
+        return this.exerciseTypeService.getPaged(userId, defaultPagingModel)
         .pipe(
             take(1),
             map(((pagedListModel: PagedList<ExerciseType>) => {
