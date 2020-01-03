@@ -30,7 +30,11 @@
             <button classy="w-100 mt-3" mat-stroked-button color="primary" (click)="loadMoreNotifications()" (click)="$event.stopPropagation()">Show more notifications</button>
           </cdk-virtual-scroll-viewport> -->
 
-          <div id="notification-item-wrapper">
+          <p id="no-notifications" fxLayout="row" fxLayoutAlign="center" *ngIf="!notifications || notifications.length == 0">
+            <i>No notifications to show</i>
+          </p>
+
+          <div id="notification-item-wrapper" *ngIf="notifications && notifications.length > 0">
 
             <div *ngFor="let item of notifications; let i = index; let c = count" class="virtual-scroll-item">
               <app-notification-item
