@@ -6,7 +6,6 @@ import { concatMap, map, take } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
-import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -22,6 +21,7 @@ import { SubSink } from 'subsink';
 import { ExerciseTypeService } from './../../../../../business/services/feature-services/exercise-type.service';
 import { TagGroupService } from './../../../../../business/services/feature-services/tag-group.service';
 import { currentUserId } from './../../../../../ngrx/auth/auth.selectors';
+import { PagingModel } from './../../../../shared/material-table/table-models/paging.model';
 import { ExerciseTypeCreateEditComponent } from './../exercise-type-create-edit/exercise-type-create-edit.component';
 
 @Component({
@@ -59,9 +59,10 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
 
     this.subs.add(
       this.store.select(exerciseTypes)
-        .subscribe((state: {entities: ExerciseType[], totalItems: number}) => {
+        .subscribe((state: {entities: ExerciseType[], totalItems: number, pagingModel: PagingModel }) => {
           this.exerciseTypes = state.entities;
           this.tableDatasource.updateDatasource([...state.entities]);
+          this.tableDatasource.setPagingModel(Object.assign({}, state.pagingModel));
           this.tableDatasource.setTotalLength(state.totalItems);
         }));
 
@@ -220,7 +221,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       .pipe(
           take(1),
           map(((pagedListModel: PagedList<ExerciseType>) => {
-              this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list, totalItems: pagedListModel.totalItems }));
+              this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list, totalItems: pagedListModel.totalItems, pagingModel: model }));
           }))
       );
 }

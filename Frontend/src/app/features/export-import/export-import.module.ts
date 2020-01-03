@@ -12,6 +12,10 @@ import { ExportImportHomeComponent } from './export-import-home/export-import-ho
 import { ExportImportRoutingModule } from './export-import-routing.module';
 import { ExportComponent } from './export-import-home/export/export.component';
 import { ImportComponent } from './export-import-home/import/import.component';
+import { ExerciseTypeImportComponent } from './export-import-home/import/exercise-type-import/exercise-type-import.component';
+import { TrainingImportComponent } from './export-import-home/import/training-import/training-import.component';
+import { TrainingExportComponent } from './export-import-home/export/training-export/training-export.component';
+import { ExerciseTypeExportComponent } from './export-import-home/export/exercise-type-export/exercise-type-export.component';
 
 @NgModule({
     imports: [
@@ -24,6 +28,10 @@ import { ImportComponent } from './export-import-home/import/import.component';
         ExportImportHomeComponent,
         ExportComponent,
         ImportComponent,
+        ExerciseTypeImportComponent,
+        TrainingImportComponent,
+        TrainingExportComponent,
+        ExerciseTypeExportComponent,
     ],
     exports: [
     ],

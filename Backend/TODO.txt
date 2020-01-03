@@ -5,3 +5,4 @@
  - This includes validation
 4. Add description properties to exercise property type and exercise property
 6. PREFETCH first trainings for trianing calendar... maybe keep user settings and remember his last things ?
+7. Propagate exercise types to all sub athletes of a coach

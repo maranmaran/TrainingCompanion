@@ -11,10 +11,10 @@ import { UploadInputComponent } from './upload-input/upload-input.component';
 export class MediaUploaderComponent implements OnInit, AfterViewInit {
 
   @Input() files: MediaFile[];
+  @Input() fileTypesToAccept: string;
   @Output() fileUploaded = new EventEmitter<File>();
 
   uploadInputComponent: ComponentPortal<UploadInputComponent>;
-
 
   constructor() { }
 
