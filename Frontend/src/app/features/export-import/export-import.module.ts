@@ -9,13 +9,14 @@ import { ExportImportEffects } from 'src/ngrx/export-import/export-import.effect
 import { ExportImportResolver } from './../../../business/resolvers/export-import.resolver';
 import { exportImportReducers } from './../../../ngrx/export-import/export-import.reducers';
 import { ExportImportHomeComponent } from './export-import-home/export-import-home.component';
-import { ExportImportRoutingModule } from './export-import-routing.module';
-import { ExportComponent } from './export-import-home/export/export.component';
-import { ImportComponent } from './export-import-home/import/import.component';
-import { ExerciseTypeImportComponent } from './export-import-home/import/exercise-type-import/exercise-type-import.component';
-import { TrainingImportComponent } from './export-import-home/import/training-import/training-import.component';
-import { TrainingExportComponent } from './export-import-home/export/training-export/training-export.component';
 import { ExerciseTypeExportComponent } from './export-import-home/export/exercise-type-export/exercise-type-export.component';
+import { ExportComponent } from './export-import-home/export/export.component';
+import { TrainingExportComponent } from './export-import-home/export/training-export/training-export.component';
+import { ExerciseTypeImportComponent } from './export-import-home/import/exercise-type-import/exercise-type-import.component';
+import { ImportButtonComponent } from './export-import-home/import/import-button/import-button.component';
+import { ImportComponent } from './export-import-home/import/import.component';
+import { TrainingImportComponent } from './export-import-home/import/training-import/training-import.component';
+import { ExportImportRoutingModule } from './export-import-routing.module';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { ExerciseTypeExportComponent } from './export-import-home/export/exercis
         TrainingImportComponent,
         TrainingExportComponent,
         ExerciseTypeExportComponent,
+        ImportButtonComponent,
     ],
     exports: [
     ],

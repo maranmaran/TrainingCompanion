@@ -16,7 +16,7 @@ export class ExerciseTypeImportComponent implements OnInit {
   ngOnInit() {
   }
 
-  import() {
+  import(file: File) {
     var request = this.getRequest();
     this.importService.importExerciseType(request);
   }
