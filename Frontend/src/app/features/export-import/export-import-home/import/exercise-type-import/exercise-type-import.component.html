@@ -1,1 +1,4 @@
-<ng-content id="upload-input"></ng-content> <!--located inside parent-->
+<div class="details-body" fxLayout="column">
+
+  <app-import-button fxFlexAlign="start" (fileUploaded)="import($event)"></app-import-button>
+</div>

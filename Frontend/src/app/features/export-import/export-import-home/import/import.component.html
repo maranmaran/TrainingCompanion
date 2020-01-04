@@ -7,11 +7,11 @@
   <mat-divider></mat-divider>
 
   <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
-    <mat-form-field>
+    <mat-form-field style="width: 250px">
       <mat-label>Import type</mat-label>
       <mat-select [(value)]="selectedImportType">
         <mat-option *ngFor="let type of importEntities | enumToArray" [value]="type.name">
-          {{ type.name }}
+          {{ type.name | splitPascalCase | titlecase}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -20,22 +20,17 @@
   <ng-container [ngSwitch]="selectedImportType">
 
     <ng-container *ngSwitchCase="'ExerciseTypes'">
-      <app-exercise-type-import>
-        <app-media-uploader [fileTypesToAccept]="fileTypesToAccept" (fileUploaded)="onFileUploaded($event)"></app-media-uploader>
-      </app-exercise-type-import>
+      <app-exercise-type-import></app-exercise-type-import>
     </ng-container>
 
     <ng-container *ngSwitchCase="'Training'">
-      <app-training-import>
-        <app-media-uploader fxFlex [fileTypesToAccept]="fileTypesToAccept" (fileUploaded)="onFileUploaded($event)"></app-media-uploader>
-      </app-training-import>
+      <app-training-import></app-training-import>
     </ng-container>
 
   </ng-container>
 
-
   <div class="details-footer">
-    Footer
+    <!-- Footer -->
   </div>
 
 </div>

@@ -8,9 +8,11 @@ import { AvatarModule } from 'ngx-avatar';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
+import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
 import { TrainingCalendarDayComponent } from './../features/training-log/training/training-calendar/training-calendar-day/training-calendar-day.component';
 import { ActiveFlagComponent } from './active-flag/active-flag.component';
 import { MaterialModule } from './angular-material.module';
+import { ChartComponent } from './charts/chart/chart.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ErrorSnackbarComponent } from './error-snackbar/error-snackbar.component';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
@@ -26,7 +28,6 @@ import { UploadInputComponent } from './media-uploader/upload-input/upload-input
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { NotImplementedComponent } from './not-implemented/not-implemented.component';
 import { NotificationItemComponent } from './notification-item/notification-item.component';
-import { ChartComponent } from './charts/chart/chart.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { ChartComponent } from './charts/chart/chart.component';
         ConfirmDialogComponent,
         SanitizeHtmlPipe,
         EnumToArrayPipe,
+        SplitPascalCasePipe,
         MaterialTableComponent,
         ShowHidePasswordDirective,
         EventCalendarComponent,
@@ -85,6 +87,7 @@ import { ChartComponent } from './charts/chart/chart.component';
         ConfirmDialogComponent,
         SanitizeHtmlPipe,
         EnumToArrayPipe,
+        SplitPascalCasePipe,
         MaterialTableComponent,
         ShowHidePasswordDirective,
         EventCalendarComponent,
