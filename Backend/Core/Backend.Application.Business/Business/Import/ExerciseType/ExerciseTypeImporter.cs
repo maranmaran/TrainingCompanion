@@ -33,6 +33,7 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
 
             var existingTypes = _context
                 .ExerciseTypes
+                .Include(x => x.Properties)
                 .Where(x => x.ApplicationUserId == userId)
                 //.AsNoTracking()
                 .ToDictionary(x => x.Code, x => x)
@@ -97,6 +98,15 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
                 type = existingType;
 
                 type.ApplicationUserId = _userId;
+
+                // remove existing properties
+                foreach (var property in existingType.Properties)
+                {
+                    //_context.Entry(property).State = EntityState.Deleted;
+                    _context.ExerciseTypeTags.Remove(property);
+                }
+
+                // assign new properties
                 type.Properties = properties;
                 _context.Entry(type).State = EntityState.Modified;
 

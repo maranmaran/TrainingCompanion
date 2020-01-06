@@ -1,4 +1,3 @@
 <div class="details-body" fxLayout="column">
-
-  <app-import-button fxFlexAlign="start" (fileUploaded)="import($event)"></app-import-button>
+  <app-import-button style="width: 250px" fxFlexAlign="start" [importFn]="import" [isUploading]="isUploadingObs"></app-import-button>
 </div>
