@@ -4,6 +4,7 @@
     {
         TrainingCreated,
         NoteAdded,
-        MediaAdded
+        MediaAdded,
+        ImportFinished
     }
 }

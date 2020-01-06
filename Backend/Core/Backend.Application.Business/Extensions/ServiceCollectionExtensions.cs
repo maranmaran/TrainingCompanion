@@ -5,6 +5,7 @@ using Backend.Service.AmazonS3.Extensions;
 using Backend.Service.Authorization.Extensions;
 using Backend.Service.Email.Extensions;
 using Backend.Service.Excel.Extensions;
+using Backend.Service.Logging.Extensions;
 using Backend.Service.Payment.Extensions;
 using Backend.Service.PushNotifications;
 using MediatR;
@@ -28,6 +29,7 @@ namespace Backend.Application.Business.Extensions
             services.ConfigureS3Services();
             services.ConfigureNotificationServices();
             services.ConfigureExcelService();
+            services.ConfigureLoggingService();
         }
 
         public static void ConfigureCoreSettings(this IServiceCollection services, IConfiguration config)

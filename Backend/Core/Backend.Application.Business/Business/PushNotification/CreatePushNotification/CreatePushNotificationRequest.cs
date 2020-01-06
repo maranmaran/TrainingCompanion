@@ -9,18 +9,27 @@ namespace Backend.Application.Business.Business.PushNotification.CreatePushNotif
     {
         public NotificationType Type { get; set; }
         public string Payload { get; set; }
-        public Guid SenderId { get; set; }
+        public Guid? SenderId { get; set; }
         public Guid ReceiverId { get; set; }
+        public bool SystemNotification = false;
 
         public CreatePushNotificationRequest()
         {
         }
 
-        public CreatePushNotificationRequest(NotificationType type, string payload, Guid senderId, Guid receiverId)
+        public CreatePushNotificationRequest(NotificationType type, string payload, Guid? senderId, Guid receiverId)
         {
             this.Type = type;
             this.Payload = payload;
-            this.SenderId = senderId;
+            this.SenderId = senderId == Guid.Empty ? null : senderId;
+            this.ReceiverId = receiverId;
+        }
+
+        public CreatePushNotificationRequest(NotificationType type, string payload, Guid receiverId)
+        {
+            this.Type = type;
+            this.Payload = payload;
+            this.SystemNotification = true;
             this.ReceiverId = receiverId;
         }
     }
