@@ -11,7 +11,11 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.Read).HasDefaultValue(false);
             builder.Property(x => x.SentAt).HasDefaultValueSql("getutcdate()");
 
-            builder.HasOne(x => x.Sender).WithMany(x => x.Notifications).HasForeignKey(x => x.SenderId);
+            builder
+                .HasOne(x => x.Sender)
+                .WithMany(x => x.Notifications)
+                .HasForeignKey(x => x.SenderId)
+                .IsRequired(false);
         }
     }
 }

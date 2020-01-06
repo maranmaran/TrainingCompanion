@@ -12,10 +12,13 @@ namespace Backend.Domain.Entities.Notification
         public string Payload { get; set; }
         public DateTime SentAt { get; set; }
 
+
         public bool Read { get; set; }
         public string RedirectUrl { get; set; }
 
-        public Guid SenderId { get; set; }
+        public bool SystemNotification { get; set; }
+
+        public virtual Guid? SenderId { get; set; }
         public virtual ApplicationUser Sender { get; set; }
 
         public Guid? ReceiverId { get; set; }

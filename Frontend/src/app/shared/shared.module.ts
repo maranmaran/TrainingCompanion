@@ -28,6 +28,7 @@ import { UploadInputComponent } from './media-uploader/upload-input/upload-input
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { NotImplementedComponent } from './not-implemented/not-implemented.component';
 import { NotificationItemComponent } from './notification-item/notification-item.component';
+import { NotificationTypeIconComponent } from './notification-item/notification-type-icon/notification-type-icon.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { NotificationItemComponent } from './notification-item/notification-item
         MediaUploaderComponent,
         NotificationItemComponent,
         TrainingCalendarDayComponent,
-        ChartComponent
+        ChartComponent,
+        NotificationTypeIconComponent
     ],
     exports: [
         CommonModule,
@@ -102,7 +104,8 @@ import { NotificationItemComponent } from './notification-item/notification-item
         MediaUploaderComponent,
         NotificationItemComponent,
         TrainingCalendarDayComponent,
-        ChartComponent
+        ChartComponent,
+        NotificationTypeIconComponent
     ],
     providers: [
     ],
