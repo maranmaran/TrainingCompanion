@@ -18,8 +18,7 @@ namespace Backend.Application.Business.Business.Import.ExerciseType
         {
             Errors = errors;
 
-            if (errors != null && errors.Any())
-                Success = false;
+            Success = errors == null || !errors.Any();
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Backend.Service.Excel
             return worksheet.ConvertSheetToObjects<T>();
         }
 
-        public Task<IEnumerable<ValidationError>> ValidateData(IFormFile file, IList<ImportColumn> allowedColumns, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ValidationError>> ValidateData(IFormFile file, IList<ImportColumn> allowedColumns, CancellationToken cancellationToken)
         {
             return null; // TODO
         }
