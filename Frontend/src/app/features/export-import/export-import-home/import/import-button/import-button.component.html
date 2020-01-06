@@ -1,7 +1,15 @@
-<button *ngIf="!(isUploadingFile | async)" mat-stroked-button color="primary" (click)="triggerUploadMediaInput()">
-  Import
-  <i matSuffix class="fas fa-upload fa-1x ml-1 primary-foreground"></i>
-</button>
+<span fxLayout="row" fxLayoutAlign="space-between center">
 
-<input fxHide="true" #uploadInput type="file" (change)="uploadMedia($event.target.files)" accept="{{fileTypesToAccept}}" />
-<mat-progress-bar class="upload-progress-bar" *ngIf="(isUploadingFile | async)" mode="indeterminate"></mat-progress-bar>
+  <button *ngIf="!(isUploading | async).uploading" mat-stroked-button color="primary" (click)="triggerUploadMediaInput()">
+    Import
+    <i matSuffix class="ml-2 fas fa-upload fa-1x ml-1 primary-foreground"></i>
+  </button>
+  <input fxHide="true" #uploadInput type="file" (change)="uploadMedia($event.target.files)" accept="{{fileTypesToAccept}}" />
+
+  <span *ngIf="(isUploading | async).response">
+    <label class="mr-3">Status: </label>
+    <app-active-flag id="active-flag"  [active]="(isUploading | async).response.success"></app-active-flag>
+  </span>
+
+  <mat-progress-bar class="upload-progress-bar" *ngIf="(isUploading | async).uploading" mode="indeterminate"></mat-progress-bar>
+</span>

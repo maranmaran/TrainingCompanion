@@ -158,7 +158,6 @@ export class UIService {
 
     // #endregion
 
-
     // #region ================ CUSTOM POPUP MESSAGES ================
 
     public showSubscriptioninfoDialogOnLogin(isTrialing: boolean, isSubscribed: boolean, trialDaysRemaining: number) {
