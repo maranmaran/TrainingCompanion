@@ -5,21 +5,26 @@
   </mat-expansion-panel-header>
   <div class="charts-container" fxLayout="row wrap" fxLayoutAlign="center">
 
-    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="100%">
+    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="center center">
+      <h3><b>Total volume</b></h3>
       <app-chart [configuration]="totalVolumeChart"></app-chart>
     </div>
-    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="100%">
+    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="center center">
+      <h3><b>Volume split</b></h3>
       <app-chart [configuration]="volumeSplitChart"></app-chart>
     </div>
 
-    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="100%">
+    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="center center">
+      <h3><b>Weighted average intensity</b></h3>
       <app-chart [configuration]="weightedAverageIntensityChart"></app-chart>
     </div>
-    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="100%">
+    <div class="chart-wrapper" fxFlex="50%" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="center center">
+      <h3><b>Number of lifts</b></h3>
       <app-chart [configuration]="numberOfLiftsChart"></app-chart>
     </div>
 
-    <div class="chart-wrapper" fxFlex="60%" fxFlex.xs="100%">
+    <div class="chart-wrapper" fxFlex="60%" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="center center">
+      <h3><b>Relative zone of intensity</b></h3>
       <app-chart [configuration]="zoneOfIntensity"></app-chart>
     </div>
 
