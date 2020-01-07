@@ -202,7 +202,7 @@ export function getHorizontalStackedChartConfig(theme: Theme, data: number[], la
         },
         {
           data,
-          backgroundColor: backgroundColors(0, data.length, theme),
+          backgroundColor: backgroundColors(data.length, data.length*2, theme),
           barThickness: 10,
           maxBarThickness: 20,
         }
