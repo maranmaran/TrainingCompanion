@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { getTestBarChartConfig, getTestLineChartConfig, getTestPieChartConfig } from 'src/app/shared/charts/chart-config.factory';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { AppState } from 'src/ngrx/app/app.state';
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
