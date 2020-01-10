@@ -1,7 +1,7 @@
 <div class="details-body" fxLayout="column">
   <app-import-button style="width: 250px" fxFlexAlign="start" [importFn]="import" [isUploading]="isUploadingObs"></app-import-button>
-  <div import-sample [sampleType]="'Powerlifting'" [importType]="'ExerciseTypes'"></div>
-  <div import-sample [sampleType]="'Weightlifting'" [importType]="'ExerciseTypes'"></div>
-  <div import-sample [sampleType]="'Gym'" [importType]="'ExerciseTypes'"></div>
+  <mat-card import-sample sampleType="'Powerlifting'" importType="'ExerciseTypes'"></mat-card>
+  <mat-card import-sample sampleType="'Weightlifting'" importType="'ExerciseTypes'"></mat-card>
+  <mat-card import-sample sampleType="'Gym'" importType="'ExerciseTypes'"></mat-card>
   <!-- <div import-sample [sampleType]="''" [importType]="'ExerciseTypes'"></div> -->
 </div>
