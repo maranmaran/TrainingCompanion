@@ -6,7 +6,7 @@ import { FileSaverService } from 'ngx-filesaver';
 @Directive({
   selector: '[import-sample]'
 })
-export class ImportSampleDirective {
+export class ImportSampleDirective implements OnChanges {
 
   @Input()
   sampleType: string;
@@ -21,8 +21,13 @@ export class ImportSampleDirective {
     private fileSaverService: FileSaverService
   ) {
     //   this.element.nativeElement.va
+    console.log(this.element);
 
-    
+    this.element.nativeElement.value = 'Text';
+  }
+
+  ngOnChanges(_changes: SimpleChanges) {
+    console.log(this.element);
   }
 
 
