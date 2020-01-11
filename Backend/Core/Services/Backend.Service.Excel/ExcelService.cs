@@ -1,9 +1,10 @@
 ﻿using Backend.Common;
+using Backend.Common.Extensions;
 using Backend.Service.Excel.Interfaces;
-using Backend.Service.Excel.Models.Export;
 using Backend.Service.Excel.Models.Import;
 using Backend.Service.Excel.Utils;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,7 @@ namespace Backend.Service.Excel
 {
     public class ExcelService : IExcelService
     {
-        public async Task<ExportResult> Export(IExportDataContainer data, CancellationToken cancellationToken)
+        public async Task<FileContentResult> Export(IExportDataContainer data, CancellationToken cancellationToken)
         {
             var properties = data.GetExportFileProperties();
 
@@ -30,11 +31,12 @@ namespace Backend.Service.Excel
 
             package.Save();
 
-            return new ExportResult
+            var resultStream = await package.GetResultStream();
+            const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"; // TODO: get from settings or something
+
+            return new FileContentResult(await resultStream.ToByteArray(cancellationToken: cancellationToken), contentType)
             {
-                Stream = await package.GetResultStream(),
-                ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                Title = properties.Title
+                FileDownloadName = properties.Title
             };
         }
 

@@ -1,10 +1,10 @@
-﻿using Backend.Service.Excel.Models.Export;
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace Backend.Application.Business.Business.Export.Training
 {
-    public class ExportTrainingDataRequest : IRequest<ExportResult>
+    public class ExportTrainingDataRequest : IRequest<FileContentResult>
     {
         public Guid UserId { get; set; }
         public DateTime? DateFrom { get; set; }
