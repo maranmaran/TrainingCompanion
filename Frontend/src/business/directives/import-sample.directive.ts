@@ -1,18 +1,25 @@
-import { Directive, ElementRef, HostListener, Input, Renderer2, OnChanges, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+import { FileSaverService } from 'ngx-filesaver';
 import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
 import { ImportService } from '../services/feature-services/import.service';
-import { FileSaverService } from 'ngx-filesaver';
+
 
 @Directive({
   selector: '[import-sample]'
 })
-export class ImportSampleDirective implements OnChanges {
+export class ImportSampleDirective implements OnInit {
 
   @Input()
   sampleType: string;
-  
+
   @Input()
   importType: ImportEntities;
+
+
+  public get htmlTemplate() : string {
+    return '<mat-card-header>' + this.sampleType + '</mat-card-header>';
+  }
+
 
   constructor(
     private element: ElementRef,
@@ -20,16 +27,11 @@ export class ImportSampleDirective implements OnChanges {
     private importService: ImportService,
     private fileSaverService: FileSaverService
   ) {
-    //   this.element.nativeElement.va
-    console.log(this.element);
-
-    this.element.nativeElement.value = 'Text';
   }
 
-  ngOnChanges(_changes: SimpleChanges) {
-    console.log(this.element);
+  ngOnInit() {
+    this.renderer.setProperty(this.element.nativeElement, 'innerHTML', this.htmlTemplate);
   }
-
 
   @HostListener('click')
   onMouseClick() {
@@ -37,13 +39,12 @@ export class ImportSampleDirective implements OnChanges {
   }
 
   downloadSample() {
-    //   this.importService.getSample(
-    //       (file) => {
-    //           console.log(file);
-    //         //   this.fileSaverService.save();
-    //       },
-    //       err => console.log(err)
-    //   );
+      this.importService.getSample(this.importType, this.sampleType).subscribe(
+          (file: Blob) => {
+              this.fileSaverService.save(file, this.sampleType + '.xlsx');
+          },
+          err => console.log(err)
+      );
   }
 
 

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
+import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
 import { BaseService } from '../base.service';
 import { ImportExerciseTypeRequest, ImportTrainingRequest } from './../../../server-models/cqrs/import/request/import.request';
 import { ImportResponse } from './../../../server-models/cqrs/import/response/import.response';
-import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
 
 export class ImportService extends BaseService {
 
@@ -38,7 +38,7 @@ export class ImportService extends BaseService {
   }
 
   public getSample(importType: ImportEntities, sampleType: string) {
-    return this.http.get(this.url + 'GetSample/' + importType + '/' + sampleType)
+    return this.http.get(this.url + 'GetSample/' + importType + '/' + sampleType, { responseType: 'blob' })
       .pipe(catchError(this.handleError));
   }
 

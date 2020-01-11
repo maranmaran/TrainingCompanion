@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ImportSampleDirective } from 'src/business/directives/import-sample.directive';
 import { ExportService } from 'src/business/services/feature-services/export.service';
 import { ImportService } from 'src/business/services/feature-services/import.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -34,6 +35,7 @@ import { ExportImportRoutingModule } from './export-import-routing.module';
         TrainingExportComponent,
         ExerciseTypeExportComponent,
         ImportButtonComponent,
+        ImportSampleDirective
     ],
     exports: [
     ],
