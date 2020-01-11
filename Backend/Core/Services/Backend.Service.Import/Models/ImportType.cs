@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Backend.Application.Business.Business.Import.GetImportSample
+﻿namespace Backend.Application.Business.Business.Import.GetImportSample
 {
     public enum ImportType
     {
