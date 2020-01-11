@@ -1,7 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Common.Extensions
 {
@@ -30,6 +33,14 @@ namespace Backend.Common.Extensions
             }
 
             return collection;
+        }
+
+        public static async Task<byte[]> ToByteArray(this Stream stream, CancellationToken cancellationToken = default)
+        {
+            await using var memStream = new MemoryStream();
+            await stream.CopyToAsync(memStream, cancellationToken);
+
+            return memStream.ToArray();
         }
     }
 }

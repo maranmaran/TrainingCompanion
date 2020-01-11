@@ -9,9 +9,7 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> ExportTraining(ExportTrainingDataRequest request)
         {
-            var result = await Mediator.Send(request);
-
-            return File(result.Stream, result.ContentType, result.Title);
+            return await Mediator.Send(request);
         }
     }
 }

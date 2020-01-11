@@ -3,9 +3,9 @@ using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Service.Excel.Interfaces;
-using Backend.Service.Excel.Models.Export;
 using Backend.Service.Excel.Models.Export.Training;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Application.Business.Business.Export.Training
 {
-    public class ExportTrainingDataRequestHandler : IRequestHandler<ExportTrainingDataRequest, ExportResult>
+    public class ExportTrainingDataRequestHandler : IRequestHandler<ExportTrainingDataRequest, FileContentResult>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -34,7 +34,7 @@ namespace Backend.Application.Business.Business.Export.Training
             _excelService = excelService;
         }
 
-        public async Task<ExportResult> Handle(ExportTrainingDataRequest request, CancellationToken cancellationToken)
+        public async Task<FileContentResult> Handle(ExportTrainingDataRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -48,9 +48,9 @@ namespace Backend.Application.Business.Business.Export.Training
                     Trainings = _mapper.Map<IEnumerable<ExportTrainingDto>>(trainings)
                 };
 
-                var fileData = await _excelService.Export(exportData, cancellationToken);
+                var fileResult = await _excelService.Export(exportData, cancellationToken);
 
-                return fileData;
+                return fileResult;
 
                 // TODO: Make this asynchronous call completely and detach it from frontend
                 // inform user through notification and email that export is done and provide link for payload inside notification download url.. ?
