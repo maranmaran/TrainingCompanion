@@ -1,0 +1,25 @@
+:host{
+    height: 100%;
+}
+
+.sidenav {
+    width: 15rem;
+}
+  
+.sidenav-container {
+    position: relative !important;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+
+@media (max-width: 600px) {
+    .sidenav {
+        width: 70%;
+    }
+}
+
+  
