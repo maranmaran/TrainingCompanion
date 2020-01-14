@@ -24,18 +24,19 @@ namespace Backend.Application.Business.Business.Dashboard.GetMainDashboardReques
         {
             try
             {
-                var user = await _context.Users
-                    .Include(x => x.UserSetting)
-                    .ThenInclude(x => x.MainDashboard)
-                    .ThenInclude(x => x.Tracks)
-                    .ThenInclude(x => x.Items)
-                    .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
+                //var user = await _context.Users
+                //    .Include(x => x.UserSetting)
+                //    .ThenInclude(x => x.MainDashboard)
+                //    .ThenInclude(x => x.Tracks)
+                //    .ThenInclude(x => x.Items)
+                //    .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
-                if (user == null)
-                    throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+                //if (user == null)
+                //    throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
 
-                return user.UserSetting.MainDashboard.Tracks;
+                //return user.UserSetting.MainDashboard.Tracks;
+                return new List<Track>();
             }
             catch (Exception e)
             {

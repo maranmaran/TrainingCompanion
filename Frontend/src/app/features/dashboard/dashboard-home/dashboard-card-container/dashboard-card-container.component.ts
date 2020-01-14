@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DashboardItem } from '../models/dashboard-item.interface';
+import { DashboardItem } from '../../models/dashboard-item.interface';
 
 @Component({
   selector: 'app-dashboard-card-container',
