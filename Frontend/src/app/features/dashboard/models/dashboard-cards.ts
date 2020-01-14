@@ -1,4 +1,4 @@
-import { TestCardComponent } from '../dashboard-card-container/card-components/test-card/test-card.component';
+import { TestCardComponent } from '../dashboard-home/dashboard-card-container/card-components/test-card/test-card.component';
 
 export const dashboardCards = {
     Test: TestCardComponent

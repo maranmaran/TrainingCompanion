@@ -1,6 +1,7 @@
 export enum UISidenav {
     App = 'App',
-    Settings = 'Settings'
+    Settings = 'Settings',
+    DashboardComponents = 'DashboardComponents'
 }
 
 export enum UISidenavAction {
