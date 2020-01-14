@@ -1,1 +1,9 @@
 <button mat-stroked-button class="mb-5" (click)="activateNotif()">Send test notification</button>
+
+<div class="board" fxLayout="row wrap">
+    <ng-container *ngFor="let track of tracks">
+        <div fxFlex="1 1 50%" *ngFor="let item of track.items">
+            <ng-template appDashboardOutlet [item]="item"></ng-template>
+        </div>
+    </ng-container>
+</div>
