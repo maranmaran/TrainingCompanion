@@ -52,20 +52,23 @@ export class DashboardService extends BaseService implements OnInit {
 
     public getUserTracks() {
         this.http
-            .get<Track[]>(this.url + 'GetUserTracks/' + this._userId)
+            .get<Track[]>(this.url + 'GetMainDashboard/' + this._userId)
             .pipe(
                 catchError(this.handleError)
             ).subscribe(
                 (tracks: Track[]) => this._trackState.next(tracks),
-                err => console.log(err)
+                err => {
+                    console.log(err);
+                    this._trackState.next(this._defaultState); //fallback
+                }
             );
     }
 
-    public saveUserTracks(tracks: Track[]) {
+    public saveMainDashboard(tracks: Track[]) {
         var request = { userId: this._userId, tracks: tracks };
 
         this.http
-            .post(this.url + 'SaveUserTracks/', request)
+            .post(this.url + 'SaveMainDashboard/', request)
             .pipe(
                 catchError(this.handleError)
             ).subscribe(
