@@ -7,7 +7,7 @@ import { PushNotification } from './../../../server-models/entities/push-notific
 
 @Component({
   selector: '[pink-toast-component]',
-  providers: [NotificationSignalrService],
+  // providers: [NotificationSignalrService],
   styleUrls: ['./notification-toast.component.scss'],
     templateUrl: './notification-toast.component.html',
     animations: [

@@ -39,6 +39,7 @@ import { PlansComponent } from './settings/billing/plans/plans.component';
 import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stripe-checkout.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
+import { SignalrHubsModule } from '../shared/signlar-hubs.module';
 @NgModule({
     imports: [
         SharedModule,
@@ -70,7 +71,8 @@ import { SettingsComponent } from './settings/settings.component';
           positionClass: 'toast-bottom-right',
           preventDuplicates: false,
           toastComponent: NotificationToastComponent // added custom toast!
-        }) // ToastrModule added
+        }), // ToastrModule added,
+        SignalrHubsModule.forRoot()
     ],
     declarations: [
         AppContainerComponent,
