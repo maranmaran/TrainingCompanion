@@ -26,10 +26,7 @@ import { UISidenavAction } from './../../../business/shared/ui-sidenavs.enum';
   selector: 'app-app-container',
   templateUrl: './app-container.component.html',
   styleUrls: ['./app-container.component.scss'],
-  providers: [
-    SignalrNgChatAdapter,
-    NotificationSignalrService
-  ]
+  providers: []
 })
 export class AppContainerComponent implements OnInit, OnDestroy {
 

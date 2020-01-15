@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap, take, debounceTime, tap, finalize } from 'rxjs/operators';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { CRUD } from 'src/business/shared/crud.enum';
@@ -15,6 +15,10 @@ import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/requests/
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
+import { SubSink } from 'subsink';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
+import { PagedList } from 'src/server-models/shared/paged-list.model';
 
 @Component({
   selector: 'app-exercise-create-edit',
@@ -24,22 +28,34 @@ import { Training } from 'src/server-models/entities/training.model';
 export class ExerciseCreateEditComponent implements OnInit {
 
   constructor(
+    private exerciseTypeService: ExerciseTypeService,
     private store: Store<AppState>,
     private exerciseService: ExerciseService,
     private trainingService: TrainingService,
     protected dialogRef: MatDialogRef<ExerciseCreateEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, exercise: Exercise, exerciseTypes: ExerciseType[] }) { }
+    @Inject(MAT_DIALOG_DATA) public data: { 
+      title: string, 
+      action: CRUD, 
+      exercise: Exercise, 
+      exerciseTypes: PagedList<ExerciseType>, 
+      pagingModel: PagingModel 
+    }) { }
 
   form: FormGroup;
-  coachId: string;
   exercise = new Exercise();
 
+  private _subs = new SubSink();
+  private _userId: string;
+
+  isLoading = false;
+
   ngOnInit() {
+
     if (this.data.action == CRUD.Update) this.exercise = Object.assign(new Exercise(), this.data.exercise);
 
     this.createForm();
 
-    this.store.select(currentUser).pipe(take(1)).subscribe(user => this.coachId = user.id);
+    this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
   }
 
   createForm() {
@@ -47,12 +63,39 @@ export class ExerciseCreateEditComponent implements OnInit {
       exerciseType: new FormControl(this.exercise.exerciseType, Validators.required),
       setsCount: new FormControl(this.exercise.sets ? this.exercise.sets.length : 0, [Validators.required, Validators.min(0), Validators.max(30)]),
     });
-  }
 
+    this.addListeners();
+  }
+  
   get exerciseType(): AbstractControl { return this.form.get('exerciseType'); }
   get setsCount(): AbstractControl { return this.form.get('setsCount'); }
   displayFunction = (exerciseType: ExerciseType) => exerciseType ? exerciseType.name : null;
 
+  addListeners = () => {
+    this._subs.add(
+      this.exerciseTypeChangeSubscription()
+    );
+  }
+
+  exerciseTypeChangeSubscription = () => {
+    return this.exerciseType.valueChanges
+      .pipe(
+        debounceTime(500),
+        tap(() => {
+          this.isLoading = true;
+        }),
+        switchMap(val => {
+          this.data.pagingModel.filterQuery = val;
+          return this.exerciseTypeService.getPaged(this._userId,  this.data.pagingModel).pipe(finalize(() => this.isLoading = false));
+        }
+        )
+      ).subscribe(
+        (data: PagedList<ExerciseType>) => {
+          console.log(data);
+          this.data.exerciseTypes = data;
+        }
+      )
+  }
 
   onSubmit() {
     this.createExercise();

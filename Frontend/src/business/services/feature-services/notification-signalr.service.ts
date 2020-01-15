@@ -13,7 +13,7 @@ import { AppSettingsService } from '../shared/app-settings.service';
 import { PushNotification } from './../../../server-models/entities/push-notification.model';
 import { AuthService } from './auth.service';
 
-Injectable()
+@Injectable()
 export class NotificationSignalrService implements OnDestroy {
 
   private hubConnection: signalR.HubConnection;
