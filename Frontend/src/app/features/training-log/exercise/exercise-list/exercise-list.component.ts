@@ -22,6 +22,8 @@ import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { selectedTraining, selectedTrainingExercises } from '../../../../../ngrx/training-log/training/training.selectors';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
+import { PagedList } from 'src/server-models/shared/paged-list.model';
 
 @Component({
   selector: 'app-exercise-list',
@@ -98,14 +100,15 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   }
 
   onAdd() {
-    this.exerciseTypeService.getAll(this.userId).pipe(take(1))
-      .subscribe((exerciseTypes: ExerciseType[]) => {
+    var pagingModel = new PagingModel();
+    this.exerciseTypeService.getPaged(this.userId, pagingModel).pipe(take(1))
+      .subscribe((exerciseTypes: PagedList<ExerciseType>) => {
         const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
           height: 'auto',
           width: '98%',
           maxWidth: '50rem',
           autoFocus: false,
-          data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes },
+          data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes, pagingModel },
           panelClass: []
         });
 
