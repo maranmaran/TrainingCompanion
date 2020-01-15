@@ -24,6 +24,7 @@ import { TrainingMetricsComponent } from './training/training-details/panels/tra
 import { TrainingNoteComponent } from './training/training-details/panels/training-note/training-note.component';
 import { TrainingDetailsDataComponent } from './training/training-details/training-details-data/training-details-data.component';
 import { TrainingDetailsComponent } from './training/training-details/training-details.component';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { TrainingDetailsComponent } from './training/training-details/training-d
         UIService,
         TrainingService,
         ExerciseService,
+        ExerciseTypeService,
         SetService,
         TrainingDetailsResolver,
         ExerciseDetailsResolver,
