@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AfterViewInit, Component, ComponentFactoryResolver, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -41,7 +41,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   constructor(
     private notificationService: NotificationSignalrService,
     private store: Store<AppState>,
-    // private cd: ChangeDetectorRef,
+    private cd: ChangeDetectorRef,
     private cfr: ComponentFactoryResolver,
     private dashboardService: DashboardService,
     private UIService: UIService
@@ -50,23 +50,22 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnInit() {
     this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
 
-    // this.UIService.addOrUpdateSidenav(UISidenav.DashboardComponents, this.sidenav);
+    this.UIService.addOrUpdateSidenav(UISidenav.DashboardComponents, this.sidenav);
 
     this._subs.add(
       this.dashboardService.tracks$.subscribe(tracks => {
         this.tracks = tracks;
-        // this.cd.detectChanges();
-        // this.loadContents();
+        this.cd.detectChanges();
+        this.loadContents();
     }));
   }
 
   ngOnDestroy() {
-    console.log('Destorying dashboard component');
     this._subs.unsubscribe();
   }
 
   ngAfterViewInit() {
-    // this.loadContents();
+    this.loadContents();
   }
 
   activateNotif() {
@@ -82,11 +81,11 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
       return;
 
     this.dashboardOutlets.forEach(template => {
-      // this.cd.detectChanges();
+      this.cd.detectChanges();
       this.loadContent(template, template.item);
     });
 
-    // this.cd.detectChanges();
+    this.cd.detectChanges();
   }
 
   loadContent = (template: DashboardOutletDirective, item: DashboardItem) => {
@@ -103,8 +102,8 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   toggleSidenav = () => {
+    setTimeout(() => this.dashboardEditMode = !this.dashboardEditMode, this.UIService.isSidenavOpened(UISidenav.DashboardComponents) ? 0 : 500);
     this.UIService.doSidenavAction(UISidenav.DashboardComponents, UISidenavAction.Toggle);
-    this.dashboardEditMode = !this.dashboardEditMode;
   }
 
   drop(event: CdkDragDrop<DashboardItem[]>, trackIdx: number) {

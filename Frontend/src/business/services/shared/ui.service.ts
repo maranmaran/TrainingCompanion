@@ -129,6 +129,11 @@ export class UIService {
 
         var sidenav = this.sidenavs.item(name);
 
+        if(!sidenav){
+          console.warn('Sidenav isn\'t registered ');
+          return;
+        }
+
         switch (actionType) {
             case UISidenavAction.Open:
                 sidenav.mode = 'side';
