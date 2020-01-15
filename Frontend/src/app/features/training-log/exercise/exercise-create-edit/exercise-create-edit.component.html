@@ -9,7 +9,7 @@
           <input matInput placeholder="Exercise type" [matAutocomplete]="auto" [formControl]="exerciseType">
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
             <mat-option *ngIf="isLoading">
-              Loading..
+              <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
            </mat-option>
            <ng-container *ngIf="!isLoading">
              <mat-option *ngFor="let type of data.exerciseTypes.list" [value]="type" >
