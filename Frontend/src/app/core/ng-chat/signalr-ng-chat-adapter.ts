@@ -13,7 +13,7 @@ import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { SubSink } from 'subsink';
 import { AuthService } from '../../../business/services/feature-services/auth.service';
 
-Injectable()
+@Injectable()
 export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
 
   public userId: string;

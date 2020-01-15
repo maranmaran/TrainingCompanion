@@ -41,8 +41,6 @@ import { ExportImportRoutingModule } from './export-import-routing.module';
     ],
     providers: [
         UIService,
-        ExportService,
-        ImportService,
         ExportImportResolver
     ],
     entryComponents: [
