@@ -8,9 +8,14 @@
       <mat-form-field>
           <input matInput placeholder="Exercise type" [matAutocomplete]="auto" [formControl]="exerciseType">
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
-            <mat-option *ngFor="let type of data.exerciseTypes" [value]="type" >
-                <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
-            </mat-option>
+            <mat-option *ngIf="isLoading">
+              Loading..
+           </mat-option>
+           <ng-container *ngIf="!isLoading">
+             <mat-option *ngFor="let type of data.exerciseTypes.list" [value]="type" >
+                 <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
+             </mat-option>
+           </ng-container>
           </mat-autocomplete>
       </mat-form-field>
 
