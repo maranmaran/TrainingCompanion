@@ -3,28 +3,57 @@
 
     <mat-sidenav class="sidenav" [autoFocus]="false" [mode]="'side'" [position]="'end'">
         <div fxLayout="column">
-            <button *ngIf="dashboardEditMode" mat-stroked-button class="mb-5" (click)="toggleSidenav()">Save customization</button>
-            <p>List of components</p>
+            <button *ngIf="dashboardEditMode" mat-stroked-button class="m-3" (click)="toggleSidenav()">Save customization</button>
+            <p class="p-3">List of components:</p>
+            <div
+              class="p-3"
+              cdkDropList
+              #componentsList="cdkDropList"
+              [cdkDropListConnectedTo]="[trackOne, trackTwo, componentsList]"
+              [cdkDropListData]="mainDashboardComponents"
+              (cdkDropListDropped)="drop($event)">
+              <div cdkDrag *ngFor="let component of mainDashboardComponents">{{component.id}}</div>
+            </div>
         </div>
     </mat-sidenav>
-  
+
     <mat-sidenav-content>
 
-        <div class="actions" fxLayout="row" fxLayoutAlign="space-between">
-            <button mat-stroked-button class="mb-5" (click)="activateNotif()">Send test notification</button>
-            <button *ngIf="!dashboardEditMode" mat-stroked-button class="mb-5" (click)="toggleSidenav()">Customize dashboard</button>
+        <div class="actions mb-3" fxLayout="row" fxLayoutAlign="space-between">
+            <button mat-stroked-button class="m-3" (click)="activateNotif()">Send test notification</button>
+            <button *ngIf="!dashboardEditMode" mat-stroked-button class="m-3" (click)="toggleSidenav()">Customize dashboard</button>
         </div>
 
-        <div class="board" fxLayout="row wrap">
-            <ng-container *ngFor="let track of tracks">
-                <div fxFlex="1 1 50%" *ngFor="let item of track.items">
-                    <ng-template appDashboardOutlet [item]="item"></ng-template>
-                </div>
-            </ng-container>
+        <div class="board h-100" fxLayout="row wrap">
+            <!-- <ng-container *ngFor="let track of tracks; let i = index"> -->
+
+            <!--TRACK ONE-->
+            <div
+              cdkDropList
+              #trackOne="cdkDropList"
+              [cdkDropListConnectedTo]="[trackTwo, componentsList]"
+              [cdkDropListData]="tracks[0].items"
+              (cdkDropListDropped)="drop($event, 0)"
+              fxFlex="1 1 50%"
+              class="h-100">
+                <ng-template *ngFor="let item of tracks[0].items" appDashboardOutlet [item]="item"></ng-template>
+            </div>
+
+            <!--TRACK TWO-->
+            <div
+              cdkDropList
+              #trackTwo="cdkDropList"
+              [cdkDropListConnectedTo]="[trackOne, componentsList]"
+              [cdkDropListData]="tracks[1].items"
+              (cdkDropListDropped)="drop($event, 1)"
+              fxFlex="1 1 50%"
+              class="h-100">
+              <ng-template *ngFor="let item of tracks[1].items" appDashboardOutlet [item]="item"></ng-template>
+          </div>
+            <!-- </ng-container> -->
         </div>
-        
-        
+
+
       </mat-sidenav-content>
-  
+
   </mat-sidenav-container>
-  
