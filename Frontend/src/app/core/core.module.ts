@@ -40,6 +40,7 @@ import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stri
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SignalrHubsModule } from '../shared/signlar-hubs.module';
+import { ExportImportServicesModule } from '../shared/export-import-services.module';
 @NgModule({
     imports: [
         SharedModule,
@@ -72,7 +73,8 @@ import { SignalrHubsModule } from '../shared/signlar-hubs.module';
           preventDuplicates: false,
           toastComponent: NotificationToastComponent // added custom toast!
         }), // ToastrModule added,
-        SignalrHubsModule.forRoot()
+        SignalrHubsModule.forRoot(),
+        ExportImportServicesModule.forRoot()
     ],
     declarations: [
         AppContainerComponent,
