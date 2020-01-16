@@ -1,20 +1,28 @@
-<div class="details-container mat-elevation-z3">
+<div class="details-container mat-elevation-z3"  fxLayout="column" fxLayoutAlign="space-between">
 
-  <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
+  <h1 class="details-header">
     <span>Import data</span>
   </h1>
 
   <mat-divider></mat-divider>
 
-  <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
-    <mat-form-field style="width: 250px">
-      <mat-label>Import type</mat-label>
-      <mat-select [(value)]="selectedImportType">
-        <mat-option *ngFor="let type of importEntities | enumToArray" [value]="type.name">
-          {{ type.name | splitPascalCase | titlecase}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="details-body" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="0.5rem">
+
+    <div id="column-1" fxFlex="1 1 50%">
+      <mat-form-field>
+        <mat-label>Import type</mat-label>
+        <mat-select [(value)]="selectedImportType">
+          <mat-option *ngFor="let type of importEntities | enumToArray" [value]="type.name">
+            {{ type.name | splitPascalCase | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div id="column-2" fxFlex="1 1 50%">
+    
+    </div>
+
   </div>
 
   <ng-container [ngSwitch]="selectedImportType">

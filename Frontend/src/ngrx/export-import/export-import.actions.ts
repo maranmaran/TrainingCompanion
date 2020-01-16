@@ -15,6 +15,16 @@ export const addExportJob = createAction(
   props<{ job: ExportJob }>()
 );
 
+export const updateImportJob = createAction(
+  '[Import] Update job',
+  props<{ id: Guid, job: ImportJob }>()
+);
+
+export const updateExportJob = createAction(
+  '[Export] Update job',
+  props<{ id: Guid, job: ExportJob }>()
+);
+
 export const setImportResponse = createAction(
   '[Import] Set response',
   props<{ response: ImportResponse }>()
