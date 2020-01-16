@@ -1,17 +1,44 @@
-<div class="details-container mat-elevation-z3">
+<div class="details-container mat-elevation-z3"  fxLayout="column" fxLayoutAlign="space-between">
 
-  <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
-      <span>Export data</span>
+  <h1 class="details-header">
+    <span>Export data</span>
   </h1>
 
   <mat-divider></mat-divider>
 
-  <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
-    Body
+  <div class="details-body" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="0.5rem">
+
+    <div id="column-1" fxFlex="1 1 50%">
+      <mat-form-field>
+        <mat-label>Export type</mat-label>
+        <mat-select [(value)]="selectedExportType">
+          <mat-option *ngFor="let type of exportEntities | enumToArray" [value]="type.name">
+            {{ type.name | splitPascalCase | titlecase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div id="column-2" fxFlex="1 1 50%">
+    
+    </div>
+
   </div>
 
+  <ng-container [ngSwitch]="selectedExportType">
+
+    <ng-container *ngSwitchCase="'ExerciseTypes'">
+      <app-exercise-type-export></app-exercise-type-export>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'Training'">
+      <app-training-export></app-training-export>
+    </ng-container>
+
+  </ng-container>
+
   <div class="details-footer">
-    Footer
+    <!-- Footer -->
   </div>
 
 </div>
