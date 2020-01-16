@@ -1,7 +1,13 @@
-<div class="details-body" fxLayout="column">
-  <app-import-button style="width: 250px" fxFlexAlign="start" [importFn]="import" [isUploading]="isUploading"></app-import-button>
-  <mat-card class="sample-card" import-sample sampleType="Powerlifting" importType="ExerciseType"></mat-card>
-  <mat-card class="sample-card" import-sample sampleType="Weightlifting" importType="ExerciseType"></mat-card>
-  <mat-card class="sample-card" import-sample sampleType="Gym" importType="ExerciseType"></mat-card>
-  <!-- <div import-sample [sampleType]="''" [importType]="'ExerciseTypes'"></div> -->
+<div class="details-body" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="1rem" >
+  
+  <app-import-button class="w-100" fxFlex="1 1 50%" fxFlexAlign="start" [importFn]="import" [isUploading]="isUploading"></app-import-button>
+
+  <div fxFlex="1 1 50%" >
+    <h3>Sample sheets: </h3>
+    <mat-card class="sample-card" import-sample sampleType="Powerlifting" importType="ExerciseType"></mat-card>
+    <mat-card class="sample-card" import-sample sampleType="Weightlifting" importType="ExerciseType"></mat-card>
+    <mat-card class="sample-card" import-sample sampleType="Gym" importType="ExerciseType"></mat-card>
+    <!-- <div import-sample [sampleType]="''" [importType]="'ExerciseTypes'"></div> -->
+  </div>
+
 </div>

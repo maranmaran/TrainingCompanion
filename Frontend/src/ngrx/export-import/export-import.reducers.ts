@@ -24,6 +24,20 @@ export const exportImportReducers: ActionReducer<ExportImportState, Action> = cr
     }
   }),
 
+  on(ExportImportActions.updateImportJob, (state: ExportImportState, payload: { id: Guid, job: ImportJob }) => {
+    return {
+      ...state,
+      importJobs: state.importJobs.map(job => job.id == payload.id ? payload.job : job)
+    }
+  }),
+
+  on(ExportImportActions.updateExportJob, (state: ExportImportState, payload: { id: Guid, job: ExportJob }) => {
+    return {
+      ...state,
+      exportJobs: state.exportJobs.map(job => job.id == payload.id ? payload.job : job)
+    }
+  }),
+
   on(ExportImportActions.removeImportJob, (state: ExportImportState, payload: { id: Guid }) => {
     return {
       ...state,
