@@ -1,5 +1,5 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, CdkDragEnter, CdkDropList } from '@angular/cdk/drag-drop';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Renderer2 } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { DashboardService } from '../services/dashboard.service';
 import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
 import { DashboardItem } from './../models/dashboard-item.interface';
 import { DashboardCardContainerComponent } from './dashboard-card-container/dashboard-card-container.component';
+import { Element } from '@angular/compiler';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -25,6 +26,9 @@ import { DashboardCardContainerComponent } from './dashboard-card-container/dash
 export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren(DashboardOutletDirective) dashboardOutlets: QueryList<DashboardOutletDirective>;
+  
+  @ViewChildren('trackOne, trackTwo') dropLists: QueryList<CdkDropList>;
+
   private userId: string;
   tracks: Track[];
 
@@ -44,7 +48,8 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     private cd: ChangeDetectorRef,
     private cfr: ComponentFactoryResolver,
     private dashboardService: DashboardService,
-    private UIService: UIService
+    private UIService: UIService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit() {
@@ -120,6 +125,26 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
       //   event.previousIndex,
       //   event.currentIndex);
     }
+  }
+
+
+  dragEnter(event: any) {
+    const droplist = event.container;
+    const draggedItem = event.item;
+
+    this.dropLists.filter(list => list.id != droplist.id).forEach(droplist => {
+      this.renderer.removeClass(droplist.element.nativeElement, 'highlight')
+    });
+
+    this.dropLists.filter(list => list.id == droplist.id).forEach(droplist => {
+      this.renderer.addClass(droplist.element.nativeElement, 'highlight')
+    });
+  }
+
+  dragEnd() {
+    this.dropLists.filter(list => list.element.nativeElement.classList.contains('highlight')).forEach(droplist => {
+      this.renderer.removeClass(droplist.element.nativeElement, 'highlight')
+    });
   }
 
 }
