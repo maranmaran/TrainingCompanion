@@ -8,6 +8,9 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<Set> builder)
         {
+            builder.HasIndex(x => x.ExerciseId);
+
         }
+
     }
 }

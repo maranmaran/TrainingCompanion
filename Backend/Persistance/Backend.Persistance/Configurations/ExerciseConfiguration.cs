@@ -26,6 +26,9 @@ namespace Backend.Persistance.Configurations
             builder.HasMany(x => x.Media)
                 .WithOne(x => x.Exercise)
                 .HasForeignKey(x => x.ExerciseId);
+
+            builder.HasIndex(x => x.TrainingId);
+            builder.HasIndex(x => x.ExerciseTypeId);
         }
     }
 }

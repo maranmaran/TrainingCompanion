@@ -16,13 +16,17 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasOne(x => x.TagGroup)
                 .WithMany(x => x.Tags)
-                .HasForeignKey(x => x.TagGroupId);
+                .HasForeignKey(x => x.TagGroupId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasMany(x => x.ExerciseTypeTags)
                 .WithOne(x => x.Tag)
                 .HasForeignKey(x => x.TagId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(x => x.TagGroupId);
+
         }
     }
 }

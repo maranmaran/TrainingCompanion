@@ -6,6 +6,6 @@ namespace Backend.Domain.Entities.Dashboard
     public class MainDashboard
     {
         public Guid Id { get; set; }
-        public IEnumerable<Track> Tracks { get; set; }
+        public ICollection<Track> Tracks { get; set; } = new HashSet<Track>();
     }
 }

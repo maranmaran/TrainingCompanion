@@ -13,9 +13,29 @@ namespace Backend.Persistance.Configurations
 
             builder
                 .HasOne(x => x.Sender)
-                .WithMany(x => x.Notifications)
+                .WithMany(x => x.SentNotifications)
                 .HasForeignKey(x => x.SenderId)
-                .IsRequired(false);
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne(x => x.Receiver)
+                .WithMany(x => x.ReceivedNotifications)
+                .HasForeignKey(x => x.ReceiverId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasIndex(x => x.SenderId)
+                .IsUnique(false);
+
+            builder
+                .HasIndex(x => x.ReceiverId)
+                .IsUnique(false);
+
+            builder.HasIndex(x => x.SenderId);
+            builder.HasIndex(x => x.ReceiverId);
+
         }
     }
 }

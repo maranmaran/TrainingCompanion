@@ -12,6 +12,7 @@ namespace Backend.Persistance.Configurations
                 .HasOne(x => x.Coach)
                 .WithMany(x => x.Athletes)
                 .HasForeignKey(x => x.CoachId);
+
         }
     }
 

@@ -22,6 +22,9 @@ namespace Backend.Persistance.Configurations
                 .HasOne(x => x.UserSetting)
                 .WithMany(x => x.NotificationSettings)
                 .HasForeignKey(x => x.UserSettingId);
+
+            builder.HasIndex(x => x.UserSettingId);
+
         }
     }
 }
