@@ -25,17 +25,22 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.RequiresBodyweight).HasDefaultValue(false);
             builder.Property(x => x.RequiresTime).HasDefaultValue(false);
 
+            builder.HasIndex(x => x.ApplicationUserId);
+            builder.HasIndex(x => x.Code).IsUnique();
+
             builder
                 .HasMany(x => x.Properties)
                 .WithOne(x => x.ExerciseType)
                 .HasForeignKey(x => x.ExerciseTypeId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasMany(x => x.Exercises)
                 .WithOne(x => x.ExerciseType)
                 .HasForeignKey(x => x.ExerciseTypeId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(x => x.ApplicationUserId);
         }
     }
 }

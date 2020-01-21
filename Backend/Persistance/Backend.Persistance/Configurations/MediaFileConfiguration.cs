@@ -28,6 +28,9 @@ namespace Backend.Persistance.Configurations
                 .HasOne(x => x.Training)
                 .WithMany(x => x.Media)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasIndex(x => x.ApplicationUserId);
+
         }
     }
 }

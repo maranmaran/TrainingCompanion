@@ -36,7 +36,8 @@ namespace Backend.Domain.Entities.User
         public virtual UserSetting UserSetting { get; set; }
 
         public virtual ICollection<ChatMessage> ChatMessages { get; set; } = new HashSet<ChatMessage>();
-        public virtual ICollection<Notification.Notification> Notifications { get; set; } = new HashSet<Notification.Notification>();
+        public virtual ICollection<Notification.Notification> SentNotifications { get; set; } = new HashSet<Notification.Notification>();
+        public virtual ICollection<Notification.Notification> ReceivedNotifications { get; set; } = new HashSet<Notification.Notification>();
         public virtual ICollection<MediaFile> MediaFiles { get; set; } = new HashSet<MediaFile>();
         public virtual ICollection<ExerciseType.ExerciseType> ExerciseTypes { get; set; } = new HashSet<ExerciseType.ExerciseType>();
         public virtual ICollection<Training> Trainings { get; set; } = new HashSet<Training>();

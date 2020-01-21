@@ -26,6 +26,9 @@ namespace Backend.Persistance.Configurations
                 .HasMany(x => x.Media)
                 .WithOne(x => x.Training);
             // maybe that has one has many config ?
+
+            builder.HasIndex(x => x.ApplicationUserId);
+
         }
     }
 }
