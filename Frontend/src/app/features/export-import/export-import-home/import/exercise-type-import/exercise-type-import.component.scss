@@ -3,10 +3,14 @@
 }
 
 .sample-card {
-  margin-top: 1rem;
+  margin-bottom: 1rem;
   cursor: pointer;
   border-radius: 10px;
-  width: 250px;
+}
+
+app-import-button {
+  margin-bottom: 2rem;
+  padding: 0.25rem;
 }
 
 .sample-card:hover {
