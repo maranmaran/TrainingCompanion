@@ -11,15 +11,24 @@
               #componentsList="cdkDropList"
               [cdkDropListConnectedTo]="[trackOne, trackTwo, componentsList]"
               [cdkDropListData]="mainDashboardComponents"
-              (cdkDropListDropped)="drop($event)">
-              <div cdkDrag *ngFor="let component of mainDashboardComponents">{{component.id}}</div>
+              (cdkDropListDropped)="drop($event)"
+              (cdkDragStarted)="dragStart($event)"
+              (cdkDragEntered)="dragEnter($event)"
+              (cdkDragEnded)="dragEnd($event)">
+                <div 
+                  *ngFor="let component of mainDashboardComponents"
+                  cdkDrag
+                  (cdkDragEntered)="dragEnter($event)"
+                  (cdkDragEnded)="dragEnd($event)">
+                    {{component.id}}
+                </div>
             </div>
         </div>
     </mat-sidenav>
 
     <mat-sidenav-content>
 
-        <div class="actions mb-3" fxLayout="row" fxLayoutAlign="space-between">
+        <div class="dashboard-actions mb-3" fxLayout="row" fxLayoutAlign="space-between">
             <button mat-stroked-button class="m-3" (click)="activateNotif()">Send test notification</button>
             <button *ngIf="!dashboardEditMode" mat-stroked-button class="m-3" (click)="toggleSidenav()">Customize dashboard</button>
         </div>
@@ -29,6 +38,7 @@
 
             <!--TRACK ONE-->
             <div
+              id="track1"
               cdkDropList
               #trackOne="cdkDropList"
               [cdkDropListConnectedTo]="[trackTwo, componentsList]"
@@ -41,6 +51,7 @@
 
             <!--TRACK TWO-->
             <div
+              id="track2"
               cdkDropList
               #trackTwo="cdkDropList"
               [cdkDropListConnectedTo]="[trackOne, componentsList]"
@@ -54,6 +65,6 @@
         </div>
 
 
-      </mat-sidenav-content>
+    </mat-sidenav-content>
 
   </mat-sidenav-container>

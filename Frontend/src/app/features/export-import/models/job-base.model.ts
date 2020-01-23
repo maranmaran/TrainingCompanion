@@ -1,13 +1,12 @@
 import { Guid } from 'guid-typescript';
 
-export class JobBase<TEntities> {
-  id: Guid;
+export abstract class JobBase<TEntities> {
+  
+  id: Guid = Guid.create();
   type: TEntities;
-  active: boolean;
+  active: boolean = true;
 
   constructor(type: TEntities) {
     this.type = type;
-    this.id = Guid.create();
-    this.active = true;
   }
 }

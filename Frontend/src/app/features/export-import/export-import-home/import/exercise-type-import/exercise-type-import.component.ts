@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,13 +11,15 @@ import { SubSink } from 'subsink';
 import { ImportService } from './../../../../../../business/services/feature-services/import.service';
 import { lastImportResponse } from './../../../../../../ngrx/export-import/export-import.selectors';
 import { ImportJob } from './../../../models/import-job.model';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
+import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 
 @Component({
   selector: 'app-exercise-type-import',
   templateUrl: './exercise-type-import.component.html',
   styleUrls: ['./exercise-type-import.component.scss']
 })
-export class ExerciseTypeImportComponent implements OnInit {
+export class ExerciseTypeImportComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
@@ -37,9 +39,17 @@ export class ExerciseTypeImportComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.None }))
+
     this._subs.add(
-      this.getActiveJob()
+      this.getActiveJob(),
+      this.getResponses()
     )
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }))
   }
 
   public getActiveJob() {
