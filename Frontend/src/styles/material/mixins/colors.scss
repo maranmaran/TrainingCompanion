@@ -6,6 +6,10 @@
   $accent: mat-color(map-get($theme, accent));
   $warn: mat-color(map-get($theme, warn));
 
+  $background-palette: map-get($theme, background);
+  $border: map-get($background-palette, focused-button);
+  $highlight: map-get($background-palette, hover);
+
   .primary-foreground {
       color: $primary;
   }
@@ -24,5 +28,9 @@
   }
   .warn-background {
     background: $warn;
+  }
+
+  .highlight {
+    background: rgba($highlight, 0.3);
   }
 }

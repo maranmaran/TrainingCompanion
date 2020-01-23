@@ -4,7 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { ImportJob } from 'src/app/features/export-import/models/import-job.model';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { AppState } from 'src/ngrx/app/app.state';
-import { addImportJob, removeImportJob } from 'src/ngrx/export-import/export-import.actions';
+import { addImportJob, removeImportJob, updateImportJob, setImportResponse } from 'src/ngrx/export-import/export-import.actions';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
 import { BaseService } from '../base.service';
@@ -22,29 +22,24 @@ export class ImportService extends BaseService {
 
   public importExerciseType(request: ImportExerciseTypeRequest) {
 
+    let job = new ImportJob(ImportEntities.ExerciseTypes);
+    this.store.dispatch(addImportJob({job}));
+
     const formData: FormData = new FormData();
     for (const prop in request) {
       formData.append(prop, request[prop]);
     }
-
-    this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.None }))
-
-    var job = new ImportJob(ImportEntities.ExerciseTypes);
-    this.store.dispatch(addImportJob({job}));
 
     this.http
       .post<ImportResponse>(this.url + 'ImportExerciseTypes/', formData)
       .pipe(catchError(this.handleError))
       .subscribe(
         (response: ImportResponse) => {
-          console.log(response);
+          this.store.dispatch(setImportResponse({response}));
         },
-        err => {
-          console.log(err);
-        },
+        err => console.log(err),
         () => {
-          this.store.dispatch(removeImportJob({ id: job.id }));
-          this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }))
+          this.store.dispatch(removeImportJob( { id: job.id } ))
         });
   }
 
