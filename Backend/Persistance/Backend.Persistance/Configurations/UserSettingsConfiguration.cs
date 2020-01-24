@@ -32,6 +32,12 @@ namespace Backend.Persistance.Configurations
                     v => (RpeSystem)Enum.Parse(typeof(RpeSystem), v));
 
             builder
+                .HasOne(x => x.MainDashboard)
+                .WithOne(x => x.UserSetting)
+                .IsRequired(false)
+                .HasForeignKey<UserSetting>(x => x.MainDashboardId);
+
+            builder
                 .HasMany(x => x.NotificationSettings)
                 .WithOne(x => x.UserSetting)
                 .HasForeignKey(x => x.UserSettingId);

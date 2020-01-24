@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DashboardItem } from '../../models/dashboard-item.interface';
+import { Component, Input, OnInit } from '@angular/core';
+import { TrackItem } from '../../models/track-item.model';
 
 @Component({
   selector: 'app-dashboard-card-container',
@@ -8,8 +8,8 @@ import { DashboardItem } from '../../models/dashboard-item.interface';
 })
 export class DashboardCardContainerComponent implements OnInit {
 
-  @Input() item: DashboardItem;
-  
+  @Input() item: TrackItem;
+
   constructor() { }
 
   ngOnInit() {

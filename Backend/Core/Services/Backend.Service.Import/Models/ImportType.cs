@@ -1,4 +1,4 @@
-﻿namespace Backend.Application.Business.Business.Import.GetImportSample
+﻿namespace Backend.Service.Import.Models
 {
     public enum ImportType
     {

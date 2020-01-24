@@ -1,16 +1,16 @@
-﻿using AutoMapper;
-using Backend.Domain;
-using Backend.Domain.Entities.ExerciseType;
-using Backend.Service.Excel.Models.Import.ExerciseType;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Backend.Domain;
+using Backend.Domain.Entities.ExerciseType;
+using Backend.Service.Excel.Models.Import.ExerciseType;
+using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Application.Business.Business.Import.ExerciseType
+namespace Backend.Application.Business.Business.Import.ImportExerciseType
 {
     /// <summary>
     /// Imports exercise type data according to some specific rules and schema

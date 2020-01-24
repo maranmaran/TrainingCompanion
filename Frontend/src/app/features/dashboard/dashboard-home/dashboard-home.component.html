@@ -3,7 +3,7 @@
 
     <mat-sidenav class="sidenav" [autoFocus]="false" [mode]="'side'" [position]="'end'">
         <div fxLayout="column">
-            <button *ngIf="dashboardEditMode" mat-stroked-button class="m-3" (click)="toggleSidenav()">Save customization</button>
+            <button *ngIf="dashboardEditMode" mat-stroked-button class="m-3" (click)="toggleSidenav()" (click)="onSaveDashboard()">Save customization</button>
             <p class="p-3">List of components:</p>
             <div
               class="p-3"
@@ -15,12 +15,12 @@
               (cdkDragStarted)="dragStart($event)"
               (cdkDragEntered)="dragEnter($event)"
               (cdkDragEnded)="dragEnd($event)">
-                <div 
+                <div
                   *ngFor="let component of mainDashboardComponents"
                   cdkDrag
                   (cdkDragEntered)="dragEnter($event)"
                   (cdkDragEnded)="dragEnd($event)">
-                    {{component.id}}
+                    {{component.code}}
                 </div>
             </div>
         </div>
@@ -42,11 +42,11 @@
               cdkDropList
               #trackOne="cdkDropList"
               [cdkDropListConnectedTo]="[trackTwo, componentsList]"
-              [cdkDropListData]="tracks[0].items"
+              [cdkDropListData]="tracks[0]?.items"
               (cdkDropListDropped)="drop($event, 0)"
               fxFlex="1 1 50%"
               class="h-100">
-                <ng-template *ngFor="let item of tracks[0].items" appDashboardOutlet [item]="item"></ng-template>
+                <ng-template *ngFor="let item of tracks[0]?.items" appDashboardOutlet [item]="item"></ng-template>
             </div>
 
             <!--TRACK TWO-->
@@ -55,11 +55,11 @@
               cdkDropList
               #trackTwo="cdkDropList"
               [cdkDropListConnectedTo]="[trackOne, componentsList]"
-              [cdkDropListData]="tracks[1].items"
+              [cdkDropListData]="tracks[1]?.items"
               (cdkDropListDropped)="drop($event, 1)"
               fxFlex="1 1 50%"
               class="h-100">
-              <ng-template *ngFor="let item of tracks[1].items" appDashboardOutlet [item]="item"></ng-template>
+              <ng-template *ngFor="let item of tracks[1]?.items" appDashboardOutlet [item]="item"></ng-template>
           </div>
             <!-- </ng-container> -->
         </div>

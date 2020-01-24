@@ -1,10 +1,11 @@
-﻿using Backend.Application.Business.Business.Import.ExerciseType;
-using Backend.Application.Business.Business.Import.GetImportSample;
-using Backend.Application.Business.Business.Import.Training;
+﻿using Backend.Application.Business.Business.Import.GetImportSample;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Backend.Application.Business.Business.Import.ImportExerciseType;
+using Backend.Application.Business.Business.Import.ImportTraining;
+using Backend.Service.Import.Models;
 
 namespace Backend.API.Controllers
 {

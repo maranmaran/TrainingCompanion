@@ -48,6 +48,7 @@ namespace Backend.Application.Business
             this.NotificationMappings();
             this.ExportMappings();
             this.ImportMappings();
+            this.DashboardMappings();
         }
 
         private void NotificationMappings()
@@ -212,6 +213,10 @@ namespace Backend.Application.Business
         private void ImportMappings()
         {
             CreateMap<ImportExerciseTypeDto, ExerciseType>().ReverseMap();
+        }
+
+        private void DashboardMappings()
+        {
         }
     }
 }
