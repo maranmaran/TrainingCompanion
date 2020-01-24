@@ -1,4 +1,5 @@
 ﻿using Backend.Domain.Entities.Chat;
+using Backend.Domain.Entities.Dashboard;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
@@ -23,6 +24,10 @@ namespace Backend.Domain
         DbSet<ChatMessage> ChatMessages { get; set; }
         DbSet<Notification> Notifications { get; set; }
         DbSet<MediaFile> MediaFiles { get; set; }
+        DbSet<Dashboard> Dashboards { get; set; }
+        DbSet<Track> Tracks { get; set; }
+        DbSet<TrackItem> TrackItems { get; set; }
+        DbSet<TrackItemParams> TrackItemParams { get; set; }
         DbSet<SystemException> SystemExceptions { get; set; }
 
         #region Exercise type + Properties

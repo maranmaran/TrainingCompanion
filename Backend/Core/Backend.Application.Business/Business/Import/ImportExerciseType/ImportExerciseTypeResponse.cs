@@ -1,8 +1,8 @@
-﻿using Backend.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Backend.Common;
 
-namespace Backend.Application.Business.Business.Import.ExerciseType
+namespace Backend.Application.Business.Business.Import.ImportExerciseType
 {
     public class ImportExerciseTypeResponse
     {

@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using Microsoft.AspNetCore.Http;
-using System;
 
-namespace Backend.Application.Business.Business.Import.ExerciseType
+namespace Backend.Application.Business.Business.Import.ImportExerciseType
 {
     public class ImportExerciseTypeRequest : IRequest<ImportExerciseTypeResponse>
     {

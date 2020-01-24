@@ -1,4 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using Backend.Application.Business.Business.PushNotification.CreatePushNotification;
 using Backend.Domain;
 using Backend.Domain.Enum;
@@ -8,15 +15,8 @@ using Backend.Service.Excel.Models.Import.ExerciseType;
 using Backend.Service.Logging.Interfaces;
 using Backend.Service.PushNotifications;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Backend.Application.Business.Business.Import.ExerciseType
+namespace Backend.Application.Business.Business.Import.ImportExerciseType
 {
     public class ImportExerciseTypeRequestHandler : IRequestHandler<ImportExerciseTypeRequest, ImportExerciseTypeResponse>
     {

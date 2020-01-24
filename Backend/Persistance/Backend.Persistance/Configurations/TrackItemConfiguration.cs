@@ -1,4 +1,4 @@
-﻿using Backend.Domain.Entities;
+﻿using Backend.Domain.Entities.Dashboard;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,12 +13,15 @@ namespace Backend.Persistance.Configurations
                 .WithMany(x => x.Items)
                 .HasForeignKey(x => x.TrackId);
 
+            builder.Property(x => x.ParamsId).IsRequired(false);
+
             builder
                 .HasOne(x => x.Params)
                 .WithOne(x => x.TrackItem)
-                .HasForeignKey<TrackItemParams>(x => x.TrackItemId);
+                .IsRequired(false)
+                .HasForeignKey<TrackItem>(x => x.ParamsId);
 
-            builder.HasIndex(x => x.Code).IsUnique();
+            //builder.HasIndex(x => x.Code).IsUnique();
         }
     }
 }

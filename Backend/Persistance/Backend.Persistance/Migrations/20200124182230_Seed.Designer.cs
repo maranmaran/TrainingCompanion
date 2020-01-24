@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200121212551_TrackChanges")]
-    partial class TrackChanges
+    [Migration("20200124182230_Seed")]
+    partial class Seed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,86 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("ChatMessages");
                 });
 
+            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.Dashboard", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserSettingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dashboards");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.Track", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DashboardId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DashboardId");
+
+                    b.ToTable("Tracks");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.TrackItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Component")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ParamsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TrackId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasFilter("[Code] IS NOT NULL");
+
+                    b.HasIndex("TrackId");
+
+                    b.ToTable("TrackItems");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.TrackItemParams", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("JsonParams")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TrackItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TrackItemId")
+                        .IsUnique()
+                        .HasFilter("[TrackItemId] IS NOT NULL");
+
+                    b.ToTable("TrackItemParams");
+                });
+
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -84,9 +164,7 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)")
-                        .HasDefaultValue("97f56b61-da8b-4ce6-bc69-8a954a628826");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -357,66 +435,6 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("SystemExceptions");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.Track", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Track");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.TrackItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Component")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("ParamsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TrackId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasFilter("[Code] IS NOT NULL");
-
-                    b.HasIndex("TrackId");
-
-                    b.ToTable("TrackItem");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.TrackItemParams", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("JsonParams")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TrackItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrackItemId")
-                        .IsUnique();
-
-                    b.ToTable("TrackItemParams");
-                });
-
             modelBuilder.Entity("Backend.Domain.Entities.TrainingLog.Exercise", b =>
                 {
                     b.Property<Guid>("Id")
@@ -609,131 +627,131 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5e410850-912e-49a8-b72a-b761852694aa"),
+                            Id = new Guid("2049eacd-5294-4e15-abb2-4a63b822b1d0"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("156b4b50-c7d2-4db2-88a4-d9ff0d3cf7a3")
+                            UserSettingId = new Guid("f16a45eb-a764-4d5b-83ce-cb9a2f10f7ce")
                         },
                         new
                         {
-                            Id = new Guid("8d19b7fe-c978-433d-964f-ab352060f5a6"),
+                            Id = new Guid("8bc760de-28ee-4ac1-8f36-1791398e2cbb"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("156b4b50-c7d2-4db2-88a4-d9ff0d3cf7a3")
+                            UserSettingId = new Guid("f16a45eb-a764-4d5b-83ce-cb9a2f10f7ce")
                         },
                         new
                         {
-                            Id = new Guid("6fc5cfcb-abb4-40af-894d-9c5881102836"),
+                            Id = new Guid("51789d68-d1a0-49c8-b048-1cf77d8f375f"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("156b4b50-c7d2-4db2-88a4-d9ff0d3cf7a3")
+                            UserSettingId = new Guid("f16a45eb-a764-4d5b-83ce-cb9a2f10f7ce")
                         },
                         new
                         {
-                            Id = new Guid("444daff5-dd31-4b85-8bd3-9040574ffc44"),
+                            Id = new Guid("0ee59293-05e0-48b3-9a03-d707691db30b"),
                             NotificationType = "ImportFinished",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("156b4b50-c7d2-4db2-88a4-d9ff0d3cf7a3")
+                            UserSettingId = new Guid("f16a45eb-a764-4d5b-83ce-cb9a2f10f7ce")
                         },
                         new
                         {
-                            Id = new Guid("2c3f2192-a887-4c85-9a34-6613ba453c87"),
+                            Id = new Guid("0a173e02-24d4-4a9f-a333-64f54e15adba"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("d1030967-f427-40e7-b5f0-f3993c74a965")
+                            UserSettingId = new Guid("09673314-6eb4-423e-a93c-34b4126a02cc")
                         },
                         new
                         {
-                            Id = new Guid("700d26f7-7a4b-4248-907c-b546a087c924"),
+                            Id = new Guid("c181243c-f8ab-4f96-b5d7-ac83dbdacc38"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("d1030967-f427-40e7-b5f0-f3993c74a965")
+                            UserSettingId = new Guid("09673314-6eb4-423e-a93c-34b4126a02cc")
                         },
                         new
                         {
-                            Id = new Guid("af80e200-5438-4b8d-9417-0ae4d0633a5f"),
+                            Id = new Guid("f5073484-eb49-43c7-91d7-537e5a06309a"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("d1030967-f427-40e7-b5f0-f3993c74a965")
+                            UserSettingId = new Guid("09673314-6eb4-423e-a93c-34b4126a02cc")
                         },
                         new
                         {
-                            Id = new Guid("1c9b0cf0-203b-470e-babb-d287cec50aaf"),
+                            Id = new Guid("86827f03-fa70-4c54-8396-72e6c03885e2"),
                             NotificationType = "ImportFinished",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("d1030967-f427-40e7-b5f0-f3993c74a965")
+                            UserSettingId = new Guid("09673314-6eb4-423e-a93c-34b4126a02cc")
                         },
                         new
                         {
-                            Id = new Guid("e37800c5-4c2b-4e63-9c75-cf4d5ee18a4b"),
+                            Id = new Guid("df8e635c-e1ef-4b50-a5d8-455849220863"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("c24920fc-fd9e-405a-80e3-f6a855ceb5be")
+                            UserSettingId = new Guid("e67b4e66-7e71-4749-933d-027ca0ace096")
                         },
                         new
                         {
-                            Id = new Guid("3cee53a9-e011-48f0-b1d1-b5cc4531d1be"),
+                            Id = new Guid("f57c4bd5-1752-45fb-a54e-d52ee5f62392"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("c24920fc-fd9e-405a-80e3-f6a855ceb5be")
+                            UserSettingId = new Guid("e67b4e66-7e71-4749-933d-027ca0ace096")
                         },
                         new
                         {
-                            Id = new Guid("9d0e3f90-fefb-4d84-8083-9704ecb24d8e"),
+                            Id = new Guid("69cba466-278b-4ffa-830f-394e4fb9b648"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("c24920fc-fd9e-405a-80e3-f6a855ceb5be")
+                            UserSettingId = new Guid("e67b4e66-7e71-4749-933d-027ca0ace096")
                         },
                         new
                         {
-                            Id = new Guid("2049f10d-aa37-4783-aedf-2f6c523fd0da"),
+                            Id = new Guid("372edd3c-8281-43c3-bc0c-5846ba1d1d7f"),
                             NotificationType = "ImportFinished",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("c24920fc-fd9e-405a-80e3-f6a855ceb5be")
+                            UserSettingId = new Guid("e67b4e66-7e71-4749-933d-027ca0ace096")
                         },
                         new
                         {
-                            Id = new Guid("a966a0cb-9920-4d5f-ad6f-8f3e611578fd"),
+                            Id = new Guid("842c1012-4b3b-4df8-8271-cb1b22e48574"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf15fd6b-b70e-481b-8209-60f5d134cd73")
+                            UserSettingId = new Guid("28d6238e-40ab-4503-b293-bd6867de983b")
                         },
                         new
                         {
-                            Id = new Guid("ee2ce832-91bf-49e7-913a-8647c5bf4567"),
+                            Id = new Guid("dfd2dc5d-4f68-4b05-9190-9b22f03d8281"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf15fd6b-b70e-481b-8209-60f5d134cd73")
+                            UserSettingId = new Guid("28d6238e-40ab-4503-b293-bd6867de983b")
                         },
                         new
                         {
-                            Id = new Guid("a21379dd-1df6-40d5-8ad8-922386bab730"),
+                            Id = new Guid("44046913-4497-4c92-b03e-7f1e6fba6089"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf15fd6b-b70e-481b-8209-60f5d134cd73")
+                            UserSettingId = new Guid("28d6238e-40ab-4503-b293-bd6867de983b")
                         },
                         new
                         {
-                            Id = new Guid("16950a1d-16ac-46b3-8717-7ed47c99993d"),
+                            Id = new Guid("62cd2f9a-c540-4b18-b4c8-6562c53ab8ad"),
                             NotificationType = "ImportFinished",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf15fd6b-b70e-481b-8209-60f5d134cd73")
+                            UserSettingId = new Guid("28d6238e-40ab-4503-b293-bd6867de983b")
                         });
                 });
 
@@ -744,6 +762,9 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("MainDashboardId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RpeSystem")
@@ -773,13 +794,17 @@ namespace Backend.Persistance.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
+                    b.HasIndex("MainDashboardId")
+                        .IsUnique()
+                        .HasFilter("[MainDashboardId] IS NOT NULL");
+
                     b.ToTable("UserSettings");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("156b4b50-c7d2-4db2-88a4-d9ff0d3cf7a3"),
-                            ApplicationUserId = new Guid("2632979f-2396-495e-a3f3-66a91250a15d"),
+                            Id = new Guid("f16a45eb-a764-4d5b-83ce-cb9a2f10f7ce"),
+                            ApplicationUserId = new Guid("a7e887a7-4e76-4f96-b0e5-d12ac9503ccc"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -787,8 +812,8 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d1030967-f427-40e7-b5f0-f3993c74a965"),
-                            ApplicationUserId = new Guid("44b8ba52-10d8-4c8f-893e-73fcd0040038"),
+                            Id = new Guid("09673314-6eb4-423e-a93c-34b4126a02cc"),
+                            ApplicationUserId = new Guid("85d80fa1-e21b-4b19-8725-471ee3bcc338"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -796,8 +821,8 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c24920fc-fd9e-405a-80e3-f6a855ceb5be"),
-                            ApplicationUserId = new Guid("9e58e297-37c8-45b6-8b41-c5d1812a2758"),
+                            Id = new Guid("e67b4e66-7e71-4749-933d-027ca0ace096"),
+                            ApplicationUserId = new Guid("80714178-6faa-4ddf-b9b5-63f1b2932b2e"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -805,8 +830,8 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cf15fd6b-b70e-481b-8209-60f5d134cd73"),
-                            ApplicationUserId = new Guid("6260d78a-2cb5-4e0e-b098-4e9a8fc3d4de"),
+                            Id = new Guid("28d6238e-40ab-4503-b293-bd6867de983b"),
+                            ApplicationUserId = new Guid("c34c7468-09db-493e-b802-c0322f969e3c"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -823,19 +848,19 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2632979f-2396-495e-a3f3-66a91250a15d"),
+                            Id = new Guid("a7e887a7-4e76-4f96-b0e5-d12ac9503ccc"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 1, 21, 21, 25, 50, 961, DateTimeKind.Utc).AddTicks(9636),
+                            CreatedOn = new DateTime(2020, 1, 24, 18, 22, 29, 874, DateTimeKind.Utc).AddTicks(7950),
                             CustomerId = "cus_FLi7gZv8w0j0GB",
                             Email = "admin@trainingcompanion.com",
                             FirstName = "Admin",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 1, 21, 21, 25, 50, 962, DateTimeKind.Utc).AddTicks(523),
+                            LastModified = new DateTime(2020, 1, 24, 18, 22, 29, 874, DateTimeKind.Utc).AddTicks(8592),
                             LastName = "",
                             PasswordHash = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("156b4b50-c7d2-4db2-88a4-d9ff0d3cf7a3"),
+                            UserSettingId = new Guid("f16a45eb-a764-4d5b-83ce-cb9a2f10f7ce"),
                             Username = "admin"
                         });
                 });
@@ -854,20 +879,20 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("44b8ba52-10d8-4c8f-893e-73fcd0040038"),
+                            Id = new Guid("85d80fa1-e21b-4b19-8725-471ee3bcc338"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 1, 21, 21, 25, 50, 962, DateTimeKind.Utc).AddTicks(3409),
+                            CreatedOn = new DateTime(2020, 1, 24, 18, 22, 29, 875, DateTimeKind.Utc).AddTicks(1700),
                             Email = "athlete@trainingcompanion.com",
                             FirstName = "Athlete",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 1, 21, 21, 25, 50, 962, DateTimeKind.Utc).AddTicks(3431),
+                            LastModified = new DateTime(2020, 1, 24, 18, 22, 29, 875, DateTimeKind.Utc).AddTicks(1719),
                             LastName = "",
                             PasswordHash = "23a1f74bc589fe525387f8d2c40f1e552a564fe5de00af935bb7a0592fc976c6",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("d1030967-f427-40e7-b5f0-f3993c74a965"),
+                            UserSettingId = new Guid("09673314-6eb4-423e-a93c-34b4126a02cc"),
                             Username = "athlete",
-                            CoachId = new Guid("9e58e297-37c8-45b6-8b41-c5d1812a2758")
+                            CoachId = new Guid("80714178-6faa-4ddf-b9b5-63f1b2932b2e")
                         });
                 });
 
@@ -880,19 +905,19 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9e58e297-37c8-45b6-8b41-c5d1812a2758"),
+                            Id = new Guid("80714178-6faa-4ddf-b9b5-63f1b2932b2e"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 1, 21, 21, 25, 50, 962, DateTimeKind.Utc).AddTicks(5624),
+                            CreatedOn = new DateTime(2020, 1, 24, 18, 22, 29, 875, DateTimeKind.Utc).AddTicks(4423),
                             CustomerId = "cus_FHk5RepADdfm5H",
                             Email = "coach@trainingcompanion.com",
                             FirstName = "Coach",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 1, 21, 21, 25, 50, 962, DateTimeKind.Utc).AddTicks(5629),
+                            LastModified = new DateTime(2020, 1, 24, 18, 22, 29, 875, DateTimeKind.Utc).AddTicks(4430),
                             LastName = "",
                             PasswordHash = "e0f167bc84b881bc06f6884fb48e02f41dfc5579e25489db6c6bde238e4aed15",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("c24920fc-fd9e-405a-80e3-f6a855ceb5be"),
+                            UserSettingId = new Guid("e67b4e66-7e71-4749-933d-027ca0ace096"),
                             Username = "coach"
                         });
                 });
@@ -906,18 +931,18 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6260d78a-2cb5-4e0e-b098-4e9a8fc3d4de"),
+                            Id = new Guid("c34c7468-09db-493e-b802-c0322f969e3c"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 1, 21, 21, 25, 50, 962, DateTimeKind.Utc).AddTicks(4101),
+                            CreatedOn = new DateTime(2020, 1, 24, 18, 22, 29, 875, DateTimeKind.Utc).AddTicks(2596),
                             Email = "solo.athlete@trainingcompanion.com",
                             FirstName = "Solo",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 1, 21, 21, 25, 50, 962, DateTimeKind.Utc).AddTicks(4105),
+                            LastModified = new DateTime(2020, 1, 24, 18, 22, 29, 875, DateTimeKind.Utc).AddTicks(2600),
                             LastName = "Athlete",
                             PasswordHash = "304301ea5935cd1d38e55206e09eebcfe95fcb56f96ddf0ef2d8557a295728c8",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("cf15fd6b-b70e-481b-8209-60f5d134cd73"),
+                            UserSettingId = new Guid("28d6238e-40ab-4503-b293-bd6867de983b"),
                             Username = "soloathlete"
                         });
                 });
@@ -929,6 +954,31 @@ namespace Backend.Persistance.Migrations
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.Track", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.Dashboard.Dashboard", "Dashboard")
+                        .WithMany("Tracks")
+                        .HasForeignKey("DashboardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.TrackItem", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.Dashboard.Track", "Track")
+                        .WithMany("Items")
+                        .HasForeignKey("TrackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.TrackItemParams", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.Dashboard.TrackItem", "TrackItem")
+                        .WithOne("Params")
+                        .HasForeignKey("Backend.Domain.Entities.Dashboard.TrackItemParams", "TrackItemId");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseType", b =>
@@ -1012,24 +1062,6 @@ namespace Backend.Persistance.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.TrackItem", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.Track", "Track")
-                        .WithMany("Items")
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.TrackItemParams", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.TrackItem", "TrackItem")
-                        .WithOne("Params")
-                        .HasForeignKey("Backend.Domain.Entities.TrackItemParams", "TrackItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Backend.Domain.Entities.TrainingLog.Exercise", b =>
                 {
                     b.HasOne("Backend.Domain.Entities.ExerciseType.ExerciseType", "ExerciseType")
@@ -1079,6 +1111,13 @@ namespace Backend.Persistance.Migrations
                         .HasForeignKey("UserSettingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.User.UserSetting", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.Dashboard.Dashboard", "MainDashboard")
+                        .WithOne("UserSetting")
+                        .HasForeignKey("Backend.Domain.Entities.User.UserSetting", "MainDashboardId");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.User.Athlete", b =>

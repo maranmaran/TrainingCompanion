@@ -1,7 +1,8 @@
-﻿using Backend.Application.Business.Business.Dashboard.GetMainDashboardRequest;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Backend.Application.Business.Business.Dashboard.GetMainDashboard;
+using Backend.Application.Business.Business.Dashboard.SaveMainDashboard;
 
 namespace Backend.API.Controllers
 {
@@ -13,5 +14,10 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(new GetMainDashboardRequest(userId)));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SaveMainDashboard([FromBody] SaveMainDashboardRequest request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
     }
 }
