@@ -1,15 +1,15 @@
-﻿using Backend.Domain;
-using Backend.Service.Excel.Interfaces;
-using Backend.Service.Excel.Models.Import.Training;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Service.Excel.Interfaces;
+using Backend.Service.Excel.Models.Import.Training;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Application.Business.Business.Import.Training
+namespace Backend.Application.Business.Business.Import.ImportTraining
 {
     public class ImportTrainingRequestHandler : IRequestHandler<ImportTrainingRequest, Unit>
     {

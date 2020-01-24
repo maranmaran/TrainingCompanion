@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Backend.Domain.Entities
+namespace Backend.Domain.Entities.Dashboard
 {
     public class TrackItem
     {
@@ -8,10 +8,10 @@ namespace Backend.Domain.Entities
         public string Code { get; set; }
         public string Component { get; set; }
 
-        public virtual Guid TrackId { get; set; }
-        public Track Track { get; set; }
+        public Guid TrackId { get; set; }
+        public virtual Track Track { get; set; }
 
-        public virtual Guid? ParamsId { get; set; }
+        public Guid? ParamsId { get; set; }
         public virtual TrackItemParams Params { get; set; }
     }
 }

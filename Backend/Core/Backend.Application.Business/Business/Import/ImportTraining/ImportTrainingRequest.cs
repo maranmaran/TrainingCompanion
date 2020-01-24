@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using Microsoft.AspNetCore.Http;
-using System;
 
-namespace Backend.Application.Business.Business.Import.Training
+namespace Backend.Application.Business.Business.Import.ImportTraining
 {
     public class ImportTrainingRequest : IRequest
     {

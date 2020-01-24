@@ -1,4 +1,5 @@
 ﻿using Backend.Domain.Entities;
+using Backend.Domain.Entities.Dashboard;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,6 @@ namespace Backend.Persistance.Configurations
                 .HasMany(x => x.Items)
                 .WithOne(x => x.Track)
                 .HasForeignKey(x => x.TrackId);
-
 
         }
     }

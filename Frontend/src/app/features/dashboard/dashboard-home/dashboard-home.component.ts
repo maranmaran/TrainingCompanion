@@ -1,7 +1,8 @@
-import { CdkDragDrop, moveItemInArray, CdkDragEnter, CdkDropList } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, ElementRef, Renderer2 } from '@angular/core';
+import { CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
+import { Guid } from 'guid-typescript';
 import { take } from 'rxjs/operators';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -11,12 +12,11 @@ import { NotificationType } from 'src/server-models/enums/notification-type.enum
 import { SubSink } from 'subsink';
 import { DashboardOutletDirective } from '../directives/dashboard-outlet.directive';
 import { dashboardCards, DashboardCards } from '../models/dashboard-cards';
-import { Track } from '../models/track.interface';
+import { TrackItem } from '../models/track-item.model';
+import { Track } from '../models/track.model';
 import { DashboardService } from '../services/dashboard.service';
 import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
-import { DashboardItem } from './../models/dashboard-item.interface';
 import { DashboardCardContainerComponent } from './dashboard-card-container/dashboard-card-container.component';
-import { Element } from '@angular/compiler';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -26,7 +26,7 @@ import { Element } from '@angular/compiler';
 export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren(DashboardOutletDirective) dashboardOutlets: QueryList<DashboardOutletDirective>;
-  
+
   @ViewChildren('trackOne, trackTwo') dropLists: QueryList<CdkDropList>;
 
   private userId: string;
@@ -34,9 +34,9 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
 
   dashboardEditMode = false;
 
-  mainDashboardComponents: DashboardItem[] = [
-    { component: DashboardCards.Test, id: 'test' },
-    { component: DashboardCards.Test, id: 'test' }
+  mainDashboardComponents: TrackItem[] = [
+    { component: DashboardCards.Test, code: 'test', id: Guid.EMPTY, params: null },
+    { component: DashboardCards.Test, code: 'test1', id: Guid.EMPTY, params: null }
   ]
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
@@ -53,6 +53,8 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   ) { }
 
   ngOnInit() {
+    this.dashboardService.getUserTracks();
+
     this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
 
     this.UIService.addOrUpdateSidenav(UISidenav.DashboardComponents, this.sidenav);
@@ -93,7 +95,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     this.cd.detectChanges();
   }
 
-  loadContent = (template: DashboardOutletDirective, item: DashboardItem) => {
+  loadContent = (template: DashboardOutletDirective, item: TrackItem) => {
     if (!item.component)
       return;
 
@@ -111,7 +113,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     this.UIService.doSidenavAction(UISidenav.DashboardComponents, UISidenavAction.Toggle);
   }
 
-  drop(event: CdkDragDrop<DashboardItem[]>, trackIdx: number) {
+  drop(event: CdkDragDrop<TrackItem[]>, trackIdx: number) {
 
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -127,6 +129,9 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  onSaveDashboard() {
+    this.dashboardService.saveMainDashboard(this.tracks);
+  }
 
   dragEnter(event: any) {
     const droplist = event.container;
