@@ -9,6 +9,7 @@ import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-pas
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
+import { TestCardComponent } from './../features/dashboard/dashboard-home/dashboard-card-container/card-components/test-card/test-card.component';
 import { TrainingCalendarDayComponent } from './../features/training-log/training/training-calendar/training-calendar-day/training-calendar-day.component';
 import { ActiveFlagComponent } from './active-flag/active-flag.component';
 import { MaterialModule } from './angular-material.module';
@@ -45,7 +46,8 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
             ExerciseTypeChipComponent,
             ExerciseTypeChipListComponent,
             ActiveFlagComponent,
-            TrainingCalendarDayComponent
+            TrainingCalendarDayComponent,
+            TestCardComponent,
         ]),
 
         AvatarModule,
@@ -73,7 +75,8 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         NotificationItemComponent,
         TrainingCalendarDayComponent,
         ChartComponent,
-        NotificationTypeIconComponent
+        NotificationTypeIconComponent,
+        TestCardComponent
     ],
     exports: [
         CommonModule,
@@ -81,6 +84,8 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         RouterModule,
         MaterialModule,
         CKEditorModule,
+
+        DynamicModule,
 
         AvatarModule,
         MediaDialogComponent,
@@ -105,7 +110,8 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         NotificationItemComponent,
         TrainingCalendarDayComponent,
         ChartComponent,
-        NotificationTypeIconComponent
+        NotificationTypeIconComponent,
+        TestCardComponent
     ],
     providers: [
     ],
