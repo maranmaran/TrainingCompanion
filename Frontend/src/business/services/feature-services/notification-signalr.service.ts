@@ -8,9 +8,9 @@ import { catchError, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/app/app.state';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { SubSink } from 'subsink';
-import { NotificationType } from '../../../server-models/enums/notification-type.enum';
 import { AppSettingsService } from '../shared/app-settings.service';
 import { PushNotification } from './../../../server-models/entities/push-notification.model';
+import { NotificationType } from './../../../server-models/enums/notification-type.enum';
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -72,9 +72,17 @@ export class NotificationSignalrService implements OnDestroy {
   // all listeners we react to
   initializeListeners() {
     this.hubConnection.on('SendNotification', (notification: PushNotification) => {
+      this.doWork(notification.type);
       this.notifications$.next(notification);
       this.toastService.show(JSON.stringify(notification), 'Notification')
     });
+  }
+
+  // do some specific work based on the received notification type
+  doWork(type: NotificationType) {
+    switch(type) {
+
+    }
   }
 
   // TODO: Add paging...
