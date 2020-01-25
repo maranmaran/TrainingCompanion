@@ -105,11 +105,11 @@ export class DashboardService extends BaseService {
   public addItem = (item: TrackItem, trackIdx: number) => {
     const state = this._trackState.getValue();
 
-    // check if tracks already contain this component
-    if (state[trackIdx].items.indexOf(item) !== -1) {
-      console.warn('Item with the same id exists on the dashboard track.');
-      return;
-    }
+    // // check if tracks already contain this component
+    // if (state[trackIdx].items.indexOf(item) !== -1) {
+    //   console.warn('Item with the same id exists on the dashboard track.');
+    //   return;
+    // }
 
     state[trackIdx].items.push(item);
 
