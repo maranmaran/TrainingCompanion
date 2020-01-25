@@ -5,10 +5,10 @@
 .sidenav {
     width: 15rem;
 }
-  
+
 .sidenav-container {
     position: relative !important;
-    top: 0;
+    top: 3px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -28,7 +28,7 @@
   .cdk-drag-placeholder {
     opacity: 0.7;
   }
-  
+
   .cdk-drag-animating {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
@@ -44,4 +44,3 @@
     }
 }
 
-  
