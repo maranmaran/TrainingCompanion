@@ -16,6 +16,7 @@ import { TrackItem } from '../models/track-item.model';
 import { Track } from '../models/track.model';
 import { DashboardService } from '../services/dashboard.service';
 import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
+import { sidebarCards } from './../models/dashboard-cards';
 import { DashboardCardContainerComponent } from './dashboard-card-container/dashboard-card-container.component';
 
 @Component({
@@ -33,6 +34,8 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   tracks: Track[];
 
   dashboardEditMode = false;
+
+  protected sidebarCards = sidebarCards;
 
   mainDashboardComponents: TrackItem[] = [
     { component: DashboardCards.Test, code: 'test', id: Guid.EMPTY, params: null },
