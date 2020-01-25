@@ -20,7 +20,7 @@
                   cdkDrag
                   (cdkDragEntered)="dragEnter($event)"
                   (cdkDragEnded)="dragEnd($event)">
-                    {{component.code}}
+                    <div [innerHtml]="sidebarCards[component.component]"></div>
                 </div>
             </div>
         </div>
