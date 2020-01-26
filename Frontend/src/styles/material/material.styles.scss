@@ -75,13 +75,7 @@ mat-form-field {
 
 
 // ==== FOR EVENT CALENDAR SO IT FILLS TILL BOTTOM OF PAGE (Height 100%)====
-.mat-drawer-content {
-  display: flex !important;
-  flex-direction: column;
-  height: 100%;
-  overflow-x: unset !important;
-  overflow-y: auto !important;
-}
+
 
 app-training-calendar {
   display:flex;

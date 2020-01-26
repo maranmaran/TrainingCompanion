@@ -9,11 +9,16 @@
 .sidenav-container {
     position: relative !important;
     top: 3px;
+    // top: 0px;
     bottom: 0;
     left: 0;
     right: 0;
     height: 100%;
 }
+
+#main-sidenav-content {
+    overflow-y: unset !important;
+  }
 
 // class from element that is being dragged
 .cdk-drag-preview {
