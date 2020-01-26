@@ -4,9 +4,9 @@
       <app-sidebar></app-sidebar>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content id="main-sidenav-content">
 
-        <app-toolbar
+      <app-toolbar
           [fullName]="userFullName"
           [loading$]="loading$"
           (openSettingsEvent)="onOpenSettings($event)"
@@ -14,7 +14,10 @@
           (logoutEvent)="onLogout($event)"
       ></app-toolbar>
 
-      <router-outlet></router-outlet>
+      <!-- <span class="vertical-scroll"> -->
+        <router-outlet></router-outlet>
+      <!-- </span> -->
+
       <ng-chat [hideFriendsList]="false" fxHide.xs [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>
 
 

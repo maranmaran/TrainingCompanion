@@ -13,6 +13,7 @@ import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UserService } from '../../../../business/services/feature-services/user.service';
 import { UserSetting } from './../../../../server-models/entities/user-settings.model';
 import { UnitSystem } from './../../../../server-models/enums/unit-system.enum';
+import { NotificationTypeLabel } from './notification-type-labels.enum';
 
 @Component({
   selector: 'app-general',
@@ -25,6 +26,7 @@ export class GeneralComponent implements OnInit {
   protected unitSystems = UnitSystem;
   protected rpeSystems = RpeSystem;
 
+  notificationTypeLabels = NotificationTypeLabel;
 
   constructor(
     private store: Store<AppState>,

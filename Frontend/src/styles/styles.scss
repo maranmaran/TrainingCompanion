@@ -16,9 +16,38 @@ body {
   margin-right: 8px;
 }
 
+.vertical-scroll {
+  overflow-y: auto;
+}
+
 .body-container {
   margin: 8px;
 }
+
+// .mat-drawer-content {
+#main-sidenav-content {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: unset !important;
+  overflow-y: auto !important;
+  // overflow-y: unset !important;
+}
+
+// dashboard example.. nested mat-sidenav-content inside #main-sidenav-content
+// #main-sidenav-content {
+//   overflow-y: unset !important;
+// }
+
+// // when normal component is loaded in router outlet (training details example)
+// router-outlet + *{
+//     overflow-y: auto !important;
+// }
+
+// // for all sidenav contents that are not main.. so we don't scroll past the toolbar...
+// mat-sidenav-content:not(#main-sidenav-content) {
+//   overflow-y: auto !important;
+// }
 
 .flex-center {
   display: flex;
@@ -45,7 +74,7 @@ i {
   margin: 0 !important;
 }
 
-.center-margin{
+.center-margin {
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -73,7 +102,6 @@ i {
 .not-active {
   color: crimson;
 }
-
 
 .fa-1-3-5x {
   font-size: 1.35em;
