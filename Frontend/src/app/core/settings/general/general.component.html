@@ -46,7 +46,7 @@
 
       <tr *ngFor="let notificationSetting of userSetting.notificationSettings">
         <!-- TODO: Make this pascal case into something meaningful... -->
-        <td class="text-center"> {{notificationSetting.notificationType}} </td>
+        <td class="text-center"> {{notificationTypeLabels[notificationSetting.notificationType]}} </td>
         <td class="text-center">
           <mat-checkbox (change)="onNotificationSettingCheckboxChecked($event, notificationSetting)" [name]="'receiveMail'"
             [checked]="notificationSetting.receiveMail">
