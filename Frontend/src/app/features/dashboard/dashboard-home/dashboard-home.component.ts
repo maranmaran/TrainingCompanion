@@ -1,8 +1,11 @@
 import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, Inject, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
+import { AttributesMap, dynamicDirectiveDef } from 'ng-dynamic-component';
 import { take } from 'rxjs/operators';
+import { MaterialElevationDirective } from 'src/business/directives/elevation.directive';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
@@ -20,7 +23,7 @@ import { sidebarCards } from './../models/dashboard-cards';
 @Component({
   selector: 'app-dashboard-home',
   templateUrl: './dashboard-home.component.html',
-  styleUrls: ['./dashboard-home.component.scss']
+  styleUrls: ['./dashboard-home.component.scss'],
 })
 export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -32,6 +35,12 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   tracks: Track[];
 
   dashboardEditMode = false;
+  attrs: AttributesMap = {
+    class: 'dashboard-component',
+  };
+  dirs = [
+    dynamicDirectiveDef(MaterialElevationDirective, { 'raisedElevation': 16 })
+  ]
 
   protected sidebarCards = sidebarCards;
   protected dashboardCards = dashboardCards;
@@ -41,6 +50,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   private _subs = new SubSink();
 
   constructor(
+    @Inject(DOCUMENT) private document,
     private notificationService: NotificationSignalrService,
     private store: Store<AppState>,
     private cd: ChangeDetectorRef,
@@ -51,6 +61,8 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   ) { }
 
   ngOnInit() {
+    this.document.getElementById('main-sidenav-content').style.setProperty("overflow-y", "hidden", "important")
+
     this.dashboardService.getUserTracks();
 
     this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
@@ -66,6 +78,8 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy() {
+    this.document.getElementById('main-sidenav-content').style.setProperty("overflow-y", "auto", "important")
+
     this._subs.unsubscribe();
   }
 

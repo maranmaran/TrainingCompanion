@@ -54,8 +54,6 @@ export class DashboardService extends BaseService {
       ).subscribe(
         (tracks: Track[]) => {
 
-          console.log(tracks);
-
           if (tracks.length > 2)
             console.error('You cannot have more than 2 tracks for Main dashboard');
 
@@ -80,7 +78,6 @@ export class DashboardService extends BaseService {
         catchError(this.handleError)
       ).subscribe(
         (tracks: Track[]) => {
-          console.log(tracks)
           this._trackState.next(tracks)
         },
         err => console.log(err)
