@@ -5,8 +5,7 @@
     <div *ngIf="media.type === 'Image'" class="image-container" fxLayout="row" fxLayoutAlign="center center"
        fxFlexAlign="center" (click)="enlargeImage(media)" fxFlex="1 1 25%">
 
-      <img class="img-fluid" src="{{ media.downloadUrl }}" appMaterialElevation
-        raisedElevation="16" />
+      <img class="img-fluid" src="{{ media.downloadUrl }}" appMaterialElevation raisedElevation="16" />
 
       </div>
 

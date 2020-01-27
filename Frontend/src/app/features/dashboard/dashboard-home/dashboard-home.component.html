@@ -39,7 +39,7 @@
     </div>
 
     <div
-      class="board h-100 pl-3 pr-3"
+      class="board h-100 pl-2 pr-2"
       fxLayout="row" fxLayoutAlign="space-between start"
       fxLayout.xs="column"
     >
@@ -52,11 +52,16 @@
         [cdkDropListConnectedTo]="[trackTwo, componentsList]"
         [cdkDropListData]="tracks[0]?.items"
         (cdkDropListDropped)="drop($event, 0)"
-        fxFlex="1 1 49%" fxLayout="row wrap" fxLayoutAlign="center start"
-        fxFlex.xs="1 1 100%"
+        fxFlex="1 1 calc(50% - 1rem)" fxLayout="row wrap" fxLayoutAlign="space-between start"
+        fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
         class="h-100"
         >
-          <ndc-dynamic *ngFor="let item of tracks[0]?.items" [ndcDynamicComponent]="dashboardCards[item.component]"> </ndc-dynamic>
+          <ndc-dynamic
+            *ngFor="let item of tracks[0]?.items"
+            [ndcDynamicComponent]="dashboardCards[item.component]"
+            [ndcDynamicAttributes]="attrs"
+            [ndcDynamicDirectives]="dirs"
+          ></ndc-dynamic>
           <!-- <ng-template *ngFor="let item of tracks[0]?.items" appDashboardOutlet [item]="item"></ng-template> -->
       </div>
 
@@ -68,10 +73,15 @@
         [cdkDropListConnectedTo]="[trackOne, componentsList]"
         [cdkDropListData]="tracks[1]?.items"
         (cdkDropListDropped)="drop($event, 1)"
-        fxFlex="1 1 49%" fxLayout="row wrap" fxLayoutAlign="center start"
-        fxFlex.xs="1 1 100%"
+        fxFlex="1 1 calc(50% - 1rem)" fxLayout="row wrap" fxLayoutAlign="space-between start"
+        fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
         class="h-100">
-          <ndc-dynamic *ngFor="let item of tracks[1]?.items" [ndcDynamicComponent]="dashboardCards[item.component]"></ndc-dynamic>
+          <ndc-dynamic
+            *ngFor="let item of tracks[1]?.items"
+            [ndcDynamicComponent]="dashboardCards[item.component]"
+            [ndcDynamicAttributes]="attrs"
+            [ndcDynamicDirectives]="dirs"
+          ></ndc-dynamic>
           <!-- <ng-template *ngFor="let item of tracks[1]?.items" appDashboardOutlet [item]="item"></ng-template> -->
       </div>
     </div>

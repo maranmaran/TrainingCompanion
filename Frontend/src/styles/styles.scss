@@ -34,6 +34,26 @@ body {
   // overflow-y: unset !important;
 }
 
+.dashboard-component {
+  // background: rgba(0,0,0,0.4);
+  // background: rgba(255,255,255,1);
+  // background: green;
+  flex: 1 1 100%;
+  max-width: calc(50% - 1rem); // account for margin-right: 1rem
+  align-self: start;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+}
+
+@media(max-width: 600px) {
+  .dashboard-component {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+}
+
 // dashboard example.. nested mat-sidenav-content inside #main-sidenav-content
 // #main-sidenav-content {
 //   overflow-y: unset !important;

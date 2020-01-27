@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
 import { getBarChartConfig, getHorizontalChartConfig, getHorizontalStackedChartConfig, getPieChartConfig, getPolarAreaChart } from 'src/app/shared/charts/training-chart-config.factory';
@@ -12,7 +12,7 @@ import { SubSink } from 'subsink';
   templateUrl: './test-card.component.html',
   styleUrls: ['./test-card.component.scss']
 })
-export class TestCardComponent implements OnInit {
+export class TestCardComponent implements OnInit, OnDestroy {
 
   _subs = new SubSink();
   _theme: Theme;
@@ -28,7 +28,10 @@ export class TestCardComponent implements OnInit {
         this.getChartConfigs();
       })
     )
+  }
 
+  ngOnDestroy(): void {
+    this._subs.unsubscribe();
   }
 
   config: ChartConfiguration;
