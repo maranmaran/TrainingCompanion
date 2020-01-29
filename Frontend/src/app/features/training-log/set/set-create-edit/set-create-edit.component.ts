@@ -128,11 +128,11 @@ export class SetCreateEditComponent implements OnInit {
 
     if (this.settings.useRpeSystem) {
       if (this.settings.rpeSystem == RpeSystem.Rir)
-        controls["rir"] = new FormControl((10 - set.rpe), [Validators.required, Validators.min(0), Validators.max(10)]);
+        controls["rir"] = new FormControl(set.rir ? set.rir : 10 - set.rpe, [Validators.required, Validators.min(0), Validators.max(10)]);
 
 
       if (this.settings.rpeSystem == RpeSystem.Rpe)
-        controls["rpe"] = new FormControl(set.rpe, [Validators.required, Validators.min(0), Validators.max(10)]);
+        controls["rpe"] = new FormControl(set.rpe ? set.rpe : 10 - set.rir, [Validators.required, Validators.min(0), Validators.max(10)]);
     }
 
     return controls;
@@ -182,7 +182,7 @@ export class SetCreateEditComponent implements OnInit {
         set.rpe = controls["rpe"].value;
 
       if (this.settings.rpeSystem == RpeSystem.Rir)
-        set.rpe = 10 - controls["rpe"].value;
+        set.rir = controls["rir"].value;
     }
 
     return set;

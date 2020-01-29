@@ -40,8 +40,8 @@
             </mat-form-field>
           </ng-container>
 
-          <ng-container *ngIf="settings.useRpeSystem; else rir">
-            <mat-form-field>
+          <ng-container *ngIf="settings.useRpeSystem">
+            <mat-form-field *ngIf="settings.rpeSystem == 'Rpe'; else rir">
               <mat-label>RPE</mat-label>
               <mat-select formControlName="rpe">
                 <mat-option value="5">5</mat-option>

@@ -6,6 +6,7 @@ export class Set {
     reps: number;
     time: Time;
     rpe: number;
+    rir: number;
     intensity: string;
     volume: number = 0;
     averageVelocity: string;

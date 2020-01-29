@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TrackItem } from '../../models/track-item.model';
+import { TrackItem } from '../../../../../server-models/entities/track-item.model';
 
 @Component({
   selector: 'app-dashboard-card-container',

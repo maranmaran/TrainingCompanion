@@ -9,7 +9,7 @@ namespace Backend.Domain.Entities.Notification
         public Guid Id { get; set; }
 
         public NotificationType Type { get; set; }
-        //public string Subtype { get; set; }
+        public string Subtype { get; set; }
 
         public string Payload { get; set; }
         public DateTime SentAt { get; set; }
