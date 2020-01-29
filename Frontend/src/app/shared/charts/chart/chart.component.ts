@@ -18,12 +18,10 @@ export class ChartComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
-
-    const ctx = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
-
-    this.chart = new Chart(ctx, this.configuration);
-
+    if(this.configuration)
+      this.initChart();
   }
+
 
   ngOnChanges(changes: SimpleChanges) {
 
@@ -33,6 +31,14 @@ export class ChartComponent implements OnInit, OnChanges {
     if(cur && prev && cur.generationId.value != prev.generationId.value)
       this.updateChart();
 
+    if(!prev && cur)
+      this.initChart();
+  }
+
+  initChart() {
+    const ctx = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
+
+    this.chart = new Chart(ctx, this.configuration);
   }
 
   updateChart() {

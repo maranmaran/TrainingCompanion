@@ -12,10 +12,10 @@ import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum
 import { AppState } from 'src/ngrx/app/app.state';
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
 import { SubSink } from 'subsink';
+import { TrackItem } from '../../../../server-models/entities/track-item.model';
+import { Track } from '../../../../server-models/entities/track.model';
 import { DashboardOutletDirective } from '../directives/dashboard-outlet.directive';
 import { dashboardCards, mainDashboardComponents } from '../models/dashboard-cards';
-import { TrackItem } from '../models/track-item.model';
-import { Track } from '../models/track.model';
 import { DashboardService } from '../services/dashboard.service';
 import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
 import { sidebarCards } from './../models/dashboard-cards';

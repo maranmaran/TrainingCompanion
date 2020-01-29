@@ -98,7 +98,7 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                         var intensity = set.Weight / max;
                         if (intensity <= 1)
                         {
-                            inolSum += set.Reps * (100 - intensity);
+                            inolSum += set.Reps / (100 - intensity * 100);
                         }
 
                         if (intensity > 0.75)
@@ -126,12 +126,12 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                     var relativeZone = zonePercentages.Aggregate((i1, i2) => i1.Percentage > i2.Percentage ? i1 : i2).Zone;
 
                     relativeZoneOfIntensityData.Add(relativeZone);
-                    averageInolData.Add(inolSum / setCount);
+                    averageInolData.Add(Math.Round(inolSum / setCount, 2));
                     numberOfLiftsData.Add(repsCount);
                     totalVolumeData.Add(volumeCount);
                 }
 
-                var volumeSplitData = totalVolumeData.Select(data => data / totalVolumeData.Sum() * 100);
+                var volumeSplitData = totalVolumeData.Select(data => Math.Round(data / totalVolumeData.Sum() * 100));
 
                 // relative zone of intensity
 

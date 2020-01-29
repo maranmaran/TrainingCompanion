@@ -1,4 +1,6 @@
-﻿using Backend.Domain;
+﻿using Backend.Application.Business.Code;
+using Backend.Domain;
+using Backend.Domain.Enum;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -26,10 +28,12 @@ namespace Backend.Application.Business.Business.Set.UpdateMany
                 var type = _context
                     .Exercises
                     .Include(x => x.ExerciseType)
+                    .ThenInclude(x => x.ApplicationUser)
+                    .ThenInclude(x => x.UserSetting)
                     .First(x => x.Id == request.ExerciseId).ExerciseType;
 
                 var sets = await _context.Sets.Where(x => x.ExerciseId == request.ExerciseId).AsNoTracking().ToListAsync(cancellationToken);
-                TransformSets(request.Sets, type);
+                TransformSets(request.Sets, type, type.ApplicationUser.UserSetting.RpeSystem);
 
                 var setsToRemove = sets.Where(x => request.Sets.All(y => y.Id != x.Id));
                 var setsToAdd = request.Sets.Where(x => x.Id == Guid.Empty);
@@ -49,7 +53,7 @@ namespace Backend.Application.Business.Business.Set.UpdateMany
             }
         }
 
-        private void TransformSets(IEnumerable<Domain.Entities.TrainingLog.Set> sets, Domain.Entities.ExerciseType.ExerciseType type)
+        private void TransformSets(IEnumerable<Domain.Entities.TrainingLog.Set> sets, Domain.Entities.ExerciseType.ExerciseType type, RpeSystem rpeSystem)
         {
             foreach (var set in sets)
             {
@@ -64,6 +68,11 @@ namespace Backend.Application.Business.Business.Set.UpdateMany
                     {
                         // bw
                     }
+                }
+
+                if (type.RequiresReps && type.RequiresSets && (type.RequiresWeight || type.RequiresBodyweight))
+                {
+                    set.ProjectedMax = RpeRepsTable.CalculateLiftMax(set.Reps, rpeSystem == RpeSystem.Rpe ? set.Rpe : 10 - set.Rir, set.Weight);
                 }
             }
         }

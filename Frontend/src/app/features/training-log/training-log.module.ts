@@ -4,6 +4,8 @@ import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ExerciseDetailsResolver } from 'src/business/resolvers/exercise-details.resolver';
 import { TrainingDetailsResolver } from 'src/business/resolvers/training-details.resolver';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { ReportService } from 'src/business/services/feature-services/report.service';
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -24,7 +26,6 @@ import { TrainingMetricsComponent } from './training/training-details/panels/tra
 import { TrainingNoteComponent } from './training/training-details/panels/training-note/training-note.component';
 import { TrainingDetailsDataComponent } from './training/training-details/training-details-data/training-details-data.component';
 import { TrainingDetailsComponent } from './training/training-details/training-details.component';
-import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { ExerciseTypeService } from 'src/business/services/feature-services/exer
         ExerciseService,
         ExerciseTypeService,
         SetService,
+        ReportService,
         TrainingDetailsResolver,
         ExerciseDetailsResolver,
         UnitSystemService
