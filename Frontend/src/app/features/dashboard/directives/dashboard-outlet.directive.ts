@@ -1,5 +1,5 @@
 import { Directive, Input, ViewContainerRef } from '@angular/core';
-import { TrackItem } from '../models/track-item.model';
+import { TrackItem } from '../../../../server-models/entities/track-item.model';
 
 @Directive({
   selector: '[appDashboardOutlet]'

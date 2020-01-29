@@ -7,8 +7,8 @@ import { catchError, take } from 'rxjs/operators';
 import { BaseService } from 'src/business/services/base.service';
 import { AppState } from 'src/ngrx/app/app.state';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
-import { TrackItem } from '../models/track-item.model';
-import { Track } from '../models/track.model';
+import { TrackItem } from '../../../../server-models/entities/track-item.model';
+import { Track } from '../../../../server-models/entities/track.model';
 
 @Injectable({
   providedIn: 'root'
