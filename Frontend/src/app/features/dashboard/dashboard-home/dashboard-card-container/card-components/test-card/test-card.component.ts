@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
-import { getBarChartConfig, getHorizontalChartConfig, getHorizontalStackedChartConfig, getPieChartConfig, getPolarAreaChart } from 'src/app/shared/charts/training-chart-config.factory';
+import { getBarChartConfig, getHorizontalChartConfig, getHorizontalStackedChartConfig, getPieChartConfig, getPolarAreaChart } from 'src/app/shared/charts/chart.helpers';
 import { Theme } from 'src/business/shared/theme.enum';
 import { AppState } from 'src/ngrx/app/app.state';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';

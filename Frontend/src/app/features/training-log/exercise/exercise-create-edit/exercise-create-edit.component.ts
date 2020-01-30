@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { switchMap, take, debounceTime, tap, finalize } from 'rxjs/operators';
+import { switchMap, take, debounceTime, tap, finalize, distinct, skip } from 'rxjs/operators';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { CRUD } from 'src/business/shared/crud.enum';
@@ -81,6 +81,8 @@ export class ExerciseCreateEditComponent implements OnInit {
     return this.exerciseType.valueChanges
       .pipe(
         debounceTime(500),
+        distinct(),
+        skip(1),
         tap(() => {
           this.isLoading = true;
         }),
