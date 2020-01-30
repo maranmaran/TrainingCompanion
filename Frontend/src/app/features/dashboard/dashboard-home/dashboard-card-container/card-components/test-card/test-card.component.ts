@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
-import { getBarChartConfig, getHorizontalChartConfig, getHorizontalStackedChartConfig, getPieChartConfig, getPolarAreaChart } from 'src/app/shared/charts/chart.helpers';
+import { getHorizontalChartConfig, getHorizontalStackedChartConfig, getPolarAreaChart } from 'src/app/shared/charts/chart.helpers';
 import { Theme } from 'src/business/shared/theme.enum';
 import { AppState } from 'src/ngrx/app/app.state';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
@@ -42,11 +42,7 @@ export class TestCardComponent implements OnInit, OnDestroy {
     switch(rand)
     {
       case 0:
-        this.config = getPieChartConfig(this._theme, this.data, this.labels);
-        break;
       case 1:
-        this.config = getBarChartConfig(this._theme, this.data, this.labels);
-        break;
       case 2:
         this.config = getHorizontalChartConfig(this._theme, this.data, this.labels);
         break;
