@@ -1,7 +1,8 @@
 import * as Chart from 'chart.js';
 import { ChartConfiguration } from 'chart.js';
 import { Guid } from 'guid-typescript';
-import { Theme } from './../../../business/shared/theme.enum';
+import { Theme } from '../../../business/shared/theme.enum';
+import { ChartDataSet, ChartData } from 'src/server-models/entities/chart-data';
 
 export const chartColorsLightTheme = {
   red: 'rgb(255, 99, 132)',
@@ -34,74 +35,6 @@ export interface MyChartConfiguration extends ChartConfiguration {
   generationId: Guid
 }
 
-export function getPieChartConfig(theme: Theme, data: number[], labels: string[]): MyChartConfiguration {
-
-  return {
-    generationId: Guid.create(),
-    type: 'pie',
-    data: {
-      datasets: [{
-        data,
-        backgroundColor: backgroundColors(0, data.length, theme),
-      }],
-      labels
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      legend: {
-        position: 'top',
-        labels: {
-          fontColor: fontColor(theme)
-        }
-      },
-    }
-  };
-}
-
-export function getBarChartConfig(theme: Theme, data: number[], labels: string[]): MyChartConfiguration {
-  return {
-    generationId: Guid.create(),
-    type: 'bar',
-    data: {
-      datasets: [
-        {
-          data,
-          barThickness: 10,
-          maxBarThickness: 20,
-          backgroundColor: backgroundColors(0, data.length, theme),
-        }
-      ],
-      labels
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      legend: {
-        display: false
-      },
-      scales: {
-        xAxes: [{
-          ticks: {
-            fontColor: fontColor(theme)
-          },
-          gridLines: {
-            color: colorHelpers(fontColor(theme)).alpha(0.15).rgbString()
-          }
-        }],
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-            fontColor: fontColor(theme)
-          },
-          gridLines: {
-            color: colorHelpers(fontColor(theme)).alpha(0.15).rgbString()
-          }
-        }]
-      }
-    }
-  };
-}
 
 export function getLineChartConfig(theme: Theme, data: number[], labels: string[]): MyChartConfiguration {
   return {
@@ -124,7 +57,7 @@ export function getLineChartConfig(theme: Theme, data: number[], labels: string[
           fontColor: fontColor(theme)
         }
       },
-      scales: {
+      scales:  {
         xAxes: [{
           ticks: {
             fontColor: fontColor(theme)
