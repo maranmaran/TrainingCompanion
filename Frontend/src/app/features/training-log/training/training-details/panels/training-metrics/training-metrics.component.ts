@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
-import { getBarChartConfig, getHorizontalStackedChartConfig, getPieChartConfig } from 'src/app/shared/charts/training-chart-config.factory';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { AppState } from 'src/ngrx/app/app.state';
 import { selectedTrainingId } from 'src/ngrx/training-log/training/training.selectors';
@@ -9,6 +8,9 @@ import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/respon
 import { SubSink } from 'subsink';
 import { Theme } from './../../../../../../../business/shared/theme.enum';
 import { activeTheme } from './../../../../../../../ngrx/user-interface/ui.selectors';
+import { getTotalVolumeIntensityChartConfig } from './chart-configs/volume-intensity.chart-config';
+import { getNumberOfLiftsChartConfig } from './chart-configs/number-of-lifts.chart-config';
+import { getVolumeSplitChartConfig } from './chart-configs/volume-split.chart-config';
 
 @Component({
   selector: 'app-training-metrics',
@@ -61,26 +63,21 @@ export class TrainingMetricsComponent implements OnInit, OnDestroy {
 
   getChartConfigs(data: GetTrainingMetricsResponse) {
 
-    this.volumeSplitChart = getPieChartConfig(this._theme,
+    this.volumeSplitChart = getVolumeSplitChartConfig(this._theme,
                                               data.volumeSplitChartData.dataSets[0].data,
                                               data.volumeSplitChartData.labels
                                               );
 
 
-    this.totalVolumeChart = getBarChartConfig(this._theme,
-                                              data.totalVolumeChartData.dataSets[0].data,
-                                              data.totalVolumeChartData.labels
-                                              );
+    data.totalVolumeChartData.dataSets.push({data: [50, 170, 190] });
+    data.totalVolumeChartData.dataSets.push({data: [60, 150, 200] });
+    this.totalVolumeChart = getTotalVolumeIntensityChartConfig(this._theme, data.totalVolumeChartData);
 
-    this.numberOfLiftsChart = getBarChartConfig(this._theme,
+    this.numberOfLiftsChart = getNumberOfLiftsChartConfig(this._theme,
                                                        data.numberOfLiftsChartData.dataSets[0].data,
                                                        data.numberOfLiftsChartData.labels
                                                        );
 
-    this.weightedAverageIntensityChart = getHorizontalStackedChartConfig(this._theme,
-                                                                         data.weightedAverageIntensityChartData.dataSets[0].data,
-                                                                         data.weightedAverageIntensityChartData.labels
-                                                                         );
     // this.zoneOfIntensity = getPolarAreaChart(this._theme, data.relativeZoneOfIntensityChartData.dataSets[0].data, data.relativeZoneOfIntensityChartData.labels);
   }
 

@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import * as Chart from 'chart.js';
-import { MyChartConfiguration } from '../training-chart-config.factory';
+import { MyChartConfiguration } from '../chart.helpers';
 
 @Component({
   selector: 'app-chart',
