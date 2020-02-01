@@ -1,27 +1,33 @@
 <h3 class="title"><b>{{ training.dateTrained | date:'dd MMM' }} ({{ training.dateTrained | date: 'dd/MM/yy'}})</b></h3>
 
-<div class="container main-screen" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start"
-  fxLayoutGap.lt-md="1rem" fxLayout.lt-md="column">
 
-  <div class="training-details-container details-container" fxFlex="0 1 calc(49.5%)" fxFlex.lt-md="0 1 auto"
-    fxFlexOrder.xs="2" fxLayout="column" fxLayoutGap="1rem">
+<div class="container main-screen">
 
-    <app-training-details-data [data]="trainingDetailsData"></app-training-details-data>
+  <div class="section-one" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="0.5rem" fxLayout.lt-md="column"
+    fxLayoutAlign.lt-md="start" fxLayoutGap.lt-md="1rem">
+    <div class="training-details-container details-container" fxFlex="1 1 calc(50% - 0.5rem)" fxFlex.lt-md="0 1 auto"
+      fxFlexOrder.xs="2" fxLayout="column" fxLayoutGap="1rem">
 
-    <mat-accordion class="training-accordion" fxLayout="column" fxLayoutGap="1rem">
+      <app-training-details-data [data]="trainingDetailsData"></app-training-details-data>
 
-      <app-training-note [note]="training.note" [coachNote]="training.coachNote" [noteRead]="training.noteRead"
-        (saveNoteEvent)="saveNote($event)"></app-training-note>
+      <mat-accordion class="training-accordion" fxLayout="column" fxLayoutGap="1rem">
 
-      <app-training-media [media]="training.media" (onFileUploaded)="onFileUploaded($event)"></app-training-media>
+        <app-training-note [note]="training.note" [coachNote]="training.coachNote" [noteRead]="training.noteRead"
+          (saveNoteEvent)="saveNote($event)"></app-training-note>
 
-      <app-training-metrics></app-training-metrics>
+        <app-training-media [media]="training.media" (onFileUploaded)="onFileUploaded($event)"></app-training-media>
 
-    </mat-accordion>
+        <!-- <app-training-metrics></app-training-metrics> -->
 
+      </mat-accordion>
+
+
+    </div>
+
+    <app-exercise-list fxFlex="1 1 calc(50% - 0.5rem)" fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="1"></app-exercise-list>
 
   </div>
 
-  <app-exercise-list fxFlex="0 0 calc(49.5%)" fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="1"></app-exercise-list>
+  <app-training-metrics *ngIf="training.exercises && training.exercises.length > 0" class="mt-3"></app-training-metrics>
 
 </div>

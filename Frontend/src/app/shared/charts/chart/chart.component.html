@@ -1,3 +1,17 @@
-<div class="chart-container">
-  <canvas #chartCanvas id="chart"></canvas>
+<div class="chart-container" fxLayout="column" fxLayoutAlign="center center">
+
+  <mat-form-field class="tabs-input" *ngIf="tabs">
+    <mat-select [(value)]="selectedTab">
+      <mat-option *ngFor="let tab of tabs; let i = index" value="{{i}}">{{ tab }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--Single chart if there is no tabs-->
+  <canvas *ngIf="!tabs" chartCanvas id="0"></canvas>
+
+  <!--Multiple charts-->
+  <div class="chart" *ngFor="let tab of tabs; let i = index" [hidden]="selectedTab != i" >
+    <canvas chartCanvas id="i"></canvas>
+  </div>
+
 </div>

@@ -1,13 +1,18 @@
 .chart-wrapper {
-  padding: 30px;
+  height: 350px;
+  margin-top: 1.5rem;
 }
 
-.metrics-panel .mat-expansion-panel-body {
-  padding: 0 !important;
+::ng-deep .mat-expansion-panel-body {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
 }
 
 @media (max-width: 600px) {
-  .chart-wrapper {
-    padding: 10px;
+
+  ::ng-deep .mat-expansion-panel-body {
+    padding-left: 2.5px !important;
+    padding-right: 2.5px !important;
   }
+
 }
