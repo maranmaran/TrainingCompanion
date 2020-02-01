@@ -13,7 +13,7 @@ import { TestCardComponent } from './../features/dashboard/dashboard-home/dashbo
 import { TrainingCalendarDayComponent } from './../features/training-log/training/training-calendar/training-calendar-day/training-calendar-day.component';
 import { ActiveFlagComponent } from './active-flag/active-flag.component';
 import { MaterialModule } from './angular-material.module';
-import { ChartComponent } from './charts/chart/chart.component';
+import { ChartCanvasDirective, ChartComponent } from './charts/chart/chart.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ErrorSnackbarComponent } from './error-snackbar/error-snackbar.component';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
@@ -62,6 +62,7 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         SplitPascalCasePipe,
         MaterialTableComponent,
         ShowHidePasswordDirective,
+        ChartCanvasDirective,
         EventCalendarComponent,
         ExerciseTypePreviewComponent,
         ExerciseTypeChipComponent,
@@ -97,6 +98,7 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         SplitPascalCasePipe,
         MaterialTableComponent,
         ShowHidePasswordDirective,
+        ChartCanvasDirective,
         EventCalendarComponent,
         ExerciseTypePreviewComponent,
         ExerciseTypeChipComponent,

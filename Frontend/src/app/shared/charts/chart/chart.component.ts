@@ -1,50 +1,95 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Directive, ElementRef, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import * as Chart from 'chart.js';
 import { MyChartConfiguration } from '../chart.helpers';
+
+@Directive({selector: '[chartCanvas]'})
+export class ChartCanvasDirective {
+  @Input() id !: string;
+
+  element: ElementRef;
+
+  constructor(el: ElementRef) {
+    this.element = el;
+ }
+
+}
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit, OnChanges {
+export class ChartComponent implements OnChanges {
 
-  chart: Chart;
-  canvasCtx: CanvasRenderingContext2D;
+  charts: Chart[] = [];
+  contexts: CanvasRenderingContext2D[];
 
-  @Input() configuration: MyChartConfiguration;
-  @ViewChild('chartCanvas', { static: true }) canvas: ElementRef;
+  @ViewChildren(ChartCanvasDirective) canvases!: QueryList<ChartCanvasDirective>;
+
+  selectedTab: number = 0;
+  @Input() tabs: string[];
+  @Input('configuration') configurations: MyChartConfiguration[];
 
   constructor() { }
 
-  ngOnInit() {
-    if(this.configuration)
-      this.initChart();
-  }
-
-
   ngOnChanges(changes: SimpleChanges) {
+    const configurations = changes.configurations;
+    if(!configurations)
+      return;
 
-    var cur = changes.configuration.currentValue;
-    var prev = changes.configuration.previousValue;
+    const cur = configurations.currentValue;
+    const prev = configurations.previousValue;
 
-    if(cur && prev && cur.generationId.value != prev.generationId.value)
-      this.updateChart();
+    // this needs to update chart because current change is different than previous potentially.
+    // We see that by comparing generationIds to see which charts needs update
+    if(prev && cur) {
+      cur.forEach((currentConfig, index) => {
 
-    if(!prev && cur)
-      this.initChart();
+        const previousConfig = prev[index];
+
+        if(!currentConfig || !previousConfig)
+          return;
+
+        if(currentConfig.generationId.value != previousConfig.generationId.value)
+          this.updateChart(index);
+
+      });
+      return;
+    }
+
+    console.log(cur);
+    // new change.. no previous update. This needs to initialize charts
+    if(!prev && cur) {
+      cur.forEach((currentConfig, index) => {
+
+        if(!currentConfig)
+          return;
+
+        this.initChart(currentConfig, index);
+      });
+    }
   }
 
-  initChart() {
-    const ctx = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
+  initChart(config: MyChartConfiguration, index: number) {
+    if (!this.canvases)
+      return;
 
-    this.chart = new Chart(ctx, this.configuration);
+    const canvasDirective = this.canvases.toArray()[index];
+    if(!canvasDirective)
+      return;
+
+    const canvas = <HTMLCanvasElement> canvasDirective.element.nativeElement;
+    const ctx = canvas.getContext('2d');
+    this.charts.push(new Chart(ctx, config));
   }
 
-  updateChart() {
-    this.chart.options = this.configuration.options;
-    this.chart.data = this.configuration.data;
-    this.chart.update();
+  updateChart(index) {
+    if(!this.charts || !this.configurations)
+      return;
+
+    this.charts[index].options = this.configurations[index].options;
+    this.charts[index].data = this.configurations[index].data;
+    this.charts[index].update();
   }
 
 

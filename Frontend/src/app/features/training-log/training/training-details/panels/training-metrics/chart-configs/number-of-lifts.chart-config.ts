@@ -1,8 +1,8 @@
+import { Guid } from 'guid-typescript';
+import { backgroundColors, colorHelpers, fontColor, MyChartConfiguration } from 'src/app/shared/charts/chart.helpers';
 import { Theme } from 'src/business/shared/theme.enum';
 
-import { MyChartConfiguration, backgroundColors, fontColor, colorHelpers } from 'src/app/shared/charts/chart.helpers';
 
-import { Guid } from 'guid-typescript';
 
 export function getNumberOfLiftsChartConfig(theme: Theme, data: number[], labels: string[]): MyChartConfiguration {
     return {
@@ -14,7 +14,7 @@ export function getNumberOfLiftsChartConfig(theme: Theme, data: number[], labels
             data,
             barThickness: 10,
             maxBarThickness: 20,
-            backgroundColor: backgroundColors(0, data.length, theme),
+            backgroundColor: backgroundColors(0, 1, theme)[0],
           }
         ],
         labels
@@ -22,6 +22,12 @@ export function getNumberOfLiftsChartConfig(theme: Theme, data: number[], labels
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        title: {
+          display: true,
+          fontColor: fontColor(theme),
+          text: 'Number of lifts',
+          fontSize: 15
+        },
         legend: {
           display: false
         },

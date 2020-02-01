@@ -8,8 +8,8 @@ import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/respon
 import { SubSink } from 'subsink';
 import { Theme } from './../../../../../../../business/shared/theme.enum';
 import { activeTheme } from './../../../../../../../ngrx/user-interface/ui.selectors';
-import { getTotalVolumeIntensityChartConfig } from './chart-configs/volume-intensity.chart-config';
 import { getNumberOfLiftsChartConfig } from './chart-configs/number-of-lifts.chart-config';
+import { getTotalVolumeIntensityChartConfig } from './chart-configs/volume-intensity.chart-config';
 import { getVolumeSplitChartConfig } from './chart-configs/volume-split.chart-config';
 
 @Component({
@@ -19,11 +19,13 @@ import { getVolumeSplitChartConfig } from './chart-configs/volume-split.chart-co
 })
 export class TrainingMetricsComponent implements OnInit, OnDestroy {
 
-  totalVolumeChart: ChartConfiguration; // 1
-  volumeSplitChart: ChartConfiguration // 2
+  totalVolumeChart: ChartConfiguration[];
+  volumeSplitChart: ChartConfiguration[];
 
-  numberOfLiftsChart: ChartConfiguration; // 3
-  weightedAverageIntensityChart: ChartConfiguration; // 4
+  numberOfLiftsChart: ChartConfiguration[];
+  weightedAverageIntensityChart: ChartConfiguration[];
+
+  testConfig: ChartConfiguration[];
 
   // max heavy medium light deload
   // total and per exercise
@@ -63,20 +65,21 @@ export class TrainingMetricsComponent implements OnInit, OnDestroy {
 
   getChartConfigs(data: GetTrainingMetricsResponse) {
 
-    this.volumeSplitChart = getVolumeSplitChartConfig(this._theme,
+    this.volumeSplitChart = [getVolumeSplitChartConfig(this._theme,
                                               data.volumeSplitChartData.dataSets[0].data,
                                               data.volumeSplitChartData.labels
-                                              );
+                                              )];
+
+    this.totalVolumeChart = [getTotalVolumeIntensityChartConfig(this._theme, data.totalVolumeChartData)];
 
 
-    data.totalVolumeChartData.dataSets.push({data: [50, 170, 190] });
-    data.totalVolumeChartData.dataSets.push({data: [60, 150, 200] });
-    this.totalVolumeChart = getTotalVolumeIntensityChartConfig(this._theme, data.totalVolumeChartData);
-
-    this.numberOfLiftsChart = getNumberOfLiftsChartConfig(this._theme,
+    this.numberOfLiftsChart = [getNumberOfLiftsChartConfig(this._theme,
                                                        data.numberOfLiftsChartData.dataSets[0].data,
                                                        data.numberOfLiftsChartData.labels
-                                                       );
+                                                       )];
+
+    this.testConfig = [...this.numberOfLiftsChart, ...this.totalVolumeChart];
+
 
     // this.zoneOfIntensity = getPolarAreaChart(this._theme, data.relativeZoneOfIntensityChartData.dataSets[0].data, data.relativeZoneOfIntensityChartData.labels);
   }
