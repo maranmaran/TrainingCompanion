@@ -1,33 +1,31 @@
 <!--------- METRICS ---------->
-<mat-expansion-panel class="metrics-panel">
+<!-- <mat-expansion-panel class="metrics-panel">
   <mat-expansion-panel-header>
     Metrics
-  </mat-expansion-panel-header>
-  <div class="charts-container" fxLayout="row wrap" fxLayoutAlign="center">
+  </mat-expansion-panel-header> -->
+  <div class="charts-container"
+    fxLayout="row wrap" fxLayoutAlign="space-between" fxLayoutGap="1rem"
+    fxLayout.lt-md="column" fxLayoutAlign.lt-md="center" fxLayoutGap.lt-md="1rem">
 
-    <div class="chart-wrapper" fxFlex.gt-md="100%" fxFlex.lt-lg="100%" fxFlex.lt-md="100%" fxFlex.lt-sm="100%" fxLayout="column" fxLayoutAlign="center center">
-      <h3><b>Total volume</b></h3>
+    <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
       <app-chart [configuration]="totalVolumeChart"></app-chart>
     </div>
-    <div class="chart-wrapper" fxFlex.gt-md="100%" fxFlex.lt-lg="100%" fxFlex.lt-md="100%" fxFlex.lt-sm="100%" fxLayout="column" fxLayoutAlign="center center">
-      <h3><b>Volume split</b></h3>
+
+    <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
       <app-chart [configuration]="volumeSplitChart"></app-chart>
     </div>
 
-    <div class="chart-wrapper" fxFlex.gt-md="100%" fxFlex.lt-lg="100%" fxFlex.lt-md="100%" fxFlex.lt-sm="100%" fxLayout="column" fxLayoutAlign="center center">
-      <h3><b>Weighted average intensity</b></h3>
-      <app-chart [configuration]="weightedAverageIntensityChart"></app-chart>
-    </div>
-    <div class="chart-wrapper" fxFlex.gt-md="100%" fxFlex.lt-lg="100%" fxFlex.lt-md="100%" fxFlex.lt-sm="100%" fxLayout="column" fxLayoutAlign="center center">
-      <h3><b>Number of lifts</b></h3>
+    <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
       <app-chart [configuration]="numberOfLiftsChart"></app-chart>
     </div>
 
-    <!-- <div class="chart-wrapper" fxFlex.gt-md="60%" fxFlex.lt-lg="100%" fxFlex.lt-md="60%" fxFlex.lt-sm="100%" fxLayout="column" fxLayoutAlign="center center">
-      <h3><b>Relative zone of intensity</b></h3>
+    <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
       <app-chart [configuration]="zoneOfIntensity"></app-chart>
+    </div>
+<!--
+    <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
+      <app-chart [tabs]="[1,2]" [configuration]="testConfig"></app-chart>
     </div> -->
 
-
   </div>
-</mat-expansion-panel>
+<!-- </mat-expansion-panel> -->

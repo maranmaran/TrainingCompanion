@@ -73,6 +73,9 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                 var numberOfLiftsData = new List<double>();
                 var exerciseLabels = new List<string>();
                 var totalVolumeData = new List<double>();
+                var averageIntensity = new List<double>();
+                var peakIntensity = new List<double>();
+
                 var averageInolData = new List<double>();  // weighted average intensity SETS x (REPS / (100-Intensity)) = iNoL quotient
                 var relativeZoneOfIntensityData = new List<string>();
 
@@ -87,6 +90,9 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                     double strengthZoneCount = 0;
                     double sizeZoneCount = 0;
                     double enduranceZoneCount = 0;
+                    double intensitySum = 0;
+                    double maxIntensity = Double.MinValue;
+
 
                     foreach (var set in exercise.Sets)
                     {
@@ -96,6 +102,11 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
 
                         var max = exercise.ExerciseType.ExerciseMaxes.OrderByDescending(x => x.DateAchieved).FirstOrDefault()?.Max ?? set.ProjectedMax;
                         var intensity = set.Weight / max;
+
+                        intensitySum += Math.Round(intensity * 100);
+                        if (maxIntensity < intensity)
+                            maxIntensity = Math.Round(intensity * 100);
+
                         if (intensity <= 1)
                         {
                             inolSum += set.Reps / (100 - intensity * 100);
@@ -114,6 +125,9 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                             enduranceZoneCount++;
                         }
                     }
+
+                    averageIntensity.Add(intensitySum / setCount);
+                    peakIntensity.Add(maxIntensity);
 
                     var zonePercentages = new (double Percentage, string Zone)[]
                     {
@@ -173,6 +187,14 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                         new ChartDataSet<double>()
                         {
                             Data = totalVolumeData
+                        },
+                        new ChartDataSet<double>()
+                        {
+                            Data = averageIntensity
+                        },
+                        new ChartDataSet<double>()
+                        {
+                            Data = peakIntensity
                         }
                     }
                 };

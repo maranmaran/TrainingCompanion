@@ -2,7 +2,6 @@ import * as Chart from 'chart.js';
 import { ChartConfiguration } from 'chart.js';
 import { Guid } from 'guid-typescript';
 import { Theme } from '../../../business/shared/theme.enum';
-import { ChartDataSet, ChartData } from 'src/server-models/entities/chart-data';
 
 export const chartColorsLightTheme = {
   red: 'rgb(255, 99, 132)',
@@ -23,7 +22,6 @@ export const chartColorsDarkTheme = {
   green: 'rgb(75, 192, 192)',
   grey: 'rgb(231,233,237)'
 };
-
 export const getChartColors = (theme: Theme) => theme == Theme.Dark ? chartColorsDarkTheme : chartColorsLightTheme;
 
 export const colorsArr = (theme: Theme): string[] => Object.values(getChartColors(theme));
