@@ -49,7 +49,6 @@ export class GeneralComponent implements OnInit {
     if (!event.checked) this.userSetting.theme = Theme.Light;
 
     this.store.dispatch(updateUserSetting(this.userSetting));
-    this.onSaveSettings(this.userSetting);
   }
 
   public onUnitSystemChange(event: MatSlideToggleChange) {
@@ -57,7 +56,6 @@ export class GeneralComponent implements OnInit {
     if (!event.checked) this.userSetting.unitSystem = UnitSystem.Imperial;
 
     this.store.dispatch(updateUserSetting(this.userSetting));
-    this.onSaveSettings(this.userSetting);
   }
 
   public onRpeSystemChange(event: MatSlideToggleChange) {
@@ -65,13 +63,11 @@ export class GeneralComponent implements OnInit {
     if (!event.checked) this.userSetting.rpeSystem = RpeSystem.Rir;
 
     this.store.dispatch(updateUserSetting(this.userSetting));
-    this.onSaveSettings(this.userSetting);
   }
 
   public onUseRpeSystemChecked(event: MatCheckboxChange) {
     this.userSetting.useRpeSystem = event.checked;
     this.store.dispatch(updateUserSetting(this.userSetting));
-    this.onSaveSettings(this.userSetting);
   }
 
 public onNotificationSettingCheckboxChecked(event: MatCheckboxChange, setting: NotificationSetting) {
@@ -90,17 +86,7 @@ public onNotificationSettingCheckboxChecked(event: MatCheckboxChange, setting: N
 
     this.userSetting.notificationSettings = this.userSetting.notificationSettings.map(x => x.id == settingCopy.id ? settingCopy : x);
     this.store.dispatch(updateUserSetting(this.userSetting));
-    this.onSaveSettings(this.userSetting);
   }
 
-  private onSaveSettings(userSetting: UserSetting) {
 
-    this.usersService.saveSettings(userSetting)
-      .pipe(take(1))
-      .subscribe(
-        () => { },
-        err => console.log(err),
-      );
-
-  }
 }
