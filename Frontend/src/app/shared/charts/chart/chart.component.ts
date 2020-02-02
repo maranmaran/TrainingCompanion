@@ -57,7 +57,6 @@ export class ChartComponent implements OnChanges {
       return;
     }
 
-    console.log(cur);
     // new change.. no previous update. This needs to initialize charts
     if(!prev && cur) {
       cur.forEach((currentConfig, index) => {

@@ -7,7 +7,7 @@ import { TableConfig } from "src/app/shared/material-table/table-models/table-co
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
+import { transformWeight } from 'src/business/services/shared/unit-system.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId, userSetting } from 'src/ngrx/auth/auth.selectors';
@@ -24,7 +24,6 @@ import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.compo
   selector: 'app-set-list',
   templateUrl: './set-list.component.html',
   styleUrls: ['./set-list.component.scss'],
-  providers: [UnitSystemService]
 })
 export class SetListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
@@ -41,7 +40,6 @@ export class SetListComponent implements OnInit, OnDestroy {
   private sets: Set[];
 
   constructor(
-    private unitSystemService: UnitSystemService,
     private uiService: UIService,
     private trainingService: TrainingService,
     private store: Store<AppState>
@@ -97,7 +95,7 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: 'weight',
           title: 'Weight',
           sort: true,
-          displayFunction: (item: Set) => this.unitSystemService.transformWeight(item.weight), // transform
+          displayFunction: (item: Set) => transformWeight(item.weight, this.userSettings.unitSystem), // transform
         }));
     }
     if (exerciseType.requiresReps) {

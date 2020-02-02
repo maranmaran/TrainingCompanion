@@ -5,6 +5,7 @@ import { concatMap, map, take } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
@@ -19,11 +20,10 @@ import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/trai
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
+import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
 import { selectedTraining, selectedTrainingExercises } from '../../../../../ngrx/training-log/training/training.selectors';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
-import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
-import { PagedList } from 'src/server-models/shared/paged-list.model';
 
 @Component({
   selector: 'app-exercise-list',
@@ -61,7 +61,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       this.store.select(selectedTrainingExercises)
         .pipe(map(exercises => exercises || []))
         .subscribe((exercises: Exercise[]) => {
-          this.tableDatasource.updateDatasource(exercises);
+          this.tableDatasource.updateDatasource([...exercises]);
         }));
 
   }

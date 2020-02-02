@@ -8,10 +8,10 @@ namespace Backend.API.Controllers
 
     public class ReportController : BaseController
     {
-        [HttpGet("{trainingId}")]
-        public async Task<IActionResult> GetTrainingMetrics(Guid trainingId)
+        [HttpGet("{trainingId}/{userId}")]
+        public async Task<IActionResult> GetTrainingMetrics(Guid trainingId, Guid userId)
         {
-            return Ok(await Mediator.Send(new GetTrainingReportsRequest { Id = trainingId }));
+            return Ok(await Mediator.Send(new GetTrainingReportsRequest { TrainingId = trainingId, UserId = userId }));
         }
     }
 }

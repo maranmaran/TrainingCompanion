@@ -13,8 +13,8 @@ export class ReportService extends BaseService {
     super(httpDI, 'Report');
   }
 
-  public getTrainingMetrics(trainingId: string) {
-    return this.http.get<GetTrainingMetricsResponse>(this.url + 'GetTrainingMetrics/' + trainingId)
+  public getTrainingMetrics(trainingId: string, userId: string) {
+    return this.http.get<GetTrainingMetricsResponse>(this.url + 'GetTrainingMetrics/' + trainingId + '/' + userId)
         .pipe(
             catchError(this.handleError)
         );
