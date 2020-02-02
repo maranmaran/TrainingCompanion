@@ -48,6 +48,11 @@ export const updateUserSetting = createAction(
     props<UserSetting>()
 )
 
+export const settingsUpdated = createAction(
+  '[User API] User settings - UPDATED',
+  props<UserSetting>()
+)
+
 export const addSubscription = createAction(
     '[Billing API] Add subscription',
     props<Subscription>()

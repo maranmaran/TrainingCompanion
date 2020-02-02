@@ -1,4 +1,5 @@
-﻿using Backend.Domain;
+﻿using Backend.Application.Business.Code;
+using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,8 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
 {
     public class GetTrainingReportsRequest : IRequest<GetTrainingReportsResponse>
     {
-        public Guid Id { get; set; }
+        public Guid TrainingId { get; set; }
+        public Guid UserId { get; set; }
     }
 
     public class GetTrainingReportsResponse
@@ -58,11 +60,13 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
         {
             try
             {
+                var user = await _context.Users.Include(x => x.UserSetting).FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
+
                 var training = await _context
                     .Trainings
                     .Include(x => x.Exercises).ThenInclude(x => x.ExerciseType).ThenInclude(x => x.ExerciseMaxes)
                     .Include(x => x.Exercises).ThenInclude(x => x.Sets)
-                    .Where(x => x.Id == request.Id)
+                    .Where(x => x.Id == request.TrainingId)
                     .FirstOrDefaultAsync(cancellationToken);
 
                 if (training == null)
@@ -96,12 +100,12 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
 
                     foreach (var set in exercise.Sets)
                     {
-                        volumeCount += set.Volume;
+                        volumeCount += set.Volume.TransformWeight(user.UserSetting.UnitSystem);
                         repsCount += set.Reps;
                         setCount++;
 
                         var max = exercise.ExerciseType.ExerciseMaxes.OrderByDescending(x => x.DateAchieved).FirstOrDefault()?.Max ?? set.ProjectedMax;
-                        var intensity = set.Weight / max;
+                        var intensity = set.Weight.TransformWeight(user.UserSetting.UnitSystem) / max.TransformWeight(user.UserSetting.UnitSystem);
 
                         intensitySum += Math.Round(intensity * 100);
                         if (maxIntensity < intensity)
@@ -142,7 +146,7 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                     relativeZoneOfIntensityData.Add(relativeZone);
                     averageInolData.Add(Math.Round(inolSum / setCount, 2));
                     numberOfLiftsData.Add(repsCount);
-                    totalVolumeData.Add(volumeCount);
+                    totalVolumeData.Add(Math.Round(volumeCount, 2));
                 }
 
                 var volumeSplitData = totalVolumeData.Select(data => Math.Round(data / totalVolumeData.Sum() * 100));

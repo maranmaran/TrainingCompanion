@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { UserService } from 'src/business/services/feature-services/user.service';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
@@ -21,7 +22,8 @@ export class AuthEffects {
     private router: Router,
     private cookieService: CookieService,
     private store: Store<AppState>,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   login$ = createEffect(
@@ -86,7 +88,9 @@ export class AuthEffects {
         ofType(AuthActions.updateUserSetting),
         tap((userSetting: UserSetting) => {
           this.store.dispatch(switchTheme({ theme: userSetting.theme }));
-        })
+        }),
+        switchMap((userSetting: UserSetting) => this.userService.saveSettings(userSetting), (setting) => setting),
+        map((setting) => this.store.dispatch(AuthActions.settingsUpdated(setting)))
       ),
     { dispatch: false }
   );

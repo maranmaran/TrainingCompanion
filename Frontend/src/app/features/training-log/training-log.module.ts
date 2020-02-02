@@ -9,7 +9,6 @@ import { ReportService } from 'src/business/services/feature-services/report.ser
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
 import { TrainingEffects } from 'src/ngrx/training-log/training/training.effects';
 import { trainingReducer } from 'src/ngrx/training-log/training/training.reducers';
 import { ExerciseService } from './../../../business/services/feature-services/exercise.service';
@@ -61,7 +60,6 @@ import { TrainingDetailsComponent } from './training/training-details/training-d
         ReportService,
         TrainingDetailsResolver,
         ExerciseDetailsResolver,
-        UnitSystemService
     ],
     entryComponents: [
         ExerciseCreateEditComponent,

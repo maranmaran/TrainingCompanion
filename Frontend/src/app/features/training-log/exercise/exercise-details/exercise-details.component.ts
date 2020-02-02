@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 import * as _ from "lodash";
 import { take } from 'rxjs/operators';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { transformWeight } from 'src/business/services/shared/unit-system.service';
+import { currentUserId, unitSystem } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
@@ -12,8 +13,8 @@ import { Exercise } from 'src/server-models/entities/exercise.model';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { getMediaType } from 'src/server-models/enums/media-type.enum';
+import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { SubSink } from 'subsink';
-import { UnitSystemService } from './../../../../../business/services/shared/unit-system.service';
 
 @Component({
   selector: 'app-exercise-details',
@@ -27,15 +28,16 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
 
   private userId: string;
+  private _unitSystem: UnitSystem
 
   constructor(
     private store: Store<AppState>,
-    private unitService: UnitSystemService,
     private exerciseService: ExerciseService
   ) { }
 
   ngOnInit() {
     this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
+    this.store.select(unitSystem).pipe(take(1)).subscribe(system => this._unitSystem = system);
     this.store.select(selectedTraining).pipe(take(1)).subscribe(training => this.training = _.cloneDeep(training));
 
     this.subs.add(
@@ -52,12 +54,12 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
 
   get totalVolume() {
     const volume = this.exercise.sets.reduce((total, set) => total + set.volume, 0);
-    return this.unitService.transformWeight(volume);
+    return transformWeight(volume, this._unitSystem);
   }
 
   get projectedMax() {
     const max = this.exercise.sets.reduce((max, set) => set.projectedMax > max ? set.projectedMax : max, 0);
-    return this.unitService.transformWeight(max);
+    return transformWeight(max, this._unitSystem);
   }
 
   onFileUploaded(fileToUpload: File) {

@@ -7,7 +7,7 @@ import { Guid } from 'guid-typescript';
 import * as _ from "lodash";
 import { switchMap, take } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';
-import { UnitSystemService } from 'src/business/services/shared/unit-system.service';
+import { transformWeightToNumber } from 'src/business/services/shared/unit-system.service';
 import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
@@ -32,7 +32,6 @@ export class SetCreateEditComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
-    private unitService: UnitSystemService,
     private setService: SetService,
     protected dialogRef: MatDialogRef<SetCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, sets: Set[] }) { }
@@ -174,7 +173,7 @@ export class SetCreateEditComponent implements OnInit {
 
     //handle weight transformations.. everything is system is in metric
     if (this.exerciseType.requiresWeight)
-      set.weight = this.unitService.transformWeightToNumber(controls["weight"].value) || 0;
+      set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
 
     if (this.settings.useRpeSystem) {
 
