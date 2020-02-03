@@ -18,7 +18,8 @@
 
       <div class="day-container" fxLayout="column" fxLayoutAlign="space-between" fxFlex="1 1 100%">
        <div class="hour-container" *ngFor="let hour of hours; let i = index">
-       </div>
+        <div class="minute" *ngFor="let minute of minutes"></div>
+      </div>
       </div>
 
   </ng-container>
