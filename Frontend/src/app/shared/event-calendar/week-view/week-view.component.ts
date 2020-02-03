@@ -15,6 +15,7 @@ export class CalendarWeekViewComponent implements OnInit {
   week = new CalendarWeek([]);
   currentDay = moment(new Date());
   hours = [...Array(24).keys()];
+  minutes = [...Array(60).keys()];
 
   @Output('onDaySelect') selectDayEvent = new EventEmitter<CalendarDay>();
   @Output('previousWeek') previousWeekEvent = new EventEmitter<moment.Moment>();
