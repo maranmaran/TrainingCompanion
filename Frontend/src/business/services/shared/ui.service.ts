@@ -9,14 +9,13 @@ import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { MessageDialogComponent } from 'src/app/shared/message-dialog/message-dialog.component';
-import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { trialMessageHtml, trialOverHtml } from 'src/business/shared/popup-templates';
 import { SnackBarConfig, snackBarDefaultConfig } from 'src/business/shared/snackbar.config';
 import { getThemeClass, Theme } from 'src/business/shared/theme.enum';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
 import { Dictionary } from 'src/business/utils/dictionary';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { ConfirmResult } from './../../shared/confirm-dialog.config';
+import { ConfirmDialogConfig, ConfirmResult } from './../../shared/confirm-dialog.config';
 
 @Injectable()
 export class UIService {

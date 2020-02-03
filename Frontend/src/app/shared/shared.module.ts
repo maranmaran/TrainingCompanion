@@ -10,13 +10,14 @@ import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
 import { TestCardComponent } from './../features/dashboard/dashboard-home/dashboard-card-container/card-components/test-card/test-card.component';
-import { TrainingCalendarDayComponent } from './../features/training-log/training/training-calendar/training-calendar-day/training-calendar-day.component';
+import { TrainingMonthViewDayComponent } from './../features/training-log/training/training-calendar/training-month/training-month-view-day/training-month-view-day.component';
 import { ActiveFlagComponent } from './active-flag/active-flag.component';
 import { MaterialModule } from './angular-material.module';
 import { ChartCanvasDirective, ChartComponent } from './charts/chart/chart.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ErrorSnackbarComponent } from './error-snackbar/error-snackbar.component';
-import { EventCalendarComponent } from './event-calendar/event-calendar.component';
+import { CalendarMonthViewComponent } from './event-calendar/month-view/month-view.component';
+import { CalendarWeekViewComponent } from './event-calendar/week-view/week-view.component';
 import { ExerciseTypeChipListComponent } from './exercise-type-preview/exercise-type-chip-list/exercise-type-chip-list.component';
 import { ExerciseTypeChipComponent } from './exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
 import { ExerciseTypePreviewComponent } from './exercise-type-preview/exercise-type-preview.component';
@@ -46,10 +47,9 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
             ExerciseTypeChipComponent,
             ExerciseTypeChipListComponent,
             ActiveFlagComponent,
-            TrainingCalendarDayComponent,
+            TrainingMonthViewDayComponent,
             TestCardComponent,
         ]),
-
         AvatarModule,
     ],
     declarations: [
@@ -63,7 +63,8 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         MaterialTableComponent,
         ShowHidePasswordDirective,
         ChartCanvasDirective,
-        EventCalendarComponent,
+        CalendarMonthViewComponent,
+        CalendarWeekViewComponent,
         ExerciseTypePreviewComponent,
         ExerciseTypeChipComponent,
         ExerciseTypeChipListComponent,
@@ -74,7 +75,7 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         UploadInputComponent,
         MediaUploaderComponent,
         NotificationItemComponent,
-        TrainingCalendarDayComponent,
+        TrainingMonthViewDayComponent,
         ChartComponent,
         NotificationTypeIconComponent,
         TestCardComponent
@@ -99,7 +100,8 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         MaterialTableComponent,
         ShowHidePasswordDirective,
         ChartCanvasDirective,
-        EventCalendarComponent,
+        CalendarMonthViewComponent,
+        CalendarWeekViewComponent,
         ExerciseTypePreviewComponent,
         ExerciseTypeChipComponent,
         ActiveFlagComponent,
@@ -110,7 +112,7 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         UploadInputComponent,
         MediaUploaderComponent,
         NotificationItemComponent,
-        TrainingCalendarDayComponent,
+        TrainingMonthViewDayComponent,
         ChartComponent,
         NotificationTypeIconComponent,
         TestCardComponent

@@ -81,10 +81,10 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
     let promise: Promise<boolean>;
     switch (index) {
       case TrainingLogTabGroup2.Calendar:
-        promise = this.router.navigate(["/app/training-log/calendar"]);
+        promise = this.router.navigate(["/app/training-log/calendar/month"]);
         break;
       case TrainingLogTabGroup2.Week:
-        promise = this.router.navigate(["/app/training-log/week"]);
+        promise = this.router.navigate(["/app/training-log/calendar/week"]);
         break;
       case TrainingLogTabGroup2.List:
         promise = this.router.navigate(["/app/training-log/list"]);

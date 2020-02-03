@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Application.Business.Business.Training.GetByWeek
 {
@@ -21,7 +22,20 @@ namespace Backend.Application.Business.Business.Training.GetByWeek
         {
             try
             {
-                var trainings = _context.Trainings.Where(x => x.ApplicationUserId == request.ApplicationUserId &&
+                var trainings = _context.Trainings
+                    .Include(x => x.Media)
+
+                    .Include(x => x.Exercises)
+                    .ThenInclude(x => x.Sets)
+                    .Include(x => x.Exercises)
+                    .ThenInclude(x => x.Media)
+
+                    .Include(x => x.Exercises)
+                    .ThenInclude(x => x.ExerciseType)
+                    .ThenInclude(x => x.Properties)
+                    .ThenInclude(x => x.Tag)
+                    .ThenInclude(x => x.TagGroup)
+                    .Where(x => x.ApplicationUserId == request.ApplicationUserId &&
                                                               x.DateTrained >= request.WeekStart &&
                                                               x.DateTrained <= request.WeekEnd);
 

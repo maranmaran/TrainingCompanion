@@ -2,18 +2,17 @@ import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { SubSink } from 'subsink';
-import { CalendarConfig } from './models/calendar-config.model';
-import { CalendarDay, CalendarEvent, EventCalendar } from './models/event-calendar.models';
-import { belongsToThisMonth, getEventCalendarModel, populateCalendar } from './models/event.calendar.utils';
+import { CalendarConfig } from '../models/calendar.config';
+import { CalendarDay, CalendarEvent, CalendarMonth } from '../models/event-calendar.models';
+import { belongsToThisMonth, getMonthViewModel, populateMonthViewModel } from '../models/event.calendar.utils';
 
 @Component({
-  selector: 'app-event-calendar',
-  templateUrl: './event-calendar.component.html',
-  styleUrls: ['./event-calendar.component.scss']
+  selector: 'calendar-month-view',
+  templateUrl: './month-view.component.html'
 })
-export class EventCalendarComponent implements OnInit, OnDestroy {
+export class CalendarMonthViewComponent implements OnInit, OnDestroy {
 
-  calendar = new EventCalendar();
+  calendar = new CalendarMonth();
   currentDay = moment(new Date());
 
   @Output() selectDayEvent = new EventEmitter<CalendarDay>();
@@ -32,12 +31,12 @@ export class EventCalendarComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit() {
-    this.calendar = getEventCalendarModel(this.currentDay);
+    this.calendar = getMonthViewModel(this.currentDay);
 
     this.subsink.add(
       this.events$.subscribe(
         events => {
-          this.calendar = populateCalendar(this.calendar, events);
+          populateMonthViewModel(this.calendar, events);
         }
       )
     );
@@ -53,21 +52,21 @@ export class EventCalendarComponent implements OnInit, OnDestroy {
 
   nextMonth() {
     this.currentDay = this.currentDay.clone().add(1, 'month');
-    this.calendar = getEventCalendarModel(this.currentDay);
+    this.calendar = getMonthViewModel(this.currentDay);
 
     this.currentMonthEvent.emit(this.currentDay);
   }
 
   previousMonth() {
     this.currentDay = this.currentDay.clone().subtract(1, 'month');
-    this.calendar = getEventCalendarModel(this.currentDay);
+    this.calendar = getMonthViewModel(this.currentDay);
 
     this.currentMonthEvent.emit(this.currentDay);
   }
 
   currentMonth() {
     this.currentDay = moment(new Date());
-    this.calendar = getEventCalendarModel(this.currentDay);
+    this.calendar = getMonthViewModel(this.currentDay);
 
     this.currentMonthEvent.emit(this.currentDay);
   }

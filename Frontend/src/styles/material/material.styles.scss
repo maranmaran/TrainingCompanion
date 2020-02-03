@@ -73,24 +73,3 @@ mat-form-field {
 }
 // ======================================
 
-
-// ==== FOR EVENT CALENDAR SO IT FILLS TILL BOTTOM OF PAGE (Height 100%)====
-
-
-app-training-calendar {
-  display:flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-app-training-log-home {
-  display:flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-  .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
-    display: none !important;
-}
-// ==================================================================================
-
