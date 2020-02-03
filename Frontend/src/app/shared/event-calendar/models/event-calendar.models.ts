@@ -1,6 +1,6 @@
-import * as moment from 'moment'
+import * as moment from 'moment';
 
-export class EventCalendar {
+export class CalendarMonth {
   weeks: CalendarWeek[] = []
 }
 

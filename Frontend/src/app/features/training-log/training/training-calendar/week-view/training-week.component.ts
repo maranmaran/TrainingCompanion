@@ -1,31 +1,31 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CalendarConfig } from 'src/app/shared/event-calendar/models/calendar-config.model';
+import { CalendarConfig } from 'src/app/shared/event-calendar/models/calendar.config';
+import { CalendarEvent } from 'src/app/shared/event-calendar/models/event-calendar.models';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
+import { AppState } from 'src/ngrx/app/app.state';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTraining, trainingCreated, trainingsFetched } from 'src/ngrx/training-log/training/training.actions';
 import { trainings } from 'src/ngrx/training-log/training/training.selectors';
 import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/create-training.request';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
-import { CalendarEvent } from '../../../../shared/event-calendar/models/event-calendar.models';
-import { TrainingCalendarDayComponent } from './training-calendar-day/training-calendar-day.component';
 
 @Component({
-  selector: 'app-training-calendar',
-  templateUrl: './training-calendar.component.html',
-  styleUrls: ['./training-calendar.component.scss']
+  selector: 'app-training-week',
+  templateUrl: './training-week.component.html',
+  styleUrls: ['./training-week.component.scss']
 })
-export class TrainingCalendarComponent implements OnInit, OnDestroy {
+export class TrainingWeekComponent implements OnInit {
 
-  protected inputData = new ReplaySubject<CalendarEvent[]>();
-  private userId: string;
   private subsink = new SubSink();
-  protected calendarConfig: CalendarConfig;
+  private userId: string;
+
+  protected config: CalendarConfig;
+  protected inputData = new ReplaySubject<CalendarEvent[]>();
 
   constructor(
     private trainingService: TrainingService,
@@ -34,21 +34,20 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.calendarConfig = this.getConfig();
+    this.config = this.getConfig();
 
     // current user id for request
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
 
     // INIT - (fetch for today)
     setTimeout(() => {
-      this.onMonthChange(moment(new Date()));
+      this.onWeekChange(moment(new Date()));
     });
 
     // subscribe to changes
-    this.subsink.add(this.store.select(trainings).subscribe(
-      (trainings: Training[]) => {
-        this.inputData.next(this.parseTrainingsForCalendar(trainings));
-      }
+    this.subsink.add(
+      this.store.select(trainings)
+        .subscribe((trainings: Training[]) => this.inputData.next(this.parseTrainingsForCalendar(trainings))
     ));
 
   }
@@ -57,7 +56,7 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
     const config = new CalendarConfig();
     config.eventIcon = 'fas fa-dumbbell'
     config.useComponent = true;
-    config.component = TrainingCalendarDayComponent;
+    // config.component = TrainingWeekViewDayComponent;
     config.componentInputs = (calendarEventModel: CalendarEvent) => {
       return {
          training: calendarEventModel.event
@@ -71,14 +70,9 @@ export class TrainingCalendarComponent implements OnInit, OnDestroy {
     this.subsink.unsubscribe();
   }
 
-  // GET BY MONTH
-  // TODO: Fetch only if you need to.. (Something has been updated.. no need to refetch data that you already loaded)
-  onMonthChange(date: moment.Moment) {
+  onWeekChange(date: moment.Moment) {
 
-    const month = date.month() + 1; // because it starts from 0
-    const year = date.year();
-
-    this.trainingService.getAllByMonth(this.userId, month, year).pipe(take(1))
+    this.trainingService.getAllByWeek(this.userId, date.startOf('week').toDate(), date.endOf('week').toDate()).pipe(take(1))
       .subscribe((trainings: Training[]) => {
         this.store.dispatch(trainingsFetched({ entities: trainings }));
 
