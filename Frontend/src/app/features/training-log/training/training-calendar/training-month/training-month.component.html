@@ -1,4 +1,4 @@
-<app-event-calendar
+<calendar-month-view
     [events$]="inputData.asObservable()"
     [config]="calendarConfig"
     (previousMonthEvent)="onMonthChange($event)"
@@ -7,4 +7,4 @@
     (addEvent)="onAddEvent($event)"
     (openEvent)="onOpenEvent($event)"
     >
-</app-event-calendar>
+</calendar-month-view>

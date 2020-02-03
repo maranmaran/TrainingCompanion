@@ -19,7 +19,8 @@ import { SetCreateEditComponent } from './set/set-create-edit/set-create-edit.co
 import { SetListComponent } from './set/set-list/set-list.component';
 import { TrainingLogHomeComponent } from './training-log-home/training-log-home.component';
 import { TrainingLogRoutingModule } from './training-log-routing.module';
-import { TrainingCalendarComponent } from './training/training-calendar/training-calendar.component';
+import { TrainingMonthComponent } from './training/training-calendar/training-month/training-month.component';
+import { TrainingWeekComponent } from './training/training-calendar/week-view/training-week.component';
 import { TrainingMediaComponent } from './training/training-details/panels/training-media/training-media.component';
 import { TrainingMetricsComponent } from './training/training-details/panels/training-metrics/training-metrics.component';
 import { TrainingNoteComponent } from './training/training-details/panels/training-note/training-note.component';
@@ -37,7 +38,8 @@ import { TrainingDetailsComponent } from './training/training-details/training-d
     ],
     declarations: [
         TrainingLogHomeComponent,
-        TrainingCalendarComponent,
+        TrainingMonthComponent,
+        TrainingWeekComponent,
         TrainingDetailsComponent,
         ExerciseListComponent,
         ExerciseCreateEditComponent,

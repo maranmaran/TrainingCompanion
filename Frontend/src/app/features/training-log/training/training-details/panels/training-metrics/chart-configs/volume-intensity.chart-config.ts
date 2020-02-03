@@ -41,11 +41,10 @@ export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitS
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          labels: [
-            {
+          labels: {
               render: 'value',
+              fontColor: fontColor(setting.theme),
             }
-          ]
         },
         tooltips: {
           callbacks: {

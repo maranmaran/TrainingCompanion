@@ -1,0 +1,10 @@
+<calendar-week-view
+    [events]="inputData.asObservable()"
+    [config]="config"
+    (previousWeek)="onWeekChange($event)"
+    (currentWeek)="onWeekChange($event)"
+    (nextWeek)="onWeekChange($event)"
+    (addEvent)="onAddEvent($event)"
+    (openEvent)="onOpenEvent($event)"
+    >
+</calendar-week-view>

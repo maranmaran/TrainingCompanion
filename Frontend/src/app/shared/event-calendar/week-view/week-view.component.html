@@ -1,0 +1,25 @@
+<div class="controls" fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="actions" fxLayout="row" fxLayoutGap="5px" fxLayoutGap.xs="0px">
+      <button mat-icon-button color="accent" (click)="previousWeek()">
+          <i class="fas fa-arrow-left"></i>
+      </button>
+      <button mat-icon-button color="accent" (click)="currentWeek()">
+          <i class="fas fa-dot-circle"></i>
+      </button>
+      <button mat-icon-button color="accent" (click)="nextWeek()">
+          <i class="fas fa-arrow-right"></i>
+      </button>
+  </div>
+
+  <label class="current-week-label">{{ displayWeek(currentDay) }}</label>
+</div>
+<div class="week-container" fxLayout="row" fxFlexFill>
+  <ng-container *ngFor="let day of week.days" >
+
+      <div class="day-container" fxLayout="column" fxLayoutAlign="space-between" fxFlex="1 1 100%">
+       <div class="hour-container" *ngFor="let hour of hours; let i = index">
+       </div>
+      </div>
+
+  </ng-container>
+</div>

@@ -7,39 +7,39 @@ import { CrudService } from '../crud.service';
 
 export class TrainingService extends CrudService<Training> {
 
-    constructor(
-        private httpDI: HttpClient,
-    ) {
-        super(httpDI, 'Training');
-    }
+  constructor(
+    private httpDI: HttpClient,
+  ) {
+    super(httpDI, 'Training');
+  }
 
-    public getAllByMonth(userId: string, month: number, year: number) {
-        return this.http.get<Training[]>(this.url + 'GetAllByMonth/' + userId + '/' + month + '/' + year)
-            .pipe(
-                catchError(this.handleError)
-            );
-    }
+  public getAllByMonth(userId: string, month: number, year: number) {
+    return this.http.get<Training[]>(this.url + 'GetAllByMonth/' + userId + '/' + month + '/' + year)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
-    public getAllByWeek(userId: string, weekStart: Date, weekEnd: Date) {
-        return this.http.get<Training[]>(this.url + 'GetAll/' + userId + '/' + weekStart + '/' + weekEnd)
-            .pipe(
-                catchError(this.handleError)
-            );
-    }
+  public getAllByWeek(userId: string, weekStart: Date, weekEnd: Date) {
+    return this.http.get<Training[]>(this.url + 'GetAllByWeek/' + userId + '/' + weekStart.toISOString() + '/' + weekEnd.toISOString())
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
-    public uploadMedia(userId: string, trainingId: string, file: File, extension: string, type: MediaType) {
+  public uploadMedia(userId: string, trainingId: string, file: File, extension: string, type: MediaType) {
 
-      const formData: FormData = new FormData();
-      formData.append('userId', userId);
-      formData.append('trainingId', trainingId);
-      formData.append('file', file);
-      formData.append('extension', extension);
-      formData.append('type', type);
+    const formData: FormData = new FormData();
+    formData.append('userId', userId);
+    formData.append('trainingId', trainingId);
+    formData.append('file', file);
+    formData.append('extension', extension);
+    formData.append('type', type);
 
-      return this.http
-        .post<MediaFile>('Media/UploadTrainingMedia/', formData)
-        .pipe(catchError(this.handleError));
-    }
+    return this.http
+      .post<MediaFile>('Media/UploadTrainingMedia/', formData)
+      .pipe(catchError(this.handleError));
+  }
 
 }
 

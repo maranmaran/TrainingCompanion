@@ -10,16 +10,16 @@ import { sortBy } from 'src/business/utils/utils';
 import { AppState } from 'src/ngrx/app/app.state';
 import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training/training.actions';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
-import { UIService } from './../../../../../../business/services/shared/ui.service';
-import { Exercise } from './../../../../../../server-models/entities/exercise.model';
-import { Training } from './../../../../../../server-models/entities/training.model';
+import { UIService } from '../../../../../../../business/services/shared/ui.service';
+import { Exercise } from '../../../../../../../server-models/entities/exercise.model';
+import { Training } from '../../../../../../../server-models/entities/training.model';
 
 @Component({
-  selector: 'app-training-calendar-day',
-  templateUrl: './training-calendar-day.component.html',
-  styleUrls: ['./training-calendar-day.component.scss']
+  selector: 'app-training-month-view-day',
+  templateUrl: './training-month-view-day.component.html',
+  styleUrls: ['./training-month-view-day.component.scss']
 })
-export class TrainingCalendarDayComponent implements OnInit {
+export class TrainingMonthViewDayComponent implements OnInit {
 
   @Input() training: Training;
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete training', confirmLabel: 'Delete' });
