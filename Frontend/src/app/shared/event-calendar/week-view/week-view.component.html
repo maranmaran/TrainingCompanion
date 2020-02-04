@@ -14,13 +14,11 @@
   <label class="current-week-label">{{ displayWeek(currentDay) }}</label>
 </div>
 <div class="week-container" fxLayout="row" fxFlexFill>
-  <ng-container *ngFor="let day of week.days" >
 
-      <div class="day-container" fxLayout="column" fxLayoutAlign="space-between" fxFlex="1 1 100%">
-       <div class="hour-container" *ngFor="let hour of hours; let i = index">
-        <div class="minute" *ngFor="let minute of minutes"></div>
-      </div>
-      </div>
+  <div *ngFor="let day of week.days" class="day-container" fxLayout="column" fxLayoutAlign="space-between" fxFlex="1 1 100%">
+    <div *ngFor="let event of day.events">
 
-  </ng-container>
+    </div>
+  </div>
+
 </div>

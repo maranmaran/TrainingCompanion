@@ -14,3 +14,24 @@
     margin-top: 0.5rem;
   }
 }
+
+.training-label {
+  border-radius: 8px;
+  font-size: 10px;
+  height: 20px;
+  width: calc(100% - 10px);
+
+  &__cover{
+    position: absolute;
+  }
+
+  cursor: pointer;
+
+  * > {
+    cursor: pointer;
+  }
+
+  label {
+    margin-left: 5px;
+  }
+}

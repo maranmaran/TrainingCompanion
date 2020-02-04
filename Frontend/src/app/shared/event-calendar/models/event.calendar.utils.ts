@@ -44,8 +44,8 @@ export function populateWeekViewModel(model: CalendarWeek, events: CalendarEvent
   if(!events) return model;
 
   model.days.forEach((calDay, i) => {
-    let calEvent = events.find(x => isEqual(x.day, calDay.day));
-    model.days[i].event = calEvent;
+    let calEvents = events.filter(x => isEqual(x.day, calDay.day));
+    model.days[i].events = [...calEvents];
   });
 }
 
