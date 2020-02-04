@@ -15,7 +15,7 @@ export class CalendarWeek {
 
 export class CalendarDay {
   day: moment.Moment;
-  event: any;
+  events: any[];
 
   constructor(day: moment.Moment) {
     this.day = day;
