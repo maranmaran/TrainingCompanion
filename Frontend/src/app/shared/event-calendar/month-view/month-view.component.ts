@@ -34,11 +34,7 @@ export class CalendarMonthViewComponent implements OnInit, OnDestroy {
     this.calendar = getMonthViewModel(this.currentDay);
 
     this.subsink.add(
-      this.events$.subscribe(
-        events => {
-          populateMonthViewModel(this.calendar, events);
-        }
-      )
+      this.events$.subscribe(events => populateMonthViewModel(this.calendar, events))
     );
   }
 

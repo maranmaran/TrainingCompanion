@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatButton } from '@angular/material/button';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
@@ -26,7 +25,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
   private isMobile: boolean;
   @ViewChild('trainingPreviewTrigger', {static: false}) trainingPreviewTrigger: MatMenuTrigger;
   @ViewChild('actionsTrigger', {static: false}) actionsTrigger: MatMenuTrigger;
-  @ViewChild('trainingButton', {static: false}) trainingButton: MatButton;
+  // @ViewChild('trainingButton', {static: false}) trainingButton: MatButton;
   // private userAction: 'click' | 'mouseEnter' | 'mouseLeave' | 'press' = 'click'; // default
 
 
@@ -71,13 +70,17 @@ export class TrainingMonthViewDayComponent implements OnInit {
     return sortBy(data, [prop]);
   }
 
-  onMouseEnter() {
+  onMouseEnter(event) {
+    console.log('enter')
+    console.log(event);
     if(this.training.exercises.length > 0 && !this.isMobile)  {
       this.trainingPreviewTrigger.openMenu();
     }
   }
 
-  onMouseLeave() {
+  onMouseLeave(event) {
+    console.log('leave')
+    console.log(event);
     if(this.trainingPreviewTrigger.menuOpen) {
       this.trainingPreviewTrigger.closeMenu();
     }
