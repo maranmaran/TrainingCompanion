@@ -4,6 +4,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -50,6 +51,7 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
         MatInputModule,
         MatAutocompleteModule,
         MatDatepickerModule,
+        MatMomentDateModule,
         MatFormFieldModule,
         MatRadioModule,
         MatSelectModule,
@@ -91,6 +93,7 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
         MatInputModule,
         MatAutocompleteModule,
         MatDatepickerModule,
+        MatMomentDateModule,
         MatFormFieldModule,
         MatRadioModule,
         MatSelectModule,
@@ -119,5 +122,8 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
         MatPaginatorModule,
         HighlightRowOnHover,
     ],
+    providers: [
+      {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true, strict: true}}
+    ]
 })
 export class MaterialModule { }

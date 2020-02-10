@@ -21,6 +21,7 @@ import { TrainingLogHomeComponent } from './training-log-home/training-log-home.
 import { TrainingLogRoutingModule } from './training-log-routing.module';
 import { TrainingMonthComponent } from './training/training-calendar/training-month/training-month.component';
 import { TrainingWeekComponent } from './training/training-calendar/week-view/training-week.component';
+import { TrainingCreateEditComponent } from './training/training-create-edit/training-create-edit.component';
 import { TrainingMediaComponent } from './training/training-details/panels/training-media/training-media.component';
 import { TrainingMetricsComponent } from './training/training-details/panels/training-metrics/training-metrics.component';
 import { TrainingNoteComponent } from './training/training-details/panels/training-note/training-note.component';
@@ -49,7 +50,8 @@ import { TrainingDetailsComponent } from './training/training-details/training-d
         TrainingNoteComponent,
         TrainingMetricsComponent,
         TrainingMediaComponent,
-        TrainingDetailsDataComponent
+        TrainingDetailsDataComponent,
+        TrainingCreateEditComponent
     ],
     exports: [
     ],
@@ -64,6 +66,7 @@ import { TrainingDetailsComponent } from './training/training-details/training-d
         ExerciseDetailsResolver,
     ],
     entryComponents: [
+        TrainingCreateEditComponent,
         ExerciseCreateEditComponent,
         SetCreateEditComponent
     ]

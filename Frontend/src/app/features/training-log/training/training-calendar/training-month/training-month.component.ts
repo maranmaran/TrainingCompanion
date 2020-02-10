@@ -6,13 +6,15 @@ import { take } from 'rxjs/operators';
 import { CalendarConfig } from 'src/app/shared/event-calendar/models/calendar.config';
 import { CalendarEvent } from 'src/app/shared/event-calendar/models/event-calendar.models';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
+import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTraining, trainingCreated, trainingsFetched } from 'src/ngrx/training-log/training/training.actions';
+import { setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training/training.actions';
 import { trainings } from 'src/ngrx/training-log/training/training.selectors';
-import { CreateTrainingRequest } from 'src/server-models/cqrs/training/requests/create-training.request';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
+import { TrainingCreateEditComponent } from '../../training-create-edit/training-create-edit.component';
+import { UIService } from './../../../../../../business/services/shared/ui.service';
 import { TrainingMonthViewDayComponent } from './training-month-view-day/training-month-view-day.component';
 
 @Component({
@@ -28,6 +30,7 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
   protected calendarConfig: CalendarConfig;
 
   constructor(
+    private UIService: UIService,
     private trainingService: TrainingService,
     private store: Store<AppState>
   ) { }
@@ -103,16 +106,20 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
   }
 
   onAddEvent(day: moment.Moment) {
-    const request = new CreateTrainingRequest();
-    request.dateTrained = day.utc().format();
-    request.applicationUserId = this.userId;
 
-    this.trainingService.create(request).pipe(take(1))
-      .subscribe(
-        (training: Training) => this.store.dispatch(trainingCreated({ entity: training })),
-        err => console.log(err)
-      );
+    const dialogRef = this.UIService.openDialogFromComponent(TrainingCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      data: { title: 'Add training', action: CRUD.Create, day },
+      panelClass: []
+    });
+
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe(_ => {});
   }
+
 
   onOpenEvent(trainingEvent: CalendarEvent) {
     const training = trainingEvent.event;
