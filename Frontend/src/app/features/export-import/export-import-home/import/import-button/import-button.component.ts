@@ -18,7 +18,7 @@ export class ImportButtonComponent implements OnInit {
   @Input() importFn: (file: File, userId: string) => void;
   @Input() isUploading: Observable<{uploading: boolean, response: ImportResponse}>;
 
-  @ViewChild('uploadInput', {static: false}) uploadInput: ElementRef;
+  @ViewChild('uploadInput') uploadInput: ElementRef;
 
   _userId: string;
 

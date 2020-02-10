@@ -5,7 +5,9 @@ import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { catchError } from 'rxjs/operators';
 import { UpdateTagGroupRequest } from 'src/server-models/cqrs/tag-group/requests/update-tag-group.request';
 import { CrudService } from '../crud.service';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class TagGroupService extends CrudService<TagGroup> {
 
     constructor(

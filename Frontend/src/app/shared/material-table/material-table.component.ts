@@ -57,7 +57,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('filter', { static: false }) filter: ElementRef;
+  @ViewChild('filter') filter: ElementRef;
   private applyFilterEvent = new Subject<string>();
 
   private pagingModel: PagingModel;

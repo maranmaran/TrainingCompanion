@@ -23,8 +23,8 @@ export class TrainingMonthViewDayComponent implements OnInit {
   @Input() training: Training;
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete training', confirmLabel: 'Delete' });
   private isMobile: boolean;
-  @ViewChild('trainingPreviewTrigger', { read: MatMenuTrigger, static: false }) trainingPreviewTrigger: MatMenuTrigger;
-  @ViewChild('actionsTrigger', { read: MatMenuTrigger, static: false }) actionsTrigger: MatMenuTrigger;
+  @ViewChild('trainingPreviewTrigger', { read: MatMenuTrigger }) trainingPreviewTrigger: MatMenuTrigger;
+  @ViewChild('actionsTrigger', { read: MatMenuTrigger }) actionsTrigger: MatMenuTrigger;
 
   showPreview = false;
 
