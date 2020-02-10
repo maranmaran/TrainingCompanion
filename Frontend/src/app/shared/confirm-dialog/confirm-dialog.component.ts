@@ -9,12 +9,12 @@ import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-
   styleUrls: ['./confirm-dialog.component.scss']
 })
 export class ConfirmDialogComponent implements OnInit, OnDestroy {
- 
+
   private goToRoute: string;
 
   constructor(
     private router: Router,
-    protected dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    private dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { config: ConfirmDialogConfig }) { }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class ConfirmDialogComponent implements OnInit, OnDestroy {
 
   navigateToRoute(event) {
     this.goToRoute = event.target.getAttribute('data-link');
-    if(this.goToRoute)
+    if (this.goToRoute)
       this.dialogRef.close();
   }
 

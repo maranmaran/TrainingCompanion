@@ -19,8 +19,8 @@ import { UpdateTrainingRequest } from './../../../../../server-models/cqrs/train
   selector: 'app-training-create-edit',
   templateUrl: './training-create-edit.component.html',
   providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ]
 })
 export class TrainingCreateEditComponent implements OnInit {
@@ -28,7 +28,7 @@ export class TrainingCreateEditComponent implements OnInit {
   constructor(
     private trainingService: TrainingService,
     private store: Store<AppState>,
-    protected dialogRef: MatDialogRef<TrainingCreateEditComponent>,
+    private dialogRef: MatDialogRef<TrainingCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       title: string,
       action: CRUD,
@@ -44,7 +44,7 @@ export class TrainingCreateEditComponent implements OnInit {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
 
     // setup request
-    if(this.data.action == CRUD.Create) {
+    if (this.data.action == CRUD.Create) {
       this.request = new CreateTrainingRequest();
       this.request.dateTrained = this.data.day.utc().format();
       this.request.applicationUserId = this._userId;
@@ -61,7 +61,7 @@ export class TrainingCreateEditComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.form.valid)
+    if (this.form.valid)
       this.createEntity();
   }
 

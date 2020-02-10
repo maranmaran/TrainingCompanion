@@ -9,8 +9,8 @@ import { PushNotification } from './../../../server-models/entities/push-notific
   selector: '[pink-toast-component]',
   // providers: [NotificationSignalrService],
   styleUrls: ['./notification-toast.component.scss'],
-    templateUrl: './notification-toast.component.html',
-    animations: [
+  templateUrl: './notification-toast.component.html',
+  animations: [
     trigger('flyInOut', [
       state('inactive', style({
         opacity: 0,
@@ -52,7 +52,7 @@ export class NotificationToastComponent extends Toast {
 
   // constructor is only necessary when not using AoT
   constructor(
-    protected toastrService: ToastrService,
+    toastrService: ToastrService,
     public toastPackage: ToastPackage,
     private notificationService: NotificationSignalrService
   ) {

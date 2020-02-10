@@ -24,9 +24,9 @@ import { StripeCheckoutComponent } from './stripe-checkout/stripe-checkout.compo
 })
 export class BillingComponent implements OnInit, OnDestroy {
 
-  protected currentUser: CurrentUser;
-  protected subscriptionValid: boolean;
-  protected plans: Plan[];
+  currentUser: CurrentUser;
+  subscriptionValid: boolean;
+  plans: Plan[];
   private subs = new SubSink();
 
   constructor(

@@ -17,7 +17,7 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/curr
 })
 export class SetPasswordComponent implements OnInit {
 
-  protected setPasswordForm: FormGroup;
+  setPasswordForm: FormGroup;
   private userId: string;
 
   constructor(

@@ -42,9 +42,9 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     dynamicDirectiveDef(MaterialElevationDirective, { 'raisedElevation': 16 })
   ]
 
-  protected sidebarCards = sidebarCards;
-  protected dashboardCards = dashboardCards;
-  protected mainDashboardComponents = mainDashboardComponents;
+  sidebarCards = sidebarCards;
+  dashboardCards = dashboardCards;
+  mainDashboardComponents = mainDashboardComponents;
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
   private _subs = new SubSink();

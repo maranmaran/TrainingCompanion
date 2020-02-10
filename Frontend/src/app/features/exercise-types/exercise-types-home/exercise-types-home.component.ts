@@ -13,7 +13,7 @@ import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 })
 export class ExerciseTypesHomeComponent implements OnInit {
 
-  protected exerciseTypes$: Observable<ExerciseType[]>;
+  exerciseTypes$: Observable<ExerciseType[]>;
 
   constructor(
     private store: Store<AppState>

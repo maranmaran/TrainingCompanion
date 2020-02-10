@@ -10,9 +10,9 @@ import { AppState } from 'src/ngrx/app/app.state';
   styleUrls: ['./export.component.scss']
 })
 export class ExportComponent implements OnInit {
-  
+
   exportEntities = ExportEntities;
-  selectedIExportType: ExportEntities;
+  selectedExportType: ExportEntities;
 
   constructor(
     private exportService: ExportService,

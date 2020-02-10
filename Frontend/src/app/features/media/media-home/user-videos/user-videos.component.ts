@@ -19,7 +19,7 @@ export class UserVideosComponent implements OnInit, OnDestroy {
   fileTypesToAccept = "video/*";
   mediaType = MediaType.Video;
   
-  protected videos: MediaFile[];
+  videos: MediaFile[];
   private subs = new SubSink();
 
   constructor(
