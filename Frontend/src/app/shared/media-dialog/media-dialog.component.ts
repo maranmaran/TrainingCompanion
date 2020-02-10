@@ -11,7 +11,7 @@ import { MediaType } from 'src/server-models/enums/media-type.enum';
 export class MediaDialogComponent implements OnInit {
 
   constructor(
-    protected dialogRef: MatDialogRef<MediaDialogComponent>,
+    private dialogRef: MatDialogRef<MediaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { type: MessageType | MediaType, sourceUrl: string }) { }
 
   ngOnInit() {

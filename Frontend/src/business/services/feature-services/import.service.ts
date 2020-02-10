@@ -10,7 +10,9 @@ import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
 import { BaseService } from '../base.service';
 import { ImportExerciseTypeRequest, ImportTrainingRequest } from './../../../server-models/cqrs/import/request/import.request';
 import { ImportResponse } from './../../../server-models/cqrs/import/response/import.response';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class ImportService extends BaseService {
 
   constructor(
@@ -23,7 +25,7 @@ export class ImportService extends BaseService {
   public importExerciseType(request: ImportExerciseTypeRequest) {
 
     let job = new ImportJob(ImportEntities.ExerciseTypes);
-    this.store.dispatch(addImportJob({job}));
+    this.store.dispatch(addImportJob({ job }));
 
     const formData: FormData = new FormData();
     for (const prop in request) {
@@ -35,11 +37,11 @@ export class ImportService extends BaseService {
       .pipe(catchError(this.handleError))
       .subscribe(
         (response: ImportResponse) => {
-          this.store.dispatch(setImportResponse({response}));
+          this.store.dispatch(setImportResponse({ response }));
         },
         err => console.log(err),
         () => {
-          this.store.dispatch(removeImportJob( { id: job.id } ))
+          this.store.dispatch(removeImportJob({ id: job.id }))
         });
   }
 

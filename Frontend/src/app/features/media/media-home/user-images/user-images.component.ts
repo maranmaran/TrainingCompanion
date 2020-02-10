@@ -17,10 +17,10 @@ import { take } from 'rxjs/operators';
 })
 export class UserImagesComponent implements OnInit, OnDestroy {
 
-  protected fileTypesToAccept = "image/*";
-  protected mediaType = MediaType.Image;
+  fileTypesToAccept = "image/*";
+  mediaType = MediaType.Image;
 
-  protected images: MediaFile[];
+  images: MediaFile[];
   private subs = new SubSink();
 
   constructor(

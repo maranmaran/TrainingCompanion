@@ -32,10 +32,10 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
 
-  protected theme: NgChatTheme;
-  protected userId: string;
-  protected userFullName: string;
-  protected loading$: Observable<boolean>;
+  theme: NgChatTheme;
+  userId: string;
+  userFullName: string;
+  loading$: Observable<boolean>;
 
   private section: string;
   private subs = new SubSink();
@@ -43,9 +43,9 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   constructor(
     public store: Store<AppState>,
-    protected chatService: ChatService,
+    private chatService: ChatService,
     private notificationService: NotificationSignalrService,
-    protected chatAdapter: SignalrNgChatAdapter,
+    private chatAdapter: SignalrNgChatAdapter,
     private route: ActivatedRoute,
     private uiService: UIService,
   ) {
@@ -71,7 +71,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
         .subscribe((theme: Theme) => {
           this.theme = NgChatTheme[theme]
         })
-      );
+    );
 
     // if routing to settings -> open dialog with specific section from route data
     this.section && this.onOpenSettings(this.section);

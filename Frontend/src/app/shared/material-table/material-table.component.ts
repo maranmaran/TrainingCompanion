@@ -47,12 +47,12 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   @Output() pagingChangeEvent = new EventEmitter<PagingModel>();
 
-  protected displayColumns: string[] = [];
-  protected selection = new SelectionModel<string>(true, []);
-  protected pageSize: number;
-  protected pageSizeOptions: number[];
-  protected totalItems: Observable<number>;
-  protected page: Observable<number>;
+  displayColumns: string[] = [];
+  selection = new SelectionModel<string>(true, []);
+  pageSize: number;
+  pageSizeOptions: number[];
+  totalItems: Observable<number>;
+  page: Observable<number>;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -84,24 +84,24 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit() {
     // assign paginator and sort components to datasource only if we'r not using server side paging
-    if(!this.config.serverSidePaging) {
+    if (!this.config.serverSidePaging) {
       this.datasource.paginator = this.paginator;
       this.datasource.sort = this.sort;
     } else {
-      setTimeout( () => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()) );
+      setTimeout(() => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()));
     }
 
   }
 
   setTablePagingVariables(model: PagingModel, totalItems: Observable<number>) {
-      this.totalItems = totalItems;
-      this.paginator.pageIndex = model.page;
-      this.sort.active = model.sortBy;
-      this.sort.direction = model.sortDirection;
+    this.totalItems = totalItems;
+    this.paginator.pageIndex = model.page;
+    this.sort.active = model.sortBy;
+    this.sort.direction = model.sortDirection;
 
-      if(this.filter) {
-        this.filter.nativeElement.value = model.filterQuery ? model.filterQuery : '';
-      }
+    if (this.filter) {
+      this.filter.nativeElement.value = model.filterQuery ? model.filterQuery : '';
+    }
   }
 
   ngOnDestroy() {
@@ -131,7 +131,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     filterValue = filterValue.trim().toLocaleLowerCase();
 
     // TODO - filter this server side - send event for pagination change
-    if(this.config.serverSidePaging) {
+    if (this.config.serverSidePaging) {
 
       this.pagingModel.filterQuery = filterValue;
       this.pagingChangeEvent.emit(this.pagingModel);

@@ -75,7 +75,7 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy {
   subs = new SubSink();
   constructor(
     private _stripe: StripeService,
-    protected dialogRef: MatDialogRef<StripeCheckoutComponent>,
+    private dialogRef: MatDialogRef<StripeCheckoutComponent>,
     private store: Store<AppState>
   ) {
 

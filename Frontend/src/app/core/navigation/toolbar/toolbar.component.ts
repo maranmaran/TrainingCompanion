@@ -14,9 +14,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private notificationService: NotificationSignalrService,
-  ) {
-
-  }
+  ) { }
 
   @Input() fullName: string;
   @Input() loading$: Observable<boolean>;
@@ -26,10 +24,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   private subSink = new SubSink();
   private page = 0;
-  protected pageSize = 10; // TODO: AppSettings -> NotificationsPageSize
-  protected unreadNotificationCounter = 0;
-  protected notifications: PushNotification[] = [];
-  protected items = Array.from({ length: 100 }).map((_, i) => `Item #${i}`);
+  pageSize = 10; // TODO: AppSettings -> NotificationsPageSize
+  unreadNotificationCounter = 0;
+  notifications: PushNotification[] = [];
+  items = Array.from({ length: 100 }).map((_, i) => `Item #${i}`);
 
   stopFetch = false;
 
@@ -70,12 +68,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   // }
 
   loadMoreNotifications() {
-      this.getHistory(this.page++, this.pageSize);
+    this.getHistory(this.page++, this.pageSize);
   }
 
   getHistory(page, pageSize) {
 
-    if(!this.stopFetch) {
+    if (!this.stopFetch) {
       this.notificationService.getHistory(page, pageSize)
         .pipe(take(1))
         .subscribe(notifications => {

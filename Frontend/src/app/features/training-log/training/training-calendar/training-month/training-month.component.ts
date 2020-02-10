@@ -24,10 +24,10 @@ import { TrainingMonthViewDayComponent } from './training-month-view-day/trainin
 })
 export class TrainingMonthComponent implements OnInit, OnDestroy {
 
-  protected inputData = new ReplaySubject<CalendarEvent[]>();
+  inputData = new ReplaySubject<CalendarEvent[]>();
   private userId: string;
   private subsink = new SubSink();
-  protected calendarConfig: CalendarConfig;
+  calendarConfig: CalendarConfig;
 
   constructor(
     private UIService: UIService,

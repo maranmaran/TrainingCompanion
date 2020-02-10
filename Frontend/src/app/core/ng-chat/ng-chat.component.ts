@@ -44,7 +44,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         public sanitizer: DomSanitizer,
         private _httpClient: HttpClient,
         private dialog: MatDialog,
-        ) { }
+    ) { }
 
     // Exposes enums for the ng-template
     public ChatParticipantType = ChatParticipantType;
@@ -62,7 +62,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
 
     @Input()
     public isCollapsed: boolean = localStorage.getItem('chat-collapsed') ?
-                                    localStorage.getItem('chat-collapsed') as unknown as boolean : false;
+        localStorage.getItem('chat-collapsed') as unknown as boolean : false;
 
     @Input()
     public maximizeWindowOnNewMessage: boolean = true;
@@ -170,20 +170,18 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
 
     public searchInput: string = '';
 
-    protected participants: IChatParticipant[];
+    participants: IChatParticipant[];
 
-    protected participantsResponse: ParticipantResponse[];
+    participantsResponse: ParticipantResponse[];
 
     private participantsInteractedWith: IChatParticipant[] = [];
 
     public currentActiveOption: IChatOption | null;
 
-    protected selectedUsersFromFriendsList: User[] = [];
+    selectedUsersFromFriendsList: User[] = [];
 
-    public defaultWindowOptions(currentWindow: Window): IChatOption[]
-    {
-        if (this.groupAdapter && currentWindow.participant.participantType == ChatParticipantType.User)
-        {
+    public defaultWindowOptions(currentWindow: Window): IChatOption[] {
+        if (this.groupAdapter && currentWindow.participant.participantType == ChatParticipantType.User) {
             return [{
                 isActive: false,
                 action: (chattingWindow: Window) => {
@@ -200,19 +198,17 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         return [];
     }
 
-    private get localStorageKey(): string
-    {
+    private get localStorageKey(): string {
         return `ng-chat-users-${this.userId}`; // Appending the user id so the state is unique per user in a computer.
     };
 
     ngOnDestroy(): void {
-      localStorage.removeItem(this.localStorageKey);
+        localStorage.removeItem(this.localStorageKey);
     }
 
 
-    get filteredParticipants(): IChatParticipant[]
-    {
-        if (this.searchInput.length > 0){
+    get filteredParticipants(): IChatParticipant[] {
+        if (this.searchInput.length > 0) {
             // Searches in the friend list by the inputted search string
             return this.participants.filter(x => x.displayName.toUpperCase().includes(this.searchInput.toUpperCase()));
         }
@@ -251,19 +247,18 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     @HostListener('window:resize', ['$event'])
-    onResize(event: any){
-       this.viewPortTotalArea = event.target.innerWidth;
+    onResize(event: any) {
+        this.viewPortTotalArea = event.target.innerWidth;
 
-       this.NormalizeWindows();
+        this.NormalizeWindows();
     }
 
     // Checks if there are more opened windows than the view port can display
-    private NormalizeWindows(): void
-    {
+    private NormalizeWindows(): void {
         let maxSupportedOpenedWindows = Math.floor((this.viewPortTotalArea - (!this.hideFriendsList ? this.friendsListWidth : 0)) / this.windowSizeFactor);
         let difference = this.windows.length - maxSupportedOpenedWindows;
 
-        if (difference >= 0){
+        if (difference >= 0) {
             this.windows.splice(this.windows.length - difference);
         }
 
@@ -274,14 +269,11 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Initializes the chat plugin and the messaging adapter
-    private bootstrapChat(): void
-    {
+    private bootstrapChat(): void {
         let initializationException = null;
 
-        if (this.adapter != null && this.userId != null)
-        {
-            try
-            {
+        if (this.adapter != null && this.userId != null) {
+            try {
                 this.viewPortTotalArea = window.innerWidth;
 
                 this.initializeTheme();
@@ -293,13 +285,12 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
                 this.adapter.friendsListChangedHandler = (participantsResponse) => this.onFriendsListChanged(participantsResponse);
 
                 // Loading current users list
-                if (this.pollFriendsList){
+                if (this.pollFriendsList) {
                     // Setting a long poll interval to update the friends list
                     this.fetchFriendsList(true);
                     setInterval(() => this.fetchFriendsList(false), this.pollingInterval);
                 }
-                else
-                {
+                else {
                     // Since polling was disabled, a friends list update mechanism will have to be implemented in the ChatAdapter.
                     this.fetchFriendsList(true);
                 }
@@ -308,30 +299,27 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
 
                 this.hasPagedHistory = this.adapter instanceof PagedHistoryChatAdapter;
 
-                if (this.fileUploadUrl && this.fileUploadUrl !== "")
-                {
+                if (this.fileUploadUrl && this.fileUploadUrl !== "") {
                     this.fileUploadAdapter = new DefaultFileUploadAdapter(this.fileUploadUrl, this._httpClient);
                 }
 
                 this.isBootstrapped = true;
             }
-            catch(ex)
-            {
+            catch (ex) {
                 initializationException = ex;
             }
         }
 
-        if (!this.isBootstrapped){
+        if (!this.isBootstrapped) {
             console.error("ng-chat component couldn't be bootstrapped.");
 
-            if (this.userId == null){
+            if (this.userId == null) {
                 console.error("ng-chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the ng-chat component.");
             }
-            if (this.adapter == null){
+            if (this.adapter == null) {
                 console.error("ng-chat can't be bootstrapped without a ChatAdapter. Please make sure you've provided a ChatAdapter implementation as a parameter of the ng-chat component.");
             }
-            if (initializationException)
-            {
+            if (initializationException) {
                 console.error(`An exception has occurred while initializing ng-chat. Details: ${initializationException.message}`);
                 console.error(initializationException);
             }
@@ -339,22 +327,17 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Initializes browser notifications
-    private async initializeBrowserNotifications()
-    {
-        if (this.browserNotificationsEnabled && ("Notification" in window))
-        {
-            if (await Notification.requestPermission())
-            {
+    private async initializeBrowserNotifications() {
+        if (this.browserNotificationsEnabled && ("Notification" in window)) {
+            if (await Notification.requestPermission()) {
                 this.browserNotificationsBootstrapped = true;
             }
         }
     }
 
     // Initializes default text
-    private initializeDefaultText() : void
-    {
-        if (!this.localization)
-        {
+    private initializeDefaultText(): void {
+        if (!this.localization) {
             this.localization = {
                 messagePlaceholder: this.messagePlaceholder,
                 searchPlaceholder: this.searchPlaceholder,
@@ -366,94 +349,85 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         }
     }
 
-    private initializeTheme(): void
-    {
-        if (this.customTheme)
-        {
+    private initializeTheme(): void {
+        if (this.customTheme) {
             this.theme = NgChatTheme.Custom;
         }
-        else if (this.theme != NgChatTheme.Light && this.theme != NgChatTheme.Dark)
-        {
+        else if (this.theme != NgChatTheme.Light && this.theme != NgChatTheme.Dark) {
             // TODO: Use es2017 in future with Object.values(Theme).includes(this.theme) to do this check
             throw new Error(`Invalid theme configuration for ng-chat. "${this.theme}" is not a valid theme value.`);
         }
     }
 
     // Sends a request to load the friends list
-    private fetchFriendsList(isBootstrapping: boolean): void
-    {
+    private fetchFriendsList(isBootstrapping: boolean): void {
         this.adapter.listFriends()
-        .pipe(
-            map((participantsResponse: ParticipantResponse[]) => {
-                this.participantsResponse = participantsResponse;
+            .pipe(
+                map((participantsResponse: ParticipantResponse[]) => {
+                    this.participantsResponse = participantsResponse;
 
-                this.participants = participantsResponse.map((response: ParticipantResponse) => {
-                    return response.participant;
-                });
-            })
-        ).subscribe(() => {
-            if (isBootstrapping)
-            {
-                this.restoreWindowsState();
-            }
-        });
+                    this.participants = participantsResponse.map((response: ParticipantResponse) => {
+                        return response.participant;
+                    });
+                })
+            ).subscribe(() => {
+                if (isBootstrapping) {
+                    this.restoreWindowsState();
+                }
+            });
     }
 
     enlargeImage(message: Message) {
 
-       this.dialog.open(MediaDialogComponent, {
+        this.dialog.open(MediaDialogComponent, {
             height: 'auto',
             width: '98%',
             maxWidth: '58rem',
             autoFocus: false,
-            data: { type: message.type, sourceUrl: message.downloadUrl},
+            data: { type: message.type, sourceUrl: message.downloadUrl },
             panelClass: 'media-dialog-container'
-          });
+        });
     }
 
     fetchMessageHistory(window: Window) {
         // Not ideal but will keep this until we decide if we are shipping pagination with the default adapter
-        if (this.adapter instanceof PagedHistoryChatAdapter)
-        {
+        if (this.adapter instanceof PagedHistoryChatAdapter) {
             window.isLoadingHistory = true;
 
             this.adapter.getMessageHistoryByPage(window.participant.id, this.historyPageSize, ++window.historyPage)
-            .pipe(
-                map((result: Message[]) => {
-                    result.forEach((message) => this.assertMessageType(message));
+                .pipe(
+                    map((result: Message[]) => {
+                        result.forEach((message) => this.assertMessageType(message));
 
-                    window.messages = result.concat(window.messages);
-                    window.isLoadingHistory = false;
+                        window.messages = result.concat(window.messages);
+                        window.isLoadingHistory = false;
 
-                    const direction: ScrollDirection = (window.historyPage == 1) ? ScrollDirection.Bottom : ScrollDirection.Top;
-                    window.hasMoreMessages = result.length == this.historyPageSize;
+                        const direction: ScrollDirection = (window.historyPage == 1) ? ScrollDirection.Bottom : ScrollDirection.Top;
+                        window.hasMoreMessages = result.length == this.historyPageSize;
 
-                    setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, direction, true));
-                })
-            ).subscribe();
+                        setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, direction, true));
+                    })
+                ).subscribe();
         }
-        else
-        {
+        else {
             this.adapter.getMessageHistory(window.participant.id)
-            .pipe(
-                map((result: Message[]) => {
-                    result.forEach((message) => this.assertMessageType(message));
+                .pipe(
+                    map((result: Message[]) => {
+                        result.forEach((message) => this.assertMessageType(message));
 
-                    window.messages = result.concat(window.messages);
-                    window.isLoadingHistory = false;
+                        window.messages = result.concat(window.messages);
+                        window.isLoadingHistory = false;
 
-                    setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
-                })
-            ).subscribe();
+                        setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
+                    })
+                ).subscribe();
         }
     }
 
-    private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void
-    {
+    private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
         this.scrollChatWindow(window, direction)
 
-        if (window.hasFocus || forceMarkMessagesAsSeen)
-        {
+        if (window.hasFocus || forceMarkMessagesAsSeen) {
             const unseenMessages = messages.filter(m => !m.dateSeen);
 
             this.markMessagesAsRead(unseenMessages);
@@ -462,10 +436,8 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Updates the friends list via the event handler
-    private onFriendsListChanged(participantsResponse: ParticipantResponse[]): void
-    {
-        if (participantsResponse)
-        {
+    private onFriendsListChanged(participantsResponse: ParticipantResponse[]): void {
+        if (participantsResponse) {
             this.participantsResponse = participantsResponse;
 
             this.participants = participantsResponse.map((response: ParticipantResponse) => {
@@ -477,21 +449,18 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Handles received messages by the adapter
-    private onMessageReceived(participant: IChatParticipant, message: Message)
-    {
-        if (participant && message)
-        {
+    private onMessageReceived(participant: IChatParticipant, message: Message) {
+        if (participant && message) {
             let chatWindow = this.openChatWindow(participant);
 
             this.assertMessageType(message);
 
-            if (!chatWindow[1] || !this.historyEnabled){
+            if (!chatWindow[1] || !this.historyEnabled) {
                 chatWindow[0].messages.push(message);
 
                 this.scrollChatWindow(chatWindow[0], ScrollDirection.Bottom);
 
-                if (chatWindow[0].hasFocus)
-                {
+                if (chatWindow[0].hasFocus) {
                     this.markMessagesAsRead([message]);
                     this.onMessagesSeen.emit([message]);
                 }
@@ -501,8 +470,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
 
             // Github issue #58
             // Do not push browser notifications with message content for privacy purposes if the 'maximizeWindowOnNewMessage' setting is off and this is a new chat window.
-            if (this.maximizeWindowOnNewMessage || (!chatWindow[1] && !chatWindow[0].isCollapsed))
-            {
+            if (this.maximizeWindowOnNewMessage || (!chatWindow[1] && !chatWindow[0].isCollapsed)) {
                 // Some messages are not pushed because they are loaded by fetching the history hence why we supply the message here
                 this.emitBrowserNotification(chatWindow[0], message);
             }
@@ -512,15 +480,12 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     // Opens a new chat whindow. Takes care of available viewport
     // Works for opening a chat window for an user or for a group
     // Returns => [Window: Window object reference, boolean: Indicates if this window is a new chat window]
-    public openChatWindow(participant: IChatParticipant, focusOnNewWindow: boolean = false, invokedByUserClick: boolean = false): [Window, boolean]
-    {
+    public openChatWindow(participant: IChatParticipant, focusOnNewWindow: boolean = false, invokedByUserClick: boolean = false): [Window, boolean] {
         // Is this window opened?
         let openedWindow = this.windows.find(x => x.participant.id == participant.id);
 
-        if (!openedWindow)
-        {
-            if (invokedByUserClick)
-            {
+        if (!openedWindow) {
+            if (invokedByUserClick) {
                 this.onParticipantClicked.emit(participant);
             }
 
@@ -531,23 +496,20 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
             let newChatWindow: Window = new Window(participant, this.historyEnabled, collapseWindow);
 
             // Loads the chat history via an RxJs Observable
-            if (this.historyEnabled)
-            {
+            if (this.historyEnabled) {
                 this.fetchMessageHistory(newChatWindow);
             }
 
             this.windows.unshift(newChatWindow);
 
             // Is there enough space left in the view port ?
-            if (this.windows.length * this.windowSizeFactor >= this.viewPortTotalArea - (!this.hideFriendsList ? this.friendsListWidth : 0))
-            {
+            if (this.windows.length * this.windowSizeFactor >= this.viewPortTotalArea - (!this.hideFriendsList ? this.friendsListWidth : 0)) {
                 this.windows.pop();
             }
 
             this.updateWindowsState(this.windows);
 
-            if (focusOnNewWindow && !collapseWindow)
-            {
+            if (focusOnNewWindow && !collapseWindow) {
                 this.focusOnWindow(newChatWindow);
             }
 
@@ -556,8 +518,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
 
             return [newChatWindow, true];
         }
-        else
-        {
+        else {
             // Returns the existing chat window
 
             return [openedWindow, false];
@@ -565,14 +526,11 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Focus on the input element of the supplied window
-    private focusOnWindow(window: Window, callback: Function = () => {}) : void
-    {
+    private focusOnWindow(window: Window, callback: Function = () => { }): void {
         let windowIndex = this.windows.indexOf(window);
-        if (windowIndex >= 0)
-        {
+        if (windowIndex >= 0) {
             setTimeout(() => {
-                if (this.chatWindowInputs)
-                {
+                if (this.chatWindowInputs) {
                     let messageInputToFocus = this.chatWindowInputs.toArray()[windowIndex];
 
                     messageInputToFocus.nativeElement.focus();
@@ -584,18 +542,16 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Scrolls a chat window message flow to the bottom
-    private scrollChatWindow(window: Window, direction: ScrollDirection): void
-    {
-        if (!window.isCollapsed){
+    private scrollChatWindow(window: Window, direction: ScrollDirection): void {
+        if (!window.isCollapsed) {
             let windowIndex = this.windows.indexOf(window);
             setTimeout(() => {
-                if (this.chatMessageClusters){
+                if (this.chatMessageClusters) {
                     let targetWindow = this.chatMessageClusters.toArray()[windowIndex];
 
-                    if (targetWindow)
-                    {
+                    if (targetWindow) {
                         let element = this.chatMessageClusters.toArray()[windowIndex].nativeElement;
-                        let position = ( direction === ScrollDirection.Top ) ? 0 : element.scrollHeight;
+                        let position = (direction === ScrollDirection.Top) ? 0 : element.scrollHeight;
                         element.scrollTop = position;
                     }
                 }
@@ -604,19 +560,17 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Marks all messages provided as read with the current time.
-    public markMessagesAsRead(messages: Message[]): void
-    {
+    public markMessagesAsRead(messages: Message[]): void {
         let currentDate = new Date();
 
-        messages.forEach((msg)=>{
+        messages.forEach((msg) => {
             msg.dateSeen = currentDate;
         });
     }
 
     // Buffers audio file (For component's bootstrapping)
     private bufferAudioFile(): void {
-        if (this.audioSource && this.audioSource.length > 0)
-        {
+        if (this.audioSource && this.audioSource.length > 0) {
             this.audioFile = new Audio();
             this.audioFile.src = this.audioSource;
             this.audioFile.load();
@@ -624,16 +578,14 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Emits a message notification audio if enabled after every message received
-    private emitMessageSound(window: Window): void
-    {
+    private emitMessageSound(window: Window): void {
         if (this.audioEnabled && !window.hasFocus && this.audioFile) {
             this.audioFile.play();
         }
     }
 
     // Emits a browser notification
-    private emitBrowserNotification(window: Window, message: Message): void
-    {
+    private emitBrowserNotification(window: Window, message: Message): void {
         if (this.browserNotificationsBootstrapped && !window.hasFocus && message) {
             let notification = new Notification(`${this.localization.browserNotificationTitle} ${window.participant.displayName}`, {
                 'body': message.message,
@@ -647,10 +599,8 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Saves current windows state into local storage if persistence is enabled
-    private updateWindowsState(windows: Window[]): void
-    {
-        if (this.persistWindowsState)
-        {
+    private updateWindowsState(windows: Window[]): void {
+        if (this.persistWindowsState) {
             let participantIds = windows.map((w) => {
                 return w.participant.id;
             });
@@ -659,63 +609,53 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         }
     }
 
-    private restoreWindowsState(): void
-    {
-        try
-        {
-            if (this.persistWindowsState)
-            {
+    private restoreWindowsState(): void {
+        try {
+            if (this.persistWindowsState) {
                 let stringfiedParticipantIds = localStorage.getItem(this.localStorageKey);
 
-                if (stringfiedParticipantIds && stringfiedParticipantIds.length > 0)
-                {
+                if (stringfiedParticipantIds && stringfiedParticipantIds.length > 0) {
                     let participantIds = <number[]>JSON.parse(stringfiedParticipantIds);
 
                     let participantsToRestore = this.participants.filter(u => participantIds.indexOf(u.id) >= 0);
 
                     participantsToRestore.forEach((participant) => {
-                      const window = this.openChatWindow(participant)[0];
-                      window.isCollapsed = localStorage.getItem(`chat-window-${participant.id}`) == 'true' ?
-                        true : false;
+                        const window = this.openChatWindow(participant)[0];
+                        window.isCollapsed = localStorage.getItem(`chat-window-${participant.id}`) == 'true' ?
+                            true : false;
                     });
                 }
             }
         }
-        catch (ex)
-        {
+        catch (ex) {
             console.error(`An error occurred while restoring ng-chat windows state. Details: ${ex}`);
         }
     }
 
     // Gets closest open window if any. Most recent opened has priority (Right)
-    private getClosestWindow(window: Window): Window | undefined
-    {
+    private getClosestWindow(window: Window): Window | undefined {
         let index = this.windows.indexOf(window);
 
-        if (index > 0)
-        {
+        if (index > 0) {
             return this.windows[index - 1];
         }
-        else if (index == 0 && this.windows.length > 1)
-        {
+        else if (index == 0 && this.windows.length > 1) {
             return this.windows[index + 1];
         }
     }
 
     private assertMessageType(message: Message): void {
         // Always fallback to "Text" messages to avoid rendenring issues
-        if (!message.type)
-        {
+        if (!message.type) {
             message.type = MessageType.Text;
         }
     }
 
-    private formatUnreadMessagesTotal(totalUnreadMessages: number): string
-    {
-        if (totalUnreadMessages > 0){
+    private formatUnreadMessagesTotal(totalUnreadMessages: number): string {
+        if (totalUnreadMessages > 0) {
 
             if (totalUnreadMessages > 99)
-                return  "99+";
+                return "99+";
             else
                 return String(totalUnreadMessages);
         }
@@ -725,26 +665,23 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Returns the total unread messages from a chat window. TODO: Could use some Angular pipes in the future
-    unreadMessagesTotal(window: Window): string
-    {
+    unreadMessagesTotal(window: Window): string {
         let totalUnreadMessages = 0;
 
-        if (window){
+        if (window) {
             totalUnreadMessages = window.messages.filter(x => x.fromId != this.userId && !x.dateSeen).length;
         }
 
         return this.formatUnreadMessagesTotal(totalUnreadMessages);
     }
 
-    unreadMessagesTotalByParticipant(participant: IChatParticipant): string
-    {
+    unreadMessagesTotalByParticipant(participant: IChatParticipant): string {
         let openedWindow = this.windows.find(x => x.participant.id == participant.id);
 
-        if (openedWindow){
+        if (openedWindow) {
             return this.unreadMessagesTotal(openedWindow);
         }
-        else
-        {
+        else {
             let totalUnreadMessages = this.participantsResponse
                 .filter(x => x.participant.id == participant.id && !this.participantsInteractedWith.find(u => u.id == participant.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
                 .map((participantResponse) => {
@@ -760,13 +697,10 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         - Tabs between windows on TAB or SHIFT + TAB
         - Closes the current focused window on ESC
     */
-    onChatInputTyped(event: any, window: Window): void
-    {
-        switch (event.keyCode)
-        {
+    onChatInputTyped(event: any, window: Window): void {
+        switch (event.keyCode) {
             case 13:
-                if (window.newMessage && window.newMessage.trim() != "")
-                {
+                if (window.newMessage && window.newMessage.trim() != "") {
                     let message = new Message();
 
                     message.fromId = this.userId;
@@ -788,8 +722,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
                 let currentWindowIndex = this.windows.indexOf(window);
                 let messageInputToFocus = this.chatWindowInputs.toArray()[currentWindowIndex + (event.shiftKey ? 1 : -1)]; // Goes back on shift + tab
 
-                if (!messageInputToFocus)
-                {
+                if (!messageInputToFocus) {
                     // Edge windows, go to start or end
                     messageInputToFocus = this.chatWindowInputs.toArray()[currentWindowIndex > 0 ? 0 : this.chatWindowInputs.length - 1];
                 }
@@ -800,20 +733,17 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
             case 27:
                 let closestWindow = this.getClosestWindow(window);
 
-                if (closestWindow)
-                {
+                if (closestWindow) {
                     this.focusOnWindow(closestWindow, () => { this.onCloseChatWindow(window); });
                 }
-                else
-                {
+                else {
                     this.onCloseChatWindow(window);
                 }
         }
     }
 
     // Closes a chat window via the close 'X' button
-    onCloseChatWindow(window: Window): void
-    {
+    onCloseChatWindow(window: Window): void {
         let index = this.windows.indexOf(window);
 
         this.windows.splice(index, 1);
@@ -824,15 +754,13 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Toggle friends list visibility
-    onChatTitleClicked(event: any): void
-    {
+    onChatTitleClicked(event: any): void {
         this.isCollapsed = !this.isCollapsed;
         localStorage.setItem('chat-collapsed', this.isCollapsed.toString());
     }
 
     // Toggles a chat window visibility between maximized/minimized
-    onChatWindowClicked(window: Window): void
-    {
+    onChatWindowClicked(window: Window): void {
         window.isCollapsed = !window.isCollapsed;
         this.scrollChatWindow(window, ScrollDirection.Bottom);
         var key = 'chat-window-' + window.participant.id;
@@ -840,15 +768,14 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Asserts if a user avatar is visible in a chat cluster
-    isAvatarVisible(window: Window, message: Message, index: number): boolean
-    {
-        if (message.fromId != this.userId){
-            if (index == 0){
+    isAvatarVisible(window: Window, message: Message, index: number): boolean {
+        if (message.fromId != this.userId) {
+            if (index == 0) {
                 return true; // First message, good to show the thumbnail
             }
-            else{
+            else {
                 // Check if the previous message belongs to the same user, if it belongs there is no need to show the avatar again to form the message cluster
-                if (window.messages[index - 1].fromId != message.fromId){
+                if (window.messages[index - 1].fromId != message.fromId) {
                     return true;
                 }
             }
@@ -857,14 +784,11 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         return false;
     }
 
-    getChatWindowAvatar(participant: IChatParticipant, message: Message): string | null
-    {
-        if (participant.participantType == ChatParticipantType.User)
-        {
+    getChatWindowAvatar(participant: IChatParticipant, message: Message): string | null {
+        if (participant.participantType == ChatParticipantType.User) {
             return participant.avatar;
         }
-        else if (participant.participantType == ChatParticipantType.Group)
-        {
+        else if (participant.participantType == ChatParticipantType.Group) {
             let group = participant as Group;
             let userIndex = group.chattingTo.findIndex(x => x.id == message.fromId);
 
@@ -875,16 +799,14 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Toggles a window focus on the focus/blur of a 'newMessage' input
-    toggleWindowFocus(window: Window): void
-    {
+    toggleWindowFocus(window: Window): void {
         window.hasFocus = !window.hasFocus;
-        if(window.hasFocus) {
+        if (window.hasFocus) {
             const unreadMessages = window.messages
                 .filter(message => message.dateSeen == null
                     && (message.toId == this.userId || window.participant.participantType === ChatParticipantType.Group));
 
-            if (unreadMessages && unreadMessages.length > 0)
-            {
+            if (unreadMessages && unreadMessages.length > 0) {
                 this.markMessagesAsRead(unreadMessages);
                 this.onMessagesSeen.emit(unreadMessages);
             }
@@ -892,16 +814,14 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // [Localized] Returns the status descriptive title
-    getStatusTitle(status: ChatParticipantStatus) : any
-    {
+    getStatusTitle(status: ChatParticipantStatus): any {
         let currentStatus = status.toString().toLowerCase();
 
         return this.localization.statusDescription[currentStatus];
     }
 
     triggerOpenChatWindow(user: User): void {
-        if (user)
-        {
+        if (user) {
             this.openChatWindow(user);
         }
     }
@@ -909,7 +829,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     triggerCloseChatWindow(userId: any): void {
         let openedWindow = this.windows.find(x => x.participant.id == userId);
 
-        if (openedWindow){
+        if (openedWindow) {
             this.onCloseChatWindow(openedWindow);
         }
     }
@@ -917,16 +837,14 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     triggerToggleChatWindowVisibility(userId: any): void {
         let openedWindow = this.windows.find(x => x.participant.id == userId);
 
-        if (openedWindow){
+        if (openedWindow) {
             this.onChatWindowClicked(openedWindow);
         }
     }
 
     // Generates a unique file uploader id for each participant
-    getUniqueFileUploadInstanceId(window: Window): string
-    {
-        if (window && window.participant)
-        {
+    getUniqueFileUploadInstanceId(window: Window): string {
+        if (window && window.participant) {
             return `ng-chat-file-upload-${window.participant.id}`;
         }
 
@@ -934,20 +852,17 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     }
 
     // Triggers native file upload for file selection from the user
-    triggerNativeFileUpload(window: Window): void
-    {
-        if (window)
-        {
+    triggerNativeFileUpload(window: Window): void {
+        if (window) {
             const fileUploadInstanceId = this.getUniqueFileUploadInstanceId(window);
             const uploadElementRef = this.nativeFileInputs.filter(x => x.nativeElement.id === fileUploadInstanceId)[0];
 
             if (uploadElementRef)
-            uploadElementRef.nativeElement.click();
+                uploadElementRef.nativeElement.click();
         }
     }
 
-    private clearInUseFileUploader(fileUploadInstanceId: string): void
-    {
+    private clearInUseFileUploader(fileUploadInstanceId: string): void {
         const uploaderInstanceIdIndex = this.fileUploadersInUse.indexOf(fileUploadInstanceId);
 
         if (uploaderInstanceIdIndex > -1) {
@@ -955,8 +870,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         }
     }
 
-    isUploadingFile(window: Window): boolean
-    {
+    isUploadingFile(window: Window): boolean {
         const fileUploadInstanceId = this.getUniqueFileUploadInstanceId(window);
 
         return this.fileUploadersInUse.indexOf(fileUploadInstanceId) > -1;
@@ -967,8 +881,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         const fileUploadInstanceId = this.getUniqueFileUploadInstanceId(window);
         const uploadElementRef = this.nativeFileInputs.filter(x => x.nativeElement.id === fileUploadInstanceId)[0];
 
-        if (uploadElementRef)
-        {
+        if (uploadElementRef) {
             const file: File = uploadElementRef.nativeElement.files[0];
 
             this.fileUploadersInUse.push(fileUploadInstanceId);
@@ -999,35 +912,29 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         }
     }
 
-    onFriendsListCheckboxChange(selectedUser: User, isChecked: boolean): void
-    {
-        if(isChecked) {
+    onFriendsListCheckboxChange(selectedUser: User, isChecked: boolean): void {
+        if (isChecked) {
             this.selectedUsersFromFriendsList.push(selectedUser);
         }
-        else
-        {
+        else {
             this.selectedUsersFromFriendsList.splice(this.selectedUsersFromFriendsList.indexOf(selectedUser), 1);
         }
     }
 
-    onFriendsListActionCancelClicked(): void
-    {
-        if (this.currentActiveOption)
-        {
+    onFriendsListActionCancelClicked(): void {
+        if (this.currentActiveOption) {
             this.currentActiveOption.isActive = false;
             this.currentActiveOption = null;
             this.selectedUsersFromFriendsList = [];
         }
     }
 
-    onFriendsListActionConfirmClicked() : void
-    {
+    onFriendsListActionConfirmClicked(): void {
         let newGroup = new Group(this.selectedUsersFromFriendsList);
 
         this.openChatWindow(newGroup);
 
-        if (this.groupAdapter)
-        {
+        if (this.groupAdapter) {
             this.groupAdapter.groupCreated(newGroup);
         }
 
@@ -1035,8 +942,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
         this.onFriendsListActionCancelClicked();
     }
 
-    isCoachSelectedFromFriendsList(user: User) : boolean
-    {
+    isCoachSelectedFromFriendsList(user: User): boolean {
         return (this.selectedUsersFromFriendsList.filter(item => item.id == user.id)).length > 0
     }
 }

@@ -28,8 +28,8 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
 
 
   private userId: string;
-  protected training: Training;
-  protected trainingDetailsData = {
+  training: Training;
+  trainingDetailsData = {
     sessionVolume: new Observable<number>()
   };
 

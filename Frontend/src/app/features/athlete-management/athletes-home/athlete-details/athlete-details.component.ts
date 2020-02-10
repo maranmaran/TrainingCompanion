@@ -16,7 +16,7 @@ import { ApplicationUser } from 'src/server-models/entities/application-user.mod
 })
 export class AthleteDetailsComponent implements OnInit {
 
-  protected athlete$: Observable<ApplicationUser>;
+  athlete$: Observable<ApplicationUser>;
 
   constructor(
     private userService: UserService,

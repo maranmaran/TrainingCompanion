@@ -1,11 +1,5 @@
-<app-material-table
-    [columns]="tableColumns"
-    [datasource]="tableDatasource"
-    [config]="tableConfig"
-    (selectEvent)="onSelect($event)"
-    (addEvent)="onAdd($event)"
-    (updateEvent)="onUpdate($event)"
-    (deleteEvent)="onDeleteSingle($event)"
-    (deleteSelectionEvent)="onDeleteSelection($event)"
-    (pagingChangeEvent)="onPagingChange($event)"
-></app-material-table>
+<app-material-table [columns]="tableColumns" [datasource]="tableDatasource" [config]="tableConfig"
+    (selectEvent)="onSelect($event)" (addEvent)="onAdd()" (updateEvent)="onUpdate($event)"
+    (deleteEvent)="onDeleteSingle($event)" (deleteSelectionEvent)="onDeleteSelection($event)"
+    (pagingChangeEvent)="onPagingChange($event)">
+</app-material-table>

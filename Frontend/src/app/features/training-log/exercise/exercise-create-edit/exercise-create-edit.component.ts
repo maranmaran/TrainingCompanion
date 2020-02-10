@@ -32,13 +32,13 @@ export class ExerciseCreateEditComponent implements OnInit {
     private store: Store<AppState>,
     private exerciseService: ExerciseService,
     private trainingService: TrainingService,
-    protected dialogRef: MatDialogRef<ExerciseCreateEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { 
-      title: string, 
-      action: CRUD, 
-      exercise: Exercise, 
-      exerciseTypes: PagedList<ExerciseType>, 
-      pagingModel: PagingModel 
+    private dialogRef: MatDialogRef<ExerciseCreateEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {
+      title: string,
+      action: CRUD,
+      exercise: Exercise,
+      exerciseTypes: PagedList<ExerciseType>,
+      pagingModel: PagingModel
     }) { }
 
   form: FormGroup;
@@ -66,7 +66,7 @@ export class ExerciseCreateEditComponent implements OnInit {
 
     this.addListeners();
   }
-  
+
   get exerciseType(): AbstractControl { return this.form.get('exerciseType'); }
   get setsCount(): AbstractControl { return this.form.get('setsCount'); }
   displayFunction = (exerciseType: ExerciseType) => exerciseType ? exerciseType.name : null;
@@ -88,7 +88,7 @@ export class ExerciseCreateEditComponent implements OnInit {
         }),
         switchMap(val => {
           this.data.pagingModel.filterQuery = val;
-          return this.exerciseTypeService.getPaged(this._userId,  this.data.pagingModel).pipe(finalize(() => this.isLoading = false));
+          return this.exerciseTypeService.getPaged(this._userId, this.data.pagingModel).pipe(finalize(() => this.isLoading = false));
         }
         )
       ).subscribe(
