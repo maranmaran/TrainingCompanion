@@ -16,9 +16,9 @@ import { AuthService } from '../../../../business/services/feature-services/auth
 })
 export class ResetPasswordComponent implements OnInit {
 
-  protected resetPasswordForm: FormGroup;
-  protected emailSent: boolean = false;
-  protected emailFailed: boolean = false;
+  resetPasswordForm: FormGroup;
+  emailSent: boolean = false;
+  emailFailed: boolean = false;
 
   constructor(
     private store: Store<AppState>,

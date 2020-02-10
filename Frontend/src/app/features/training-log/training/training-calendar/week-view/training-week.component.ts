@@ -24,8 +24,8 @@ export class TrainingWeekComponent implements OnInit {
   private subsink = new SubSink();
   private userId: string;
 
-  protected config: CalendarConfig;
-  protected inputData = new ReplaySubject<CalendarEvent[]>();
+  config: CalendarConfig;
+  inputData = new ReplaySubject<CalendarEvent[]>();
 
   constructor(
     private trainingService: TrainingService,

@@ -3,8 +3,8 @@ import { Observable, throwError } from 'rxjs';
 
 export abstract class BaseService {
 
-  protected url: string;
-  protected http: HttpClient;
+  url: string;
+  http: HttpClient;
 
   constructor(
     http: HttpClient,

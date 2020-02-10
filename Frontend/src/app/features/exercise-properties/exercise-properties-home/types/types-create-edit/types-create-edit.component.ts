@@ -23,7 +23,7 @@ export class TypesCreateEditComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    protected dialogRef: MatDialogRef<TypesCreateEditComponent>,
+    private dialogRef: MatDialogRef<TypesCreateEditComponent>,
     private tagGroupService: TagGroupService,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, tagGroup: TagGroup }) { }
 

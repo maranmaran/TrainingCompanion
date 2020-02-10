@@ -27,9 +27,9 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
 
-  protected tableConfig: TableConfig;
-  protected tableColumns: CustomColumn[];
-  protected tableDatasource: TableDatasource<ApplicationUser>;
+  tableConfig: TableConfig;
+  tableColumns: CustomColumn[];
+  tableDatasource: TableDatasource<ApplicationUser>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
   constructor(

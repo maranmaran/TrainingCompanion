@@ -34,9 +34,9 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
 
-  protected tableConfig: TableConfig;
-  protected tableColumns: CustomColumn[];
-  protected tableDatasource: TableDatasource<ExerciseType>;
+  tableConfig: TableConfig;
+  tableColumns: CustomColumn[];
+  tableDatasource: TableDatasource<ExerciseType>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
   exerciseTypeControl = new FormControl();

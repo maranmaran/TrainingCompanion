@@ -10,7 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class MessageDialogComponent {
 
   constructor(
-    protected dialogRef: MatDialogRef<MessageDialogComponent>,
+    private dialogRef: MatDialogRef<MessageDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { message: string }) { }
 
 }

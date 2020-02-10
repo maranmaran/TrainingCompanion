@@ -1,5 +1,5 @@
+import { MatTabGroup } from '@angular/material/tabs';
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/ngrx/global-setup.ngrx";
@@ -19,10 +19,10 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   @ViewChild("group2", { static: true }) tabGroup2: MatTabGroup;
 
   private subsink = new SubSink();
-  protected selectedTraining: Training;
-  protected selectedExercise: Exercise;
+  selectedTraining: Training;
+  selectedExercise: Exercise;
 
-  constructor(private router: Router, private store: Store<AppState>) {}
+  constructor(private router: Router, private store: Store<AppState>) { }
 
   ngOnInit() {
     this.subsink.add(
@@ -94,12 +94,12 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
     }
 
     promise.then((resolved) => {
-      if(resolved) {
+      if (resolved) {
         this.store.dispatch(setSelectedExercise(null));
         this.store.dispatch(setSelectedTraining(null));
       }
     },
-    err => console.log(err));
+      err => console.log(err));
   }
 
   selectedTab1 = TrainingLogTabGroup1.TrainingDetails;

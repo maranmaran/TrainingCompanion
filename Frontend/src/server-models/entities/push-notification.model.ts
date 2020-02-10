@@ -13,6 +13,8 @@ export class PushNotification {
   senderId: string;
   sender: ApplicationUser;
 
+  systemNotification: boolean;
+
   receiverId: string;
   receiver: ApplicationUser;
 }

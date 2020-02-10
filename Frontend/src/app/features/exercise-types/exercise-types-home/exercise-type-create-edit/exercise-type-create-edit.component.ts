@@ -26,7 +26,7 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<AppState>,
     private tagGroupService: TagGroupService,
-    protected dialogRef: MatDialogRef<ExerciseTypeCreateEditComponent>,
+    private dialogRef: MatDialogRef<ExerciseTypeCreateEditComponent>,
     private typeService: ExerciseTypeService,
     @Inject(MAT_DIALOG_DATA)
     public data: { title: string; action: CRUD; entity: ExerciseType, tagGroups: TagGroup[] }

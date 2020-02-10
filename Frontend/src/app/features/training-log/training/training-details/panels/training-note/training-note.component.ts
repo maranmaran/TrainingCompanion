@@ -16,9 +16,9 @@ export class TrainingNoteComponent implements OnInit {
   @Input() showEditor: boolean = false;
   @Output() saveNoteEvent = new EventEmitter<string>();
 
-  protected panelExpanded = false;
-  protected ckEditor = ClassicEditor;
-  protected ckEditorConfig = {
+  panelExpanded = false;
+  ckEditor = ClassicEditor;
+  ckEditorConfig = {
       toolbar: ['bold', 'link', 'bulletedList', 'undo', 'redo', 'insertTable', 'ImageUpload', 'MediaEmbed']
   };
 

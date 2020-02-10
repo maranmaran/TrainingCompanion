@@ -23,7 +23,7 @@ import { SubSink } from 'subsink';
 })
 export class ExerciseDetailsComponent implements OnInit, OnDestroy {
 
-  protected exercise: Exercise;
+  exercise: Exercise;
   private training: Training;
   private subs = new SubSink();
 

@@ -15,7 +15,7 @@ import { tap } from 'rxjs/operators';
 })
 export class SidebarComponent implements OnInit {
 
-  protected isCoach$: Observable<boolean>;
+  isCoach$: Observable<boolean>;
 
   constructor(
     private uiService: UIService,

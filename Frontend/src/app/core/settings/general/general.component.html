@@ -1,15 +1,10 @@
-<div
-  id="general-settings-container"
-  fxLayout="row"
-  fxLayoutAlign="space-evenly"
-  fxLayout.lt-sm="column"
-  >
+<div id="general-settings-container" fxLayout="row" fxLayoutAlign="space-evenly" fxLayout.lt-sm="column">
   <div id="left-column" fxLayout="column" fxLayoutGap="1rem" fxFlex="0 0 50%">
 
     <!--THEME-->
     <div fxLayout="row" fxLayoutGap="1rem">
       <label>Theme: </label>
-      <mat-slide-toggle [color]="accent" [checked]="themeButtonChecked" (change)="onThemeChange($event)">
+      <mat-slide-toggle [color]="'accent'" [checked]="themeButtonChecked" (change)="onThemeChange($event)">
         {{ userSetting.theme }}
       </mat-slide-toggle>
     </div>
@@ -17,7 +12,7 @@
     <!--Unit system-->
     <div fxLayout="row" fxLayoutGap="1rem">
       <label>Unit system: </label>
-      <mat-slide-toggle [color]="accent" [checked]="unitSystemButtonChecked" (change)="onUnitSystemChange($event)">
+      <mat-slide-toggle [color]="'accent'" [checked]="unitSystemButtonChecked" (change)="onUnitSystemChange($event)">
         {{ userSetting.unitSystem }}
       </mat-slide-toggle>
     </div>
@@ -26,7 +21,8 @@
     <!--RPE system-->
     <div fxLayout="row" fxLayoutGap="1rem">
       <label>Rpe system: </label>
-      <mat-slide-toggle [disabled]="!userSetting.useRpeSystem" [color]="accent" [checked]="rpeSystemButtonChecked" (change)="onRpeSystemChange($event)">
+      <mat-slide-toggle [disabled]="!userSetting.useRpeSystem" [color]="'accent'" [checked]="rpeSystemButtonChecked"
+        (change)="onRpeSystemChange($event)">
         {{ userSetting.rpeSystem }}
       </mat-slide-toggle>
       <mat-checkbox (change)="onUseRpeSystemChecked($event)" [checked]="userSetting.useRpeSystem">
@@ -48,8 +44,8 @@
         <!-- TODO: Make this pascal case into something meaningful... -->
         <td class="text-center"> {{notificationTypeLabels[notificationSetting.notificationType]}} </td>
         <td class="text-center">
-          <mat-checkbox (change)="onNotificationSettingCheckboxChecked($event, notificationSetting)" [name]="'receiveMail'"
-            [checked]="notificationSetting.receiveMail">
+          <mat-checkbox (change)="onNotificationSettingCheckboxChecked($event, notificationSetting)"
+            [name]="'receiveMail'" [checked]="notificationSetting.receiveMail">
           </mat-checkbox>
         </td>
         <td class="text-center">
@@ -60,5 +56,5 @@
       </tr>
     </table>
 
-</div>
+  </div>
 </div>

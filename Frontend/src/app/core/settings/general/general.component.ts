@@ -23,8 +23,8 @@ import { NotificationTypeLabel } from './notification-type-labels.enum';
 export class GeneralComponent implements OnInit {
 
   public userSetting: UserSetting;
-  protected unitSystems = UnitSystem;
-  protected rpeSystems = RpeSystem;
+  unitSystems = UnitSystem;
+  rpeSystems = RpeSystem;
 
   notificationTypeLabels = NotificationTypeLabel;
 
@@ -70,7 +70,7 @@ export class GeneralComponent implements OnInit {
     this.store.dispatch(updateUserSetting(this.userSetting));
   }
 
-public onNotificationSettingCheckboxChecked(event: MatCheckboxChange, setting: NotificationSetting) {
+  public onNotificationSettingCheckboxChecked(event: MatCheckboxChange, setting: NotificationSetting) {
 
     let settingCopy = _.cloneDeep(setting);
     switch (event.source.name) {

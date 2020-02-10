@@ -33,7 +33,7 @@ export class SetCreateEditComponent implements OnInit {
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private setService: SetService,
-    protected dialogRef: MatDialogRef<SetCreateEditComponent>,
+    private dialogRef: MatDialogRef<SetCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, sets: Set[] }) { }
 
   setFormGroups: FormGroup[] = [];
@@ -85,7 +85,7 @@ export class SetCreateEditComponent implements OnInit {
     let nextGroup = this.setFormGroups[index + 1];
 
     const set = this.getSet(setGroup);
-    if(nextGroup) {
+    if (nextGroup) {
       // update
       set.id = nextGroup.controls["id"].value;
 
@@ -108,7 +108,7 @@ export class SetCreateEditComponent implements OnInit {
 
     // todo.. add weight attribute to application user
     if (this.exerciseType.requiresBodyweight)
-      controls["weight"] = new FormControl( set.weight, [Validators.min(0), Validators.max(200)]);
+      controls["weight"] = new FormControl(set.weight, [Validators.min(0), Validators.max(200)]);
 
     if (this.exerciseType.requiresReps)
       controls["reps"] = new FormControl(set.reps, [Validators.min(0), Validators.max(100)]);
@@ -189,7 +189,7 @@ export class SetCreateEditComponent implements OnInit {
 
   onSubmit() {
     // are all forms valid
-    if(!this.isFormValid) return;
+    if (!this.isFormValid) return;
 
     let sets = <Set[]>(this.getSets(this.setFormGroups));
 
