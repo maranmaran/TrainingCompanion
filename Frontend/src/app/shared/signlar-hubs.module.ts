@@ -8,7 +8,7 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 @NgModule({})
 export class SignalrHubsModule {
 
-    static forRoot(): ModuleWithProviders {
+    static forRoot(): ModuleWithProviders<SignalrHubsModule> {
         return {
             ngModule: SignalrHubsModule,
             providers: [

@@ -8,7 +8,9 @@ import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { AuthService } from '../services/feature-services/auth.service';
 import { UIProgressBar } from '../shared/ui-progress-bars.enum';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class CurrentUserLoadedGuard implements CanActivate {
 
 

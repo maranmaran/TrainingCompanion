@@ -7,7 +7,7 @@ import { SignalrHubsModule } from './signlar-hubs.module';
  */
 @NgModule({})
 export class ExportImportServicesModule {
-    static forRoot(): ModuleWithProviders {
+    static forRoot(): ModuleWithProviders<SignalrHubsModule> {
         return {
             ngModule: SignalrHubsModule,
             providers: [
