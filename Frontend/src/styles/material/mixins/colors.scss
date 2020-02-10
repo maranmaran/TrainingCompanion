@@ -2,35 +2,157 @@
 
 @mixin colors-theme($theme) {
 
-  $primary: mat-color(map-get($theme, primary));
-  $accent: mat-color(map-get($theme, accent));
-  $warn: mat-color(map-get($theme, warn));
+//   For completeness, here are the lists of the elements you can get from the different palettes: From the "primary" palette ($primary and $dark-p in my code above):
+// default
+// lighter
+// darker
+// You can also get these same three color values for the $accent and $warn palettes.
 
-  $background-palette: map-get($theme, background);
-  $border: map-get($background-palette, focused-button);
-  $highlight: map-get($background-palette, hover);
+// From the "foreground" palette ($light-foreground-palette and $dark-foreground-palette in my code above):
+// base
+// divider
+// dividers
+// disabled
+// disabled-button
+// disabled-text
+// hint-text
+// secondary-text
+// icon
+// icons
+// text
+// slider-off
+// slider-off-active
 
+// From the "background" palette ($light-background-palette and $dark-background-palette in my code above):
+// status-bar
+// app-bar
+// background
+// hover
+// card
+// dialog
+// disabled-button
+// raised-button
+// focused-button
+// selected-button
+// selected-disabled-button
+// disabled-button-toggle
+
+  //====================================================
+  //===========BASIC THEME COLORS=======================
+  //====================================================
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  $primary-default: mat-color($primary, default);
+  $accent-default: mat-color($accent, default);
+  $warn-default: mat-color($warn, default);
+
+  $primary-lighter: mat-color($primary, lighter);
+  $accent-lighter: mat-color($accent, lighter);
+  $warn-lighter: mat-color($warn, lighter);
+
+  $primary-darker: mat-color($primary, darker);
+  $accent-darker: mat-color($accent, darker);
+  $warn-darker: mat-color($warn, darker);
+
+  //====================================================
+  //=================THEME SPECIFIC COLORS==============
+  //====================================================
+  $foreground-palette: map-get($theme, foreground); //palette
+  $background-palette: map-get($theme, background); //palette
+
+  $theme-text: map-get($foreground-palette, text);
+  $theme-text-reversed: map-get($background-palette, background);
+
+  $theme-dialog: map-get($background-palette, dialog);
+  $theme-background: map-get($background-palette, background);
+  $theme-hover: map-get($background-palette, hover);
+  $theme-app-bar: map-get($background-palette, app-bar);
+  $theme-status-bar: map-get($background-palette, status-bar);
+  $theme-card: map-get($background-palette, card);
+  $theme-disabled-button: map-get($background-palette, disabled-button);
+  //====================================================
+
+  // BASIC COLOR - FOREGROUNDS
   .primary-foreground {
-      color: $primary;
+      color: $primary-default;
   }
   .accent-foreground {
-      color: $accent;
+      color: $accent-default;
   }
   .warn-foreground {
-      color: $warn;
+      color: $warn-default;
+  }
+  .primary-foreground-lighter {
+    color: $primary-lighter;
+  }
+  .accent-foreground-lighter {
+      color: $accent-lighter;
+  }
+  .warn-foreground-lighter {
+      color: $warn-lighter;
+  }
+  .primary-foreground-darker {
+    color: $primary-darker;
+  }
+  .accent-foreground-darker {
+    color: $accent-darker;
+  }
+  .warn-foreground-darker {
+    color: $warn-darker;
   }
 
+  // BASIC COLOR - BACKGROUNDS
   .primary-background {
-    background: $primary;
+    background: $primary-default;
   }
   .accent-background {
-    background: $accent;
+    background: $accent-default;
   }
   .warn-background {
-    background: $warn;
+    background: $warn-default;
+  }
+  .primary-background-lighter {
+    background: $primary-lighter;
+  }
+  .accent-background-lighter {
+    background: $accent-lighter;
+  }
+  .warn-background-lighter {
+    background: $warn-lighter;
+  }
+  .primary-background-darker {
+    background: $primary-darker;
+  }
+  .accent-background-darker {
+    background: $accent-darker;
+  }
+  .warn-background-darker {
+    background: $warn-darker;
   }
 
-  .highlight {
-    background: rgba($highlight, 0.3);
+  // THEME BACKGROUNDS
+  .theme-background {
+    background: $theme-background;
   }
+  .theme-hover-background {
+    background: rgba($theme-hover, 0.3);
+    // background: rgba(93,93,93,1);
+  }
+  .theme-dialog-background {
+    background: $theme-dialog;
+  }
+  .theme-tooltip-background {
+    background: rgba(93,93,93,1); // taken via inspect element.. same for light and dark theme
+  }
+
+  // THEME FOREGROUNDS
+  .theme-text-foreground {
+    color: $theme-text;
+  }
+  .theme-text-foreground-reversed {
+    color: $theme-text-reversed
+  }
+
 }
