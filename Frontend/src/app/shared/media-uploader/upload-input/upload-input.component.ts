@@ -10,7 +10,7 @@ export class UploadInputComponent {
   @Input() fileTypesToAccept: string;
   @Output() fileUploaded = new EventEmitter<File>();
 
-  @ViewChild('uploadInput', {static: false}) uploadInput: ElementRef;
+  @ViewChild('uploadInput') uploadInput: ElementRef;
 
   constructor(
   ) { }

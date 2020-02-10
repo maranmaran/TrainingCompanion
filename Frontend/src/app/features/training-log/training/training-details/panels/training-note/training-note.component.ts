@@ -22,7 +22,7 @@ export class TrainingNoteComponent implements OnInit {
       toolbar: ['bold', 'link', 'bulletedList', 'undo', 'redo', 'insertTable', 'ImageUpload', 'MediaEmbed']
   };
 
-  @ViewChild("notePanel", { static: false }) panel: MatExpansionPanel;
+  @ViewChild("notePanel") panel: MatExpansionPanel;
 
   constructor() { }
 

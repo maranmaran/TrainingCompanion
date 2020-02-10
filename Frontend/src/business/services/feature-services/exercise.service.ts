@@ -4,7 +4,9 @@ import { Exercise } from 'src/server-models/entities/exercise.model';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { MediaType } from 'src/server-models/enums/media-type.enum';
 import { CrudService } from '../crud.service';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ExerciseService extends CrudService<Exercise> {
 
   constructor(

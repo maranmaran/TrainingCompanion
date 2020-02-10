@@ -4,7 +4,9 @@ import { PagingModel } from 'src/app/shared/material-table/table-models/paging.m
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { CrudService } from '../crud.service';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ExerciseTypeService extends CrudService<ExerciseType> {
 
     constructor(
