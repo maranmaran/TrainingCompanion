@@ -23,11 +23,10 @@ export class TrainingMonthViewDayComponent implements OnInit {
   @Input() training: Training;
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete training', confirmLabel: 'Delete' });
   private isMobile: boolean;
-  @ViewChild('trainingPreviewTrigger', {static: false}) trainingPreviewTrigger: MatMenuTrigger;
-  @ViewChild('actionsTrigger', {static: false}) actionsTrigger: MatMenuTrigger;
-  // @ViewChild('trainingButton', {static: false}) trainingButton: MatButton;
-  // private userAction: 'click' | 'mouseEnter' | 'mouseLeave' | 'press' = 'click'; // default
+  @ViewChild('trainingPreviewTrigger', { read: MatMenuTrigger, static: false }) trainingPreviewTrigger: MatMenuTrigger;
+  @ViewChild('actionsTrigger', { read: MatMenuTrigger, static: false }) actionsTrigger: MatMenuTrigger;
 
+  showFlag = false;
 
   constructor(
     private store: Store<AppState>,
@@ -71,15 +70,13 @@ export class TrainingMonthViewDayComponent implements OnInit {
   }
 
   onMouseEnter(event) {
-    console.log('enter')
     console.log(event);
-    if(this.training.exercises.length > 0 && !this.isMobile)  {
+    if(this.training.exercises.length > 0 && !this.isMobile && !this.trainingPreviewTrigger.menuOpen)  {
       this.trainingPreviewTrigger.openMenu();
     }
   }
 
   onMouseLeave(event) {
-    console.log('leave')
     console.log(event);
     if(this.trainingPreviewTrigger.menuOpen) {
       this.trainingPreviewTrigger.closeMenu();

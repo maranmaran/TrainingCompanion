@@ -155,17 +155,17 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     const draggedItem = event.item;
 
     this.dropLists.filter(list => list.id != droplist.id).forEach(droplist => {
-      this.renderer.removeClass(droplist.element.nativeElement, 'highlight')
+      this.renderer.removeClass(droplist.element.nativeElement, 'theme-hover-background')
     });
 
     this.dropLists.filter(list => list.id == droplist.id).forEach(droplist => {
-      this.renderer.addClass(droplist.element.nativeElement, 'highlight')
+      this.renderer.addClass(droplist.element.nativeElement, 'theme-hover-background')
     });
   }
 
   dragEnd() {
-    this.dropLists.filter(list => list.element.nativeElement.classList.contains('highlight')).forEach(droplist => {
-      this.renderer.removeClass(droplist.element.nativeElement, 'highlight')
+    this.dropLists.filter(list => list.element.nativeElement.classList.contains('theme-hover-background')).forEach(droplist => {
+      this.renderer.removeClass(droplist.element.nativeElement, 'theme-hover-background')
     });
   }
 
