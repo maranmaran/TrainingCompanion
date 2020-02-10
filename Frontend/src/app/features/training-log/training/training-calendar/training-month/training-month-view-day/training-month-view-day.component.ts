@@ -26,7 +26,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
   @ViewChild('trainingPreviewTrigger', { read: MatMenuTrigger, static: false }) trainingPreviewTrigger: MatMenuTrigger;
   @ViewChild('actionsTrigger', { read: MatMenuTrigger, static: false }) actionsTrigger: MatMenuTrigger;
 
-  showFlag = false;
+  showPreview = false;
 
   constructor(
     private store: Store<AppState>,
@@ -69,25 +69,11 @@ export class TrainingMonthViewDayComponent implements OnInit {
     return sortBy(data, [prop]);
   }
 
-  onMouseEnter(event) {
-    console.log(event);
-    if(this.training.exercises.length > 0 && !this.isMobile && !this.trainingPreviewTrigger.menuOpen)  {
-      this.trainingPreviewTrigger.openMenu();
-    }
-  }
-
-  onMouseLeave(event) {
-    console.log(event);
-    if(this.trainingPreviewTrigger.menuOpen) {
-      this.trainingPreviewTrigger.closeMenu();
-    }
-  }
-
   pressEvent = false;
   onPress() {
 
     this.pressEvent = true;
-    setTimeout(() => {
+    setTimeout(() => { // this is because we need if block on CLICK event..
       this.pressEvent = false;
     }, 500);
 

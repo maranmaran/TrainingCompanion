@@ -27,24 +27,24 @@
     [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
     [matTooltipPosition]="'above'"
 
-    (mouseenter)="showFlag = true"
-    (mouseleave)="showFlag = false"
+    (mouseenter)="showPreview = true"
+    (mouseleave)="showPreview = false"
 
     (press)="onPress()"
     (click)="onClick($event)">
 
     <!-- <mat-menu #trainingPreview="matMenu" [hasBackdrop]="false"> -->
-      <div class="preview-container theme-tooltip-background mat-elevation-z16" *ngIf="showFlag && training.exercises && training.exercises.length > 0">
-        <h5><b>Summary</b></h5>
-        <mat-divider></mat-divider>
-        <div class="exercise-preview-container">
-          <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
-            <div>
-              {{i + 1}}. {{exercise.exerciseType.name}}
-            </div>
-          </ng-container>
-        </div>
+    <div class="preview-container theme-tooltip-background mat-elevation-z16" *ngIf="showPreview && training.exercises && training.exercises.length > 0">
+      <h5><b>Summary</b></h5>
+      <mat-divider></mat-divider>
+      <div class="exercise-preview-container">
+        <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
+          <div>
+            {{i + 1}}. {{exercise.exerciseType.name}}
+          </div>
+        </ng-container>
       </div>
+    </div>
     <!-- </mat-menu> -->
 
     <div class="training-label__cover" #actionsTrigger="matMenuTrigger" [matMenuTriggerFor]="actionsMenu"></div>
@@ -65,7 +65,7 @@
     </div>
   </div>
 
-
+  <!-- MOBILE VIEW ACTIONS -->
   <mat-menu #actionsMenu="matMenu" [hasBackdrop]="false">
     <div fxLayout="column">
       <button mat-menu-item (click)="onCopy()">

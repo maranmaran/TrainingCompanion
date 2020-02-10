@@ -1,0 +1,22 @@
+<h2> {{data.title}} </h2>
+
+<mat-divider class="dialog-form-divider"></mat-divider>
+
+<div class="form" fxLayout="column">
+    <form [formGroup]="form">
+
+      <mat-form-field>
+        <mat-label>Training date</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="dateTrained">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+      </mat-form-field>
+
+    </form>
+</div>
+
+<div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+    <button  mat-button color="accent" (click)="onClose()">Close</button>
+    <button mat-stroked-button color="primary"(click)="onSubmit()"
+      [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
+  </div>

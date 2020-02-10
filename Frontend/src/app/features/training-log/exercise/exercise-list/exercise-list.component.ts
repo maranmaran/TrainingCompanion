@@ -118,8 +118,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
               this.table.onSelect(exercise, true);
               // this.onSelect(exercise);
             }
-          }
-          );
+        });
       });
   }
 
