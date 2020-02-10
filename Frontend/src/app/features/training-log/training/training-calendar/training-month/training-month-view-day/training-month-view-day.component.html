@@ -27,49 +27,29 @@
     [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
     [matTooltipPosition]="'above'"
 
-    (mouseenter)="onMouseEnter($event)"
-    (mouseleave)="onMouseLeave($event)"
+    (mouseenter)="showFlag = true"
+    (mouseleave)="showFlag = false"
+
     (press)="onPress()"
     (click)="onClick($event)">
 
-    <div class="training-label__cover" #trainingPreviewTrigger="matMenuTrigger" [matMenuTriggerFor]="trainingPreview"></div>
+    <!-- <mat-menu #trainingPreview="matMenu" [hasBackdrop]="false"> -->
+      <div class="preview-container theme-tooltip-background mat-elevation-z16" *ngIf="showFlag && training.exercises && training.exercises.length > 0">
+        <h5><b>Summary</b></h5>
+        <mat-divider></mat-divider>
+        <div class="exercise-preview-container">
+          <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
+            <div>
+              {{i + 1}}. {{exercise.exerciseType.name}}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    <!-- </mat-menu> -->
+
     <div class="training-label__cover" #actionsTrigger="matMenuTrigger" [matMenuTriggerFor]="actionsMenu"></div>
 
-    <label>{{ training.dateTrained | date:'shortTime' }} </label>
-    <ng-container *ngTemplateOutlet="trainingCardActions"></ng-container>
-  </div>
-
-
-
-  <mat-menu #trainingPreview="matMenu" [hasBackdrop]="true">
-    <div class="menu-container">
-      <h5><b>Summary</b></h5>
-      <mat-divider></mat-divider>
-      <div class="exercise-preview-container">
-        <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
-          <div>
-            {{i + 1}}. {{exercise.exerciseType.name}}
-          </div>
-        </ng-container>
-      </div>
-    </div>
-  </mat-menu>
-
-  <mat-menu #actionsMenu="matMenu" [hasBackdrop]="true">
-    <div fxLayout="column">
-      <button mat-menu-item (click)="onCopy()">
-        <i class="fas fa-copy accent-foreground"></i>
-        <span class="ml-2">Copy training</span>
-      </button>
-
-      <button mat-menu-item (click)="onDelete()">
-        <i class="fas fa-trash accent-foreground"></i>
-        <span class="ml-2">Delete training</span>
-      </button>
-    </div>
-  </mat-menu>
-
-  <ng-template #trainingCardActions>
+    <label> {{ training.dateTrained | date:'shortTime' }} </label>
     <div id="actions" fxHide.xs fxLayout="row" fxLayoutAlign="space-evenly">
 
       <button mat-icon-button color="accent" (click)="onCopy()" [matTooltip]="'Copy training'"
@@ -83,6 +63,21 @@
       </button>
 
     </div>
-  </ng-template>
+  </div>
+
+
+  <mat-menu #actionsMenu="matMenu" [hasBackdrop]="false">
+    <div fxLayout="column">
+      <button mat-menu-item (click)="onCopy()">
+        <i class="fas fa-copy accent-foreground"></i>
+        <span class="ml-2">Copy training</span>
+      </button>
+
+      <button mat-menu-item (click)="onDelete()">
+        <i class="fas fa-trash accent-foreground"></i>
+        <span class="ml-2">Delete training</span>
+      </button>
+    </div>
+  </mat-menu>
 
 </div>
