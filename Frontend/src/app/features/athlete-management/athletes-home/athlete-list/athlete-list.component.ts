@@ -82,7 +82,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
 
   onSelect = (athlete: ApplicationUser) => this.store.dispatch(setSelectedAthlete({ athlete }));
 
-  onAdd() {
+  onAdd(event) {
     const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {
       height: 'auto',
       width: '98%',

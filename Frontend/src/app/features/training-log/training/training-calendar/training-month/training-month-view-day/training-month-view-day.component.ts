@@ -36,7 +36,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(isMobile).pipe(take(1)).subscribe((isMobile: boolean) => this.isMobile = isMobile);
-   }
+  }
 
   onTrainingClick() {
     this.store.dispatch(setSelectedTraining({ entity: Object.assign({}, this.training) }));
@@ -77,20 +77,24 @@ export class TrainingMonthViewDayComponent implements OnInit {
       this.pressEvent = false;
     }, 500);
 
-    if(this.isMobile) {
+    if (this.isMobile) {
       this.actionsTrigger.openMenu();
     }
 
   }
 
   onClick() {
-    if(!this.pressEvent) {
-      if(this.isMobile && this.actionsTrigger.menuOpen) {
+    if (!this.pressEvent) {
+      if (this.isMobile && this.actionsTrigger.menuOpen) {
         this.actionsTrigger.closeMenu();
       } else if (this.actionsTrigger.menuClosed) {
         this.onTrainingClick();
       }
     }
+  }
+
+  onCopy() {
+
   }
 
   onDeleteClick() {

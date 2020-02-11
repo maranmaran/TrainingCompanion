@@ -34,7 +34,7 @@ export class SetCreateEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private setService: SetService,
     private dialogRef: MatDialogRef<SetCreateEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { title: string, sets: Set[] }) { }
+    @Inject(MAT_DIALOG_DATA) public data: { action, title: string, sets: Set[] }) { }
 
   setFormGroups: FormGroup[] = [];
   // get formControls() { return (<FormArray>this.form.get('sets')).controls; }
