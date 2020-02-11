@@ -32,7 +32,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private uiService: UIService,
+    public uiService: UIService,
     private store: Store<AppState>,
     private dialogRef: MatDialogRef<SettingsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { title: string, section: 'General' | 'Account' | 'Billing' }

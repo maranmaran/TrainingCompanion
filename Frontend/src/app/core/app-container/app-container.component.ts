@@ -43,9 +43,9 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   constructor(
     public store: Store<AppState>,
-    private chatService: ChatService,
+    public chatService: ChatService,
     private notificationService: NotificationSignalrService,
-    private chatAdapter: SignalrNgChatAdapter,
+    public chatAdapter: SignalrNgChatAdapter,
     private route: ActivatedRoute,
     private uiService: UIService,
   ) {
@@ -99,11 +99,11 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   }
 
-  onLogout() {
+  onLogout(event) {
     this.store.dispatch(logout());
   }
 
-  onToggleSidebar() {
+  onToggleSidebar(event) {
     this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
   }
 

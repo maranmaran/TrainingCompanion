@@ -19,22 +19,14 @@
     </button>
   </div> -->
 
-  <div
-    class="training-label primary-background"
-
-    fxLayout="row" fxLayoutAlign="space-between center"
-
+  <div class="training-label primary-background" fxLayout="row" fxLayoutAlign="space-between center"
     [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
-    [matTooltipPosition]="'above'"
-
-    (mouseenter)="showPreview = true"
-    (mouseleave)="showPreview = false"
-
-    (press)="onPress()"
-    (click)="onClick($event)">
+    [matTooltipPosition]="'above'" (mouseenter)="showPreview = true" (mouseleave)="showPreview = false"
+    (press)="onPress()" (click)="onClick()">
 
     <!-- <mat-menu #trainingPreview="matMenu" [hasBackdrop]="false"> -->
-    <div class="preview-container theme-tooltip-background mat-elevation-z16" *ngIf="showPreview && training.exercises && training.exercises.length > 0">
+    <div class="preview-container theme-tooltip-background mat-elevation-z16"
+      *ngIf="showPreview && training.exercises && training.exercises.length > 0">
       <h5><b>Summary</b></h5>
       <mat-divider></mat-divider>
       <div class="exercise-preview-container">

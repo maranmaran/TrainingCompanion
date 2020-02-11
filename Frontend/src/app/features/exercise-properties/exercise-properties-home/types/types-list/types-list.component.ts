@@ -113,7 +113,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
     this.store.dispatch(reorderTagGroups({ previousItem, currentItem }));
   }
 
-  onAdd() {
+  onAdd(event) {
     const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
       height: 'auto',
       width: '98%',

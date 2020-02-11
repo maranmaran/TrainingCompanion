@@ -1,3 +1,4 @@
+import { NotImplementedComponent } from './../../../../shared/not-implemented/not-implemented.component';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
@@ -99,7 +100,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     this.store.dispatch(setSelectedExercise({ entity: exercise }));
   }
 
-  onAdd() {
+  onAdd(event) {
     var pagingModel = new PagingModel();
     this.exerciseTypeService.getPaged(this.userId, pagingModel).pipe(take(1))
       .subscribe((exerciseTypes: PagedList<ExerciseType>) => {
@@ -118,8 +119,12 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
               this.table.onSelect(exercise, true);
               // this.onSelect(exercise);
             }
-        });
+          });
       });
+  }
+
+  onUpdate(event) {
+    throw new Error("Not implemented");
   }
 
   onDeleteSingle(exercise: Exercise) {
