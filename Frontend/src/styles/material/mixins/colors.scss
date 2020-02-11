@@ -1,41 +1,40 @@
 @import "~@angular/material/theming";
 
 @mixin colors-theme($theme) {
+  // For completeness, here are the lists of the elements you can get from the different palettes: From the "primary" palette ($primary and $dark-p in my code above):
+  // default
+  // lighter
+  // darker
+  // You can also get these same three color values for the $accent and $warn palettes.
 
-//   For completeness, here are the lists of the elements you can get from the different palettes: From the "primary" palette ($primary and $dark-p in my code above):
-// default
-// lighter
-// darker
-// You can also get these same three color values for the $accent and $warn palettes.
+  // From the "foreground" palette ($light-foreground-palette and $dark-foreground-palette in my code above):
+  // base
+  // divider
+  // dividers
+  // disabled
+  // disabled-button
+  // disabled-text
+  // hint-text
+  // secondary-text
+  // icon
+  // icons
+  // text
+  // slider-off
+  // slider-off-active
 
-// From the "foreground" palette ($light-foreground-palette and $dark-foreground-palette in my code above):
-// base
-// divider
-// dividers
-// disabled
-// disabled-button
-// disabled-text
-// hint-text
-// secondary-text
-// icon
-// icons
-// text
-// slider-off
-// slider-off-active
-
-// From the "background" palette ($light-background-palette and $dark-background-palette in my code above):
-// status-bar
-// app-bar
-// background
-// hover
-// card
-// dialog
-// disabled-button
-// raised-button
-// focused-button
-// selected-button
-// selected-disabled-button
-// disabled-button-toggle
+  // From the "background" palette ($light-background-palette and $dark-background-palette in my code above):
+  // status-bar
+  // app-bar
+  // background
+  // hover
+  // card
+  // dialog
+  // disabled-button
+  // raised-button
+  // focused-button
+  // selected-button
+  // selected-disabled-button
+  // disabled-button-toggle
 
   //====================================================
   //===========BASIC THEME COLORS=======================
@@ -76,22 +75,22 @@
 
   // BASIC COLOR - FOREGROUNDS
   .primary-foreground {
-      color: $primary-default;
+    color: $primary-default;
   }
   .accent-foreground {
-      color: $accent-default;
+    color: $accent-default;
   }
   .warn-foreground {
-      color: $warn-default;
+    color: $warn-default;
   }
   .primary-foreground-lighter {
     color: $primary-lighter;
   }
   .accent-foreground-lighter {
-      color: $accent-lighter;
+    color: $accent-lighter;
   }
   .warn-foreground-lighter {
-      color: $warn-lighter;
+    color: $warn-lighter;
   }
   .primary-foreground-darker {
     color: $primary-darker;
@@ -144,7 +143,7 @@
     background: $theme-dialog;
   }
   .theme-tooltip-background {
-    background: rgba(93,93,93,1); // taken via inspect element.. same for light and dark theme
+    background: rgba(93, 93, 93, 1); // taken via inspect element.. same for light and dark theme
   }
 
   // THEME FOREGROUNDS
@@ -152,7 +151,6 @@
     color: $theme-text;
   }
   .theme-text-foreground-reversed {
-    color: $theme-text-reversed
+    color: $theme-text-reversed;
   }
-
 }
