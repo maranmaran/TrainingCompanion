@@ -32,13 +32,19 @@ export class TrainingCreateEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       title: string,
       action: CRUD,
-      day: moment.Moment
+      day: moment.Moment,
+      timeOnly: boolean
     }) { }
 
   form: FormGroup;
   request: CreateTrainingRequest | UpdateTrainingRequest;
 
   private _userId: string;
+
+  private dateTimeObj = {
+    date: this.data.day,
+    time: null
+  }
 
   ngOnInit() {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
@@ -53,10 +59,12 @@ export class TrainingCreateEditComponent implements OnInit {
     this.createForm();
   }
 
-  get dateTrained(): AbstractControl { return this.form.get('dateTrained'); }
+  get date(): AbstractControl { return this.form.get('date'); }
+  get time(): AbstractControl { return this.form.get('time'); }
   createForm() {
     this.form = new FormGroup({
-      dateTrained: new FormControl(this.request.dateTrained, Validators.required),
+      date: new FormControl(this.dateTimeObj.date, Validators.required),
+      time: new FormControl(this.dateTimeObj.time, Validators.required),
     });
   }
 

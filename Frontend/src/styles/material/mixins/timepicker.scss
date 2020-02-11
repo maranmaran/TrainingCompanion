@@ -1,0 +1,130 @@
+@import "~@angular/material/theming";
+
+@mixin timepicker-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  $foreground-palette: map-get($theme, foreground); //palette
+  $background-palette: map-get($theme, background); //palette
+
+  $theme-text: map-get($foreground-palette, text);
+
+  $theme-dialog: map-get($background-palette, dialog);
+  $theme-background: map-get($background-palette, background);
+  $theme-card: map-get($background-palette, card);
+
+  .ngx-timepicker {
+    border-bottom: none !important;
+
+    .ngx-timepicker-control--active:after, *:focus:after, button:focus:active:after, .period-control__button:not(.period-control__button--disabled):focus:after   {
+      border-bottom: none !important;
+      background-color: unset !important;
+    }
+
+    path {
+      fill: $theme-text !important; // svg color
+    }
+
+    .ngx-timepicker-control {
+      padding-left: 0px !important;
+    }
+
+    .period-selector {
+      background: $theme-dialog !important;
+      border-radius: 5% !important;
+      width: calc(100% + 10px) !important;
+      right: calc(-110%) !important;
+
+      &__button {
+        color: $theme-text !important;
+
+        &:focus {
+          background-color: lighten($theme-dialog, 5%) !important;
+        }
+
+        &--active {
+          color: mat-color($accent) !important;
+        }
+      }
+    }
+
+    .ngx-timepicker-control__input {
+      background: $theme-dialog;
+    }
+
+    .ngx-timepicker-control__arrow,
+    .period-control__arrow {
+      color: $theme-text !important;
+    }
+  }
+
+  .timepicker-overlay {
+    z-index: 1000 !important;
+  }
+
+
+  // clock component
+  .timepicker {
+
+    .timepicker-dial {
+      &__time {
+        color: $theme-text !important;
+      }
+
+      &__container {
+        justify-content: center !important;
+      }
+    }
+
+    .timepicker-period__btn {
+      color: $theme-text !important;
+
+      &:focus {
+        background-color: darken(mat-color($primary), 30%) !important;
+      }
+    }
+
+    .timepicker-button {
+      color: mat-color($accent) !important;
+    }
+
+    .clock-face {
+      background-color: $theme-card !important;
+
+      &__number {
+
+        > span {
+          cursor: pointer !important;
+          color: $theme-text !important;
+        }
+
+        > span.active {
+          background-color: mat-color($accent) !important;
+        }
+      }
+    }
+
+    &__header {
+      background-color: mat-color($primary) !important;
+    }
+    &__body {
+      background-color: $theme-background !important;
+    }
+    &__actions {
+      background-color: $theme-background !important;
+    }
+  }
+
+  //   container: {
+  //     bodyBackgroundColor: '#424242',
+  //     buttonColor: '#fff'
+  // },
+  // dial: {
+  //     dialBackgroundColor: '#555',
+  // },
+  // clockFace: {
+  //     clockFaceBackgroundColor: '#555',
+  //     clockHandColor: '#9fbd90',
+  //     clockFaceTimeInactiveColor: '#fff'
+  // }
+}

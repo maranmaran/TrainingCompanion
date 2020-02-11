@@ -1,4 +1,3 @@
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
@@ -24,6 +23,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -36,6 +36,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-hover';
 
 @NgModule({
@@ -77,7 +78,8 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
         MatTableModule,
         MatSortModule,
         MatPaginatorModule,
-        DragDropModule
+        DragDropModule,
+        NgxMaterialTimepickerModule
     ],
     declarations: [
         HighlightRowOnHover,
@@ -121,6 +123,7 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
         MatSortModule,
         MatPaginatorModule,
         HighlightRowOnHover,
+        NgxMaterialTimepickerModule
     ],
     providers: [
         { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true, strict: true } }
