@@ -136,7 +136,8 @@
   },
   "defaultProject": "Frontend",
   "cli": {
-    "defaultCollection": "@ngrx/schematics"
+    "defaultCollection": "@ngrx/schematics",
+    "analytics": false
   },
   "schematics": {
     "@schematics/angular:component": {
