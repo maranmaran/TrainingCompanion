@@ -110,9 +110,9 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
     const dialogRef = this.UIService.openDialogFromComponent(TrainingCreateEditComponent, {
       height: 'auto',
       width: '98%',
-      maxWidth: '20rem',
+      maxWidth: '18rem',
       autoFocus: false,
-      data: { title: 'Add training', action: CRUD.Create, day },
+      data: { title: `Add training on ${day.utc().format("DD, MMM")}`, action: CRUD.Create, day, timeOnly: true },
       panelClass: []
     });
 

@@ -5,12 +5,14 @@
 <div class="form" fxLayout="column">
     <form [formGroup]="form">
 
-      <mat-form-field>
+      <mat-form-field *ngIf="!data.timeOnly">
         <mat-label>Training date</mat-label>
         <input matInput [matDatepicker]="dp" [formControl]="dateTrained">
         <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
         <mat-datepicker #dp></mat-datepicker>
       </mat-form-field>
+
+      <ngx-timepicker-field [defaultTime]="'12:00 pm'"></ngx-timepicker-field>
 
     </form>
 </div>
