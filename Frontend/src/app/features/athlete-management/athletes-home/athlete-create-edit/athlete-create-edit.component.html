@@ -3,50 +3,43 @@
 <mat-divider class="dialog-form-divider"></mat-divider>
 
 <div class="form" fxLayout="column">
-    <form [formGroup]="form">
-      
-            <mat-form-field>
-              <input matInput formControlName="fullName" placeholder="Full name">
-              <mat-error *ngIf="fullName.invalid"></mat-error>
-            </mat-form-field>
+  <form [formGroup]="form">
 
-            <mat-form-field>
-              <input matInput formControlName="username" placeholder="Username">
-              <mat-error *ngIf="username.invalid">
-                  <div class="validation-error" *ngFor="let error of username.errors">{{error}}</div>
-              </mat-error>
-            </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="fullName" placeholder="Full name">
+      <mat-error *ngIf="fullName.invalid"></mat-error>
+    </mat-form-field>
 
-            <mat-form-field>
-              <input matInput formControlName="email" placeholder="Email" type="email">
-              <mat-error *ngIf="email.invalid">
-                <div class="validation-error" *ngFor="let error of email.errors">{{error}}</div>
-              </mat-error>
-            </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="username" placeholder="Username">
+      <mat-error *ngIf="username.invalid">
+        <div class="validation-error" *ngFor="let error of username.errors">{{error}}</div>
+      </mat-error>
+    </mat-form-field>
 
-            <div fxLayout="row" fxLayoutAlign="space-between">
-                <mat-slide-toggle 
-                *ngIf="data.action == 'Update'"
-                [color]="primary"
-                [checked]="this.athlete.active"
-                (change)="onActiveChange($event)">
-                {{ athlete.active ? 'Active' : 'Inactive' }}
-                </mat-slide-toggle>
-    
-                <mat-slide-toggle
-                  [color]="primary"
-                  [checked]="this.athlete.gender == 'Male'"
-                  (change)="onGenderChange($event)">
-                  {{ athlete.gender }}
-                </mat-slide-toggle>
-            </div>
-          
-      </form>
+    <mat-form-field>
+      <input matInput formControlName="email" placeholder="Email" type="email">
+      <mat-error *ngIf="email.invalid">
+        <div class="validation-error" *ngFor="let error of email.errors">{{error}}</div>
+      </mat-error>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <mat-slide-toggle *ngIf="data.action == 'Update'" color="primary" [checked]="this.athlete.active"
+        (change)="onActiveChange($event)">
+        {{ athlete.active ? 'Active' : 'Inactive' }}
+      </mat-slide-toggle>
+
+      <mat-slide-toggle color="primary" [checked]="this.athlete.gender == 'Male'" (change)="onGenderChange($event)">
+        {{ athlete.gender }}
+      </mat-slide-toggle>
+    </div>
+
+  </form>
 </div>
 
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-    <button  mat-button color="accent" (click)="onClose()">Close</button>
-    <button mat-stroked-button color="primary"(click)="onSubmit()"
-      [disabled]="!form.valid">{{ data.action == 'Create' ? 'Register' : 'Save' }}</button>
-  </div>
-  
+  <button mat-button color="accent" (click)="onClose()">Close</button>
+  <button mat-stroked-button color="primary" (click)="onSubmit()"
+    [disabled]="!form.valid">{{ data.action == 'Create' ? 'Register' : 'Save' }}</button>
+</div>

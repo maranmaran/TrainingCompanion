@@ -15,6 +15,8 @@ export class PushNotification {
 
   systemNotification: boolean;
 
+  sentAt: Date;
+
   receiverId: string;
   receiver: ApplicationUser;
 }

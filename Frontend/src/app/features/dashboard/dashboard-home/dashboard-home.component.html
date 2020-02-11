@@ -4,26 +4,12 @@
     <div fxLayout="column">
       <button *ngIf="dashboardEditMode" mat-stroked-button class="m-3" (click)="toggleSidenav()"
         (click)="onSaveDashboard()">Save customization</button>
-      <div
-        class="p-3 mb-4"
-        fxLayout="column"
-        fxLayoutAlign="center"
-        fxLayoutGap="1rem"
-        cdkDropList
-        #componentsList="cdkDropList"
-        [cdkDropListConnectedTo]="[trackOne, trackTwo, componentsList]"
-        [cdkDropListData]="mainDashboardComponents"
-        (cdkDropListDropped)="drop($event)"
-        (cdkDragStarted)="dragStart($event)"
-        (cdkDragEntered)="dragEnter($event)"
-        (cdkDragEnded)="dragEnd($event)">
-        <div
-          *ngFor="let component of mainDashboardComponents"
-          [innerHtml]="sidebarCards[component.component]"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          cdkDrag
-          (cdkDragEntered)="dragEnter($event)"
+      <div class="p-3 mb-4" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem" cdkDropList
+        #componentsList="cdkDropList" [cdkDropListConnectedTo]="[trackOne, trackTwo, componentsList]"
+        [cdkDropListData]="mainDashboardComponents" (cdkDropListDropped)="drop($event)"
+        (cdkDragEntered)="dragEnter($event)" (cdkDragEnded)="dragEnd($event)">
+        <div *ngFor="let component of mainDashboardComponents" [innerHtml]="sidebarCards[component.component]"
+          fxLayout="column" fxLayoutAlign="start" cdkDrag (cdkDragEntered)="dragEnter($event)"
           (cdkDragEnded)="dragEnd($event)">
         </div>
       </div>
@@ -38,51 +24,26 @@
         dashboard</button>
     </div>
 
-    <div
-      class="board h-100 pl-2 pr-2"
-      fxLayout="row" fxLayoutAlign="space-between start"
-      fxLayout.xs="column"
-    >
+    <div class="board h-100 pl-2 pr-2" fxLayout="row" fxLayoutAlign="space-between start" fxLayout.xs="column">
 
       <!--TRACK ONE-->
-      <div
-        id="track1"
-        cdkDropList
-        #trackOne="cdkDropList"
-        [cdkDropListConnectedTo]="[trackTwo, componentsList]"
-        [cdkDropListData]="tracks[0]?.items"
-        (cdkDropListDropped)="drop($event, 0)"
-        fxFlex="1 1 calc(50% - 1rem)" fxLayout="row wrap" fxLayoutAlign="space-between start"
-        fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
-        class="h-100"
-        >
-          <ndc-dynamic
-            *ngFor="let item of tracks[0]?.items"
-            [ndcDynamicComponent]="dashboardCards[item.component]"
-            [ndcDynamicAttributes]="attrs"
-            [ndcDynamicDirectives]="dirs"
-          ></ndc-dynamic>
-          <!-- <ng-template *ngFor="let item of tracks[0]?.items" appDashboardOutlet [item]="item"></ng-template> -->
+      <div id="track1" cdkDropList #trackOne="cdkDropList" [cdkDropListConnectedTo]="[trackTwo, componentsList]"
+        [cdkDropListData]="tracks[0]?.items" (cdkDropListDropped)="drop($event, 0)" fxFlex="1 1 calc(50% - 1rem)"
+        fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
+        class="h-100">
+        <ndc-dynamic *ngFor="let item of tracks[0]?.items" [ndcDynamicComponent]="dashboardCards[item.component]"
+          [ndcDynamicAttributes]="attrs" [ndcDynamicDirectives]="dirs"></ndc-dynamic>
+        <!-- <ng-template *ngFor="let item of tracks[0]?.items" appDashboardOutlet [item]="item"></ng-template> -->
       </div>
 
       <!--TRACK TWO-->
-      <div
-        id="track2"
-        cdkDropList
-        #trackTwo="cdkDropList"
-        [cdkDropListConnectedTo]="[trackOne, componentsList]"
-        [cdkDropListData]="tracks[1]?.items"
-        (cdkDropListDropped)="drop($event, 1)"
-        fxFlex="1 1 calc(50% - 1rem)" fxLayout="row wrap" fxLayoutAlign="space-between start"
-        fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
+      <div id="track2" cdkDropList #trackTwo="cdkDropList" [cdkDropListConnectedTo]="[trackOne, componentsList]"
+        [cdkDropListData]="tracks[1]?.items" (cdkDropListDropped)="drop($event, 1)" fxFlex="1 1 calc(50% - 1rem)"
+        fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
         class="h-100">
-          <ndc-dynamic
-            *ngFor="let item of tracks[1]?.items"
-            [ndcDynamicComponent]="dashboardCards[item.component]"
-            [ndcDynamicAttributes]="attrs"
-            [ndcDynamicDirectives]="dirs"
-          ></ndc-dynamic>
-          <!-- <ng-template *ngFor="let item of tracks[1]?.items" appDashboardOutlet [item]="item"></ng-template> -->
+        <ndc-dynamic *ngFor="let item of tracks[1]?.items" [ndcDynamicComponent]="dashboardCards[item.component]"
+          [ndcDynamicAttributes]="attrs" [ndcDynamicDirectives]="dirs"></ndc-dynamic>
+        <!-- <ng-template *ngFor="let item of tracks[1]?.items" appDashboardOutlet [item]="item"></ng-template> -->
       </div>
     </div>
 

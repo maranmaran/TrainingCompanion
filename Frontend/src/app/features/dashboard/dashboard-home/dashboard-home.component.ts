@@ -74,7 +74,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
         this.tracks = tracks;
         // this.cd.detectChanges();
         // this.loadContents();
-    }));
+      }));
   }
 
   ngOnDestroy() {
@@ -126,12 +126,12 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   dashboardUpdated = false;
-  drop(event: CdkDragDrop<TrackItem[]>, trackIdx: number) {
+  drop(event: CdkDragDrop<TrackItem[]>, trackIdx: number = null) {
 
     // if (event.previousContainer === event.container) {
     //   // moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     // } else {
-    if(event.previousContainer != event.container) {
+    if (event.previousContainer != event.container) {
       this.dashboardUpdated = true;
       const item = event.previousContainer.data[event.previousIndex];
       this.dashboardService.addItem(item, trackIdx);
@@ -145,7 +145,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   onSaveDashboard() {
-    if(this.dashboardUpdated) {
+    if (this.dashboardUpdated) {
       this.dashboardService.saveMainDashboard(this.tracks);
     }
   }
@@ -163,7 +163,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
-  dragEnd() {
+  dragEnd(event) {
     this.dropLists.filter(list => list.element.nativeElement.classList.contains('theme-hover-background')).forEach(droplist => {
       this.renderer.removeClass(droplist.element.nativeElement, 'theme-hover-background')
     });

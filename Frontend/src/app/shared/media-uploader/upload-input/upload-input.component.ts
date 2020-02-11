@@ -20,7 +20,7 @@ export class UploadInputComponent {
   }
 
   uploadMedia(files: FileList) {
-    if(files.item(0)) {
+    if (files.item(0)) {
       this.fileUploaded.emit(files.item(0));
       this.uploadInput.nativeElement.value = '';
     }
