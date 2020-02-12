@@ -1,6 +1,61 @@
 @import "~@angular/material/theming";
 
+//lightness 0darkest 100lightest
+@function get-darker-color($color) {
+ 
+  // if light.. darken more
+  @if (lightness($color) > 50) { 
+    @return darken($color, 5%); 
+  } 
+
+  @return $color;
+}
+
+@function get-conditioned-text-color($background, $lightness-condition, $invert-on-light, $current-text-color) {
+  $inverted-text-color: invert($current-text-color);
+
+  $light: false;
+  $result: $current-text-color;
+  
+  @if (lightness($background) > $lightness-condition) {
+    $light: true;
+  }
+  
+  // light and invert
+  @if ($invert-on-light and $light) {
+    @return green;
+    // @return $inverted-text-color;
+  } 
+
+  @if ($invert-on-light == false and $light) {
+    @return blue;
+    // @return $current-text-color;
+  } 
+
+  // dark and invert
+  @if ($invert-on-light and $light == false) {
+    @return yellow;
+    // @return $current-text-color;
+  } 
+
+  @if ($invert-on-light == false and $light == false) {
+    @return red;
+    // @return $inverted-text-color;
+  } 
+}
+
+@function enchance-brightness($background, $percentage) {
+  @if (lightness($background) < 50) { // dark
+    @return lighten($background, $percentage); 
+  } @else { // light
+    @return darken($background, $percentage);
+  }
+}
+
+
 @mixin timepicker-component-theme($theme) {
+
+
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
@@ -13,6 +68,8 @@
   $theme-background: map-get($background-palette, background);
   $theme-card: map-get($background-palette, card);
 
+
+  // component with manual inputs -- this actually wraps everything
   .ngx-timepicker {
     border-bottom: none !important;
 
@@ -58,17 +115,22 @@
     }
   }
 
+  // backdrop behind clock component
   .timepicker-overlay {
     z-index: 1000 !important;
   }
 
-
   // clock component
   .timepicker {
+    // --clock-hand-color: mat-color($accent) !important;
+    --clock-hand-color: red;
 
+    // UPPER DIAL
     .timepicker-dial {
+
       &__time {
-        color: $theme-text !important;
+        // color: $theme-text !important;
+        color: get-conditioned-text-color(mat-color($primary), 50, true, $theme-text) !important;
       }
 
       &__container {
@@ -77,29 +139,34 @@
     }
 
     .timepicker-period__btn {
-      color: $theme-text !important;
+      // color: $theme-text !important;
+      color: get-conditioned-text-color(mat-color($primary), 50, true, $theme-text) !important;
+
 
       &:focus {
-        background-color: darken(mat-color($primary), 30%) !important;
+        background-color: enchance-brightness(mat-color($primary), 30%) !important;
       }
     }
 
+    // Bottom - CANCEL OK buttons
     .timepicker-button {
       color: mat-color($accent) !important;
     }
 
     .clock-face {
-      background-color: $theme-card !important;
+      background-color: get-darker-color($theme-card) !important;
 
       &__number {
 
-        > span {
+        &--outer > span, > span {
           cursor: pointer !important;
-          color: $theme-text !important;
+          // color: white !important;
+          color: get-conditioned-text-color(mat-color($accent), 50, true, $theme-text) !important;
         }
 
         > span.active {
           background-color: mat-color($accent) !important;
+          color: get-conditioned-text-color(mat-color($accent), 50, true, $theme-text) !important;
         }
       }
     }
@@ -114,17 +181,4 @@
       background-color: $theme-background !important;
     }
   }
-
-  //   container: {
-  //     bodyBackgroundColor: '#424242',
-  //     buttonColor: '#fff'
-  // },
-  // dial: {
-  //     dialBackgroundColor: '#555',
-  // },
-  // clockFace: {
-  //     clockFaceBackgroundColor: '#555',
-  //     clockHandColor: '#9fbd90',
-  //     clockFaceTimeInactiveColor: '#fff'
-  // }
 }
