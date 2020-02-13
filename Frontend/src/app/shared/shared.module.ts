@@ -31,6 +31,7 @@ import { MessageDialogComponent } from './message-dialog/message-dialog.componen
 import { NotImplementedComponent } from './not-implemented/not-implemented.component';
 import { NotificationItemComponent } from './notification-item/notification-item.component';
 import { NotificationTypeIconComponent } from './notification-item/notification-type-icon/notification-type-icon.component';
+import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         TrainingMonthViewDayComponent,
         ChartComponent,
         NotificationTypeIconComponent,
-        TestCardComponent
+        TestCardComponent,
+        ApplyTimezonePipe,
     ],
     exports: [
         CommonModule,
@@ -115,7 +117,8 @@ import { NotificationTypeIconComponent } from './notification-item/notification-
         TrainingMonthViewDayComponent,
         ChartComponent,
         NotificationTypeIconComponent,
-        TestCardComponent
+        TestCardComponent,
+        ApplyTimezonePipe
     ],
     providers: [
     ],
