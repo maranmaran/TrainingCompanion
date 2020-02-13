@@ -41,15 +41,15 @@
 
     <div class="training-label__cover" #actionsTrigger="matMenuTrigger" [matMenuTriggerFor]="actionsMenu"></div>
 
-    <label> {{ training.dateTrained | date:'shortTime' }} </label>
+    <label> {{ training.dateTrained | applyTimezone | date:'shortTime' }} </label>
     <div id="actions" fxHide.xs fxLayout="row" fxLayoutAlign="space-evenly">
 
-      <button mat-icon-button color="accent" (click)="onCopy()" [matTooltip]="'Copy training'"
+      <button mat-icon-button color="accent" (click)="onCopy($event)" [matTooltip]="'Copy training'"
         [matTooltipPosition]="'right'">
         <i class="fas fa-copy accent-foreground"></i>
       </button>
 
-      <button mat-icon-button color="accent" (click)="onDelete()" [matTooltip]="'Delete training'"
+      <button mat-icon-button color="accent" (click)="onDelete($event)" [matTooltip]="'Delete training'"
         [matTooltipPosition]="'right'">
         <i class="fas fa-trash accent-foreground"></i>
       </button>
@@ -60,12 +60,12 @@
   <!-- MOBILE VIEW ACTIONS -->
   <mat-menu #actionsMenu="matMenu" [hasBackdrop]="false">
     <div fxLayout="column">
-      <button mat-menu-item (click)="onCopy()">
+      <button mat-menu-item (click)="onCopy($event)">
         <i class="fas fa-copy accent-foreground"></i>
         <span class="ml-2">Copy training</span>
       </button>
 
-      <button mat-menu-item (click)="onDelete()">
+      <button mat-menu-item (click)="onDelete($event)">
         <i class="fas fa-trash accent-foreground"></i>
         <span class="ml-2">Delete training</span>
       </button>

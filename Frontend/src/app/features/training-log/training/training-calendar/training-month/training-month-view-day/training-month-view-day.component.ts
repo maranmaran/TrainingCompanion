@@ -83,7 +83,9 @@ export class TrainingMonthViewDayComponent implements OnInit {
 
   }
 
-  onClick() {
+  onClick(event) {
+    event.preventDefault();
+
     if (!this.pressEvent) {
       if (this.isMobile && this.actionsTrigger.menuOpen) {
         this.actionsTrigger.closeMenu();
@@ -93,7 +95,8 @@ export class TrainingMonthViewDayComponent implements OnInit {
     }
   }
 
-  onCopy() {
+  onCopy(event) {
+    event.preventDefault();
 
   }
 

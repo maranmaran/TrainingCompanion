@@ -37,25 +37,15 @@ export class TrainingCreateEditComponent implements OnInit {
     }) { }
 
   form: FormGroup;
-  request: CreateTrainingRequest | UpdateTrainingRequest;
-
   private _userId: string;
 
   private dateTimeObj = {
     date: this.data.day,
-    time: null
+    time: '12:00 PM'
   }
 
   ngOnInit() {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
-
-    // setup request
-    if (this.data.action == CRUD.Create) {
-      this.request = new CreateTrainingRequest();
-      this.request.dateTrained = this.data.day.utc().format();
-      this.request.applicationUserId = this._userId;
-    }
-
     this.createForm();
   }
 
@@ -63,22 +53,27 @@ export class TrainingCreateEditComponent implements OnInit {
   get time(): AbstractControl { return this.form.get('time'); }
   createForm() {
     this.form = new FormGroup({
-      date: new FormControl(this.dateTimeObj.date, Validators.required),
+      date: new FormControl(this.data.day.utc().format('L'), Validators.required),
       time: new FormControl(this.dateTimeObj.time, Validators.required),
     });
   }
 
   onSubmit() {
-    if (this.form.valid)
-      this.createEntity();
+    if (!this.form.valid)
+      return;
+    
+    const request = new CreateTrainingRequest();
+    request.applicationUserId = this._userId;
+    request.dateTrained = moment(this.date.value + ' ' + this.time.value, 'L HH:mm').toDate().toUTCString();
+    this.createEntity(request);
   }
 
   onClose(training?: Training) {
     this.dialogRef.close(training);
   }
 
-  createEntity() {
-    this.trainingService.create(this.request).pipe(take(1))
+  createEntity(request: CreateTrainingRequest) {
+    this.trainingService.create(request).pipe(take(1))
       .subscribe(
         (training: Training) => {
           this.store.dispatch(trainingCreated({ entity: training }))
