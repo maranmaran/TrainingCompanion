@@ -19,37 +19,44 @@
     </button>
   </div> -->
 
-  <div class="training-label primary-background" fxLayout="row" fxLayoutAlign="space-between center"
+  <div 
+    class="training-label primary-background" 
+    fxLayout="row" fxLayoutAlign="space-between center"
+    
     [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
-    [matTooltipPosition]="'above'" (mouseenter)="showPreview = true" (mouseleave)="showPreview = false"
-    (press)="onPress()" (click)="onClick()">
+    [matTooltipPosition]="'above'" 
+    
+    (mouseenter)="showPreview = true" 
+    (mouseleave)="showPreview = false"
+    
+    (press)="onPress()" 
+    (click)="onClick()">
 
-    <!-- <mat-menu #trainingPreview="matMenu" [hasBackdrop]="false"> -->
+    <!--SUMMARY PREVIEW - TODO put in component or ng-template -->
     <div class="preview-container theme-tooltip-background mat-elevation-z16"
       *ngIf="showPreview && training.exercises && training.exercises.length > 0">
       <h5><b>Summary</b></h5>
       <mat-divider></mat-divider>
       <div class="exercise-preview-container">
         <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
-          <div>
-            {{i + 1}}. {{exercise.exerciseType.name}}
-          </div>
+            <label>{{i + 1}}. {{exercise.exerciseType.name}}</label>
         </ng-container>
       </div>
     </div>
-    <!-- </mat-menu> -->
 
+    <!--ACTIONS MENU FOR MOBILE VIEW - ON LONG PRESS -->
     <div class="training-label__cover" #actionsTrigger="matMenuTrigger" [matMenuTriggerFor]="actionsMenu"></div>
 
-    <label> {{ training.dateTrained | applyTimezone | date:'shortTime' }} </label>
+
+    <label style="cursor: pointer;"> {{ training.dateTrained | applyTimezone | date:'shortTime' }} </label>
     <div id="actions" fxHide.xs fxLayout="row" fxLayoutAlign="space-evenly">
 
-      <button mat-icon-button color="accent" (click)="onCopy($event)" [matTooltip]="'Copy training'"
+      <button mat-icon-button color="accent" (click)="onCopy()" (click)="$event.stopPropagation()" [matTooltip]="'Copy training'"
         [matTooltipPosition]="'right'">
         <i class="fas fa-copy accent-foreground"></i>
       </button>
 
-      <button mat-icon-button color="accent" (click)="onDelete($event)" [matTooltip]="'Delete training'"
+      <button mat-icon-button color="accent" (click)="onDelete()" (click)="$event.stopPropagation()" [matTooltip]="'Delete training'"
         [matTooltipPosition]="'right'">
         <i class="fas fa-trash accent-foreground"></i>
       </button>

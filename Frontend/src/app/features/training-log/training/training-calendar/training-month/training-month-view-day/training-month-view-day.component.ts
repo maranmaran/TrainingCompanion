@@ -46,8 +46,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
     // open copy dialog...
   }
 
-  onDelete(pressEvent) {
-    event.preventDefault();
+  onDelete() {
 
     this.deleteDialogConfig.message =
       `<p>Are you sure you wish to delete training on ${moment(this.training.dateTrained).format('L')} ?</p>
@@ -95,9 +94,8 @@ export class TrainingMonthViewDayComponent implements OnInit {
     }
   }
 
-  onCopy(event) {
-    event.preventDefault();
-
+  onCopy() {
+    console.log("COPY");
   }
 
   onDeleteClick() {
