@@ -11,37 +11,21 @@
   @return $color;
 }
 
-@function get-conditioned-text-color($background, $lightness-condition, $invert-on-light, $current-text-color) {
-  $inverted-text-color: invert($current-text-color);
+@function get-conditioned-text-color($background) {
 
-  $light: false;
-  $result: $current-text-color;
-  
-  @if (lightness($background) > $lightness-condition) {
-    $light: true;
+  $original: white;
+  $inverted: black;
+
+  $condition: false;
+  @if (lightness($background) > 60) {
+    $condition: true;
   }
-  
-  // light and invert
-  @if ($invert-on-light and $light) {
-    @return green;
-    // @return $inverted-text-color;
-  } 
 
-  @if ($invert-on-light == false and $light) {
-    @return blue;
-    // @return $current-text-color;
-  } 
+  @if($condition) {
+    @return $inverted;
+  }
 
-  // dark and invert
-  @if ($invert-on-light and $light == false) {
-    @return yellow;
-    // @return $current-text-color;
-  } 
-
-  @if ($invert-on-light == false and $light == false) {
-    @return red;
-    // @return $inverted-text-color;
-  } 
+  @return $original;
 }
 
 @function enchance-brightness($background, $percentage) {
@@ -51,7 +35,6 @@
     @return darken($background, $percentage);
   }
 }
-
 
 @mixin timepicker-component-theme($theme) {
 
@@ -123,14 +106,15 @@
   // clock component
   .timepicker {
     // --clock-hand-color: mat-color($accent) !important;
-    --clock-hand-color: red;
+    $accentColor: mat-color($accent);
+    --clock-hand-color:  #{$accentColor};
 
     // UPPER DIAL
     .timepicker-dial {
 
       &__time {
         // color: $theme-text !important;
-        color: get-conditioned-text-color(mat-color($primary), 50, true, $theme-text) !important;
+        color: get-conditioned-text-color(mat-color($primary)) !important;
       }
 
       &__container {
@@ -140,7 +124,7 @@
 
     .timepicker-period__btn {
       // color: $theme-text !important;
-      color: get-conditioned-text-color(mat-color($primary), 50, true, $theme-text) !important;
+      color: get-conditioned-text-color(mat-color($primary)) !important;
 
 
       &:focus {
@@ -161,12 +145,12 @@
         &--outer > span, > span {
           cursor: pointer !important;
           // color: white !important;
-          color: get-conditioned-text-color(mat-color($accent), 50, true, $theme-text) !important;
+          color: get-conditioned-text-color(get-darker-color($theme-card)) !important;
         }
 
         > span.active {
           background-color: mat-color($accent) !important;
-          color: get-conditioned-text-color(mat-color($accent), 50, true, $theme-text) !important;
+          color: get-conditioned-text-color(mat-color($accent)) !important;
         }
       }
     }
