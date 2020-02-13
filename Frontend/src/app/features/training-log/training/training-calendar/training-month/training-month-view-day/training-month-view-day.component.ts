@@ -46,7 +46,8 @@ export class TrainingMonthViewDayComponent implements OnInit {
     // open copy dialog...
   }
 
-  onDelete() {
+  onDelete(pressEvent) {
+    event.preventDefault();
 
     this.deleteDialogConfig.message =
       `<p>Are you sure you wish to delete training on ${moment(this.training.dateTrained).format('L')} ?</p>
@@ -83,8 +84,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
 
   }
 
-  onClick(event) {
-    event.preventDefault();
+  onClick() {
 
     if (!this.pressEvent) {
       if (this.isMobile && this.actionsTrigger.menuOpen) {
@@ -101,6 +101,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
   }
 
   onDeleteClick() {
+
     this.trainingService.delete(this.training.id).pipe(take(1))
       .subscribe(
         () => this.store.dispatch(trainingDeleted({ id: this.training.id })),
