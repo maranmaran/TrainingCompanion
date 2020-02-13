@@ -32,7 +32,8 @@ export class TrainingMonthViewDayComponent implements OnInit {
     private store: Store<AppState>,
     private trainingService: TrainingService,
     private uiService: UIService,
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
     this.store.select(isMobile).pipe(take(1)).subscribe((isMobile: boolean) => this.isMobile = isMobile);

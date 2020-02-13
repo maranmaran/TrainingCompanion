@@ -112,6 +112,10 @@
     // UPPER DIAL
     .timepicker-dial {
 
+      &__period--hidden {
+        display: none !important;
+      }
+
       &__time {
         // color: $theme-text !important;
         color: get-conditioned-text-color(mat-color($primary)) !important;
@@ -165,4 +169,36 @@
       background-color: $theme-background !important;
     }
   }
+
+  // placement of controls
+
+  .ngx-timepicker {
+    justify-content: center !important;
+    
+    .ngx-timepicker-control {
+      position: unset !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+
+      &__arrows {
+        position: unset !important;
+      }
+      &__input {
+        padding: 0 !important;
+      }
+      &__time-colon {
+        margin: 0 !important;
+      }
+    }
+
+    .ngx-material-timepicker-toggle {
+      position: unset !important;
+      margin-left: 1rem;
+      > span {
+        display: flex !important;
+      }
+    }
+  }
+  
 }
