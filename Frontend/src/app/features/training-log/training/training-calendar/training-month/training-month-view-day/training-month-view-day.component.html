@@ -19,17 +19,17 @@
     </button>
   </div> -->
 
-  <div 
-    class="training-label primary-background" 
+  <div
+    class="training-label primary-background"
     fxLayout="row" fxLayoutAlign="space-between center"
-    
+
     [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
-    [matTooltipPosition]="'above'" 
-    
-    (mouseenter)="showPreview = true" 
+    [matTooltipPosition]="'above'"
+
+    (mouseenter)="showPreview = true"
     (mouseleave)="showPreview = false"
-    
-    (press)="onPress()" 
+
+    (press)="onPress()"
     (click)="onClick()">
 
     <!--SUMMARY PREVIEW - TODO put in component or ng-template -->
@@ -37,7 +37,7 @@
       *ngIf="showPreview && training.exercises && training.exercises.length > 0">
       <h5><b>Summary</b></h5>
       <mat-divider></mat-divider>
-      <div class="exercise-preview-container">
+      <div class="exercise-preview-container" fxLayout="column">
         <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
             <label>{{i + 1}}. {{exercise.exerciseType.name}}</label>
         </ng-container>

@@ -98,7 +98,7 @@ export class TrainingWeekComponent implements OnInit {
 
   onAddEvent(day: moment.Moment) {
     const request = new CreateTrainingRequest();
-    request.dateTrained = day.utc().format();
+    // request.dateTrained = day.utc().format();
     request.applicationUserId = this.userId;
 
     this.trainingService.create(request).pipe(take(1))

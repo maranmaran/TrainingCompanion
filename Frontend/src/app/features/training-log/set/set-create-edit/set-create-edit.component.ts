@@ -64,7 +64,6 @@ export class SetCreateEditComponent implements OnInit {
       )
     });
 
-    console.log(this.setFormGroups);
   }
 
   addGroup(set: Set = null) {
