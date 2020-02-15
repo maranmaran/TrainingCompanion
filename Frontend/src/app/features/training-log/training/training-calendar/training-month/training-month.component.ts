@@ -36,6 +36,7 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    setTimeout(() => this.store.dispatch(setSelectedTraining(null))); // undo selected training for certain
 
     this.calendarConfig = this.getConfig();
 
