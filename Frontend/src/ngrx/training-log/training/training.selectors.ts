@@ -2,7 +2,6 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromTraining from './training.reducers';
 import { TrainingState } from './training.state';
 
-
 export const selectTrainingState = createFeatureSelector<TrainingState>("training");
 
 export const trainingIds = createSelector(
@@ -17,7 +16,7 @@ export const trainingEntities = createSelector(
 
 export const trainings = createSelector(
     selectTrainingState,
-    fromTraining.selectAll
+    fromTraining.selectAll,
 );
 
 export const trainingsForMonth = createSelector(
