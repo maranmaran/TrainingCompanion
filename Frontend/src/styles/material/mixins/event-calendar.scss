@@ -39,14 +39,14 @@
       .date {
         border: 1px solid $border;
 
-        .add-button {
+        .add-button, .small-add-button {
           visibility: hidden;
         }
       }
       .date:hover {
         background: rgba($border, 0.06);
 
-        .add-button {
+        .add-button, .small-add-button {
           visibility: visible;
         }
       }
@@ -78,6 +78,12 @@
           width: 50px !important;
         }
       }
+    }
+
+    .small-add-button {
+      position: relative;
+      top: 5px;
+      right: 5px;
     }
 
     .controls {
@@ -162,6 +168,10 @@
           }
         }
       }
+    }
+
+    .small-add-button {
+      visibility: visible !important;
     }
 
     calendar-week-view {

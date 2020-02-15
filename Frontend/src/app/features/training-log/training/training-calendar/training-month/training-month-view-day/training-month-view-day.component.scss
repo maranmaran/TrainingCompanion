@@ -47,3 +47,12 @@
     margin-left: 5px;
   }
 }
+
+@media(max-width: 600px) {
+  .training-label {
+    width: calc(100% - 1px);
+    label {
+      margin-left: 0px;
+    }
+  }
+}

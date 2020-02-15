@@ -26,9 +26,18 @@
                 (click)="selectDay(calDay)"
                 >
 
-                    <label [ngClass]=" belongsToThisMonth(calDay.day, currentDay) ? 'day-label' : 'not-relevant-day-label' ">
-                        {{ displayDateDay(calDay.day) }}
-                    </label>
+                    <div class="top-label" fxLayout="row" fxLayoutAlign="space-between center">
+
+                      <label [ngClass]=" belongsToThisMonth(calDay.day, currentDay) ? 'day-label' : 'not-relevant-day-label' ">
+                          {{ displayDateDay(calDay.day) }}
+                      </label>
+
+                      <button *ngIf="calDay.events.length > 0" class="small-add-button" (click)="add(calDay.day)"
+                        mat-icon-button color="accent" button-size size="20px">
+                        <i class="fas fa-plus"></i>
+
+                    </button>
+                  </div>
 
                     <div class="day-content" fxLayout="column" fxLayoutAlign="center center">
 

@@ -49,12 +49,8 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
     });
 
     // subscribe to changes
-    this.subsink.add(this.store.select(trainings).subscribe(
-      (trainings: Training[]) => {
-        this.inputData.next(this.parseTrainingsForCalendar(trainings));
-      }
-    ));
-
+    this.subsink.add(this.store.select(trainings)
+    .subscribe((trainings: Training[]) => this.inputData.next(this.parseTrainingsForCalendar(trainings))));
   }
 
   getConfig(): CalendarConfig {
@@ -97,7 +93,9 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
     if (!trainings) { return []; }
 
     const events = trainings.map(training => {
-      const calendarEvent = new CalendarEvent(moment(training.dateTrained));
+      let date = moment(training.dateTrained);
+
+      const calendarEvent = new CalendarEvent(date);
       calendarEvent.event = training;
 
       return calendarEvent;
