@@ -13,7 +13,6 @@ import { trainingCreated } from 'src/ngrx/training-log/training/training.actions
 import { Training } from 'src/server-models/entities/training.model';
 import { TrainingService } from './../../../../../business/services/feature-services/training.service';
 import { CreateTrainingRequest } from './../../../../../server-models/cqrs/training/requests/create-training.request';
-import { UpdateTrainingRequest } from './../../../../../server-models/cqrs/training/requests/update-training.request';
 
 @Component({
   selector: 'app-training-create-edit',
@@ -61,10 +60,10 @@ export class TrainingCreateEditComponent implements OnInit {
   onSubmit() {
     if (!this.form.valid)
       return;
-    
+
     const request = new CreateTrainingRequest();
     request.applicationUserId = this._userId;
-    request.dateTrained = moment(this.date.value + ' ' + this.time.value, 'L HH:mm').toDate().toUTCString();
+    request.dateTrained = moment(this.date.value + ' ' + this.time.value, 'L HH:mm').toDate();
     this.createEntity(request);
   }
 

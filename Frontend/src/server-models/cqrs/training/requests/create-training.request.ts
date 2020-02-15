@@ -1,4 +1,4 @@
 export class CreateTrainingRequest {
-    dateTrained: string;
+    dateTrained: Date;
     applicationUserId: string;
 }
