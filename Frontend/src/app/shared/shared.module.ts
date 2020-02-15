@@ -5,7 +5,9 @@ import { RouterModule } from '@angular/router';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DynamicModule } from 'ng-dynamic-component';
 import { AvatarModule } from 'ngx-avatar';
+import { ButtonSizeDirective } from 'src/business/directives/button-size.directive';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
+import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
@@ -31,7 +33,6 @@ import { MessageDialogComponent } from './message-dialog/message-dialog.componen
 import { NotImplementedComponent } from './not-implemented/not-implemented.component';
 import { NotificationItemComponent } from './notification-item/notification-item.component';
 import { NotificationTypeIconComponent } from './notification-item/notification-type-icon/notification-type-icon.component';
-import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
         NotificationTypeIconComponent,
         TestCardComponent,
         ApplyTimezonePipe,
+        ButtonSizeDirective
     ],
     exports: [
         CommonModule,
@@ -118,7 +120,8 @@ import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
         ChartComponent,
         NotificationTypeIconComponent,
         TestCardComponent,
-        ApplyTimezonePipe
+        ApplyTimezonePipe,
+        ButtonSizeDirective
     ],
     providers: [
     ],

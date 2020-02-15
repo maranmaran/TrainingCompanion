@@ -1,7 +1,6 @@
-import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { Training } from 'src/server-models/entities/training.model';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { Exercise } from 'src/server-models/entities/exercise.model';
-
+import { Training } from 'src/server-models/entities/training.model';
 
 // Exercise property type ENTITY
 export interface TrainingState extends EntityState<Training> {
@@ -9,8 +8,13 @@ export interface TrainingState extends EntityState<Training> {
     selectedExerciseId: string | number,
 }
 
+//sort function
+export function sortByDate(a: Training, b: Training): number {
+  return (new Date(a.dateTrained).getTime() - new Date(b.dateTrained).getTime()) > 0 ? 1 : (new Date(a.dateTrained).getTime() - new Date(b.dateTrained).getTime()) < 0 ? -1 : 0;
+}
+
 // ADAPTERS
-export const adapterTraining = createEntityAdapter<Training>({});
+export const adapterTraining = createEntityAdapter<Training>({sortComparer: sortByDate});
 export const adapterExercise = createEntityAdapter<Exercise>({});
 
 // INITIAL STATES
