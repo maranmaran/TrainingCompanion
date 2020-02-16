@@ -1,10 +1,14 @@
 import { Guid } from 'guid-typescript';
+import { from } from 'rxjs';
+import { map, tap, toArray } from 'rxjs/operators';
 import { backgroundColors, colorHelpers, fontColor, MyChartConfiguration } from 'src/app/shared/charts/chart.helpers';
 import { Theme } from 'src/business/shared/theme.enum';
 import { ChartData } from 'src/server-models/entities/chart-data';
 import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
 
 export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitSystem: UnitSystem}, chartData: ChartData<number>,): MyChartConfiguration {
+
+    from(chartData.dataSets[2].data).pipe(toArray(), tap(console.log), map(data => { x: data[0]; y: data[1] })).subscribe(arr => console.log(arr));
 
     return {
       generationId: Guid.create(),
@@ -18,6 +22,7 @@ export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitS
             fill: false,
             borderColor: backgroundColors(2, 3, setting.theme)[0],
             backgroundColor: backgroundColors(2, 3, setting.theme)[0],
+            yAxisID: 'peak-int'
           },
           {
             type: 'line',
@@ -26,6 +31,7 @@ export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitS
             fill: false,
             borderColor: backgroundColors(1, 2, setting.theme)[0],
             backgroundColor: backgroundColors(1, 2, setting.theme)[0],
+            yAxisID: 'avg-int'
           },
           {
             label: 'Total volume',
@@ -33,6 +39,7 @@ export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitS
             barThickness: 10,
             maxBarThickness: 20,
             backgroundColor: backgroundColors(0, 1, setting.theme)[0],
+            yAxisID: 'total-vol',
           },
         ],
         labels: chartData.labels
@@ -73,34 +80,42 @@ export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitS
           // intersect: true
         },
         scales: {
-          xAxes: [{
-            display: true,
-            scaleLabel: {
+          xAxes: [
+            {
               display: true,
-              fontColor: fontColor(setting.theme)
+              scaleLabel: {
+                display: true,
+                fontColor: fontColor(setting.theme)
+              },
+              ticks: {
+                fontColor: fontColor(setting.theme)
+              },
+              gridLines: {
+                color: colorHelpers(fontColor(setting.theme)).alpha(0.15).rgbString()
+              }
             },
-            ticks: {
-              fontColor: fontColor(setting.theme)
-            },
-            gridLines: {
-              color: colorHelpers(fontColor(setting.theme)).alpha(0.15).rgbString()
-            }
-          }],
-          yAxes: [{
-            display: true,
-            scaleLabel: {
+
+          ],
+          yAxes: [
+            {
+              id: 'total-vol',
               display: true,
-              fontColor: fontColor(setting.theme)
+              scaleLabel: {
+                display: true,
+                fontColor: fontColor(setting.theme)
+              },
+              ticks: {
+                maxTicksLimit: 6,
+                beginAtZero: true,
+                fontColor: fontColor(setting.theme)
+              },
+              gridLines: {
+                color: colorHelpers(fontColor(setting.theme)).alpha(0.15).rgbString()
+              }
             },
-            ticks: {
-              maxTicksLimit: 6,
-              beginAtZero: true,
-              fontColor: fontColor(setting.theme)
-            },
-            gridLines: {
-              color: colorHelpers(fontColor(setting.theme)).alpha(0.15).rgbString()
-            }
-          }]
+            { id: 'avg-int', display: false, ticks: { min: 0, max: 100 } },
+            { id: 'peak-int', display: false, ticks: { min: 0, max: 100 } }
+        ]
         }
       }
     };
