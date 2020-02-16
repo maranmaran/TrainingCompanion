@@ -1,14 +1,10 @@
 import { Guid } from 'guid-typescript';
-import { from } from 'rxjs';
-import { map, tap, toArray } from 'rxjs/operators';
 import { backgroundColors, colorHelpers, fontColor, MyChartConfiguration } from 'src/app/shared/charts/chart.helpers';
 import { Theme } from 'src/business/shared/theme.enum';
 import { ChartData } from 'src/server-models/entities/chart-data';
 import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
 
 export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitSystem: UnitSystem}, chartData: ChartData<number>,): MyChartConfiguration {
-
-    from(chartData.dataSets[2].data).pipe(toArray(), tap(console.log), map(data => { x: data[0]; y: data[1] })).subscribe(arr => console.log(arr));
 
     return {
       generationId: Guid.create(),
