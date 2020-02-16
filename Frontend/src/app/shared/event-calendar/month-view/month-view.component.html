@@ -39,7 +39,7 @@
                     </button>
                   </div>
 
-                    <div class="day-content" fxLayout="column" fxLayoutAlign="center center">
+                    <div class="day-content" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
 
                       <button *ngIf="calDay.events.length == 0" class="add-button" mat-icon-button color="accent" (click)="add(calDay.day)">
                           <i
@@ -49,15 +49,20 @@
                             [ngClass.gt-md]="'fa-1-7-5x'"
                           ></i>
                       </button>
+<!--
+                      <button *ngIf="calDay?.events?.length > 3" class="event-button"
+                        mat-icon-button color="warn" (click)="open(calEvent.event)"
+                        matBadge="{{ calDay?.events?.length }}" matBadgePosition="after" matBadgeColor="accent">
+                          <i class="{{ config.eventIcon }}"></i>
+                      </button> -->
 
-                      <ng-container *ngFor="let calEvent of calDay.events; let i = index">
+                      <!-- <ng-container *ngIf="calDay?.events?.length <= 3"> -->
+                        <ng-container *ngFor="let calEvent of calDay.events; let i = index">
 
-                        <ndc-dynamic *ngIf="config.useComponent && calEvent.event" [ndcDynamicComponent]="config.component" [ndcDynamicInputs]="config.componentInputs(calEvent)"></ndc-dynamic>
+                          <ndc-dynamic *ngIf="config.useComponent && calEvent.event" [ndcDynamicComponent]="config.component" [ndcDynamicInputs]="config.componentInputs(calEvent)"></ndc-dynamic>
 
-                        <!-- <button *ngIf="calEvent.event" class="event-button" mat-icon-button color="warn" (click)="open(calEvent.event)">
-                            <i class="{{ config.eventIcon }}"></i>
-                        </button> -->
-                      </ng-container>
+                        </ng-container>
+                      <!-- </ng-container> -->
                     </div>
 
                 </div>

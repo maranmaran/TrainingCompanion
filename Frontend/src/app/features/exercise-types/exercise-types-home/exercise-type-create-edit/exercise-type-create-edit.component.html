@@ -83,8 +83,8 @@
   </div>
 
   <div mat-dialog-actions class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-    <button mat-button color="accent" mat-dialog-close>Close</button>
-    <button mat-stroked-button color="primary" (click)="onSubmit()"
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-stroked-button color="accent" (click)="onSubmit()"
       [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
   </div>
 

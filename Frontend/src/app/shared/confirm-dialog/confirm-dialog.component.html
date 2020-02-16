@@ -4,7 +4,7 @@
   <span [innerHtml]="data.config.message | sanitizeHtml" (click)="navigateToRoute($event)"></span>
 
   <div fxLayout="row" fxLayoutAlign="space-between">
-    <button *ngIf="data.config.allowCancel"  mat-button color="accent" class="float-right" (click)="onClose()" >Cancel</button>
-    <button *ngIf="data.config.allowConfirm" mat-stroked-button color="primary" class="float-right" (click)="onConfirm()">{{data.config.confirmLabel}}</button>
+    <button *ngIf="data.config.allowCancel"  mat-button class="float-right" (click)="onClose()" >Cancel</button>
+    <button *ngIf="data.config.allowConfirm" mat-stroked-button color="accent" class="float-right" (click)="onConfirm()">{{data.config.confirmLabel}}</button>
   </div>
 </div>
