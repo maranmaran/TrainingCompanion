@@ -21,7 +21,7 @@
 
   <div class="training-label primary-background"
     fxLayout="row" fxLayoutAlign="space-between center"
-    fxLayoutAlign.xs="center"
+    fxLayoutAlign.xs="center center"
 
     [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
     [matTooltipPosition]="'above'"
@@ -33,7 +33,7 @@
     (click)="onClick()">
 
     <!--SUMMARY PREVIEW - TODO put in component or ng-template -->
-    <div class="preview-container theme-tooltip-background mat-elevation-z16"
+    <div fxHide.xs class="preview-container theme-tooltip-background mat-elevation-z16"
       *ngIf="showPreview && training.exercises && training.exercises.length > 0">
       <h5><b>Summary</b></h5>
       <mat-divider></mat-divider>
@@ -46,7 +46,6 @@
 
     <!--ACTIONS MENU FOR MOBILE VIEW - ON LONG PRESS -->
     <div class="training-label__cover" #actionsTrigger="matMenuTrigger" [matMenuTriggerFor]="actionsMenu"></div>
-
 
     <label style="cursor: pointer;"> {{ training.dateTrained | applyTimezone }} </label>
     <div id="actions" fxHide.xs fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="5px">

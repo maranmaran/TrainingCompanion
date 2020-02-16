@@ -32,6 +32,14 @@
     flex-direction: column;
     height: 100%;
 
+    .top-label {
+      margin-bottom: 10px;
+    }
+
+    .day-content {
+      margin-bottom: 5px;
+    }
+
     // must remove because of overflow
     .month-container {
       min-height: unset !important;
