@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Backend.Application.Business.Business.Training.GetByMonth
 {
-    public class GetAllTrainingsByMonthRequest : IRequest<IQueryable<Domain.Entities.TrainingLog.Training>>
+    public class GetAllTrainingsByMonthRequest : IRequest<IEnumerable<Domain.Entities.TrainingLog.Training>>
     {
         public Guid ApplicationUserId { get; set; }
         public int Month { get; set; }

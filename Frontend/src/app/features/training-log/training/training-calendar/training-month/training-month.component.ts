@@ -80,6 +80,7 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
 
     this.trainingService.getAllByMonth(this.userId, month, year).pipe(take(1))
       .subscribe((trainings: Training[]) => {
+
         this.store.dispatch(trainingsFetched({ entities: trainings }));
 
         this.inputData.next(this.parseTrainingsForCalendar(trainings));
@@ -101,6 +102,7 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
       return calendarEvent;
     });
 
+    console.log(events);
     return events;
   }
 
