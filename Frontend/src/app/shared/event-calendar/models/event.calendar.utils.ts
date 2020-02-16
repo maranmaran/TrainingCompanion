@@ -12,7 +12,9 @@ export function getMonthViewModel(today: moment.Moment): CalendarMonth {
   while (date.isBefore(endDay, 'day')) {
 
     eventCalendar.weeks.push(
-      new CalendarWeek(Array(7).fill(0).map(() => date.add(1, 'day').clone().utc()))
+      new CalendarWeek(
+        Array(7).fill(0).map( () => date.add(1, 'day').clone().utc() )
+      )
     )
   }
 

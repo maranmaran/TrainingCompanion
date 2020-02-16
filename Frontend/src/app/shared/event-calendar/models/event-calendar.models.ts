@@ -19,6 +19,7 @@ export class CalendarDay {
 
   constructor(day: moment.Moment) {
     this.day = day;
+    this.events = [];
   }
 }
 
