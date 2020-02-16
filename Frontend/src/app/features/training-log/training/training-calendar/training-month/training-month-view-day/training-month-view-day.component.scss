@@ -7,7 +7,7 @@
 }
 
 .preview-container {
-  padding: 10px 20px;
+  padding: 10px;
 
   position: absolute;
   bottom: 30px;
@@ -27,7 +27,7 @@
 
 .training-label {
   border-radius: 8px;
-  font-size: 10px;
+  font-size: 15px;
   height: 20px;
   width: calc(100% - 10px);
   cursor: pointer;
@@ -51,8 +51,11 @@
 @media(max-width: 600px) {
   .training-label {
     width: calc(100% - 1px);
+    height: 15px;
+
     label {
       margin-left: 0px;
+      font-size: 12px;
     }
   }
 }

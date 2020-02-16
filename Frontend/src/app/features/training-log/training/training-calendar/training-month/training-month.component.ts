@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CalendarConfig } from 'src/app/shared/event-calendar/models/calendar.config';
 import { CalendarEvent } from 'src/app/shared/event-calendar/models/event-calendar.models';
@@ -24,7 +24,7 @@ import { TrainingMonthViewDayComponent } from './training-month-view-day/trainin
 })
 export class TrainingMonthComponent implements OnInit, OnDestroy {
 
-  inputData = new ReplaySubject<CalendarEvent[]>();
+  inputData = new BehaviorSubject<CalendarEvent[]>([]);
   private userId: string;
   private subsink = new SubSink();
   calendarConfig: CalendarConfig;
