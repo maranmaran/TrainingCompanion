@@ -47,7 +47,7 @@ export function populateWeekViewModel(model: CalendarWeek, events: CalendarEvent
 
   model.days.forEach((calDay, i) => {
     let calEvents = events.filter(x => isEqual(x.day, calDay.day));
-    model.days[i].events = [...calEvents.reverse()]; // ordering of sorted items..
+    model.days[i].events = [...calEvents]; // ordering of sorted items..
   });
 }
 
