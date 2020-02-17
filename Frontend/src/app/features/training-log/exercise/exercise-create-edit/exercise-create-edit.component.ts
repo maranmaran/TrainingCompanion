@@ -3,7 +3,9 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { switchMap, take, debounceTime, tap, finalize, distinct, skip } from 'rxjs/operators';
+import { debounceTime, distinct, finalize, skip, switchMap, take, tap } from 'rxjs/operators';
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { CRUD } from 'src/business/shared/crud.enum';
@@ -15,10 +17,8 @@ import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/requests/
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
-import { SubSink } from 'subsink';
-import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
-import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-exercise-create-edit',
@@ -42,7 +42,7 @@ export class ExerciseCreateEditComponent implements OnInit {
     }) { }
 
   form: FormGroup;
-  exercise = new Exercise();
+  exercise: Exercise;
 
   private _subs = new SubSink();
   private _userId: string;
@@ -51,7 +51,7 @@ export class ExerciseCreateEditComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.data.action == CRUD.Update) this.exercise = Object.assign(new Exercise(), this.data.exercise);
+    this.exercise = Object.assign(new Exercise(), this.data.exercise);
 
     this.createForm();
 
@@ -119,6 +119,7 @@ export class ExerciseCreateEditComponent implements OnInit {
     var request = new CreateExerciseRequest();
     request.exerciseTypeId = this.exerciseType.value.id;
     request.sets = [...sets];
+    request.order = this.exercise.order;
 
     // select training for id
     this.store.select(selectedTraining)

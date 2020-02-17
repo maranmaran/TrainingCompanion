@@ -8,6 +8,7 @@ namespace Backend.Application.Business.Business.Exercise.Create
     {
         public Guid ExerciseTypeId { get; set; }
         public Guid TrainingId { get; set; }
+        public int Order { get; set; }
 
         public IEnumerable<Domain.Entities.TrainingLog.Set> Sets { get; set; }
     }

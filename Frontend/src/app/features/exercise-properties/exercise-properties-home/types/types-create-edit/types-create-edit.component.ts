@@ -11,6 +11,7 @@ import { clearExerciseTypeState } from 'src/ngrx/exercise-type/exercise-type.act
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { tagGroupUpdated } from 'src/ngrx/tag-group/tag-group.actions';
 import { TagGroupService } from '../../../../../../business/services/feature-services/tag-group.service';
+import { tagGroupCreated } from './../../../../../../ngrx/tag-group/tag-group.actions';
 import { TagGroup } from './../../../../../../server-models/entities/tag-group.model';
 
 @Component({
@@ -28,10 +29,10 @@ export class TypesCreateEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, tagGroup: TagGroup }) { }
 
   form: FormGroup;
-  tagGroup = new TagGroup();
+  tagGroup: TagGroup;
 
   ngOnInit() {
-    if (this.data.action == CRUD.Update) this.tagGroup = Object.assign({}, this.data.tagGroup);
+    this.tagGroup = Object.assign({}, this.data.tagGroup);
 
     this.createForm();
   }
@@ -77,23 +78,17 @@ export class TypesCreateEditComponent implements OnInit {
   }
 
   createType() {
-    // var request = new CreateUserRequest();
-    // request.coachId = this.coachId;
-    // request.firstname = this.fullName.value.split(' ')[0];
-    // request.lastname = this.fullName.value.split(' ')[1];
-    // request.email = this.email.value;
-    // request.username = this.username.value;
-    // request.gender = this.athlete.gender;
-    // request.accountType = AccountType.Athlete;
+    this.tagGroup.type = this.type.value;
+    const tagGroup = Object.assign({}, this.tagGroup);
 
-    // this.userService.create(request)
-    //   .subscribe(
-    //     (athlete: ApplicationUser) => {
-    //       this.store.dispatch(athleteCreated({athlete}));
-    //       this.onClose(athlete);
-    //     },
-    //     (err: HttpErrorResponse) => this.handleError(err.error)
-    //   );
+    this.tagGroupService.create(tagGroup).pipe(take(1))
+      .subscribe(
+        (tagGroup: TagGroup) => {
+          this.store.dispatch(tagGroupCreated({ tagGroup }));
+          this.onClose(tagGroup);
+        },
+        (err: HttpErrorResponse) => this.handleError(err.error)
+      );
   }
 
   updateType() {

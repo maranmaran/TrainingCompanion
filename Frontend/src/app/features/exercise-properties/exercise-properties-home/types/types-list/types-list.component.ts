@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 import { ExerciseTypeChipComponent } from 'src/app/shared/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
@@ -11,9 +12,10 @@ import { TagGroupService } from 'src/business/services/feature-services/tag-grou
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { reorderTagGroups, setSelectedTagGroup, tagGroupDeleted } from 'src/ngrx/tag-group/tag-group.actions';
-import { allTagGroups } from 'src/ngrx/tag-group/tag-group.selectors';
+import { allTagGroups, tagGroupCount } from 'src/ngrx/tag-group/tag-group.selectors';
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { SubSink } from 'subsink';
 import { TypesCreateEditComponent } from './../types-create-edit/types-create-edit.component';
@@ -114,16 +116,27 @@ export class TypesListComponent implements OnInit, OnDestroy {
   }
 
   onAdd(event) {
-    const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
-      height: 'auto',
-      width: '98%',
-      maxWidth: '20rem',
-      autoFocus: false,
-      data: { title: 'Add exercise property type', action: CRUD.Create },
-      panelClass: []
-    })
+    forkJoin(
+      this.store.select(tagGroupCount).pipe(take(1)),
+      this.store.select(currentUserId).pipe(take(1))
+    )
+    .pipe(map(([count, userId]) => {
+        const newTagGroup = new TagGroup();
+        newTagGroup.order = count + 1;
+        newTagGroup.applicationUserId = userId;
+        return newTagGroup;
+    })).subscribe(group => {
+      const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
+        height: 'auto',
+        width: '98%',
+        maxWidth: '20rem',
+        autoFocus: false,
+        data: { title: 'Add exercise property type', action: CRUD.Create, tagGroup: group},
+        panelClass: []
+      })
 
-    dialogRef.afterClosed().pipe(take(1)).subscribe((tagGroup: TagGroup) => this.postCreateUpdate(tagGroup));
+      dialogRef.afterClosed().pipe(take(1)).subscribe((tagGroup: TagGroup) => this.postCreateUpdate(tagGroup));
+    });
   }
 
   onUpdate(tagGroup: TagGroup) {
