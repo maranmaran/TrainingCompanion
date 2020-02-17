@@ -1,8 +1,8 @@
-import { NotImplementedComponent } from './../../../../shared/not-implemented/not-implemented.component';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { concatMap, map, take } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { concatMap, map, take, tap } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
@@ -17,13 +17,11 @@ import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
-import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { reorderExercises, setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
-import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
-import { selectedTraining, selectedTrainingExercises } from '../../../../../ngrx/training-log/training/training.selectors';
+import { selectedTraining, selectedTrainingExercises, selectedTrainingId } from '../../../../../ngrx/training-log/training/training.selectors';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 
 @Component({
@@ -33,6 +31,7 @@ import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-cr
   providers: [ExerciseTypeService]
 })
 export class ExerciseListComponent implements OnInit, OnDestroy {
+
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
 
@@ -96,20 +95,40 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     ];
   }
 
+  onReorder(payload: { previous: Exercise, current: Exercise }) {
+    this.store.select(selectedTrainingId)
+      .pipe(
+        tap((trainingId: string) => {
+          let previousItem = payload.previous.id;
+          let currentItem = payload.current.id;
+          this.store.dispatch(reorderExercises({ trainingId, previousItem, currentItem }));
+        })
+      ).subscribe(_ => {})
+  }
+
   onSelect = (exercise: Exercise) => {
     this.store.dispatch(setSelectedExercise({ entity: exercise }));
   }
 
   onAdd(event) {
     var pagingModel = new PagingModel();
-    this.exerciseTypeService.getPaged(this.userId, pagingModel).pipe(take(1))
-      .subscribe((exerciseTypes: PagedList<ExerciseType>) => {
+
+    forkJoin(
+      this.exerciseTypeService.getPaged(this.userId, pagingModel).pipe(take(1)),
+      this.store.select(selectedTraining).pipe(take(1), map(training => {
+        const len = training.exercises?.length;
+        const model = new Exercise();
+        model.order = len + 1;
+        return model;
+      }))
+    ).subscribe(([exerciseTypes, exercise]) => {
+
         const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
           height: 'auto',
           width: '98%',
           maxWidth: '50rem',
           autoFocus: false,
-          data: { title: 'Add exercise', action: CRUD.Create, exerciseTypes, pagingModel },
+          data: { title: 'Add exercise', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
           panelClass: []
         });
 

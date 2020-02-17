@@ -29,7 +29,7 @@ namespace Backend.Application.Business.Business.Training.Get
 
                     .Include(x => x.Media)
 
-                    .Include(x => x.Exercises)
+                    .Include(x => x.Exercises.OrderBy(x => x.Order))
                     .ThenInclude(x => x.Media)
                     .Include(x => x.Exercises)
                     .ThenInclude(x => x.Sets)

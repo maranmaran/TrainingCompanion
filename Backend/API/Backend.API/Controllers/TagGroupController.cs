@@ -20,9 +20,9 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateTagGroupRequest request)
+        public async Task<IActionResult> Create(TagGroup tagGroup)
         {
-            return await Create(async () => await Mediator.Send(request));
+            return await Create(async () => await Mediator.Send(new CreateTagGroupRequest(tagGroup)));
         }
 
         [HttpPost]

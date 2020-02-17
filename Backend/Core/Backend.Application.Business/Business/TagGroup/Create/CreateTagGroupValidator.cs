@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Backend.Application.Business.Business.TagGroup.Create
 {
-    public class CreateTagGroupValidator : AbstractValidator<CreateTagGroupRequest>
+    public class CreateTagGroupValidator : AbstractValidator<Domain.Entities.ExerciseType.TagGroup>
     {
         private readonly IApplicationDbContext _context;
 
@@ -19,9 +19,9 @@ namespace Backend.Application.Business.Business.TagGroup.Create
                 .WithMessage("Type name must be unique"); ;
         }
 
-        private bool BeUniqueType(CreateTagGroupRequest request)
+        private bool BeUniqueType(Domain.Entities.ExerciseType.TagGroup request)
         {
-            return _context.TagGroups.Where(x => x.ApplicationUserId == request.ApplicationUserId).FirstOrDefault(x => x.Type.Equals(request.Type)) != null;
+            return _context.TagGroups.Where(x => x.ApplicationUserId == request.ApplicationUserId).FirstOrDefault(x => x.Type.Equals(request.Type)) == null;
         }
     }
 }
