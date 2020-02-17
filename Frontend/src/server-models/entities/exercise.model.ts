@@ -8,6 +8,8 @@ export class Exercise {
     trainingId: string;
     training: Training;
 
+    order: number;
+
     exerciseTypeId: string;
     exerciseType: ExerciseType;
 

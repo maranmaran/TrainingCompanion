@@ -44,3 +44,7 @@ export const setSelectedExercise = createAction(
 export const clearTrainingState = createAction(
   '[Training] Clear',
 );
+export const reorderExercises = createAction(
+  '[Training details] Reorder exercises',
+  props<{ trainingId: string, previousItem: string, currentItem: string }>()
+);

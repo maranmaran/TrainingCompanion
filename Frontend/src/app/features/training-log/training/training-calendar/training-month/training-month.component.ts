@@ -102,7 +102,6 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
       return calendarEvent;
     });
 
-    console.log(events);
     return events;
   }
 
