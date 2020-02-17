@@ -43,7 +43,7 @@
           <ng-container *ngIf="settings.useRpeSystem">
             <mat-form-field *ngIf="settings.rpeSystem == 'Rpe'; else rir">
               <mat-label>RPE</mat-label>
-              <mat-select formControlName="rpe">
+              <mat-select formControlName="rpe" >
                 <mat-option value="5">5</mat-option>
                 <mat-option value="5.5">5.5</mat-option>
                 <mat-option value="6">6</mat-option>
@@ -81,11 +81,11 @@
           </ng-template>
 
           <div id="set-actions" fxFlexLayout="column">
-            <button id="delete-set" mat-icon-button matTooltip="Remove set" [matTooltipPosition]="'right'" color="accent" (click)="removeGroup(i)">
+            <button id="delete-set-{{i}}" mat-icon-button matTooltip="Remove set" [matTooltipPosition]="'right'" color="accent" (click)="removeGroup(i)">
               <i class="fas fa-trash"></i>
             </button>
 
-            <button id="copy-down" mat-icon-button color="accent" matTooltip="Copy down" [matTooltipPosition]="'right'" (click)="copyDown(i)">
+            <button id="copy-down-{{i}}" mat-icon-button color="accent" matTooltip="Copy down" [matTooltipPosition]="'right'" (click)="copyDown(i)">
               <i class="fas fa-chevron-down"></i>
             </button>
           </div>
