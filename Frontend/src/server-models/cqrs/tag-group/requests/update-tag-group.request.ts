@@ -5,3 +5,4 @@ export class UpdateTagGroupRequest {
     hexColor: string;
     hexBackground: string;
 }
+

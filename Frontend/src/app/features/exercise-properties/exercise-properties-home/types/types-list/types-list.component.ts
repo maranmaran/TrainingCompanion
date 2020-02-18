@@ -122,7 +122,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
     )
     .pipe(map(([count, userId]) => {
         const newTagGroup = new TagGroup();
-        newTagGroup.order = count + 1;
+        newTagGroup.order = count;
         newTagGroup.applicationUserId = userId;
         return newTagGroup;
     })).subscribe(group => {

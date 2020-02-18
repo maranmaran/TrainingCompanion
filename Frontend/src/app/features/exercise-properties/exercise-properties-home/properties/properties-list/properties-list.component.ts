@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
@@ -31,9 +31,10 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
   tableDatasource: TableDatasource<Tag>;
-  @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
+  @ViewChild(MaterialTableComponent, { static: false }) table: MaterialTableComponent;
 
   private tagGroupName: string;
+  groupSelected: boolean = false;
 
   constructor(
     private propertyService: TagService,
@@ -42,7 +43,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.tableDatasource = new TableDatasource([]);
+    this.tableDatasource = new TableDatasource(null);
     this.tableConfig = this.getTableConfig();
     this.tableColumns = this.getTableColumns() as CustomColumn[];
 
@@ -50,11 +51,14 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
 
       this.store.select(selectedTagGroup)
         .pipe(
-          filter(tagGroup => !!tagGroup),
+          // filter(tagGroup => !!tagGroup),
         )
         .subscribe((tagGroup: TagGroup) => {
-          this.tagGroupName = tagGroup.type;
-          this.tableDatasource.updateDatasource(tagGroup.tags);
+          this.groupSelected = !!tagGroup;
+          if(this.groupSelected) {
+            this.tagGroupName = tagGroup?.type;
+            this.tableDatasource.updateDatasource(tagGroup?.tags);
+          }
         })
 
     );
@@ -118,6 +122,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((property: Tag) => {
         if (property) {
+          console.log(property);
           this.table.onSelect(property, true);
           this.onSelect(property);
         }
