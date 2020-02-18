@@ -45,7 +45,7 @@ export const selectedTag = createSelector(
         var type = (state.entities[state.selectedTypeId]);
 
         if (type) {
-            return type.tags.filter(x => x.id == state.selectedPropertyId)[0]; // not normalized
+            return type.tags?.filter(x => x.id == state.selectedPropertyId)[0]; // not normalized
         }
 
         return null;

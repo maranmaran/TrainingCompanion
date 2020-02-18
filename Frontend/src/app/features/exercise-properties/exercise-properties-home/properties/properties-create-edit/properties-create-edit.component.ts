@@ -28,10 +28,10 @@ export class TagsCreateEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { title: string, action: CRUD, tag: Tag }) { }
 
   form: FormGroup;
-  tag = new Tag();
+  tag: Tag = new Tag();
 
   ngOnInit() {
-    if (this.data.action == CRUD.Update) this.tag = Object.assign({}, this.data.tag);
+    if (this.data.action == CRUD.Update) this.tag = Object.assign(new Tag(), this.data.tag);
 
     this.createForm();
   }
@@ -91,7 +91,7 @@ export class TagsCreateEditComponent implements OnInit {
   updateType(newProperty: boolean, property: Tag) {
     this.store.select(selectedTagGroup).pipe(
       take(1),
-      map(tagGroup => Object.assign({}, tagGroup)),
+      map(tagGroup => Object.assign(new TagGroup(), tagGroup)),
       concatMap((tagGroup: TagGroup) => {
         tagGroup.tags = newProperty ? [...tagGroup.tags, property] : tagGroup.tags.map(prop => prop.id == property.id ? property : prop);
         return this.tagGroupService.update(tagGroup);
@@ -107,7 +107,7 @@ export class TagsCreateEditComponent implements OnInit {
       this.store.dispatch(tagGroupUpdated({ tagGroup: tagGroupUpdate }));
       // clear exercise type state.. so we can fetch new tags and everything
       this.store.dispatch(clearExerciseTypeState());
-      this.onClose(property);
+      this.onClose(tagGroup.tags.find(x => x.value == property.value));
     });
   }
 }

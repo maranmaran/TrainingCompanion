@@ -7,6 +7,7 @@ using Backend.Domain.Entities.ExerciseType;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
@@ -32,9 +33,9 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateMany(UpdateManyTagGroupRequest request)
+        public async Task<IActionResult> UpdateMany(IEnumerable<TagGroup> request)
         {
-            return Ok(await Mediator.Send(request));
+            return Ok(await Mediator.Send(new UpdateManyTagGroupRequest() { TagGroups = request }));
         }
 
         [HttpPost]
