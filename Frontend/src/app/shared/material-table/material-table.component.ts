@@ -157,15 +157,11 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   masterToggle() {
     if (this.isAllSelected) {
-      console.log('clear emit');
       this.selection.clear();
       this.selectEvent.emit(null);
     } else {
-      console.log('foreach');
       this.datasource.data.forEach(row => this.selection.select(row.id));
     }
-
-    console.log(this.isAllSelected);
   }
 
   get isOneSelected() {

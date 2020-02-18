@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Update } from '@ngrx/entity';
@@ -62,24 +62,10 @@ export class TypesCreateEditComponent implements OnInit {
     this.dialogRef.close(tagGroup);
   }
 
-  handleError(validationErrors: ValidationErrors) {
-    // if (validationErrors.status && validationErrors.status == ServerStatusCodes.ValidationError) {
-
-
-    //   if(validationErrors.errors.username) {
-    //     this.username.setErrors(validationErrors.errors.username)
-    //   }
-
-    //   if(validationErrors.errors.email) {
-    //     this.email.setErrors(validationErrors.errors.email)
-    //   }
-
-    // }
-  }
-
   createType() {
     this.tagGroup.type = this.type.value;
-    const tagGroup = Object.assign({}, this.tagGroup);
+    const tagGroup = Object.assign(new TagGroup(), this.tagGroup);
+    tagGroup.tags = [];
 
     this.tagGroupService.create(tagGroup).pipe(take(1))
       .subscribe(
@@ -87,13 +73,13 @@ export class TypesCreateEditComponent implements OnInit {
           this.store.dispatch(tagGroupCreated({ tagGroup }));
           this.onClose(tagGroup);
         },
-        (err: HttpErrorResponse) => this.handleError(err.error)
+        (err: HttpErrorResponse) => console.log(err.error)
       );
   }
 
   updateType() {
     this.tagGroup.type = this.type.value;
-    const tagGroup = Object.assign({}, this.tagGroup);
+    const tagGroup = Object.assign(new TagGroup(), this.tagGroup);
 
     this.tagGroupService.update(tagGroup).pipe(take(1))
       .subscribe(
@@ -109,7 +95,7 @@ export class TypesCreateEditComponent implements OnInit {
           this.store.dispatch(clearExerciseTypeState());
           this.onClose(tagGroup);
         },
-        (err: HttpErrorResponse) => this.handleError(err.error)
+        (err: HttpErrorResponse) => console.log(err.error)
       );
   }
 

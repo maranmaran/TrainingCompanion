@@ -7,5 +7,5 @@ export class Tag {
     order: number;
 
     tagGroupId: string;
-    tagGroup: TagGroup
+    tagGroup: TagGroup;
 }
