@@ -1,9 +1,11 @@
-import { Tag } from '../../server-models/entities/tag.model';
 import { Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
+import * as _ from "lodash";
+import { sortBy } from 'src/business/utils/utils';
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
+import { Tag } from '../../server-models/entities/tag.model';
 import * as TagGroupActions from './tag-group.actions';
-import { adapterTagGroup, adapterTag, TagGroupState, tagGroupInitialState } from './tag-group.state';
+import { adapterTag, adapterTagGroup, tagGroupInitialState, TagGroupState } from './tag-group.state';
 
 export const tagGroupReducer: ActionReducer<TagGroupState, Action> = createReducer(
     tagGroupInitialState,
@@ -71,6 +73,50 @@ export const tagGroupReducer: ActionReducer<TagGroupState, Action> = createReduc
 
         // update
         return adapterTagGroup.updateMany([firstUpdate, secondUpdate], state);
+    }),
+    on(TagGroupActions.reorderTags, (state: TagGroupState, payload: { previousItem: string, currentItem: string }) => {
+
+        // pluck types
+        let first: Tag;
+        let second: Tag;
+        let parent: TagGroup;
+
+        for(let parentId of state.ids) {
+          let parentTemp = state.entities[parentId];
+
+          for(let tag of parentTemp.tags) {
+
+            if(tag.id == payload.previousItem) {
+              first = Object.assign(new Tag(), tag);
+              parent = _.cloneDeep(parentTemp);
+            }
+            if(tag.id == payload.currentItem) {
+              second = Object.assign(new Tag(), tag);
+            }
+
+          }
+        }
+
+        // switch
+        let firstOrder = first.order;
+        let secondOrder = second.order;
+
+        first.order = secondOrder;
+        second.order = firstOrder;
+
+        // map to parent for update
+        parent.tags = parent.tags.map(x => x.id == first.id ? first : x);
+        parent.tags = parent.tags.map(x => x.id == second.id ? second : x);
+
+        parent.tags = sortBy(parent.tags, ["order"]);
+        // update statements
+        const update: Update<TagGroup> = {
+            id: parent.id,
+            changes: { tags: parent.tags }
+        }
+
+        // // update
+        return adapterTagGroup.updateOne(update, state);
     }),
 );
 

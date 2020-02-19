@@ -1,7 +1,7 @@
-import { Tag } from '../../server-models/entities/tag.model';
 import { Update } from '@ngrx/entity';
 import { createAction, props } from "@ngrx/store";
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
+import { Tag } from '../../server-models/entities/tag.model';
 
 
 export const tagGroupCreated = createAction(
@@ -31,7 +31,11 @@ export const tagGroupDeleted = createAction(
 
 // REORDER
 export const reorderTagGroups = createAction(
-    '[Exercise property type] Reorder',
+    '[Tag group] Reorder',
+    props<{ previousItem: string, currentItem: string }>()
+)
+export const reorderTags = createAction(
+    '[Tag] Reorder',
     props<{ previousItem: string, currentItem: string }>()
 )
 
