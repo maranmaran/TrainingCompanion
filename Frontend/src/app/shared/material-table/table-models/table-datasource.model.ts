@@ -1,14 +1,16 @@
 import { MatTableDataSource } from '@angular/material/table';
+import * as _ from "lodash";
 import { BehaviorSubject } from 'rxjs';
 import { PagingModel } from './paging.model';
+
 export class TableDatasource<T> extends MatTableDataSource<T> {
   // tslint:disable-next-line:variable-name
   private _internalData: T[];
 
   constructor(private initData: T[]) {
     super();
-    this._internalData = this.initData;
-    this.data = initData;
+    this._internalData = _.cloneDeep(this.initData);
+    this.data = _.cloneDeep(initData);
   }
 
   addElement(element: T) {

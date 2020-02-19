@@ -31,7 +31,7 @@ export class TagsCreateEditComponent implements OnInit {
   tag: Tag = new Tag();
 
   ngOnInit() {
-    if (this.data.action == CRUD.Update) this.tag = Object.assign(new Tag(), this.data.tag);
+    this.tag = Object.assign(new Tag(), this.data.tag);
 
     this.createForm();
   }
