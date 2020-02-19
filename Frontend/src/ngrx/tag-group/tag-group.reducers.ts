@@ -109,6 +109,7 @@ export const tagGroupReducer: ActionReducer<TagGroupState, Action> = createReduc
         parent.tags = parent.tags.map(x => x.id == second.id ? second : x);
 
         parent.tags = sortBy(parent.tags, ["order"]);
+
         // update statements
         const update: Update<TagGroup> = {
             id: parent.id,
