@@ -19,26 +19,26 @@ export class TagGroupEffects {
         private tagGroupService: TagGroupService
     ) { }
 
-    reordered$ = createEffect(() =>
+    reorderedTagGroups$ = createEffect(() =>
     this.actions$
         .pipe(
-            ofType(TagGroupActions.reorderTagGroups),
-            concatMap(_ => this.store.select(allTagGroups)),
-            switchMap((groups: TagGroup[]) =>
-              this.tagGroupService.updateMany(groups)
+            ofType(TagGroupActions.reorderTagGroups, TagGroupActions.reorderTags),
+            concatMap(_ => this.store.select(allTagGroups).pipe(take(1))),
+            switchMap((groups: TagGroup[]) => {
+              return this.tagGroupService.updateMany(groups)
               .pipe(
                 take(1),
-                map((tagGroups: TagGroup[]) => {
+                map(_ => {
 
-                  let updateStatements = tagGroups.map(group => {
+                  let updateStatements = groups.map(group => {
                     let updateStatement: Update<TagGroup>;
                     updateStatement = { id: group.id, changes: group }
                     return updateStatement;
                   });
 
                   return this.store.dispatch(TagGroupActions.manyTagGroupsUpdated({tagGroups: updateStatements}))
-                })
-            ))
+                }))
+            })
         )
     , { dispatch: false });
 

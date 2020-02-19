@@ -11,7 +11,7 @@ import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTag } from 'src/ngrx/tag-group/tag-group.actions';
+import { reorderTags, setSelectedTag } from 'src/ngrx/tag-group/tag-group.actions';
 import { selectedTagGroup } from 'src/ngrx/tag-group/tag-group.selectors';
 import { Tag } from 'src/server-models/entities/tag.model';
 import { SubSink } from 'subsink';
@@ -35,6 +35,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
 
   private tagGroupName: string;
   groupSelected: boolean = false;
+  tagsCount: number = 0;
 
   constructor(
     private propertyService: TagService,
@@ -57,7 +58,8 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
           this.groupSelected = !!tagGroup;
           if(this.groupSelected) {
             this.tagGroupName = tagGroup?.type;
-            this.tableDatasource.updateDatasource(tagGroup?.tags);
+            this.tagsCount = tagGroup?.tags.length;
+            this.tableDatasource.updateDatasource([...tagGroup?.tags]);
           }
         })
 
@@ -107,6 +109,12 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
     ]
   }
 
+  onReorder(payload: { previous: Tag, current: Tag }) {
+    let previousItem = payload.previous.id;
+    let currentItem = payload.current.id;
+    this.store.dispatch(reorderTags({ previousItem, currentItem }));
+  }
+
   onSelect = (property: Tag) => this.store.dispatch(setSelectedTag({ property }));
 
   onAdd() {
@@ -115,14 +123,13 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: `Add ${this.tagGroupName} property`, action: CRUD.Create },
+      data: { title: `Add ${this.tagGroupName} property`, action: CRUD.Create, tag: Object.assign(new Tag(), { order: this.tagsCount}) },
       panelClass: []
     })
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((property: Tag) => {
         if (property) {
-          console.log(property);
           this.table.onSelect(property, true);
           this.onSelect(property);
         }
