@@ -52,7 +52,6 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   pageSize: number;
   pageSizeOptions: number[];
   totalItems: Observable<number>;
-  page: Observable<number>;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -151,7 +150,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   }
 
-  public clearSelection() {
+  clearSelection() {
     this.selection.clear();
   }
 
@@ -200,7 +199,10 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   onListDrop(event: CdkDragDrop<any[]>) {
 
-    const array = [...this.datasource.data];
+    let from = this.paginator.pageIndex * this.pageSize;
+    let to = from + this.pageSize
+
+    const array = [...this.datasource.data.slice(from, to)];
 
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
 
@@ -215,27 +217,27 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.deleteManyEvent.emit(this.selection.selected);
   }
 
-  public renderRows = (execute: boolean) => execute && this.table.renderRows(); // because on first load we get error.. no data
+  renderRows = (execute: boolean) => execute && this.table.renderRows(); // because on first load we get error.. no data
 
-  public get datasourceEmpty(): boolean {
+  get datasourceEmpty(): boolean {
     return !this.datasource.data || this.datasource.data.length == 0;
   }
 
-  public get deleteManyVisible(): boolean {
+  get deleteManyVisible(): boolean {
     return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.deleteManyEnabled && !this.datasourceEmpty;
   }
-  public get disableManyVisible(): boolean {
+  get disableManyVisible(): boolean {
     return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.disableManyEnabled && !this.datasourceEmpty;
   }
 
-  public oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
+  oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
 
-  public get paginatorHidden(): boolean {
+  get paginatorHidden(): boolean {
     return this.datasourceEmpty || !(this.datasource.data.length > this.pageSize);
   }
 
   // if only one header action is available replace menu button with that action button
-  public get oneHeaderAction(): boolean {
+  get oneHeaderAction(): boolean {
     const add = this.config.addEnabled ? 1 : 0;
     const editMany = this.config.editManyEnabled ? 1 : 0;
     const deleteMany = this.config.deleteManyEnabled && this.deleteManyVisible ? 1 : 0;
@@ -244,7 +246,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   // hide all header buttons if no header action is available
-  public get noHeaderAction(): boolean {
+  get noHeaderAction(): boolean {
     const add = this.config.addEnabled ? 1 : 0;
     const editMany = this.config.editManyEnabled ? 1 : 0;
     const deleteMany = this.config.deleteManyEnabled ? 1 : 0;
@@ -253,20 +255,20 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   // if no cell actions are available hide the buttons
-  public get noCellAction(): boolean {
+  get noCellAction(): boolean {
     const editActive = this.config.editEnabled ? 1 : 0;
     const deleteActive = this.config.deleteEnabled ? 1 : 0;
     const disableActive = this.config.disableEnabled ? 1 : 0;
     return editActive + deleteActive + disableActive === 0;
   }
 
-  public onPageChange(page: PageEvent) {
+  onPageChange(page: PageEvent) {
     this.pagingModel.page = page.pageIndex;
     this.pagingModel.pageSize = page.pageSize;
     this.pagingChangeEvent.emit(this.pagingModel);
   }
 
-  public onSortChange(sort: Sort) {
+  onSortChange(sort: Sort) {
     this.pagingModel.sortBy = sort.active;
     this.pagingModel.sortDirection = sort.direction;
     this.pagingChangeEvent.emit(this.pagingModel);
