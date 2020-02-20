@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
 import { getHorizontalChartConfig, getHorizontalStackedChartConfig, getPolarAreaChart } from 'src/app/shared/charts/chart.helpers';
 import { Theme } from 'src/business/shared/theme.enum';
-import { AppState } from 'src/ngrx/app/app.state';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
 

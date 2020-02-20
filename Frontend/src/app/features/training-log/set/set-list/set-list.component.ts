@@ -12,7 +12,7 @@ import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId, userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training/training.selectors';
+import { selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';

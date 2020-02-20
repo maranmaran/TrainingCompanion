@@ -9,8 +9,8 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training/training.actions';
-import { trainings } from 'src/ngrx/training-log/training/training.selectors';
+import { setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training.actions';
+import { trainings } from 'src/ngrx/training-log/training.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { TrainingCreateEditComponent } from '../../training-create-edit/training-create-edit.component';

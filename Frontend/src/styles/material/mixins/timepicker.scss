@@ -2,11 +2,11 @@
 
 //lightness 0darkest 100lightest
 @function get-darker-color($color) {
- 
+
   // if light.. darken more
-  @if (lightness($color) > 50) { 
-    @return darken($color, 5%); 
-  } 
+  @if (lightness($color) > 50) {
+    @return darken($color, 5%);
+  }
 
   @return $color;
 }
@@ -30,7 +30,7 @@
 
 @function enchance-brightness($background, $percentage) {
   @if (lightness($background) < 50) { // dark
-    @return lighten($background, $percentage); 
+    @return lighten($background, $percentage);
   } @else { // light
     @return darken($background, $percentage);
   }
@@ -171,10 +171,9 @@
   }
 
   // placement of controls
-
   .ngx-timepicker {
     justify-content: center !important;
-    
+
     .ngx-timepicker-control {
       position: unset !important;
       display: flex !important;
@@ -200,5 +199,5 @@
       }
     }
   }
-  
+
 }

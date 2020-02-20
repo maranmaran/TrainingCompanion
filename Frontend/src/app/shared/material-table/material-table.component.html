@@ -1,124 +1,126 @@
-<mat-form-field *ngIf="config.filterEnabled">
-    <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)" placeholder="Filter">
-</mat-form-field>
+<span class="theme-material-table">
+  <mat-form-field *ngIf="config.filterEnabled">
+      <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)" placeholder="Filter">
+  </mat-form-field>
 
-<div class="mat-elevation-z1">
+  <div class="mat-elevation-z1">
 
-    <mat-table [dataSource]="datasource" matSort (matSortChange)="config.serverSidePaging && onSortChange($event)" cdkDropList [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop" (cdkDropListDropped)="onListDrop($event)">
+      <mat-table [dataSource]="datasource" matSort (matSortChange)="config.serverSidePaging && onSortChange($event)" cdkDropList [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop" (cdkDropListDropped)="onListDrop($event)">
 
-        <!-- SELECTION ( CHECKBOXES ) -->
-        <ng-container matColumnDef="select" *ngIf="config.selectionEnabled">
-            <mat-header-cell *matHeaderCellDef>
-                <mat-checkbox (change)="$event ? masterToggle() : null"
-                    [checked]="selection.hasValue() && isAllSelected"
-                    [indeterminate]="selection.hasValue() && !isAllSelected">
-                </mat-checkbox>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row.id) : null"
-                    [checked]="selection.isSelected(row.id)">
-                </mat-checkbox>
-            </mat-cell>
-        </ng-container>
+          <!-- SELECTION ( CHECKBOXES ) -->
+          <ng-container matColumnDef="select" *ngIf="config.selectionEnabled">
+              <mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected"
+                      [indeterminate]="selection.hasValue() && !isAllSelected">
+                  </mat-checkbox>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row.id) : null"
+                      [checked]="selection.isSelected(row.id)">
+                  </mat-checkbox>
+              </mat-cell>
+          </ng-container>
 
-        <!-- ACTUAL DATA -->
-        <ng-container *ngFor="let col of columns" matColumnDef="{{ col.definition }}">
+          <!-- ACTUAL DATA -->
+          <ng-container *ngFor="let col of columns" matColumnDef="{{ col.definition }}">
 
-            <ng-container *ngIf="col.sort">
-                <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef mat-sort-header > {{ col.title }} </mat-header-cell>
-            </ng-container>
+              <ng-container *ngIf="col.sort">
+                  <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef mat-sort-header > {{ col.title }} </mat-header-cell>
+              </ng-container>
 
-            <ng-container *ngIf="!col.sort">
-                <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef> {{ col.title }} </mat-header-cell>
-            </ng-container>
+              <ng-container *ngIf="!col.sort">
+                  <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef> {{ col.title }} </mat-header-cell>
+              </ng-container>
 
-            <mat-cell class="{{col.cellClass}}" *matCellDef="let row">
-                <div *ngIf="!col.useComponent" [innerHtml]="(col.displayFunction(row) | sanitizeHtml)"></div>
-                <ndc-dynamic *ngIf="col.useComponent" [ndcDynamicComponent]="col.component" [ndcDynamicInputs]="col.inputs(row)"></ndc-dynamic>
-            </mat-cell>
+              <mat-cell class="{{col.cellClass}}" *matCellDef="let row">
+                  <div *ngIf="!col.useComponent" [innerHtml]="(col.displayFunction(row) | sanitizeHtml)"></div>
+                  <ndc-dynamic *ngIf="col.useComponent" [ndcDynamicComponent]="col.component" [ndcDynamicInputs]="col.inputs(row)"></ndc-dynamic>
+              </mat-cell>
 
-        </ng-container>
+          </ng-container>
 
-        <!-- ACTIONS -->
-        <ng-container matColumnDef="actions" *ngIf="config.actionsEnabled">
-            <!--HEADER ACTIONS-->
-            <mat-header-cell *matHeaderCellDef>
+          <!-- ACTIONS -->
+          <ng-container matColumnDef="actions" *ngIf="config.actionsEnabled">
+              <!--HEADER ACTIONS-->
+              <mat-header-cell *matHeaderCellDef>
 
-            <!--ADD ACTION-->
-            <button matTooltip="Add item" mat-icon-button *ngIf="config.addEnabled && oneHeaderAction" color="accent" (click)="addEvent.emit()"
-                (click)="$event.stopPropagation()">
-                <i class="fas fa-plus"></i>
-            </button>
-            <!--UPDATE MANY ACTION-->
-            <button matTooltip="Edit selected items" mat-icon-button *ngIf="config.editManyEnabled && oneHeaderAction" color="accent" (click)="updateManyEvent.emit()"
-                (click)="$event.stopPropagation()">
-                <i class="fas fa-edit"></i>
-            </button>
-            <!--DISABLE MANY ACTION-->
-            <button matTooltip="Disable selected items" mat-icon-button *ngIf="disableManyVisible && oneHeaderAction" color="accent" (click)="onDisableSelection()"
-                (click)="$event.stopPropagation()">
-                <i class="fas fa-times"></i>
-            </button>
-            <!--DELETE MANY ACTION-->
-            <button matTooltip="Delete selected items" mat-icon-button *ngIf="deleteManyVisible && oneHeaderAction" color="accent" (click)="onDeleteSelection()"
-                (click)="$event.stopPropagation()">
-                <i class="fas fa-trash"></i>
-            </button>
-            <!--Cluster of actions-->
-            <button matTooltip="Actions" *ngIf="!oneHeaderAction && !noHeaderAction" mat-icon-button color="accent" [matMenuTriggerFor]="headerMenu">
-                <i class="fa fa-ellipsis-v"></i>
-            </button>
+              <!--ADD ACTION-->
+              <button matTooltip="Add item" mat-icon-button *ngIf="config.addEnabled && oneHeaderAction" color="accent" (click)="addEvent.emit()"
+                  (click)="$event.stopPropagation()">
+                  <i class="fas fa-plus"></i>
+              </button>
+              <!--UPDATE MANY ACTION-->
+              <button matTooltip="Edit selected items" mat-icon-button *ngIf="config.editManyEnabled && oneHeaderAction" color="accent" (click)="updateManyEvent.emit()"
+                  (click)="$event.stopPropagation()">
+                  <i class="fas fa-edit"></i>
+              </button>
+              <!--DISABLE MANY ACTION-->
+              <button matTooltip="Disable selected items" mat-icon-button *ngIf="disableManyVisible && oneHeaderAction" color="accent" (click)="onDisableSelection()"
+                  (click)="$event.stopPropagation()">
+                  <i class="fas fa-times"></i>
+              </button>
+              <!--DELETE MANY ACTION-->
+              <button matTooltip="Delete selected items" mat-icon-button *ngIf="deleteManyVisible && oneHeaderAction" color="accent" (click)="onDeleteSelection()"
+                  (click)="$event.stopPropagation()">
+                  <i class="fas fa-trash"></i>
+              </button>
+              <!--Cluster of actions-->
+              <button matTooltip="Actions" *ngIf="!oneHeaderAction && !noHeaderAction" mat-icon-button color="accent" [matMenuTriggerFor]="headerMenu">
+                  <i class="fa fa-ellipsis-v"></i>
+              </button>
 
-            <mat-menu class="material-table-menu" #headerMenu="matMenu">
-                <button matTooltip="Add item" mat-icon-button *ngIf="config.addEnabled" color="accent" (click)="addEvent.emit()" (click)="$event.stopPropagation()">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <button matTooltip="Edit selected items" mat-icon-button *ngIf="config.editManyEnabled" color="accent" (click)="updateManyEvent.emit()" (click)="$event.stopPropagation()">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button matTooltip="Disable selected items" mat-icon-button *ngIf="disableManyVisible" color="accent" (click)="onDisableSelection()" (click)="$event.stopPropagation()">
-                    <i class="fas fa-times"></i>
-                </button>
-                <button matTooltip="Delete selected items" mat-icon-button *ngIf="deleteManyVisible" color="accent" (click)="onDeleteSelection()" (click)="$event.stopPropagation()">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </mat-menu>
+              <mat-menu class="material-table-menu" #headerMenu="matMenu">
+                  <button matTooltip="Add item" mat-icon-button *ngIf="config.addEnabled" color="accent" (click)="addEvent.emit()" (click)="$event.stopPropagation()">
+                      <i class="fas fa-plus"></i>
+                  </button>
+                  <button matTooltip="Edit selected items" mat-icon-button *ngIf="config.editManyEnabled" color="accent" (click)="updateManyEvent.emit()" (click)="$event.stopPropagation()">
+                      <i class="fas fa-edit"></i>
+                  </button>
+                  <button matTooltip="Disable selected items" mat-icon-button *ngIf="disableManyVisible" color="accent" (click)="onDisableSelection()" (click)="$event.stopPropagation()">
+                      <i class="fas fa-times"></i>
+                  </button>
+                  <button matTooltip="Delete selected items" mat-icon-button *ngIf="deleteManyVisible" color="accent" (click)="onDeleteSelection()" (click)="$event.stopPropagation()">
+                      <i class="fas fa-trash"></i>
+                  </button>
+              </mat-menu>
 
-            </mat-header-cell>
+              </mat-header-cell>
 
-            <!--CELL ACTIONS-->
-            <mat-cell  *matCellDef="let row">
+              <!--CELL ACTIONS-->
+              <mat-cell  *matCellDef="let row">
 
-                <button matTooltip="Actions" *ngIf="!noCellAction" mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu" (click)="$event.stopPropagation()">
-                        <i class="fa fa-ellipsis-v"></i>
-                </button>
+                  <button matTooltip="Actions" *ngIf="!noCellAction" mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu" (click)="$event.stopPropagation()">
+                          <i class="fa fa-ellipsis-v"></i>
+                  </button>
 
-                <mat-menu class="material-table-menu" #cellMenu="matMenu">
-                    <button matTooltip="Edit item" *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button matTooltip="Disable item" *ngIf="config.disableEnabled" mat-icon-button color="accent" (click)="disableEvent.emit(row)">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <button matTooltip="Delete item" *ngIf="config.deleteEnabled" mat-icon-button color="accent" (click)="deleteEvent.emit(row)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </mat-menu>
+                  <mat-menu class="material-table-menu" #cellMenu="matMenu">
+                      <button matTooltip="Edit item" *ngIf="config.editEnabled" mat-icon-button color="accent" (click)="updateEvent.emit(row)">
+                          <i class="fas fa-edit"></i>
+                      </button>
+                      <button matTooltip="Disable item" *ngIf="config.disableEnabled" mat-icon-button color="accent" (click)="disableEvent.emit(row)">
+                          <i class="fas fa-times"></i>
+                      </button>
+                      <button matTooltip="Delete item" *ngIf="config.deleteEnabled" mat-icon-button color="accent" (click)="deleteEvent.emit(row)">
+                          <i class="fas fa-trash"></i>
+                      </button>
+                  </mat-menu>
 
-            </mat-cell>
-        </ng-container>
+              </mat-cell>
+          </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-        <mat-row cdkDrag [cdkDragData]="row" highlightOnHover [class.selected-row]="selection.isSelected(row.id)"
-            *matRowDef="let row; columns: displayColumns;" (click)="onSelect(row)">
-        </mat-row>
+          <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+          <mat-row cdkDrag [cdkDragData]="row" highlightOnHover [class.selected-row]="selection.isSelected(row.id)"
+              *matRowDef="let row; columns: displayColumns;" (click)="onSelect(row)">
+          </mat-row>
 
-    </mat-table>
+      </mat-table>
 
-    <div class="no-records" *ngIf="datasourceEmpty">
-        <span>No records</span>
-    </div>
+      <div class="no-records" *ngIf="datasourceEmpty">
+          <span>No records</span>
+      </div>
 
-    <mat-paginator [hidden]="paginatorHidden" showFirstLastButtons (page)="config.serverSidePaging && onPageChange($event)"
-        [pageSize]="pageSize" [length]="(totalItems | async)" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
-</div>
+      <mat-paginator [hidden]="paginatorHidden" showFirstLastButtons (page)="config.serverSidePaging && onPageChange($event)"
+          [pageSize]="pageSize" [length]="(totalItems | async)" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+  </div>
+</span>

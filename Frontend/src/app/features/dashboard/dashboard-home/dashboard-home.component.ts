@@ -9,7 +9,7 @@ import { MaterialElevationDirective } from 'src/business/directives/elevation.di
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
-import { AppState } from 'src/ngrx/app/app.state';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
 import { SubSink } from 'subsink';
 import { TrackItem } from '../../../../server-models/entities/track-item.model';

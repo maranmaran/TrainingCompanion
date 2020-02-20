@@ -9,7 +9,7 @@ import { take } from 'rxjs/operators';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { trainingCreated } from 'src/ngrx/training-log/training/training.actions';
+import { trainingCreated } from 'src/ngrx/training-log/training.actions';
 import { Training } from 'src/server-models/entities/training.model';
 import { TrainingService } from './../../../../../business/services/feature-services/training.service';
 import { CreateTrainingRequest } from './../../../../../server-models/cqrs/training/create-training.request';

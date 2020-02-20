@@ -46,6 +46,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.store.select(athletes)
         .subscribe((athletes: ApplicationUser[]) => {
+          console.log(athletes)
           this.tableDatasource.updateDatasource(athletes);
         }))
 
@@ -80,7 +81,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
     ]
   }
 
-  onSelect = (athlete: ApplicationUser) => this.store.dispatch(setSelectedAthlete({ athlete }));
+  onSelect = (athlete: ApplicationUser) => this.store.dispatch(setSelectedAthlete({ entity: athlete }));
 
   onAdd(event) {
     const dialogRef = this.uiService.openDialogFromComponent(AthleteCreateEditComponent, {

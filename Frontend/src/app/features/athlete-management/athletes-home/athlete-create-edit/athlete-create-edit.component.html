@@ -12,15 +12,15 @@
 
     <mat-form-field>
       <input matInput formControlName="username" placeholder="Username">
-      <mat-error *ngIf="username.invalid">
-        <div class="validation-error" *ngFor="let error of username.errors">{{error}}</div>
+      <mat-error *ngIf="username.invalid && username.errors">
+        <div class="validation-error" *ngFor="let error of usernameErrors">{{error}}</div>
       </mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <input matInput formControlName="email" placeholder="Email" type="email">
-      <mat-error *ngIf="email.invalid">
-        <div class="validation-error" *ngFor="let error of email.errors">{{error}}</div>
+      <mat-error *ngIf="email.invalid && email.errors">
+        <div class="validation-error" *ngFor="let error of emailErrors">{{error}}</div>
       </mat-error>
     </mat-form-field>
 
@@ -39,7 +39,7 @@
 </div>
 
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-  <button mat-button color="accent" (click)="onClose()">Close</button>
-  <button mat-stroked-button color="primary" (click)="onSubmit()"
+  <button mat-button (click)="onClose()">Close</button>
+  <button mat-stroked-button color="accent" (click)="onSubmit()"
     [disabled]="!form.valid">{{ data.action == 'Create' ? 'Register' : 'Save' }}</button>
 </div>

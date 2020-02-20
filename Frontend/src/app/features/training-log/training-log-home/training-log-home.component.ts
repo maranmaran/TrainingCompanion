@@ -1,10 +1,10 @@
-import { MatTabGroup } from '@angular/material/tabs';
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/ngrx/global-setup.ngrx";
-import { clearTrainingState, setSelectedExercise, setSelectedTraining } from "src/ngrx/training-log/training/training.actions";
-import { selectedExercise, selectedTraining } from "src/ngrx/training-log/training/training.selectors";
+import { clearTrainingState, setSelectedExercise, setSelectedTraining } from "src/ngrx/training-log/training.actions";
+import { selectedExercise, selectedTraining } from "src/ngrx/training-log/training.selectors";
 import { Exercise } from "src/server-models/entities/exercise.model";
 import { Training } from "src/server-models/entities/training.model";
 import { SubSink } from "subsink";

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/app/app.state';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { UIService } from './../../../../../business/services/shared/ui.service';
 import { ImportEntities } from './../../../../../server-models/enums/import-entities.enum';
 

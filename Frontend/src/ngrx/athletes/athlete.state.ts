@@ -1,11 +1,14 @@
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { ApplicationUser } from '../../server-models/entities/application-user.model';
 
-export interface AthletesState {
-    athletes: ApplicationUser[];
-    selected: ApplicationUser;
+export interface AthleteState extends EntityState<ApplicationUser> {
+    selectedAthleteId: string | number;
 }
 
-export const initialAthletesState: AthletesState = {
-    athletes: undefined,
-    selected: undefined
-};
+export const adapterAthlete = createEntityAdapter<ApplicationUser>();
+
+export const athleteInitialState: AthleteState = adapterAthlete.getInitialState({
+  selectedAthleteId: undefined,
+})
+
+

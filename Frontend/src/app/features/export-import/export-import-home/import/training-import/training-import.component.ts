@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ImportService } from 'src/business/services/feature-services/import.service';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
-import { AppState } from 'src/ngrx/app/app.state';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { ImportTrainingRequest } from 'src/server-models/cqrs/import/import.request';
 import { ImportResponse } from 'src/server-models/cqrs/import/import.response';

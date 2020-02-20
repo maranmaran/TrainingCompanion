@@ -9,8 +9,8 @@ import { ReportService } from 'src/business/services/feature-services/report.ser
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { TrainingEffects } from 'src/ngrx/training-log/training/training.effects';
-import { trainingReducer } from 'src/ngrx/training-log/training/training.reducers';
+import { TrainingEffects } from 'src/ngrx/training-log/training.effects';
+import { trainingReducer } from 'src/ngrx/training-log/training.reducers';
 import { ExerciseService } from './../../../business/services/feature-services/exercise.service';
 import { ExerciseCreateEditComponent } from './exercise/exercise-create-edit/exercise-create-edit.component';
 import { ExerciseDetailsComponent } from './exercise/exercise-details/exercise-details.component';
