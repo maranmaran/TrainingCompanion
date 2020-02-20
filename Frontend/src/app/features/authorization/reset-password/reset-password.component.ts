@@ -1,13 +1,10 @@
-import { disableErrorDialogs } from './../../../../ngrx/user-interface/ui.actions';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Route } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { loginSuccess } from 'src/ngrx/auth/auth.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
 import { AuthService } from '../../../../business/services/feature-services/auth.service';
+import { disableErrorDialogs } from './../../../../ngrx/user-interface/ui.actions';
 
 @Component({
   selector: 'app-reset-password',

@@ -12,7 +12,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingCreated } from 'src/ngrx/training-log/training/training.actions';
 import { Training } from 'src/server-models/entities/training.model';
 import { TrainingService } from './../../../../../business/services/feature-services/training.service';
-import { CreateTrainingRequest } from './../../../../../server-models/cqrs/training/requests/create-training.request';
+import { CreateTrainingRequest } from './../../../../../server-models/cqrs/training/create-training.request';
 
 @Component({
   selector: 'app-training-create-edit',

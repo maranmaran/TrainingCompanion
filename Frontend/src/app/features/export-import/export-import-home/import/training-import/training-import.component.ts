@@ -5,8 +5,8 @@ import { ImportService } from 'src/business/services/feature-services/import.ser
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { AppState } from 'src/ngrx/app/app.state';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
-import { ImportTrainingRequest } from 'src/server-models/cqrs/import/request/import.request';
-import { ImportResponse } from 'src/server-models/cqrs/import/response/import.response';
+import { ImportTrainingRequest } from 'src/server-models/cqrs/import/import.request';
+import { ImportResponse } from 'src/server-models/cqrs/import/import.response';
 
 @Component({
   selector: 'app-training-import',

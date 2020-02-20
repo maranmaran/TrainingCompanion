@@ -1,14 +1,15 @@
-import { AuthService } from '../../../../business/services/feature-services/auth.service';
-import { ActivatedRoute } from '@angular/router';
-import { PasswordValidation } from 'src/business/utils/password.validator';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/requests/set-password.request';
 import { take } from 'rxjs/operators';
-import { login, loginSuccess } from 'src/ngrx/auth/auth.actions';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { PasswordValidation } from 'src/business/utils/password.validator';
+import { loginSuccess } from 'src/ngrx/auth/auth.actions';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
+import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/set-password.request';
+import { AuthService } from '../../../../business/services/feature-services/auth.service';
+
 
 @Component({
   selector: 'app-set-password',

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
-import { AddPaymentOptionRequest } from 'src/server-models/cqrs/billing/requests/add-payment-option.request';
-import { GetSubscriptionRequest } from 'src/server-models/cqrs/billing/requests/get-subscription.request';
-import { SubscribeRequest } from 'src/server-models/cqrs/billing/requests/subscribe.request';
-import { GetPlansResponse } from 'src/server-models/cqrs/billing/responses/get-plans.response';
+import { AddPaymentOptionRequest } from 'src/server-models/cqrs/billing/add-payment-option.request';
+import { GetPlansResponse } from 'src/server-models/cqrs/billing/get-plans.response';
+import { GetSubscriptionRequest } from 'src/server-models/cqrs/billing/get-subscription.request';
+import { SubscribeRequest } from 'src/server-models/cqrs/billing/subscribe.request';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { BaseService } from '../base.service';
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NotificationType } from './../../../../server-models/enums/notification-type.enum';
+import { NotificationType } from 'src/server-models/enums/notification-type.enum';
 
 @Component({
   selector: 'app-notification-type-icon',

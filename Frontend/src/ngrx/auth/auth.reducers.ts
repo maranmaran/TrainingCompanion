@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Action, ActionReducer } from '@ngrx/store/src/models';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';
 import { Subscription } from 'src/server-models/stripe/subscription.model';

@@ -1,14 +1,13 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MediaType } from 'src/server-models/enums/media-type.enum';
-import { MediaService } from 'src/business/services/feature-services/media.service';
-import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Store } from '@ngrx/store';
+import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
+import { MediaService } from 'src/business/services/feature-services/media.service';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { SubSink } from 'subsink';
 import { images } from 'src/ngrx/media/media.selectors';
-import { MediaDialogComponent } from 'src/app/shared/media-dialog/media-dialog.component';
-import { take } from 'rxjs/operators';
+import { MediaFile } from 'src/server-models/entities/media-file.model';
+import { MediaType } from 'src/server-models/enums/media-type.enum';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-user-images',

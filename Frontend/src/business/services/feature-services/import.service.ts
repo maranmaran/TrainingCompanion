@@ -1,16 +1,14 @@
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { catchError } from 'rxjs/operators';
 import { ImportJob } from 'src/app/features/export-import/models/import-job.model';
-import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { AppState } from 'src/ngrx/app/app.state';
-import { addImportJob, removeImportJob, updateImportJob, setImportResponse } from 'src/ngrx/export-import/export-import.actions';
-import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { addImportJob, removeImportJob, setImportResponse } from 'src/ngrx/export-import/export-import.actions';
 import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
 import { BaseService } from '../base.service';
-import { ImportExerciseTypeRequest, ImportTrainingRequest } from './../../../server-models/cqrs/import/request/import.request';
-import { ImportResponse } from './../../../server-models/cqrs/import/response/import.response';
-import { Injectable } from '@angular/core';
+import { ImportExerciseTypeRequest, ImportTrainingRequest } from './../../../server-models/cqrs/import/import.request';
+import { ImportResponse } from './../../../server-models/cqrs/import/import.response';
 
 @Injectable()
 export class ImportService extends BaseService {

@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { finalize, take } from 'rxjs/operators';
-import { UIService } from 'src/business/services/shared/ui.service';
 import { UserService } from 'src/business/services/feature-services/user.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { validateForm } from 'src/business/utils/form.utils';
 import { updateCurrentUser } from 'src/ngrx/auth/auth.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
-import { UpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
+import { UpdateUserRequest } from 'src/server-models/cqrs/users/update-user.request';
 
 @Component({
   selector: 'app-account',

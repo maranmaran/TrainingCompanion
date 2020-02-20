@@ -3,7 +3,7 @@ import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { forkJoin } from 'rxjs';
 import { concatMap, map, take, tap } from 'rxjs/operators';
-import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
+import { ExerciseTypePreviewComponent } from 'src/app/shared/custom-preview-components/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
 import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
