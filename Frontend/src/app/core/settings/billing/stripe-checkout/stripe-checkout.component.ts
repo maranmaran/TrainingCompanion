@@ -8,7 +8,7 @@ import { map, startWith, take } from 'rxjs/operators';
 import { Theme } from 'src/business/shared/theme.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { SubSink } from 'subsink';
 
 @Component({

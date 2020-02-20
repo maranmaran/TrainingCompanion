@@ -12,7 +12,7 @@ import { TagGroupService } from "src/business/services/feature-services/tag-grou
 import { CRUD } from "src/business/shared/crud.enum";
 import { AppState } from "src/ngrx/app/app.state";
 import { exerciseTypeUpdated } from 'src/ngrx/exercise-type/exercise-type.actions';
-import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/requests/update-exercise-type.request';
+import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/update-exercise-type.request';
 import { ExerciseType, ExerciseTypeTag } from "src/server-models/entities/exercise-type.model";
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { Tag } from 'src/server-models/entities/tag.model';

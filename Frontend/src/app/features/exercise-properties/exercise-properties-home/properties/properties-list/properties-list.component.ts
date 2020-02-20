@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { ActiveFlagComponent } from 'src/app/shared/active-flag/active-flag.component';
+import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
 import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";

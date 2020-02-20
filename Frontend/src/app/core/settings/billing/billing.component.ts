@@ -9,7 +9,7 @@ import { BillingService } from 'src/business/services/feature-services/billing.s
 import { addSubscription } from 'src/ngrx/auth/auth.actions';
 import { currentUser, isSubscribed } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { Plan } from 'src/server-models/stripe/plan.model';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { SubSink } from 'subsink';

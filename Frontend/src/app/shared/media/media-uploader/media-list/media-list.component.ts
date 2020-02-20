@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
-import { MediaDialogComponent } from '../../media-dialog/media-dialog.component';
 
 @Component({
   selector: 'app-media-list',

@@ -1,18 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { AppState } from 'src/ngrx/app/app.state';
 import { activeImportJobs } from 'src/ngrx/export-import/export-import.selectors';
-import { ImportExerciseTypeRequest } from 'src/server-models/cqrs/import/request/import.request';
-import { ImportResponse } from 'src/server-models/cqrs/import/response/import.response';
+import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
+import { ImportExerciseTypeRequest } from 'src/server-models/cqrs/import/import.request';
+import { ImportResponse } from 'src/server-models/cqrs/import/import.response';
 import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
 import { SubSink } from 'subsink';
 import { ImportService } from './../../../../../../business/services/feature-services/import.service';
 import { lastImportResponse } from './../../../../../../ngrx/export-import/export-import.selectors';
 import { ImportJob } from './../../../models/import-job.model';
-import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
-import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 
 @Component({
   selector: 'app-exercise-type-import',

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, EffectNotification, ofType, OnRunEffects } from '@ngrx/effects';
-import { Action, ActionReducer, createAction, createReducer, on, Store, createSelector, createFeatureSelector } from '@ngrx/store';
+import { Action, ActionReducer, createAction, createFeatureSelector, createReducer, createSelector, on, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, finalize, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/business/services/feature-services/auth.service';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { fetchCurrentUser, updateCurrentUser } from './auth/auth.actions';
 import { AppState } from './global-setup.ngrx';
 

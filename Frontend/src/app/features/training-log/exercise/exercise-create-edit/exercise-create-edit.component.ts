@@ -13,7 +13,7 @@ import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 import { selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
-import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/requests/create-exercise.request';
+import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/create-exercise.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';

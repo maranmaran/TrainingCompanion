@@ -5,10 +5,11 @@ import * as jwt_decode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/requests/set-password.request';
-import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
+import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/set-password.request';
+import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
 import { BaseService } from '../base.service';
+
 
 @Injectable({ providedIn: 'root'})
 export class AuthService extends BaseService {

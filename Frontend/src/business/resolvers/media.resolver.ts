@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, concatMap, map, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { concatMap, map, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { mediaFetched } from 'src/ngrx/media/media.actions';
 import { getSelectorByMediaType } from 'src/ngrx/media/media.selectors';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { MediaType } from 'src/server-models/enums/media-type.enum';
 import { MediaService } from '../services/feature-services/media.service';
 import { currentUser } from './../../ngrx/auth/auth.selectors';
-import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
-import { UIProgressBar } from '../shared/ui-progress-bars.enum';
 
 @Injectable()
 export class MediaResolver implements Resolve<Observable<MediaFile[] | void>> {
@@ -27,7 +25,7 @@ export class MediaResolver implements Resolve<Observable<MediaFile[] | void>> {
 
         return this.store.select(currentUser)
             .pipe(
-                take(1), 
+                take(1),
                 map((user: CurrentUser) => user.id),
                 concatMap((userId: string) => {
                     const type = route.data['type'];
@@ -42,13 +40,13 @@ export class MediaResolver implements Resolve<Observable<MediaFile[] | void>> {
         return this.store
             .select(selector)
             .pipe(
-                take(1), 
+                take(1),
                 concatMap((media: MediaFile[]) => {
 
                 if (!media) {
                     return this.updateState(userId, type);
                 }
-                        
+
                 return of(media);
             }));
     }

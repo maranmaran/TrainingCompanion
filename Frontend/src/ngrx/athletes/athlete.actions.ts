@@ -1,5 +1,3 @@
-import { UpdateUserRequest } from './../../server-models/cqrs/users/requests/update-user.request';
-import { CreateUserRequest } from './../../server-models/cqrs/users/requests/create-user.request';
 import { createAction, props } from "@ngrx/store";
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 
@@ -22,7 +20,7 @@ export const athletesFetched = createAction(
     '[Athlete] Fetched',
     props<{ athletes: ApplicationUser[] }>()
 )
-   
+
 // UPDATE
 // export const updateAthlete = createAction(
 //     '[Athlete API] Update',

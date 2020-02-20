@@ -8,7 +8,7 @@ import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
 import { selectedTraining, sessionVolume } from 'src/ngrx/training-log/training/training.selectors';
-import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/requests/update-training.request';
+import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/update-training.request';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { getMediaType } from 'src/server-models/enums/media-type.enum';

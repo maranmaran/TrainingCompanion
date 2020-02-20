@@ -6,7 +6,7 @@ import { UserService } from 'src/business/services/feature-services/user.service
 import { athleteUpdated } from 'src/ngrx/athletes/athlete.actions';
 import { selectedAthlete } from 'src/ngrx/athletes/athlete.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { GetUpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
+import { GetUpdateUserRequest } from 'src/server-models/cqrs/users/update-user.request';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 
 @Component({

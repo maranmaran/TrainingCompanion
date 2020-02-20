@@ -9,12 +9,12 @@ import { UserService } from 'src/business/services/feature-services/user.service
 import { athleteCreated, athleteUpdated } from 'src/ngrx/athletes/athlete.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { UpdateUserRequest } from 'src/server-models/cqrs/users/requests/update-user.request';
+import { UpdateUserRequest } from 'src/server-models/cqrs/users/update-user.request';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { Gender } from 'src/server-models/enums/gender.enum';
 import { ServerStatusCodes } from 'src/server-models/error/status-codes/server.codes';
 import { CRUD } from './../../../../../business/shared/crud.enum';
-import { CreateUserRequest } from './../../../../../server-models/cqrs/users/requests/create-user.request';
+import { CreateUserRequest } from './../../../../../server-models/cqrs/users/create-user.request';
 import { AccountType } from './../../../../../server-models/enums/account-type.enum';
 
 @Component({

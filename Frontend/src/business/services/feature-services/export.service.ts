@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { ExportExerciseTypeRequest, ExportTrainingRequest } from 'src/server-models/cqrs/export/request/export.request';
-import { BaseService } from '../base.service';
-import { ExportResponse } from './../../../server-models/cqrs/export/response/export.response';
 import { Injectable } from '@angular/core';
+import { catchError } from 'rxjs/operators';
+import { ExportExerciseTypeRequest, ExportTrainingRequest } from 'src/server-models/cqrs/export/export.request';
+import { BaseService } from '../base.service';
+import { ExportResponse } from './../../../server-models/cqrs/export/export.response';
 
 @Injectable()
 export class ExportService extends BaseService {

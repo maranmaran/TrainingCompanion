@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
-import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/response/get-training-metrics.response';
+import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/get-training-metrics.response';
 import { BaseService } from '../base.service';
 
 @Injectable()

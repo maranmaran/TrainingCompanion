@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as _ from "lodash";
 import { concatMap, map, take } from 'rxjs/operators';
-import { ExerciseTypePreviewComponent } from 'src/app/shared/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
 import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
@@ -21,6 +20,7 @@ import { SubSink } from 'subsink';
 import { ExerciseTypeService } from './../../../../../business/services/feature-services/exercise-type.service';
 import { TagGroupService } from './../../../../../business/services/feature-services/tag-group.service';
 import { currentUserId } from './../../../../../ngrx/auth/auth.selectors';
+import { ExerciseTypePreviewComponent } from './../../../../shared/custom-preview-components/exercise-type-preview/exercise-type-preview.component';
 import { PagingModel } from './../../../../shared/material-table/table-models/paging.model';
 import { ExerciseTypeCreateEditComponent } from './../exercise-type-create-edit/exercise-type-create-edit.component';
 

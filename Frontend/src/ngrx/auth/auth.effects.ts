@@ -7,12 +7,12 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { UserService } from 'src/business/services/feature-services/user.service';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { AuthService } from '../../business/services/feature-services/auth.service';
 import { AppState } from '../global-setup.ngrx';
 import { enableErrorDialogs, setActiveProgressBar, switchTheme } from '../user-interface/ui.actions';
-import { SignInRequest } from './../../server-models/cqrs/authorization/requests/sign-in.request';
+import { SignInRequest } from './../../server-models/cqrs/authorization/sign-in.request';
 import * as AuthActions from './auth.actions';
 
 @Injectable()

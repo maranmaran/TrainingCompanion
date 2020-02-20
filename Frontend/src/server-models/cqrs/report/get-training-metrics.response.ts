@@ -1,4 +1,4 @@
-import { ChartData } from './../../../entities/chart-data';
+import { ChartData } from 'src/server-models/entities/chart-data';
 
 export class GetTrainingMetricsResponse {
   totalVolumeChartData:              ChartData<number>;

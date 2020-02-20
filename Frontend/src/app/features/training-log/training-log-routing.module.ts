@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NotImplementedComponent } from 'src/app/shared/not-implemented/not-implemented.component';
+import { NotImplementedComponent } from 'src/app/shared/custom-preview-components/not-implemented/not-implemented.component';
 import { TrainingDetailsResolver } from './../../../business/resolvers/training-details.resolver';
 import { ExerciseDetailsComponent } from './exercise/exercise-details/exercise-details.component';
 import { TrainingLogHomeComponent } from './training-log-home/training-log-home.component';
