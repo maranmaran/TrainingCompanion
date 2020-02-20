@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { AppState } from 'src/ngrx/app/app.state';
 import { exertionSystem } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 
 export class ExertionSystemService {

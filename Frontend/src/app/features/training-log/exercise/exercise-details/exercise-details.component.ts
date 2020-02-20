@@ -7,8 +7,8 @@ import { ExerciseService } from 'src/business/services/feature-services/exercise
 import { transformWeight } from 'src/business/services/shared/unit-system.service';
 import { currentUserId, unitSystem } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
-import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training/training.selectors';
+import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
+import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training.selectors';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';

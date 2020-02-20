@@ -11,12 +11,13 @@ namespace Backend.Domain.Entities.User
         public UnitSystem UnitSystem { get; set; }
         public bool UseRpeSystem { get; set; }
         public RpeSystem RpeSystem { get; set; }
-        public ICollection<NotificationSetting> NotificationSettings { get; set; }
 
         public Guid? MainDashboardId { get; set; }
         public virtual Dashboard.Dashboard MainDashboard { get; set; }
 
         public Guid ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public ICollection<NotificationSetting> NotificationSettings { get; set; } = new HashSet<NotificationSetting>();
     }
 }

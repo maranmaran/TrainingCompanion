@@ -6,8 +6,8 @@ import { take } from 'rxjs/operators';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { sortBy } from 'src/business/utils/utils';
-import { AppState } from 'src/ngrx/app/app.state';
-import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training/training.actions';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training.actions';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { UIService } from '../../../../../../../business/services/shared/ui.service';
 import { Exercise } from '../../../../../../../server-models/entities/exercise.model';
@@ -32,7 +32,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
     private store: Store<AppState>,
     private trainingService: TrainingService,
     private uiService: UIService,
-  ) { 
+  ) {
   }
 
   ngOnInit() {

@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { UserService } from 'src/business/services/feature-services/user.service';
@@ -57,6 +58,9 @@ export class AthleteCreateEditComponent implements OnInit {
   get email(): AbstractControl { return this.form.get('email'); }
   get username(): AbstractControl { return this.form.get('username'); }
 
+  get emailErrors(): string[] { return Object.values(this.email.errors)}
+  get usernameErrors(): string[] { return Object.values(this.username.errors)}
+
   onGenderChange(event: MatSlideToggleChange) {
     if (event.checked) this.athlete.gender = Gender.Male;
     if (!event.checked) this.athlete.gender = Gender.Female;
@@ -107,7 +111,7 @@ export class AthleteCreateEditComponent implements OnInit {
     this.userService.create(request)
       .subscribe(
         (athlete: ApplicationUser) => {
-          this.store.dispatch(athleteCreated({ athlete }));
+          this.store.dispatch(athleteCreated({ entity: athlete }));
           this.onClose(athlete);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)
@@ -127,7 +131,11 @@ export class AthleteCreateEditComponent implements OnInit {
     this.userService.update(request)
       .subscribe(
         (athlete: ApplicationUser) => {
-          this.store.dispatch(athleteUpdated({ athlete }));
+          let updateStatement: Update<ApplicationUser> = {
+            id: athlete.id,
+            changes: athlete
+          }
+          this.store.dispatch(athleteUpdated({ entity: updateStatement }));
           this.onClose(athlete);
         },
         (err: HttpErrorResponse) => this.handleError(err.error)

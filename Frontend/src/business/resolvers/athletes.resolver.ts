@@ -54,7 +54,7 @@ export class AthletesResolver implements Resolve<Observable<ApplicationUser[] | 
             .pipe(
                 take(1),
                 map((athletes: ApplicationUser[]) => {
-                    this.store.dispatch(athletesFetched({ athletes }));
+                    this.store.dispatch(athletesFetched({ entities: athletes }));
                 })
             );
     }

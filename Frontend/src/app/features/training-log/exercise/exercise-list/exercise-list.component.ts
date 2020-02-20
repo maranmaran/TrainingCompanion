@@ -17,11 +17,11 @@ import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { reorderExercises, setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training/training.actions';
+import { reorderExercises, setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training.actions';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
-import { selectedTraining, selectedTrainingExercises, selectedTrainingId } from '../../../../../ngrx/training-log/training/training.selectors';
+import { selectedTraining, selectedTrainingExercises, selectedTrainingId } from '../../../../../ngrx/training-log/training.selectors';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 
 @Component({

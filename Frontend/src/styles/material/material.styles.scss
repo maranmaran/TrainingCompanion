@@ -9,24 +9,30 @@
 .settings-dialog-container .mat-drawer-content {
   overflow-x: hidden;
 }
-
 .media-dialog-container .mat-dialog-container {
   overflow: hidden;
   padding: 0;
   margin: 0;
 }
-
 .media-dialog-container .mat-dialog-content {
   margin: 0;
   padding: 0;
   display: flex;
+}
+.dialog-form-divider {
+  margin-bottom: 1rem !important;
+  margin-left: -24px !important;
+  margin-right: -24px !important;
+}
+
+.dialog-form-actions {
+  margin-top: 2rem !important;
 }
 
 .dropdown-panel-class {
   margin-top: 21px !important;
   min-width: 100% !important;
 }
-
 
 .mat-sidenav-content {
   display: block !important;
@@ -41,28 +47,9 @@ mat-form-field {
   width: 100%;
 }
 
-.dialog-form-divider {
-    margin-bottom: 1rem !important;
-    margin-left: -24px !important;
-    margin-right: -24px !important;
-  }
-
-.dialog-form-actions {
-  margin-top: 2rem !important;
-}
-
-
-// mat-cell {
-//   .mat-icon-button {
-//     padding: 0px 5px !important;
-//     width: auto !important;
-//   }
-// }
-
 .cdk-column-actions {
   padding-right: 0px !important;
 }
-
 
 // ==== MAT ERROR - SO IT DOESN'T OVERFLOW ====
 .mat-form-field-underline {
@@ -71,5 +58,4 @@ mat-form-field {
 .mat-form-field-subscript-wrapper {
   position: relative !important;
 }
-// ======================================
 
