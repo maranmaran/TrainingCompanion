@@ -84,7 +84,14 @@ namespace Backend.Application.Business.Business.Users.CreateUser
             await _context.SaveChangesAsync();
 
             // send mail to complete registration
-            await _mediator.Send(new SendRegistrationEmailRequest(athlete));
+            try
+            {
+                await _mediator.Send(new SendRegistrationEmailRequest(athlete));
+            }
+            catch (Exception e)
+            {
+                // log
+            }
 
             // return data
             return _mapper.Map<ApplicationUser>(athlete);
