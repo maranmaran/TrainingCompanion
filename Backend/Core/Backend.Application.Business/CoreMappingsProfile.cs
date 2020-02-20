@@ -75,9 +75,12 @@ namespace Backend.Application.Business
 
         private void UserMappings()
         {
-            CreateMap<CreateUserRequest, Coach>().IgnoreAllVirtual();
-            CreateMap<CreateUserRequest, Athlete>().IgnoreAllVirtual();
-            CreateMap<CreateUserRequest, SoloAthlete>().IgnoreAllVirtual();
+            CreateMap<CreateUserRequest, Coach>().IgnoreAllVirtual()
+                .ForMember(x => x.UserSetting, o => o.MapFrom(x => new UserSetting()));
+            CreateMap<CreateUserRequest, Athlete>().IgnoreAllVirtual()
+                .ForMember(x => x.UserSetting, o => o.MapFrom(x => new UserSetting()));
+            CreateMap<CreateUserRequest, SoloAthlete>().IgnoreAllVirtual()
+                .ForMember(x => x.UserSetting, o => o.MapFrom(x => new UserSetting()));
 
             CreateMap<UpdateUserRequest, Coach>().IgnoreAllVirtual();
             CreateMap<UpdateUserRequest, Athlete>().IgnoreAllVirtual();
