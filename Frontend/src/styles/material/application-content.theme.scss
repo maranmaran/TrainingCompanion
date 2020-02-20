@@ -4,20 +4,22 @@
 // ====================== MIXINS ======================
 
 @import "./mixins/splash.scss";
-@import "./mixins/plans.scss";
+@import "./mixins/payment-plans.scss";
 @import "./mixins/links.scss";
-@import "./mixins/details.scss";
-@import "./mixins/table.scss";
+@import "./mixins/details-view.scss";
+@import "./mixins/material-table.scss";
 @import "./mixins/event-calendar.scss";
 @import "./mixins/sidenav.scss";
 @import "./mixins/colors.scss";
 @import "./mixins/exercise-type-chips.scss";
-@import "./mixins/create-edit.scss";
+@import "./mixins/create-edit-components/create-edit-exercise-types.scss";
+@import "./mixins/create-edit-components/create-edit-sets.scss";
 @import "./mixins/scrollbar.scss";
-@import "./mixins/editor.scss";
+@import "./mixins/ck-text-editor.scss";
 @import "./mixins/media-uploader.scss";
 @import "./mixins/notifications-menu.scss";
 @import "./mixins/timepicker.scss";
+@import "./mixins/autofill.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -29,12 +31,14 @@
   @include main-sidenav-component-theme($theme);
   @include colors-theme($theme);
   @include exercise-type-chips-component-theme($theme);
-  @include create-edit-themes($theme);
   @include scrollbar-theme($theme);
   @include editor-component-theme($theme);
   @include media-uploader-theme($theme);
   @include notifications-menu-theme($theme);
   @include timepicker-component-theme($theme);
+  @include autofill-theme($theme);
+  @include create-edit-sets-theme($theme);
+  @include create-edit-exercise-types-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

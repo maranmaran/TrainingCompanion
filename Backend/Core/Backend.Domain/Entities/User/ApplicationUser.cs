@@ -10,6 +10,7 @@ namespace Backend.Domain.Entities.User
 {
     public class ApplicationUser
     {
+
         public Guid Id { get; set; }
         public string CustomerId { get; set; }
 

@@ -1,4 +1,4 @@
-<div *ngIf="subscription" id="current-subscription" 
+<div *ngIf="subscription" id="current-subscription"
  fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px" fxLayoutAlign="center center">
 
   <div id="subscription-placeholder">
@@ -21,11 +21,11 @@
     <div id="actions" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5rem">
 
       <div id="cancel">
-        <button mat-button color="accent" (click)="cancelSubscription.emit(subscription.id)">Cancel</button>
+        <button mat-button (click)="cancelSubscription.emit(subscription.id)">Cancel</button>
       </div>
 
       <div id="change">
-        <button mat-stroked-button color="primary" (click)="onUpgrade(subscription.id)">Change</button>
+        <button mat-stroked-button color="accent" (click)="onUpgrade(subscription.id)">Change</button>
       </div>
     </div>
 

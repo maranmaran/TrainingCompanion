@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, pluck, switchMap, take } from 'rxjs/operators';
 import { UserService } from 'src/business/services/feature-services/user.service';
 import { athleteUpdated } from 'src/ngrx/athletes/athlete.actions';
 import { selectedAthlete } from 'src/ngrx/athletes/athlete.selectors';
@@ -34,9 +35,13 @@ export class AthleteDetailsComponent implements OnInit {
       switchMap(athlete => {
         athlete.active = value;
         return this.userService.update(GetUpdateUserRequest(athlete));
-      })).subscribe(
-        (athlete: ApplicationUser) => {
-          this.store.dispatch(athleteUpdated({ athlete }));
+      }),pluck("id", "active")).subscribe(
+        (response: {id: string, active: boolean}) => {
+          let updateStatement: Update<ApplicationUser> = {
+            id: response.id,
+            changes: { active: response.active }
+          }
+          this.store.dispatch(athleteUpdated({ entity: updateStatement }));
         },
         err => console.log(err)
       )
