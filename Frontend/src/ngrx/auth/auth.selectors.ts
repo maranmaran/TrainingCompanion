@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';
 import { AuthState } from './auth.state';

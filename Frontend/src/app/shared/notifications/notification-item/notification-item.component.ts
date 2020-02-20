@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PushNotification } from './../../../server-models/entities/push-notification.model';
+import { PushNotification } from 'src/server-models/entities/push-notification.model';
 
 @Component({
   selector: 'app-notification-item',

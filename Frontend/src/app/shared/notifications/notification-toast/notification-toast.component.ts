@@ -2,7 +2,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 import { Component } from '@angular/core';
 import { Toast, ToastPackage, ToastrService } from 'ngx-toastr';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
-import { PushNotification } from './../../../server-models/entities/push-notification.model';
+import { PushNotification } from 'src/server-models/entities/push-notification.model';
 
 
 @Component({

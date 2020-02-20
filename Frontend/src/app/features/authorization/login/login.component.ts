@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { login } from 'src/ngrx/auth/auth.actions';
+import { loginError } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { disableErrorDialogs, setActiveProgressBar, switchTheme } from 'src/ngrx/user-interface/ui.actions';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
-import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
-import { loginError } from 'src/ngrx/auth/auth.selectors';
+import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
 
 @Component({
   selector: 'app-login',

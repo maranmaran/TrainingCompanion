@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, On
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
-import { MediaDialogComponent } from 'src/app/shared/media-dialog/media-dialog.component';
+import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
 import { ChatAdapter } from './core/chat-adapter';
 import { IChatController } from './core/chat-controller';
 import { IChatGroupAdapter } from './core/chat-group-adapter';

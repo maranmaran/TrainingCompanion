@@ -1,4 +1,5 @@
-import { Set } from './../../../entities/set.model';
+import { Set } from './../../../server-models/entities/set.model';
+
 export class CreateExerciseRequest {
     exerciseTypeId: string;
     trainingId: string;

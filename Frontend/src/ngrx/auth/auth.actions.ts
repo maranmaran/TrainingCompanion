@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { SignInRequest } from 'src/server-models/cqrs/authorization/requests/sign-in.request';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/responses/current-user.response';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
+import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
 

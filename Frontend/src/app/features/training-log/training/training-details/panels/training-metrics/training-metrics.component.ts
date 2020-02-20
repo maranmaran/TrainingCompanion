@@ -11,7 +11,7 @@ import { settingsUpdated } from 'src/ngrx/auth/auth.actions';
 import { currentUserId, unitSystem } from 'src/ngrx/auth/auth.selectors';
 import { selectedTrainingId } from 'src/ngrx/training-log/training/training.selectors';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
-import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/response/get-training-metrics.response';
+import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/get-training-metrics.response';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { SubSink } from 'subsink';
 import { getNumberOfLiftsChartConfig } from './chart-configs/number-of-lifts.chart-config';

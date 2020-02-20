@@ -20,12 +20,14 @@ import { environment } from 'src/environments/environment';
 import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
 import { metaReducers, reducers } from 'src/ngrx/global-setup.ngrx';
 import { MaterialModule } from '../shared/angular-material.module';
-import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
-import { ErrorSnackbarComponent } from '../shared/error-snackbar/error-snackbar.component';
-import { NotificationToastComponent } from '../shared/notification-toast/notification-toast.component';
+import { ConfirmDialogComponent } from '../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import { ErrorSnackbarComponent } from '../shared/dialogs/error-snackbar/error-snackbar.component';
+import { MessageDialogComponent } from '../shared/dialogs/message-dialog/message-dialog.component';
+import { ExportImportServicesModule } from '../shared/export-import-services.module';
+import { NotificationToastComponent } from '../shared/notifications/notification-toast/notification-toast.component';
 import { SharedModule } from '../shared/shared.module';
+import { SignalrHubsModule } from '../shared/signlar-hubs.module';
 import { CoreEffects } from './../../ngrx/global-setup.ngrx';
-import { MessageDialogComponent } from './../shared/message-dialog/message-dialog.component';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { CoreRoutingModule } from './core-routing.module';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
@@ -39,8 +41,6 @@ import { PlansComponent } from './settings/billing/plans/plans.component';
 import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stripe-checkout.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
-import { SignalrHubsModule } from '../shared/signlar-hubs.module';
-import { ExportImportServicesModule } from '../shared/export-import-services.module';
 @NgModule({
     imports: [
         SharedModule,
