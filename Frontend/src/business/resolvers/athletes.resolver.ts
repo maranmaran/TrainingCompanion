@@ -11,6 +11,7 @@ import { ApplicationUser } from 'src/server-models/entities/application-user.mod
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { currentUser } from '../../ngrx/auth/auth.selectors';
 import { UserService } from '../services/feature-services/user.service';
+import { isEmpty } from '../utils/utils';
 
 @Injectable()
 export class AthletesResolver implements Resolve<Observable<ApplicationUser[] | void>> {
@@ -40,7 +41,7 @@ export class AthletesResolver implements Resolve<Observable<ApplicationUser[] | 
                 take(1),
                 concatMap((athletes: ApplicationUser[]) => {
 
-                    if (!athletes) {
+                    if (isEmpty(athletes)) {
                         return this.updateState(userId);
                     }
 
