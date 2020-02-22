@@ -85,6 +85,14 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   getTableColumns() {
     return [
       new CustomColumn({
+        definition: 'order',
+        title: '#',
+        sort: true,
+        headerClass: 'order-header',
+        cellClass: 'order-cell',
+        displayFunction: (item: Exercise) => `${item.order + 1}.`,
+      }),
+      new CustomColumn({
         definition: 'exercise',
         title: 'Exercise',
         sort: true,
@@ -110,7 +118,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     this.store.dispatch(setSelectedExercise({ entity: exercise }));
   }
 
-  onAdd(event) {
+  onAdd() {
     var pagingModel = new PagingModel();
 
     forkJoin(
@@ -140,10 +148,6 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
             }
           });
       });
-  }
-
-  onUpdate(event) {
-    throw new Error("Not implemented");
   }
 
   onDeleteSingle(exercise: Exercise) {
