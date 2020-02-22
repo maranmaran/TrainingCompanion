@@ -62,6 +62,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
     tableConfig.filterFunction = (data: TagGroup, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = true;
     tableConfig.pageSizeOptions = [5];
+    this.store.select(tagGroupCount).pipe(take(1)).subscribe(count => tableConfig.pageSizeOptions = [...tableConfig.pageSizeOptions, count])
 
     return tableConfig;
   }

@@ -13,6 +13,7 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { reorderTags, setSelectedTag } from 'src/ngrx/tag-group/tag-group.actions';
 import { selectedTagGroup } from 'src/ngrx/tag-group/tag-group.selectors';
+import { tagCount } from 'src/ngrx/tag/tag.selectors';
 import { Tag } from 'src/server-models/entities/tag.model';
 import { SubSink } from 'subsink';
 import { TagGroup } from '../../../../../../server-models/entities/tag-group.model';
@@ -76,6 +77,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
     tableConfig.filterFunction = (data: Tag, filter: string) => data.value.toLocaleLowerCase().indexOf(filter) !== -1
     tableConfig.enableDragAndDrop = true;
     tableConfig.pageSizeOptions = [5];
+    this.store.select(tagCount).pipe(take(1)).subscribe(count => tableConfig.pageSizeOptions = [...tableConfig.pageSizeOptions, count])
 
     return tableConfig;
   }
