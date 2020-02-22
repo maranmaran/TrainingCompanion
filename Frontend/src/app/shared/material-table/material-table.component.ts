@@ -199,8 +199,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   onListDrop(event: CdkDragDrop<any[]>) {
 
-    let from = this.paginator.pageIndex * this.pageSize;
-    let to = from + this.pageSize
+    let from = this.paginator.pageIndex * this.paginator.pageSize;
+    let to = from + this.paginator.pageSize;
 
     const array = [...this.datasource.data.slice(from, to)];
 

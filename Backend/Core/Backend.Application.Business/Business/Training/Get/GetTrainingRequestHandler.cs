@@ -4,6 +4,7 @@ using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Backend.Application.Business.Business.Training.Get
 
                     .Include(x => x.Media)
 
-                    .Include(x => x.Exercises.OrderBy(x => x.Order))
+                    .Include(x => x.Exercises)
                     .ThenInclude(x => x.Media)
                     .Include(x => x.Exercises)
                     .ThenInclude(x => x.Sets)
@@ -41,6 +42,9 @@ namespace Backend.Application.Business.Business.Training.Get
                     .ThenInclude(x => x.TagGroup)
 
                     .FirstOrDefault(x => x.Id == request.TrainingId);
+
+                // ef core can't sort include statements so we do that after fetching data
+                training.Exercises = training.Exercises.OrderBy(x => x.Order).ToArray();
 
                 await RefreshPresignedUrls(training);
 

@@ -19,7 +19,7 @@
           </mat-autocomplete>
       </mat-form-field>
 
-      <div id="tags" *ngIf="exerciseType.value">
+      <div id="tags">
         <app-exercise-type-chip-list  *ngIf="exerciseType.value" [propertyList]="exerciseType.value.properties"></app-exercise-type-chip-list>
       </div>
 
