@@ -3,10 +3,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { concatMap, map, switchMap, take, tap } from 'rxjs/operators';
-import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { LocalStorageKeys } from 'src/business/shared/localstorage.keys.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Training } from 'src/server-models/entities/training.model';
+import { ExerciseService } from './../../business/services/feature-services/exercise.service';
 import * as TrainingActions from './training.actions';
 import { selectedTraining } from './training.selectors';
 
@@ -16,7 +16,7 @@ export class TrainingEffects {
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
-    private trainingService: TrainingService
+    private exerciseService: ExerciseService
   ) { }
 
   trainingSelected$ = createEffect(() =>
@@ -53,13 +53,13 @@ export class TrainingEffects {
         ofType(TrainingActions.reorderExercises),
         concatMap(_ => this.store.select(selectedTraining).pipe(take(1))),
         switchMap(training => {
-          return this.trainingService.update(training)
+          return this.exerciseService.updateMany(training.exercises)
             .pipe(
               take(1),
               map(_ => {
 
                   let updateStatement: Update<Training>;
-                  updateStatement = { id: training.id, changes: training }
+                  updateStatement = { id: training.id, changes: { exercises: training.exercises } }
 
                 return this.store.dispatch(TrainingActions.trainingUpdated({ entity: updateStatement }))
               }))

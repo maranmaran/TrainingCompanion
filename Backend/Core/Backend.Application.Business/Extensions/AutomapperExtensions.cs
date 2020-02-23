@@ -18,5 +18,16 @@ namespace Backend.Application.Business.Extensions
 
             return expression;
         }
+
+        public static TEntity NullfyVirtualProperties<TEntity>(this TEntity entity) where TEntity : class
+        {
+            var desType = typeof(TEntity);
+            foreach (var property in desType.GetProperties().Where(p => p.GetGetMethod().IsVirtual))
+            {
+                property.SetValue(entity, null);
+            }
+
+            return entity;
+        }
     }
 }
