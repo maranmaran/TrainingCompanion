@@ -3,6 +3,7 @@ using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.User;
 using Backend.Service.Email.Interfaces;
 using Backend.Service.Email.Models;
+using Backend.Service.Logging.Interfaces;
 using Backend.Service.PushNotifications;
 using Microsoft.AspNetCore.SignalR;
 using MimeKit;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,11 +23,13 @@ namespace Backend.Application.Business.Business.PushNotification
     {
         private readonly IHubContext<PushNotificationHub, IPushNotificationHub> _hubContext;
         private readonly IEmailService _emailService;
+        private readonly ILoggingService _loggingService;
 
-        public NotificationService(IHubContext<PushNotificationHub, IPushNotificationHub> hubContext, IEmailService emailService)
+        public NotificationService(IHubContext<PushNotificationHub, IPushNotificationHub> hubContext, IEmailService emailService, ILoggingService loggingService)
         {
             _hubContext = hubContext;
             _emailService = emailService;
+            _loggingService = loggingService;
         }
 
         public async Task NotifyUser(Notification notification, IEnumerable<NotificationSetting> settings, CancellationToken cancellationToken)
@@ -51,6 +55,8 @@ namespace Backend.Application.Business.Business.PushNotification
             catch (Exception e)
             {
                 // log
+                await _loggingService.LogError((int)HttpStatusCode.InternalServerError, e.Message, e.InnerException?.Message,
+                    CancellationToken.None);
             }
         }
 
@@ -69,6 +75,8 @@ namespace Backend.Application.Business.Business.PushNotification
             catch (Exception e)
             {
                 // log
+                await _loggingService.LogError((int)HttpStatusCode.InternalServerError, e.Message, e.InnerException?.Message,
+                    CancellationToken.None);
             }
         }
 
