@@ -70,13 +70,13 @@ export class AthleteListComponent implements OnInit, OnDestroy {
         cellClass: 'avatar-cell',
         definition: 'avatar',
         title: '',
-        displayFunction: (item: ApplicationUser) => `<img class="avatar-table-img" src="${item.avatar}"/>`,
+        displayFn: (item: ApplicationUser) => `<img class="avatar-table-img" src="${item.avatar}"/>`,
       }),
       new CustomColumn({
         definition: 'fullName',
         title: 'Name',
         sort: true,
-        displayFunction: (item: ApplicationUser) => item.fullName,
+        displayFn: (item: ApplicationUser) => item.fullName,
       }),
     ]
   }

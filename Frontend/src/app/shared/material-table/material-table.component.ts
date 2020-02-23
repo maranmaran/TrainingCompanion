@@ -86,10 +86,22 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     if (!this.config.serverSidePaging) {
       this.datasource.paginator = this.paginator;
       this.datasource.sort = this.sort;
+      this.datasource.sortingDataAccessor = this.customSortDataAccessor.bind(this)
     } else {
       setTimeout(() => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()));
     }
 
+  }
+
+  // sets custom sort by definition from columns config
+  // if no custom sortFn is given.. defaults back to item
+  customSortDataAccessor(data, prop) {
+      let customSortDataFn = this.columns?.filter(x => x.sort && x.sortFn && x.definition == prop)?.map(x => x.sortFn)[0];
+
+      if(customSortDataFn)
+        return customSortDataFn(data);
+
+      return data[prop];
   }
 
   setTablePagingVariables(model: PagingModel, totalItems: Observable<number>) {
