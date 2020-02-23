@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { sortBy } from 'src/business/utils/utils';
 import * as fromTraining from './training.reducers';
 import { TrainingState } from './training.state';
 
@@ -51,7 +52,7 @@ export const selectedTrainingExercises = createSelector(
         var training = (state.entities[state.selectedTrainingId]);
 
         if (training) {
-            return training.exercises; // not normalized
+            return sortBy(training.exercises, ['order']); // not normalized
         }
 
         return null;

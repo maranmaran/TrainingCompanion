@@ -11,7 +11,6 @@ import { TableConfig } from "src/app/shared/material-table/table-models/table-co
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
-import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
@@ -44,7 +43,6 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
 
   constructor(
     private uiService: UIService,
-    private trainingService: TrainingService,
     private exerciseService: ExerciseService,
     private exerciseTypeService: ExerciseTypeService,
     private store: Store<AppState>
@@ -74,10 +72,15 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     const tableConfig = new TableConfig();
     tableConfig.filterFunction = (data: Exercise, filter: string) => data.exerciseType.name.toLocaleLowerCase().indexOf(filter) !== -1;
     tableConfig.enableDragAndDrop = true;
-    tableConfig.pageSizeOptions = [5];
     tableConfig.deleteEnabled = true;
-    tableConfig.disableEnabled = false;
+
     tableConfig.editEnabled = false;
+    tableConfig.disableEnabled = false;
+
+    tableConfig.pageSizeOptions = [5];
+    this.store.select(selectedTrainingExercises)
+    .pipe(take(1), map(x => x?.length))
+    .subscribe(count => count > 5 ? tableConfig.pageSizeOptions = [...tableConfig.pageSizeOptions, count] : () => {})
 
     return tableConfig;
   }

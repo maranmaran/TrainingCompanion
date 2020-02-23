@@ -85,7 +85,7 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     }
 
     // update
-    return adapterTraining.updateMany([update], state);
+    return adapterTraining.updateOne(update, state);
   }),
 );
 
