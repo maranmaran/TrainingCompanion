@@ -71,5 +71,5 @@ export function toMetric(number: number): number {
 }
 
 export function toImperial(number: number): number {
-    return number * MASS_KG_LBS;
+    return Math.round(number * MASS_KG_LBS * 100) / 100;
 }
