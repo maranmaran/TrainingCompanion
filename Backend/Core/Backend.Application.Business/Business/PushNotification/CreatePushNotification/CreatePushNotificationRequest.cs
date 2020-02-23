@@ -11,7 +11,7 @@ namespace Backend.Application.Business.Business.PushNotification.CreatePushNotif
         public string Payload { get; set; }
         public Guid? SenderId { get; set; }
         public Guid ReceiverId { get; set; }
-        public bool SystemNotification = false;
+        public bool SystemNotification => !this.SenderId.HasValue;
 
         public CreatePushNotificationRequest()
         {
@@ -29,7 +29,6 @@ namespace Backend.Application.Business.Business.PushNotification.CreatePushNotif
         {
             this.Type = type;
             this.Payload = payload;
-            this.SystemNotification = true;
             this.ReceiverId = receiverId;
         }
     }

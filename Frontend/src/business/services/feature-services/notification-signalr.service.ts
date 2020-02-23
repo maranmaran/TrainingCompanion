@@ -46,13 +46,13 @@ export class NotificationSignalrService implements OnDestroy {
     this.configureHubConnection();
   }
 
-  public readNotification(id: string) {
+  readNotification(id: string) {
     if (this.hubConnection && this.hubConnection.state === signalR.HubConnectionState.Connected) {
       this.hubConnection.send('ReadNotification', id);
     }
   }
 
-  private configureHubConnection() {
+  configureHubConnection() {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(this.appSettingsService.notificationHubUrl)
       // { accessTokenFactory: () => this.authService.getToken() })
