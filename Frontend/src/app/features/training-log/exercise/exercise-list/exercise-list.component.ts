@@ -126,7 +126,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       this.store.select(selectedTraining).pipe(take(1), map(training => {
         const len = training.exercises?.length;
         const model = new Exercise();
-        model.order = len + 1;
+        model.order = len;
         return model;
       }))
     ).subscribe(([exerciseTypes, exercise]) => {
