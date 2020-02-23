@@ -95,7 +95,7 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: 'weight',
           title: 'Weight',
           sort: true,
-          displayFunction: (item: Set) => transformWeight(item.weight, this.userSettings.unitSystem), // transform
+          displayFn: (item: Set) => transformWeight(item.weight, this.userSettings.unitSystem), // transform
         }));
     }
     if (exerciseType.requiresReps) {
@@ -104,7 +104,7 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: 'reps',
           title: 'Reps',
           sort: true,
-          displayFunction: (item: Set) => item.reps,
+          displayFn: (item: Set) => item.reps,
         }));
     }
     if (exerciseType.requiresBodyweight) {
@@ -113,7 +113,7 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: 'bodyweight',
           title: 'Bodyweight',
           sort: true,
-          displayFunction: (item: Set) => 'Bodyweight', // transform
+          displayFn: (item: Set) => 'Bodyweight', // transform
         }));
     }
     if (exerciseType.requiresTime) {
@@ -122,7 +122,7 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: 'time',
           title: 'Time',
           sort: true,
-          displayFunction: (item: Set) => item.time, // transform
+          displayFn: (item: Set) => item.time, // transform
         }));
     }
     if (this.userSettings.useRpeSystem) {
@@ -131,7 +131,7 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: this.userSettings.rpeSystem,
           title: this.userSettings.rpeSystem == RpeSystem.Rpe ? 'RPE' : 'RIR',
           sort: true,
-          displayFunction: (item: Set) => this.userSettings.rpeSystem == RpeSystem.Rpe ? item.rpe : 10 - item.rpe, // transform
+          displayFn: (item: Set) => this.userSettings.rpeSystem == RpeSystem.Rpe ? item.rpe : 10 - item.rpe, // transform
         }));
     }
 

@@ -90,13 +90,13 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
         sort: true,
         headerClass: 'order-header',
         cellClass: 'order-cell',
-        displayFunction: (item: Tag) => `${item.order + 1}.`,
+        displayFn: (item: Tag) => `${item.order + 1}.`,
       }),
       new CustomColumn({
         definition: 'value',
         title: 'Value',
         sort: true,
-        displayFunction: (item: Tag) => item.value,
+        displayFn: (item: Tag) => item.value,
       }),
       new CustomColumn({
         definition: 'active',
@@ -106,7 +106,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
         cellClass: 'active-cell',
         useComponent: true,
         component: ActiveFlagComponent,
-        inputs: (item: TagGroup) => { return { active: item.active } },
+        componentInputs: (item: TagGroup) => { return { active: item.active } },
       }),
     ]
   }

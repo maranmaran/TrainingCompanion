@@ -26,16 +26,16 @@
           <ng-container *ngFor="let col of columns" matColumnDef="{{ col.definition }}">
 
               <ng-container *ngIf="col.sort">
-                  <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef mat-sort-header > {{ col.title }} </mat-header-cell>
+                  <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef mat-sort-header matTooltip="{{col.tooltip}}"> {{ col.title }} </mat-header-cell>
               </ng-container>
 
               <ng-container *ngIf="!col.sort">
-                  <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef> {{ col.title }} </mat-header-cell>
+                  <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef matTooltip="{{col.tooltip}}"> {{ col.title }} </mat-header-cell>
               </ng-container>
 
               <mat-cell class="{{col.cellClass}}" *matCellDef="let row">
-                  <div *ngIf="!col.useComponent" [innerHtml]="(col.displayFunction(row) | sanitizeHtml)"></div>
-                  <ndc-dynamic *ngIf="col.useComponent" [ndcDynamicComponent]="col.component" [ndcDynamicInputs]="col.inputs(row)"></ndc-dynamic>
+                  <div *ngIf="!col.useComponent" [innerHtml]="(col.displayFn(row) | sanitizeHtml)"></div>
+                  <ndc-dynamic *ngIf="col.useComponent" [ndcDynamicComponent]="col.component" [ndcDynamicInputs]="col.componentInputs(row)"></ndc-dynamic>
               </mat-cell>
 
           </ng-container>

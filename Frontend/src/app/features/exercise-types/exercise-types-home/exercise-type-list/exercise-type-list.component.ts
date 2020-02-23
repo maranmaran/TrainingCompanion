@@ -88,7 +88,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
         sort: true,
         useComponent: true,
         component: ExerciseTypePreviewComponent,
-        inputs: (item: ExerciseType) => {
+        componentInputs: (item: ExerciseType) => {
           return {
                   exerciseType: item,
                 };
@@ -99,7 +99,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
         title: 'Code',
         sort: false,
         useComponent: false,
-        displayFunction: (item: ExerciseType) => item.code
+        displayFn: (item: ExerciseType) => item.code
       }),
     ]
   }

@@ -90,15 +90,16 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
         sort: true,
         headerClass: 'order-header',
         cellClass: 'order-cell',
-        displayFunction: (item: Exercise) => `${item.order + 1}.`,
+        displayFn: (item: Exercise) => `${item.order + 1}.`,
       }),
       new CustomColumn({
         definition: 'exercise',
         title: 'Exercise',
         sort: true,
+        sortFn: (item: Exercise) => item.exerciseType.name,
         useComponent: true,
         component: ExerciseTypePreviewComponent,
-        inputs: (item: Exercise) => ({ exerciseType: item.exerciseType }),
+        componentInputs: (item: Exercise) => ({ exerciseType: item.exerciseType }),
       })
     ];
   }

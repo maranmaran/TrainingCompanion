@@ -75,7 +75,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
         sort: true,
         headerClass: 'order-header',
         cellClass: 'order-cell',
-        displayFunction: (item: TagGroup) => `${item.order + 1}.`,
+        displayFn: (item: TagGroup) => `${item.order + 1}.`,
       }),
       new CustomColumn({
         definition: 'type',
@@ -83,7 +83,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
         sort: true,
         headerClass: 'type-header',
         cellClass: 'type-cell',
-        displayFunction: (item: TagGroup) => item.type,
+        displayFn: (item: TagGroup) => item.type,
       }),
       new CustomColumn({
         definition: 'active',
@@ -93,7 +93,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
         cellClass: 'active-cell',
         useComponent: true,
         component: ActiveFlagComponent,
-        inputs: (item: TagGroup) => { return { active: item.active } },
+        componentInputs: (item: TagGroup) => { return { active: item.active } },
       }),
       new CustomColumn({
         definition: 'hexColor',
@@ -103,7 +103,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
         cellClass: 'hex-cell',
         useComponent: true,
         component: ExerciseTypeChipComponent,
-        inputs: (item: TagGroup) => { return { value: "Tag", show: true, backgroundColor: item.hexBackground, color: item.hexColor } },
+        componentInputs: (item: TagGroup) => { return { value: "Tag", show: true, backgroundColor: item.hexBackground, color: item.hexColor } },
       }),
     ]
   }
