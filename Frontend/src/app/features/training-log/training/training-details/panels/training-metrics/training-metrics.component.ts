@@ -118,7 +118,6 @@ export class TrainingMetricsComponent implements OnInit, OnDestroy {
 
     this.totalVolumeChart = [getTotalVolumeIntensityChartConfig(setting, data.totalVolumeChartData)];
 
-
     this.numberOfLiftsChart = [getNumberOfLiftsChartConfig(setting,
       data.numberOfLiftsChartData.dataSets[0].data,
       data.numberOfLiftsChartData.labels

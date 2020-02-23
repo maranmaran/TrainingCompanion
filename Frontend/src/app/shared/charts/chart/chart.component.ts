@@ -1,5 +1,6 @@
 import { Component, Directive, ElementRef, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import * as Chart from 'chart.js';
+import 'chartjs-plugin-labels';
 import { MyChartConfiguration } from '../chart.helpers';
 
 @Directive({selector: '[chartCanvas]'})

@@ -20,6 +20,7 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> ImportExerciseTypes([FromForm] Guid userId, [FromForm] IFormFile file)
         {
+            return BadRequest();
             return Ok(await Mediator.Send(new ImportExerciseTypeRequest() { Userid = userId, File = file }));
         }
 

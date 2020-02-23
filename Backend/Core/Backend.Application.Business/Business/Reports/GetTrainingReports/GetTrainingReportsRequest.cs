@@ -196,17 +196,9 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                         Labels = exerciseLabels,
                         DataSets = new List<ChartDataSet<double>>()
                             {
-                                new ChartDataSet<double>() {Data = volumeData.PercentageSplit}
+                                new ChartDataSet<double>() {Data = volumeData.VolumeSplit}
                             }
                     },
-                    //WeightedAverageIntensityChartData = new ChartData<double>()
-                    //{
-                    //    Labels = exerciseLabels,
-                    //    DataSets = new List<ChartDataSet<double>>()
-                    //    {
-                    //        new ChartDataSet<double>() {Data = averageInolData}
-                    //    }
-                    //}
                 };
 
                 return response;
@@ -227,7 +219,7 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
             return exercises.Select(x => x.Sets.Sum(y => y.Reps));
         }
 
-        private (IEnumerable<double> Total, IEnumerable<double> PercentageSplit) GetVolumeData(List<Domain.Entities.TrainingLog.Exercise> exercises, UserSetting userSetting)
+        private (IEnumerable<double> Total, IEnumerable<double> VolumeSplit) GetVolumeData(List<Domain.Entities.TrainingLog.Exercise> exercises, UserSetting userSetting)
         {
             var totalVolume = exercises.Sum(x => x.Sets.Sum(x => x.Volume.TransformWeight(userSetting.UnitSystem)));
 
@@ -242,7 +234,7 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
             }).ToList();
 
 
-            return (totalExerciseVolume, totalExerciseVolume.Select(volume => Math.Round(volume / totalVolume, 2)));
+            return (totalExerciseVolume, totalExerciseVolume);
         }
 
         private (IEnumerable<double> Average, IEnumerable<double> Peak, IEnumerable<(double percentage, string label)> ZoneOfIntensity) GetIntensityData(List<Domain.Entities.TrainingLog.Exercise> exercises, UserSetting userSetting)

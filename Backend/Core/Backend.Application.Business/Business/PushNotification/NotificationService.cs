@@ -46,10 +46,10 @@ namespace Backend.Application.Business.Business.PushNotification
             try
             {
                 // send notification
-                if (notificationSetting.ReceiveNotification)
+                if (notificationSetting.ReceiveNotification && notification.ReceiverId.HasValue)
                 {
                     // TODO: Send to receiver.. not all, put cancellation token
-                    await _hubContext.Clients.All.SendNotification(notification);
+                    await _hubContext.Clients.User(notification.ReceiverId.Value.ToString()).SendNotification(notification);
                 }
             }
             catch (Exception e)

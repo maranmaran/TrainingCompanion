@@ -4,12 +4,12 @@
     Import
     <i matSuffix class="ml-2 fas fa-upload fa-1x ml-1 primary-foreground"></i>
   </button>
-  
+
   <input fxHide="true" #uploadInput type="file" (change)="uploadMedia($event.target.files)" accept="{{fileTypesToAccept}}" />
-  
+
   <span *ngIf="(isUploading | async).response">
     <label class="mr-1">Last import: </label>
-    <app-active-flag id="active-flag"  [active]="(isUploading | async).response.success"></app-active-flag>
+    <app-active-flag id="active-flag" [active]="(isUploading | async).response.success"></app-active-flag>
   </span>
 
 </span>
