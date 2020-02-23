@@ -1,6 +1,10 @@
 <ng-container *ngIf="data">
   <div class="detail">
-    <mat-label class="label">Session volume:</mat-label>
-    <span class="label-value">{{data.sessionVolume | async}}</span>
+    <mat-label class="label">Total volume:</mat-label>
+    <span class="label-value">{{ (data | async).volume }}</span>
+  </div>
+  <div class="detail">
+    <mat-label class="label">Total number of lifts:</mat-label>
+    <span class="label-value">{{ (data | async).numOfLifts }} lifts</span>
   </div>
 </ng-container>

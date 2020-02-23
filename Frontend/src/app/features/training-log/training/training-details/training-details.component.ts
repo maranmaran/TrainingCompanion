@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
-import { selectedTraining, sessionVolume } from 'src/ngrx/training-log/training.selectors';
+import { selectedTraining } from 'src/ngrx/training-log/training.selectors';
 import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/update-training.request';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';
@@ -29,10 +28,6 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
 
   private userId: string;
   training: Training;
-  trainingDetailsData = {
-    sessionVolume: new Observable<number>()
-  };
-
   private subs = new SubSink();
 
   ngOnInit() {
@@ -44,7 +39,6 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
       .subscribe(training => this.training = training)
     );
 
-    this.trainingDetailsData.sessionVolume = this.store.select(sessionVolume);
   }
 
   ngOnDestroy(): void {
