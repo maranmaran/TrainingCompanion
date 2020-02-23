@@ -29,6 +29,7 @@ namespace Backend.Application.Business.Business.PushNotification.CreatePushNotif
                 _context.Notifications.Add(newNotification);
                 await _context.SaveChangesAsync(cancellationToken);
 
+
                 _context.Entry(newNotification).Reference(x => x.Sender).Load();
                 _context.Entry(newNotification).Reference(x => x.Receiver).Load();
                 _context.Entry(newNotification.Receiver).Reference(x => x.UserSetting).Load();

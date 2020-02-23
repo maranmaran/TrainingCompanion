@@ -43,19 +43,15 @@ export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitS
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          labels: {
-              render: 'value',
-              fontColor: fontColor(setting.theme),
-            }
-        },
+        plugins: {labels: false},
         tooltips: {
+          mode: 'x',
           callbacks: {
             label: (tooltipItem, data) => {
               if(tooltipItem.datasetIndex == 0 || tooltipItem.datasetIndex == 1)
                 return tooltipItem.yLabel + ' %';
 
-              return tooltipItem.yLabel + UnitSystemUnitOfMeasurement[setting.unitSystem];
+              return tooltipItem.yLabel + " " + UnitSystemUnitOfMeasurement[setting.unitSystem];
             }
           }
         },
@@ -70,10 +66,6 @@ export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitS
           labels: {
             fontColor: fontColor(setting.theme)
           }
-        },
-        hover: {
-          // mode: 'nearest',
-          // intersect: true
         },
         scales: {
           xAxes: [

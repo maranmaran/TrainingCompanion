@@ -28,13 +28,6 @@ export function getNumberOfLiftsChartConfig(
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          labels:
-            {
-              render: 'value',
-              fontColor: fontColor(setting.theme),
-            }
-        },
         tooltips: {
           callbacks: {
             label: (tooltipItem, data) => {
@@ -42,6 +35,7 @@ export function getNumberOfLiftsChartConfig(
             }
           }
         },
+        plugins: {labels: false},
         title: {
           display: true,
           fontColor: fontColor(setting.theme),

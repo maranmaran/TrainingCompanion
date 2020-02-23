@@ -1,7 +1,7 @@
 import { Guid } from 'guid-typescript';
 import { backgroundColors, fontColor, MyChartConfiguration } from 'src/app/shared/charts/chart.helpers';
 import { Theme } from 'src/business/shared/theme.enum';
-import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
 
 export function getVolumeSplitChartConfig(setting: {theme: Theme, unitSystem: UnitSystem}, data: number[], labels: string[]): MyChartConfiguration {
 
@@ -26,6 +26,13 @@ export function getVolumeSplitChartConfig(setting: {theme: Theme, unitSystem: Un
               precision: 2
             }
           ]
+        },
+        tooltips: {
+          callbacks: {
+            label: (tooltipItem, data) => {
+              return data.datasets[0].data[tooltipItem.index] + " " + UnitSystemUnitOfMeasurement[setting.unitSystem];
+            }
+          },
         },
         title: {
           display: true,
