@@ -6,7 +6,7 @@ import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/ac
 import { ExerciseTypeChipComponent } from 'src/app/shared/custom-preview-components/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
-import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { TagGroupService } from 'src/business/services/feature-services/tag-group.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -58,11 +58,14 @@ export class TypesListComponent implements OnInit, OnDestroy {
   }
 
   getTableConfig() {
-    const tableConfig = new TableConfig();
-    tableConfig.filterFunction = (data: TagGroup, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1
-    tableConfig.enableDragAndDrop = true;
-    tableConfig.pageSizeOptions = [5];
-    this.store.select(tagGroupCount).pipe(take(1)).subscribe(count => tableConfig.pageSizeOptions = [...tableConfig.pageSizeOptions, count])
+    const tableConfig = new TableConfig({
+      filterFunction:  (data: TagGroup, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1,
+      enableDragAndDrop: true,
+      pagingOptions: new TablePagingOptions({
+        pageSizeOptions: [5]
+      })
+    });
+    this.store.select(tagGroupCount).pipe(take(1)).subscribe(count => tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count])
 
     return tableConfig;
   }

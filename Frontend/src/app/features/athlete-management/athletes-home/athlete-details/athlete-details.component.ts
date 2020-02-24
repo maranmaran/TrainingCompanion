@@ -35,7 +35,11 @@ export class AthleteDetailsComponent implements OnInit {
       switchMap(athlete => {
         athlete.active = value;
         return this.userService.update(GetUpdateUserRequest(athlete));
-      }),pluck("id", "active")).subscribe(
+        },
+        athlete => athlete
+      ),
+      pluck("id", "active")
+    ).subscribe(
         (response: {id: string, active: boolean}) => {
           let updateStatement: Update<ApplicationUser> = {
             id: response.id,
