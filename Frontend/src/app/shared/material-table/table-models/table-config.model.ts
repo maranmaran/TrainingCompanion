@@ -1,26 +1,40 @@
 export class TableConfig {
 
-  actionsEnabled = true;
-  selectionEnabled = true;
   filterEnabled = true;
-  addEnabled = true;
-  editManyEnabled = false;
-  deleteManyEnabled = true;
-  disableManyEnabled = true;
-  editEnabled = true;
-  deleteEnabled = false;
-  disableEnabled = true;
+  selectionEnabled = true;
   enableDragAndDrop = false;
+  actionsEnabled = true;
 
-  pageSize = PAGE_SIZE;
-  pageSizeOptions = PAGE_SIZE_OPTIONS;
-  serverSidePaging = false;
+  pagingOptions = new TablePagingOptions();
+
+  cellActions: TableAction[] = [TableAction.update, TableAction.disable]
+  headerActions: TableAction[] = [TableAction.create]
 
   filterFunction: (data: any, filter: string) => boolean;
 
   public constructor(init?: Partial<TableConfig>) {
     Object.assign(this, init);
   }
+}
+
+export class TablePagingOptions {
+  pageSize = PAGE_SIZE;
+  pageSizeOptions = PAGE_SIZE_OPTIONS;
+  serverSidePaging = false;
+
+  public constructor(init?: Partial<TablePagingOptions>) {
+    Object.assign(this, init);
+  }
+}
+
+export enum TableAction {
+  create = "create",
+  update = "update",
+  updateMany = "updateMany",
+  delete = "delete",
+  deleteMany = "deleteMany",
+  disable = "disable",
+  disableMany = "disableMany"
 }
 
 export const PAGE_SIZE = 5;

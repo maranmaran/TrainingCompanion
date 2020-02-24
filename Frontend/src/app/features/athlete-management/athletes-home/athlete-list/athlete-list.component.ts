@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableAction, TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
 import { UserService } from 'src/business/services/feature-services/user.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
@@ -46,7 +46,6 @@ export class AthleteListComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.store.select(athletes)
         .subscribe((athletes: ApplicationUser[]) => {
-          console.log(athletes)
           this.tableDatasource.updateDatasource(athletes);
         }))
 
@@ -57,8 +56,10 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   }
 
   getTableConfig() {
-    const tableConfig = new TableConfig();
-    tableConfig.filterFunction = (data: ApplicationUser, filter: string) => data.fullName.toLocaleLowerCase().indexOf(filter) !== -1
+    const tableConfig = new TableConfig({
+      filterFunction: (data: ApplicationUser, filter: string) => data.fullName.toLocaleLowerCase().indexOf(filter) !== -1,
+      cellActions: [TableAction.update]
+    });
 
     return tableConfig;
   }

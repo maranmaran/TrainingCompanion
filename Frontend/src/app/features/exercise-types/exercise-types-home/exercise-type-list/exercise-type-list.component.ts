@@ -5,7 +5,7 @@ import * as _ from "lodash";
 import { concatMap, map, take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
-import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
@@ -73,10 +73,13 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
   }
 
   getTableConfig() {
-    const tableConfig = new TableConfig();
-    tableConfig.filterFunction = (data: ExerciseType, filter: string) => data.name.toLocaleLowerCase().indexOf(filter) !== -1
-    tableConfig.enableDragAndDrop = false;
-    tableConfig.serverSidePaging = true;
+    const tableConfig = new TableConfig({
+      filterFunction: (data: ExerciseType, filter: string) => data.name.toLocaleLowerCase().indexOf(filter) !== -1,
+      pagingOptions: new TablePagingOptions({
+        serverSidePaging: true
+      })
+    });
+
     return tableConfig;
   }
 

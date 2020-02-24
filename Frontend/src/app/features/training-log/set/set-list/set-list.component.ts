@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
-import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableAction, TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -71,17 +71,13 @@ export class SetListComponent implements OnInit, OnDestroy {
   }
 
   getTableConfig() {
-    const tableConfig = new TableConfig();
-    // tableConfig.filterFunction = (data: Set, filter: string) => data.weight.name.toLocaleLowerCase().indexOf(filter) !== -1
-    tableConfig.pageSizeOptions = [5];
-
-    tableConfig.selectionEnabled = false;
-    tableConfig.filterEnabled = false;
-    tableConfig.editManyEnabled = true;
-    tableConfig.addEnabled = false;
-    tableConfig.editEnabled = false;
-    tableConfig.deleteEnabled = false;
-    tableConfig.disableEnabled = false;
+    const tableConfig = new TableConfig({
+      pagingOptions: new TablePagingOptions({
+        pageSizeOptions: [5]
+      }),
+      cellActions: [],
+      headerActions: [TableAction.updateMany]
+    })
 
     return tableConfig;
   }
