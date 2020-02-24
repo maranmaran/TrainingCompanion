@@ -28,7 +28,6 @@ import { PagingModel } from './table-models/paging.model';
 })
 export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
-
   @Input() datasource: TableDatasource<any>;
   @Input() columns: CustomColumn[];
   @Input() config: TableConfig;
@@ -68,8 +67,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   ) { }
 
   ngOnInit() {
-    this.pageSize = this.config.pageSize;
-    this.pageSizeOptions = this.config.pageSizeOptions;
+    this.pageSize = this.config.pagingOptions.pageSize;
+    this.pageSizeOptions = this.config.pagingOptions.pageSizeOptions;
 
     this.subs.add(
       this.applyFilterEvent.pipe(debounceTime(300)).subscribe(filter => this.applyFilter(filter)),
@@ -83,7 +82,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit() {
     // assign paginator and sort components to datasource only if we'r not using server side paging
-    if (!this.config.serverSidePaging) {
+    if (!this.config.pagingOptions.serverSidePaging) {
       this.datasource.paginator = this.paginator;
       this.datasource.sort = this.sort;
       this.datasource.sortingDataAccessor = this.customSortDataAccessor.bind(this)
@@ -91,28 +90,6 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
       setTimeout(() => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()));
     }
 
-  }
-
-  // sets custom sort by definition from columns config
-  // if no custom sortFn is given.. defaults back to item
-  customSortDataAccessor(data, prop) {
-      let customSortDataFn = this.columns?.filter(x => x.sort && x.sortFn && x.definition == prop)?.map(x => x.sortFn)[0];
-
-      if(customSortDataFn)
-        return customSortDataFn(data);
-
-      return data[prop];
-  }
-
-  setTablePagingVariables(model: PagingModel, totalItems: Observable<number>) {
-    this.totalItems = totalItems;
-    this.paginator.pageIndex = model.page;
-    this.sort.active = model.sortBy;
-    this.sort.direction = model.sortDirection;
-
-    if (this.filter) {
-      this.filter.nativeElement.value = model.filterQuery ? model.filterQuery : '';
-    }
   }
 
   ngOnDestroy() {
@@ -137,12 +114,34 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.displayColumns = actions;
   }
 
+  // sets custom sort by definition from columns config
+  // if no custom sortFn is given.. defaults back to item
+  customSortDataAccessor(data, prop) {
+    let customSortDataFn = this.columns?.filter(x => x.sort && x.sortFn && x.definition == prop)?.map(x => x.sortFn)[0];
+
+    if(customSortDataFn)
+      return customSortDataFn(data);
+
+    return data[prop];
+}
+
+  setTablePagingVariables(model: PagingModel, totalItems: Observable<number>) {
+    this.totalItems = totalItems;
+    this.paginator.pageIndex = model.page;
+    this.sort.active = model.sortBy;
+    this.sort.direction = model.sortDirection;
+
+    if (this.filter) {
+      this.filter.nativeElement.value = model.filterQuery ? model.filterQuery : '';
+    }
+  }
+
   applyFilter(filterValue: string) {
 
     filterValue = filterValue.trim().toLocaleLowerCase();
 
     // TODO - filter this server side - send event for pagination change
-    if (this.config.serverSidePaging) {
+    if (this.config.pagingOptions.serverSidePaging) {
 
       this.pagingModel.filterQuery = filterValue;
       this.pagingChangeEvent.emit(this.pagingModel);
@@ -187,6 +186,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     return this.datasource.data.length === this.selection.selected.length;
   }
 
+  oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
+
   onSelect(entity: any, keepSelected: boolean = false) {
 
     var selectedTemp = this.selection.isSelected(entity.id);
@@ -225,53 +226,14 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.dropEvent.emit({ previous: array[event.previousIndex], current: array[event.currentIndex] });
   }
 
-  onDeleteSelection() {
-    this.deleteManyEvent.emit(this.selection.selected);
-  }
-
   renderRows = (execute: boolean) => execute && this.table.renderRows(); // because on first load we get error.. no data
 
   get datasourceEmpty(): boolean {
     return !this.datasource.data || this.datasource.data.length == 0;
   }
 
-  get deleteManyVisible(): boolean {
-    return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.deleteManyEnabled && !this.datasourceEmpty;
-  }
-  get disableManyVisible(): boolean {
-    return (this.isMoreThanOneSelected || this.isAllSelected) && !this.isOneSelected && this.config.disableManyEnabled && !this.datasourceEmpty;
-  }
-
-  oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
-
   get paginatorHidden(): boolean {
     return this.datasourceEmpty || !(this.datasource.data.length > this.pageSize);
-  }
-
-  // if only one header action is available replace menu button with that action button
-  get oneHeaderAction(): boolean {
-    const add = this.config.addEnabled ? 1 : 0;
-    const editMany = this.config.editManyEnabled ? 1 : 0;
-    const deleteMany = this.config.deleteManyEnabled && this.deleteManyVisible ? 1 : 0;
-    const disableMany = this.config.disableManyEnabled && this.disableManyVisible ? 1 : 0;
-    return add + editMany + deleteMany + disableMany === 1;
-  }
-
-  // hide all header buttons if no header action is available
-  get noHeaderAction(): boolean {
-    const add = this.config.addEnabled ? 1 : 0;
-    const editMany = this.config.editManyEnabled ? 1 : 0;
-    const deleteMany = this.config.deleteManyEnabled ? 1 : 0;
-    const disableMany = this.config.disableManyEnabled ? 1 : 0;
-    return add + editMany + deleteMany + disableMany === 0;
-  }
-
-  // if no cell actions are available hide the buttons
-  get noCellAction(): boolean {
-    const editActive = this.config.editEnabled ? 1 : 0;
-    const deleteActive = this.config.deleteEnabled ? 1 : 0;
-    const disableActive = this.config.disableEnabled ? 1 : 0;
-    return editActive + deleteActive + disableActive === 0;
   }
 
   onPageChange(page: PageEvent) {
@@ -285,6 +247,5 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.pagingModel.sortDirection = sort.direction;
     this.pagingChangeEvent.emit(this.pagingModel);
   }
-
 
 }

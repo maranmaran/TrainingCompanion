@@ -5,6 +5,7 @@
   $highlight: map-get($background-palette, hover);
 
   .theme-material-table {
+
     mat-table {
       .mat-column-select {
         max-width: -webkit-fit-content;
@@ -40,8 +41,6 @@
       font-style: italic;
     }
 
-
-
     // DRAG AND DROP
     .cdk-drag-preview {
       display: flex;
@@ -69,6 +68,7 @@
 
   .material-table-menu.mat-menu-panel {
     min-width: unset;
+    min-height: unset;
 
     .mat-menu-content {
       display: flex;

@@ -7,7 +7,7 @@ import { ExerciseTypePreviewComponent } from 'src/app/shared/custom-preview-comp
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
 import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
-import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableAction, TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
@@ -69,18 +69,18 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   }
 
   getTableConfig() {
-    const tableConfig = new TableConfig();
-    tableConfig.filterFunction = (data: Exercise, filter: string) => data.exerciseType.name.toLocaleLowerCase().indexOf(filter) !== -1;
-    tableConfig.enableDragAndDrop = true;
-    tableConfig.deleteEnabled = true;
+    const tableConfig = new TableConfig({
+      filterFunction: (data: Exercise, filter: string) => data.exerciseType.name.toLocaleLowerCase().indexOf(filter) !== -1,
+      enableDragAndDrop: true,
+      cellActions: [TableAction.delete],
+      pagingOptions: new TablePagingOptions({
+        pageSizeOptions: [5]
+      })
+    });
 
-    tableConfig.editEnabled = false;
-    tableConfig.disableEnabled = false;
-
-    tableConfig.pageSizeOptions = [5];
     this.store.select(selectedTrainingExercises)
     .pipe(take(1), map(x => x?.length))
-    .subscribe(count => count > 5 ? tableConfig.pageSizeOptions = [...tableConfig.pageSizeOptions, count] : () => {})
+    .subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : () => {})
 
     return tableConfig;
   }
