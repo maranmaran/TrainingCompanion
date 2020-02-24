@@ -75,11 +75,11 @@
           <i class="fa fa-ellipsis-v"></i>
         </button>
         <ng-template #singleCellAction>
-          <ng-container *ngTemplateOutlet="actions; context: { actions: config.cellActions}"></ng-container>
+          <ng-container *ngTemplateOutlet="actions; context: { actions: config.cellActions, row: row}"></ng-container>
         </ng-template>
 
         <mat-menu class="material-table-menu" #cellMenu="matMenu">
-          <ng-container *ngTemplateOutlet="actions; context: { actions: config.cellActions}"></ng-container>
+          <ng-container *ngTemplateOutlet="actions; context: { actions: config.cellActions, row: row}"></ng-container>
         </mat-menu>
 
       </mat-cell>
@@ -106,7 +106,7 @@
 </span>
 
 <!--ACTION BUTTONS-->
-<ng-template #actions let-actions="actions">
+<ng-template #actions let-actions="actions" let-row="row">
   <ng-container *ngFor="let action of actions">
     <!--ADD ACTION-->
     <button *ngIf="action == 'create'" matTooltip="Add item" mat-icon-button color="accent" (click)="addEvent.emit()"

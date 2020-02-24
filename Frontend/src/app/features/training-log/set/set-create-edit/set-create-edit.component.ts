@@ -69,6 +69,7 @@ export class SetCreateEditComponent implements OnInit {
   addGroup(set: Set = null) {
 
     set = set || new Set();
+
     const controls = this.getControls(set);
     const newSetFormGroup = new FormGroup(controls);
 
@@ -107,21 +108,22 @@ export class SetCreateEditComponent implements OnInit {
 
     // todo.. add weight attribute to application user
     if (this.exerciseType.requiresBodyweight)
-      controls["weight"] = new FormControl(set.weight, [Validators.min(0), Validators.max(200)]);
+      controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(200)]);
 
     if (this.exerciseType.requiresReps)
-      controls["reps"] = new FormControl(set.reps, [Validators.min(0), Validators.max(100)]);
+      controls["reps"] = new FormControl(set.reps, [Validators.required, Validators.min(0), Validators.max(100)]);
 
     if (this.exerciseType.requiresTime)
       controls["time"] = new FormControl(set.time, [Validators.required]);
 
     if (this.exerciseType.requiresWeight) {
       let upperLimit = 600;
+
       if (this.settings.unitSystem == UnitSystem.Imperial) {
         upperLimit = 1200;
       }
 
-      controls["weight"] = new FormControl(set.weight, [Validators.min(0), Validators.max(upperLimit)]);
+      controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(upperLimit)]);
     }
 
     if (this.settings.useRpeSystem) {
@@ -193,6 +195,8 @@ export class SetCreateEditComponent implements OnInit {
     // are all forms valid
     if (!this.isFormValid) return;
 
+    console.log(this)
+
     let sets = <Set[]>(this.getSets(this.setFormGroups));
 
     var request = new UpdateManySetsRequest();
@@ -230,7 +234,7 @@ export class SetCreateEditComponent implements OnInit {
   }
 
   get isFormValid() {
-    return this.setFormGroups.reduce((prev, curr) => prev && curr.valid, true);
+    return this.setFormGroups.length > 0 && this.setFormGroups.reduce((prev, curr) => prev && curr.valid, true);
   }
 
   onClose(sets?: Set[]) {
