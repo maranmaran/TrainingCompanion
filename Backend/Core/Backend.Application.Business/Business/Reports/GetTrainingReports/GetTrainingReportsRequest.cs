@@ -71,92 +71,10 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                     .Include(x => x.Exercises).ThenInclude(x => x.ExerciseType).ThenInclude(x => x.ExerciseMaxes)
                     .Include(x => x.Exercises).ThenInclude(x => x.Sets)
                     .Where(x => x.Id == request.TrainingId)
-                    .FirstOrDefaultAsync(cancellationToken))?.Exercises.ToList();
+                    .FirstOrDefaultAsync(cancellationToken))?.Exercises.OrderBy(x => x.Order).ToList();
 
                 if (exercises == null)
                     return null;
-
-                #region COmment
-                //var exerciseLabels = new List<string>();
-
-                //var numberOfLiftsData = new List<double>();
-                //var totalVolumeData = new List<double>();
-
-                //var averageIntensity = new List<double>();
-                //var peakIntensity = new List<double>();
-
-                //var averageInolData = new List<double>();  // weighted average intensity SETS x (REPS / (100-Intensity)) = iNoL quotient
-                //var relativeZoneOfIntensityData = new List<string>();
-
-                //foreach (var exercise in trainingExercises)
-                //{
-                //    exerciseLabels.Add(exercise.ExerciseType.Name);
-
-                //    double volumeCount = 0;
-                //    double repsCount = 0;
-                //    double setCount = 0;
-                //    double inolSum = 0;
-                //    double strengthZoneCount = 0;
-                //    double sizeZoneCount = 0;
-                //    double enduranceZoneCount = 0;
-                //    double intensitySum = 0;
-                //    double maxIntensity = Double.MinValue;
-
-
-                //    foreach (var set in exercise.Sets)
-                //    {
-                //        volumeCount += set.Volume.TransformWeight(userSetting.UnitSystem);
-                //        repsCount += set.Reps;
-                //        setCount++;
-
-                //        var max = exercise.ExerciseType.ExerciseMaxes.OrderByDescending(x => x.DateAchieved).FirstOrDefault()?.Max ?? set.ProjectedMax;
-                //        var intensity = set.Weight.TransformWeight(userSetting.UnitSystem) / max.TransformWeight(userSetting.UnitSystem);
-
-                //        intensitySum += intensity * 100;
-                //        if (maxIntensity < intensity)
-                //            maxIntensity = intensity * 100;
-
-                //        if (intensity <= 1)
-                //        {
-                //            inolSum += set.Reps / (100 - intensity * 100);
-                //        }
-
-                //        if (intensity > 0.75)
-                //        {
-                //            strengthZoneCount++;
-                //        }
-                //        else if (intensity > 0.5)
-                //        {
-                //            sizeZoneCount++;
-                //        }
-                //        else
-                //        {
-                //            enduranceZoneCount++;
-                //        }
-                //    }
-                //    numberOfLiftsData.Add(repsCount);
-                //    totalVolumeData.Add(Math.Round(volumeCount, 2));
-
-                //    averageIntensity.Add(Math.Round(intensitySum / setCount, 2));
-                //    peakIntensity.Add(Math.Round(maxIntensity, 2));
-
-                //    averageInolData.Add(Math.Round(inolSum / setCount, 2));
-
-                //    var zonePercentages = new (double Percentage, string Zone)[]
-                //    {
-                //        (strengthZoneCount / setCount, "strength"),
-                //        (sizeZoneCount / setCount, "size"),
-                //        (enduranceZoneCount / setCount, "endurance")
-                //    };
-
-                //    var relativeZone = zonePercentages.Aggregate((i1, i2) => i1.Percentage > i2.Percentage ? i1 : i2).Zone;
-
-                //    relativeZoneOfIntensityData.Add(relativeZone);
-                //}
-
-                //var volumeSplitData = totalVolumeData.Select(data => Math.Round(data / totalVolumeData.Sum() * 100));
-
-                #endregion
 
                 var exerciseLabels = GetExerciseLabels(exercises).ToList();
                 var numberOfLiftsData = GetNumberOfLiftsData(exercises);
@@ -254,7 +172,7 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
             foreach (var exercise in exercises)
             {
                 var loggedMax = exercise.ExerciseType.ExerciseMaxes.OrderByDescending(x => x.DateAchieved).FirstOrDefault()?.Max;
-               
+
                 var totalSets = 0;
                 var totalIntensity = 0.0;
                 var peakIntensity = 0.0;
