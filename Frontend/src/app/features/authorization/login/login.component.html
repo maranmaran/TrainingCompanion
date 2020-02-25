@@ -8,13 +8,13 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" #form="ngForm" fxLayout="column wrap" fxLayoutGap="5px">
 
       <mat-form-field>
-        <input matInput formControlName="username" autocomplete="username" type="text" id="username"
+        <input matInput autofocus formControlName="username" autocomplete="username" type="text" id="username"
           placeholder="Username">
         <i matSuffix class="fas fa-user"></i>
       </mat-form-field>
 
       <mat-form-field>
-        <input #passwordInput matInput formControlName="password" autocomplete="current-password" 
+        <input #passwordInput matInput formControlName="password" autocomplete="current-password"
                class="form-control" id="password" placeholder="Password">
 
         <button type="button" mat-icon-button matSuffix showHidePassword [passwordInput]="passwordInput" [passwordIcon]="passwordIcon">
