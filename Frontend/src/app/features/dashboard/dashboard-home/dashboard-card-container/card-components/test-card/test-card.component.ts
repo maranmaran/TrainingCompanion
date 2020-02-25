@@ -34,7 +34,7 @@ export class TestCardComponent implements OnInit, OnDestroy {
     this._subs.unsubscribe();
   }
 
-  config: ChartConfiguration;
+  config: ChartConfiguration[];
   data = [1,2,3]
   labels = ['Exercise 1', 'Exercise 2', 'Exercise 3']
   getChartConfigs() {
@@ -44,13 +44,13 @@ export class TestCardComponent implements OnInit, OnDestroy {
       case 0:
       case 1:
       case 2:
-        this.config = getHorizontalChartConfig(this._theme, this.data, this.labels);
+        this.config = [getHorizontalChartConfig(this._theme, this.data, this.labels)];
         break;
       case 3:
-        this.config = getHorizontalStackedChartConfig(this._theme, this.data, this.labels);
+        this.config = [getHorizontalStackedChartConfig(this._theme, this.data, this.labels)];
         break;
       case 4:
-        this.config = getPolarAreaChart(this._theme, this.data, this.labels);
+        this.config = [getPolarAreaChart(this._theme, this.data, this.labels)];
         break;
     }
   }

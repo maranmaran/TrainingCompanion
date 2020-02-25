@@ -65,7 +65,7 @@ export class ChartComponent implements OnChanges {
         if(!currentConfig)
           return;
 
-        this.initChart(currentConfig, index);
+        setTimeout(() => this.initChart(currentConfig, index));
       });
     }
   }
