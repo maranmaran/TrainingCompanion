@@ -1,6 +1,6 @@
 import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, Inject, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
 import { AttributesMap, dynamicDirectiveDef } from 'ng-dynamic-component';
@@ -25,7 +25,7 @@ import { sidebarCards } from './../models/dashboard-cards';
   templateUrl: './dashboard-home.component.html',
   styleUrls: ['./dashboard-home.component.scss'],
 })
-export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DashboardHomeComponent implements OnInit, OnDestroy {
 
   @ViewChildren(DashboardOutletDirective) dashboardOutlets: QueryList<DashboardOutletDirective>;
 
@@ -39,7 +39,7 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     class: 'dashboard-component',
   };
   dirs = [
-    dynamicDirectiveDef(MaterialElevationDirective, { 'raisedElevation': 16 })
+    dynamicDirectiveDef(MaterialElevationDirective, { raisedElevation: 16 })
   ]
 
   sidebarCards = sidebarCards;
@@ -53,12 +53,12 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     @Inject(DOCUMENT) private document,
     private notificationService: NotificationSignalrService,
     private store: Store<AppState>,
-    private cd: ChangeDetectorRef,
-    private cfr: ComponentFactoryResolver,
     private dashboardService: DashboardService,
     private UIService: UIService,
     private renderer: Renderer2
-  ) { }
+  ) {
+    console.log((<any>MaterialElevationDirective).__annotations__);
+  }
 
   ngOnInit() {
     this.document.getElementById('main-sidenav-content').style.setProperty("overflow-y", "hidden", "important")
@@ -72,8 +72,6 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     this._subs.add(
       this.dashboardService.tracks$.subscribe(tracks => {
         this.tracks = tracks;
-        // this.cd.detectChanges();
-        // this.loadContents();
       }));
   }
 
@@ -81,10 +79,6 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
     this.document.getElementById('main-sidenav-content').style.setProperty("overflow-y", "auto", "important")
 
     this._subs.unsubscribe();
-  }
-
-  ngAfterViewInit() {
-    // this.loadContents();
   }
 
   activateNotif() {
@@ -95,31 +89,6 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
       this.userId);
   }
 
-  // loadContents = () => {
-  //   if (!this.dashboardOutlets || !this.dashboardOutlets.length)
-  //     return;
-
-  //   this.dashboardOutlets.forEach(template => {
-  //     this.cd.detectChanges();
-  //     this.loadContent(template, template.item);
-  //   });
-
-  //   this.cd.detectChanges();
-  // }
-
-  // loadContent = (template: DashboardOutletDirective, item: TrackItem) => {
-  //   if (!item.component)
-  //     return;
-
-  //   const viewContainerRef = template.viewContainerRef;
-  //   viewContainerRef.clear();
-
-  //   const factory = this.cfr.resolveComponentFactory(dashboardCards[item.component]);
-  //   const componentRef = viewContainerRef.createComponent(factory);
-  //   const instance = componentRef.instance as DashboardCardContainerComponent;
-  //   instance.item = item;
-  // }
-
   toggleSidenav = () => {
     setTimeout(() => this.dashboardEditMode = !this.dashboardEditMode, this.UIService.isSidenavOpened(UISidenav.DashboardComponents) ? 0 : 500);
     this.UIService.doSidenavAction(UISidenav.DashboardComponents, UISidenavAction.Toggle);
@@ -127,20 +96,10 @@ export class DashboardHomeComponent implements OnInit, AfterViewInit, OnDestroy 
 
   dashboardUpdated = false;
   drop(event: CdkDragDrop<TrackItem[]>, trackIdx: number = null) {
-
-    // if (event.previousContainer === event.container) {
-    //   // moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    // } else {
     if (event.previousContainer != event.container) {
       this.dashboardUpdated = true;
       const item = event.previousContainer.data[event.previousIndex];
       this.dashboardService.addItem(item, trackIdx);
-      // this.mainDashboardComponents.splice(this.mainDashboardComponents.indexOf(item), 1);
-      // transferArrayItem(
-      //   event.previousContainer.data,
-      //   event.container.data,
-      //   event.previousIndex,
-      //   event.currentIndex);
     }
   }
 
