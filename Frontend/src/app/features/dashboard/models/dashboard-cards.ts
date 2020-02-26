@@ -21,23 +21,23 @@ export const dashboardCards = {
 export const sidebarCards = {
   Test: `
           <h4>Track pie chart data: </h4>
-          <i class="fas fa-chart-pie fa-5x row-center"></i>
+          <i class="fas fa-chart-pie fa-5x row-center additional-padding"></i>
         `,
   Test1: `
           <h4>Track bar chart data: </h4>
-          <i class="fas fa-chart-bar fa-5x row-center"></i>
+          <i class="fas fa-chart-bar fa-5x row-center additional-padding"></i>
         `,
   Test2: `
           <h4>Track line chart data: </h4>
-          <i class="fas fa-chart-line fa-5x row-center"></i>
+          <i class="fas fa-chart-line fa-5x row-center additional-padding"></i>
         `,
   Test3: `
           <h4>See latest activities: </h4>
-          <i class="fas fa-list fa-5x row-center"></i>
+          <i class="fas fa-list fa-5x row-center additional-padding"></i>
         `,
   Test4: `
           <h4>Track your todos: </h4>
-          <i class="fas fa-tasks fa-5x row-center"></i>
+          <i class="fas fa-tasks fa-5x row-center additional-padding"></i>
         `,
 }
 

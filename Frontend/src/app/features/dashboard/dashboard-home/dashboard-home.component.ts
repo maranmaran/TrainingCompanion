@@ -3,9 +3,8 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
-import { AttributesMap, dynamicDirectiveDef } from 'ng-dynamic-component';
+import { AttributesMap, DynamicDirectiveDef } from 'ng-dynamic-component';
 import { take } from 'rxjs/operators';
-import { MaterialElevationDirective } from 'src/business/directives/elevation.directive';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
@@ -16,9 +15,9 @@ import { TrackItem } from '../../../../server-models/entities/track-item.model';
 import { Track } from '../../../../server-models/entities/track.model';
 import { DashboardOutletDirective } from '../directives/dashboard-outlet.directive';
 import { dashboardCards, mainDashboardComponents } from '../models/dashboard-cards';
-import { DashboardService } from '../services/dashboard.service';
 import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
 import { sidebarCards } from './../models/dashboard-cards';
+import { DashboardService } from './../services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -32,19 +31,17 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   @ViewChildren('trackOne, trackTwo') dropLists: QueryList<CdkDropList>;
 
   private userId: string;
-  tracks: Track[];
 
   dashboardEditMode = false;
-  attrs: AttributesMap = {
-    class: 'dashboard-component',
-  };
-  dirs = [
-    dynamicDirectiveDef(MaterialElevationDirective, { raisedElevation: 16 })
-  ]
+  dashboardUpdated = false;
 
   sidebarCards = sidebarCards;
   dashboardCards = dashboardCards;
   mainDashboardComponents = mainDashboardComponents;
+
+  tracks: Track[];
+  attrs: AttributesMap;
+  dirs: DynamicDirectiveDef<any>[];
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
   private _subs = new SubSink();
@@ -57,17 +54,16 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private UIService: UIService,
     private renderer: Renderer2
   ) {
-    console.log((<any>MaterialElevationDirective).__annotations__);
   }
 
   ngOnInit() {
     this.document.getElementById('main-sidenav-content').style.setProperty("overflow-y", "hidden", "important")
+    this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
+    this.UIService.addOrUpdateSidenav(UISidenav.DashboardComponents, this.sidenav);
 
     this.dashboardService.getUserTracks();
-
-    this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
-
-    this.UIService.addOrUpdateSidenav(UISidenav.DashboardComponents, this.sidenav);
+    this.attrs = this.dashboardService.trackItemAttributes;
+    this.dirs = this.dashboardService.trackItemDirectives;
 
     this._subs.add(
       this.dashboardService.tracks$.subscribe(tracks => {
@@ -94,7 +90,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.UIService.doSidenavAction(UISidenav.DashboardComponents, UISidenavAction.Toggle);
   }
 
-  dashboardUpdated = false;
   drop(event: CdkDragDrop<TrackItem[]>, trackIdx: number = null) {
     if (event.previousContainer != event.container) {
       this.dashboardUpdated = true;
