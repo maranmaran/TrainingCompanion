@@ -35,9 +35,6 @@ body {
 }
 
 .dashboard-component {
-  // background: rgba(0,0,0,0.4);
-  // background: rgba(255,255,255,1);
-  // background: green;
   flex: 1 1 100%;
   max-width: calc(100% - 1rem); // account for margin-right: 1rem
   align-self: start;
@@ -45,29 +42,14 @@ body {
   margin-right: 1rem;
 }
 
-@media(max-width: 600px) {
-  .dashboard-component {
-    flex: 1 1 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-    margin-right: 0;
-  }
+// to center items in dashboard sidebar
+// because angular cdk drag drop has some issues with flexbox
+// when i drag item to track and the item goes back to sidebar
+// flexbox resets unexpectedly
+.additional-padding {
+  padding-left: 27%;
+  padding-bottom: 1rem;
 }
-
-// dashboard example.. nested mat-sidenav-content inside #main-sidenav-content
-// #main-sidenav-content {
-//   overflow-y: unset !important;
-// }
-
-// // when normal component is loaded in router outlet (training details example)
-// router-outlet + *{
-//     overflow-y: auto !important;
-// }
-
-// // for all sidenav contents that are not main.. so we don't scroll past the toolbar...
-// mat-sidenav-content:not(#main-sidenav-content) {
-//   overflow-y: auto !important;
-// }
 
 .flex-center {
   display: flex;
