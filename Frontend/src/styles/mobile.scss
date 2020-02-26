@@ -18,6 +18,13 @@
     }
   }
 
+  .dashboard-component {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+
   .main-screen {
       margin-top: 1rem !important;
   }

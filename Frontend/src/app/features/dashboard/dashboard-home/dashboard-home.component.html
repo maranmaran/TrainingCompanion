@@ -8,18 +8,15 @@
       </button>
 
       <div class="p-3 mb-4"
-        fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem"
+        fxLayout="column" fxLayoutAlign="center"
         cdkDropList #componentsList="cdkDropList"
         [cdkDropListConnectedTo]="[trackOne, trackTwo, componentsList]" [cdkDropListData]="mainDashboardComponents"
+        [cdkDropListSortingDisabled]="true"
         (cdkDropListDropped)="drop($event)" (cdkDragEntered)="dragEnter($event)" (cdkDragEnded)="dragEnd($event)"
       >
-
-        <div *ngFor="let component of mainDashboardComponents"
-          [innerHtml]="sidebarCards[component.component]"
-          fxLayout="column" fxLayoutAlign="start"
+        <div *ngFor="let component of mainDashboardComponents" [innerHtml]="sidebarCards[component.component]"
           cdkDrag (cdkDragEntered)="dragEnter($event)" (cdkDragEnded)="dragEnd($event)"
         ></div>
-
       </div>
 
     </div>

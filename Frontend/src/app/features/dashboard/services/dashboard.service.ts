@@ -2,8 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
+import { AttributesMap, dynamicDirectiveDef } from 'ng-dynamic-component';
 import { BehaviorSubject } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
+import { MaterialElevationDirective } from 'src/business/directives/elevation.directive';
 import { BaseService } from 'src/business/services/base.service';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -30,23 +32,22 @@ export class DashboardService extends BaseService {
   private _defaultState: Track[] = [
     {
       id: Guid.create().toString(),
-      items: [
-        new TrackItem(),
-      ]
+      items: []
     },
     {
       id: Guid.create().toString(),
-      items: [
-        new TrackItem(),
-      ]
+      items: []
     }
   ]
-
   private _userId: string;
   private _trackState = new BehaviorSubject<Track[]>(this._defaultState);
-  tracks$ = this._trackState.asObservable();
 
-  public getUserTracks() {
+
+  tracks$ = this._trackState.asObservable();
+  trackItemAttributes: AttributesMap = { class: 'dashboard-component' };
+  trackItemDirectives = [ dynamicDirectiveDef(MaterialElevationDirective, { raisedElevation: 16 }) ]
+
+  getUserTracks() {
     this.http
       .get<Track[]>(this.url + 'GetMainDashboard/' + this._userId)
       .pipe(
@@ -58,18 +59,15 @@ export class DashboardService extends BaseService {
             console.error('You cannot have more than 2 tracks for Main dashboard');
 
           if (tracks.length == 0)
-            tracks = [new Track(), new Track()];
+            tracks = this._defaultState;
 
           this._trackState.next(tracks)
         },
-        err => {
-          console.log(err);
-          this._trackState.next(this._defaultState); //fallback
-        }
+        err => console.log(err)
       );
   }
 
-  public saveMainDashboard(tracks: Track[]) {
+  saveMainDashboard(tracks: Track[]) {
     var request = { userId: this._userId, tracks: tracks };
 
     this.http
@@ -84,7 +82,7 @@ export class DashboardService extends BaseService {
       );
   }
 
-  public removeItem = (item: TrackItem) => {
+  removeItem = (item: TrackItem) => {
     const state = this._trackState.getValue();
 
     state.forEach(track => {
@@ -99,14 +97,8 @@ export class DashboardService extends BaseService {
   }
 
   // support drag and drop to specific track
-  public addItem = (item: TrackItem, trackIdx: number) => {
+  addItem = (item: TrackItem, trackIdx: number) => {
     const state = this._trackState.getValue();
-
-    // // check if tracks already contain this component
-    // if (state[trackIdx].items.indexOf(item) !== -1) {
-    //   console.warn('Item with the same id exists on the dashboard track.');
-    //   return;
-    // }
 
     state[trackIdx].items.push(item);
 
