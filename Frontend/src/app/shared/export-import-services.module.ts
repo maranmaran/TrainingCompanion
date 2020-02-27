@@ -1,4 +1,4 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { ExportService } from 'src/business/services/feature-services/export.service';
 import { ImportService } from 'src/business/services/feature-services/import.service';
 import { SignalrHubsModule } from './signlar-hubs.module';
@@ -7,7 +7,15 @@ import { SignalrHubsModule } from './signlar-hubs.module';
  */
 @NgModule({})
 export class ExportImportServicesModule {
-    static forRoot(): ModuleWithProviders<SignalrHubsModule> {
+
+    constructor (@Optional() @SkipSelf() parentModule?: ExportImportServicesModule) {
+        if (parentModule) {
+            throw new Error(
+            'ExportImportServicesModule is already loaded. Import it in the CoreModule only');
+        }
+    }
+
+    static forRoot(): ModuleWithProviders<ExportImportServicesModule> {
         return {
             ngModule: SignalrHubsModule,
             providers: [
