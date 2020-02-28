@@ -1,6 +1,5 @@
 ﻿using Backend.Application.Business.Business.Set.Create;
 using Backend.Application.Business.Business.Set.Delete;
-using Backend.Application.Business.Business.Set.Update;
 using Backend.Application.Business.Business.Set.UpdateMany;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,11 +15,6 @@ namespace Backend.API.Controllers
             return await Create(async () => await Mediator.Send(request));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(UpdateSetRequest request)
-        {
-            return await Update(async () => await Mediator.Send(request));
-        }
 
         [HttpPost]
         public async Task<IActionResult> UpdateMany(UpdateManySetsRequest request)

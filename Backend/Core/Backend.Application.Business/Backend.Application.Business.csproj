@@ -57,6 +57,7 @@
     <Folder Include="Assets\EmailTemplates\Registration\Coach\" />
     <Folder Include="Assets\EmailTemplates\Registration\SoloAthlete\" />
     <Folder Include="Business\Dashboard\SaveMainDashboard\" />
+    <Folder Include="Business\PersonalBest\Get\" />
   </ItemGroup>
 
 </Project>

@@ -4,6 +4,8 @@ using Backend.Domain.Entities.Dashboard;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
+using Backend.Domain.Entities.ProgressTracking.Bodyweight;
+using Backend.Domain.Entities.ProgressTracking.PersonalBest;
 using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
@@ -28,6 +30,8 @@ namespace Backend.Persistance
         public DbSet<TrackItem> TrackItems { get; set; }
         public DbSet<TrackItemParams> TrackItemParams { get; set; }
         public DbSet<SystemException> SystemExceptions { get; set; }
+        public DbSet<Bodyweight> Bodyweights { get; set; }
+        public DbSet<PersonalBest> PBs { get; set; }
 
         #region Exercise type + Properties
 

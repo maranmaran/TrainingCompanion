@@ -1,5 +1,6 @@
 ﻿using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.Media;
+using Backend.Domain.Entities.ProgressTracking.Bodyweight;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Enum;
 using System;
@@ -42,6 +43,7 @@ namespace Backend.Domain.Entities.User
         public virtual ICollection<MediaFile> MediaFiles { get; set; } = new HashSet<MediaFile>();
         public virtual ICollection<ExerciseType.ExerciseType> ExerciseTypes { get; set; } = new HashSet<ExerciseType.ExerciseType>();
         public virtual ICollection<Training> Trainings { get; set; } = new HashSet<Training>();
+        public virtual ICollection<Bodyweight> Bodyweights { get; set; } = new HashSet<Bodyweight>();
 
         /// <summary>
         /// Exercise types properties
