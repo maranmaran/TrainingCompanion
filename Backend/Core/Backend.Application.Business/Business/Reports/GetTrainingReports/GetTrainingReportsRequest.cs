@@ -68,7 +68,7 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
 
                 var exercises = (await _context
                     .Trainings
-                    .Include(x => x.Exercises).ThenInclude(x => x.ExerciseType).ThenInclude(x => x.ExerciseMaxes)
+                    .Include(x => x.Exercises).ThenInclude(x => x.ExerciseType).ThenInclude(x => x.PBs)
                     .Include(x => x.Exercises).ThenInclude(x => x.Sets)
                     .Where(x => x.Id == request.TrainingId)
                     .FirstOrDefaultAsync(cancellationToken))?.Exercises.OrderBy(x => x.Order).ToList();
@@ -139,11 +139,11 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
 
         private (IEnumerable<double> Total, IEnumerable<double> VolumeSplit) GetVolumeData(List<Domain.Entities.TrainingLog.Exercise> exercises, UserSetting userSetting)
         {
-            var totalVolume = exercises.Sum(x => x.Sets.Sum(x => x.Volume.TransformWeight(userSetting.UnitSystem)));
+            var totalVolume = exercises.Sum(x => x.Sets.Sum(x => x.Volume.FromMetricTo(userSetting.UnitSystem)));
 
             var totalExerciseVolume = exercises.Select(x =>
             {
-                double Transform(double volume) => volume.TransformWeight(userSetting.UnitSystem);
+                double Transform(double volume) => volume.FromMetricTo(userSetting.UnitSystem);
                 double VolumeSum(Domain.Entities.TrainingLog.Set set) => Transform(set.Volume);
 
                 var totalVolume = x.Sets.Sum(VolumeSum);
@@ -171,7 +171,7 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
 
             foreach (var exercise in exercises)
             {
-                var loggedMax = exercise.ExerciseType.ExerciseMaxes.OrderByDescending(x => x.DateAchieved).FirstOrDefault()?.Max;
+                var loggedMax = exercise.ExerciseType.PBs.OrderByDescending(x => x.DateAchieved).FirstOrDefault()?.Value;
 
                 var totalSets = 0;
                 var totalIntensity = 0.0;
@@ -182,7 +182,7 @@ namespace Backend.Application.Business.Business.Reports.GetTrainingReports
                 foreach (var set in exercise.Sets)
                 {
                     var max = loggedMax ?? set.ProjectedMax;
-                    var intensity = max > 0 ? (set.Weight.TransformWeight(userSetting.UnitSystem) / max.TransformWeight(userSetting.UnitSystem)) * 100 : 0;
+                    var intensity = max > 0 ? (set.Weight.FromMetricTo(userSetting.UnitSystem) / max.FromMetricTo(userSetting.UnitSystem)) * 100 : 0;
                     totalIntensity += intensity;
                     totalSets++;
 

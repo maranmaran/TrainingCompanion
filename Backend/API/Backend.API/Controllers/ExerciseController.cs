@@ -2,14 +2,13 @@
 using Backend.Application.Business.Business.Exercise.Delete;
 using Backend.Application.Business.Business.Exercise.Get;
 using Backend.Application.Business.Business.Exercise.GetAll;
-using Backend.Application.Business.Business.Exercise.Update;
+using Backend.Application.Business.Business.Exercise.UpdateMany;
 using Backend.Domain.Entities.TrainingLog;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Backend.Application.Business.Business.Exercise.UpdateMany;
 
 namespace Backend.API.Controllers
 {
@@ -33,11 +32,6 @@ namespace Backend.API.Controllers
             return await Create(async () => await Mediator.Send(request));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(UpdateExerciseRequest request)
-        {
-            return await Update(async () => await Mediator.Send(request));
-        }
 
         [HttpPost]
         public async Task<IActionResult> UpdateMany(IEnumerable<Exercise> data)

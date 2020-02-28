@@ -33,7 +33,11 @@ namespace Backend.Application.Business.Business.Set.UpdateMany
                     .First(x => x.Id == request.ExerciseId).ExerciseType;
 
                 var sets = await _context.Sets.Where(x => x.ExerciseId == request.ExerciseId).AsNoTracking().ToListAsync(cancellationToken);
-                TransformSets(request.Sets, type, type.ApplicationUser.UserSetting.RpeSystem);
+
+                var rpeSystem = type.ApplicationUser.UserSetting.RpeSystem;
+                var unitSystem = type.ApplicationUser.UserSetting.UnitSystem;
+
+                TransformSets(request.Sets, type, rpeSystem, unitSystem);
 
                 var setsToRemove = sets.Where(x => request.Sets.All(y => y.Id != x.Id));
                 var setsToAdd = request.Sets.Where(x => x.Id == Guid.Empty);
@@ -53,10 +57,12 @@ namespace Backend.Application.Business.Business.Set.UpdateMany
             }
         }
 
-        private void TransformSets(IEnumerable<Domain.Entities.TrainingLog.Set> sets, Domain.Entities.ExerciseType.ExerciseType type, RpeSystem rpeSystem)
+        private void TransformSets(IEnumerable<Domain.Entities.TrainingLog.Set> sets, Domain.Entities.ExerciseType.ExerciseType type, RpeSystem rpeSystem, UnitSystem unitSystem)
         {
             foreach (var set in sets)
             {
+                set.Weight = set.Weight.ToMetricSystem(unitSystem); // make sure everything going in from weight is METRIC!
+
                 // update additional properties
                 if (type.RequiresReps && type.RequiresSets)
                 {
