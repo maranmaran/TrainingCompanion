@@ -46,7 +46,7 @@ namespace Backend.Application.Business.Business.Chat.ReadMessages
             }
             catch (Exception e)
             {
-                throw new Exception("Could not read messages");
+                throw new Exception("Could not read messages", e);
             }
         }
     }

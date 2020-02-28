@@ -1,4 +1,4 @@
-﻿using Backend.Domain.Entities.ProgressTracking.Max;
+﻿using Backend.Domain.Entities.ProgressTracking.PersonalBest;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using System;
@@ -27,7 +27,7 @@ namespace Backend.Domain.Entities.ExerciseType
         //TODO: RPE CHART
 
         public virtual ICollection<ExerciseTypeTag> Properties { get; set; } = new HashSet<ExerciseTypeTag>();
-        public virtual ICollection<ExerciseMax> ExerciseMaxes { get; set; } = new HashSet<ExerciseMax>();
+        public virtual ICollection<PersonalBest> PBs { get; set; } = new HashSet<PersonalBest>();
         public virtual ICollection<Exercise> Exercises { get; set; } = new HashSet<Exercise>();
     }
 }

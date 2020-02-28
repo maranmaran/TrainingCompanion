@@ -60,6 +60,12 @@ namespace Backend.Persistance.Configurations
                 .HasMany(x => x.ReceivedNotifications)
                 .WithOne(x => x.Receiver)
                 .HasForeignKey(x => x.ReceiverId)
+                .OnDelete(DeleteBehavior.Cascade);           
+            
+            builder
+                .HasMany(x => x.ReceivedNotifications)
+                .WithOne(x => x.Receiver)
+                .HasForeignKey(x => x.ReceiverId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder

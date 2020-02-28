@@ -3,6 +3,7 @@ using Backend.Domain.Entities.Dashboard;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
+using Backend.Domain.Entities.ProgressTracking.Bodyweight;
 using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain.Entities.ProgressTracking.PersonalBest;
 
 namespace Backend.Domain
 {
@@ -29,6 +31,9 @@ namespace Backend.Domain
         DbSet<TrackItem> TrackItems { get; set; }
         DbSet<TrackItemParams> TrackItemParams { get; set; }
         DbSet<SystemException> SystemExceptions { get; set; }
+        DbSet<Bodyweight> Bodyweights { get; set; }
+        DbSet<PersonalBest> PBs { get; set; }
+
 
         #region Exercise type + Properties
 

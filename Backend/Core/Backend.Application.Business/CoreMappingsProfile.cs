@@ -205,9 +205,9 @@ namespace Backend.Application.Business
             CreateMap<Exercise, ExportExerciseDto>()
                 .ForMember(x => x.Exercise, y => y.MapFrom(x => x.ExerciseType.Name))
                 .ForMember(x => x.ExerciseTags, y => y.MapFrom(x =>
-                    EnumerableExtensions.Join(x.ExerciseType.Properties
+                    x.ExerciseType.Properties
                         .OrderBy(x => x.Tag.TagGroup.Order)
-                        .Select(x => x.Tag.Value), " ")
+                        .Select(x => x.Tag.Value).Join(" ")
                 ));
 
             CreateMap<Set, ExportSetDto>();
