@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.Authorization.Utils;
 using Backend.Domain;
-using Backend.Service.Authorization.Utils;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

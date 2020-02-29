@@ -1,7 +1,7 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
+using System;
 
-namespace Backend.Business_ExerciseType.Tag.Update
+namespace Backend.Business.ExerciseType.Tag.Update
 {
     public class UpdateTagRequest : IRequest<Domain.Entities.ExerciseType.Tag>
     {

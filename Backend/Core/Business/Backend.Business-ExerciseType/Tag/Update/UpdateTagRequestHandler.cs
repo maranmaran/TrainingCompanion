@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Backend.Business_ExerciseType.Tag.Update
+namespace Backend.Business.ExerciseType.Tag.Update
 {
     public class UpdateTagRequestHandler :
         IRequestHandler<UpdateTagRequest, Domain.Entities.ExerciseType.Tag>

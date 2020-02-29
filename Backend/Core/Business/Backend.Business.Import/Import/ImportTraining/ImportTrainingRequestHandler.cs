@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.Import.Models.Import.Training;
+﻿using Backend.Business.Import.Models.Import.Training;
 using Backend.Domain;
 using Backend.Service.Excel.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Import.Import.ImportTraining
 {
@@ -26,12 +26,12 @@ namespace Backend.Business.Import.Import.ImportTraining
         {
             try
             {
-                var dataRows = await _excelService.ParseImportData<ImportTrainingDto>(request.File, cancellationToken);
+                //var dataRows = await _excelService.ParseImportData<ImportTrainingDto>(request.File, cancellationToken);
                 var exerciseTypes = _context.ExerciseTypes.Where(x => x.ApplicationUserId == request.Userid).AsNoTracking();
 
-                var trainings = ParseImportData(dataRows, exerciseTypes, request.Userid);
+                //var trainings = ParseImportData(dataRows, exerciseTypes, request.Userid);
 
-                await _context.Trainings.AddRangeAsync(trainings, cancellationToken);
+                //await _context.Trainings.AddRangeAsync(trainings, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

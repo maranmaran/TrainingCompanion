@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Backend.Business_ExerciseType.TagGroup.Update
+namespace Backend.Business.ExerciseType.TagGroup.Update
 {
     public class UpdateTagGroupRequest : IRequest<Domain.Entities.ExerciseType.TagGroup>
     {

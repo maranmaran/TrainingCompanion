@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Business.Export.Models.Training;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
@@ -12,6 +7,11 @@ using Backend.Service.Excel.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Export.Export.Training
 {
@@ -47,9 +47,10 @@ namespace Backend.Business.Export.Export.Training
                     Trainings = _mapper.Map<IEnumerable<ExportTrainingDto>>(trainings)
                 };
 
-                var fileResult = await _excelService.Export(exportData, cancellationToken);
+                //var fileResult = await _excelService.Export(exportData, cancellationToken);
 
-                return fileResult;
+                //return fileResult;
+                return null;
 
                 // TODO: Make this asynchronous call completely and detach it from frontend
                 // inform user through notification and email that export is done and provide link for payload inside notification download url.. ?

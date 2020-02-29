@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using Backend.Business.Authorization.Utils;
 using Backend.Domain;
 using Backend.Domain.Enum;
-using Backend.Service.Authorization.Utils;
 using Backend.Service.Payment.Enums;
 using Backend.Service.Payment.Interfaces;
 using FluentValidation;

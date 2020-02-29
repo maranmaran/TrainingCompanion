@@ -1,7 +1,7 @@
 ﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
-using Backend.Service.Authorization.Utils;
 using System;
+using Backend.Business.Authorization.Utils;
 
 namespace Backend.Persistance.Seed
 {
