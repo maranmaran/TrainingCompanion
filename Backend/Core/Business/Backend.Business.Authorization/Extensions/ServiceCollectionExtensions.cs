@@ -1,9 +1,9 @@
-﻿using Backend.Service.Authorization.Interfaces;
-using Backend.Service.Authorization.Utils;
+﻿using Backend.Business.Authorization.Interfaces;
+using Backend.Business.Authorization.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend.Service.Authorization.Extensions
+namespace Backend.Business.Authorization.Extensions
 {
     public static partial class ServiceCollectionExtensions
     {

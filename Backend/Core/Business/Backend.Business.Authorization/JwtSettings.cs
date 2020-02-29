@@ -1,4 +1,4 @@
-﻿namespace Backend.Service.Authorization
+﻿namespace Backend.Business.Authorization
 {
     public class JwtSettings
     {

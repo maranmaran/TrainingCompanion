@@ -1,9 +1,22 @@
-﻿using Backend.API.LibraryConfigurations.Sieve;
+﻿using AutoMapper;
+using Backend.API.LibraryConfigurations.Sieve;
+using Backend.Business.Authorization;
+using Backend.Business.Authorization.Extensions;
+using Backend.Business.Users.Users.CreateUser;
 using Backend.Domain;
+using Backend.Domain.Extensions;
 using Backend.Persistance;
-using Backend.Service.Authorization;
+using Backend.Service.AmazonS3.Extensions;
+using Backend.Service.Email.Extensions;
+using Backend.Service.Excel.Extensions;
+using Backend.Service.Infrastructure.Extensions;
+using Backend.Service.Infrastructure.Providers;
+using Backend.Service.Logging.Extensions;
+using Backend.Service.Payment.Extensions;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,9 +27,11 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Sieve.Models;
 using Sieve.Services;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Backend.Business.Users.Users.CreateUser;
 
 namespace Backend.API.Extensions
 {
@@ -164,6 +179,119 @@ namespace Backend.API.Extensions
                     Type = SecuritySchemeType.ApiKey
                 });
             });
+        }
+
+        /// <summary>
+        /// Configures MediatR for request pipeline and adds some middleware
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureMediatR(this IServiceCollection services)
+        {
+            var assemblies = new List<Assembly>()
+            {
+                Assembly.GetAssembly(typeof(Business.Billing.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Authorization.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Media.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Chat.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Export.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Import.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Metrics.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Notifications.Mappings)),
+                Assembly.GetAssembly(typeof(Business.ProgressTracking.Mappings)),
+                Assembly.GetAssembly(typeof(Business.TrainingLog.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Users.Mappings)),
+                Assembly.GetAssembly(typeof(Business.ExerciseType.Mappings)),
+            };
+
+            services.AddMediatR(assemblies.ToArray());
+            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+        }
+
+        /// <summary>
+        /// Configures automapper using automapper extension for dependency injection
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureAutomapper(this IServiceCollection services)
+        {
+            var mappings = new List<Type>()
+            {
+                typeof(Business.Billing.Mappings),
+                typeof(Business.Authorization.Mappings),
+                typeof(Business.Media.Mappings),
+                typeof(Business.Chat.Mappings),
+                typeof(Business.Export.Mappings),
+                typeof(Business.Import.Mappings),
+                typeof(Business.Metrics.Mappings),
+                typeof(Business.Notifications.Mappings),
+                typeof(Business.ProgressTracking.Mappings),
+                typeof(Business.TrainingLog.Mappings),
+                typeof(Business.Users.Mappings),
+                typeof(Business.ExerciseType.Mappings)
+            };
+
+            services.AddAutoMapper(mappings.ToArray());
+        }
+
+        /// <summary>
+        /// Configures signalR
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureSignalR(this IServiceCollection services)
+        {
+            services
+                .AddSignalR(options =>
+                {
+                    options.EnableDetailedErrors = true;
+                })
+                .AddNewtonsoftJsonProtocol(options =>
+                {
+                    options.PayloadSerializerSettings = new JsonSerializerSettings()
+                    {
+                        Formatting = Formatting.Indented,
+                        Converters = new List<JsonConverter>()
+                        {
+                            new StringEnumConverter()
+                        },
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    };
+                });
+
+            // Change to use Name as the user identifier for SignalR
+            // WARNING: This requires that the source of your JWT token
+            // ensures that the Name claim is unique!
+            // If the Name claim isn't unique, users could receive messages
+            // intended for a different user!
+
+            // For this application implementation claim type NAME of JWT is USERID so it is Unique
+            services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
+        }
+
+        /// <summary>
+        /// Configures all core services (business and shared)
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureCoreServices(this IServiceCollection services)
+        {
+            services.ConfigureAuthorizationServices();
+            services.ConfigureEmailServices();
+            services.ConfigurePaymentServices();
+            services.ConfigureS3Services();
+            services.ConfigureNotificationServices();
+            services.ConfigureExcelService();
+            services.ConfigureLoggingService();
+        }
+
+        /// <summary>
+        /// Configures core settings
+        /// </summary>
+        public static void ConfigureCoreSettings(this IServiceCollection services, IConfiguration config)
+        {
+            services.ConfigureJwtSettings(config);
+            services.ConfigureEmailSettings(config);
+            services.ConfigurePaymentSettings(config);
+            services.ConfigureAppSettings(config);
+            services.ConfigureS3Settings(config);
         }
     }
 }

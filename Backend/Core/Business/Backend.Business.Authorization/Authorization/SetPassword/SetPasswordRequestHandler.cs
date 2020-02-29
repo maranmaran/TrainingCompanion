@@ -3,8 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Backend.Business.Authorization.Authorization.CurrentUser;
 using Backend.Business.Authorization.Authorization.SignIn;
+using Backend.Business.Authorization.Utils;
 using Backend.Domain;
-using Backend.Service.Authorization.Utils;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

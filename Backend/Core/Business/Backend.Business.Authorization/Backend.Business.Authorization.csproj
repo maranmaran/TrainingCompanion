@@ -6,8 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.6.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Backend.Domain\Backend.Domain.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.Authorization\Backend.Service.Authorization.csproj" />
     <ProjectReference Include="..\..\Services\Backend.Service.Email\Backend.Service.Email.csproj" />
     <ProjectReference Include="..\..\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj" />
     <ProjectReference Include="..\Backend.Business.Billing\Backend.Business.Billing.csproj" />

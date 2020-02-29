@@ -24,7 +24,6 @@
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Authorization\Backend.Business.Authorization.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Billing\Backend.Business.Billing.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Chat\Backend.Business.Chat.csproj" />
-    <ProjectReference Include="..\..\Core\Business\Backend.Business.Dashboard\Backend.Business.Dashboard.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Export\Backend.Business.Export.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Import\Backend.Business.Import.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Media\Backend.Business.Media.csproj" />

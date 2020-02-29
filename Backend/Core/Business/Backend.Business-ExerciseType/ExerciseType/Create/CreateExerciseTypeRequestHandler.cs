@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Backend.Business_ExerciseType.ExerciseType.Create
+namespace Backend.Business.ExerciseType.ExerciseType.Create
 {
     public class CreateExerciseTypeRequestHandler :
         IRequestHandler<CreateExerciseTypeRequest, Domain.Entities.ExerciseType.ExerciseType>

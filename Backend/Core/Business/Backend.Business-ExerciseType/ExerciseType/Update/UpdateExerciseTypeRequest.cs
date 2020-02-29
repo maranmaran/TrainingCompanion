@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Backend.Business_ExerciseType.ExerciseType.Update
+namespace Backend.Business.ExerciseType.ExerciseType.Update
 {
     public class UpdateExerciseTypeRequest : IRequest<Domain.Entities.ExerciseType.ExerciseType>
     {

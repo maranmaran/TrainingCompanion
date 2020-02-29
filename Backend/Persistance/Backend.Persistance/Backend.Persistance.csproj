@@ -40,7 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Backend.Domain\Backend.Domain.csproj" />
-    <ProjectReference Include="..\..\Core\Services\Backend.Service.Authorization\Backend.Service.Authorization.csproj" />
+    <ProjectReference Include="..\..\Core\Business\Backend.Business.Authorization\Backend.Business.Authorization.csproj" />
   </ItemGroup>
 
 </Project>

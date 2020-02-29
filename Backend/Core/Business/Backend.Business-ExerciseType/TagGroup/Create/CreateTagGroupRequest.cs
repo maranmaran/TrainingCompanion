@@ -1,7 +1,7 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
+using System;
 
-namespace Backend.Business_ExerciseType.TagGroup.Create
+namespace Backend.Business.ExerciseType.TagGroup.Create
 {
     public class CreateTagGroupRequest : IRequest<Domain.Entities.ExerciseType.TagGroup>
     {

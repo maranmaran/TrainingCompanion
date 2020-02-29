@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Backend.Business_ExerciseType.TagGroup.Update
+namespace Backend.Business.ExerciseType.TagGroup.Update
 {
     public class UpdateTagGroupRequestHandler :
         IRequestHandler<UpdateTagGroupRequest, Domain.Entities.ExerciseType.TagGroup>

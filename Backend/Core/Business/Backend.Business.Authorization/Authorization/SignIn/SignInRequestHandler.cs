@@ -1,11 +1,11 @@
 ﻿using Backend.Business.Authorization.Authorization.CurrentUser;
 using Backend.Domain;
-using Backend.Service.Authorization.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.Authorization.Interfaces;
 
 namespace Backend.Business.Authorization.Authorization.SignIn
 {

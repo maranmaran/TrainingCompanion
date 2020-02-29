@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Backend.Service.Authorization.Utils
+namespace Backend.Business.Authorization.Utils
 {
     public static class PasswordHasher
     {

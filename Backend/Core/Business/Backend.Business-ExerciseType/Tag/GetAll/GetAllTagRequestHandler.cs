@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Backend.Domain;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
 
-namespace Backend.Business_ExerciseType.Tag.GetAll
+namespace Backend.Business.ExerciseType.Tag.GetAll
 {
     public class GetAllTagRequestHandler : IRequestHandler<GetAllTagRequest, IQueryable<Domain.Entities.ExerciseType.Tag>>
     {

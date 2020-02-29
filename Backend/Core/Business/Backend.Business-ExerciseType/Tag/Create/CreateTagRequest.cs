@@ -1,7 +1,7 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
+using System;
 
-namespace Backend.Business_ExerciseType.Tag.Create
+namespace Backend.Business.ExerciseType.Tag.Create
 {
     public class CreateTagRequest : IRequest<Domain.Entities.ExerciseType.Tag>
     {

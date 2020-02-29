@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Backend.Business_ExerciseType.ExerciseType.GetAll
+namespace Backend.Business.ExerciseType.ExerciseType.GetAll
 {
     public class GetAllExerciseTypeRequestHandler : IRequestHandler<GetAllExerciseTypeRequest, IQueryable<Domain.Entities.ExerciseType.ExerciseType>>
     {

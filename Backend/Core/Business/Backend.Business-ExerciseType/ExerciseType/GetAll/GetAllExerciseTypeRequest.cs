@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Linq;
-using MediatR;
 
-namespace Backend.Business_ExerciseType.ExerciseType.GetAll
+namespace Backend.Business.ExerciseType.ExerciseType.GetAll
 {
     public class GetAllExerciseTypeRequest : IRequest<IQueryable<Domain.Entities.ExerciseType.ExerciseType>>
     {
