@@ -1,11 +1,11 @@
-﻿using Backend.Application.Business.Business.Media.GetUserMediaByType;
-using Backend.Application.Business.Business.Media.UploadMedia;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
+using Backend.Business.Media.Media.GetUserMediaByType;
+using Backend.Business.Media.Media.UploadMedia;
 
 namespace Backend.API.Controllers
 {

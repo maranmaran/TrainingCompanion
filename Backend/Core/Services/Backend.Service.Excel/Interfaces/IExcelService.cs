@@ -1,6 +1,4 @@
-﻿using Backend.Common;
-using Backend.Service.Excel.Models.Import;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading;
@@ -14,6 +12,6 @@ namespace Backend.Service.Excel.Interfaces
 
         Task<IEnumerable<T>> ParseImportData<T>(IFormFile file, CancellationToken cancellationToken) where T : new();
 
-        Task<IEnumerable<ValidationError>> ValidateData(IFormFile file, IList<ImportColumn> allowedColumns, CancellationToken cancellationToken);
+        //Task<IEnumerable<ValidationError>> ValidateData(IFormFile file, IList<ImportColumn> allowedColumns, CancellationToken cancellationToken);
     }
 }

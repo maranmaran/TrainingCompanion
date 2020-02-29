@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Backend.Domain\Backend.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\Backend.Service.AmazonS3\Backend.Service.AmazonS3.csproj" />
+    <ProjectReference Include="..\..\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj" />
+    <ProjectReference Include="..\Backend.Business.Users\Backend.Business.Users.csproj" />
+  </ItemGroup>
+
+</Project>

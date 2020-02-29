@@ -1,5 +1,4 @@
-﻿using Backend.Application.Business.Factories;
-using Backend.Common.Extensions;
+﻿using Backend.Common.Extensions;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Backend.Domain.Factories;
 using Tag = Backend.Domain.Entities.ExerciseType.Tag;
 
 namespace Backend.Persistance

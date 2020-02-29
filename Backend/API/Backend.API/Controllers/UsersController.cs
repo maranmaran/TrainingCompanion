@@ -1,16 +1,16 @@
-﻿using Backend.Application.Business.Business.Users.CreateUser;
-using Backend.Application.Business.Business.Users.DeleteUser;
-using Backend.Application.Business.Business.Users.GetAllUsers;
-using Backend.Application.Business.Business.Users.GetUser;
-using Backend.Application.Business.Business.Users.SaveUserSettings;
-using Backend.Application.Business.Business.Users.SetActive;
-using Backend.Application.Business.Business.Users.UpdateUser;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
+using Backend.Business.Users.Users.CreateUser;
+using Backend.Business.Users.Users.DeleteUser;
+using Backend.Business.Users.Users.GetAllUsers;
+using Backend.Business.Users.Users.GetUser;
+using Backend.Business.Users.Users.SaveUserSettings;
+using Backend.Business.Users.Users.SetActive;
+using Backend.Business.Users.Users.UpdateUser;
 
 namespace Backend.API.Controllers
 {

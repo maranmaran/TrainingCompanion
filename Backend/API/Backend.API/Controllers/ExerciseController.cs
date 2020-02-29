@@ -1,14 +1,14 @@
-﻿using Backend.Application.Business.Business.Exercise.Create;
-using Backend.Application.Business.Business.Exercise.Delete;
-using Backend.Application.Business.Business.Exercise.Get;
-using Backend.Application.Business.Business.Exercise.GetAll;
-using Backend.Application.Business.Business.Exercise.UpdateMany;
-using Backend.Domain.Entities.TrainingLog;
+﻿using Backend.Domain.Entities.TrainingLog;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Backend.Business.TrainingLog.Exercise.Create;
+using Backend.Business.TrainingLog.Exercise.Delete;
+using Backend.Business.TrainingLog.Exercise.Get;
+using Backend.Business.TrainingLog.Exercise.GetAll;
+using Backend.Business.TrainingLog.Exercise.UpdateMany;
 
 namespace Backend.API.Controllers
 {

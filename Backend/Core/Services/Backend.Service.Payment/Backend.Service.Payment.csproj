@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Stripe.net" Version="34.8.0" />
+    <PackageReference Include="Stripe.net" Version="34.26.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,12 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>Backend.Service.Email</AssemblyName>
-    <RootNamespace>Backend.Service.Email</RootNamespace>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="2.4.1" />
+    <PackageReference Include="MailKit" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
