@@ -6,58 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Business\Athletes\**" />
-    <Compile Remove="Business\Coaches\**" />
-    <Compile Remove="Business\Notifications\**" />
-    <EmbeddedResource Remove="Business\Athletes\**" />
-    <EmbeddedResource Remove="Business\Coaches\**" />
-    <EmbeddedResource Remove="Business\Notifications\**" />
-    <None Remove="Business\Athletes\**" />
-    <None Remove="Business\Coaches\**" />
-    <None Remove="Business\Notifications\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Services\Backend.Service.AmazonS3\Backend.Service.AmazonS3.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.Authorization\Backend.Service.Authorization.csproj" />
-    <ProjectReference Include="..\Services\Backend.Service.Chat\Backend.Service.Chat.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.Email\Backend.Service.Email.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.Excel\Backend.Service.Excel.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.Import\Backend.Service.Import.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.Logging\Backend.Service.Logging.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.Payment\Backend.Service.Payment.csproj" />
     <ProjectReference Include="..\Services\Backend.Service.PushNotifications\Backend.Service.PushNotifications.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Assets\EmailTemplates\Images\logo.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate - Copy.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\EmailTemplates\Registration\Athlete\NewAthleteRegisterTemplate - Development.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\EmailTemplates\Registration\Athlete\NewAthleteRegisterTemplate - Production.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\EmailTemplates\NewAthleteRegisterTemplate.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Business\Import\Samples\ExerciseType\Powerlifting.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Business\Import\Samples\ExerciseType\Weightlifting.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\EmailTemplates\Registration\Coach\" />
-    <Folder Include="Assets\EmailTemplates\Registration\SoloAthlete\" />
-    <Folder Include="Business\Dashboard\SaveMainDashboard\" />
-    <Folder Include="Business\PersonalBest\Get\" />
   </ItemGroup>
 
 </Project>

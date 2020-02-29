@@ -1,12 +1,12 @@
-﻿using Backend.Application.Business.Business.ExerciseType.Create;
-using Backend.Application.Business.Business.ExerciseType.Delete;
-using Backend.Application.Business.Business.ExerciseType.Get;
-using Backend.Application.Business.Business.ExerciseType.GetAll;
-using Backend.Application.Business.Business.ExerciseType.Update;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
+using Backend.Business_ExerciseType.ExerciseType.Create;
+using Backend.Business_ExerciseType.ExerciseType.Delete;
+using Backend.Business_ExerciseType.ExerciseType.Get;
+using Backend.Business_ExerciseType.ExerciseType.GetAll;
+using Backend.Business_ExerciseType.ExerciseType.Update;
 
 namespace Backend.API.Controllers
 {

@@ -1,8 +1,8 @@
-﻿using Backend.Application.Business.Business.PushNotification.GetPushNotificationHistory;
-using Backend.Application.Business.Business.PushNotification.SendPushNotification;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Backend.Business.Notifications.PushNotification.GetPushNotificationHistory;
+using Backend.Business.Notifications.PushNotification.SendPushNotification;
 
 namespace Backend.API.Controllers
 {

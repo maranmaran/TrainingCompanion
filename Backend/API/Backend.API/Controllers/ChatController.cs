@@ -1,12 +1,12 @@
-﻿using Backend.Application.Business.Business.Chat.GetChatHistory;
-using Backend.Application.Business.Business.Chat.GetFriendList;
-using Backend.Application.Business.Business.Chat.SendChatMessage;
-using Backend.Application.Business.Business.Chat.UploadChatFile;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Backend.Business.Chat.Chat.GetChatHistory;
+using Backend.Business.Chat.Chat.GetFriendList;
+using Backend.Business.Chat.Chat.SendChatMessage;
+using Backend.Business.Chat.Chat.UploadChatFile;
 
 namespace Backend.API.Controllers
 {

@@ -1,8 +1,8 @@
-﻿using Backend.Application.Business.Business.Authorization.ChangePassword;
-using Backend.Application.Business.Business.Authorization.CurrentUser;
-using Backend.Application.Business.Business.Authorization.ResetPassword;
-using Backend.Application.Business.Business.Authorization.SetPassword;
-using Backend.Application.Business.Business.Authorization.SignIn;
+﻿using Backend.Business.Authorization.Authorization.ChangePassword;
+using Backend.Business.Authorization.Authorization.CurrentUser;
+using Backend.Business.Authorization.Authorization.ResetPassword;
+using Backend.Business.Authorization.Authorization.SetPassword;
+using Backend.Business.Authorization.Authorization.SignIn;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

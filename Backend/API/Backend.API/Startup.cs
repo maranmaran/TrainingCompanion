@@ -1,8 +1,7 @@
 ﻿using Backend.API.Extensions;
 using Backend.API.Middleware;
-using Backend.Application.Business.Business.Chat;
-using Backend.Application.Business.Business.PushNotification;
-using Backend.Application.Business.Extensions;
+using Backend.Business.Chat.Chat;
+using Backend.Business.Notifications.PushNotification;
 using Backend.Service.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

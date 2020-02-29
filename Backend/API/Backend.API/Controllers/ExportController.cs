@@ -1,6 +1,6 @@
-﻿using Backend.Application.Business.Business.Export.Training;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Backend.Business.Export.Export.Training;
 
 namespace Backend.API.Controllers
 {

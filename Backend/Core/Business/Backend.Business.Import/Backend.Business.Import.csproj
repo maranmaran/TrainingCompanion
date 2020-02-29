@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Backend.Domain\Backend.Domain.csproj" />
+    <ProjectReference Include="..\..\Services\Backend.Service.Excel\Backend.Service.Excel.csproj" />
+    <ProjectReference Include="..\..\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Services\Backend.Service.Logging\Backend.Service.Logging.csproj" />
+    <ProjectReference Include="..\Backend.Business.Notifications\Backend.Business.Notifications.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Import\Samples\ExerciseType\Powerlifting.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Import\Samples\ExerciseType\Weightlifting.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
