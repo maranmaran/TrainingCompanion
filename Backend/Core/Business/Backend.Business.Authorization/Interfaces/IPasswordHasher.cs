@@ -1,4 +1,4 @@
-﻿namespace Backend.Service.Authorization.Interfaces
+﻿namespace Backend.Business.Authorization.Interfaces
 {
     //public interface IPasswordHasher
     //{

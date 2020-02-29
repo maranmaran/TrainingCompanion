@@ -1,7 +1,7 @@
 ﻿using Backend.Domain;
 using FluentValidation;
 
-namespace Backend.Business_ExerciseType.ExerciseType.Update
+namespace Backend.Business.ExerciseType.ExerciseType.Update
 {
     public class UpdateExerciseTypeValidator : AbstractValidator<Domain.Entities.ExerciseType.ExerciseType>
     {

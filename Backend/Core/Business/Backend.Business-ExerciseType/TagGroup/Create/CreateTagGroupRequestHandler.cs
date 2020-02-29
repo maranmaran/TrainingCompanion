@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Backend.Business_ExerciseType.TagGroup.Create
+namespace Backend.Business.ExerciseType.TagGroup.Create
 {
     public class CreateTagGroupRequestHandler : IRequestHandler<CreateTagGroupRequest, Domain.Entities.ExerciseType.TagGroup>
     {

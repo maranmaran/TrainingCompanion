@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Backend.Service.Authorization.Interfaces
+namespace Backend.Business.Authorization.Interfaces
 {
     public interface IJwtTokenGenerator
     {

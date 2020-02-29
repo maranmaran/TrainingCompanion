@@ -2,11 +2,11 @@
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Business_ExerciseType.ExerciseType.Create;
-using Backend.Business_ExerciseType.ExerciseType.Delete;
-using Backend.Business_ExerciseType.ExerciseType.Get;
-using Backend.Business_ExerciseType.ExerciseType.GetAll;
-using Backend.Business_ExerciseType.ExerciseType.Update;
+using Backend.Business.ExerciseType.ExerciseType.Create;
+using Backend.Business.ExerciseType.ExerciseType.Delete;
+using Backend.Business.ExerciseType.ExerciseType.Get;
+using Backend.Business.ExerciseType.ExerciseType.GetAll;
+using Backend.Business.ExerciseType.ExerciseType.Update;
 
 namespace Backend.API.Controllers
 {

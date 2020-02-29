@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using Backend.Domain;
+﻿using Backend.Domain;
 using FluentValidation;
+using System.Linq;
 
-namespace Backend.Business_ExerciseType.TagGroup.Create
+namespace Backend.Business.ExerciseType.TagGroup.Create
 {
     public class CreateTagGroupValidator : AbstractValidator<CreateTagGroupRequest>
     {

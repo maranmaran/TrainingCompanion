@@ -13,13 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{04F59F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistance", "Persistance", "{EA808AAD-27BC-4720-9BE9-2F6E7D1981F4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7722B9C8-10A4-4C08-890F-884DC8FCC36C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedServices", "SharedServices", "{7722B9C8-10A4-4C08-890F-884DC8FCC36C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Common", "Common\Backend.Common\Backend.Common.csproj", "{E03FF1BE-7DDC-4E93-A4CB-16769B6D8120}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Domain", "Core\Backend.Domain\Backend.Domain.csproj", "{0E4FA6CC-DB0F-446C-A347-9A0E5E9E0DCE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Authorization", "Core\Services\Backend.Service.Authorization\Backend.Service.Authorization.csproj", "{B9FDEFF8-242B-4ACD-886D-4C78B3FDA4D0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Email", "Core\Services\Backend.Service.Email\Backend.Service.Email.csproj", "{7498B832-F0C5-449E-8760-300FF887929D}"
 EndProject
@@ -46,31 +44,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Logging", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{5A27F089-CD3E-4B48-99AB-056EA4A80F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.TrainingLog", "Core\Business\Backend.Business.TrainingLog\Backend.Business.TrainingLog.csproj", "{9787EF92-0F90-4650-B2CB-8EE77E21A0A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.TrainingLog", "Core\Business\Backend.Business.TrainingLog\Backend.Business.TrainingLog.csproj", "{9787EF92-0F90-4650-B2CB-8EE77E21A0A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Authorization", "Core\Business\Backend.Business.Authorization\Backend.Business.Authorization.csproj", "{001DAF18-EC23-4DC1-A7A8-EA039E38ABBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Authorization", "Core\Business\Backend.Business.Authorization\Backend.Business.Authorization.csproj", "{001DAF18-EC23-4DC1-A7A8-EA039E38ABBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business-ExerciseType", "Core\Business\Backend.Business-ExerciseType\Backend.Business-ExerciseType.csproj", "{425E6FC0-BDB3-4C48-83C7-E085A4EF8D6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business-ExerciseType", "Core\Business\Backend.Business-ExerciseType\Backend.Business-ExerciseType.csproj", "{425E6FC0-BDB3-4C48-83C7-E085A4EF8D6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.ProgressTracking", "Core\Business\Backend.Business.ProgressTracking\Backend.Business.ProgressTracking.csproj", "{0F3D51DE-4ECC-4366-83DE-F7C22A851525}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.ProgressTracking", "Core\Business\Backend.Business.ProgressTracking\Backend.Business.ProgressTracking.csproj", "{0F3D51DE-4ECC-4366-83DE-F7C22A851525}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Metrics", "Core\Business\Backend.Business.Metrics\Backend.Business.Metrics.csproj", "{801E9694-5B4E-4CF5-8829-8BA0176B95B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Metrics", "Core\Business\Backend.Business.Metrics\Backend.Business.Metrics.csproj", "{801E9694-5B4E-4CF5-8829-8BA0176B95B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Import", "Core\Business\Backend.Business.Import\Backend.Business.Import.csproj", "{5D0642CB-4BF9-43CC-96B6-6BC31D846F88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Import", "Core\Business\Backend.Business.Import\Backend.Business.Import.csproj", "{5D0642CB-4BF9-43CC-96B6-6BC31D846F88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Export", "Core\Business\Backend.Business.Export\Backend.Business.Export.csproj", "{EE09F372-2E76-4AD6-B864-9ACE91ED058B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Export", "Core\Business\Backend.Business.Export\Backend.Business.Export.csproj", "{EE09F372-2E76-4AD6-B864-9ACE91ED058B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Notifications", "Core\Business\Backend.Business.Notifications\Backend.Business.Notifications.csproj", "{29255590-6309-4C23-BAED-DE3EF6B81388}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Notifications", "Core\Business\Backend.Business.Notifications\Backend.Business.Notifications.csproj", "{29255590-6309-4C23-BAED-DE3EF6B81388}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Chat", "Core\Business\Backend.Business.Chat\Backend.Business.Chat.csproj", "{6138130E-611D-4361-A04F-518C3AF93CA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Chat", "Core\Business\Backend.Business.Chat\Backend.Business.Chat.csproj", "{6138130E-611D-4361-A04F-518C3AF93CA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Dashboard", "Core\Business\Backend.Business.Dashboard\Backend.Business.Dashboard.csproj", "{A9E49B9B-7181-47A8-AA30-F9362F3E8802}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Media", "Core\Business\Backend.Business.Media\Backend.Business.Media.csproj", "{49FA6B35-FFDE-422E-95EE-F94C87B16DCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Media", "Core\Business\Backend.Business.Media\Backend.Business.Media.csproj", "{49FA6B35-FFDE-422E-95EE-F94C87B16DCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Users", "Core\Business\Backend.Business.Users\Backend.Business.Users.csproj", "{17B2D941-2B50-43AB-97B0-E3206C3CE3A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Users", "Core\Business\Backend.Business.Users\Backend.Business.Users.csproj", "{17B2D941-2B50-43AB-97B0-E3206C3CE3A2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Billing", "Core\Business\Backend.Business.Billing\Backend.Business.Billing.csproj", "{936564E1-9383-4D19-81B1-455D2ED6A592}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Billing", "Core\Business\Backend.Business.Billing\Backend.Business.Billing.csproj", "{936564E1-9383-4D19-81B1-455D2ED6A592}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,10 +82,6 @@ Global
 		{0E4FA6CC-DB0F-446C-A347-9A0E5E9E0DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4FA6CC-DB0F-446C-A347-9A0E5E9E0DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4FA6CC-DB0F-446C-A347-9A0E5E9E0DCE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9FDEFF8-242B-4ACD-886D-4C78B3FDA4D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9FDEFF8-242B-4ACD-886D-4C78B3FDA4D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9FDEFF8-242B-4ACD-886D-4C78B3FDA4D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9FDEFF8-242B-4ACD-886D-4C78B3FDA4D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7498B832-F0C5-449E-8760-300FF887929D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7498B832-F0C5-449E-8760-300FF887929D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7498B832-F0C5-449E-8760-300FF887929D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -158,10 +150,6 @@ Global
 		{6138130E-611D-4361-A04F-518C3AF93CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6138130E-611D-4361-A04F-518C3AF93CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6138130E-611D-4361-A04F-518C3AF93CA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9E49B9B-7181-47A8-AA30-F9362F3E8802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9E49B9B-7181-47A8-AA30-F9362F3E8802}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9E49B9B-7181-47A8-AA30-F9362F3E8802}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9E49B9B-7181-47A8-AA30-F9362F3E8802}.Release|Any CPU.Build.0 = Release|Any CPU
 		{49FA6B35-FFDE-422E-95EE-F94C87B16DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{49FA6B35-FFDE-422E-95EE-F94C87B16DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49FA6B35-FFDE-422E-95EE-F94C87B16DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -186,13 +174,12 @@ Global
 		{7722B9C8-10A4-4C08-890F-884DC8FCC36C} = {772F2003-3E2A-4D82-BCD1-D4F3FAEF4B4F}
 		{E03FF1BE-7DDC-4E93-A4CB-16769B6D8120} = {04F59F74-29CC-4E06-AC47-B8873FA22CC8}
 		{0E4FA6CC-DB0F-446C-A347-9A0E5E9E0DCE} = {772F2003-3E2A-4D82-BCD1-D4F3FAEF4B4F}
-		{B9FDEFF8-242B-4ACD-886D-4C78B3FDA4D0} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 		{7498B832-F0C5-449E-8760-300FF887929D} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 		{2FC50038-19F8-48E9-B68F-5D49C0B2E0A0} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 		{67A8EB23-A89A-4CD4-86B3-71DB67023929} = {EA808AAD-27BC-4720-9BE9-2F6E7D1981F4}
 		{E7C49F44-2DC5-4BB8-B3DE-CF91596E7DF8} = {DAA38FFC-572C-4548-86BF-52ED14782186}
 		{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
-		{387B8450-77F0-434D-B90D-113477715553} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
+		{387B8450-77F0-434D-B90D-113477715553} = {772F2003-3E2A-4D82-BCD1-D4F3FAEF4B4F}
 		{61D9CDED-6910-48FD-8A1A-1702F80E5D77} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 		{DC432367-FEFD-43B2-841D-2EE3ABDFE90D} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 		{5A27F089-CD3E-4B48-99AB-056EA4A80F47} = {772F2003-3E2A-4D82-BCD1-D4F3FAEF4B4F}
@@ -205,7 +192,6 @@ Global
 		{EE09F372-2E76-4AD6-B864-9ACE91ED058B} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 		{29255590-6309-4C23-BAED-DE3EF6B81388} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 		{6138130E-611D-4361-A04F-518C3AF93CA9} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
-		{A9E49B9B-7181-47A8-AA30-F9362F3E8802} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 		{49FA6B35-FFDE-422E-95EE-F94C87B16DCE} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 		{17B2D941-2B50-43AB-97B0-E3206C3CE3A2} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 		{936564E1-9383-4D19-81B1-455D2ED6A592} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}

@@ -4,11 +4,11 @@ using Sieve.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Backend.Business_ExerciseType.Tag.Create;
-using Backend.Business_ExerciseType.Tag.Delete;
-using Backend.Business_ExerciseType.Tag.GetAll;
-using Backend.Business_ExerciseType.Tag.Update;
-using Backend.Business_ExerciseType.Tag.UpdateMany;
+using Backend.Business.ExerciseType.Tag.Create;
+using Backend.Business.ExerciseType.Tag.Delete;
+using Backend.Business.ExerciseType.Tag.GetAll;
+using Backend.Business.ExerciseType.Tag.Update;
+using Backend.Business.ExerciseType.Tag.UpdateMany;
 
 namespace Backend.API.Controllers
 {

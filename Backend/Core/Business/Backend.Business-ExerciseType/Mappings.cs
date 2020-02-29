@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Backend.Business_ExerciseType.ExerciseType.Create;
-using Backend.Business_ExerciseType.ExerciseType.Update;
-using Backend.Business_ExerciseType.TagGroup.Create;
-using Backend.Business_ExerciseType.TagGroup.Update;
+using Backend.Business.ExerciseType.ExerciseType.Create;
+using Backend.Business.ExerciseType.ExerciseType.Update;
+using Backend.Business.ExerciseType.TagGroup.Create;
+using Backend.Business.ExerciseType.TagGroup.Update;
 using Backend.Domain.Entities.ExerciseType;
 
-namespace Backend.Business_ExerciseType
+namespace Backend.Business.ExerciseType
 {
     public class Mappings : Profile
     {

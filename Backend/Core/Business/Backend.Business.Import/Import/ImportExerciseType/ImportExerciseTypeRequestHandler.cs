@@ -60,11 +60,11 @@ namespace Backend.Business.Import.Import.ImportExerciseType
                 //}
 
                 // parse imported data to data structure
-                var dataRows = await _excelService.ParseImportData<ImportExerciseTypeDto>(request.File, cancellationToken);
+                //var dataRows = await _excelService.ParseImportData<ImportExerciseTypeDto>(request.File, cancellationToken);
 
                 // call imported and do work
                 var importer = new ExerciseTypeImporter(_context, request.Userid, _mapper);
-                await importer.DoImport(dataRows, cancellationToken);
+                //await importer.DoImport(dataRows, cancellationToken);
 
                 await SendNotification(response, request.Userid, cancellationToken);
 

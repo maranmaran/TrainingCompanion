@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
+using System.Collections.Generic;
 
-namespace Backend.Business_ExerciseType.TagGroup.UpdateMany
+namespace Backend.Business.ExerciseType.TagGroup.UpdateMany
 {
     public class UpdateManyTagGroupRequest : IRequest<Unit>
     {

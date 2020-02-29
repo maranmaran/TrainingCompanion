@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Linq;
-using MediatR;
 
-namespace Backend.Business_ExerciseType.TagGroup.GetAll
+namespace Backend.Business.ExerciseType.TagGroup.GetAll
 {
     public class GetAllTagGroupRequest : IRequest<IQueryable<Domain.Entities.ExerciseType.TagGroup>>
     {

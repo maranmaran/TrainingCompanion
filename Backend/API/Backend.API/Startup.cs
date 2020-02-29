@@ -34,8 +34,8 @@ namespace Backend.API
             services.ConfigureSignalR();
 
             // setting and services from core
-            services.ConfigureCoreSettings(Configuration);
             services.ConfigureCoreServices();
+            services.ConfigureCoreSettings(Configuration);
 
             // application configuration CORS, Auth, Swagger, MVC, DB
             services.ConfigureDatabase(Configuration.GetConnectionString("DefaultConnection"));
@@ -45,10 +45,10 @@ namespace Backend.API
             services.ConfigureSwagger();
         }
 
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // ===== SPA angular setup (wwwroot folder) =====
             app.UseDefaultFiles();

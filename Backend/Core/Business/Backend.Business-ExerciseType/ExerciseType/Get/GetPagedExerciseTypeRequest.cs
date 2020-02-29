@@ -1,8 +1,8 @@
-﻿using System;
-using Backend.Common;
+﻿using Backend.Common;
 using MediatR;
+using System;
 
-namespace Backend.Business_ExerciseType.ExerciseType.Get
+namespace Backend.Business.ExerciseType.ExerciseType.Get
 {
     public class GetPagedExerciseTypeRequest : IRequest<PagedList<Domain.Entities.ExerciseType.ExerciseType>>
     {
