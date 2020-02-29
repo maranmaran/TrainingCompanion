@@ -1,5 +1,4 @@
 ﻿using Backend.API.LibraryConfigurations.Sieve;
-using Backend.Application.Business.Business.Users.CreateUser;
 using Backend.Domain;
 using Backend.Persistance;
 using Backend.Service.Authorization;
@@ -17,6 +16,7 @@ using Sieve.Models;
 using Sieve.Services;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Business.Users.Users.CreateUser;
 
 namespace Backend.API.Extensions
 {

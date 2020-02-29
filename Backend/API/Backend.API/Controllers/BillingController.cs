@@ -1,9 +1,9 @@
-﻿using Backend.Application.Business.Business.Billing.AddPayment;
-using Backend.Application.Business.Business.Billing.CancelSubscription;
-using Backend.Application.Business.Business.Billing.GetPlans;
-using Backend.Application.Business.Business.Billing.GetSubscription;
-using Backend.Application.Business.Business.Billing.GetSubscriptionStatus;
-using Backend.Application.Business.Business.Billing.Subscribe;
+﻿using Backend.Business.Billing.Billing.AddPayment;
+using Backend.Business.Billing.Billing.CancelSubscription;
+using Backend.Business.Billing.Billing.GetPlans;
+using Backend.Business.Billing.Billing.GetSubscription;
+using Backend.Business.Billing.Billing.GetSubscriptionStatus;
+using Backend.Business.Billing.Billing.Subscribe;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

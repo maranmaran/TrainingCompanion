@@ -1,14 +1,14 @@
-﻿using Backend.Application.Business.Business.Tag.Create;
-using Backend.Application.Business.Business.Tag.Delete;
-using Backend.Application.Business.Business.Tag.GetAll;
-using Backend.Application.Business.Business.Tag.Update;
-using Backend.Application.Business.Business.Tag.UpdateMany;
-using Backend.Domain.Entities.ExerciseType;
+﻿using Backend.Domain.Entities.ExerciseType;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Backend.Business_ExerciseType.Tag.Create;
+using Backend.Business_ExerciseType.Tag.Delete;
+using Backend.Business_ExerciseType.Tag.GetAll;
+using Backend.Business_ExerciseType.Tag.Update;
+using Backend.Business_ExerciseType.Tag.UpdateMany;
 
 namespace Backend.API.Controllers
 {

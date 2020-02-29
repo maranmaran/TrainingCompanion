@@ -1,14 +1,14 @@
-﻿using Backend.Application.Business.Business.Training.Create;
-using Backend.Application.Business.Business.Training.Delete;
-using Backend.Application.Business.Business.Training.Get;
-using Backend.Application.Business.Business.Training.GetAll;
-using Backend.Application.Business.Business.Training.GetByMonth;
-using Backend.Application.Business.Business.Training.GetByWeek;
-using Backend.Application.Business.Business.Training.Update;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
+using Backend.Business.TrainingLog.Training.Create;
+using Backend.Business.TrainingLog.Training.Delete;
+using Backend.Business.TrainingLog.Training.Get;
+using Backend.Business.TrainingLog.Training.GetAll;
+using Backend.Business.TrainingLog.Training.GetByMonth;
+using Backend.Business.TrainingLog.Training.GetByWeek;
+using Backend.Business.TrainingLog.Training.Update;
 
 namespace Backend.API.Controllers
 {
