@@ -28,13 +28,18 @@ export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = cre
       return adapterExerciseType.removeOne(payload.id, state);
   }),
 
-  // GET ALL
+  // GET ALL PAGED
   on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[], totalItems: number, pagingModel: PagingModel  }) => {
       return {
         ...adapterExerciseType.addAll(payload.entities, state),
         totalItems: payload.totalItems,
         pagingModel: payload.pagingModel
       };
+  }),
+
+  // GET ALL
+  on(ExerciseTypeActions.allExerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[] }) => {
+    return adapterExerciseType.addAll(payload.entities, state);
   }),
 
   // SET SELECTED
