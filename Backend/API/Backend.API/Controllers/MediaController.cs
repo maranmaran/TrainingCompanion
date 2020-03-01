@@ -1,18 +1,17 @@
-﻿using Backend.Domain.Enum;
+﻿using Backend.Business.Media.MediaRequests.GetUserMediaByType;
+using Backend.Business.Media.MediaRequests.UploadMedia;
+using Backend.Domain.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.Media.MediaRequests.GetUserMediaByType;
-using Backend.Business.Media.MediaRequests.UploadMedia;
 
 namespace Backend.API.Controllers
 {
     public class MediaController : BaseController
     {
         [HttpGet("{id}/{type}")]
-        public async Task<IActionResult> GetUserMediaByType(Guid id, MediaType type, [FromQuery]SieveModel sieveModel)
+        public async Task<IActionResult> GetUserMediaByType(Guid id, MediaType type)
         {
             return Ok(await Mediator.Send(new GetUserMediaByTypeRequest() { MediaType = type, UserId = id }));
         }
