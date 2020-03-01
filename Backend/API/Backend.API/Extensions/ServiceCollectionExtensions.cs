@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using Backend.API.LibraryConfigurations.Sieve;
 using Backend.Business.Authorization;
 using Backend.Business.Authorization.Extensions;
+using Backend.Business.Notifications.Extensions;
+using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Extensions;
 using Backend.Persistance;
 using Backend.Service.AmazonS3.Extensions;
 using Backend.Service.Email.Extensions;
 using Backend.Service.Excel.Extensions;
-using Backend.Service.Infrastructure.Extensions;
 using Backend.Service.Infrastructure.Providers;
 using Backend.Service.Logging.Extensions;
 using Backend.Service.Payment.Extensions;
@@ -24,15 +24,11 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Sieve.Models;
-using Sieve.Services;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Backend.Business.Notifications.Extensions;
-using Backend.Business.Users.UsersRequests.CreateUser;
 
 namespace Backend.API.Extensions
 {
@@ -91,19 +87,6 @@ namespace Backend.API.Extensions
             });
 
             services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
-        }
-
-        /// <summary>
-        /// Configures Biarity/Sieve library for out of the box sorting, filtering and paginating functionality
-        /// CreateUseres sieve options from application setting
-        /// CreateUsers dependency injection for sieve processor and any custom filtering and sorting
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        public static void ConfigureSieve(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
-            services.Configure<SieveOptions>(configuration.GetSection("SieveOptions"));
         }
 
         /// <summary>

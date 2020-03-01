@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-using Backend.Business.TrainingLog.SetRequests.Create;
+﻿using Backend.Business.TrainingLog.SetRequests.Create;
 using Backend.Business.TrainingLog.SetRequests.Delete;
 using Backend.Business.TrainingLog.SetRequests.UpdateMany;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {
@@ -12,14 +12,14 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateSetRequest request)
         {
-            return await Create(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
 
         [HttpPost]
         public async Task<IActionResult> UpdateMany(UpdateManySetsRequest request)
         {
-            return await Update(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpPost]

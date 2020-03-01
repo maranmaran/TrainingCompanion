@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Backend.Business.Notifications.PushNotificationRequests.GetPushNotificationHistory;
+using Backend.Business.Notifications.PushNotificationRequests.SendPushNotification;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.Notifications.PushNotificationRequests.GetPushNotificationHistory;
-using Backend.Business.Notifications.PushNotificationRequests.SendPushNotification;
 
 namespace Backend.API.Controllers
 {
@@ -18,10 +18,7 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}/{page}/{pageSize}")]
         public async Task<IActionResult> GetPushNotificationHistory(Guid userId, int page, int pageSize)
         {
-            return await GetQuery(
-                async () => await Mediator.Send(new GetPushNotificationHistoryRequest(userId, page, pageSize)),
-                null
-            );
+            return Ok(await Mediator.Send(new GetPushNotificationHistoryRequest(userId, page, pageSize)));
         }
     }
 }

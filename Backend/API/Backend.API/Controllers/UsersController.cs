@@ -1,50 +1,49 @@
-﻿using Backend.Domain.Enum;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Sieve.Models;
-using System;
-using System.Threading.Tasks;
-using Backend.Business.Users.UsersRequests.CreateUser;
+﻿using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Business.Users.UsersRequests.DeleteUser;
 using Backend.Business.Users.UsersRequests.GetAllUsers;
 using Backend.Business.Users.UsersRequests.GetUser;
 using Backend.Business.Users.UsersRequests.SaveUserSettings;
 using Backend.Business.Users.UsersRequests.SetActive;
 using Backend.Business.Users.UsersRequests.UpdateUser;
+using Backend.Domain.Enum;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {
     public class UsersController : BaseController
     {
         [HttpGet("{accountType}/{coachId}")]
-        public async Task<IActionResult> GetAll(AccountType accountType, Guid coachId, [FromQuery]SieveModel sieveModel)
+        public async Task<IActionResult> GetAll(AccountType accountType, Guid coachId)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllUsersRequest(accountType, coachId)), sieveModel);
+            return Ok(await Mediator.Send(new GetAllUsersRequest(accountType, coachId)));
         }
 
-        [HttpGet("{id}/{acocuntType}")]
+        [HttpGet("{id}/{accountType}")]
         public async Task<IActionResult> Get(Guid id, AccountType accountType)
         {
-            return await GetSingle(async () => await Mediator.Send(new GetUserRequest(id, accountType)));
+            return Ok(await Mediator.Send(new GetUserRequest(id, accountType)));
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
         {
-            return await Create(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpPost]
         public async Task<IActionResult> Update([FromBody] UpdateUserRequest request)
         {
-            return await Update(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpGet("{id}/{accountType}")]
         public async Task<IActionResult> Delete(Guid id, AccountType accountType)
         {
-            return await Delete(async () => await Mediator.Send(new DeleteUserRequest(id, accountType)));
+            return Ok(await Mediator.Send(new DeleteUserRequest(id, accountType)));
         }
 
         [HttpGet("{id}/{active}")]
@@ -56,9 +55,7 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveUserSetting([FromBody] SaveUserSettingsRequest request)
         {
-            await Mediator.Send(request);
-
-            return Accepted();
+            return Accepted(await Mediator.Send(request));
         }
     }
 }
