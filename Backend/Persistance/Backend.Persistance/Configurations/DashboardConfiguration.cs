@@ -1,5 +1,5 @@
-﻿using Backend.Domain.Entities.Dashboard;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
+using Backend.Domain.Entities.User.Dashboard;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,6 +1,6 @@
-﻿using Backend.Domain.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Backend.Domain.Enum;
 
 namespace Backend.Domain.Entities.User
 {

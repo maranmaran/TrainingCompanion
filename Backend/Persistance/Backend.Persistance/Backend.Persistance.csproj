@@ -7,10 +7,13 @@
   <ItemGroup>
     <Compile Remove="Configurations\ExercisePropertiesConfiguration\**" />
     <Compile Remove="Configurations\ExerciseTypePropertiesConfiguration\**" />
+    <Compile Remove="Infrastructure\**" />
     <EmbeddedResource Remove="Configurations\ExercisePropertiesConfiguration\**" />
     <EmbeddedResource Remove="Configurations\ExerciseTypePropertiesConfiguration\**" />
+    <EmbeddedResource Remove="Infrastructure\**" />
     <None Remove="Configurations\ExercisePropertiesConfiguration\**" />
     <None Remove="Configurations\ExerciseTypePropertiesConfiguration\**" />
+    <None Remove="Infrastructure\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

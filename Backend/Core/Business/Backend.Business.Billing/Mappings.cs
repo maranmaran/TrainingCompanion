@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
-using Backend.Business.Billing.Billing.AddPayment;
-using Backend.Business.Billing.Billing.Subscribe;
+using Backend.Business.Billing.BillingRequests.AddPayment;
+using Backend.Business.Billing.BillingRequests.Subscribe;
 using Backend.Service.Payment.Models;
 
 namespace Backend.Business.Billing

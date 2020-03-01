@@ -2,13 +2,13 @@
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.TrainingLog.Training.Create;
-using Backend.Business.TrainingLog.Training.Delete;
-using Backend.Business.TrainingLog.Training.Get;
-using Backend.Business.TrainingLog.Training.GetAll;
-using Backend.Business.TrainingLog.Training.GetByMonth;
-using Backend.Business.TrainingLog.Training.GetByWeek;
-using Backend.Business.TrainingLog.Training.Update;
+using Backend.Business.TrainingLog.TrainingRequests.Create;
+using Backend.Business.TrainingLog.TrainingRequests.Delete;
+using Backend.Business.TrainingLog.TrainingRequests.Get;
+using Backend.Business.TrainingLog.TrainingRequests.GetAll;
+using Backend.Business.TrainingLog.TrainingRequests.GetByMonth;
+using Backend.Business.TrainingLog.TrainingRequests.GetByWeek;
+using Backend.Business.TrainingLog.TrainingRequests.Update;
 
 namespace Backend.API.Controllers
 {

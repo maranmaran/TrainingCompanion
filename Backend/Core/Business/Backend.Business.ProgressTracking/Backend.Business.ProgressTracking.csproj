@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="PersonalBest\Get\" />
+    <Folder Include="PersonalBestRequests\Get\" />
   </ItemGroup>
 
   <ItemGroup>

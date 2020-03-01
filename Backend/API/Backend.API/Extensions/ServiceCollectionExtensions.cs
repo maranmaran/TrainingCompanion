@@ -2,7 +2,6 @@
 using Backend.API.LibraryConfigurations.Sieve;
 using Backend.Business.Authorization;
 using Backend.Business.Authorization.Extensions;
-using Backend.Business.Users.Users.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Extensions;
 using Backend.Persistance;
@@ -32,6 +31,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Business.Notifications.Extensions;
+using Backend.Business.Users.UsersRequests.CreateUser;
 
 namespace Backend.API.Extensions
 {

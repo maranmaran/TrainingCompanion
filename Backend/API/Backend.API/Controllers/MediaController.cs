@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.Media.Media.GetUserMediaByType;
-using Backend.Business.Media.Media.UploadMedia;
+using Backend.Business.Media.MediaRequests.GetUserMediaByType;
+using Backend.Business.Media.MediaRequests.UploadMedia;
 
 namespace Backend.API.Controllers
 {
