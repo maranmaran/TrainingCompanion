@@ -15,10 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ImportRequests\Samples\ExerciseType\Powerlifting.xlsx">
+    <None Update="Requests\ImportRequests\Samples\ExerciseType\Powerlifting.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="ImportRequests\Samples\ExerciseType\Weightlifting.xlsx">
+    <None Update="Requests\ImportRequests\Samples\ExerciseType\Weightlifting.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
