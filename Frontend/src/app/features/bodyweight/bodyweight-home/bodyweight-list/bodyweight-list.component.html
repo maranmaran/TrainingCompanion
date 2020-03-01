@@ -1,1 +1,9 @@
-<p>bodyweight-list works!</p>
+<button (click)="onAdd()" mat-icon-button color="accent">
+  <i class="fas fa-plus"></i>
+</button>
+
+<div class="bodyweight-list">
+  <ng-container *ngFor="let bodyweight of bodyweights$ | async">
+    {{bodyweight.value}}
+  </ng-container>
+</div>
