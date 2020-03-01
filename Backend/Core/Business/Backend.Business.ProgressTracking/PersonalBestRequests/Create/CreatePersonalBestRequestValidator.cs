@@ -9,7 +9,7 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.Create
             RuleFor(x => x.Value)
                 .GreaterThanOrEqualTo(0);
 
-            RuleFor(x => x.UserId)
+            RuleFor(x => x.ExerciseTypeId)
                 .NotEmpty();
         }
     }
