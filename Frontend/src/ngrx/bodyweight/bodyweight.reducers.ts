@@ -5,7 +5,7 @@ import { Bodyweight } from './../../server-models/entities/bodyweight.model';
 import * as BodyweightActions from './bodyweight.actions';
 import { adapterBodyweight, bodyweightInitialState, BodyweightState } from './bodyweight.state';
 
-export const bodyweightsReducer: ActionReducer<BodyweightState, Action> = createReducer(
+export const bodyweightReducer: ActionReducer<BodyweightState, Action> = createReducer(
   bodyweightInitialState,
 
 

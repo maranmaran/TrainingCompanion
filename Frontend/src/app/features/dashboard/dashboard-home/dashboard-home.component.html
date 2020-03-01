@@ -48,8 +48,8 @@
         <ndc-dynamic *ngFor="let item of tracks[0]?.items"
           [ndcDynamicComponent]="dashboardCards[item.component]"
           [ndcDynamicAttributes]="attrs"
-          [ndcDynamicDirectives]="dirs"
         ></ndc-dynamic>
+          <!-- [ndcDynamicDirectives]="dirs" -->
       </div>
 
       <!--TRACK TWO-->
@@ -66,8 +66,8 @@
             *ngFor="let item of tracks[1]?.items"
             [ndcDynamicComponent]="dashboardCards[item.component]"
             [ndcDynamicAttributes]="attrs"
-            [ndcDynamicDirectives]="dirs"
           ></ndc-dynamic>
+            <!-- [ndcDynamicDirectives]="dirs" -->
       </div>
     </div>
 
