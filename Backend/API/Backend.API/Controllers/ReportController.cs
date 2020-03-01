@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.Metrics.Reports.GetTrainingReports;
+using Backend.Business.Metrics.ReportsRequests.GetTrainingReports;
 
 namespace Backend.API.Controllers
 {

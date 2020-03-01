@@ -1,14 +1,13 @@
 ﻿using Backend.Domain;
 using Backend.Domain.Entities.Chat;
-using Backend.Domain.Entities.Dashboard;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
-using Backend.Domain.Entities.ProgressTracking.Bodyweight;
-using Backend.Domain.Entities.ProgressTracking.PersonalBest;
+using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
+using Backend.Domain.Entities.User.Dashboard;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

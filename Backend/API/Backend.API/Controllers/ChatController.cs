@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.Chat.Chat.GetChatHistory;
-using Backend.Business.Chat.Chat.GetFriendList;
-using Backend.Business.Chat.Chat.SendChatMessage;
-using Backend.Business.Chat.Chat.UploadChatFile;
+using Backend.Business.Chat.ChatRequests.GetChatHistory;
+using Backend.Business.Chat.ChatRequests.GetFriendList;
+using Backend.Business.Chat.ChatRequests.SendChatMessage;
+using Backend.Business.Chat.ChatRequests.UploadChatFile;
 
 namespace Backend.API.Controllers
 {

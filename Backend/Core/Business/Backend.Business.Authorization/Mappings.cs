@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Backend.Domain.Entities.User;
 using System;
-using Backend.Business.Authorization.Authorization.CurrentUser;
+using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
+using Backend.Domain.Entities.User;
 
 namespace Backend.Business.Authorization
 {

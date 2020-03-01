@@ -1,8 +1,8 @@
-﻿using Backend.Business.Notifications;
-using Backend.Business.Notifications.PushNotification;
+﻿using Backend.Business.Notifications.Interfaces;
+using Backend.Business.Notifications.PushNotificationRequests;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend.Service.Infrastructure.Extensions
+namespace Backend.Business.Notifications.Extensions
 {
     public static partial class ServiceCollectionExtensions
     {

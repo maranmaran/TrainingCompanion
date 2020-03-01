@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Backend.Business.Notifications.PushNotification.CreatePushNotification;
-using Backend.Business.Notifications.PushNotification.SendPushNotification;
+using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
+using Backend.Business.Notifications.PushNotificationRequests.SendPushNotification;
 using Backend.Domain.Entities.Notification;
 
 namespace Backend.Business.Notifications

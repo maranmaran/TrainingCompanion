@@ -1,7 +1,7 @@
-﻿using Backend.Domain.Entities.Media;
-using Backend.Domain.Entities.User;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Backend.Domain.Entities.Media;
+using Backend.Domain.Entities.User;
 
 namespace Backend.Domain.Entities.TrainingLog
 {

@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.Users.Users.CreateUser;
-using Backend.Business.Users.Users.DeleteUser;
-using Backend.Business.Users.Users.GetAllUsers;
-using Backend.Business.Users.Users.GetUser;
-using Backend.Business.Users.Users.SaveUserSettings;
-using Backend.Business.Users.Users.SetActive;
-using Backend.Business.Users.Users.UpdateUser;
+using Backend.Business.Users.UsersRequests.CreateUser;
+using Backend.Business.Users.UsersRequests.DeleteUser;
+using Backend.Business.Users.UsersRequests.GetAllUsers;
+using Backend.Business.Users.UsersRequests.GetUser;
+using Backend.Business.Users.UsersRequests.SaveUserSettings;
+using Backend.Business.Users.UsersRequests.SetActive;
+using Backend.Business.Users.UsersRequests.UpdateUser;
 
 namespace Backend.API.Controllers
 {

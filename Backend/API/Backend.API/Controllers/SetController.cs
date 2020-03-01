@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.TrainingLog.Set.Create;
-using Backend.Business.TrainingLog.Set.Delete;
-using Backend.Business.TrainingLog.Set.UpdateMany;
+using Backend.Business.TrainingLog.SetRequests.Create;
+using Backend.Business.TrainingLog.SetRequests.Delete;
+using Backend.Business.TrainingLog.SetRequests.UpdateMany;
 
 namespace Backend.API.Controllers
 {

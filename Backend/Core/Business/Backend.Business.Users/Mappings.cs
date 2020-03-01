@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Backend.Business.Users.Users.CreateUser;
-using Backend.Business.Users.Users.UpdateUser;
+using Backend.Business.Users.UsersRequests.CreateUser;
+using Backend.Business.Users.UsersRequests.UpdateUser;
 using Backend.Domain.Entities.User;
 using Backend.Service.Infrastructure.Extensions;
 
