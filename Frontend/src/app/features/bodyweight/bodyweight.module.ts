@@ -6,12 +6,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { BodyweightsResolver } from 'src/business/resolvers/bodyweights.resolver';
 import { BodyweightService } from 'src/business/services/feature-services/bodyweight.service';
 import { BodyweightEffects } from 'src/ngrx/bodyweight/bodyweight.effects';
+import { UIService } from './../../../business/services/shared/ui.service';
 import { bodyweightReducer } from './../../../ngrx/bodyweight/bodyweight.reducers';
-import { BodyweightHomeComponent } from './bodyweight-home/bodyweight-home.component';
-import { BodyweightRoutingModule } from './bodyweight-routing.module';
-import { BodyweightListComponent } from './bodyweight-home/bodyweight-list/bodyweight-list.component';
-import { BodyweightCreateEditComponent } from './bodyweight-home/bodyweight-create-edit/bodyweight-create-edit.component';
 import { BodyweightChartComponent } from './bodyweight-home/bodyweight-chart/bodyweight-chart.component';
+import { BodyweightCreateEditComponent } from './bodyweight-home/bodyweight-create-edit/bodyweight-create-edit.component';
+import { BodyweightHomeComponent } from './bodyweight-home/bodyweight-home.component';
+import { BodyweightListComponent } from './bodyweight-home/bodyweight-list/bodyweight-list.component';
+import { BodyweightRoutingModule } from './bodyweight-routing.module';
 
 @NgModule({
     imports: [
@@ -32,8 +33,10 @@ import { BodyweightChartComponent } from './bodyweight-home/bodyweight-chart/bod
     providers: [
         BodyweightService,
         BodyweightsResolver,
+        UIService
     ],
     entryComponents: [
+      BodyweightCreateEditComponent
     ]
 })
 export class BodyweightModule { }
