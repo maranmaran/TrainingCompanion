@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="LibraryConfigurations\Swagger\**" />
+    <Content Remove="LibraryConfigurations\Swagger\**" />
+    <EmbeddedResource Remove="LibraryConfigurations\Swagger\**" />
+    <None Remove="LibraryConfigurations\Swagger\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controllers\AthleteController.cs" />
     <Compile Remove="Controllers\CoachController.cs" />
   </ItemGroup>
@@ -15,7 +22,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
-    <PackageReference Include="Sieve" Version="2.3.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 
@@ -33,10 +39,6 @@
     <ProjectReference Include="..\..\Core\Business\Backend.Business.TrainingLog\Backend.Business.TrainingLog.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Users\Backend.Business.Users.csproj" />
     <ProjectReference Include="..\..\Persistance\Backend.Persistance\Backend.Persistance.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="LibraryConfigurations\Swagger\" />
   </ItemGroup>
 
 </Project>

@@ -15,21 +15,21 @@ namespace Backend.API.Controllers
     public class TagController : BaseController
     {
         [HttpGet("{userId}/{typeId}")]
-        public async Task<IActionResult> GetAll(Guid userId, Guid typeId, [FromQuery]SieveModel sieveModel)
+        public async Task<IActionResult> GetAll(Guid userId, Guid typeId)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllTagRequest() { TagGroupId = typeId, UserId = userId }), sieveModel);
+            return Ok(await Mediator.Send(new GetAllTagRequest() { TagGroupId = typeId, UserId = userId }));
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateTagRequest request)
         {
-            return await Create(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(UpdateTagRequest request)
         {
-            return await Update(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpPost]

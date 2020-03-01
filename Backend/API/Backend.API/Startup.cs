@@ -2,7 +2,6 @@
 using Backend.API.Middleware;
 using Backend.Business.Chat;
 using Backend.Business.Notifications.PushNotificationRequests;
-using Backend.Service.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +27,6 @@ namespace Backend.API
         public void ConfigureServices(IServiceCollection services)
         {
             // third party libraries
-            services.ConfigureSieve(Configuration);
             services.ConfigureAutomapper();
             services.ConfigureMediatR();
             services.ConfigureSignalR();
