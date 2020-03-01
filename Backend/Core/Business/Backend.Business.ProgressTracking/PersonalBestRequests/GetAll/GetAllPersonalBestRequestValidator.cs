@@ -6,7 +6,7 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.GetAll
     {
         public GetAllPersonalBestRequestValidator()
         {
-            RuleFor(x => x.UserId).NotEmpty();
+            RuleFor(x => x.ExerciseTypeId).NotEmpty();
         }
     }
 }

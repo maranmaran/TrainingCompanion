@@ -1,27 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Sieve.Models;
-using System;
-using System.Threading.Tasks;
-using Backend.Business.TrainingLog.TrainingRequests.Create;
+﻿using Backend.Business.TrainingLog.TrainingRequests.Create;
 using Backend.Business.TrainingLog.TrainingRequests.Delete;
 using Backend.Business.TrainingLog.TrainingRequests.Get;
 using Backend.Business.TrainingLog.TrainingRequests.GetAll;
 using Backend.Business.TrainingLog.TrainingRequests.GetByMonth;
 using Backend.Business.TrainingLog.TrainingRequests.GetByWeek;
 using Backend.Business.TrainingLog.TrainingRequests.Update;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {
     public class TrainingController : BaseController
     {
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetAll(Guid userId, [FromQuery]SieveModel sieveModel)
+        public async Task<IActionResult> GetAll(Guid userId)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllTrainingRequest() { ApplicationUserId = userId }), sieveModel);
+            return Ok(await Mediator.Send(new GetAllTrainingRequest() { ApplicationUserId = userId }));
         }
 
         [HttpGet("{trainingId}")]
-        public async Task<IActionResult> Get(Guid trainingId, [FromQuery]SieveModel sieveModel)
+        public async Task<IActionResult> Get(Guid trainingId)
         {
             return Ok(await Mediator.Send(new GetTrainingRequest(trainingId)));
         }
@@ -33,21 +32,21 @@ namespace Backend.API.Controllers
         }
 
         [HttpGet("{userId}/{weekStart}/{weekEnd}")]
-        public async Task<IActionResult> GetAllByWeek(Guid userId, DateTime weekStart, DateTime weekEnd, [FromQuery]SieveModel sieveModel)
+        public async Task<IActionResult> GetAllByWeek(Guid userId, DateTime weekStart, DateTime weekEnd)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllTrainingsByWeekRequest(userId, weekStart, weekEnd)), sieveModel);
+            return Ok(await Mediator.Send(new GetAllTrainingsByWeekRequest(userId, weekStart, weekEnd)));
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateTrainingRequest request)
         {
-            return await Create(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(UpdateTrainingRequest request)
         {
-            return await Update(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpDelete("{id}")]

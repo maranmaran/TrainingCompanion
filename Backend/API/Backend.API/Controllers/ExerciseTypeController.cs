@@ -13,9 +13,9 @@ namespace Backend.API.Controllers
     public class ExerciseTypeController : BaseController
     {
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetAll(Guid userId, [FromQuery]SieveModel sieveModel)
+        public async Task<IActionResult> GetAll(Guid userId)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllExerciseTypeRequest() { UserId = userId }), sieveModel);
+            return Ok(await Mediator.Send(new GetAllExerciseTypeRequest() { UserId = userId }));
         }
 
         [HttpPost]
@@ -28,13 +28,13 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateExerciseTypeRequest request)
         {
-            return await Create(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(UpdateExerciseTypeRequest request)
         {
-            return await Update(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
         [HttpPost]

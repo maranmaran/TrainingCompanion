@@ -1,23 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Sieve.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Backend.Business.TrainingLog.ExerciseRequests.Create;
+﻿using Backend.Business.TrainingLog.ExerciseRequests.Create;
 using Backend.Business.TrainingLog.ExerciseRequests.Delete;
 using Backend.Business.TrainingLog.ExerciseRequests.Get;
 using Backend.Business.TrainingLog.ExerciseRequests.GetAll;
 using Backend.Business.TrainingLog.ExerciseRequests.UpdateMany;
 using Backend.Domain.Entities.TrainingLog;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {
     public class ExerciseController : BaseController
     {
         [HttpGet("{trainingId}")]
-        public async Task<IActionResult> GetAll(Guid trainingId, [FromQuery]SieveModel sieveModel)
+        public async Task<IActionResult> GetAll(Guid trainingId)
         {
-            return await GetQuery(async () => await Mediator.Send(new GetAllExerciseRequest() { TrainingId = trainingId }), sieveModel);
+            return Ok(await Mediator.Send(new GetAllExerciseRequest() { TrainingId = trainingId }));
         }
 
         [HttpGet("{exerciseId}")]
@@ -29,14 +28,14 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateExerciseRequest request)
         {
-            return await Create(async () => await Mediator.Send(request));
+            return Ok(await Mediator.Send(request));
         }
 
 
         [HttpPost]
         public async Task<IActionResult> UpdateMany(IEnumerable<Exercise> data)
         {
-            return await Update(async () => await Mediator.Send(new UpdateManyExercisesRequest(data)));
+            return Ok(await Mediator.Send(new UpdateManyExercisesRequest(data)));
         }
 
         [HttpGet("{id}")]
