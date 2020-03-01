@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Backend.Business.TrainingLog.Exercise.Create;
-using Backend.Business.TrainingLog.Set.Create;
-using Backend.Business.TrainingLog.Training.Create;
-using Backend.Business.TrainingLog.Training.Update;
+using Backend.Business.TrainingLog.ExerciseRequests.Create;
+using Backend.Business.TrainingLog.SetRequests.Create;
+using Backend.Business.TrainingLog.TrainingRequests.Create;
+using Backend.Business.TrainingLog.TrainingRequests.Update;
 
 namespace Backend.Business.TrainingLog
 {

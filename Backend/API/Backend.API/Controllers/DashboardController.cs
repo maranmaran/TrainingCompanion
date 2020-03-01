@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.Users.Dashboard.GetMainDashboard;
-using Backend.Business.Users.Dashboard.SaveMainDashboard;
+using Backend.Business.Users.DashboardRequests.GetMainDashboard;
+using Backend.Business.Users.DashboardRequests.SaveMainDashboard;
 
 namespace Backend.API.Controllers
 {

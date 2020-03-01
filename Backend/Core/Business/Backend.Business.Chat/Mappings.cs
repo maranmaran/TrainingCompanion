@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Backend.Business.Chat.Chat.CreateChatMessage;
-using Backend.Business.Chat.Chat.SendChatMessage;
+using Backend.Business.Chat.ChatRequests.CreateChatMessage;
+using Backend.Business.Chat.ChatRequests.SendChatMessage;
 using Backend.Business.Chat.Models;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.User;

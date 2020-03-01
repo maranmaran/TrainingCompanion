@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Backend.Business.Export.Export.Training;
+using Backend.Business.Export.ExportRequests.Training;
 
 namespace Backend.API.Controllers
 {

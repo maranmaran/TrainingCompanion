@@ -1,5 +1,4 @@
-﻿using Backend.Domain.Entities.ExerciseType;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using Backend.Business.ExerciseType.TagGroup.Delete;
 using Backend.Business.ExerciseType.TagGroup.GetAll;
 using Backend.Business.ExerciseType.TagGroup.Update;
 using Backend.Business.ExerciseType.TagGroup.UpdateMany;
+using Backend.Domain.Entities.ExerciseType;
 
 namespace Backend.API.Controllers
 {

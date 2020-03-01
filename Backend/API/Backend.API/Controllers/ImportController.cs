@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.Import.Import.GetImportSample;
-using Backend.Business.Import.Import.ImportExerciseType;
-using Backend.Business.Import.Import.ImportTraining;
+using Backend.Business.Import.ImportRequests.GetImportSample;
+using Backend.Business.Import.ImportRequests.ImportExerciseType;
+using Backend.Business.Import.ImportRequests.ImportTraining;
 using Backend.Business.Import.Models;
 
 namespace Backend.API.Controllers

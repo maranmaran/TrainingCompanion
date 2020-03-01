@@ -7,14 +7,17 @@
 
   <ItemGroup>
     <Compile Remove="Entities\ExerciseType\ExerciseProperties\**" />
+    <Compile Remove="Entities\ProgressTracking\Reports\**" />
     <Compile Remove="Exceptions\**" />
     <Compile Remove="Infrastructure\**" />
     <Compile Remove="ValueObjects\**" />
     <EmbeddedResource Remove="Entities\ExerciseType\ExerciseProperties\**" />
+    <EmbeddedResource Remove="Entities\ProgressTracking\Reports\**" />
     <EmbeddedResource Remove="Exceptions\**" />
     <EmbeddedResource Remove="Infrastructure\**" />
     <EmbeddedResource Remove="ValueObjects\**" />
     <None Remove="Entities\ExerciseType\ExerciseProperties\**" />
+    <None Remove="Entities\ProgressTracking\Reports\**" />
     <None Remove="Exceptions\**" />
     <None Remove="Infrastructure\**" />
     <None Remove="ValueObjects\**" />
@@ -26,10 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Backend.Common\Backend.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Entities\ProgressTracking\Reports\" />
   </ItemGroup>
 
 </Project>

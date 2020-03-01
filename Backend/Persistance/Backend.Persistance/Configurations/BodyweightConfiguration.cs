@@ -1,4 +1,4 @@
-﻿using Backend.Domain.Entities.ProgressTracking.Bodyweight;
+﻿using Backend.Domain.Entities.ProgressTracking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
