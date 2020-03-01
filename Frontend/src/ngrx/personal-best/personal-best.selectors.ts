@@ -14,12 +14,12 @@ export const personalBestEntities = createSelector(
     fromPersonalBest.selectEntities
 );
 
-export const personalBest = createSelector(
+export const personalBests = createSelector(
     selectPersonalBestState,
     fromPersonalBest.selectAll,
 );
 
-export const personalBestCount = createSelector(
+export const personalBestsCount = createSelector(
     selectPersonalBestState,
     fromPersonalBest.selectTotal
 );

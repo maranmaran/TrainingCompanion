@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Backend.Domain;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
 
 namespace Backend.Business.ProgressTracking.BodyweightRequests.GetAll
 {
-    public class GetAllBodyweightRequestHandler : IRequestHandler<GetAll.GetAllBodyweightRequest, IQueryable<Domain.Entities.ProgressTracking.Bodyweight>>
+    public class GetAllBodyweightRequestHandler : IRequestHandler<GetAllBodyweightRequest, IQueryable<Domain.Entities.ProgressTracking.Bodyweight>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -19,7 +19,7 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.GetAll
         }
 
 
-        public Task<IQueryable<Domain.Entities.ProgressTracking.Bodyweight>> Handle(GetAll.GetAllBodyweightRequest request, CancellationToken cancellationToken)
+        public Task<IQueryable<Domain.Entities.ProgressTracking.Bodyweight>> Handle(GetAllBodyweightRequest request, CancellationToken cancellationToken)
         {
 
             try
@@ -29,7 +29,7 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.GetAll
             }
             catch (Exception e)
             {
-                throw new FetchFailureException(nameof(GetAll.GetAllBodyweightRequest), e);
+                throw new FetchFailureException(nameof(GetAllBodyweightRequest), e);
             }
         }
     }

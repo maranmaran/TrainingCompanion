@@ -1,10 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using Backend.Domain.Entities.ProgressTracking;
 using MediatR;
+using System;
+using System.Linq;
 
 namespace Backend.Business.ProgressTracking.PersonalBestRequests.GetAll
 {
-    public class GetAllPersonalBestRequest : IRequest<IQueryable<Domain.Entities.ProgressTracking.PersonalBest>>
+    public class GetAllPersonalBestRequest : IRequest<IQueryable<PersonalBest>>
     {
         public GetAllPersonalBestRequest(Guid exerciseTypeId)
         {

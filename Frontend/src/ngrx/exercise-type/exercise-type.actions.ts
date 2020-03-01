@@ -14,6 +14,11 @@ export const exerciseTypesFetched = createAction(
   props<{ entities: ExerciseType[], totalItems: number, pagingModel: PagingModel }>()
 );
 
+export const allExerciseTypesFetched = createAction(
+  '[ExerciseType] All fetched',
+  props<{ entities: ExerciseType[]}>()
+);
+
 export const exerciseTypeUpdated = createAction(
   '[ExerciseType] Updated',
   props<{ entity: Update<ExerciseType> }>()
