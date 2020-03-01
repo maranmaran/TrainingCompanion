@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AllExerciseTypesResolver } from './../../../business/resolvers/all-exercise-types.resolver';
+import { PersonalBestsResolver } from './../../../business/resolvers/personal-bests.resolver';
 import { PersonalBestService } from './../../../business/services/feature-services/personal-best.service';
 import { PersonalBestEffects } from './../../../ngrx/personal-best/personal-best.effects';
 import { personalBestReducer } from './../../../ngrx/personal-best/personal-best.reducers';
@@ -25,7 +27,8 @@ import { PersonalBestRoutingModule } from './personal-best-routing.module';
     providers: [
         // UIService,
         PersonalBestService,
-        // PersonalBestResolver,
+        AllExerciseTypesResolver,
+        PersonalBestsResolver
     ],
     entryComponents: [
     ]

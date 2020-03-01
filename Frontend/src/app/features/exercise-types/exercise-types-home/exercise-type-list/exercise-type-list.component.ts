@@ -100,6 +100,8 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       new CustomColumn({
         definition: 'code',
         title: 'Code',
+        headerClass: 'code-header',
+        cellClass: 'code-cell',
         sort: false,
         useComponent: false,
         displayFn: (item: ExerciseType) => item.code
