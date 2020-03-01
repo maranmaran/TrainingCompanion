@@ -4,7 +4,6 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import * as moment from 'moment';
 import { take } from 'rxjs/operators';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
@@ -29,29 +28,38 @@ export class BodyweightCreateEditComponent implements OnInit {
     private dialogRef: MatDialogRef<BodyweightCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       title: string,
-      action: CRUD
+      action: CRUD,
+      bodyweight: Bodyweight
     }) { }
 
   form: FormGroup;
   private _userId: string;
+  bodyweight: Bodyweight;
 
   ngOnInit() {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
+    this.bodyweight = this.data.action == CRUD.Create ? new Bodyweight() : this.data.bodyweight;
+    this.bodyweight.userId = this._userId;
 
     this.createForm();
   }
 
   get date(): AbstractControl { return this.form.get('date'); }
+  get value(): AbstractControl { return this.form.get('value'); }
 
   createForm() {
     this.form = new FormGroup({
-      date: new FormControl(moment(new Date()).utc().format('L'), Validators.required),
+      date: new FormControl(new Date(), Validators.required),
+      value: new FormControl(0, Validators.required), // todo.. start from LAST logged bodyweight
     });
   }
 
   onSubmit() {
     if (!this.form.valid)
       return;
+
+    this.bodyweight.value = this.value.value;
+    this.bodyweight.date = new Date(this.date.value);
 
     this.createEntity();
   }
@@ -61,9 +69,10 @@ export class BodyweightCreateEditComponent implements OnInit {
   }
 
   createEntity() {
-    this.bodyweightService.create({}).pipe(take(1))
+    this.bodyweightService.create(this.bodyweight).pipe(take(1))
       .subscribe(
         (bodyweight: Bodyweight) => {
+          console.log(bodyweight)
           this.store.dispatch(bodyweightCreated({ entity: bodyweight }))
           this.onClose(bodyweight)
         },

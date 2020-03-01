@@ -210,7 +210,7 @@ namespace Backend.API.Extensions
                 typeof(Business.ProgressTracking.Mappings),
                 typeof(Business.TrainingLog.Mappings),
                 typeof(Business.Users.Mappings),
-                typeof(Business.ExerciseType.Mappings)
+                typeof(Business.ExerciseType.Mappings),
             };
 
             services.AddAutoMapper(mappings.ToArray());
