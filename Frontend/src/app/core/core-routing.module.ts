@@ -20,6 +20,8 @@ const routes: Routes = [
                 { path: 'exercise-properties', loadChildren: () => import('src/app/features/exercise-properties/exercise-properties.module').then(mod => mod.ExercisePropertiesModule)},
                 { path: 'exercise-types', loadChildren: () => import('src/app/features/exercise-types/exercise-types.module').then(mod => mod.ExerciseTypesModule)},
                 { path: 'export-import', loadChildren: () => import('src/app/features/export-import/export-import.module').then(mod => mod.ExportImportModule)},
+                { path: 'bodyweight', loadChildren: () => import('src/app/features/bodyweight/bodyweight.module').then(mod => mod.BodyweightModule)},
+                { path: 'personal-best', loadChildren: () => import('src/app/features/personal-best/personal-best.module').then(mod => mod.PersonalBestModule)},
             ]
         },
         {

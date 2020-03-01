@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../global-setup.ngrx';
 
 @Injectable()
-export class BodyweightsEffects {
+export class BodyweightEffects {
 
     constructor(
         private actions$: Actions,

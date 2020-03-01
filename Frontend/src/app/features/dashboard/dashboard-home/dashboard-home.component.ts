@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
-import { AttributesMap, DynamicDirectiveDef } from 'ng-dynamic-component';
+import { AttributesMap } from 'ng-dynamic-component';
 import { take } from 'rxjs/operators';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -41,7 +41,8 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
 
   tracks: Track[];
   attrs: AttributesMap;
-  dirs: DynamicDirectiveDef<any>[];
+  //TODO: Directives in ndcDynamic have trouble with angular AOT - see issue on their github
+  // dirs: DynamicDirectiveDef<any>[];
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
   private _subs = new SubSink();
@@ -63,7 +64,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
 
     this.dashboardService.getUserTracks();
     this.attrs = this.dashboardService.trackItemAttributes;
-    this.dirs = this.dashboardService.trackItemDirectives;
+    // this.dirs = this.dashboardService.trackItemDirectives;
 
     this._subs.add(
       this.dashboardService.tracks$.subscribe(tracks => {
