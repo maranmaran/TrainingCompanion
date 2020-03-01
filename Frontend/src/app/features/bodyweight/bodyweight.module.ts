@@ -9,6 +9,9 @@ import { BodyweightEffects } from 'src/ngrx/bodyweight/bodyweight.effects';
 import { bodyweightReducer } from './../../../ngrx/bodyweight/bodyweight.reducers';
 import { BodyweightHomeComponent } from './bodyweight-home/bodyweight-home.component';
 import { BodyweightRoutingModule } from './bodyweight-routing.module';
+import { BodyweightListComponent } from './bodyweight-home/bodyweight-list/bodyweight-list.component';
+import { BodyweightCreateEditComponent } from './bodyweight-home/bodyweight-create-edit/bodyweight-create-edit.component';
+import { BodyweightChartComponent } from './bodyweight-home/bodyweight-chart/bodyweight-chart.component';
 
 @NgModule({
     imports: [
@@ -20,6 +23,9 @@ import { BodyweightRoutingModule } from './bodyweight-routing.module';
     ],
     declarations: [
         BodyweightHomeComponent,
+        BodyweightListComponent,
+        BodyweightCreateEditComponent,
+        BodyweightChartComponent,
     ],
     exports: [
     ],
