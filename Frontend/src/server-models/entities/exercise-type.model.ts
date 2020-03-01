@@ -1,4 +1,5 @@
 import { ApplicationUser } from './application-user.model';
+import { PersonalBest } from './personal-best.model';
 import { Tag } from './tag.model';
 
 export class ExerciseType {
@@ -17,6 +18,7 @@ export class ExerciseType {
     applicationUser: ApplicationUser;
 
     properties: ExerciseTypeTag[];
+    pbs: PersonalBest[];
     //exerciseMaxes: ExerciseMax[]
 }
 
