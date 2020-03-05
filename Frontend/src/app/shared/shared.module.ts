@@ -11,6 +11,7 @@ import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
+import { TransformWeightPipe } from './../../business/pipes/transform-weight.pipe';
 import { TestCardComponent } from './../features/dashboard/dashboard-home/dashboard-card-container/card-components/test-card/test-card.component';
 import { TrainingMonthViewDayComponent } from './../features/training-log/training/training-calendar/training-month/training-month-view-day/training-month-view-day.component';
 import { NotificationItemComponent } from './/notifications/notification-item/notification-item.component';
@@ -82,7 +83,8 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         NotificationTypeIconComponent,
         TestCardComponent,
         ApplyTimezonePipe,
-        ButtonSizeDirective
+        ButtonSizeDirective,
+        TransformWeightPipe
     ],
     exports: [
         CommonModule,
@@ -121,7 +123,8 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         NotificationTypeIconComponent,
         TestCardComponent,
         ApplyTimezonePipe,
-        ButtonSizeDirective
+        ButtonSizeDirective,
+        TransformWeightPipe
     ],
     providers: [
     ],

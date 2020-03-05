@@ -15,7 +15,7 @@
       ></app-toolbar>
 
       <!-- <span class="vertical-scroll"> -->
-        <router-outlet></router-outlet>
+        <router-outlet id="main-router-outlet"></router-outlet>
       <!-- </span> -->
 
       <ng-chat [hideFriendsList]="false" fxHide.xs [adapter]="chatAdapter" [userId]="userId" [theme]="theme" (onMessagesSeen)="onMessagesSeen($event)" [fileUploadUrl]="chatService.url + 'UploadChatFile'"></ng-chat>

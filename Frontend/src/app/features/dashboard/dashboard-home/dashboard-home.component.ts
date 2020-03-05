@@ -58,7 +58,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.document.getElementById('main-sidenav-content').style.setProperty("overflow-y", "hidden", "important")
+    this.document.getElementById('dashboard-sidenav-content').style.setProperty("overflow-y", "hidden", "important")
     this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
     this.UIService.addOrUpdateSidenav(UISidenav.DashboardComponents, this.sidenav);
 
@@ -73,7 +73,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.document.getElementById('main-sidenav-content').style.setProperty("overflow-y", "auto", "important")
+    this.document.getElementById('dashboard-sidenav-content').style.setProperty("overflow-y", "auto", "important")
 
     this._subs.unsubscribe();
   }
