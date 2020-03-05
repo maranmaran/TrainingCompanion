@@ -1,7 +1,0 @@
-<button (click)="onAdd()" mat-icon-button color="accent">
-  <i class="fas fa-plus"></i>
-</button>
-
-<cdk-virtual-scroll-viewport itemSize="50" class="bodyweight-list">
-  <div *cdkVirtualFor="let bodyweight of bodyweights$ | async" class="record"> {{ bodyweight.value }}</div>
-</cdk-virtual-scroll-viewport>

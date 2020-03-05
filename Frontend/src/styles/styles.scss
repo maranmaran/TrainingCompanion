@@ -30,8 +30,12 @@ body {
   flex-direction: column;
   height: 100%;
   overflow-x: unset !important;
-  overflow-y: auto !important;
-  // overflow-y: unset !important;
+  // overflow-y: auto !important;
+  overflow-y: unset !important;
+}
+
+#main-router-outlet + * {
+  overflow-y: auto;
 }
 
 .dashboard-component {
@@ -90,7 +94,7 @@ i {
 }
 
 .main-screen {
-  margin-top: 3rem;
+  padding-top: 3rem;
 }
 
 .details-container {
