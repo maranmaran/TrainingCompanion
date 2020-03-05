@@ -55,15 +55,25 @@
       <span class="label">Export / Import</span>
     </a>
 
-    <a mat-list-item routerLink="/app/bodyweight" (click)="onRoute()">
-      <i class="fas fa-weight"></i>
-      <span class="label">Bodyweight</span>
-    </a>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <i class="fas fa-chart-line"></i>
+          <span class="label">Progress tracking</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-    <a mat-list-item routerLink="/app/personal-best" (click)="onRoute()">
-      <i class="fas fa-medal"></i>
-      <span class="label">Personal records</span>
-    </a>
+      <a mat-list-item routerLink="/app/bodyweight" (click)="onRoute()">
+        <i class="fas fa-weight"></i>
+        <span class="label">Bodyweight</span>
+      </a>
+
+      <a mat-list-item routerLink="/app/personal-best" (click)="onRoute()">
+        <i class="fas fa-medal"></i>
+        <span class="label">Personal records</span>
+      </a>
+
+    </mat-expansion-panel>
 
     <!-- <a mat-list-item routerLink="/app/dashboard" (click)="onRoute()">
       <i class="fas fa-chart-line"></i>

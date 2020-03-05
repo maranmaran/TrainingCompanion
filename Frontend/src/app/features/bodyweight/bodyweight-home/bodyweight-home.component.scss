@@ -1,0 +1,10 @@
+:host {
+  height: calc(100% - 64px);
+  overflow-y: hidden !important;
+}
+
+@media(max-width: 600px) {
+  :host{
+    height: calc(100% - 60px)
+  }
+}
