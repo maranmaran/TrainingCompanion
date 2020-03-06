@@ -4,7 +4,7 @@ using Backend.Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace Backend.Business.Media.MediaRequests.UploadMedia
+namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
 {
     /// <summary>
     /// Request class for upload of media

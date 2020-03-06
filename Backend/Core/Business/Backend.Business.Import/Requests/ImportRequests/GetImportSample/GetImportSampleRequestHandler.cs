@@ -3,12 +3,12 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.Import.Models;
+using Backend.Business.Import.Models.Shared;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Backend.Business.Import.ImportRequests.GetImportSample
+namespace Backend.Business.Import.Requests.ImportRequests.GetImportSample
 {
     public class GetImportSampleRequestHandler : IRequestHandler<GetImportSampleRequest, FileContentResult>
     {

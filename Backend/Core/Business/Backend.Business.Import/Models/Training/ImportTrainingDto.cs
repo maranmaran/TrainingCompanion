@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Backend.Business.Import.Models.Import.Training
+namespace Backend.Business.Import.Models.Training
 {
     public class ImportTrainingColumns
     {

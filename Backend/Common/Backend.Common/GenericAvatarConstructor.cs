@@ -8,7 +8,7 @@ namespace Backend.Common
     /// </summary>
     public class GenericAvatarConstructor
     {
-        private readonly string _baseUrl = "https://ui-avatars.com/api/?";
+        private static readonly string _baseUrl = "https://ui-avatars.com/api/?";
         private readonly StringBuilder _constructedUrl;
 
         public GenericAvatarConstructor()
@@ -77,6 +77,11 @@ namespace Backend.Common
         public string Value()
         {
             return _constructedUrl.ToString();
+        }
+
+        public static bool IsGenericAvatar(string value)
+        {
+            return value.Contains(_baseUrl);
         }
     }
 }

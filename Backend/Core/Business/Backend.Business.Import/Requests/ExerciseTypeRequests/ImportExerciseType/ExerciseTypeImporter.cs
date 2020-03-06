@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Backend.Business.Import.Models.Import.ExerciseType;
+using Backend.Business.Import.Models.ExerciseType;
 using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.Import.ImportRequests.ImportExerciseType
+namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseType
 {
     /// <summary>
     /// Imports exercise type data according to some specific rules and schema

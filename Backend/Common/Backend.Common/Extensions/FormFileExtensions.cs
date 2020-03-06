@@ -29,7 +29,8 @@ namespace Backend.Common.Extensions
             if (Path.GetExtension(postedFile.FileName).ToLower() != ".jpg"
                 && Path.GetExtension(postedFile.FileName).ToLower() != ".png"
                 && Path.GetExtension(postedFile.FileName).ToLower() != ".gif"
-                && Path.GetExtension(postedFile.FileName).ToLower() != ".jpeg")
+                && Path.GetExtension(postedFile.FileName).ToLower() != ".jpeg"
+                && Path.GetExtension(postedFile.FileName).ToLower() != ".jfif")
             {
                 return false;
             }

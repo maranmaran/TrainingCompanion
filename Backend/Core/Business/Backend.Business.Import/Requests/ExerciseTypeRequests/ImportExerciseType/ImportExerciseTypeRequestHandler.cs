@@ -6,8 +6,8 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Backend.Business.Import.Models.Import;
-using Backend.Business.Import.Models.Import.ExerciseType;
+using Backend.Business.Import.Models.ExerciseType;
+using Backend.Business.Import.Models.Shared;
 using Backend.Business.Notifications.Interfaces;
 using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
 using Backend.Domain;
@@ -16,7 +16,7 @@ using Backend.Service.Excel.Interfaces;
 using Backend.Service.Logging.Interfaces;
 using MediatR;
 
-namespace Backend.Business.Import.ImportRequests.ImportExerciseType
+namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseType
 {
     public class ImportExerciseTypeRequestHandler : IRequestHandler<ImportExerciseTypeRequest, ImportExerciseTypeResponse>
     {

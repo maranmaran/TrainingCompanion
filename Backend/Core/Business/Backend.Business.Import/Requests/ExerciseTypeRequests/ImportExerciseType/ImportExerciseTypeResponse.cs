@@ -2,7 +2,7 @@
 using System.Linq;
 using Backend.Common;
 
-namespace Backend.Business.Import.ImportRequests.ImportExerciseType
+namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseType
 {
     public class ImportExerciseTypeResponse
     {
