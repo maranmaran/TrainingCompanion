@@ -18,6 +18,8 @@ export interface CurrentUser {
     fullName: string;
     gender: Gender;
 
+    avatar: string;
+
     accountType: AccountType;
 
     active: boolean;

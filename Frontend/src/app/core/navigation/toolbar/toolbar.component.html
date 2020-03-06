@@ -53,7 +53,8 @@
     </mat-menu>
 
     <!--AVATAR-->
-    <ngx-avatar size="40" [matMenuTriggerFor]="userMenu" name="{{ fullName }}"></ngx-avatar>
+    <!-- <ngx-avatar size="40" name="{{ fullName }}"></ngx-avatar> -->
+    <img class="img-fluid avatar-img" src="{{ avatar }}"  [matMenuTriggerFor]="userMenu" style="max-width: 40px; cursor: pointer;"/>
 
     <mat-menu #userMenu="matMenu">
 
@@ -66,7 +67,7 @@
         </div>
 
         <div id="avatar-content-row" fxFlexAlign="center">
-          <ngx-avatar id="content-avatar" size="80" name="{{ fullName }}"></ngx-avatar>
+          <img id="content-avatar" class="img-fluid avatar-img" src="{{ avatar }}" style="width: 80px; cursor: pointer;"/>
         </div>
 
         <div id="avatar-actions-row" fxLayout="row wrap" fxLayoutGap="3rem" fxLayoutAlign="space-between center">

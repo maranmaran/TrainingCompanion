@@ -1,0 +1,16 @@
+<image-cropper class="cropper"
+  [imageChangedEvent]="data.config.imageChangedEvent"
+  [format]="data.config.format"
+  [imageQuality]="data.config.imageQuality"
+  [roundCropper]="data.config.roundCropper"
+
+  (imageCropped)="imageCropped($event)"
+  (imageLoaded)="imageLoaded()"
+  (cropperReady)="cropperReady()"
+  (loadImageFailed)="loadImageFailed()"
+></image-cropper>
+
+<div class="mt-1 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+  <button  mat-button (click)="dialogRef.close()">Close</button>
+  <button mat-stroked-button color="accent"(click)="dialogRef.close(imageCroppedEvent)">Save</button>
+</div>

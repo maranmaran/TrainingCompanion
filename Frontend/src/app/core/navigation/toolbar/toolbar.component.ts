@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
+import { currentUser } from './../../../../ngrx/auth/auth.selectors';
 import { PushNotification } from './../../../../server-models/entities/push-notification.model';
 
 @Component({
@@ -14,6 +17,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private notificationService: NotificationSignalrService,
+    private store: Store<AppState>
   ) { }
 
   @Input() fullName: string;
@@ -21,6 +25,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @Output() openSettingsEvent = new EventEmitter<string>();
   @Output() toggleSidenavEvent = new EventEmitter<void>();
   @Output() logoutEvent = new EventEmitter<void>();
+
+  avatar: string; // url
 
   private subSink = new SubSink();
   private page = 0;
@@ -33,6 +39,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    this.store.select(currentUser).pipe(take(1), map(x => x.avatar)).subscribe(avatar => this.avatar = avatar);
     // subscribe to notifications
     // only new ones.. in real time
     // this.notifications$ = this.notificationService.notifications$;

@@ -20,6 +20,7 @@
 @import "./mixins/notifications-menu.scss";
 @import "./mixins/timepicker.scss";
 @import "./mixins/autofill.scss";
+@import "./mixins/image-cropper.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -39,6 +40,7 @@
   @include autofill-theme($theme);
   @include create-edit-sets-theme($theme);
   @include create-edit-exercise-types-theme($theme);
+  @include image-cropper-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================
