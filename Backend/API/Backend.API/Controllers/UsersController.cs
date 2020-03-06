@@ -34,13 +34,13 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request));
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateUserRequest request)
         {
             return Ok(await Mediator.Send(request));
         }
 
-        [HttpGet("{id}/{accountType}")]
+        [HttpDelete("{id}/{accountType}")]
         public async Task<IActionResult> Delete(Guid id, AccountType accountType)
         {
             return Ok(await Mediator.Send(new DeleteUserRequest(id, accountType)));

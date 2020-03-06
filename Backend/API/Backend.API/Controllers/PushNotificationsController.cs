@@ -14,7 +14,6 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request));
         }
 
-        //TODO: Add sieve model for paging this
         [HttpGet("{userId}/{page}/{pageSize}")]
         public async Task<IActionResult> GetPushNotificationHistory(Guid userId, int page, int pageSize)
         {

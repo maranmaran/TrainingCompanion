@@ -20,24 +20,24 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(TagGroup tagGroup)
+        public async Task<IActionResult> Create([FromBody] TagGroup tagGroup)
         {
             return Ok(await Mediator.Send(new CreateTagGroupRequest(tagGroup)));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(TagGroup tagGroup)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] TagGroup tagGroup)
         {
             return Ok(await Mediator.Send(new UpdateTagGroupRequest(tagGroup)));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateMany(IEnumerable<TagGroup> request)
+        [HttpPut]
+        public async Task<IActionResult> UpdateMany([FromBody] IEnumerable<TagGroup> request)
         {
             return Ok(await Mediator.Send(new UpdateManyTagGroupRequest() { TagGroups = request }));
         }
 
-        [HttpPost]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteTagGroupRequest() { Id = id }));

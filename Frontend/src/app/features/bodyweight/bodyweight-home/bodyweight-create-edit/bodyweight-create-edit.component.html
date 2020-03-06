@@ -7,9 +7,11 @@
 
       <mat-form-field>
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="dp" [formControl]="date">
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker #dp></mat-datepicker>
+        <input matInput [matDatepicker]="!(isMobile | async) ? datepickerWeb : datepickerMobile" [formControl]="date">
+
+        <mat-datepicker-toggle matSuffix [for]="!(isMobile | async) ? datepickerWeb : datepickerMobile"></mat-datepicker-toggle>
+        <mat-datepicker [hidden]="(isMobile | async)" #datepickerWeb></mat-datepicker>
+        <mat-datepicker [hidden]="!(isMobile | async)" touchUi #datepickerMobile></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field>

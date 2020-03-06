@@ -26,19 +26,19 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateExerciseRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateExerciseRequest request)
         {
             return Ok(await Mediator.Send(request));
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateMany(IEnumerable<Exercise> data)
+        [HttpPut]
+        public async Task<IActionResult> UpdateMany([FromBody] IEnumerable<Exercise> data)
         {
             return Ok(await Mediator.Send(new UpdateManyExercisesRequest(data)));
         }
 
-        [HttpGet("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteExerciseRequest() { Id = id }));

@@ -18,25 +18,25 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetPaged(GetPagedExerciseTypeRequest request)
+        public async Task<IActionResult> GetPaged([FromBody] GetPagedExerciseTypeRequest request)
         {
             return Ok(await Mediator.Send(request));
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateExerciseTypeRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateExerciseTypeRequest request)
         {
             return Ok(await Mediator.Send(request));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(UpdateExerciseTypeRequest request)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateExerciseTypeRequest request)
         {
             return Ok(await Mediator.Send(request));
         }
 
-        [HttpPost]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteExerciseTypeRequest() { Id = id }));
