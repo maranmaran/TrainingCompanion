@@ -68,6 +68,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Users", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Billing", "Core\Business\Backend.Business.Billing\Backend.Business.Billing.csproj", "{936564E1-9383-4D19-81B1-455D2ED6A592}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Service.ImageProcessing", "Core\Services\Backend.Service.ImageProcessing\Backend.Service.ImageProcessing.csproj", "{B896C5DC-E68F-43BD-9FAD-366BB90ACE7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -162,6 +164,10 @@ Global
 		{936564E1-9383-4D19-81B1-455D2ED6A592}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{936564E1-9383-4D19-81B1-455D2ED6A592}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{936564E1-9383-4D19-81B1-455D2ED6A592}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B896C5DC-E68F-43BD-9FAD-366BB90ACE7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B896C5DC-E68F-43BD-9FAD-366BB90ACE7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B896C5DC-E68F-43BD-9FAD-366BB90ACE7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B896C5DC-E68F-43BD-9FAD-366BB90ACE7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -195,6 +201,7 @@ Global
 		{49FA6B35-FFDE-422E-95EE-F94C87B16DCE} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 		{17B2D941-2B50-43AB-97B0-E3206C3CE3A2} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 		{936564E1-9383-4D19-81B1-455D2ED6A592} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
+		{B896C5DC-E68F-43BD-9FAD-366BB90ACE7E} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DD0AB68-A97C-455D-82B6-014536CC5B59}

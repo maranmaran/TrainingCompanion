@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Backend.Domain;
 using Backend.Domain.Entities.Media;
 using Backend.Service.AmazonS3.Interfaces;
-using Backend.Service.AmazonS3.Models;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +15,9 @@ namespace Backend.Business.Media.MediaRequests.GetUserMediaByType
     public class GetUserMediaByTypeRequestHandler : IRequestHandler<GetUserMediaByTypeRequest, IEnumerable<MediaFile>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3AccessService _s3AccessService;
+        private readonly IS3Service _s3AccessService;
 
-        public GetUserMediaByTypeRequestHandler(IApplicationDbContext context, IS3AccessService s3AccessService)
+        public GetUserMediaByTypeRequestHandler(IApplicationDbContext context, IS3Service s3AccessService)
         {
             _context = context;
             _s3AccessService = s3AccessService;
@@ -36,7 +35,7 @@ namespace Backend.Business.Media.MediaRequests.GetUserMediaByType
                 foreach (var mediaFile in media)
                 {
                     if (_s3AccessService.CheckIfPresignedUrlIsExpired(mediaFile.DownloadUrl))
-                        mediaFile.DownloadUrl = await _s3AccessService.GetPresignedUrlAsync(new S3FileRequest(mediaFile.FtpFilePath));
+                        mediaFile.DownloadUrl = await _s3AccessService.GetPresignedUrlAsync(mediaFile.FtpFilePath);
                 }
 
                 return await Task.FromResult(media);

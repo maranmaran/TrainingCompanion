@@ -9,7 +9,7 @@ namespace Backend.Business.Media.MediaRequests.UploadMedia
     /// <summary>
     /// Request class for upload of media
     /// </summary>
-    public class UploadMediaRequest : IRequest<MediaFile>
+    public class UploadTrainingMedia : IRequest<MediaFile>
     {
         public Guid UserId { get; set; }
         public Guid? TrainingId { get; set; }
@@ -18,7 +18,7 @@ namespace Backend.Business.Media.MediaRequests.UploadMedia
         public string Extension { get; set; }
         public MediaType Type { get; set; }
 
-        public UploadMediaRequest(Guid userId, IFormFile file, string extension, MediaType type)
+        public UploadTrainingMedia(Guid userId, IFormFile file, string extension, MediaType type)
         {
             UserId = userId;
             File = file;
@@ -26,7 +26,7 @@ namespace Backend.Business.Media.MediaRequests.UploadMedia
             Type = type;
         }
 
-        public UploadMediaRequest()
+        public UploadTrainingMedia()
         {
         }
     }

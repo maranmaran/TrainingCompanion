@@ -1,14 +1,13 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Common.Extensions;
+﻿using Backend.Common.Extensions;
 using Backend.Domain;
 using Backend.Domain.Entities.Media;
 using Backend.Service.AmazonS3.Interfaces;
-using Backend.Service.AmazonS3.Models;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Media.MediaRequests.UploadMedia
 {
@@ -16,27 +15,26 @@ namespace Backend.Business.Media.MediaRequests.UploadMedia
     /// Upload media request handler
     /// Saves media directly to s3 and SQL. Provides media presigned URL for easy download and display
     /// </summary>
-    public class UploadMediaRequestHandler : IRequestHandler<UploadMediaRequest, MediaFile>
+    public class UploadTrainingMediaRequestHandler : IRequestHandler<UploadTrainingMedia, MediaFile>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3AccessService _s3AccessService;
+        private readonly IS3Service _s3AccessService;
 
-        public UploadMediaRequestHandler(IS3AccessService s3AccessService, IApplicationDbContext context)
+        public UploadTrainingMediaRequestHandler(IS3Service s3AccessService, IApplicationDbContext context)
         {
             _s3AccessService = s3AccessService;
             _context = context;
         }
 
-        public async Task<MediaFile> Handle(UploadMediaRequest request, CancellationToken cancellationToken)
+        public async Task<MediaFile> Handle(UploadTrainingMedia request, CancellationToken cancellationToken)
         {
             try
             {
                 // save to s3
                 var filename = GetFilename(request);
-                var fileRequest = new S3FileRequest(filename);
 
-                await _s3AccessService.WriteStreamToS3(fileRequest, request.File.OpenReadStream());
-                var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(fileRequest);
+                await _s3AccessService.WriteToS3(filename, request.File.OpenReadStream());
+                var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(filename);
 
                 // create db object and map to it
                 var media = new MediaFile()
@@ -65,7 +63,7 @@ namespace Backend.Business.Media.MediaRequests.UploadMedia
             }
         }
 
-        public string GetFilename(UploadMediaRequest request)
+        public string GetFilename(UploadTrainingMedia request)
         {
             var builder = new StringBuilder();
 
