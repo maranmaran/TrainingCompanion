@@ -53,7 +53,7 @@ namespace Backend.Business.Authorization.AuthorizationRequests.CurrentUser
 
                 // refresh avatar url if needed
                 if (GenericAvatarConstructor.IsGenericAvatar(user.Avatar) == false)
-                    user.Avatar = await _s3Service.GetPresignedUrlAsync(user.Avatar);
+                    response.Avatar = await _s3Service.GetPresignedUrlAsync(user.Avatar);
 
                 return response;
             }

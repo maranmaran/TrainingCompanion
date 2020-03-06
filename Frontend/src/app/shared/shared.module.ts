@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DynamicModule } from 'ng-dynamic-component';
 import { AvatarModule } from 'ngx-avatar';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { ButtonSizeDirective } from 'src/business/directives/button-size.directive';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
@@ -30,6 +31,7 @@ import { MessageDialogComponent } from './dialogs/message-dialog/message-dialog.
 import { CalendarMonthViewComponent } from './event-calendar/month-view/month-view.component';
 import { CalendarWeekViewComponent } from './event-calendar/week-view/week-view.component';
 import { MaterialTableComponent } from './material-table/material-table.component';
+import { ImageCropperComponent } from './media/image-cropper/image-cropper.component';
 import { MediaContainerComponent } from './media/media-container/media-container.component';
 import { MediaListComponent } from './media/media-uploader/media-list/media-list.component';
 import { MediaUploaderComponent } from './media/media-uploader/media-uploader.component';
@@ -54,6 +56,7 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
             TestCardComponent,
         ]),
         AvatarModule,
+        ImageCropperModule
     ],
     declarations: [
         MediaDialogComponent,
@@ -84,7 +87,8 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         TestCardComponent,
         ApplyTimezonePipe,
         ButtonSizeDirective,
-        TransformWeightPipe
+        TransformWeightPipe,
+        ImageCropperComponent
     ],
     exports: [
         CommonModule,
@@ -124,7 +128,9 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         TestCardComponent,
         ApplyTimezonePipe,
         ButtonSizeDirective,
-        TransformWeightPipe
+        TransformWeightPipe,
+        ImageCropperModule,
+        ImageCropperComponent,
     ],
     providers: [
     ],
