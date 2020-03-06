@@ -1,4 +1,6 @@
-﻿namespace Backend.Business.Import.Models.Import.ExerciseType
+﻿using Backend.Business.Import.Models.Shared;
+
+namespace Backend.Business.Import.Models.ExerciseType
 {
     public static class ImportExerciseTypeColumns
     {

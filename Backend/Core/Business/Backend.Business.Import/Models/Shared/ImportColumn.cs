@@ -1,4 +1,4 @@
-﻿namespace Backend.Business.Import.Models.Import
+﻿namespace Backend.Business.Import.Models.Shared
 {
     public class ImportColumn
     {

@@ -188,7 +188,7 @@ namespace Backend.API.Extensions
             };
 
             services.AddMediatR(assemblies.ToArray());
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
         }
 
         /// <summary>

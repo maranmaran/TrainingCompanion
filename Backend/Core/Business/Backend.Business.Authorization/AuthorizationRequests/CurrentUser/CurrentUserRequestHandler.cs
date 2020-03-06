@@ -1,33 +1,34 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Business.Billing.BillingRequests.GetPlans;
 using Backend.Business.Billing.BillingRequests.GetSubscription;
 using Backend.Business.Billing.BillingRequests.GetSubscriptionStatus;
+using Backend.Common;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
+using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
-using Backend.Service.Payment.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.CurrentUser
 {
     public class CurrentUserRequestHandler : IRequestHandler<CurrentUserRequest, CurrentUserRequestResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IPaymentService _paymentService;
+        private readonly IS3Service _s3Service;
         private readonly IApplicationDbContext _context;
         private readonly IMediator _mediator;
 
-        public CurrentUserRequestHandler(IMapper mapper, IPaymentService paymentService, IApplicationDbContext context, IMediator mediator)
+        public CurrentUserRequestHandler(IMapper mapper, IApplicationDbContext context, IMediator mediator, IS3Service s3Service)
         {
             _mapper = mapper;
-            _paymentService = paymentService;
             _context = context;
             _mediator = mediator;
+            _s3Service = s3Service;
         }
 
         public async Task<CurrentUserRequestResponse> Handle(CurrentUserRequest request, CancellationToken cancellationToken)
@@ -49,6 +50,10 @@ namespace Backend.Business.Authorization.AuthorizationRequests.CurrentUser
                     response.SubscriptionInfo = await _mediator.Send(new GetSubscriptionRequest(response.CustomerId), cancellationToken);
                     response.Plans = await _mediator.Send(new GetPlansRequest(), cancellationToken);
                 }
+
+                // refresh avatar url if needed
+                if (GenericAvatarConstructor.IsGenericAvatar(user.Avatar) == false)
+                    user.Avatar = await _s3Service.GetPresignedUrlAsync(user.Avatar);
 
                 return response;
             }
