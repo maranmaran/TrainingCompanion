@@ -24,9 +24,9 @@ namespace Backend.Business.Chat
 
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IS3AccessService _s3AccessService;
+        private readonly IS3Service _s3AccessService;
 
-        public ChatHub(IMediator mediator, IMapper mapper, IS3AccessService s3AccessService)
+        public ChatHub(IMediator mediator, IMapper mapper, IS3Service s3AccessService)
         {
             _mediator = mediator;
             _mapper = mapper;
