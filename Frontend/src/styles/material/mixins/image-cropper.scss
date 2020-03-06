@@ -1,0 +1,22 @@
+@import "~@angular/material/theming";
+
+@mixin image-cropper-theme($theme) {
+
+  .image-cropper-dialog {
+    .mat-dialog-container {
+      // padding: 0px;
+    }
+
+    .cropper {
+      // --cropper-outline-color: transparent;
+
+      max-height: 40rem;
+      padding: 0px !important;
+
+      .overlay {
+        outline: transparent !important;
+      }
+    }
+  }
+
+}

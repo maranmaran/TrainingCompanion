@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { ImageCroppedEvent } from 'ngx-image-cropper/public-api';
 import { finalize, take } from 'rxjs/operators';
+import { ImageCropperComponent, ImageCropperConfiguration } from 'src/app/shared/media/image-cropper/image-cropper.component';
 import { UserService } from 'src/business/services/feature-services/user.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { validateForm } from 'src/business/utils/form.utils';
@@ -18,12 +20,14 @@ import { UpdateUserRequest } from 'src/server-models/cqrs/users/update-user.requ
 })
 export class AccountComponent implements OnInit {
 
-  public accountForm: FormGroup;
-  private currentUser: CurrentUser;
+  accountForm: FormGroup;
+  currentUser: CurrentUser;
 
   // readonly inputs at first
-  public editUsername = true;
-  public editMail = true;
+  editUsername = true;
+  editMail = true;
+
+  config = new ImageCropperConfiguration({})
 
   constructor(
     private UIService: UIService,
@@ -36,10 +40,14 @@ export class AccountComponent implements OnInit {
       .pipe(take(1))
       .subscribe((user: CurrentUser) => {
         this.currentUser = { ...user };
+
+        // for better resolution
+        if(this.currentUser.avatar.indexOf('ui-avatars') !== -1)
+          this.currentUser.avatar += '&size=300px'
+
         this.createForm(this.currentUser);
       });
   }
-
 
   private createForm(model: CurrentUser) {
     this.accountForm = new FormGroup({
@@ -55,13 +63,13 @@ export class AccountComponent implements OnInit {
     return 'Not valid';
   }
 
-  public changePassword() {
+  changePassword() {
     if (!this.email.valid) return;
 
     // hit change password api
   }
 
-  public onSubmit() {
+  onSubmit() {
     if (validateForm(this.accountForm, this.UIService)) {
 
       const request = new UpdateUserRequest();
@@ -94,4 +102,24 @@ export class AccountComponent implements OnInit {
         );
     }
   }
+
+  fileChangeEvent(event) {
+    this.config.imageChangedEvent = event;
+
+    const dialogRef = this.UIService.openDialogFromComponent(ImageCropperComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '45rem',
+      autoFocus: false,
+      data: { config: this.config },
+      panelClass: ['image-cropper-dialog']
+    });
+
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((imageCroppedEvent: ImageCroppedEvent) => {
+        this.currentUser.avatar = imageCroppedEvent.base64;
+        console.log("save on server");
+      });
+  }
+
 }

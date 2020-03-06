@@ -1,24 +1,31 @@
-<div class="container" fxFlex fxLayout="column wrap" fxLayoutAlign.xs="center center" >
+<div class="container" fxFlex fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign.xs="center center" >
 
-  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()"  autocomplete="off">
+  <div fxFlex="0 1 50%" fxFlex.lt-md="0 1 100%" fxFlexOrder.lt-md="2" fxFlexAlign="center"  fxLayout="column" fxLayoutAlign="center center">
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()"  autocomplete="off">
 
-    <mat-form-field>
-      <input matInput formControlName="username" [readonly]="editUsername" placeholder="Username">
-      <mat-error *ngIf="username.invalid">{{ getErrorMessage }}</mat-error>
-      <i matSuffix class="fas fa-pen" *ngIf="editUsername" (click)="editUsername = !editUsername"></i>
-      <i matSuffix class="fas fa-save" (click)="onSubmit()" *ngIf="!editUsername && username.valid"></i>
-    </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="username" [readonly]="editUsername" placeholder="Username">
+        <mat-error *ngIf="username.invalid">{{ getErrorMessage }}</mat-error>
+        <i matSuffix class="fas fa-pen" *ngIf="editUsername" (click)="editUsername = !editUsername"></i>
+        <i matSuffix class="fas fa-save" (click)="onSubmit()" *ngIf="!editUsername && username.valid"></i>
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput formControlName="email" [readonly]="editMail" placeholder="Email">
-      <mat-error *ngIf="email.invalid">{{ getErrorMessage }}</mat-error>
-      <i matSuffix class="fas fa-pen" (click)="editMail = !editMail" *ngIf="editMail"></i>
-      <i matSuffix class="fas fa-save" (click)="onSubmit()" *ngIf="!editMail && email.valid"></i>
-    </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="email" [readonly]="editMail" placeholder="Email">
+        <mat-error *ngIf="email.invalid">{{ getErrorMessage }}</mat-error>
+        <i matSuffix class="fas fa-pen" (click)="editMail = !editMail" *ngIf="editMail"></i>
+        <i matSuffix class="fas fa-save" (click)="onSubmit()" *ngIf="!editMail && email.valid"></i>
+      </mat-form-field>
 
-    <button mat-stroked-button color="accent">Change password</button>
-    
-  </form>
+      <button mat-stroked-button color="accent">Change password</button>
+
+    </form>
+  </div>
+
+  <div fxFlex="0 1 50%"  fxFlex.lt-md="0 1 100%" fxFlexOrder.lt-md="1" fxFlexAlign="center" fxLayout="column" fxLayoutAlign="center center">
+    <img class="img-fluid avatar-img" src="{{ currentUser.avatar }}" (click)="uploadInput.click()"/>
+    <input fxHide="true" #uploadInput  type="file" (change)="fileChangeEvent($event)" accept="image/*">
+  </div>
+
 </div>
 
-  
