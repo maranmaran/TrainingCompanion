@@ -14,7 +14,7 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(new GetMainDashboardRequest(userId)));
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> SaveMainDashboard([FromBody] SaveMainDashboardRequest request)
         {
             return Ok(await Mediator.Send(request));

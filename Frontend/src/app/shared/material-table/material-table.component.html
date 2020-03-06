@@ -7,10 +7,9 @@
   </mat-form-field>
 
   <!--TABLE-->
-  <mat-table class="mat-elevation-z1" [dataSource]="datasource" matSort
-    (matSortChange)="config.pagingOptions.serverSidePaging && onSortChange($event)" cdkDropList
-    [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop"
-    (cdkDropListDropped)="onListDrop($event)">
+  <mat-table class="mat-elevation-z1" [dataSource]="datasource"
+    matSort [matSortActive]="config.defaultSort" [matSortDirection]="config.defaultSortDirection" (matSortChange)="config.pagingOptions.serverSidePaging && onSortChange($event)"
+    cdkDropList [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop" (cdkDropListDropped)="onListDrop($event)">
 
     <!-- SELECTION ( CHECKBOXES ) COLUMN -->
     <ng-container matColumnDef="select" *ngIf="config.selectionEnabled">

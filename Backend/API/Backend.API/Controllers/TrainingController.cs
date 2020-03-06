@@ -38,13 +38,13 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateTrainingRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateTrainingRequest request)
         {
             return Ok(await Mediator.Send(request));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(UpdateTrainingRequest request)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateTrainingRequest request)
         {
             return Ok(await Mediator.Send(request));
         }

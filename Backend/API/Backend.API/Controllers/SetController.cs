@@ -10,19 +10,19 @@ namespace Backend.API.Controllers
     public class SetController : BaseController
     {
         [HttpPost]
-        public async Task<IActionResult> Create(CreateSetRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateSetRequest request)
         {
             return Ok(await Mediator.Send(request));
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateMany(UpdateManySetsRequest request)
+        [HttpPut]
+        public async Task<IActionResult> UpdateMany([FromBody] UpdateManySetsRequest request)
         {
             return Ok(await Mediator.Send(request));
         }
 
-        [HttpPost]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteSetRequest() { Id = id }));

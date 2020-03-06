@@ -12,6 +12,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -38,6 +39,19 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-hover';
+
+
+const MY_DATEPICKER_FORMAT = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @NgModule({
     imports: [
@@ -126,7 +140,9 @@ import { HighlightRowOnHover } from '../../business/directives/highlight-row-on-
         NgxMaterialTimepickerModule
     ],
     providers: [
-        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true, strict: true } }
+        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true, strict: true } },
+        { provide: MAT_DATE_FORMATS, useValue: MY_DATEPICKER_FORMAT },
     ]
 })
 export class MaterialModule { }
+

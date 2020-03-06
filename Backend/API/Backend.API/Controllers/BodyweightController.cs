@@ -18,18 +18,18 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Bodyweight entity)
+        public async Task<IActionResult> Create([FromBody] Bodyweight entity)
         {
             return Ok(await Mediator.Send(new CreateBodyweightRequest(entity)));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(Bodyweight entity)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] Bodyweight entity)
         {
             return Ok(await Mediator.Send(new UpdateBodyweightRequest(entity)));
         }
 
-        [HttpPost]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await Mediator.Send(new DeleteBodyweightRequest(id)));
