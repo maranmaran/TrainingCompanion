@@ -38,7 +38,7 @@ export class BodyweightCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
-    this.bodyweight = this.data.action == CRUD.Create ? new Bodyweight() : this.data.bodyweight;
+    this.bodyweight = this.data.bodyweight;
     this.bodyweight.userId = this._userId;
 
     this.createForm();
@@ -50,7 +50,7 @@ export class BodyweightCreateEditComponent implements OnInit {
   createForm() {
     this.form = new FormGroup({
       date: new FormControl(new Date(), Validators.required),
-      value: new FormControl(0, Validators.required), // todo.. start from LAST logged bodyweight
+      value: new FormControl(this.bodyweight.value, Validators.required),
     });
   }
 

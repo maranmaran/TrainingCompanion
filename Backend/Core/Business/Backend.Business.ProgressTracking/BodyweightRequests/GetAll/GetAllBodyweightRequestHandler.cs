@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Business.ProgressTracking.BodyweightRequests.GetAll
 {
-    public class GetAllBodyweightRequestHandler : IRequestHandler<GetAllBodyweightRequest, IQueryable<Domain.Entities.ProgressTracking.Bodyweight>>
+    public class GetAllBodyweightRequestHandler : IRequestHandler<GetAllBodyweightRequest, IOrderedQueryable<Domain.Entities.ProgressTracking.Bodyweight>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -19,12 +19,12 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.GetAll
         }
 
 
-        public Task<IQueryable<Domain.Entities.ProgressTracking.Bodyweight>> Handle(GetAllBodyweightRequest request, CancellationToken cancellationToken)
+        public Task<IOrderedQueryable<Domain.Entities.ProgressTracking.Bodyweight>> Handle(GetAllBodyweightRequest request, CancellationToken cancellationToken)
         {
 
             try
             {
-                var entities = _context.Bodyweights.Where(x => x.UserId == request.UserId);
+                var entities = _context.Bodyweights.Where(x => x.UserId == request.UserId).OrderByDescending(x => x.Date);
                 return Task.FromResult(entities);
             }
             catch (Exception e)
