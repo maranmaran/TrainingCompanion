@@ -1,0 +1,10 @@
+<app-material-table
+    [columns]="tableColumns"
+    [datasource]="tableDatasource"
+    [config]="tableConfig"
+    (selectEvent)="onSelect($event)"
+    (addEvent)="onAdd()"
+    (updateEvent)="onUpdate($event)"
+    (deleteEvent)="onDeleteSingle($event)"
+    (deleteManyEvent)="onDeleteSelection($event)"
+></app-material-table>

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Backend.Business.ProgressTracking.BodyweightRequests.GetAll
 {
-    public class GetAllBodyweightRequest : IRequest<IQueryable<Domain.Entities.ProgressTracking.Bodyweight>>
+    public class GetAllBodyweightRequest : IRequest<IOrderedQueryable<Domain.Entities.ProgressTracking.Bodyweight>>
     {
         public GetAllBodyweightRequest(Guid userId)
         {
