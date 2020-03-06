@@ -25,18 +25,18 @@ namespace Backend.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(PersonalBest entity)
+        public async Task<IActionResult> Create([FromBody] PersonalBest entity)
         {
             return Ok(await Mediator.Send(new CreatePersonalBestRequest(entity)));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(PersonalBest entity)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] PersonalBest entity)
         {
             return Ok(await Mediator.Send(new UpdatePersonalBestRequest(entity)));
         }
 
-        [HttpPost]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             return Ok(await Mediator.Send(new DeletePersonalBestRequest(id)));

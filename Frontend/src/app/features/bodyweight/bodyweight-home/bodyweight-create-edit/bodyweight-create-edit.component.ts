@@ -1,23 +1,25 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { bodyweightCreated } from 'src/ngrx/bodyweight/bodyweight.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Bodyweight } from 'src/server-models/entities/bodyweight.model';
 import { BodyweightService } from './../../../../../business/services/feature-services/bodyweight.service';
+
 
 @Component({
   selector: 'app-bodyweight-create-edit',
   templateUrl: './bodyweight-create-edit.component.html',
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
   ]
 })
 export class BodyweightCreateEditComponent implements OnInit {
@@ -36,10 +38,14 @@ export class BodyweightCreateEditComponent implements OnInit {
   private _userId: string;
   bodyweight: Bodyweight;
 
+  isMobile: Observable<boolean>;
+
   ngOnInit() {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
     this.bodyweight = this.data.bodyweight;
     this.bodyweight.userId = this._userId;
+
+    this.isMobile = this.store.select(isMobile);
 
     this.createForm();
   }
@@ -53,6 +59,7 @@ export class BodyweightCreateEditComponent implements OnInit {
       value: new FormControl(this.bodyweight.value, Validators.required),
     });
   }
+
 
   onSubmit() {
     if (!this.form.valid)

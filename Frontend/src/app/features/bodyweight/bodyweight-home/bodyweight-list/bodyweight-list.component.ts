@@ -79,7 +79,8 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
         pageSize: 10,
         serverSidePaging: false
       },
-
+      defaultSort: 'date',
+      defaultSortDirection: 'desc'
     });
 
     return tableConfig;
@@ -93,8 +94,6 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
         definition: 'value',
         title: 'Bodyweight',
         sort: true,
-        defaultSort: true,
-        sortAsc: 'asc',
         displayFn: (item: Bodyweight) => transformWeight(item.value, this._unitSystem),
       }),
       new CustomColumn({

@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-using Backend.Business.Authorization.AuthorizationRequests.ChangePassword;
+﻿using Backend.Business.Authorization.AuthorizationRequests.ChangePassword;
 using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
 using Backend.Business.Authorization.AuthorizationRequests.ResetPassword;
 using Backend.Business.Authorization.AuthorizationRequests.SetPassword;
 using Backend.Business.Authorization.AuthorizationRequests.SignIn;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {
@@ -39,7 +39,7 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SetPassword(SetPasswordRequest request)
+        public async Task<IActionResult> SetPassword([FromBody] SetPasswordRequest request)
         {
             var (response, token) = await Mediator.Send(request);
             Response.Cookies.Append("jwt", token);

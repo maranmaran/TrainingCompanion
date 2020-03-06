@@ -10,6 +10,9 @@ export class TableConfig {
   cellActions: TableAction[] = [TableAction.update, TableAction.disable]
   headerActions: TableAction[] = [TableAction.create]
 
+  defaultSort: string;
+  defaultSortDirection: 'asc' | 'desc';
+
   filterFunction: (data: any, filter: string) => boolean;
 
   public constructor(init?: Partial<TableConfig>) {
