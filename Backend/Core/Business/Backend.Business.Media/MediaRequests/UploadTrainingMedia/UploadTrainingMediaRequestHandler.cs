@@ -1,15 +1,15 @@
-﻿using Backend.Common.Extensions;
+﻿using System;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Backend.Common.Extensions;
 using Backend.Domain;
 using Backend.Domain.Entities.Media;
 using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
-using System;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Backend.Business.Media.MediaRequests.UploadMedia
+namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
 {
     /// <summary>
     /// Upload media request handler

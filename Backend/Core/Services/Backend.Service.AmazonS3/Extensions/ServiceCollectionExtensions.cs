@@ -24,7 +24,7 @@ namespace Backend.Service.AmazonS3.Extensions
         /// <param name="services"></param>
         public static void ConfigureS3Services(this IServiceCollection services)
         {
-            services.AddTransient<S3Service, S3Service>();
+            services.AddTransient<IS3Service, S3Service>();
         }
     }
 }

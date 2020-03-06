@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.Import.Models.Import.Training;
+using Backend.Business.Import.Models.Training;
 using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.TrainingLog;
@@ -11,7 +11,7 @@ using Backend.Service.Excel.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.Import.ImportRequests.ImportTraining
+namespace Backend.Business.Import.Requests.TrainingRequests.ImportTraining
 {
     public class ImportTrainingRequestHandler : IRequestHandler<ImportTrainingRequest, Unit>
     {

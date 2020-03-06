@@ -1,40 +1,18 @@
-﻿using Backend.Domain;
-using Backend.Service.AmazonS3.Interfaces;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using MediatR;
+using System.IO;
 
 namespace Backend.Business.Media.MediaRequests.UploadChatMedia
 {
-    public class UploadChatMediaRequest : IRequest<Unit>
+    public class UploadChatMediaRequest : IRequest<string>
     {
+        public string Key { get; set; }
+        public Stream Data { get; set; }
 
-    }
 
-    public class UploadChatMediaRequestHandler : IRequestHandler<UploadChatMediaRequest, Unit>
-    {
-
-        private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3;
-
-        public UploadChatMediaRequestHandler(IS3Service s3, IApplicationDbContext context)
+        public UploadChatMediaRequest(string key, Stream data)
         {
-            _s3 = s3;
-            _context = context;
-        }
-
-        public async Task<Unit> Handle(UploadChatMediaRequest request, CancellationToken cancellationToken)
-        {
-            try
-            {
-                return Unit.Value;
-            }
-            catch (Exception e)
-            {
-                throw new CreateFailureException(nameof(UploadChatMediaRequest), e);
-            }
+            Key = key;
+            Data = data;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Backend.Business.Import.Models.Import.ExerciseType;
+using Backend.Business.Import.Models.ExerciseType;
 using Backend.Domain.Entities.ExerciseType;
 
 namespace Backend.Business.Import

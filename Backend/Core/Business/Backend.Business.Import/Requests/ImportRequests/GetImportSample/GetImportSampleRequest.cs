@@ -1,8 +1,8 @@
-﻿using Backend.Business.Import.Models;
+﻿using Backend.Business.Import.Models.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Backend.Business.Import.ImportRequests.GetImportSample
+namespace Backend.Business.Import.Requests.ImportRequests.GetImportSample
 {
     public class GetImportSampleRequest : IRequest<FileContentResult>
     {

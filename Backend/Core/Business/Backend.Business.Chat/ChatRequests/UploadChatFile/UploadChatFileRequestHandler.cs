@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Backend.Business.Chat.Models;
+﻿using Backend.Business.Chat.Models;
+using Backend.Business.Media.MediaRequests.UploadChatMedia;
 using Backend.Common.Extensions;
-using Backend.Domain;
 using Backend.Domain.Enum;
 using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
@@ -15,59 +14,34 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
 {
     public class UploadChatFileRequestHandler : IRequestHandler<UploadChatFileRequest, MessageViewModel>
     {
-        private readonly IMapper _mapper;
-        private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3AccessService;
+        private readonly IMediator _mediator;
+        private readonly IS3Service _s3Service;
 
-        public UploadChatFileRequestHandler(IMapper mapper, IS3Service s3AccessService, IApplicationDbContext context)
+        public UploadChatFileRequestHandler(IMediator mediator, IS3Service s3Service)
         {
-            _mapper = mapper;
-            _s3AccessService = s3AccessService;
-            _context = context;
+            _mediator = mediator;
+            _s3Service = s3Service;
         }
 
         public async Task<MessageViewModel> Handle(UploadChatFileRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                //file Type
-                var type = request.File.IsImage() ?
-                    MessageType.Image :
-                    request.File.IsVideo() ?
-                        MessageType.Video :
-                        MessageType.File;
-
-                // construct s3 filename
-                var filename = new StringBuilder($"{request.UserId}/{Guid.NewGuid()}");
-                switch (type)
-                {
-                    case MessageType.Image:
-                        filename.Append(".jpeg");
-                        break;
-
-                    case MessageType.Video:
-                        filename.Append(".mp4");
-                        break;
-
-                    default:
-                        break;
-                }
-                var key = $"chat/{filename.ToString()}";
+                var info = GetFileInformationForS3(request);
 
                 // write to s3
-                await _s3AccessService.WriteToS3(key, request.File.OpenReadStream());
-                var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(key);
+                var presignedUrl = await _mediator.Send(new UploadChatMediaRequest(info.key, request.File.OpenReadStream()), cancellationToken);
 
                 // construct message to return
                 var fileMessage = new MessageViewModel()
                 {
                     DateSent = DateTime.UtcNow,
-                    S3Filename = key, // s3 filename which will be stored inside sql. It will then be presigned every fetch.. because it doesn't cost any
+                    S3Filename = info.key, // s3 filename which will be stored inside sql. It will then be presigned every fetch.. because it doesn't cost any
                     DownloadUrl = presignedUrl,
                     ToId = request.UserId,
                     Message = request.File.FileName,
                     FileSizeInBytes = Convert.ToInt32(request.File.Length),
-                    Type = Convert.ToInt32(type)
+                    Type = Convert.ToInt32(info.type)
                 };
 
                 //send message
@@ -77,6 +51,34 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
             {
                 throw new CreateFailureException("Could not upload file from chat.", e);
             }
+        }
+
+        public (MessageType type, string key) GetFileInformationForS3(UploadChatFileRequest request)
+        {
+            //file Type
+            var type = request.File.IsImage() ?
+                MessageType.Image :
+                request.File.IsVideo() ?
+                    MessageType.Video :
+                    MessageType.File;
+
+            // construct s3 filename
+            var filename = new StringBuilder($"{request.UserId}/{Guid.NewGuid()}");
+            switch (type)
+            {
+                case MessageType.Image:
+                    filename.Append(".jpeg");
+                    break;
+
+                case MessageType.Video:
+                    filename.Append(".mp4");
+                    break;
+
+                default:
+                    break;
+            }
+
+            return (type, $"chat/{filename}");
         }
     }
 }
