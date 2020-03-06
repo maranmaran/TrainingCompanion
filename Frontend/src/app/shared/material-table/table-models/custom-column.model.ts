@@ -9,6 +9,8 @@ export class CustomColumn {
 
   sort: boolean = false;
   sortFn: Function;
+  defaultSort: boolean = false;
+  sortAsc: 'asc' | 'desc';
 
   tooltip: string = null;
 
@@ -22,6 +24,8 @@ export class CustomColumn {
     title?: string;
     displayFn?: Function;
     sort?: boolean;
+    defaultSort?: boolean;
+    sortAsc?: string;
     sortFn?: Function;
     displayOnMobile?: boolean;
     headerClass?: string;

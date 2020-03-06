@@ -5,7 +5,13 @@ export interface BodyweightState extends EntityState<Bodyweight> {
     selectedBodyweightId: string | number;
 }
 
-export const adapterBodyweight = createEntityAdapter<Bodyweight>();
+
+//sort function
+export function sortByDate(a: Bodyweight, b: Bodyweight): number {
+  return a?.date?.getTime() - b?.date?.getTime() ? 1 : -1;
+}
+
+export const adapterBodyweight = createEntityAdapter<Bodyweight>({sortComparer: sortByDate});
 
 export const bodyweightInitialState: BodyweightState = adapterBodyweight.getInitialState({
   selectedBodyweightId: undefined,
