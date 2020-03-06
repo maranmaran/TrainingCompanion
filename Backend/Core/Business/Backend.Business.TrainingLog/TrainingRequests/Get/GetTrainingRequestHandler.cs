@@ -1,21 +1,22 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿
 using Backend.Domain;
 using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.Get
 {
     public class GetTrainingRequestHandler : IRequestHandler<GetTrainingRequest, Domain.Entities.TrainingLog.Training>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3AccessService _s3AccessService;
+        private readonly IS3Service _s3AccessService;
 
-        public GetTrainingRequestHandler(IApplicationDbContext context, IS3AccessService s3AccessService)
+        public GetTrainingRequestHandler(IApplicationDbContext context, IS3Service s3AccessService)
         {
             _context = context;
             _s3AccessService = s3AccessService;

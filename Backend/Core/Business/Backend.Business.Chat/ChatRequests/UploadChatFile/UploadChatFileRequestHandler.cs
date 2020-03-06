@@ -1,16 +1,15 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Business.Chat.Models;
 using Backend.Common.Extensions;
 using Backend.Domain;
 using Backend.Domain.Enum;
 using Backend.Service.AmazonS3.Interfaces;
-using Backend.Service.AmazonS3.Models;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Chat.ChatRequests.UploadChatFile
 {
@@ -18,9 +17,9 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
-        private readonly IS3AccessService _s3AccessService;
+        private readonly IS3Service _s3AccessService;
 
-        public UploadChatFileRequestHandler(IMapper mapper, IS3AccessService s3AccessService, IApplicationDbContext context)
+        public UploadChatFileRequestHandler(IMapper mapper, IS3Service s3AccessService, IApplicationDbContext context)
         {
             _mapper = mapper;
             _s3AccessService = s3AccessService;
@@ -53,17 +52,17 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
                     default:
                         break;
                 }
-                var fileRequest = new S3FileRequest($"chat/{filename.ToString()}");
+                var key = $"chat/{filename.ToString()}";
 
                 // write to s3
-                await _s3AccessService.WriteStreamToS3(fileRequest, request.File.OpenReadStream());
-                var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(fileRequest);
+                await _s3AccessService.WriteToS3(key, request.File.OpenReadStream());
+                var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(key);
 
                 // construct message to return
                 var fileMessage = new MessageViewModel()
                 {
                     DateSent = DateTime.UtcNow,
-                    S3Filename = fileRequest.FileName, // s3 filename which will be stored inside sql. It will then be presigned every fetch.. because it doesn't cost any
+                    S3Filename = key, // s3 filename which will be stored inside sql. It will then be presigned every fetch.. because it doesn't cost any
                     DownloadUrl = presignedUrl,
                     ToId = request.UserId,
                     Message = request.File.FileName,

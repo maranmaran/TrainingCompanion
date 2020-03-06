@@ -24,7 +24,7 @@ namespace Backend.API.Controllers
             [FromForm] string extension,
             [FromForm] MediaType type)
         {
-            return Ok(await Mediator.Send(new UploadMediaRequest(userId, file, extension, type)
+            return Ok(await Mediator.Send(new UploadTrainingMedia(userId, file, extension, type)
             {
                 TrainingId = trainingId
             }));
@@ -39,7 +39,7 @@ namespace Backend.API.Controllers
               [FromForm] string extension,
               [FromForm] MediaType type)
         {
-            return Ok(await Mediator.Send(new UploadMediaRequest(userId, file, extension, type)
+            return Ok(await Mediator.Send(new UploadTrainingMedia(userId, file, extension, type)
             {
                 TrainingId = trainingId,
                 ExerciseId = exerciseId
