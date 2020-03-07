@@ -71,7 +71,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
         cellClass: 'avatar-cell',
         definition: 'avatar',
         title: '',
-        displayFn: (item: ApplicationUser) => `<img class="avatar-table-img" src="${item.avatar}"/>`,
+        displayFn: (item: ApplicationUser) => `<img class="avatar-table-img avatar-img" src="${item.avatar}"/>`,
       }),
       new CustomColumn({
         definition: 'fullName',
