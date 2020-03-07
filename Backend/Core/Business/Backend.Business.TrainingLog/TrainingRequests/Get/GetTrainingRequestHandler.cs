@@ -1,6 +1,5 @@
 ﻿
 using Backend.Domain;
-using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +7,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Library.AmazonS3.Interfaces;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.Get
 {

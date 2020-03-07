@@ -1,7 +1,7 @@
-﻿using OfficeOpenXml;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using OfficeOpenXml;
 
-namespace Backend.Service.Excel.Interfaces
+namespace Backend.Library.Excel.Interfaces
 {
     public interface IExcelDataReader<T> where T : class
     {

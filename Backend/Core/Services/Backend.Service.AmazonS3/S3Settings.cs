@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Backend.Service.AmazonS3
+namespace Backend.Library.AmazonS3
 {
     public class S3Settings
     {

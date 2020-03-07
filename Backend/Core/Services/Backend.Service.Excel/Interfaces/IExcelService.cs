@@ -1,4 +1,4 @@
-﻿namespace Backend.Service.Excel.Interfaces
+﻿namespace Backend.Library.Excel.Interfaces
 {
     public interface IExcelService
     {

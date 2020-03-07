@@ -9,7 +9,7 @@ using Backend.Business.Chat.ChatRequests.ReadMessages;
 using Backend.Business.Chat.Models;
 using Backend.Business.Users.UsersRequests.GetUser;
 using Backend.Domain.Enum;
-using Backend.Service.AmazonS3.Interfaces;
+using Backend.Library.AmazonS3.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;

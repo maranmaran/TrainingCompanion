@@ -1,6 +1,6 @@
 ﻿using MimeKit;
 
-namespace Backend.Service.Email.Models
+namespace Backend.Library.Email.Models
 {
     public class EmailMessage
     {

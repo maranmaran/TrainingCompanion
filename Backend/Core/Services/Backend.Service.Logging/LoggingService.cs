@@ -1,11 +1,11 @@
-﻿using Backend.Domain;
-using Backend.Service.Logging.Interfaces;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Library.Logging.Interfaces;
 using SystemException = Backend.Domain.Entities.System.SystemException;
 
-namespace Backend.Service.Logging
+namespace Backend.Library.Logging
 {
     internal class LoggingService : ILoggingService
     {

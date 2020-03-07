@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace Backend.Service.AmazonS3.Interfaces
+namespace Backend.Library.AmazonS3.Interfaces
 {
     public interface IS3Service
     {

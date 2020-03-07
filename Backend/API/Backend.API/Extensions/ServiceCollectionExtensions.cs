@@ -6,11 +6,7 @@ using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Extensions;
 using Backend.Persistance;
-using Backend.Service.AmazonS3.Extensions;
-using Backend.Service.Email.Extensions;
-using Backend.Service.Excel.Extensions;
 using Backend.Service.Infrastructure.Providers;
-using Backend.Service.Logging.Extensions;
 using Backend.Service.Payment.Extensions;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -29,6 +25,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Library.AmazonS3.Extensions;
+using Backend.Library.Email.Extensions;
+using Backend.Library.Excel.Extensions;
+using Backend.Library.ImageProcessing.Extensions;
+using Backend.Library.Logging.Extensions;
 
 namespace Backend.API.Extensions
 {
@@ -264,6 +265,7 @@ namespace Backend.API.Extensions
             services.ConfigureNotificationServices();
             services.ConfigureExcelService();
             services.ConfigureLoggingService();
+            services.ConfigureImageProcessingServices();
         }
 
         /// <summary>

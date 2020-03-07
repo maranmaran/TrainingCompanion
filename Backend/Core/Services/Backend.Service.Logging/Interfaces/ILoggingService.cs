@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Backend.Service.Logging.Interfaces
+namespace Backend.Library.Logging.Interfaces
 {
     public interface ILoggingService
     {
