@@ -37,7 +37,8 @@ export enum TableAction {
   delete = "delete",
   deleteMany = "deleteMany",
   disable = "disable",
-  disableMany = "disableMany"
+  disableMany = "disableMany",
+  dummy = 'dummy'
 }
 
 export const PAGE_SIZE = 5;

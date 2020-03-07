@@ -142,5 +142,7 @@
       (click)="deleteManyEvent.emit(selection.selected)" (click)="$event.stopPropagation()">
       <i class="fas fa-trash"></i>
     </button>
+    <!-- to keep all rows aligned in table -->
+    <div *ngIf="action == 'dummy'" class="dummy-action" style="height:40px; width: 40px"></div>
   </ng-container>
 </ng-template>
