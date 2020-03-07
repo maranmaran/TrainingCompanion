@@ -1,10 +1,11 @@
 ﻿using Backend.Business.Media.MediaRequests.GetUserMediaByType;
+using Backend.Business.Media.MediaRequests.UploadTrainingMedia;
+using Backend.Business.Media.MediaRequests.UploadUserAvatar;
 using Backend.Domain.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Backend.Business.Media.MediaRequests.UploadTrainingMedia;
 
 namespace Backend.API.Controllers
 {
@@ -43,6 +44,19 @@ namespace Backend.API.Controllers
             {
                 TrainingId = trainingId,
                 ExerciseId = exerciseId
+            }));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UploadAvatar(
+            [FromForm] Guid userId,
+            [FromForm] string base64Image)
+        {
+            return Ok(await Mediator.Send(new UploadUserAvatarRequest()
+            {
+                UserId = userId,
+                Base64 = base64Image,
             }));
         }
     }
