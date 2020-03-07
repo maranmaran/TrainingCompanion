@@ -52,4 +52,16 @@ export class UserService extends CrudService<ApplicationUser> {
             );
     }
 
+    public uploadAvatar(userId: string, base64: string) {
+
+      const formData: FormData = new FormData();
+      formData.append('userId', userId);
+      formData.append('base64Image', base64);
+
+      return this.http
+        .post('Media/UploadAvatar/', formData, { responseType: 'text'})
+        .pipe(catchError(this.handleError));
+    }
+
+
 }

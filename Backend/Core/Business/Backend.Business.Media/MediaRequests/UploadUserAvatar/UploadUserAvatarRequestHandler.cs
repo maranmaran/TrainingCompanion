@@ -1,14 +1,15 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Enum;
 using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
 {
@@ -30,7 +31,9 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
             {
                 // save everything to s3
                 var key = GetS3Key(request);
-                await _s3.WriteToS3(key, request.File.OpenReadStream());
+
+                var byteArr = Convert.FromBase64String(request.Base64.Replace("data:image/jpeg;base64,", string.Empty));
+                await _s3.WriteToS3(key, new MemoryStream(byteArr));
                 var presignedUrl = await _s3.GetPresignedUrlAsync(key);
 
                 // add newly created media
@@ -41,7 +44,7 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
                     Type = MediaType.Image,
                     DateModified = DateTime.UtcNow,
                     DateUploaded = DateTime.UtcNow,
-                    Filename = request.File.FileName,
+                    Filename = $"Avatar - {DateTime.UtcNow:MM/dd/yyyy}",
                     FtpFilePath = key,
                 };
                 await _context.MediaFiles.AddAsync(media, cancellationToken);
@@ -64,7 +67,7 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
             var builder = new StringBuilder();
 
             if (request.UserId != Guid.Empty)
-                builder.Append($"media/{request.UserId}/avatar");
+                builder.Append($"media/{request.UserId}/avatar/{Guid.NewGuid()}");
 
             return builder.ToString();
         }

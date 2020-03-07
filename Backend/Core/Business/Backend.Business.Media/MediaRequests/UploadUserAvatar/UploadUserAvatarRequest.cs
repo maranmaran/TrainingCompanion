@@ -7,6 +7,7 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
     public class UploadUserAvatarRequest : IRequest<string>
     {
         public Guid UserId { get; set; }
-        public IFormFile File { get; set; }
+        public string Base64 { get; set; }
     }
+
 }

@@ -58,7 +58,7 @@
 
     <mat-menu #userMenu="matMenu">
 
-      <div class="container" fxLayout="column wrap" fxLayoutGap="1rem">
+      <div class="container" fxLayout="column wrap">
 
         <div id="avatar-settings-row" fxFlexAlign="end">
           <button mat-icon-button (click)="openSettingsEvent.emit()">
@@ -66,8 +66,8 @@
           </button>
         </div>
 
-        <div id="avatar-content-row" fxFlexAlign="center">
-          <img id="content-avatar" class="img-fluid avatar-img" src="{{ avatar }}" style="width: 80px; cursor: pointer;"/>
+        <div id="avatar-content-row" fxFlexAlign="center" style="margin-">
+          <img id="content-avatar" class="img-fluid avatar-img" src="{{ avatar }}" style="width: 100px; cursor: pointer;"/>
         </div>
 
         <div id="avatar-actions-row" fxLayout="row wrap" fxLayoutGap="3rem" fxLayoutAlign="space-between center">
