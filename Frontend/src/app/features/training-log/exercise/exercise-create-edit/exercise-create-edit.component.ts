@@ -16,6 +16,7 @@ import { selectedTraining } from 'src/ngrx/training-log/training.selectors';
 import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/create-exercise.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
+import { Set } from 'src/server-models/entities/set.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';

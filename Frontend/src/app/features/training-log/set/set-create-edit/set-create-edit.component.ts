@@ -127,6 +127,7 @@ export class SetCreateEditComponent implements OnInit {
     }
 
     if (this.settings.useRpeSystem) {
+      console.log(set);
       if (this.settings.rpeSystem == RpeSystem.Rir) {
         let val = set.rir ? set.rir : 10 - set.rpe;
         controls["rir"] = new FormControl(val.toString(), [Validators.required, Validators.min(0), Validators.max(10)]);
