@@ -33,14 +33,14 @@ export abstract class CrudService<T> extends BaseService {
   }
 
   public update<TRequest, TResponse = T>(request: TRequest) {
-    return this.http.post<TResponse>(this.url + 'Update/', request)
+    return this.http.put<TResponse>(this.url + 'Update/', request)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   public updateMany<TRequest, TResponse = T[]>(request: TRequest) {
-    return this.http.post<TResponse>(this.url + 'UpdateMany/', request)
+    return this.http.put<TResponse>(this.url + 'UpdateMany/', request)
       .pipe(
         catchError(this.handleError)
       );

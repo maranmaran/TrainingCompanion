@@ -15,7 +15,6 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request));
         }
 
-
         [HttpPut]
         public async Task<IActionResult> UpdateMany([FromBody] UpdateManySetsRequest request)
         {
