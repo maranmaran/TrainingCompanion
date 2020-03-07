@@ -8,9 +8,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Backend.Domain\Backend.Domain.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.Excel\Backend.Service.Excel.csproj" />
+    <ProjectReference Include="..\..\Services\Backend.Service.Excel\Backend.Library.Excel.csproj" />
     <ProjectReference Include="..\..\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.Logging\Backend.Service.Logging.csproj" />
+    <ProjectReference Include="..\..\Services\Backend.Service.Logging\Backend.Library.Logging.csproj" />
     <ProjectReference Include="..\Backend.Business.Notifications\Backend.Business.Notifications.csproj" />
   </ItemGroup>
 

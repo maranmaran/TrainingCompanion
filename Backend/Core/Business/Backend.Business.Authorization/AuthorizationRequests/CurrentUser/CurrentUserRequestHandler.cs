@@ -6,13 +6,13 @@ using Backend.Common;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
-using Backend.Service.AmazonS3.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Library.AmazonS3.Interfaces;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.CurrentUser
 {

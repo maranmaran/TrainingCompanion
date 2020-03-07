@@ -12,8 +12,8 @@ using Backend.Business.Notifications.Interfaces;
 using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
 using Backend.Domain;
 using Backend.Domain.Enum;
-using Backend.Service.Excel.Interfaces;
-using Backend.Service.Logging.Interfaces;
+using Backend.Library.Excel.Interfaces;
+using Backend.Library.Logging.Interfaces;
 using MediatR;
 
 namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseType

@@ -7,7 +7,7 @@ using Backend.Business.Import.Models.Training;
 using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.TrainingLog;
-using Backend.Service.Excel.Interfaces;
+using Backend.Library.Excel.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,9 +1,4 @@
-﻿using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace Backend.Service.ImageProcessing
+﻿namespace Backend.Library.ImageProcessing
 {
     public class ImageProcessingSettings
     {

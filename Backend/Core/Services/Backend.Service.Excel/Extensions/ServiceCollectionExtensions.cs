@@ -1,7 +1,7 @@
-﻿using Backend.Service.Excel.Interfaces;
+﻿using Backend.Library.Excel.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend.Service.Excel.Extensions
+namespace Backend.Library.Excel.Extensions
 {
     public static partial class ServiceCollectionExtensions
     {

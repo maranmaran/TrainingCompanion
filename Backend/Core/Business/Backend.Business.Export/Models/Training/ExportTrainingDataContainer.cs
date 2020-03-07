@@ -3,7 +3,6 @@ using System.Linq;
 using Backend.Business.Export.Interfaces;
 using Backend.Common;
 using Backend.Domain.Entities.User;
-using Backend.Service.Excel.Interfaces;
 using Microsoft.EntityFrameworkCore.Internal;
 using OfficeOpenXml;
 using OfficeOpenXml.Style.XmlAccess;

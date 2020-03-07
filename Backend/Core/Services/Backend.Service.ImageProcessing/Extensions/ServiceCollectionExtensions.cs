@@ -1,8 +1,8 @@
-﻿using Backend.Service.ImageProcessing.Interfaces;
+﻿using Backend.Library.ImageProcessing.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend.Service.ImageProcessing.Extensions
+namespace Backend.Library.ImageProcessing.Extensions
 {
     public static partial class ServiceCollectionExtensions
     {
@@ -11,7 +11,7 @@ namespace Backend.Service.ImageProcessing.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        public static void ConfigureS3Settings(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureImageProcessingSettings(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = new ImageProcessingSettings();
             configuration.Bind("ImageProcessingSettings", settings);

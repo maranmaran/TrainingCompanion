@@ -1,7 +1,7 @@
-﻿using Backend.Service.Logging.Interfaces;
+﻿using Backend.Library.Logging.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend.Service.Logging.Extensions
+namespace Backend.Library.Logging.Extensions
 {
     public static partial class ServiceCollectionExtensions
     {

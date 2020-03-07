@@ -9,7 +9,7 @@ using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
-using Backend.Service.Excel.Interfaces;
+using Backend.Library.Excel.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

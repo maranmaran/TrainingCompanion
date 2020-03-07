@@ -1,10 +1,10 @@
-﻿using Backend.Service.AmazonS3.Interfaces;
-using Backend.Service.ImageProcessing.Interfaces;
-using Backend.Service.Infrastructure.Exceptions;
+﻿using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Library.AmazonS3.Interfaces;
+using Backend.Library.ImageProcessing.Interfaces;
 
 namespace Backend.Business.Media.MediaRequests.UploadChatMedia
 {
