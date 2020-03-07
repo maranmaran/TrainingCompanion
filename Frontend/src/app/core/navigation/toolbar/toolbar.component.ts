@@ -43,7 +43,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     // only new ones.. in real time
     // this.notifications$ = this.notificationService.notifications$;
     this.subSink.add(
-      this.store.select(currentUser).pipe(map(x => x.avatar)).subscribe(avatar => this.avatar = avatar),
+      this.store.select(currentUser).pipe(map(x => x?.avatar)).subscribe(avatar => this.avatar = avatar),
       this.notificationService.notifications$.subscribe(
         (notification: PushNotification) => {
 
