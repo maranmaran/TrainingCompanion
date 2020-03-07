@@ -1,7 +1,7 @@
-﻿using Backend.Service.Payment.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Backend.Library.Payment.Enums;
 
-namespace Backend.Service.Payment.Models
+namespace Backend.Library.Payment.Models
 {
     public class Plan
     {

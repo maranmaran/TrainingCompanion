@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Backend.Business.Import.Models.ExerciseType;
 using Backend.Domain.Entities.ExerciseType;
 
 namespace Backend.Business.Import
@@ -8,7 +7,7 @@ namespace Backend.Business.Import
     {
         public Mappings()
         {
-            CreateMap<ImportExerciseTypeDto, ExerciseType>().ReverseMap();
+            CreateMap<ExerciseTypeImportDto, ExerciseType>().ReverseMap();
         }
     }
 }

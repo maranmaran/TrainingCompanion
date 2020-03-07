@@ -1,11 +1,11 @@
-﻿using Backend.Service.Payment.Enums;
-using Backend.Service.Payment.Models;
-using Stripe;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Backend.Library.Payment.Enums;
+using Backend.Library.Payment.Models;
+using Stripe;
 using Plan = Stripe.Plan;
 
-namespace Backend.Service.Payment.Interfaces
+namespace Backend.Library.Payment.Interfaces
 {
     public interface IPaymentService
     {

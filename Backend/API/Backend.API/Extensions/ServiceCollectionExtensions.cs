@@ -7,7 +7,6 @@ using Backend.Domain;
 using Backend.Domain.Extensions;
 using Backend.Persistance;
 using Backend.Service.Infrastructure.Providers;
-using Backend.Service.Payment.Extensions;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,6 +29,7 @@ using Backend.Library.Email.Extensions;
 using Backend.Library.Excel.Extensions;
 using Backend.Library.ImageProcessing.Extensions;
 using Backend.Library.Logging.Extensions;
+using Backend.Library.Payment.Extensions;
 
 namespace Backend.API.Extensions
 {

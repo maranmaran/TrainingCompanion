@@ -1,8 +1,8 @@
 ﻿using Backend.Domain.Entities.User;
-using Backend.Service.Payment.Enums;
 using Stripe;
 using System;
 using System.Collections.Generic;
+using Backend.Library.Payment.Enums;
 using AccountType = Backend.Domain.Enum.AccountType;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.CurrentUser

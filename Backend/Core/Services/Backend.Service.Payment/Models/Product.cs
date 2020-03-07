@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Backend.Service.Payment.Models
+namespace Backend.Library.Payment.Models
 {
     public class Product
     {

@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace Backend.Business.Import.Requests.TrainingRequests.ImportTraining
+namespace Backend.Business.Import.ImportTraining
 {
     public class ImportTrainingRequest : IRequest
     {

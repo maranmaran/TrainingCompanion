@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.Import.Models.Shared;
+using Backend.Business.Import.Models;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

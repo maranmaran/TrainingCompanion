@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.Import.Models.Training;
 using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.TrainingLog;
-using Backend.Library.Excel.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.Import.Requests.TrainingRequests.ImportTraining
+namespace Backend.Business.Import.ImportTraining
 {
     public class ImportTrainingRequestHandler : IRequestHandler<ImportTrainingRequest, Unit>
     {
@@ -28,7 +26,7 @@ namespace Backend.Business.Import.Requests.TrainingRequests.ImportTraining
         {
             try
             {
-                //var dataRows = await _excelService.ParseImportData<ImportTrainingDto>(request.File, cancellationToken);
+                //var dataRows = await _excelService.ParseImportData<TrainingImportDto>(request.File, cancellationToken);
                 var exerciseTypes = _context.ExerciseTypes.Where(x => x.ApplicationUserId == request.Userid).AsNoTracking();
 
                 //var trainings = ParseImportData(dataRows, exerciseTypes, request.Userid);
@@ -44,7 +42,7 @@ namespace Backend.Business.Import.Requests.TrainingRequests.ImportTraining
             }
         }
 
-        private IEnumerable<Training> ParseImportData(IEnumerable<ImportTrainingDto> data, IEnumerable<ExerciseType> exerciseTypes, Guid userId)
+        private IEnumerable<Training> ParseImportData(IEnumerable<TrainingImportDto> data, IEnumerable<ExerciseType> exerciseTypes, Guid userId)
         {
             var trainingDict = new Dictionary<DateTime, IDictionary<string, Exercise>>();
 

@@ -1,4 +1,4 @@
-﻿namespace Backend.Business.Import.Models.Shared
+﻿namespace Backend.Business.Import.Models
 {
     public enum ImportType
     {
