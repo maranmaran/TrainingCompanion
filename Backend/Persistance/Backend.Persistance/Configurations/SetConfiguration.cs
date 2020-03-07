@@ -9,6 +9,8 @@ namespace Backend.Persistance.Configurations
         public void Configure(EntityTypeBuilder<Set> builder)
         {
             builder.HasIndex(x => x.ExerciseId);
+            builder.Property(x => x.Rir).HasDefaultValue(2);
+            builder.Property(x => x.Rpe).HasDefaultValue(8);
 
         }
 
