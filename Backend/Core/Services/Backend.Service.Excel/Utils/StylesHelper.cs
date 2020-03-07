@@ -2,7 +2,7 @@
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 
-namespace Backend.Service.Excel.Utils
+namespace Backend.Library.Excel.Utils
 {
     public static class StylesHelper
     {

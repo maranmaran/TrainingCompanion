@@ -1,8 +1,8 @@
-﻿using Backend.Service.Email.Models;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Backend.Library.Email.Models;
 
-namespace Backend.Service.Email.Interfaces
+namespace Backend.Library.Email.Interfaces
 {
     public interface IEmailService
     {

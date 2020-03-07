@@ -13,21 +13,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{04F59F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistance", "Persistance", "{EA808AAD-27BC-4720-9BE9-2F6E7D1981F4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedServices", "SharedServices", "{7722B9C8-10A4-4C08-890F-884DC8FCC36C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{7722B9C8-10A4-4C08-890F-884DC8FCC36C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Common", "Common\Backend.Common\Backend.Common.csproj", "{E03FF1BE-7DDC-4E93-A4CB-16769B6D8120}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Domain", "Core\Backend.Domain\Backend.Domain.csproj", "{0E4FA6CC-DB0F-446C-A347-9A0E5E9E0DCE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Email", "Core\Services\Backend.Service.Email\Backend.Service.Email.csproj", "{7498B832-F0C5-449E-8760-300FF887929D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Library.Email", "Core\Services\Backend.Service.Email\Backend.Library.Email.csproj", "{7498B832-F0C5-449E-8760-300FF887929D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Payment", "Core\Services\Backend.Service.Payment\Backend.Service.Payment.csproj", "{2FC50038-19F8-48E9-B68F-5D49C0B2E0A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Library.Payment", "Core\Services\Backend.Service.Payment\Backend.Library.Payment.csproj", "{2FC50038-19F8-48E9-B68F-5D49C0B2E0A0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Persistance", "Persistance\Backend.Persistance\Backend.Persistance.csproj", "{67A8EB23-A89A-4CD4-86B3-71DB67023929}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.API", "API\Backend.API\Backend.API.csproj", "{E7C49F44-2DC5-4BB8-B3DE-CF91596E7DF8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.AmazonS3", "Core\Services\Backend.Service.AmazonS3\Backend.Service.AmazonS3.csproj", "{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Library.AmazonS3", "Core\Services\Backend.Service.AmazonS3\Backend.Library.AmazonS3.csproj", "{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Infrastructure", "Core\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj", "{387B8450-77F0-434D-B90D-113477715553}"
 EndProject
@@ -38,9 +38,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Excel", "Core\Services\Backend.Service.Excel\Backend.Service.Excel.csproj", "{61D9CDED-6910-48FD-8A1A-1702F80E5D77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Library.Excel", "Core\Services\Backend.Service.Excel\Backend.Library.Excel.csproj", "{61D9CDED-6910-48FD-8A1A-1702F80E5D77}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Logging", "Core\Services\Backend.Service.Logging\Backend.Service.Logging.csproj", "{DC432367-FEFD-43B2-841D-2EE3ABDFE90D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Library.Logging", "Core\Services\Backend.Service.Logging\Backend.Library.Logging.csproj", "{DC432367-FEFD-43B2-841D-2EE3ABDFE90D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{5A27F089-CD3E-4B48-99AB-056EA4A80F47}"
 EndProject
@@ -68,7 +68,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Users", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Billing", "Core\Business\Backend.Business.Billing\Backend.Business.Billing.csproj", "{936564E1-9383-4D19-81B1-455D2ED6A592}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Service.ImageProcessing", "Core\Services\Backend.Service.ImageProcessing\Backend.Service.ImageProcessing.csproj", "{B896C5DC-E68F-43BD-9FAD-366BB90ACE7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Library.ImageProcessing", "Core\Services\Backend.Service.ImageProcessing\Backend.Library.ImageProcessing.csproj", "{B896C5DC-E68F-43BD-9FAD-366BB90ACE7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

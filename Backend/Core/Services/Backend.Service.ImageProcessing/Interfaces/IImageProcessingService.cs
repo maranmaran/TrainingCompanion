@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace Backend.Service.ImageProcessing.Interfaces
+namespace Backend.Library.ImageProcessing.Interfaces
 {
     public interface IImageProcessingService
     {

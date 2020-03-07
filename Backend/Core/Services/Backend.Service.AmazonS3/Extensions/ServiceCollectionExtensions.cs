@@ -1,8 +1,8 @@
-﻿using Backend.Service.AmazonS3.Interfaces;
+﻿using Backend.Library.AmazonS3.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend.Service.AmazonS3.Extensions
+namespace Backend.Library.AmazonS3.Extensions
 {
     public static partial class ServiceCollectionExtensions
     {

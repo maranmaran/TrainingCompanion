@@ -1,14 +1,14 @@
-﻿using Amazon.S3;
-using Amazon.S3.Model;
-using Amazon.S3.Transfer;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Transfer;
 
-namespace Backend.Service.AmazonS3
+namespace Backend.Library.AmazonS3
 {
     internal class S3Service : Interfaces.IS3Service
     {

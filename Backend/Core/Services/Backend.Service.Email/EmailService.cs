@@ -1,15 +1,15 @@
-﻿using Backend.Service.Email.Interfaces;
-using Backend.Service.Email.Models;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Backend.Library.Email.Interfaces;
+using Backend.Library.Email.Models;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using MimeKit;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Backend.Service.Email
+namespace Backend.Library.Email
 {
     public class EmailService : IEmailService
     {

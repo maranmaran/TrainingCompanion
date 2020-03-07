@@ -1,4 +1,4 @@
-﻿namespace Backend.Service.Email
+﻿namespace Backend.Library.Email
 {
     public class EmailSettings
     {

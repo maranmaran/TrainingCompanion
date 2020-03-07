@@ -1,8 +1,8 @@
-﻿using Backend.Service.Email.Interfaces;
+﻿using Backend.Library.Email.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend.Service.Email.Extensions
+namespace Backend.Library.Email.Extensions
 {
     public static partial class ServiceCollectionExtensions
     {

@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Backend.Domain\Backend.Domain.csproj" />
     <ProjectReference Include="..\..\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.Payment\Backend.Service.Payment.csproj" />
+    <ProjectReference Include="..\..\Services\Backend.Service.Payment\Backend.Library.Payment.csproj" />
     <ProjectReference Include="..\Backend.Business.Authorization\Backend.Business.Authorization.csproj" />
   </ItemGroup>
 
