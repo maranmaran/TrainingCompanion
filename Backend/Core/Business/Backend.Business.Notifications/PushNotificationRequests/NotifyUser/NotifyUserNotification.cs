@@ -1,4 +1,15 @@
-﻿using System;
+﻿using Backend.Business.Notifications.Extensions;
+using Backend.Business.Notifications.Interfaces;
+using Backend.Domain.Entities.Notification;
+using Backend.Domain.Entities.User;
+using Backend.Library.Email.Interfaces;
+using Backend.Library.Email.Models;
+using Backend.Library.Logging.Interfaces;
+using MediatR;
+using Microsoft.AspNetCore.SignalR;
+using MimeKit;
+using MimeKit.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,40 +17,43 @@ using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.Notifications.Extensions;
-using Backend.Business.Notifications.Interfaces;
-using Backend.Domain.Entities.Notification;
-using Backend.Domain.Entities.User;
-using Backend.Library.Email.Interfaces;
-using Backend.Library.Email.Models;
-using Backend.Library.Logging.Interfaces;
-using Microsoft.AspNetCore.SignalR;
-using MimeKit;
-using MimeKit.Utils;
 
-namespace Backend.Business.Notifications.PushNotificationRequests
+namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
 {
-    public class NotificationService : INotificationService
+    public class NotifyUserNotification : INotification
+    {
+        public Notification Notification { get; set; }
+        public IEnumerable<NotificationSetting> NotificationSettings { get; set; }
+
+        public NotifyUserNotification(Notification notification, IEnumerable<NotificationSetting> settings)
+        {
+            Notification = notification;
+            NotificationSettings = settings;
+        }
+    }
+
+    public class NotifyUserNotificationHandler : INotificationHandler<NotifyUserNotification>
     {
         private readonly IHubContext<PushNotificationHub, IPushNotificationHub> _hubContext;
         private readonly IEmailService _emailService;
         private readonly ILoggingService _loggingService;
 
-        public NotificationService(IHubContext<PushNotificationHub, IPushNotificationHub> hubContext, IEmailService emailService, ILoggingService loggingService)
+        public NotifyUserNotificationHandler(IHubContext<PushNotificationHub, IPushNotificationHub> hubContext, IEmailService emailService, ILoggingService loggingService)
         {
             _hubContext = hubContext;
             _emailService = emailService;
             _loggingService = loggingService;
         }
 
-        public async Task NotifyUser(Notification notification, IEnumerable<NotificationSetting> settings, CancellationToken cancellationToken)
+        public async Task Handle(NotifyUserNotification request, CancellationToken cancellationToken)
         {
-            var notificationSetting = settings.First(x => x.NotificationType == notification.Type);
+            var notificationSetting = request.NotificationSettings.First(x => x.NotificationType == request.Notification.Type);
 
-            await SendMail(notification, cancellationToken, notificationSetting);
+            await SendMail(request.Notification, cancellationToken, notificationSetting);
 
-            await SendNotification(notification, notificationSetting);
+            await SendNotification(request.Notification, notificationSetting);
         }
+
 
         private async Task SendNotification(Notification notification, NotificationSetting notificationSetting)
         {
@@ -108,5 +122,6 @@ namespace Backend.Business.Notifications.PushNotificationRequests
                 Body = bodyBuilder.ToMessageBody()
             };
         }
+
     }
 }

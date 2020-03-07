@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Backend.Business.Notifications.Interfaces;
+﻿using AutoMapper;
 using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
+using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
 using Backend.Domain;
 using Backend.Domain.Enum;
 using Backend.Library.Excel.Utils;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
 using OfficeOpenXml;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Import.ImportExerciseType
 {
@@ -21,19 +21,16 @@ namespace Backend.Business.Import.ImportExerciseType
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly INotificationService _notificationService;
         private readonly ILoggingService _loggingService;
 
         public ImportExerciseTypeRequestHandler(
             IApplicationDbContext context,
             IMapper mapper,
-            INotificationService notificationService,
             IMediator mediator,
             ILoggingService loggingService)
         {
             _context = context;
             _mapper = mapper;
-            _notificationService = notificationService;
             _mediator = mediator;
             _loggingService = loggingService;
         }
@@ -43,7 +40,7 @@ namespace Backend.Business.Import.ImportExerciseType
 
             try
             {
-                var result = new ImportExerciseTypeResponse();
+                var result = new ImportExerciseTypeResponse(true);
                 using (var package = new ExcelPackage(request.File.OpenReadStream()))
                 {
                     var worksheet = package.Compatibility.IsWorksheets1Based
@@ -95,8 +92,7 @@ namespace Backend.Business.Import.ImportExerciseType
 
                 var notification = await _mediator.Send(new CreatePushNotificationRequest(NotificationType.ImportFinished, payload, receiverId), CancellationToken.None);
 
-                await _notificationService.NotifyUser(notification, notification.Receiver.UserSetting.NotificationSettings,
-                    CancellationToken.None);
+                await _mediator.Publish(new NotifyUserNotification(notification, notification.Receiver.UserSetting.NotificationSettings), cancellationToken);
             }
             catch (Exception e)
             {

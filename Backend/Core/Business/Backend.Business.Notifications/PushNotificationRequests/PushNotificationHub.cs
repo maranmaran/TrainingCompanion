@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Backend.Business.Notifications.Interfaces;
 using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
+using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
 using Backend.Business.Notifications.PushNotificationRequests.ReadNotification;
 using Backend.Domain.Enum;
 using MediatR;
@@ -15,12 +16,10 @@ namespace Backend.Business.Notifications.PushNotificationRequests
     public class PushNotificationHub : Hub<IPushNotificationHub>
     {
         private readonly IMediator _mediator;
-        private readonly INotificationService _notificationService;
 
-        public PushNotificationHub(IMediator mediator, INotificationService notificationService)
+        public PushNotificationHub(IMediator mediator)
         {
             _mediator = mediator;
-            _notificationService = notificationService;
         }
 
         // TODO:
@@ -29,10 +28,10 @@ namespace Backend.Business.Notifications.PushNotificationRequests
         public async Task SendNotification(NotificationType type, string payload, Guid senderId, Guid receiverId)
         {
             // save to db
+
             var notification = await _mediator.Send(new CreatePushNotificationRequest(type, payload, senderId, receiverId), CancellationToken.None);
 
-            await _notificationService.NotifyUser(notification, notification.Receiver.UserSetting.NotificationSettings,
-                CancellationToken.None);
+            await _mediator.Publish(new NotifyUserNotification(notification, notification.Receiver.UserSetting.NotificationSettings));
         }
 
         public async Task ReadNotification(Guid id)
