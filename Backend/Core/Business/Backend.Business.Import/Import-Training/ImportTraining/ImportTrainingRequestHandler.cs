@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.TrainingLog;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Import.ImportTraining
 {
     public class ImportTrainingRequestHandler : IRequestHandler<ImportTrainingRequest, Unit>
     {
-        private readonly IExcelService _excelService;
         private readonly IApplicationDbContext _context;
 
-        public ImportTrainingRequestHandler(IExcelService excelService, IApplicationDbContext context)
+        public ImportTrainingRequestHandler(IApplicationDbContext context)
         {
-            _excelService = excelService;
             _context = context;
         }
 

@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Backend.Common;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Backend.Common;
 
 namespace Backend.Business.Import.ImportExerciseType
 {
     public class ImportExerciseTypeResponse
     {
         public bool Success { get; set; }
-        public List<ValidationError> _errors { get; set; } = new List<ValidationError>();
-
-        public ImportExerciseTypeResponse()
-        {
-        }
+        public List<ValidationError> Errors { get; set; } = new List<ValidationError>();
 
         public ImportExerciseTypeResponse(bool success)
         {
@@ -23,12 +19,13 @@ namespace Backend.Business.Import.ImportExerciseType
         {
             Success = errors == null || !errors.Any();
 
-            _errors = errors;
+            Errors = errors;
         }
 
         public void AddError(string error)
         {
-            this._errors.Add(new ValidationError()
+            this.Success = false;
+            this.Errors.Add(new ValidationError()
             {
                 Status = (int)HttpStatusCode.UnprocessableEntity,
                 Message = error
