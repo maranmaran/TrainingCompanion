@@ -1,4 +1,5 @@
 ﻿using Backend.Service.AmazonS3.Interfaces;
+using Backend.Service.ImageProcessing.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using System;
@@ -11,17 +12,20 @@ namespace Backend.Business.Media.MediaRequests.UploadChatMedia
     {
 
         private readonly IS3Service _s3Service;
+        private readonly IImageProcessingService _imageProcessing;
 
-        public UploadChatMediaRequestHandler(IS3Service s3)
+        public UploadChatMediaRequestHandler(IS3Service s3, IImageProcessingService imageProcessing)
         {
             _s3Service = s3;
+            _imageProcessing = imageProcessing;
         }
 
         public async Task<string> Handle(UploadChatMediaRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                await _s3Service.WriteToS3(request.Key, request.Data);
+                var compressedImage = await _imageProcessing.Compress(request.Data);
+                await _s3Service.WriteToS3(request.Key, compressedImage);
 
                 return await _s3Service.GetPresignedUrlAsync(request.Key);
             }

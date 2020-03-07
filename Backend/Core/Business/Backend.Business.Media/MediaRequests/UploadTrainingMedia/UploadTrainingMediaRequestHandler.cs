@@ -1,13 +1,14 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Common.Extensions;
+﻿using Backend.Common.Extensions;
 using Backend.Domain;
 using Backend.Domain.Entities.Media;
 using Backend.Service.AmazonS3.Interfaces;
+using Backend.Service.ImageProcessing.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
 {
@@ -19,11 +20,13 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
     {
         private readonly IApplicationDbContext _context;
         private readonly IS3Service _s3AccessService;
+        private readonly IImageProcessingService _imageProcessing;
 
-        public UploadTrainingMediaRequestHandler(IS3Service s3AccessService, IApplicationDbContext context)
+        public UploadTrainingMediaRequestHandler(IS3Service s3AccessService, IApplicationDbContext context, IImageProcessingService imageProcessing)
         {
             _s3AccessService = s3AccessService;
             _context = context;
+            _imageProcessing = imageProcessing;
         }
 
         public async Task<MediaFile> Handle(UploadTrainingMedia request, CancellationToken cancellationToken)
@@ -33,7 +36,8 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
                 // save to s3
                 var filename = GetFilename(request);
 
-                await _s3AccessService.WriteToS3(filename, request.File.OpenReadStream());
+                var compressedImage = await _imageProcessing.Compress(request.File.OpenReadStream());
+                await _s3AccessService.WriteToS3(filename, compressedImage);
                 var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(filename);
 
                 // create db object and map to it
