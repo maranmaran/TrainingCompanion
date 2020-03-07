@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { combineLatest } from 'rxjs/internal/observable/combineLatest';
 import { map, take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
@@ -49,13 +50,20 @@ export class SetListComponent implements OnInit, OnDestroy {
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
 
-    this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
-    this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.userSettings = settings);
-    this.store.select(selectedExercise).pipe(take(1), map(exercise => exercise.exerciseType)).subscribe(type => {
-      this.tableColumns = this.getTableColumns(type) as CustomColumn[];
-    });
-
     this.subs.add(
+
+      combineLatest(
+        this.store.select(userSetting),
+        this.store.select(currentUserId),
+        this.store.select(selectedExercise).pipe(map(exercise => exercise?.exerciseType))
+      ).subscribe(([userSetting, userId, exerciseType]) => {
+        this.userSettings = userSetting;
+        this.userId = userId;
+
+        if (!!exerciseType)
+          this.tableColumns = this.getTableColumns(exerciseType) as CustomColumn[]
+      }),
+
       this.store.select(selectedExerciseSets)
         .pipe(map(sets => sets || []))
         .subscribe((sets: Set[]) => {
@@ -76,7 +84,7 @@ export class SetListComponent implements OnInit, OnDestroy {
       pagingOptions: new TablePagingOptions({
         pageSizeOptions: [5]
       }),
-      cellActions: [],
+      cellActions: [TableAction.dummy],
       headerActions: [TableAction.updateMany]
     })
 
