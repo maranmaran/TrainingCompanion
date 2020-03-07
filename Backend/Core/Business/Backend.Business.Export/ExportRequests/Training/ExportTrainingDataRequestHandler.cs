@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Business.Export.Models.Training;
 using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
-using Backend.Library.Excel.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Export.ExportRequests.Training
 {
@@ -22,16 +21,14 @@ namespace Backend.Business.Export.ExportRequests.Training
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        private readonly IExcelService _excelService;
         //private readonly INotificationService _notificationService;
         //private readonly IExcelService _excelService;
 
-        public ExportTrainingDataRequestHandler(IApplicationDbContext context, IMapper mapper, IMediator mediator, IExcelService excelService)
+        public ExportTrainingDataRequestHandler(IApplicationDbContext context, IMapper mapper, IMediator mediator)
         {
             _context = context;
             _mapper = mapper;
             _mediator = mediator;
-            _excelService = excelService;
         }
 
         public async Task<FileContentResult> Handle(ExportTrainingDataRequest request, CancellationToken cancellationToken)

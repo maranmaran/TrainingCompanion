@@ -1,25 +1,23 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Backend.Business.Notifications.Interfaces;
+﻿using AutoMapper;
 using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
+using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Notifications.PushNotificationRequests.SendPushNotification
 {
     public class SendPushNotificationRequestHandler : IRequestHandler<SendPushNotificationRequest, Unit>
     {
         private readonly IMapper _mapper;
-        private readonly INotificationService _notificationService;
         private readonly IMediator _mediator;
 
-        public SendPushNotificationRequestHandler(IMapper mapper, IMediator mediator, INotificationService notificationService)
+        public SendPushNotificationRequestHandler(IMapper mapper, IMediator mediator)
         {
             _mapper = mapper;
             _mediator = mediator;
-            _notificationService = notificationService;
         }
 
         public async Task<Unit> Handle(SendPushNotificationRequest request, CancellationToken cancellationToken)
@@ -30,9 +28,8 @@ namespace Backend.Business.Notifications.PushNotificationRequests.SendPushNotifi
 
                 var notification = await _mediator.Send(newNotificationRequest, cancellationToken);
 
-                await _notificationService.NotifyUser(notification,
-                                                      notification.Receiver.UserSetting.NotificationSettings,
-                                                      cancellationToken);
+
+                await _mediator.Publish(new NotifyUserNotification(notification, notification.Receiver.UserSetting.NotificationSettings), cancellationToken);
 
                 return Unit.Value;
             }

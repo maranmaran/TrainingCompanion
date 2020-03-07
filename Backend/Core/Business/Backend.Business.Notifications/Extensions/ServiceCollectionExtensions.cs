@@ -1,6 +1,4 @@
-﻿using Backend.Business.Notifications.Interfaces;
-using Backend.Business.Notifications.PushNotificationRequests;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Backend.Business.Notifications.Extensions
 {
@@ -13,7 +11,7 @@ namespace Backend.Business.Notifications.Extensions
         /// <param name="services"></param>
         public static void ConfigureNotificationServices(this IServiceCollection services)
         {
-            services.AddTransient<INotificationService, NotificationService>();
+            //services.AddTransient<INotificationService, NotificationService>();
         }
 
     }
