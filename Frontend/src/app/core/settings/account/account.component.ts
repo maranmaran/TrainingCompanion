@@ -26,6 +26,7 @@ export class AccountComponent implements OnInit {
   // readonly inputs at first
   editUsername = true;
   editMail = true;
+  editAvatar = false;
 
   config = new ImageCropperConfiguration({})
 
@@ -117,8 +118,13 @@ export class AccountComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((imageCroppedEvent: ImageCroppedEvent) => {
-        this.currentUser.avatar = imageCroppedEvent.base64;
-        console.log("save on server");
+
+        this.usersService.uploadAvatar(this.currentUser.id, imageCroppedEvent.base64).pipe(take(1))
+        .subscribe((presignedUrl: string) => {
+          console.log(presignedUrl);
+          this.currentUser.avatar = presignedUrl;
+          this.store.dispatch(updateCurrentUser(this.currentUser));
+        });
       });
   }
 

@@ -39,11 +39,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.store.select(currentUser).pipe(take(1), map(x => x.avatar)).subscribe(avatar => this.avatar = avatar);
     // subscribe to notifications
     // only new ones.. in real time
     // this.notifications$ = this.notificationService.notifications$;
     this.subSink.add(
+      this.store.select(currentUser).pipe(map(x => x.avatar)).subscribe(avatar => this.avatar = avatar),
       this.notificationService.notifications$.subscribe(
         (notification: PushNotification) => {
 

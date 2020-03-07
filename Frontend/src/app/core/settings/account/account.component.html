@@ -1,7 +1,8 @@
-<div class="container" fxFlex fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign.xs="center center" >
+<div class="container" fxFlex fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign.xs="center center">
 
-  <div fxFlex="0 1 50%" fxFlex.lt-md="0 1 100%" fxFlexOrder.lt-md="2" fxFlexAlign="center"  fxLayout="column" fxLayoutAlign="center center">
-    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()"  autocomplete="off">
+  <div fxFlex="0 1 50%" fxFlex.lt-md="0 1 100%" fxFlexOrder.lt-md="2" fxFlexAlign="center" fxLayout="column"
+    fxLayoutAlign="center center">
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" autocomplete="off">
 
       <mat-form-field>
         <input matInput formControlName="username" [readonly]="editUsername" placeholder="Username">
@@ -22,10 +23,15 @@
     </form>
   </div>
 
-  <div fxFlex="0 1 50%"  fxFlex.lt-md="0 1 100%" fxFlexOrder.lt-md="1" fxFlexAlign="center" fxLayout="column" fxLayoutAlign="center center">
-    <img class="img-fluid avatar-img" src="{{ currentUser.avatar }}" (click)="uploadInput.click()"/>
-    <input fxHide="true" #uploadInput  type="file" (change)="fileChangeEvent($event)" accept="image/*">
+  <div class="avatar-section" fxFlex="0 1 50%" fxFlex.lt-md="0 1 100%" fxFlexOrder.lt-md="1" fxFlexAlign="center" fxLayout="column" fxLayoutAlign="center center">
+
+    <img (click)="uploadInput.click()" class="img-fluid avatar-img" src="{{ currentUser.avatar }}" />
+
+    <mat-chip-list class="upload-chip">
+      <mat-chip color="primary" selected (click)="uploadInput.click()">Change</mat-chip>
+    </mat-chip-list>
+
+    <input fxHide="true" #uploadInput type="file" (change)="fileChangeEvent($event)" accept="image/*">
   </div>
 
 </div>
-

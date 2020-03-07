@@ -1,5 +1,4 @@
-﻿using Backend.Common.Extensions;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
 {
@@ -8,7 +7,7 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
         public UploadUserAvatarRequestValidator()
         {
             RuleFor(x => x.UserId).NotEmpty();
-            RuleFor(x => x.File).Must(x => x.IsImage()).WithMessage("File must be image. Try jpeg or png extensions!");
+            RuleFor(x => x.Base64).NotEmpty().WithMessage("File must be image. Try jpeg or png extensions!");
         }
     }
 }

@@ -7,3 +7,30 @@ img {
   max-height: 300px;
   border-radius: 50%;
 }
+
+.avatar-img {
+  cursor: pointer;
+}
+
+.upload-chip {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 9rem;
+  z-index: 100;
+  visibility: hidden;
+}
+
+.upload-chip:hover {
+  visibility: visible;
+}
+
+.avatar-img:hover  {
+  // opacity: 0.1;
+
+  + .upload-chip {
+    visibility: visible;
+
+  }
+}
+
