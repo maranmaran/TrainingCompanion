@@ -2,6 +2,7 @@
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Enum;
 using Backend.Service.AmazonS3.Interfaces;
+using Backend.Service.ImageProcessing.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,11 +19,13 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
 
         private readonly IApplicationDbContext _context;
         private readonly IS3Service _s3;
+        private readonly IImageProcessingService _imageProcessing;
 
-        public UploadUserAvatarRequestHandler(IS3Service s3, IApplicationDbContext context)
+        public UploadUserAvatarRequestHandler(IS3Service s3, IApplicationDbContext context, IImageProcessingService imageProcessing)
         {
             _s3 = s3;
             _context = context;
+            _imageProcessing = imageProcessing;
         }
 
         public async Task<string> Handle(UploadUserAvatarRequest request, CancellationToken cancellationToken)
@@ -33,7 +36,9 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
                 var key = GetS3Key(request);
 
                 var byteArr = Convert.FromBase64String(request.Base64.Replace("data:image/jpeg;base64,", string.Empty));
-                await _s3.WriteToS3(key, new MemoryStream(byteArr));
+                var compressedImage = await _imageProcessing.Compress(new MemoryStream(byteArr));
+
+                await _s3.WriteToS3(key, compressedImage);
                 var presignedUrl = await _s3.GetPresignedUrlAsync(key);
 
                 // add newly created media
