@@ -1,5 +1,4 @@
-﻿using Backend.Library.Excel.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Backend.Library.Excel.Extensions
 {
@@ -7,7 +6,7 @@ namespace Backend.Library.Excel.Extensions
     {
         public static void ConfigureExcelService(this IServiceCollection services)
         {
-            services.AddTransient<IExcelService, ExcelService>();
+            //services.AddTransient<IExcelService, ExcelService>();
         }
     }
 }

@@ -1,17 +1,17 @@
-﻿using Backend.Service.Payment.Enums;
-using Backend.Service.Payment.Interfaces;
-using Backend.Service.Payment.Models;
-using Stripe;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Library.Payment.Enums;
+using Backend.Library.Payment.Interfaces;
+using Backend.Library.Payment.Models;
+using Stripe;
 using CustomerService = Stripe.CustomerService;
 using Plan = Stripe.Plan;
 using PlanService = Stripe.PlanService;
-using StripeConfiguration = Backend.Service.Payment.Configuration.StripeConfiguration;
+using StripeConfiguration = Backend.Library.Payment.Configuration.StripeConfiguration;
 
-namespace Backend.Service.Payment
+namespace Backend.Library.Payment
 {
     public class PaymentService : IPaymentService
     {

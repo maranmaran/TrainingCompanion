@@ -1,4 +1,4 @@
-﻿using Backend.Service.Payment.Enums;
+﻿using Backend.Library.Payment.Enums;
 using MediatR;
 
 namespace Backend.Business.Billing.BillingRequests.GetSubscriptionStatus

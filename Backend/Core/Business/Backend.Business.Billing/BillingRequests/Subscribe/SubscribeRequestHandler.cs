@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Backend.Service.Payment.Interfaces;
-using Backend.Service.Payment.Models;
+using Backend.Library.Payment.Interfaces;
+using Backend.Library.Payment.Models;
 using MediatR;
 using Stripe;
 

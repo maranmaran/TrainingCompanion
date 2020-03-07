@@ -1,4 +1,4 @@
-﻿namespace Backend.Service.Payment.Configuration
+﻿namespace Backend.Library.Payment.Configuration
 {
     public class StripeSettings
     {

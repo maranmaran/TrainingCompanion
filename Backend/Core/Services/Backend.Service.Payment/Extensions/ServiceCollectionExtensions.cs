@@ -1,9 +1,9 @@
-﻿using Backend.Service.Payment.Configuration;
-using Backend.Service.Payment.Interfaces;
+﻿using Backend.Library.Payment.Configuration;
+using Backend.Library.Payment.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Backend.Service.Payment.Extensions
+namespace Backend.Library.Payment.Extensions
 {
     public static partial class ServiceCollectionExtensions
     {

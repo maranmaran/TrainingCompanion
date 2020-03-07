@@ -2,46 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Backend.Business.Import.Models.ExerciseType;
-using Backend.Business.Import.Models.Shared;
 using Backend.Business.Notifications.Interfaces;
 using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
 using Backend.Domain;
 using Backend.Domain.Enum;
-using Backend.Library.Excel.Interfaces;
+using Backend.Library.Excel.Utils;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
+using OfficeOpenXml;
 
-namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseType
+namespace Backend.Business.Import.ImportExerciseType
 {
     public class ImportExerciseTypeRequestHandler : IRequestHandler<ImportExerciseTypeRequest, ImportExerciseTypeResponse>
     {
-        private readonly IExcelService _excelService;
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IList<ImportColumn> _importColumns;
         private readonly IMediator _mediator;
         private readonly INotificationService _notificationService;
         private readonly ILoggingService _loggingService;
 
-        public ImportExerciseTypeRequestHandler(IExcelService excelService, IApplicationDbContext context, IMapper mapper, INotificationService notificationService, IMediator mediator, ILoggingService loggingService)
+        public ImportExerciseTypeRequestHandler(
+            IApplicationDbContext context,
+            IMapper mapper,
+            INotificationService notificationService,
+            IMediator mediator,
+            ILoggingService loggingService)
         {
-            _excelService = excelService;
             _context = context;
             _mapper = mapper;
             _notificationService = notificationService;
             _mediator = mediator;
             _loggingService = loggingService;
-
-            _importColumns = typeof(ImportExerciseTypeColumns)
-                                .GetFields(BindingFlags.Static | BindingFlags.Public)
-                                .Select(x => x.GetValue(null))
-                                .Cast<ImportColumn>()
-                                .ToList();
         }
 
         public async Task<ImportExerciseTypeResponse> Handle(ImportExerciseTypeRequest request, CancellationToken cancellationToken)
@@ -49,26 +43,40 @@ namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseTy
 
             try
             {
-                // validate
-                //var validationErrors = await _excelService.ValidateData(request.File, _importColumns, cancellationToken);
+                var result = new ImportExerciseTypeResponse();
+                using (var package = new ExcelPackage(request.File.OpenReadStream()))
+                {
+                    var worksheet = package.Compatibility.IsWorksheets1Based
+                                ? package.Workbook.Worksheets[1]
+                                : package.Workbook.Worksheets[0];
 
-                //var response = new ImportExerciseTypeResponse(validationErrors);
-                var response = new ImportExerciseTypeResponse();
-                //if (validationErrors != null)
-                //{
-                //    return response;
-                //}
+                    List<ExerciseTypeImportDto> importData;
+                    try
+                    {
+                        importData = worksheet.ConvertSheetToObjects<ExerciseTypeImportDto>().ToList();
+                    }
+                    catch (Exception e)
+                    {
+                        result.AddError(e.Message);
+                        return result;
+                    }
 
-                // parse imported data to data structure
-                //var dataRows = await _excelService.ParseImportData<ImportExerciseTypeDto>(request.File, cancellationToken);
+                    // call imported and do work
+                    try
+                    {
+                        var importer = new ExerciseTypeImporter(_context, request.Userid, _mapper);
+                        await importer.DoImport(importData, cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        result.AddError(e.Message);
+                        return result;
+                    }
+                }
 
-                // call imported and do work
-                var importer = new ExerciseTypeImporter(_context, request.Userid, _mapper);
-                //await importer.DoImport(dataRows, cancellationToken);
+                await SendNotification(result, request.Userid, cancellationToken);
 
-                await SendNotification(response, request.Userid, cancellationToken);
-
-                return response;
+                return result;
             }
             catch (Exception e)
             {

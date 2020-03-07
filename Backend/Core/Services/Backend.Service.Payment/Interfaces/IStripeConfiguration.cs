@@ -1,4 +1,4 @@
-﻿namespace Backend.Service.Payment.Interfaces
+﻿namespace Backend.Library.Payment.Interfaces
 {
     //public interface IStripeConfiguration
     //{
