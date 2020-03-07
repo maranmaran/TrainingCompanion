@@ -1,4 +1,4 @@
-﻿namespace Backend.Service.Payment.Enums
+﻿namespace Backend.Library.Payment.Enums
 {
     public enum PlanCurrency
     {

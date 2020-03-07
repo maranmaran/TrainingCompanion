@@ -5,12 +5,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Backend.Business.Import.Models.ExerciseType;
 using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseType
+namespace Backend.Business.Import
 {
     /// <summary>
     /// Imports exercise type data according to some specific rules and schema
@@ -35,7 +34,6 @@ namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseTy
                 .ExerciseTypes
                 .Include(x => x.Properties)
                 .Where(x => x.ApplicationUserId == userId)
-                //.AsNoTracking()
                 .ToDictionary(x => x.Code, x => x)
                 .ToList();
 
@@ -45,14 +43,13 @@ namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseTy
                 .TagGroups
                 .Include(x => x.Tags)
                 .Where(x => x.ApplicationUserId == userId)
-                //.AsNoTracking()
                 .ToDictionary(x => x.Type, x => x)
                 .ToList();
 
             _existingGroups = new ConcurrentDictionary<string, TagGroup>(existingGroups);
         }
 
-        public async Task DoImport(IEnumerable<ImportExerciseTypeDto> data, CancellationToken cancellationToken = default)
+        public async Task DoImport(IEnumerable<ExerciseTypeImportDto> data, CancellationToken cancellationToken = default)
         {
             //Parallel.ForEach(
             //    source: data, 
@@ -72,11 +69,11 @@ namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseTy
             }
             catch (DbUpdateConcurrencyException e)
             {
-                throw new Exception("Concurrency exception", e);
+                throw new Exception("Couldn't import data. Something went wrong in saving process.", e);
             }
         }
 
-        private void DoWork(ImportExerciseTypeDto row, ParallelLoopState loopState)
+        private void DoWork(ExerciseTypeImportDto row, ParallelLoopState loopState)
         {
             // parse all tags and tag groups and assign exercise properties (join table entity) on exercise type
             var properties = new List<ExerciseTypeTag>();
@@ -87,7 +84,7 @@ namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseTy
             ParseExerciseType(row, properties);
         }
 
-        private void ParseExerciseType(ImportExerciseTypeDto row, List<ExerciseTypeTag> properties)
+        private void ParseExerciseType(ExerciseTypeImportDto row, List<ExerciseTypeTag> properties)
         {
             _existingTypes.TryGetValue(row.Code, out var existingType);
 
@@ -162,7 +159,6 @@ namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseTy
         }
 
         /// <summary>
-        ///
         /// Group exists
         ///     Tag exists - just add to result
         ///     New Tag
@@ -252,8 +248,6 @@ namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseTy
         /// <summary>
         /// Constructs exercise properties from given tag groups
         /// </summary>
-        /// <param name="tagGroups"></param>
-        /// <returns></returns>
         private IEnumerable<ExerciseTypeTag> GetExerciseProperties(Dictionary<Guid, Tag> tagsDict)
         {
             var tags = tagsDict.Values;

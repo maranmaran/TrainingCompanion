@@ -4,7 +4,7 @@ using System.Text;
 using AutoMapper;
 using Backend.Business.Billing.BillingRequests.AddPayment;
 using Backend.Business.Billing.BillingRequests.Subscribe;
-using Backend.Service.Payment.Models;
+using Backend.Library.Payment.Models;
 
 namespace Backend.Business.Billing
 {

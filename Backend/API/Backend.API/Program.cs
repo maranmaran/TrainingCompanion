@@ -1,12 +1,12 @@
 ﻿using Backend.Domain;
 using Backend.Persistance;
-using Backend.Service.Payment.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using Backend.Library.Payment.Configuration;
 
 namespace Backend.API
 {

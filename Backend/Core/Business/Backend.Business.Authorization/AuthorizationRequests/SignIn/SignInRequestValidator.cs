@@ -2,8 +2,8 @@
 using Backend.Business.Authorization.Utils;
 using Backend.Domain;
 using Backend.Domain.Enum;
-using Backend.Service.Payment.Enums;
-using Backend.Service.Payment.Interfaces;
+using Backend.Library.Payment.Enums;
+using Backend.Library.Payment.Interfaces;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-﻿using Backend.Service.Payment.Enums;
+﻿using Backend.Library.Payment.Enums;
 
 namespace Backend.Business.Billing.BillingRequests.GetSubscriptionStatus
 {

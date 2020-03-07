@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace Backend.Business.Import.Requests.ExerciseTypeRequests.ImportExerciseType
+namespace Backend.Business.Import.ImportExerciseType
 {
     public class ImportExerciseTypeRequest : IRequest<ImportExerciseTypeResponse>
     {

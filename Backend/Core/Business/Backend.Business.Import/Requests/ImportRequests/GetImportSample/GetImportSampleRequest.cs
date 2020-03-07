@@ -1,4 +1,4 @@
-﻿using Backend.Business.Import.Models.Shared;
+﻿using Backend.Business.Import.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
