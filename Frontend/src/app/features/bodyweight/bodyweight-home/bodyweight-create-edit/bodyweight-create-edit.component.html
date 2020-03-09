@@ -7,7 +7,7 @@
 
       <mat-form-field>
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="!(isMobile | async) ? datepickerWeb : datepickerMobile" [formControl]="date">
+        <input matInput [matDatepicker]="!(isMobile | async) ? datepickerWeb : datepickerMobile" [formControl]="date" formControlname="date">
 
         <mat-datepicker-toggle matSuffix [for]="!(isMobile | async) ? datepickerWeb : datepickerMobile"></mat-datepicker-toggle>
         <mat-datepicker [hidden]="(isMobile | async)" #datepickerWeb></mat-datepicker>
