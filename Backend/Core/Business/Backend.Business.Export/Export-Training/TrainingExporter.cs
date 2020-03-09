@@ -1,20 +1,58 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Backend.Business.Export.Interfaces;
+﻿using Backend.Business.Export.Interfaces;
+using Backend.Business.Export.Models.Training;
 using Backend.Common;
+using Backend.Common.Extensions;
 using Backend.Domain.Entities.User;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Backend.Business.Export.Models.Training
+namespace Backend.Business.Export
 {
-    public class ExportTrainingDataContainer : IExportDataContainer
+    public class TrainingExporter : IExporter<ExportTrainingDto>
     {
         public ApplicationUser User { get; set; }
-        public IEnumerable<ExportTrainingDto> Trainings { get; set; }
+        public IEnumerable<ExportTrainingDto> Data { get; set; }
         public IEnumerable<string> Columns { get; set; }
+
+        public async Task<FileContentResult> Export()
+        {
+            var properties = GetExportFileProperties();
+
+            using var package = new ExcelPackage(new MemoryStream());
+            var workbook = package.Workbook.SetProperties(properties);
+            var worksheet = workbook.Worksheets.Add(properties.Title);
+
+            WriteToSheet(worksheet, GetExportColumnNamedStyle(workbook));
+
+            worksheet.Calculate();
+            worksheet.Cells.AutoFitColumns();
+
+            package.Save();
+
+            var resultStream = await package.GetResultStream();
+            const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"; // TODO: get from settings or something
+
+            return new FileContentResult(await resultStream.ToByteArray(), contentType)
+            {
+                FileDownloadName = properties.Title
+            };
+        }
+
+        public static (ExcelNamedStyleXml HeaderStyles, ExcelNamedStyleXml DataCellStyles) GetExportColumnNamedStyle(ExcelWorkbook book)
+        {
+            var style = book.Styles.CreateNamedStyle("TrainingCellStyle");
+            style.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            return (style, style);
+        }
 
         public (string Title, string Author, string Comments, string Company) GetExportFileProperties()
         {
@@ -36,7 +74,7 @@ namespace Backend.Business.Export.Models.Training
                 ToRow: -1
             );
 
-            foreach (var (training, index) in Trainings.WithIndex())
+            foreach (var (training, index) in Data.WithIndex())
             {
                 indexes.ToRow = training.Exercises.Aggregate(0, (acc, cur) => acc += cur.Sets.Count());
 
@@ -101,5 +139,7 @@ namespace Backend.Business.Export.Models.Training
             table.Columns[Columns.IndexOf("Volume")].TotalsRowLabel = "Total Volume";
             table.Columns[Index: Columns.IndexOf("Volume")].TotalsRowFunction = RowFunctions.Sum;
         }
+
+
     }
 }

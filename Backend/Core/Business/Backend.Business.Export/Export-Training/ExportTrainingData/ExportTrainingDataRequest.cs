@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Backend.Business.Export.ExportRequests.Training
+namespace Backend.Business.Export.ExportTrainingData
 {
     public class ExportTrainingDataRequest : IRequest<FileContentResult>
     {

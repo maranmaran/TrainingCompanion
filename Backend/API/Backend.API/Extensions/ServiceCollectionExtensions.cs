@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
 using Backend.Business.Authorization;
 using Backend.Business.Authorization.Extensions;
-using Backend.Business.Notifications.Extensions;
 using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Extensions;
+using Backend.Library.AmazonS3.Extensions;
+using Backend.Library.Email.Extensions;
+using Backend.Library.ImageProcessing.Extensions;
+using Backend.Library.Logging.Extensions;
+using Backend.Library.Payment.Extensions;
 using Backend.Persistance;
 using Backend.Service.Infrastructure.Providers;
 using FluentValidation.AspNetCore;
@@ -24,12 +28,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Backend.Library.AmazonS3.Extensions;
-using Backend.Library.Email.Extensions;
-using Backend.Library.Excel.Extensions;
-using Backend.Library.ImageProcessing.Extensions;
-using Backend.Library.Logging.Extensions;
-using Backend.Library.Payment.Extensions;
 
 namespace Backend.API.Extensions
 {
@@ -262,8 +260,6 @@ namespace Backend.API.Extensions
             services.ConfigureEmailServices();
             services.ConfigurePaymentServices();
             services.ConfigureS3Services();
-            services.ConfigureNotificationServices();
-            services.ConfigureExcelService();
             services.ConfigureLoggingService();
             services.ConfigureImageProcessingServices();
         }

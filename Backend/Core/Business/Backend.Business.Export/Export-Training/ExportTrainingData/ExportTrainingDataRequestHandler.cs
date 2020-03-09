@@ -13,7 +13,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Backend.Business.Export.ExportRequests.Training
+namespace Backend.Business.Export.ExportTrainingData
 {
     public class ExportTrainingDataRequestHandler : IRequestHandler<ExportTrainingDataRequest, FileContentResult>
     {
@@ -38,21 +38,24 @@ namespace Backend.Business.Export.ExportRequests.Training
                 var user = _context.Users.Include(x => x.UserSetting).First(x => x.Id == request.UserId);
                 var trainings = await GetTrainingData(request, cancellationToken);
 
-                var exportData = new ExportTrainingDataContainer
+                var exporter = new TrainingExporter
                 {
                     User = user,
                     Columns = GetColumns(user, trainings),
-                    Trainings = _mapper.Map<IEnumerable<ExportTrainingDto>>(trainings)
+                    Data = _mapper.Map<IEnumerable<ExportTrainingDto>>(trainings)
                 };
 
-                //var fileResult = await _excelService.Export(exportData, cancellationToken);
+                var fileResult = await exporter.Export();
 
-                //return fileResult;
-                return null;
+                if (fileResult != null)
+                {
+                    // inform user through notification and email that export is done and
+                    // provide link for payload inside notification download url.. ?
+                    // notify..
+                    //await _mediator.Publish(new (), cancellationToken);
+                }
 
-                // TODO: Make this asynchronous call completely and detach it from frontend
-                // inform user through notification and email that export is done and provide link for payload inside notification download url.. ?
-                //_notificationService.NotifyUser(new No)
+                return fileResult;
             }
             catch (Exception e)
             {
