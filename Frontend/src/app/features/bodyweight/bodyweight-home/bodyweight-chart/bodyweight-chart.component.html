@@ -1,1 +1,28 @@
-<p>bodyweight-chart works!</p>
+<div class="bodyweight-chart-container" fxLayout="column" fxLayoutGap="1rem">
+  <form [formGroup]="form" fxLayout="row" fxLayoutGap="1rem">
+
+    <mat-form-field>
+      <mat-label>From: </mat-label>
+      <input matInput [matDatepicker]="!(isMobile | async) ? datepickerWeb1 : datepickerMobile1" formControlName="dateFrom" (dateChange)="getReportData()">
+
+      <mat-datepicker-toggle matSuffix [for]="!(isMobile | async) ? datepickerWeb1 : datepickerMobile1">
+      </mat-datepicker-toggle>
+      <mat-datepicker [hidden]="(isMobile | async)" #datepickerWeb1></mat-datepicker>
+      <mat-datepicker [hidden]="!(isMobile | async)" touchUi #datepickerMobile1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>To: </mat-label>
+      <input matInput [matDatepicker]="!(isMobile | async) ? datepickerWeb2 : datepickerMobile2" formControlName="dateTo" (dateChange)="getReportData()">
+
+      <mat-datepicker-toggle matSuffix [for]="!(isMobile | async) ? datepickerWeb2 : datepickerMobile2">
+      </mat-datepicker-toggle>
+      <mat-datepicker [hidden]="(isMobile | async)" #datepickerWeb2></mat-datepicker>
+      <mat-datepicker [hidden]="!(isMobile | async)" touchUi #datepickerMobile2></mat-datepicker>
+    </mat-form-field>
+
+  </form>
+
+  <span> Chart </span>
+</div>
+
