@@ -3,7 +3,6 @@ using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotifica
 using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
 using Backend.Domain;
 using Backend.Domain.Enum;
-using Backend.Library.Excel.Utils;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
 using OfficeOpenXml;

@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="5.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Backend.Domain\Backend.Domain.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.Excel\Backend.Library.Excel.csproj" />
     <ProjectReference Include="..\..\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj" />
   </ItemGroup>
 
