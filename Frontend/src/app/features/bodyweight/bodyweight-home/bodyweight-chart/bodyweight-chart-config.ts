@@ -1,7 +1,7 @@
 import { Guid } from 'guid-typescript';
 import { backgroundColors, colorHelpers, fontColor, MyChartConfiguration } from 'src/app/shared/charts/chart.helpers';
 import { Theme } from 'src/business/shared/theme.enum';
-import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
 
 export function GetBodyweightChartConfig(
   setting: { theme: Theme, unitSystem: UnitSystem },
@@ -11,13 +11,15 @@ export function GetBodyweightChartConfig(
 
   return {
     generationId: Guid.create(),
-    type: 'bar',
+    type: 'line',
     data: {
       datasets: [
         {
           data,
           barThickness: 10,
           maxBarThickness: 20,
+          fill: false,
+          borderColor: backgroundColors(0, 1, setting.theme)[0],
           backgroundColor: backgroundColors(0, 1, setting.theme)[0],
         }
       ],
@@ -27,18 +29,16 @@ export function GetBodyweightChartConfig(
       responsive: true,
       maintainAspectRatio: false,
       tooltips: {
+        mode: 'x',
         callbacks: {
           label: (tooltipItem, data) => {
-            return tooltipItem.yLabel + ' lifts';
+            return tooltipItem.yLabel + " " + UnitSystemUnitOfMeasurement[setting.unitSystem];
           }
         }
       },
       plugins: { labels: false },
       title: {
-        display: true,
-        fontColor: fontColor(setting.theme),
-        text: 'Number of lifts',
-        fontSize: 15
+        display: false,
       },
       legend: {
         display: false
@@ -47,6 +47,10 @@ export function GetBodyweightChartConfig(
         xAxes: [{
           ticks: {
             fontColor: fontColor(setting.theme)
+          },
+          type: 'time',
+          time: {
+            minUnit: 'day',
           },
           gridLines: {
             color: colorHelpers(fontColor(setting.theme)).alpha(0.15).rgbString()
