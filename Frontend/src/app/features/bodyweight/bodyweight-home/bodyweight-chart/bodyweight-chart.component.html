@@ -1,7 +1,7 @@
-<div class="bodyweight-chart-container" fxLayout="column" fxLayoutGap="1rem">
-  <form [formGroup]="form" fxLayout="row" fxLayoutGap="1rem">
+<div class="bodyweight-chart-container h-100" fxLayout="column" fxLayoutGap.lt-md="1rem">
+  <form [formGroup]="form" fxLayout="row wrap" fxLayoutGap="1rem">
 
-    <mat-form-field>
+    <mat-form-field fxFlex="0 1 calc(50% - 1rem)">
       <mat-label>From: </mat-label>
       <input matInput [matDatepicker]="!(isMobile | async) ? datepickerWeb1 : datepickerMobile1" formControlName="dateFrom" (dateChange)="getReportData()">
 
@@ -11,7 +11,7 @@
       <mat-datepicker [hidden]="!(isMobile | async)" touchUi #datepickerMobile1></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field fxFlex="0 1 calc(50% - 1rem)">
       <mat-label>To: </mat-label>
       <input matInput [matDatepicker]="!(isMobile | async) ? datepickerWeb2 : datepickerMobile2" formControlName="dateTo" (dateChange)="getReportData()">
 
@@ -23,6 +23,6 @@
 
   </form>
 
-  <span> Chart </span>
+  <app-chart [configuration]="config"></app-chart>
 </div>
 
