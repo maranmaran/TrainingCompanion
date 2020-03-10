@@ -1,10 +1,12 @@
 :host {
-  height: calc(100% - 64px);
+  height: calc(100% + 20px);
   // overflow-y: hidden !important;
 }
 
+.main-screen {
+  margin: 0px;
+  padding-top: 1rem
+}
+
 @media(max-width: 600px) {
-  :host{
-    height: calc(100% - 60px)
-  }
 }

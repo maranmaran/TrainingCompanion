@@ -11,9 +11,13 @@ import { ReportService } from 'src/business/services/feature-services/report.ser
 import { settingsUpdated } from 'src/ngrx/auth/auth.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme, isMobile } from 'src/ngrx/user-interface/ui.selectors';
+import { GetBodyweightReportResponse } from 'src/server-models/cqrs/report/get-bodyweight-report.response';
 import { SubSink } from 'subsink';
+import { Theme } from './../../../../../business/shared/theme.enum';
 import { currentUserId } from './../../../../../ngrx/auth/auth.selectors';
 import { UnitSystem } from './../../../../../server-models/enums/unit-system.enum';
+import { MyChartConfiguration } from './../../../../shared/charts/chart.helpers';
+import { GetBodyweightChartConfig } from './bodyweight-chart-config';
 
 @Component({
   selector: 'app-bodyweight-chart',
@@ -26,11 +30,15 @@ import { UnitSystem } from './../../../../../server-models/enums/unit-system.enu
 })
 export class BodyweightChartComponent implements OnInit, OnDestroy {
 
-  userId: string;
-  unitSystem = UnitSystem.Metric;
   isMobile: Observable<boolean>;
+  params: {
+    userId: string,
+    theme: Theme,
+    unitSystem: UnitSystem
+  }
 
   form: FormGroup;
+  config: MyChartConfiguration[];
 
   subs = new SubSink();
 
@@ -51,7 +59,7 @@ export class BodyweightChartComponent implements OnInit, OnDestroy {
         this.store.select(activeTheme),
         // listening to this action because first we need unit
         // system to be stored in db.. then fetch all new calculated data from server
-        this.actions$.pipe(ofType(settingsUpdated), map(val => val.unitSystem), startWith(this.unitSystem)),
+        this.actions$.pipe(ofType(settingsUpdated), map(val => val.unitSystem), startWith(UnitSystem.Metric)),
         this.store.select(currentUserId)
       )
         .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) == JSON.stringify(b)))
@@ -74,25 +82,23 @@ export class BodyweightChartComponent implements OnInit, OnDestroy {
   }
 
   prepareData([theme, system, userId]) {
-    console.log({theme, system, userId});
-    this.userId = userId;
+    this.params = { theme, unitSystem: system, userId};
 
-    this.getReportData();
-
-  }
-
-  getReportData() {
     if(!this.form.valid)
       return;
 
-    this.reportService.getBodyweightReport(this.userId, this.dateFrom.value, this.dateTo.value)
+    this.getReportData();
+  }
+
+  getReportData() {
+    this.reportService.getBodyweightReport(this.params.userId, this.dateFrom.value, this.dateTo.value)
     .pipe(take(1))
     .subscribe(
-      data => {
-        console.log(data)
+      (data: GetBodyweightReportResponse) => {
+        this.config = [GetBodyweightChartConfig(this.params, data.values, data.dates.map(date => moment(date).format('L')))];
+        console.log(this.config);
       },
       err => console.log(err)
     )
   }
-
 }
