@@ -19,6 +19,7 @@ import { Bodyweight } from 'src/server-models/entities/bodyweight.model';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { SubSink } from 'subsink';
 import { BodyweightCreateEditComponent } from '../bodyweight-create-edit/bodyweight-create-edit.component';
+import { isMobile } from './../../../../../ngrx/user-interface/ui.selectors';
 
 @Component({
   selector: 'app-bodyweight-list',
@@ -52,6 +53,10 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
     this.store.select(unitSystem).subscribe(system => this._unitSystem = system);
 
     this.subs.add(
+      this.store.select(isMobile)
+      .subscribe(mobile => {
+        this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10;
+      }),
       this.store.select(bodyweights)
         .subscribe((bodyweights: Bodyweight[]) => {
           this.lastLoggedValue = bodyweights[0]?.value ?? 0;
