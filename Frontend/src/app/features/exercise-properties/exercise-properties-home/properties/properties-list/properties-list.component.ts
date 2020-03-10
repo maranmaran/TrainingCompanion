@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
@@ -18,6 +18,7 @@ import { Tag } from 'src/server-models/entities/tag.model';
 import { SubSink } from 'subsink';
 import { TagGroup } from '../../../../../../server-models/entities/tag-group.model';
 import { TagsCreateEditComponent } from '../properties-create-edit/properties-create-edit.component';
+import { noop } from 'rxjs';
 
 @Component({
   selector: 'app-properties-list',
@@ -50,20 +51,15 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
     this.tableColumns = this.getTableColumns() as CustomColumn[];
 
     this.subs.add(
-
       this.store.select(selectedTagGroup)
-        .pipe(
-          // filter(tagGroup => !!tagGroup),
-        )
         .subscribe((tagGroup: TagGroup) => {
           this.groupSelected = !!tagGroup;
-          if(this.groupSelected) {
+          if (this.groupSelected) {
             this.tagGroupName = tagGroup?.type;
             this.tagsCount = tagGroup?.tags.length;
             this.tableDatasource.updateDatasource([...tagGroup?.tags]);
           }
         })
-
     );
 
   }
@@ -81,7 +77,13 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       })
     });
 
-    this.store.select(tagCount).pipe(take(1)).subscribe(count => tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count])
+    this.store.select(selectedTagGroup)
+      .subscribe((tagGroup: TagGroup) => {
+        if (tagGroup && tagGroup?.tags.length > 5) {
+          tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, tagGroup?.tags.length] // page option
+        }
+      })
+
 
     return tableConfig;
   }
@@ -129,7 +131,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: `Add ${this.tagGroupName} property`, action: CRUD.Create, tag: Object.assign(new Tag(), { order: this.tagsCount}) },
+      data: { title: `Add ${this.tagGroupName} property`, action: CRUD.Create, tag: Object.assign(new Tag(), { order: this.tagsCount }) },
       panelClass: []
     })
 

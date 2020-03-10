@@ -23,6 +23,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -188,6 +189,15 @@ namespace Backend.API.Extensions
 
             services.AddMediatR(assemblies.ToArray());
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
+        }
+
+
+        /// <summary>
+        /// Sets up license context for epplus
+        /// </summary>
+        public static void ConfigureEPPlus(this IServiceCollection services)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         }
 
         /// <summary>

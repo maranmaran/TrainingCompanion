@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { forkJoin } from 'rxjs';
+import { forkJoin, noop } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { ExerciseTypeChipComponent } from 'src/app/shared/custom-preview-components/exercise-type-preview/exercise-type-chip/exercise-type-chip.component';
@@ -65,7 +65,8 @@ export class TypesListComponent implements OnInit, OnDestroy {
         pageSizeOptions: [5]
       })
     });
-    this.store.select(tagGroupCount).pipe(take(1)).subscribe(count => tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count])
+
+    this.store.select(tagGroupCount).pipe(take(1)).subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)
 
     return tableConfig;
   }
