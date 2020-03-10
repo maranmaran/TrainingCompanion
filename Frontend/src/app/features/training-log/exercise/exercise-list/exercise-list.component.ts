@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { forkJoin } from 'rxjs';
+import { forkJoin, noop } from 'rxjs';
 import { concatMap, map, take, tap } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/custom-preview-components/exercise-type-preview/exercise-type-preview.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
@@ -80,7 +80,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
 
     this.store.select(selectedTrainingExercises)
     .pipe(take(1), map(x => x?.length))
-    .subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : () => {})
+    .subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)
 
     return tableConfig;
   }

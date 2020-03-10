@@ -30,6 +30,7 @@ namespace Backend.API
             services.ConfigureAutomapper();
             services.ConfigureMediatR();
             services.ConfigureSignalR();
+            services.ConfigureEPPlus();
 
             // setting and services from core
             services.ConfigureCoreServices();
