@@ -4,7 +4,7 @@ import { Theme } from 'src/business/shared/theme.enum';
 import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
 
 export function GetBodyweightChartConfig(
-  setting: { theme: Theme, unitSystem: UnitSystem },
+  setting: { theme: Theme, unitSystem: UnitSystem, mobile: boolean },
   data: number[],
   labels: string[]
 ): MyChartConfiguration {
@@ -46,6 +46,8 @@ export function GetBodyweightChartConfig(
       scales: {
         xAxes: [{
           ticks: {
+            maxTicksLimit: setting.mobile ? 5 : 10,
+            maxRotation: 0,
             fontColor: fontColor(setting.theme)
           },
           type: 'time',
@@ -58,6 +60,7 @@ export function GetBodyweightChartConfig(
         }],
         yAxes: [{
           ticks: {
+            maxTicksLimit: setting.mobile ? 5 : 10,
             beginAtZero: true,
             fontColor: fontColor(setting.theme)
           },
