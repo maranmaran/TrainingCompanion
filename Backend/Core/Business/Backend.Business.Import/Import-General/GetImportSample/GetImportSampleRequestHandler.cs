@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Backend.Business.Import.Models;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.Import.Models;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Business.Import.Requests.ImportRequests.GetImportSample
 {
@@ -17,7 +17,7 @@ namespace Backend.Business.Import.Requests.ImportRequests.GetImportSample
         {
             try
             {
-                var fileBytes = await File.ReadAllBytesAsync($"{ GetSamplePath(request.ImportType, request.SampleType) }.xlsx", cancellationToken);
+                var fileBytes = await File.ReadAllBytesAsync($"{ GetSamplePath(request.ImportType, request.SampleType) }", cancellationToken);
                 const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"; // TODO: get from settings or something
                 var title = request.SampleType + ".xlsx";
 
@@ -36,7 +36,7 @@ namespace Backend.Business.Import.Requests.ImportRequests.GetImportSample
         public string GetSamplePath(ImportType importType, SampleType sampleType)
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                   $"/Business/Import/Samples/{importType}/{sampleType}";
+                   $"/Samples/{importType}/{sampleType}.xlsx";
         }
     }
 }

@@ -3,22 +3,22 @@
 
     <mat-form-field fxFlex="0 1 calc(50% - 1rem)">
       <mat-label>From: </mat-label>
-      <input matInput [matDatepicker]="!(isMobile | async) ? datepickerWeb1 : datepickerMobile1" formControlName="dateFrom" (dateChange)="getReportData()">
+      <input matInput [matDatepicker]="!params.mobile ? datepickerWeb1 : datepickerMobile1" formControlName="dateFrom" (dateChange)="getReportData()">
 
-      <mat-datepicker-toggle matSuffix [for]="!(isMobile | async) ? datepickerWeb1 : datepickerMobile1">
+      <mat-datepicker-toggle matSuffix [for]="!params.mobile ? datepickerWeb1 : datepickerMobile1">
       </mat-datepicker-toggle>
-      <mat-datepicker [hidden]="(isMobile | async)" #datepickerWeb1></mat-datepicker>
-      <mat-datepicker [hidden]="!(isMobile | async)" touchUi #datepickerMobile1></mat-datepicker>
+      <mat-datepicker [hidden]="params.mobile" #datepickerWeb1></mat-datepicker>
+      <mat-datepicker [hidden]="!params.mobile" touchUi #datepickerMobile1></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field fxFlex="0 1 calc(50% - 1rem)">
       <mat-label>To: </mat-label>
-      <input matInput [matDatepicker]="!(isMobile | async) ? datepickerWeb2 : datepickerMobile2" formControlName="dateTo" (dateChange)="getReportData()">
+      <input matInput [matDatepicker]="!params.mobile ? datepickerWeb2 : datepickerMobile2" formControlName="dateTo" (dateChange)="getReportData()">
 
-      <mat-datepicker-toggle matSuffix [for]="!(isMobile | async) ? datepickerWeb2 : datepickerMobile2">
+      <mat-datepicker-toggle matSuffix [for]="!params.mobile ? datepickerWeb2 : datepickerMobile2">
       </mat-datepicker-toggle>
-      <mat-datepicker [hidden]="(isMobile | async)" #datepickerWeb2></mat-datepicker>
-      <mat-datepicker [hidden]="!(isMobile | async)" touchUi #datepickerMobile2></mat-datepicker>
+      <mat-datepicker [hidden]="params.mobile" #datepickerWeb2></mat-datepicker>
+      <mat-datepicker [hidden]="!params.mobile" touchUi #datepickerMobile2></mat-datepicker>
     </mat-form-field>
 
   </form>

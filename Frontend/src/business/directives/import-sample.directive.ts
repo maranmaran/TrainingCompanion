@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@
 import { FileSaverService } from 'ngx-filesaver';
 import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
 import { ImportService } from '../services/feature-services/import.service';
+import { FileContentResult } from '../shared/file-content-result';
 
 
 @Directive({
@@ -16,7 +17,7 @@ export class ImportSampleDirective implements OnInit {
   importType: ImportEntities;
 
 
-  public get htmlTemplate() : string {
+  public get htmlTemplate(): string {
     return '<mat-card-header>' + this.sampleType + '</mat-card-header>';
   }
 
@@ -39,12 +40,16 @@ export class ImportSampleDirective implements OnInit {
   }
 
   downloadSample() {
-      this.importService.getSample(this.importType, this.sampleType).subscribe(
-          (file: Blob) => {
-              this.fileSaverService.save(file, this.sampleType + '.xlsx');
-          },
-          err => console.log(err)
-      );
+    this.importService.getSample(this.importType, this.sampleType).subscribe(
+      (file: FileContentResult) => {
+        console.log(new Blob([file.fileContents], { type: file.contentType }));
+        return this.fileSaverService.save(
+          new Blob([file.fileContents], { type: file.contentType }),
+          file.fileDownloadName
+        )
+      },
+      err => console.log(err)
+    );
   }
 
 
