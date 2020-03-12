@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using AutoMapper;
-using Backend.Business.Export.Models.Training;
 using Backend.Domain.Entities.TrainingLog;
 using Microsoft.EntityFrameworkCore.Internal;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Backend.Library.Excel.Models
+namespace Backend.Business.Import.Models
 {
     [AttributeUsage(AttributeTargets.All)]
     public class Column : System.Attribute
