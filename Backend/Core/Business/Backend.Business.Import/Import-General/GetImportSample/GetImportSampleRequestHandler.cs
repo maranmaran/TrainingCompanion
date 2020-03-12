@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Backend.Business.Import.Models;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.Import.Models;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Business.Import.GetImportSample
 {
@@ -36,7 +36,7 @@ namespace Backend.Business.Import.GetImportSample
         public string GetSamplePath(ImportType importType, SampleType sampleType)
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                   $"/Samples/{importType}/{sampleType}.xlsx";
+                   $"\\Samples\\{importType}\\{sampleType}.xlsx";
         }
     }
 }

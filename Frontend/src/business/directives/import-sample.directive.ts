@@ -1,8 +1,9 @@
+import { HttpResponse } from '@angular/common/http';
 import { Directive, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
 import { FileSaverService } from 'ngx-filesaver';
 import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
 import { ImportService } from '../services/feature-services/import.service';
-import { FileContentResult } from '../shared/file-content-result';
+import { getFileNameFromHttpResponse } from '../utils/http.helper';
 
 
 @Directive({
@@ -41,11 +42,10 @@ export class ImportSampleDirective implements OnInit {
 
   downloadSample() {
     this.importService.getSample(this.importType, this.sampleType).subscribe(
-      (file: FileContentResult) => {
-        console.log(new Blob([file.fileContents], { type: file.contentType }));
+      (response: HttpResponse<Blob>) => {
         return this.fileSaverService.save(
-          new Blob([file.fileContents], { type: file.contentType }),
-          file.fileDownloadName
+          response.body,
+          getFileNameFromHttpResponse(response)
         )
       },
       err => console.log(err)
