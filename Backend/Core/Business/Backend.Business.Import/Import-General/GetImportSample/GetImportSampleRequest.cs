@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Backend.Business.Import.Requests.ImportRequests.GetImportSample
+namespace Backend.Business.Import.GetImportSample
 {
     public class GetImportSampleRequest : IRequest<FileContentResult>
     {

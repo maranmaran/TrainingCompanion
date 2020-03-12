@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Backend.Business.Import.GetImportSample;
 using Backend.Business.Import.ImportExerciseType;
 using Backend.Business.Import.ImportTraining;
-using Backend.Business.Import.Requests.ImportRequests.GetImportSample;
 
 namespace Backend.API.Controllers
 {

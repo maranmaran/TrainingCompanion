@@ -1,10 +1,10 @@
 ﻿using Backend.Common;
-using Backend.Library.Excel.Models;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Backend.Business.Import.Models;
 
 namespace Backend.Business.Import
 {

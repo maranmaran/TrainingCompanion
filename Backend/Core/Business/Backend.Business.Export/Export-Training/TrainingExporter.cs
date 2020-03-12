@@ -1,5 +1,4 @@
 ﻿using Backend.Business.Export.Interfaces;
-using Backend.Business.Export.Models.Training;
 using Backend.Common;
 using Backend.Common.Extensions;
 using Backend.Domain.Entities.User;

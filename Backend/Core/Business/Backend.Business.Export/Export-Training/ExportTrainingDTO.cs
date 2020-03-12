@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Backend.Business.Export.Models.Training
+namespace Backend.Business.Export
 {
     public class ExportTrainingDto
     {
