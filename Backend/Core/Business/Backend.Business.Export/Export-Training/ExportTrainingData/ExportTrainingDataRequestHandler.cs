@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Backend.Business.Export.Models.Training;
 using Backend.Domain;
 using Backend.Domain.Entities.ExerciseType;
 using Backend.Domain.Entities.User;

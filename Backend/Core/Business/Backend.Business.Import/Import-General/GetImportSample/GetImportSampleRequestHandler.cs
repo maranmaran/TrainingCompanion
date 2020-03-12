@@ -1,14 +1,14 @@
-﻿using Backend.Business.Import.Models;
-using Backend.Service.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.Import.Models;
+using Backend.Service.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Backend.Business.Import.Requests.ImportRequests.GetImportSample
+namespace Backend.Business.Import.GetImportSample
 {
     public class GetImportSampleRequestHandler : IRequestHandler<GetImportSampleRequest, FileContentResult>
     {

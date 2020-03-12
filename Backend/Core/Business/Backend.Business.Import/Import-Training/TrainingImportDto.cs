@@ -1,5 +1,5 @@
 ﻿using System;
-using Backend.Library.Excel.Models;
+using Backend.Business.Import.Models;
 
 namespace Backend.Business.Import
 {

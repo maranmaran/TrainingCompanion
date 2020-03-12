@@ -163,6 +163,8 @@ namespace Backend.API.Extensions
                     Type = SecuritySchemeType.ApiKey
                 });
             });
+
+            services.AddSwaggerGenNewtonsoftSupport(); // explicit opt-in - needs to be placed after AddSwaggerGen()
         }
 
         /// <summary>
