@@ -48,6 +48,7 @@ namespace Backend.API.Extensions
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()
+                        .WithExposedHeaders("Content-Disposition")
                 );
             });
         }

@@ -26,7 +26,7 @@ namespace Backend.API.Controllers
         [HttpGet("{importType}/{sampleType}")]
         public async Task<IActionResult> GetSample(ImportType importType, SampleType sampleType)
         {
-            return Ok(await Mediator.Send(new GetImportSampleRequest { ImportType = importType, SampleType = sampleType }));
+            return await Mediator.Send(new GetImportSampleRequest { ImportType = importType, SampleType = sampleType });
         }
     }
 }
