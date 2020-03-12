@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
 import { catchError, finalize } from 'rxjs/operators';
 import { ImportJob } from 'src/app/features/export-import/models/import-job.model';
-import { FileContentResult } from 'src/business/shared/file-content-result';
 import { addImportJob, removeImportJob, setImportResponse } from 'src/ngrx/export-import/export-import.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ImportEntities } from 'src/server-models/enums/import-entities.enum';
@@ -79,7 +78,7 @@ export class ImportService extends BaseService {
   }
 
   public getSample(importType: ImportEntities, sampleType: string) {
-    return this.http.get<FileContentResult>(this.url + 'GetSample/' + importType + '/' + sampleType)
+    return this.http.get(this.url + 'GetSample/' + importType + '/' + sampleType, { observe: 'response', responseType: 'blob' })
       .pipe(catchError(this.handleError));
   }
 
