@@ -1,12 +1,14 @@
 ﻿using Backend.Domain;
+using Backend.Library.Payment.Configuration;
 using Backend.Persistance;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 using System;
-using Backend.Library.Payment.Configuration;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Backend.API
 {
@@ -14,6 +16,7 @@ namespace Backend.API
     {
         public static void Main(string[] args)
         {
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -21,6 +24,7 @@ namespace Backend.API
                 var services = scope.ServiceProvider;
                 try
                 {
+                    logger.Error("Application started");
                     var contextInterface = services.GetService<IApplicationDbContext>();
                     var stripeSettings = services.GetService<StripeSettings>();
                     //var passwordHasher = services.GetService<IPasswordHasher>();
@@ -33,8 +37,12 @@ namespace Backend.API
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+                    logger.Error(ex, "Internal server error in Main. Perhaps DB failed to migrate or seed.");
+                }
+                finally
+                {
+                    // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                    NLog.LogManager.Shutdown();
                 }
             }
 
@@ -46,6 +54,11 @@ namespace Backend.API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }).ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.SetMinimumLevel(LogLevel.Trace); // App settings override this
+                })
+                .UseNLog();
     }
 }
