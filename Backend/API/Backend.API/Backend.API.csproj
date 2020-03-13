@@ -39,7 +39,6 @@
     <ProjectReference Include="..\..\Core\Business\Backend.Business.ProgressTracking\Backend.Business.ProgressTracking.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.TrainingLog\Backend.Business.TrainingLog.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Users\Backend.Business.Users.csproj" />
-    <ProjectReference Include="..\..\Core\Services\Backend.Service.Logging\Backend.Library.Logging.csproj" />
     <ProjectReference Include="..\..\Persistance\Backend.Persistance\Backend.Persistance.csproj" />
   </ItemGroup>
 

@@ -1,28 +1,32 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
+﻿using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
 using Backend.Business.Authorization.Interfaces;
 using Backend.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.SignIn
 {
-    public class SignInCommandHandler : IRequestHandler<SignInRequest, (CurrentUserRequestResponse response, string token)>
+    public class SignInRequestHandler : IRequestHandler<SignInRequest, (CurrentUserRequestResponse response, string token)>
     {
         private readonly IApplicationDbContext _context;
         private readonly IJwtTokenGenerator _jwtGenerator;
         private readonly IMediator _mediator;
+        private readonly ILogger<SignInRequestHandler> _logger;
 
-        public SignInCommandHandler(
+        public SignInRequestHandler(
             IApplicationDbContext context,
             IJwtTokenGenerator jwtGenerator,
-            IMediator mediator)
+            IMediator mediator,
+            ILogger<SignInRequestHandler> logger)
         {
             _context = context;
             _jwtGenerator = jwtGenerator;
             _mediator = mediator;
+            _logger = logger;
         }
 
         public async Task<(CurrentUserRequestResponse response, string token)> Handle(SignInRequest request, CancellationToken cancellationToken)
