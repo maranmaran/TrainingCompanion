@@ -50,7 +50,7 @@
       <span class="label">Training log</span>
     </a>
 
-    <a mat-list-item routerLink="/app/export-import" (click)="onRoute()">
+    <a mat-list-item routerLink="/app/export-import" (click)="onRoute()" *ngIf="(isCoach$ | async)">
       <i class="fas fa-cloud-upload-alt"></i>
       <span class="label">Export / Import</span>
     </a>
