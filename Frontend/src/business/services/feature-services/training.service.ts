@@ -23,7 +23,7 @@ export class TrainingService extends CrudService<Training> {
   }
 
   public getAllByWeek(userId: string, weekStart: Date, weekEnd: Date) {
-    return this.http.get<Training[]>(this.url + 'GetAllByWeek/' + userId + '/' + weekStart.toISOString() + '/' + weekEnd.toISOString())
+    return this.http.get<Training[]>(this.url + 'GetAllByWeek/' + userId + '/' + weekStart.toUTCString() + '/' + weekEnd.toUTCString())
       .pipe(
         catchError(this.handleError)
       );

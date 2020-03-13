@@ -19,7 +19,6 @@ import { CreateTrainingRequest } from './../../../../../server-models/cqrs/train
   templateUrl: './training-create-edit.component.html',
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ]
 })
 export class TrainingCreateEditComponent implements OnInit {
@@ -52,7 +51,7 @@ export class TrainingCreateEditComponent implements OnInit {
   get time(): AbstractControl { return this.form.get('time'); }
   createForm() {
     this.form = new FormGroup({
-      date: new FormControl(this.data.day.utc().format('L'), Validators.required),
+      date: new FormControl(this.data.day, Validators.required),
       time: new FormControl(this.dateTimeObj.time, Validators.required),
     });
   }

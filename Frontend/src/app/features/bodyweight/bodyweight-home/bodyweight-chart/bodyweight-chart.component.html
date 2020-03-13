@@ -3,22 +3,20 @@
 
     <mat-form-field fxFlex="0 1 calc(50% - 1rem)">
       <mat-label>From: </mat-label>
-      <input matInput [matDatepicker]="!params.mobile ? datepickerWeb1 : datepickerMobile1" formControlName="dateFrom" (dateChange)="getReportData()">
+      <input matInput [matDatepicker]="datepicker1" formControlName="dateFrom" (dateChange)="getReportData()">
 
-      <mat-datepicker-toggle matSuffix [for]="!params.mobile ? datepickerWeb1 : datepickerMobile1">
+      <mat-datepicker-toggle matSuffix [for]="datepicker1">
       </mat-datepicker-toggle>
-      <mat-datepicker [hidden]="params.mobile" #datepickerWeb1></mat-datepicker>
-      <mat-datepicker [hidden]="!params.mobile" touchUi #datepickerMobile1></mat-datepicker>
+      <mat-datepicker [touchUi]="params.mobile" #datepicker1></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field fxFlex="0 1 calc(50% - 1rem)">
       <mat-label>To: </mat-label>
-      <input matInput [matDatepicker]="!params.mobile ? datepickerWeb2 : datepickerMobile2" formControlName="dateTo" (dateChange)="getReportData()">
+      <input matInput [matDatepicker]="datepicker2" formControlName="dateTo" (dateChange)="getReportData()">
 
-      <mat-datepicker-toggle matSuffix [for]="!params.mobile ? datepickerWeb2 : datepickerMobile2">
+      <mat-datepicker-toggle matSuffix [for]="datepicker2">
       </mat-datepicker-toggle>
-      <mat-datepicker [hidden]="params.mobile" #datepickerWeb2></mat-datepicker>
-      <mat-datepicker [hidden]="!params.mobile" touchUi #datepickerMobile2></mat-datepicker>
+      <mat-datepicker [touchUi]="params.mobile" #datepicker2></mat-datepicker>
     </mat-form-field>
 
   </form>
