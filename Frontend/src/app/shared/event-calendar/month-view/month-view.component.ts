@@ -13,7 +13,7 @@ import { belongsToThisMonth, getMonthViewModel, populateMonthViewModel } from '.
 export class CalendarMonthViewComponent implements OnInit, OnDestroy {
 
   calendar = new CalendarMonth();
-  currentDay = moment(new Date());
+  currentDay = moment(new Date()).utc();
 
   @Output() selectDayEvent = new EventEmitter<CalendarDay>();
   @Output() previousMonthEvent = new EventEmitter<moment.Moment>();

@@ -8,7 +8,7 @@ export function getMonthViewModel(today: moment.Moment): CalendarMonth {
   const startDay = getStartDayOfMonth(today);
   const endDay = getEndDayOfMonth(today);
 
-  const date = startDay.clone().add(1, 'day') // this is +1 because of sundays
+  const date = startDay.clone() // this is +1 because of sundays
   while (date.isBefore(endDay, 'day')) {
 
     eventCalendar.weeks.push(
@@ -51,11 +51,11 @@ export function populateWeekViewModel(model: CalendarWeek, events: CalendarEvent
   });
 }
 
-export const getStartDayOfMonth = (date: moment.Moment) => date.clone().startOf('month').startOf('week');
-export const getEndDayOfMonth = (date: moment.Moment) => date.clone().endOf('month').endOf('week');
+export const getStartDayOfMonth = (date: moment.Moment) => date.clone().startOf('month').startOf('week').utc();
+export const getEndDayOfMonth = (date: moment.Moment) => date.clone().endOf('month').endOf('week').utc();
 
-export const getStartDayOfWeek = (date: moment.Moment) => date.clone().startOf('week');
-export const getEndDayOfWeek = (date: moment.Moment) => date.clone().endOf('week');
+export const getStartDayOfWeek = (date: moment.Moment) => date.clone().startOf('week').utc();
+export const getEndDayOfWeek = (date: moment.Moment) => date.clone().endOf('week').utc();
 
 export const isBefore = (date: moment.Moment, dateToCompareTo: moment.Moment) => dateToCompareTo.isBefore(date, 'date');
 export const isEqual = (date: moment.Moment, dateToCompareTo: moment.Moment) => dateToCompareTo.isSame(date, 'date');

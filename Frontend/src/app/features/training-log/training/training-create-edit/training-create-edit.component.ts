@@ -38,7 +38,7 @@ export class TrainingCreateEditComponent implements OnInit {
   private _userId: string;
 
   private dateTimeObj = {
-    date: this.data.day,
+    date: this.data.day.toDate(),
     time: '12:00 PM'
   }
 
@@ -49,9 +49,10 @@ export class TrainingCreateEditComponent implements OnInit {
 
   get date(): AbstractControl { return this.form.get('date'); }
   get time(): AbstractControl { return this.form.get('time'); }
+
   createForm() {
     this.form = new FormGroup({
-      date: new FormControl(this.data.day, Validators.required),
+      date: new FormControl(this.dateTimeObj.date, Validators.required),
       time: new FormControl(this.dateTimeObj.time, Validators.required),
     });
   }
@@ -62,7 +63,8 @@ export class TrainingCreateEditComponent implements OnInit {
 
     const request = new CreateTrainingRequest();
     request.applicationUserId = this._userId;
-    request.dateTrained = moment(this.date.value + ' ' + this.time.value, 'L HH:mm').toDate();
+    request.dateTrained = moment(moment(this.date.value).format('L')  + ' ' + this.time.value, 'L HH:mm').toDate();
+
     this.createEntity(request);
   }
 
