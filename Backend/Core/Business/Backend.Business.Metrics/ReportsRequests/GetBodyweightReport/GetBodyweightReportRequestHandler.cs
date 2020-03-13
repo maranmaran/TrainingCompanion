@@ -30,7 +30,11 @@ namespace Backend.Business.Reports.ReportsRequests.GetBodyweightReport
 
                 var unitSystem = userSetting.UnitSystem; //TODO do something..
 
-                var data = _context.Bodyweights.Where(x => x.Date >= request.DateFrom && x.Date <= request.DateTo);
+                var data = _context.Bodyweights
+                    .OrderBy(x => x.Date.Date)
+                    .Where(x => x.Date.Date >= request.DateFrom.Date &&
+                                x.Date.Date <= request.DateTo.Date
+                    );
 
                 var dates = await data.Select(x => x.Date).ToListAsync(cancellationToken);
                 var values = await data.Select(x => x.Value).ToListAsync(cancellationToken);

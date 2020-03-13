@@ -26,6 +26,7 @@ using Newtonsoft.Json.Serialization;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,7 +175,7 @@ namespace Backend.API.Extensions
         /// <param name="services"></param>
         public static void ConfigureMediatR(this IServiceCollection services)
         {
-            var assemblies = new List<Assembly>()
+            var assemblies = new Assembly[]
             {
                 Assembly.GetAssembly(typeof(Business.Billing.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Authorization.Mappings)),
@@ -209,7 +210,7 @@ namespace Backend.API.Extensions
         /// <param name="services"></param>
         public static void ConfigureAutomapper(this IServiceCollection services)
         {
-            var mappings = new List<Type>()
+            var types = new Type[]
             {
                 typeof(Business.Billing.Mappings),
                 typeof(Business.Authorization.Mappings),
@@ -225,7 +226,7 @@ namespace Backend.API.Extensions
                 typeof(Business.ExerciseType.Mappings),
             };
 
-            services.AddAutoMapper(mappings.ToArray());
+            services.AddAutoMapper(types);
         }
 
         /// <summary>
