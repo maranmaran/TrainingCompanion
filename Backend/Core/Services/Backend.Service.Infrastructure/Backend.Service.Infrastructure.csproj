@@ -24,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Backend.Service.Logging\Backend.Library.Logging.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Assets\EmailTemplates\Images\logo.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
