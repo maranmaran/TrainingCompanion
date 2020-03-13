@@ -26,12 +26,6 @@ namespace Backend.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // third party libraries
-            services.ConfigureAutomapper();
-            services.ConfigureMediatR();
-            services.ConfigureSignalR();
-            services.ConfigureEPPlus();
-
             // setting and services from core
             services.ConfigureCoreServices();
             services.ConfigureCoreSettings(Configuration);
@@ -42,6 +36,12 @@ namespace Backend.API
             services.ConfigureCors();
             services.ConfigureMvc();
             services.ConfigureSwagger();
+
+            // third party libraries
+            services.ConfigureAutomapper();
+            services.ConfigureMediatR();
+            services.ConfigureSignalR();
+            services.ConfigureEPPlus();
         }
 
 

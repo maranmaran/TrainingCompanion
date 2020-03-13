@@ -115,6 +115,7 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
   onAdd() {
     var bodyweight = new Bodyweight();
     bodyweight.value = this.lastLoggedValue;
+    bodyweight.date = new Date();
 
     const dialogRef = this.uiService.openDialogFromComponent(BodyweightCreateEditComponent, {
       height: 'auto',

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
@@ -26,7 +26,7 @@ import { GetBodyweightChartConfig } from './bodyweight-chart-config';
   styleUrls: ['./bodyweight-chart.component.scss'],
   providers: [
     ReportService,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] }
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
   ]
 })
 export class BodyweightChartComponent implements OnInit, OnDestroy {
@@ -86,9 +86,9 @@ export class BodyweightChartComponent implements OnInit, OnDestroy {
   }
 
   prepareData([theme, system, userId, _, mobile]) {
-    this.params = { theme, unitSystem: system, userId, mobile};
+    this.params = { theme, unitSystem: system, userId, mobile };
 
-    if(!this.form.valid)
+    if (!this.form.valid)
       return;
 
     this.getReportData();
@@ -96,12 +96,12 @@ export class BodyweightChartComponent implements OnInit, OnDestroy {
 
   getReportData() {
     this.reportService.getBodyweightReport(this.params.userId, this.dateFrom.value, this.dateTo.value)
-    .pipe(take(1))
-    .subscribe(
-      (data: GetBodyweightReportResponse) => {
-        this.config = [GetBodyweightChartConfig(this.params, data.values, data.dates.map(date => moment(date).format('L')))];
-      },
-      err => console.log(err)
-    )
+      .pipe(take(1))
+      .subscribe(
+        (data: GetBodyweightReportResponse) => {
+          this.config = [GetBodyweightChartConfig(this.params, data.values, data.dates.map(date => moment(date).format('L')))];
+        },
+        err => console.log(err)
+      )
   }
 }
