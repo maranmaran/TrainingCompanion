@@ -1,7 +1,7 @@
 ﻿using Backend.API.Models;
+using Backend.Library.Logging.Interfaces;
 using Backend.Service.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -11,15 +11,13 @@ namespace Backend.API.Middleware
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<GlobalExceptionMiddleware> _logger;
 
-        public GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger)
+        public GlobalExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
-            _logger = logger;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext httpContext, ILoggingService logger)
         {
             try
             {
@@ -27,13 +25,13 @@ namespace Backend.API.Middleware
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(httpContext, ex);
+                await HandleExceptionAsync(logger, httpContext, ex);
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private async Task HandleExceptionAsync(ILoggingService logger, HttpContext context, Exception exception)
         {
-            _logger.LogError(exception, $"{exception.Message} {exception.InnerException?.Message}");
+            await logger.LogError(exception, $"{exception.Message} {exception.InnerException?.Message}");
 
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Response.ContentType = "application/json";
