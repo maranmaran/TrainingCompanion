@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Backend.Business.Metrics
+namespace Backend.Business.Reports
 {
     public class Mappings : Profile
     {

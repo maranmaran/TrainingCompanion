@@ -2,6 +2,7 @@
 using Backend.API.Middleware;
 using Backend.Business.Chat;
 using Backend.Business.Notifications.PushNotificationRequests;
+using Backend.Library.Logging.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +43,7 @@ namespace Backend.API
             services.ConfigureMediatR();
             services.ConfigureSignalR();
             services.ConfigureEPPlus();
+            services.ConfigureNLog();
         }
 
 

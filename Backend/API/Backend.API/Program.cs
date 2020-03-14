@@ -1,4 +1,5 @@
 ﻿using Backend.Domain;
+using Backend.Library.Logging.Interfaces;
 using Backend.Library.Payment.Configuration;
 using Backend.Persistance;
 using Microsoft.AspNetCore.Hosting;
@@ -16,28 +17,30 @@ namespace Backend.API
     {
         public static void Main(string[] args)
         {
-            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                var loggingService = services.GetService<ILoggingService>();
+
                 try
                 {
-                    logger.Error("Application started");
                     var contextInterface = services.GetService<IApplicationDbContext>();
-                    var stripeSettings = services.GetService<StripeSettings>();
-                    //var passwordHasher = services.GetService<IPasswordHasher>();
 
+                    // stripe seed..
+                    var stripeSettings = services.GetService<StripeSettings>();
                     StripeConfiguration.ConfigureProducts(stripeSettings).Wait();
 
                     var context = (ApplicationDbContext)contextInterface;
                     context.Database.Migrate();
                     //DatabaseInitializer.Initialize(context, stripeConfiguration, passwordHasher);//<---Do your seeding here
+
+                    loggingService.LogInfo("Application started. Database successfully migrated and seeded").Wait();
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex, "Internal server error in Main. Perhaps DB failed to migrate or seed.");
+                    loggingService.LogError(ex, "Internal server error in Main. Perhaps DB failed to migrate or seed.").Wait();
                 }
                 finally
                 {

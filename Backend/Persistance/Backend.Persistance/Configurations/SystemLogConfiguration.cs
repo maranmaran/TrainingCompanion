@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SystemException = Backend.Domain.Entities.System.SystemException;
+using SystemLog = Backend.Domain.Entities.System.SystemLog;
 
 namespace Backend.Persistance.Configurations
 {
-    public class SystemExceptionConfiguration : IEntityTypeConfiguration<SystemException>
+    public class SystemLogConfiguration : IEntityTypeConfiguration<SystemLog>
     {
-        public void Configure(EntityTypeBuilder<SystemException> builder)
+        public void Configure(EntityTypeBuilder<SystemLog> builder)
         {
             builder.Property(x => x.Date).HasDefaultValueSql("getutcdate()");
 

@@ -30,6 +30,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Mappings = Backend.Business.Reports.Mappings;
 
 namespace Backend.API.Extensions
 {
@@ -183,7 +184,7 @@ namespace Backend.API.Extensions
                 Assembly.GetAssembly(typeof(Business.Chat.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Export.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Import.Mappings)),
-                Assembly.GetAssembly(typeof(Business.Metrics.Mappings)),
+                Assembly.GetAssembly(typeof(Mappings)),
                 Assembly.GetAssembly(typeof(Business.Notifications.Mappings)),
                 Assembly.GetAssembly(typeof(Business.ProgressTracking.Mappings)),
                 Assembly.GetAssembly(typeof(Business.TrainingLog.Mappings)),
@@ -218,7 +219,7 @@ namespace Backend.API.Extensions
                 typeof(Business.Chat.Mappings),
                 typeof(Business.Export.Mappings),
                 typeof(Business.Import.Mappings),
-                typeof(Business.Metrics.Mappings),
+                typeof(Mappings),
                 typeof(Business.Notifications.Mappings),
                 typeof(Business.ProgressTracking.Mappings),
                 typeof(Business.TrainingLog.Mappings),
@@ -288,6 +289,7 @@ namespace Backend.API.Extensions
             services.ConfigurePaymentSettings(config);
             services.ConfigureAppSettings(config);
             services.ConfigureS3Settings(config);
+            services.ConfigureLogLevelSettings(config);
         }
     }
 }

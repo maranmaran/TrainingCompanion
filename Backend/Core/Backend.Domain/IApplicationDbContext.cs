@@ -29,7 +29,7 @@ namespace Backend.Domain
         DbSet<Track> Tracks { get; set; }
         DbSet<TrackItem> TrackItems { get; set; }
         DbSet<TrackItemParams> TrackItemParams { get; set; }
-        DbSet<SystemException> SystemExceptions { get; set; }
+        DbSet<SystemLog> SystemLog { get; set; }
         DbSet<Bodyweight> Bodyweights { get; set; }
         DbSet<PersonalBest> PBs { get; set; }
 
