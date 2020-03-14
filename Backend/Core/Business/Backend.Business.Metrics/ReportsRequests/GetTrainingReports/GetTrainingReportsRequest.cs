@@ -10,7 +10,7 @@ using Backend.Service.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.Metrics.ReportsRequests.GetTrainingReports
+namespace Backend.Business.Reports.ReportsRequests.GetTrainingReports
 {
     public class GetTrainingReportsRequest : IRequest<GetTrainingReportsResponse>
     {

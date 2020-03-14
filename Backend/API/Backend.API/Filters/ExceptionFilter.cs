@@ -1,5 +1,6 @@
 ﻿using Backend.API.Models;
 using Backend.Domain;
+using Backend.Library.Logging.Models;
 using Backend.Service.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -7,7 +8,7 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using SystemException = Backend.Domain.Entities.System.SystemException;
+using SystemLog = Backend.Domain.Entities.System.SystemLog;
 
 namespace Backend.API.Filters
 {
@@ -55,9 +56,9 @@ namespace Backend.API.Filters
 
         private async Task SaveExceptionToDb(int code, string exceptionMessage, string innerExceptionMessage)
         {
-            await _context.SystemExceptions.AddAsync(new SystemException()
+            await _context.SystemLog.AddAsync(new SystemLog()
             {
-                StatusCode = code,
+                LogLevel = LogLevel.Error.ToString(),
                 Message = exceptionMessage,
                 InnerException = innerExceptionMessage,
             });

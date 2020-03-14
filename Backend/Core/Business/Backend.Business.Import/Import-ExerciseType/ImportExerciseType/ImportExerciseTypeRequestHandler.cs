@@ -9,7 +9,6 @@ using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -95,8 +94,7 @@ namespace Backend.Business.Import.ImportExerciseType
             }
             catch (Exception e)
             {
-                await _loggingService.LogError((int)HttpStatusCode.InternalServerError, e.Message, e.InnerException?.Message,
-                    CancellationToken.None);
+                await _loggingService.LogError(e, $"Failed to notify user: {receiverId}");
             }
         }
 

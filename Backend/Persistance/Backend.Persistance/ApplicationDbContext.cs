@@ -28,7 +28,7 @@ namespace Backend.Persistance
         public DbSet<Track> Tracks { get; set; }
         public DbSet<TrackItem> TrackItems { get; set; }
         public DbSet<TrackItemParams> TrackItemParams { get; set; }
-        public DbSet<SystemException> SystemExceptions { get; set; }
+        public DbSet<SystemLog> SystemLog { get; set; }
         public DbSet<Bodyweight> Bodyweights { get; set; }
         public DbSet<PersonalBest> PBs { get; set; }
 

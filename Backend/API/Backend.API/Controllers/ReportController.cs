@@ -1,8 +1,8 @@
-﻿using Backend.Business.Metrics.ReportsRequests.GetTrainingReports;
-using Backend.Business.Reports.ReportsRequests.GetBodyweightReport;
+﻿using Backend.Business.Reports.ReportsRequests.GetBodyweightReport;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Backend.Business.Reports.ReportsRequests.GetTrainingReports;
 
 namespace Backend.API.Controllers
 {

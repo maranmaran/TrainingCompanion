@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -68,9 +67,7 @@ namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
             }
             catch (Exception e)
             {
-                // log
-                await _loggingService.LogError((int)HttpStatusCode.InternalServerError, e.Message, e.InnerException?.Message,
-                    CancellationToken.None);
+                await _loggingService.LogError(e, $"Could not send notification to receiver: {notification.ReceiverId}");
             }
         }
 
@@ -89,8 +86,7 @@ namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
             catch (Exception e)
             {
                 // log
-                await _loggingService.LogError((int)HttpStatusCode.InternalServerError, e.Message, e.InnerException?.Message,
-                    CancellationToken.None);
+                await _loggingService.LogError(e, $"Could not send notification to receiver: {notification.ReceiverId}");
             }
         }
 
