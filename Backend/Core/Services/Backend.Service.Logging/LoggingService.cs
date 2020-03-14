@@ -23,7 +23,6 @@ namespace Backend.Library.Logging
             _context = context;
             _logger = logger;
             _logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), settings.Default, true);
-            _logger.LogError("LogService running");
         }
 
         public async Task LogError(Exception exception, string message = null)
