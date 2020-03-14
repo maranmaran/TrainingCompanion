@@ -37,6 +37,8 @@ namespace Backend.API
                     //DatabaseInitializer.Initialize(context, stripeConfiguration, passwordHasher);//<---Do your seeding here
 
                     loggingService.LogInfo("Application started. Database successfully migrated and seeded").Wait();
+
+                    host.Run();
                 }
                 catch (Exception ex)
                 {
@@ -48,8 +50,6 @@ namespace Backend.API
                     NLog.LogManager.Shutdown();
                 }
             }
-
-            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
