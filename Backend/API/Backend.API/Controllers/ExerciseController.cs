@@ -29,6 +29,7 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateExerciseRequest request, CancellationToken cancellationToken = default)
         {
+            RemoveCacheKeys($"Report/TrainingMetrics{request.TrainingId}");
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 
@@ -42,6 +43,7 @@ namespace Backend.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
         {
+            RemoveCacheKeys($"Report/TrainingMetrics");
             return Ok(await Mediator.Send(new DeleteExerciseRequest() { Id = id }, cancellationToken));
         }
     }
