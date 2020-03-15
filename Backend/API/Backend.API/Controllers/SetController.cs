@@ -19,6 +19,7 @@ namespace Backend.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateMany([FromBody] UpdateManySetsRequest request, CancellationToken cancellationToken = default)
         {
+            RemoveCacheKeys($"Report/TrainingMetrics");
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 
