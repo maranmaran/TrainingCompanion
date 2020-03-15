@@ -12,9 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Backend.Domain\Backend.Domain.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.AmazonS3\Backend.Library.AmazonS3.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.Email\Backend.Library.Email.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Libraries\Backend.Library.AmazonS3\Backend.Library.AmazonS3.csproj" />
+    <ProjectReference Include="..\..\Libraries\Backend.Library.Email\Backend.Library.Email.csproj" />
+    <ProjectReference Include="..\..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
     <ProjectReference Include="..\Backend.Business.Billing\Backend.Business.Billing.csproj" />
     <ProjectReference Include="..\Backend.Business.Notifications\Backend.Business.Notifications.csproj" />
   </ItemGroup>

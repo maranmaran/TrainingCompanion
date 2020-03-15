@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.API", "API\Backend.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Library.AmazonS3", "Core\Services\Backend.Service.AmazonS3\Backend.Library.AmazonS3.csproj", "{EFD8BFEC-BACF-451B-AFFF-8CB6ABFB5364}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Service.Infrastructure", "Core\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj", "{387B8450-77F0-434D-B90D-113477715553}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Infrastructure", "Core\Services\Backend.Service.Infrastructure\Backend.Infrastructure.csproj", "{387B8450-77F0-434D-B90D-113477715553}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{54BC2835-0638-4EC2-A88E-C0E7A0DA8604}"
 	ProjectSection(SolutionItems) = preProject
