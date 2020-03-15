@@ -13,8 +13,11 @@ namespace Backend.API.Controllers
         [HttpGet("{trainingId}/{userId}")]
         public async Task<IActionResult> GetTrainingMetrics(Guid trainingId, Guid userId, CancellationToken cancellationToken = default)
         {
+            var key = $"Report/TrainingMetrics{trainingId}{userId}";
+            AddCacheKey(key);
+
             return Ok(await Cache.GetOrAddAsync(
-                "Report/TrainingMetrics",
+                key,
                 entry => Mediator.Send(new GetTrainingReportsRequest { TrainingId = trainingId, UserId = userId }, cancellationToken)
             ));
 
@@ -24,8 +27,11 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}/{dateFrom}/{dateTo}")]
         public async Task<IActionResult> GetBodyweightReport(Guid userId, DateTime dateFrom, DateTime dateTo, CancellationToken cancellationToken = default)
         {
+            var key = $"Report/BodyweightMetrics{userId}{dateFrom}{dateTo}";
+            AddCacheKey(key);
+
             return Ok(await Cache.GetOrAddAsync(
-                "Report/BodyweightMetrics",
+                key,
                 entry => Mediator.Send(new GetBodyweightReportRequest(userId, dateFrom, dateTo), cancellationToken)
             ));
 
