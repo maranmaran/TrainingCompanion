@@ -44,6 +44,7 @@ namespace Backend.API
             services.ConfigureSignalR();
             services.ConfigureEPPlus();
             services.ConfigureNLog();
+            services.ConfigureLazyCache();
         }
 
 

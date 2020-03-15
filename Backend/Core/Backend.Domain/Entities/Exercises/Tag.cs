@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Backend.Domain.Entities.ExerciseType
+namespace Backend.Domain.Entities.Exercises
 {
     public class Tag
     {

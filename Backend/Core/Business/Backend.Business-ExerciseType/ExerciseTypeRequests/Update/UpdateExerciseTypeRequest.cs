@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Backend.Domain.Entities.Exercises;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.ExerciseType.Update
+namespace Backend.Business.Exercises.ExerciseTypeRequests.Update
 {
-    public class UpdateExerciseTypeRequest : IRequest<Domain.Entities.ExerciseType.ExerciseType>
+    public class UpdateExerciseTypeRequest : IRequest<ExerciseType>
     {
         //public Guid Id { get; set; }
         //public string Name { get; set; }
@@ -17,6 +18,6 @@ namespace Backend.Business.ExerciseType.ExerciseType.Update
 
         //public IEnumerable<ExerciseTypeTag> Properties { get; set; }
 
-        public Domain.Entities.ExerciseType.ExerciseType ExerciseType { get; set; }
+        public ExerciseType ExerciseType { get; set; }
     }
 }

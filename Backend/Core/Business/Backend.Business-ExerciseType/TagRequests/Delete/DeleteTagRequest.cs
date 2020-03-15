@@ -1,7 +1,7 @@
-﻿using MediatR;
-using System;
+﻿using System;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.Tag.Delete
+namespace Backend.Business.Exercises.TagRequests.Delete
 {
     public class DeleteTagRequest : IRequest<Unit>
     {

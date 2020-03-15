@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Backend.Business.TrainingLog.Code;
 using Backend.Domain;
-using Backend.Domain.Entities.ExerciseType;
+using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
 using MediatR;

@@ -1,4 +1,5 @@
 ﻿using System;
+using Backend.Domain.Entities.Exercises;
 
 namespace Backend.Domain.Entities.ProgressTracking
 {
@@ -14,6 +15,6 @@ namespace Backend.Domain.Entities.ProgressTracking
         public double IpfPoints { get; set; }
 
         public Guid ExerciseTypeId { get; set; }
-        public virtual ExerciseType.ExerciseType ExerciseType { get; set; }
+        public virtual ExerciseType ExerciseType { get; set; }
     }
 }

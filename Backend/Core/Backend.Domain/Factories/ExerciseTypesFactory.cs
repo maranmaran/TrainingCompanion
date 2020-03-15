@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Backend.Domain.Entities.ExerciseType;
+using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.User;
 
 namespace Backend.Domain.Factories

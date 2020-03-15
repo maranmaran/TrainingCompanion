@@ -1,9 +1,10 @@
-﻿using MediatR;
-using System;
+﻿using System;
+using Backend.Domain.Entities.Exercises;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.Tag.Create
+namespace Backend.Business.Exercises.TagRequests.Create
 {
-    public class CreateTagRequest : IRequest<Domain.Entities.ExerciseType.Tag>
+    public class CreateTagRequest : IRequest<Tag>
     {
         public Guid TagGroupId { get; set; }
         public string Value { get; set; }

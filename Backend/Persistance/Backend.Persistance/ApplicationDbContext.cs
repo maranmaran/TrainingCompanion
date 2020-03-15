@@ -1,6 +1,6 @@
 ﻿using Backend.Domain;
 using Backend.Domain.Entities.Chat;
-using Backend.Domain.Entities.ExerciseType;
+using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.ProgressTracking;

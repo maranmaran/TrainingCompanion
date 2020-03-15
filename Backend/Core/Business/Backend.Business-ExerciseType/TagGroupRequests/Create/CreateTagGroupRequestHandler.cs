@@ -1,14 +1,15 @@
-﻿using AutoMapper;
-using Backend.Domain;
-using Backend.Infrastructure.Exceptions;
-using MediatR;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
+using Backend.Infrastructure.Exceptions;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.TagGroup.Create
+namespace Backend.Business.Exercises.TagGroupRequests.Create
 {
-    public class CreateTagGroupRequestHandler : IRequestHandler<CreateTagGroupRequest, Domain.Entities.ExerciseType.TagGroup>
+    public class CreateTagGroupRequestHandler : IRequestHandler<CreateTagGroupRequest, TagGroup>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -19,11 +20,11 @@ namespace Backend.Business.ExerciseType.TagGroup.Create
             _mapper = mapper;
         }
 
-        public async Task<Domain.Entities.ExerciseType.TagGroup> Handle(CreateTagGroupRequest request, CancellationToken cancellationToken)
+        public async Task<TagGroup> Handle(CreateTagGroupRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var entity = _mapper.Map<Domain.Entities.ExerciseType.TagGroup>(request);
+                var entity = _mapper.Map<TagGroup>(request);
 
                 await _context.TagGroups.AddAsync(entity, cancellationToken);
 
@@ -33,7 +34,7 @@ namespace Backend.Business.ExerciseType.TagGroup.Create
             }
             catch (Exception e)
             {
-                throw new CreateFailureException(nameof(Domain.Entities.ExerciseType.Tag), e);
+                throw new CreateFailureException(nameof(Tag), e);
             }
         }
     }

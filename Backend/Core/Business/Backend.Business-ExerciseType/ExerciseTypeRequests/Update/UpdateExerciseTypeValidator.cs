@@ -1,9 +1,10 @@
 ﻿using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using FluentValidation;
 
-namespace Backend.Business.ExerciseType.ExerciseType.Update
+namespace Backend.Business.Exercises.ExerciseTypeRequests.Update
 {
-    public class UpdateExerciseTypeValidator : AbstractValidator<Domain.Entities.ExerciseType.ExerciseType>
+    public class UpdateExerciseTypeValidator : AbstractValidator<ExerciseType>
     {
         private readonly IApplicationDbContext _context;
 

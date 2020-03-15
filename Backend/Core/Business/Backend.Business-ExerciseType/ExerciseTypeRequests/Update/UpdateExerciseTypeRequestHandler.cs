@@ -1,17 +1,18 @@
-﻿using AutoMapper;
-using Backend.Domain;
-using Backend.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
+using Backend.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.ExerciseType.ExerciseType.Update
+namespace Backend.Business.Exercises.ExerciseTypeRequests.Update
 {
     public class UpdateExerciseTypeRequestHandler :
-        IRequestHandler<UpdateExerciseTypeRequest, Domain.Entities.ExerciseType.ExerciseType>
+        IRequestHandler<UpdateExerciseTypeRequest, ExerciseType>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -22,7 +23,7 @@ namespace Backend.Business.ExerciseType.ExerciseType.Update
             _mapper = mapper;
         }
 
-        public async Task<Domain.Entities.ExerciseType.ExerciseType> Handle(UpdateExerciseTypeRequest request, CancellationToken cancellationToken)
+        public async Task<ExerciseType> Handle(UpdateExerciseTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -46,7 +47,7 @@ namespace Backend.Business.ExerciseType.ExerciseType.Update
             }
             catch (Exception e)
             {
-                throw new CreateFailureException(nameof(Domain.Entities.ExerciseType.ExerciseType), e);
+                throw new CreateFailureException(nameof(ExerciseType), e);
             }
         }
     }

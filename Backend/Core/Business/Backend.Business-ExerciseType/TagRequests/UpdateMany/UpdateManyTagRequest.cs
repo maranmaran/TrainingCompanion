@@ -1,10 +1,11 @@
-﻿using MediatR;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Backend.Domain.Entities.Exercises;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.Tag.UpdateMany
+namespace Backend.Business.Exercises.TagRequests.UpdateMany
 {
     public class UpdateManyTagRequest : IRequest<Unit>
     {
-        public IEnumerable<Domain.Entities.ExerciseType.Tag> ExerciseProperties { get; set; }
+        public IEnumerable<Tag> ExerciseProperties { get; set; }
     }
 }

@@ -1,15 +1,16 @@
-﻿using Backend.Domain;
-using Backend.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
+using Backend.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.ExerciseType.TagGroup.GetAll
+namespace Backend.Business.Exercises.TagGroupRequests.GetAll
 {
-    public class GetAllTagGroupRequestHandler : IRequestHandler<GetAllTagGroupRequest, IQueryable<Domain.Entities.ExerciseType.TagGroup>>
+    public class GetAllTagGroupRequestHandler : IRequestHandler<GetAllTagGroupRequest, IQueryable<TagGroup>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -18,7 +19,7 @@ namespace Backend.Business.ExerciseType.TagGroup.GetAll
             _context = context;
         }
 
-        public Task<IQueryable<Domain.Entities.ExerciseType.TagGroup>> Handle(GetAllTagGroupRequest request, CancellationToken cancellationToken)
+        public Task<IQueryable<TagGroup>> Handle(GetAllTagGroupRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -29,7 +30,7 @@ namespace Backend.Business.ExerciseType.TagGroup.GetAll
             }
             catch (Exception e)
             {
-                throw new NotFoundException(nameof(Domain.Entities.ExerciseType.Tag), $"Could not find exercise types for user with id: {request.ApplicationUserId} ", e);
+                throw new NotFoundException(nameof(Tag), $"Could not find exercise types for user with id: {request.ApplicationUserId} ", e);
             }
         }
     }

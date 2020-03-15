@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Backend.Domain.Entities.User;
 
-namespace Backend.Domain.Entities.ExerciseType
+namespace Backend.Domain.Entities.Exercises
 {
     public class TagGroup
     {

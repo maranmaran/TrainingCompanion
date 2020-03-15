@@ -1,12 +1,13 @@
-﻿using Backend.Domain;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Backend.Business.ExerciseType.ExerciseType.Delete
+namespace Backend.Business.Exercises.ExerciseTypeRequests.Delete
 {
     public class DeleteExerciseTypeRequestHandler : IRequestHandler<DeleteExerciseTypeRequest, Unit>
     {
@@ -32,7 +33,7 @@ namespace Backend.Business.ExerciseType.ExerciseType.Delete
             }
             catch (Exception e)
             {
-                throw new DeleteFailureException(nameof(Domain.Entities.ExerciseType.ExerciseType), e);
+                throw new DeleteFailureException(nameof(ExerciseType), e);
             }
         }
     }
