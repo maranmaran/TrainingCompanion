@@ -1,10 +1,11 @@
-﻿using MediatR;
-using System;
+﻿using System;
 using System.Linq;
+using Backend.Domain.Entities.Exercises;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.TagGroup.GetAll
+namespace Backend.Business.Exercises.TagGroupRequests.GetAll
 {
-    public class GetAllTagGroupRequest : IRequest<IQueryable<Domain.Entities.ExerciseType.TagGroup>>
+    public class GetAllTagGroupRequest : IRequest<IQueryable<TagGroup>>
     {
         public Guid ApplicationUserId { get; set; }
     }

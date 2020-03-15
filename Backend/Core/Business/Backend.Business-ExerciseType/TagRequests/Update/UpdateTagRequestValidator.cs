@@ -1,9 +1,9 @@
-﻿using Backend.Domain;
+﻿using System.Linq;
+using Backend.Domain;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
-namespace Backend.Business.ExerciseType.Tag.Update
+namespace Backend.Business.Exercises.TagRequests.Update
 {
     public class UpdateTagRequestValidator : AbstractValidator<UpdateTagRequest>
     {

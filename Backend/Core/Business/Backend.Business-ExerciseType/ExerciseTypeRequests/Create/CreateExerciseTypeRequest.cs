@@ -1,10 +1,10 @@
-﻿using MediatR;
-using System.Collections.Generic;
-using Backend.Domain.Entities.ExerciseType;
+﻿using System.Collections.Generic;
+using Backend.Domain.Entities.Exercises;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.ExerciseType.Create
+namespace Backend.Business.Exercises.ExerciseTypeRequests.Create
 {
-    public class CreateExerciseTypeRequest : IRequest<Domain.Entities.ExerciseType.ExerciseType>
+    public class CreateExerciseTypeRequest : IRequest<ExerciseType>
     {
         public string Name { get; set; }
 

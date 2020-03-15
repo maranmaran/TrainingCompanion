@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Backend.Domain.Entities.ExerciseType;
+using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Factories;
-using Tag = Backend.Domain.Entities.ExerciseType.Tag;
+using Tag = Backend.Domain.Entities.Exercises.Tag;
 
 namespace Backend.Persistance
 {

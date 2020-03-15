@@ -1,11 +1,12 @@
-﻿using MediatR;
-using System;
+﻿using System;
+using Backend.Domain.Entities.Exercises;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.TagGroup.Create
+namespace Backend.Business.Exercises.TagGroupRequests.Create
 {
-    public class CreateTagGroupRequest : IRequest<Domain.Entities.ExerciseType.TagGroup>
+    public class CreateTagGroupRequest : IRequest<TagGroup>
     {
-        public CreateTagGroupRequest(Domain.Entities.ExerciseType.TagGroup tagGroup)
+        public CreateTagGroupRequest(TagGroup tagGroup)
         {
             ApplicationUserId = tagGroup.ApplicationUserId;
             Type = tagGroup.Type;

@@ -1,16 +1,17 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Backend.Business.ExerciseType.Tag.Update
+namespace Backend.Business.Exercises.TagRequests.Update
 {
     public class UpdateTagRequestHandler :
-        IRequestHandler<UpdateTagRequest, Domain.Entities.ExerciseType.Tag>
+        IRequestHandler<UpdateTagRequest, Tag>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -21,7 +22,7 @@ namespace Backend.Business.ExerciseType.Tag.Update
             _mapper = mapper;
         }
 
-        public async Task<Domain.Entities.ExerciseType.Tag> Handle(UpdateTagRequest request, CancellationToken cancellationToken)
+        public async Task<Tag> Handle(UpdateTagRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace Backend.Business.ExerciseType.Tag.Update
             }
             catch (Exception e)
             {
-                throw new CreateFailureException(nameof(Domain.Entities.ExerciseType.Tag), e);
+                throw new CreateFailureException(nameof(Tag), e);
             }
         }
     }

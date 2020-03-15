@@ -1,15 +1,16 @@
-﻿using AutoMapper;
-using Backend.Domain;
-using Backend.Infrastructure.Exceptions;
-using MediatR;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
+using Backend.Infrastructure.Exceptions;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.TagGroup.Update
+namespace Backend.Business.Exercises.TagGroupRequests.Update
 {
     public class UpdateTagGroupRequestHandler :
-        IRequestHandler<UpdateTagGroupRequest, Domain.Entities.ExerciseType.TagGroup>
+        IRequestHandler<UpdateTagGroupRequest, TagGroup>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -20,7 +21,7 @@ namespace Backend.Business.ExerciseType.TagGroup.Update
             _mapper = mapper;
         }
 
-        public async Task<Domain.Entities.ExerciseType.TagGroup> Handle(UpdateTagGroupRequest request, CancellationToken cancellationToken)
+        public async Task<TagGroup> Handle(UpdateTagGroupRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -34,7 +35,7 @@ namespace Backend.Business.ExerciseType.TagGroup.Update
             }
             catch (Exception e)
             {
-                throw new CreateFailureException(nameof(Domain.Entities.ExerciseType.Tag), e);
+                throw new CreateFailureException(nameof(Tag), e);
             }
         }
     }

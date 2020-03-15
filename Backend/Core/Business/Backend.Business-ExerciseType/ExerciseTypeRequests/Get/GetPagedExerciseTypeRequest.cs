@@ -1,10 +1,11 @@
-﻿using Backend.Common;
+﻿using System;
+using Backend.Common;
+using Backend.Domain.Entities.Exercises;
 using MediatR;
-using System;
 
-namespace Backend.Business.ExerciseType.ExerciseType.Get
+namespace Backend.Business.Exercises.ExerciseTypeRequests.Get
 {
-    public class GetPagedExerciseTypeRequest : IRequest<PagedList<Domain.Entities.ExerciseType.ExerciseType>>
+    public class GetPagedExerciseTypeRequest : IRequest<PagedList<ExerciseType>>
     {
         public Guid UserId { get; set; }
         public PaginationModel PaginationModel { get; set; }

@@ -1,10 +1,11 @@
-﻿using MediatR;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Backend.Domain.Entities.Exercises;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.TagGroup.UpdateMany
+namespace Backend.Business.Exercises.TagGroupRequests.UpdateMany
 {
     public class UpdateManyTagGroupRequest : IRequest<Unit>
     {
-        public IEnumerable<Domain.Entities.ExerciseType.TagGroup> TagGroups { get; set; }
+        public IEnumerable<TagGroup> TagGroups { get; set; }
     }
 }

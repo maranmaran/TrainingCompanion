@@ -15,24 +15,33 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetAll(Guid userId, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(new GetAllBodyweightRequest(userId), cancellationToken));
+            return Ok(await Cache.GetOrAddAsync(
+                "Bodyweight/GetAll",
+                entry => Mediator.Send(new GetAllBodyweightRequest(userId), cancellationToken))
+            );
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Bodyweight entity, CancellationToken cancellationToken = default)
         {
+            Cache.Remove("Report/BodyweightMetrics");
+            Cache.Remove("Bodyweight/GetAll");
             return Ok(await Mediator.Send(new CreateBodyweightRequest(entity), cancellationToken));
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] Bodyweight entity, CancellationToken cancellationToken = default)
         {
+            Cache.Remove("Report/BodyweightMetrics");
+            Cache.Remove("Bodyweight/GetAll");
             return Ok(await Mediator.Send(new UpdateBodyweightRequest(entity), cancellationToken));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
         {
+            Cache.Remove("Report/BodyweightMetrics");
+            Cache.Remove("Bodyweight/GetAll");
             return Ok(await Mediator.Send(new DeleteBodyweightRequest(id), cancellationToken));
         }
     }

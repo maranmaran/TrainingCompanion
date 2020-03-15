@@ -1,10 +1,11 @@
-﻿using MediatR;
+﻿using Backend.Domain.Entities.ProgressTracking;
+using MediatR;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Backend.Business.ProgressTracking.BodyweightRequests.GetAll
 {
-    public class GetAllBodyweightRequest : IRequest<IOrderedQueryable<Domain.Entities.ProgressTracking.Bodyweight>>
+    public class GetAllBodyweightRequest : IRequest<IEnumerable<Bodyweight>>
     {
         public GetAllBodyweightRequest(Guid userId)
         {

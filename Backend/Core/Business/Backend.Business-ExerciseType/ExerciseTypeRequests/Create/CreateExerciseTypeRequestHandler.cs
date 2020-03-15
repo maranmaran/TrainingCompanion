@@ -1,15 +1,16 @@
-﻿using AutoMapper;
-using Backend.Domain;
-using Backend.Infrastructure.Exceptions;
-using MediatR;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
+using Backend.Infrastructure.Exceptions;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.ExerciseType.Create
+namespace Backend.Business.Exercises.ExerciseTypeRequests.Create
 {
     public class CreateExerciseTypeRequestHandler :
-        IRequestHandler<CreateExerciseTypeRequest, Domain.Entities.ExerciseType.ExerciseType>
+        IRequestHandler<CreateExerciseTypeRequest, ExerciseType>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -20,11 +21,11 @@ namespace Backend.Business.ExerciseType.ExerciseType.Create
             _mapper = mapper;
         }
 
-        public async Task<Domain.Entities.ExerciseType.ExerciseType> Handle(CreateExerciseTypeRequest request, CancellationToken cancellationToken)
+        public async Task<ExerciseType> Handle(CreateExerciseTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var exerciseType = _mapper.Map<Domain.Entities.ExerciseType.ExerciseType>(request);
+                var exerciseType = _mapper.Map<ExerciseType>(request);
 
                 _context.ExerciseTypes.Add(exerciseType);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -33,7 +34,7 @@ namespace Backend.Business.ExerciseType.ExerciseType.Create
             }
             catch (Exception e)
             {
-                throw new CreateFailureException(nameof(Domain.Entities.ExerciseType.ExerciseType), e);
+                throw new CreateFailureException(nameof(ExerciseType), e);
             }
         }
     }

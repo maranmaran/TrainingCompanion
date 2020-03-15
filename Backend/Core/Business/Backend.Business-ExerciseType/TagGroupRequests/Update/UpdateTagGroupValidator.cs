@@ -1,8 +1,9 @@
-﻿using Backend.Domain;
+﻿using System.Linq;
+using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using FluentValidation;
-using System.Linq;
 
-namespace Backend.Business.ExerciseType.TagGroup.Update
+namespace Backend.Business.Exercises.TagGroupRequests.Update
 {
     public class UpdateTagGroupValidator : AbstractValidator<UpdateTagGroupRequest>
     {
@@ -19,7 +20,7 @@ namespace Backend.Business.ExerciseType.TagGroup.Update
                 .WithMessage("Type name must be unique"); ;
         }
 
-        private bool BeUniqueType(Domain.Entities.ExerciseType.TagGroup request)
+        private bool BeUniqueType(TagGroup request)
         {
             return !_context.TagGroups.Any(x => x.Id != request.Id && x.Type == request.Type);
         }

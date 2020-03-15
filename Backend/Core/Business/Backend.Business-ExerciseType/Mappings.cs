@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Backend.Business.ExerciseType.ExerciseType.Create;
-using Backend.Business.ExerciseType.ExerciseType.Update;
-using Backend.Business.ExerciseType.TagGroup.Create;
-using Backend.Business.ExerciseType.TagGroup.Update;
-using Backend.Domain.Entities.ExerciseType;
+using Backend.Business.Exercises.ExerciseTypeRequests.Create;
+using Backend.Business.Exercises.ExerciseTypeRequests.Update;
+using Backend.Business.Exercises.TagGroupRequests.Create;
+using Backend.Business.Exercises.TagGroupRequests.Update;
+using Backend.Domain.Entities.Exercises;
 
-namespace Backend.Business.ExerciseType
+namespace Backend.Business.Exercises
 {
     public class Mappings : Profile
     {
@@ -16,17 +16,17 @@ namespace Backend.Business.ExerciseType
         }
         private void TagGroupMappings()
         {
-            CreateMap<Domain.Entities.ExerciseType.TagGroup, Domain.Entities.ExerciseType.TagGroup>();
-            CreateMap<CreateTagGroupRequest, Domain.Entities.ExerciseType.TagGroup>();
-            CreateMap<UpdateTagGroupRequest, Domain.Entities.ExerciseType.TagGroup>();
+            CreateMap<TagGroup, TagGroup>();
+            CreateMap<CreateTagGroupRequest, TagGroup>();
+            CreateMap<UpdateTagGroupRequest, TagGroup>();
         }
 
         private void ExerciseTypeMappings()
         {
-            CreateMap<CreateExerciseTypeRequest, Domain.Entities.ExerciseType.ExerciseType>();
-            CreateMap<UpdateExerciseTypeRequest, Domain.Entities.ExerciseType.ExerciseType>();
+            CreateMap<CreateExerciseTypeRequest, ExerciseType>();
+            CreateMap<UpdateExerciseTypeRequest, ExerciseType>();
 
-            CreateMap<Domain.Entities.ExerciseType.ExerciseType, Domain.Entities.ExerciseType.ExerciseType>()
+            CreateMap<ExerciseType, ExerciseType>()
                 .ForMember(x => x.ApplicationUser, o => o.Ignore());
 
             CreateMap<ExerciseTypeTag, ExerciseTypeTag>()

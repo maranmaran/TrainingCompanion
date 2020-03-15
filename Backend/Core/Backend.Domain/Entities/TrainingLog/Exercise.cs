@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
+using System;
+using System.Collections.Generic;
 
 namespace Backend.Domain.Entities.TrainingLog
 {
@@ -9,7 +10,7 @@ namespace Backend.Domain.Entities.TrainingLog
         public Guid Id { get; set; }
 
         public Guid ExerciseTypeId { get; set; }
-        public virtual ExerciseType.ExerciseType ExerciseType { get; set; }
+        public virtual ExerciseType ExerciseType { get; set; }
 
         public int Order { get; set; }
 

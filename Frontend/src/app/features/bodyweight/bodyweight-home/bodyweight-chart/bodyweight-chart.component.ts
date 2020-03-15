@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, startWith, take } from 'rxjs/operators';
+import { distinctUntilChanged, map, skip, startWith, take } from 'rxjs/operators';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { settingsUpdated } from 'src/ngrx/auth/auth.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -15,7 +15,7 @@ import { GetBodyweightReportResponse } from 'src/server-models/cqrs/report/get-b
 import { SubSink } from 'subsink';
 import { Theme } from './../../../../../business/shared/theme.enum';
 import { currentUserId } from './../../../../../ngrx/auth/auth.selectors';
-import { bodyweightIds } from './../../../../../ngrx/bodyweight/bodyweight.selectors';
+import { bodyweights } from './../../../../../ngrx/bodyweight/bodyweight.selectors';
 import { UnitSystem } from './../../../../../server-models/enums/unit-system.enum';
 import { MyChartConfiguration } from './../../../../shared/charts/chart.helpers';
 import { GetBodyweightChartConfig } from './bodyweight-chart-config';
@@ -55,13 +55,17 @@ export class BodyweightChartComponent implements OnInit, OnDestroy {
     this.createForm();
 
     this.subs.add(
+
+      this.store.select(bodyweights)
+      .pipe(skip(1))
+      .subscribe(_ => this.prepareData([this.params.theme, this.params.unitSystem, this.params.userId, this.params.mobile])),
+
       combineLatest(
         this.store.select(activeTheme),
         // listening to this action because first we need unit
         // system to be stored in db.. then fetch all new calculated data from server
         this.actions$.pipe(ofType(settingsUpdated), map(val => val.unitSystem), startWith(UnitSystem.Metric)),
         this.store.select(currentUserId),
-        this.store.select(bodyweightIds),
         this.store.select(isMobile)
       )
         .pipe(
@@ -85,7 +89,7 @@ export class BodyweightChartComponent implements OnInit, OnDestroy {
     });
   }
 
-  prepareData([theme, system, userId, _, mobile]) {
+  prepareData([theme, system, userId, mobile]) {
     this.params = { theme, unitSystem: system, userId, mobile };
 
     if (!this.form.valid)

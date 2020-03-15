@@ -1,6 +1,7 @@
 ﻿using Backend.Common;
 using Backend.Common.Extensions;
 using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Backend.Business.ExerciseType.ExerciseType.Get
+namespace Backend.Business.Exercises.ExerciseTypeRequests.Get
 {
-    public class GetPagedExerciseTypeRequestHandler : IRequestHandler<GetPagedExerciseTypeRequest, PagedList<Domain.Entities.ExerciseType.ExerciseType>>
+    public class GetPagedExerciseTypeRequestHandler : IRequestHandler<GetPagedExerciseTypeRequest, PagedList<ExerciseType>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -20,7 +21,7 @@ namespace Backend.Business.ExerciseType.ExerciseType.Get
             _context = context;
         }
 
-        public async Task<PagedList<Domain.Entities.ExerciseType.ExerciseType>> Handle(GetPagedExerciseTypeRequest request, CancellationToken cancellationToken)
+        public async Task<PagedList<ExerciseType>> Handle(GetPagedExerciseTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -61,12 +62,12 @@ namespace Backend.Business.ExerciseType.ExerciseType.Get
                     exerciseType.Properties = exerciseType.Properties.Where(x => x.Show).ToList();
                 }
 
-                var list = await exerciseTypesPagedList.ToListAsync(cancellationToken);
-                return new PagedList<Domain.Entities.ExerciseType.ExerciseType>(list, totalItems);
+                var list = await exerciseTypesPagedList.AsNoTracking().ToListAsync(cancellationToken);
+                return new PagedList<ExerciseType>(list, totalItems);
             }
             catch (Exception e)
             {
-                throw new NotFoundException(nameof(Domain.Entities.ExerciseType.ExerciseType), $"Could not find exercise type for {request.UserId} USER", e);
+                throw new NotFoundException(nameof(ExerciseType), $"Could not find exercise type for {request.UserId} USER", e);
             }
         }
 

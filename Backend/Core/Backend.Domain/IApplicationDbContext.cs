@@ -1,9 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain.Entities.Chat;
-using Backend.Domain.Entities.ExerciseType;
+﻿using Backend.Domain.Entities.Chat;
+using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.ProgressTracking;
@@ -11,6 +7,10 @@ using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Entities.User.Dashboard;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Domain
 {

@@ -1,9 +1,10 @@
-﻿using MediatR;
-using System;
+﻿using System;
+using Backend.Domain.Entities.Exercises;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.Tag.Update
+namespace Backend.Business.Exercises.TagRequests.Update
 {
-    public class UpdateTagRequest : IRequest<Domain.Entities.ExerciseType.Tag>
+    public class UpdateTagRequest : IRequest<Tag>
     {
         public Guid Id { get; set; }
         public string Value { get; set; }

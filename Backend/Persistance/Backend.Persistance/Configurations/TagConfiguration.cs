@@ -1,4 +1,4 @@
-﻿using Backend.Domain.Entities.ExerciseType;
+﻿using Backend.Domain.Entities.Exercises;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Backend.Domain.Entities.ExerciseType;
+using Backend.Domain.Entities.Exercises;
 
 namespace Backend.Business.Import
 {

@@ -1,15 +1,17 @@
 ﻿using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Backend.Business.ExerciseType.ExerciseType.GetAll
+namespace Backend.Business.Exercises.ExerciseTypeRequests.GetAll
 {
-    public class GetAllExerciseTypeRequestHandler : IRequestHandler<GetAllExerciseTypeRequest, IQueryable<Domain.Entities.ExerciseType.ExerciseType>>
+    public class GetAllExerciseTypeRequestHandler : IRequestHandler<GetAllExerciseTypeRequest, IEnumerable<ExerciseType>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -18,7 +20,8 @@ namespace Backend.Business.ExerciseType.ExerciseType.GetAll
             _context = context;
         }
 
-        public Task<IQueryable<Domain.Entities.ExerciseType.ExerciseType>> Handle(GetAllExerciseTypeRequest request, CancellationToken cancellationToken)
+
+        public async Task<IEnumerable<ExerciseType>> Handle(GetAllExerciseTypeRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -34,11 +37,11 @@ namespace Backend.Business.ExerciseType.ExerciseType.GetAll
                     exerciseType.Properties = exerciseType.Properties.Where(x => x.Show).ToList();
                 }
 
-                return Task.FromResult(exerciseTypes.AsQueryable());
+                return await exerciseTypes.AsNoTracking().ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {
-                throw new NotFoundException(nameof(Domain.Entities.ExerciseType.ExerciseType), $"Could not find exercise type for {request.UserId} USER", e);
+                throw new NotFoundException(nameof(ExerciseType), $"Could not find exercise type for {request.UserId} USER", e);
             }
         }
     }

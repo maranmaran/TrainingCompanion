@@ -5,7 +5,8 @@ using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Enum;
 using System;
 using System.Collections.Generic;
-using TagGroup = Backend.Domain.Entities.ExerciseType.TagGroup;
+using Backend.Domain.Entities.Exercises;
+using TagGroup = Backend.Domain.Entities.Exercises.TagGroup;
 
 namespace Backend.Domain.Entities.User
 {
@@ -41,7 +42,7 @@ namespace Backend.Domain.Entities.User
         public virtual ICollection<Notification.Notification> SentNotifications { get; set; } = new HashSet<Notification.Notification>();
         public virtual ICollection<Notification.Notification> ReceivedNotifications { get; set; } = new HashSet<Notification.Notification>();
         public virtual ICollection<MediaFile> MediaFiles { get; set; } = new HashSet<MediaFile>();
-        public virtual ICollection<ExerciseType.ExerciseType> ExerciseTypes { get; set; } = new HashSet<ExerciseType.ExerciseType>();
+        public virtual ICollection<ExerciseType> ExerciseTypes { get; set; } = new HashSet<ExerciseType>();
         public virtual ICollection<Training> Trainings { get; set; } = new HashSet<Training>();
         public virtual ICollection<Bodyweight> Bodyweights { get; set; } = new HashSet<Bodyweight>();
 
