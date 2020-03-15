@@ -1,15 +1,15 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.ProgressTracking.BodyweightRequests.Update
 {
-    public class UpdateBodyweightRequestHandler : IRequestHandler<Update.UpdateBodyweightRequest, Unit>
+    public class UpdateBodyweightRequestHandler : IRequestHandler<UpdateBodyweightRequest, Unit>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.Update
         }
 
 
-        public async Task<Unit> Handle(Update.UpdateBodyweightRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateBodyweightRequest request, CancellationToken cancellationToken)
         {
 
             try
@@ -38,7 +38,7 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.Update
             }
             catch (Exception e)
             {
-                throw new UpdateFailureException(nameof(Update.UpdateBodyweightRequest), e);
+                throw new UpdateFailureException(nameof(UpdateBodyweightRequest), e);
             }
         }
     }

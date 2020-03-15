@@ -1,12 +1,13 @@
-﻿using MediatR;
+﻿using Backend.Domain.Entities.Exercises;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.TagGroup.Update
+namespace Backend.Business.Exercises.TagGroupRequests.Update
 {
-    public class UpdateTagGroupRequest : IRequest<Domain.Entities.ExerciseType.TagGroup>
+    public class UpdateTagGroupRequest : IRequest<TagGroup>
     {
-        public Domain.Entities.ExerciseType.TagGroup TagGroup { get; set; }
+        public TagGroup TagGroup { get; set; }
 
-        public UpdateTagGroupRequest(Domain.Entities.ExerciseType.TagGroup tagGroup)
+        public UpdateTagGroupRequest(TagGroup tagGroup)
         {
             TagGroup = tagGroup;
         }

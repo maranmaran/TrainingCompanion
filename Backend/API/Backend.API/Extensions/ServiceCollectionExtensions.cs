@@ -178,18 +178,18 @@ namespace Backend.API.Extensions
         {
             var assemblies = new Assembly[]
             {
+                Assembly.GetAssembly(typeof(Mappings)),
                 Assembly.GetAssembly(typeof(Business.Billing.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Authorization.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Media.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Chat.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Export.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Import.Mappings)),
-                Assembly.GetAssembly(typeof(Mappings)),
                 Assembly.GetAssembly(typeof(Business.Notifications.Mappings)),
                 Assembly.GetAssembly(typeof(Business.ProgressTracking.Mappings)),
                 Assembly.GetAssembly(typeof(Business.TrainingLog.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Users.Mappings)),
-                Assembly.GetAssembly(typeof(Business.ExerciseType.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Exercises.Mappings)),
             };
 
             services.AddMediatR(assemblies.ToArray());
@@ -206,6 +206,15 @@ namespace Backend.API.Extensions
         }
 
         /// <summary>
+        /// Configures lazy cache library
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureLazyCache(this IServiceCollection services)
+        {
+            services.AddLazyCache();
+        }
+
+        /// <summary>
         /// Configures automapper using automapper extension for dependency injection
         /// </summary>
         /// <param name="services"></param>
@@ -213,18 +222,18 @@ namespace Backend.API.Extensions
         {
             var types = new Type[]
             {
+                typeof(Mappings),
                 typeof(Business.Billing.Mappings),
                 typeof(Business.Authorization.Mappings),
                 typeof(Business.Media.Mappings),
                 typeof(Business.Chat.Mappings),
                 typeof(Business.Export.Mappings),
                 typeof(Business.Import.Mappings),
-                typeof(Mappings),
                 typeof(Business.Notifications.Mappings),
                 typeof(Business.ProgressTracking.Mappings),
                 typeof(Business.TrainingLog.Mappings),
                 typeof(Business.Users.Mappings),
-                typeof(Business.ExerciseType.Mappings),
+                typeof(Business.Exercises.Mappings),
             };
 
             services.AddAutoMapper(types);

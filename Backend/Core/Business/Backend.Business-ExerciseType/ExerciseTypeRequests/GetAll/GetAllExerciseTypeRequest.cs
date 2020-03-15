@@ -1,10 +1,11 @@
-﻿using MediatR;
+﻿using Backend.Domain.Entities.Exercises;
+using MediatR;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
-namespace Backend.Business.ExerciseType.ExerciseType.GetAll
+namespace Backend.Business.Exercises.ExerciseTypeRequests.GetAll
 {
-    public class GetAllExerciseTypeRequest : IRequest<IQueryable<Domain.Entities.ExerciseType.ExerciseType>>
+    public class GetAllExerciseTypeRequest : IRequest<IEnumerable<ExerciseType>>
     {
         public Guid UserId { get; set; }
     }

@@ -1,4 +1,4 @@
-﻿namespace Backend.Business.ExerciseType.ExerciseType.Create
+﻿namespace Backend.Business.Exercises.ExerciseTypeRequests.Create
 {
     internal class CreateExerciseTypeRequestValidator
     {

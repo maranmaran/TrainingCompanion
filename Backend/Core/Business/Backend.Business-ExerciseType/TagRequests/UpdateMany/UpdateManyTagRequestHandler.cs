@@ -1,11 +1,12 @@
-﻿using Backend.Domain;
-using Backend.Infrastructure.Exceptions;
-using MediatR;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
+using Backend.Infrastructure.Exceptions;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.Tag.UpdateMany
+namespace Backend.Business.Exercises.TagRequests.UpdateMany
 {
     public class UpdateManyTagRequestHandler : IRequestHandler<UpdateManyTagRequest, Unit>
     {
@@ -31,7 +32,7 @@ namespace Backend.Business.ExerciseType.Tag.UpdateMany
             }
             catch (Exception e)
             {
-                throw new CreateFailureException(nameof(Domain.Entities.ExerciseType.Tag), e);
+                throw new CreateFailureException(nameof(Tag), e);
             }
         }
     }

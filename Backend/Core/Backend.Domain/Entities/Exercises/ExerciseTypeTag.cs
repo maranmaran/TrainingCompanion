@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Backend.Domain.Entities.ExerciseType
+namespace Backend.Domain.Entities.Exercises
 {
     public class ExerciseTypeTag
     {

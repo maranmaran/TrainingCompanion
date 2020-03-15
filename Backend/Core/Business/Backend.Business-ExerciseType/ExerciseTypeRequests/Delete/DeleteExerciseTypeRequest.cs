@@ -1,7 +1,7 @@
-﻿using MediatR;
-using System;
+﻿using System;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.ExerciseType.Delete
+namespace Backend.Business.Exercises.ExerciseTypeRequests.Delete
 {
     public class DeleteExerciseTypeRequest : IRequest<Unit>
     {

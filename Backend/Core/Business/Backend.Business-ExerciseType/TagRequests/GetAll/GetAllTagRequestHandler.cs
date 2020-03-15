@@ -1,14 +1,15 @@
-﻿using Backend.Domain;
-using Backend.Infrastructure.Exceptions;
-using MediatR;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
+using Backend.Infrastructure.Exceptions;
+using MediatR;
 
-namespace Backend.Business.ExerciseType.Tag.GetAll
+namespace Backend.Business.Exercises.TagRequests.GetAll
 {
-    public class GetAllTagRequestHandler : IRequestHandler<GetAllTagRequest, IQueryable<Domain.Entities.ExerciseType.Tag>>
+    public class GetAllTagRequestHandler : IRequestHandler<GetAllTagRequest, IQueryable<Tag>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -17,7 +18,7 @@ namespace Backend.Business.ExerciseType.Tag.GetAll
             _context = context;
         }
 
-        public Task<IQueryable<Domain.Entities.ExerciseType.Tag>> Handle(GetAllTagRequest request, CancellationToken cancellationToken)
+        public Task<IQueryable<Tag>> Handle(GetAllTagRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -25,7 +26,7 @@ namespace Backend.Business.ExerciseType.Tag.GetAll
             }
             catch (Exception e)
             {
-                throw new NotFoundException(nameof(Domain.Entities.ExerciseType.Tag), $"Could not find tag with id: {request.TagGroupId} for {request.UserId} USER", e);
+                throw new NotFoundException(nameof(Tag), $"Could not find tag with id: {request.TagGroupId} for {request.UserId} USER", e);
             }
         }
     }

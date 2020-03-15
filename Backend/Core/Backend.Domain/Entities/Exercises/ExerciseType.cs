@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Backend.Domain.Entities.ProgressTracking;
+﻿using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
+using System;
+using System.Collections.Generic;
 
-namespace Backend.Domain.Entities.ExerciseType
+namespace Backend.Domain.Entities.Exercises
 {
     public class ExerciseType
     {

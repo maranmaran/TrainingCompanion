@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.TrainingLo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Authorization", "Core\Business\Backend.Business.Authorization\Backend.Business.Authorization.csproj", "{001DAF18-EC23-4DC1-A7A8-EA039E38ABBC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business-ExerciseType", "Core\Business\Backend.Business-ExerciseType\Backend.Business-ExerciseType.csproj", "{425E6FC0-BDB3-4C48-83C7-E085A4EF8D6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Exercises", "Core\Business\Backend.Business-ExerciseType\Backend.Business.Exercises.csproj", "{425E6FC0-BDB3-4C48-83C7-E085A4EF8D6E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.ProgressTracking", "Core\Business\Backend.Business.ProgressTracking\Backend.Business.ProgressTracking.csproj", "{0F3D51DE-4ECC-4366-83DE-F7C22A851525}"
 EndProject
