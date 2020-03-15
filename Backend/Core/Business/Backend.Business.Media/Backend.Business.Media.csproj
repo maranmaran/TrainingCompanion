@@ -8,9 +8,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Backend.Domain\Backend.Domain.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.AmazonS3\Backend.Library.AmazonS3.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.ImageProcessing\Backend.Library.ImageProcessing.csproj" />
-    <ProjectReference Include="..\..\Services\Backend.Service.Infrastructure\Backend.Service.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Libraries\Backend.Library.AmazonS3\Backend.Library.AmazonS3.csproj" />
+    <ProjectReference Include="..\..\Libraries\Backend.Library.ImageProcessing\Backend.Library.ImageProcessing.csproj" />
+    <ProjectReference Include="..\..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
