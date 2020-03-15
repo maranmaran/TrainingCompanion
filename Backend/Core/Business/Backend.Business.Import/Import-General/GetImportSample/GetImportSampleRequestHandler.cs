@@ -1,5 +1,5 @@
 ﻿using Backend.Business.Import.Models;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;

@@ -2,7 +2,7 @@
 using Backend.Business.Media.MediaRequests.UploadChatMedia;
 using Backend.Common.Extensions;
 using Backend.Domain.Enum;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using System;
 using System.Text;

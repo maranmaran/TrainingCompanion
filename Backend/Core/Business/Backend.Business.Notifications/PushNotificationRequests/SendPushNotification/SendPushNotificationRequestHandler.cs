@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
 using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using System;
 using System.Threading;

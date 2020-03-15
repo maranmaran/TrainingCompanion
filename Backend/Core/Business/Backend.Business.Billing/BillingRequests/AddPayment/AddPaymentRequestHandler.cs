@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Library.Payment.Interfaces;
 using Backend.Library.Payment.Models;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 
 namespace Backend.Business.Billing.BillingRequests.AddPayment

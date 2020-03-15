@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Backend.Library.Payment.Enums;
 using Backend.Library.Payment.Interfaces;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 
 namespace Backend.Business.Billing.BillingRequests.GetSubscriptionStatus

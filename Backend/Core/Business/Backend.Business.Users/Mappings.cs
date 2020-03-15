@@ -2,7 +2,7 @@
 using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Business.Users.UsersRequests.UpdateUser;
 using Backend.Domain.Entities.User;
-using Backend.Service.Infrastructure.Extensions;
+using Backend.Infrastructure.Extensions;
 
 namespace Backend.Business.Users
 {

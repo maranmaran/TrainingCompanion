@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 
-namespace Backend.Service.Infrastructure.Extensions
+namespace Backend.Infrastructure.Extensions
 {
     public static class AutomapperExtensions
     {

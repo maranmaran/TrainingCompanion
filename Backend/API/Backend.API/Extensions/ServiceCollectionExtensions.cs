@@ -10,7 +10,7 @@ using Backend.Library.ImageProcessing.Extensions;
 using Backend.Library.Logging.Extensions;
 using Backend.Library.Payment.Extensions;
 using Backend.Persistance;
-using Backend.Service.Infrastructure.Providers;
+using Backend.Infrastructure.Providers;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -9,7 +9,7 @@ using Backend.Domain.Enum;
 using Backend.Domain.Extensions;
 using Backend.Domain.Factories;
 using Backend.Library.Payment.Configuration;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

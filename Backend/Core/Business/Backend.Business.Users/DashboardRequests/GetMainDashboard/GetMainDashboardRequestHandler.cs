@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Entities.User.Dashboard;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
