@@ -1,4 +1,6 @@
-﻿using Backend.Domain;
+﻿using Audit.EntityFramework;
+using Backend.Domain;
+using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
@@ -13,7 +15,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Backend.Persistance
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : AuditDbContext, IApplicationDbContext
     {
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Coach> Coaches { get; set; }
@@ -31,6 +33,7 @@ namespace Backend.Persistance
         public DbSet<SystemLog> SystemLog { get; set; }
         public DbSet<Bodyweight> Bodyweights { get; set; }
         public DbSet<PersonalBest> PBs { get; set; }
+        public DbSet<AuditRecord> Audits { get; set; }
 
         #region Exercise type + Properties
 
