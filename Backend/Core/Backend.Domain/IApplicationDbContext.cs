@@ -1,4 +1,5 @@
-﻿using Backend.Domain.Entities.Chat;
+﻿using Backend.Domain.Entities.Auditing;
+using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
@@ -32,6 +33,8 @@ namespace Backend.Domain
         DbSet<SystemLog> SystemLog { get; set; }
         DbSet<Bodyweight> Bodyweights { get; set; }
         DbSet<PersonalBest> PBs { get; set; }
+        DbSet<AuditRecord> Audits { get; set; }
+
 
 
         #region Exercise type + Properties
