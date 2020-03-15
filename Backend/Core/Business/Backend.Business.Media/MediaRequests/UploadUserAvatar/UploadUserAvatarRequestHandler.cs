@@ -1,7 +1,7 @@
 ﻿using Backend.Domain;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Enum;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;

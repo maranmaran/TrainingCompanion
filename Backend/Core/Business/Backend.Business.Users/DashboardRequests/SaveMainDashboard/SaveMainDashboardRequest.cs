@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.User.Dashboard;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

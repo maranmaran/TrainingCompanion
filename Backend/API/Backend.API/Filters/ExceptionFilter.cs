@@ -1,7 +1,7 @@
 ﻿using Backend.API.Models;
 using Backend.Domain;
 using Backend.Library.Logging.Models;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;

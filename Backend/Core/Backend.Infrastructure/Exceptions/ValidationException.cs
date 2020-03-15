@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Backend.Service.Infrastructure.Exceptions
+namespace Backend.Infrastructure.Exceptions
 {
     public class ValidationException : Exception
     {
