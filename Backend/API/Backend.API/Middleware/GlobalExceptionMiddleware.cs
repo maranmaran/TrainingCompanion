@@ -1,6 +1,6 @@
 ﻿using Backend.API.Models;
 using Backend.Library.Logging.Interfaces;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Net;

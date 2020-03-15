@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Business.Chat.Models;
 using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

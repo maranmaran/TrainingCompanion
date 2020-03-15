@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Backend.Service.Infrastructure.Exceptions
+namespace Backend.Infrastructure.Exceptions
 {
     public class UpdateFailureException : ExtendedException
     {

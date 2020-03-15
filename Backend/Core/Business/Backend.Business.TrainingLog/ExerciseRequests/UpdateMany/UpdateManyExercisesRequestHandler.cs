@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Domain;
-using Backend.Service.Infrastructure.Exceptions;
-using Backend.Service.Infrastructure.Extensions;
+using Backend.Infrastructure.Exceptions;
+using Backend.Infrastructure.Extensions;
 using MediatR;
 
 namespace Backend.Business.TrainingLog.ExerciseRequests.UpdateMany

@@ -3,7 +3,7 @@ using Backend.Common;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;

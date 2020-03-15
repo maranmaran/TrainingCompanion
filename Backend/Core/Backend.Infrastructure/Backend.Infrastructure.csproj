@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Backend.Service.Logging\Backend.Library.Logging.csproj" />
+    <ProjectReference Include="..\Libraries\Backend.Library.Logging\Backend.Library.Logging.csproj" />
   </ItemGroup>
 
   <ItemGroup>

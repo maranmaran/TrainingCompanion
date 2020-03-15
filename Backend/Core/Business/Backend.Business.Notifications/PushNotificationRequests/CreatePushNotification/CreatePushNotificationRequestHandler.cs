@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.Notification;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 
 namespace Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification

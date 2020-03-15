@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Backend.Service.Infrastructure.Exceptions
+namespace Backend.Infrastructure.Exceptions
 {
     public class ExtendedException : Exception
     {
