@@ -5,6 +5,7 @@ using Backend.Domain.Enum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
@@ -12,9 +13,9 @@ namespace Backend.API.Controllers
     public class MediaController : BaseController
     {
         [HttpGet("{id}/{type}")]
-        public async Task<IActionResult> GetUserMediaByType(Guid id, MediaType type)
+        public async Task<IActionResult> GetUserMediaByType(Guid id, MediaType type, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(new GetUserMediaByTypeRequest() { MediaType = type, UserId = id }));
+            return Ok(await Mediator.Send(new GetUserMediaByTypeRequest() { MediaType = type, UserId = id }, cancellationToken));
         }
 
         [HttpPost]
@@ -23,12 +24,13 @@ namespace Backend.API.Controllers
             [FromForm] Guid trainingId,
             [FromForm] IFormFile file,
             [FromForm] string extension,
-            [FromForm] MediaType type)
+            [FromForm] MediaType type,
+            CancellationToken cancellationToken = default)
         {
             return Ok(await Mediator.Send(new UploadTrainingMedia(userId, file, extension, type)
             {
                 TrainingId = trainingId
-            }));
+            }, cancellationToken));
         }
 
         [HttpPost]
@@ -38,26 +40,28 @@ namespace Backend.API.Controllers
               [FromForm] Guid exerciseId,
               [FromForm] IFormFile file,
               [FromForm] string extension,
-              [FromForm] MediaType type)
+              [FromForm] MediaType type,
+              CancellationToken cancellationToken = default)
         {
             return Ok(await Mediator.Send(new UploadTrainingMedia(userId, file, extension, type)
             {
                 TrainingId = trainingId,
                 ExerciseId = exerciseId
-            }));
+            }, cancellationToken));
         }
 
 
         [HttpPost]
         public async Task<IActionResult> UploadAvatar(
             [FromForm] Guid userId,
-            [FromForm] string base64Image)
+            [FromForm] string base64Image,
+            CancellationToken cancellationToken = default)
         {
             return Ok(await Mediator.Send(new UploadUserAvatarRequest()
             {
                 UserId = userId,
                 Base64 = base64Image,
-            }));
+            }, cancellationToken));
         }
     }
 }
