@@ -2,6 +2,7 @@
 using Backend.Business.Notifications.PushNotificationRequests.SendPushNotification;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
@@ -9,15 +10,15 @@ namespace Backend.API.Controllers
     public class PushNotificationsController : BaseController
     {
         [HttpPost]
-        public async Task<IActionResult> SendPushNotification([FromBody] SendPushNotificationRequest request)
+        public async Task<IActionResult> SendPushNotification([FromBody] SendPushNotificationRequest request, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(request));
+            return Ok(await Mediator.Send(request, cancellationToken));
         }
 
         [HttpGet("{userId}/{page}/{pageSize}")]
-        public async Task<IActionResult> GetPushNotificationHistory(Guid userId, int page, int pageSize)
+        public async Task<IActionResult> GetPushNotificationHistory(Guid userId, int page, int pageSize, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(new GetPushNotificationHistoryRequest(userId, page, pageSize)));
+            return Ok(await Mediator.Send(new GetPushNotificationHistoryRequest(userId, page, pageSize), cancellationToken));
         }
     }
 }
