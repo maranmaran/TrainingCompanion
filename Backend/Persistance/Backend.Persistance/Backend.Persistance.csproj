@@ -44,6 +44,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Backend.Domain\Backend.Domain.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Authorization\Backend.Business.Authorization.csproj" />
+    <ProjectReference Include="..\..\Core\Business\Backend.Business.Dashboard\Backend.Business.Dashboard.csproj" />
+    <ProjectReference Include="..\..\Core\Business\Backend.Business.Users\Backend.Business.Users.csproj" />
   </ItemGroup>
 
 </Project>
