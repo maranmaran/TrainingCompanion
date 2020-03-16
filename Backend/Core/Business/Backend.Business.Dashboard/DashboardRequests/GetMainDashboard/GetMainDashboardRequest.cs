@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Backend.Domain.Entities.Dashboard;
+using Backend.Domain.Entities.User.Dashboard;
 using MediatR;
 
-namespace Backend.Business.Dashboard.Dashboard.GetMainDashboard
+namespace Backend.Business.Dashboard.DashboardRequests.GetMainDashboard
 {
     public class GetMainDashboardRequest : IRequest<IEnumerable<Track>>
     {

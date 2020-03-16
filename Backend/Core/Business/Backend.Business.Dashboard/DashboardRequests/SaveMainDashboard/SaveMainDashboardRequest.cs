@@ -5,13 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Backend.Domain;
-using Backend.Domain.Entities.Dashboard;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Domain.Entities.User.Dashboard;
+using Backend.Infrastructure.Exceptions;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.Dashboard.Dashboard.SaveMainDashboard
+namespace Backend.Business.Dashboard.DashboardRequests.SaveMainDashboard
 {
     public class SaveMainDashboardRequest : IRequest<IEnumerable<Track>>
     {
@@ -61,7 +61,7 @@ namespace Backend.Business.Dashboard.Dashboard.SaveMainDashboard
                 if (user.UserSetting.MainDashboardId == null || user.UserSetting.MainDashboardId == Guid.Empty)
                 {
                     // add
-                    var newMainDashboard = new Domain.Entities.Dashboard.Dashboard
+                    var newMainDashboard = new Domain.Entities.User.Dashboard.Dashboard
                     {
                         UserSettingId = user.UserSettingId,
                         Tracks = (ICollection<Track>)request.Tracks
@@ -74,7 +74,7 @@ namespace Backend.Business.Dashboard.Dashboard.SaveMainDashboard
                 }
                 else
                 {
-                    var updatedMainDashboard = _mapper.Map<Domain.Entities.Dashboard.Dashboard>(user.UserSetting.MainDashboard);
+                    var updatedMainDashboard = _mapper.Map<Domain.Entities.User.Dashboard.Dashboard>(user.UserSetting.MainDashboard);
                     updatedMainDashboard.Tracks = (ICollection<Track>)request.Tracks;
 
                     // update

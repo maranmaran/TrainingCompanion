@@ -1,6 +1,12 @@
-﻿namespace Backend.Business.Dashboard
+﻿
+using AutoMapper;
+
+namespace Backend.Business.Dashboard
 {
-    class Mappings
+    public class Mappings : Profile
     {
+        public Mappings()
+        {
+        }
     }
 }

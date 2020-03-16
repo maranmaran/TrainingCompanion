@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Backend.Business.Dashboard.FeedRequests.GetUserFeed;
+using Backend.Business.Users.DashboardRequests.GetMainDashboard;
+using Backend.Business.Users.DashboardRequests.SaveMainDashboard;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.Users.DashboardRequests.GetMainDashboard;
-using Backend.Business.Users.DashboardRequests.SaveMainDashboard;
 
 namespace Backend.API.Controllers
 {
@@ -19,6 +20,12 @@ namespace Backend.API.Controllers
         public async Task<IActionResult> SaveMainDashboard([FromBody] SaveMainDashboardRequest request, CancellationToken cancellationToken = default)
         {
             return Ok(await Mediator.Send(request, cancellationToken));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFeed(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return Ok(await Mediator.Send(new GetUserFeedRequest() { UserId = userId }, cancellationToken));
         }
     }
 }
