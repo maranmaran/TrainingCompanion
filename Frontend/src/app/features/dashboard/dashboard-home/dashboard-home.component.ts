@@ -4,7 +4,8 @@ import { Component, Inject, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, 
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
 import { AttributesMap } from 'ng-dynamic-component';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError, take } from 'rxjs/operators';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
@@ -14,6 +15,7 @@ import { SubSink } from 'subsink';
 import { TrackItem } from '../../../../server-models/entities/track-item.model';
 import { Track } from '../../../../server-models/entities/track.model';
 import { DashboardOutletDirective } from '../directives/dashboard-outlet.directive';
+import { Activity } from '../models/activity.model';
 import { dashboardCards, mainDashboardComponents } from '../models/dashboard-cards';
 import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
 import { sidebarCards } from './../models/dashboard-cards';
@@ -29,6 +31,8 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   @ViewChildren(DashboardOutletDirective) dashboardOutlets: QueryList<DashboardOutletDirective>;
 
   @ViewChildren('trackOne, trackTwo') dropLists: QueryList<CdkDropList>;
+
+  activities: Observable<Activity[]>;
 
   private userId: string;
 
@@ -58,13 +62,15 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.document.getElementById('dashboard-sidenav-content').style.setProperty("overflow-y", "hidden", "important")
+    // this.document.getElementById('dashboard-sidenav-content').style.setProperty("overflow-y", "hidden", "important")
     this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
     this.UIService.addOrUpdateSidenav(UISidenav.DashboardComponents, this.sidenav);
 
     this.dashboardService.getUserTracks();
     this.attrs = this.dashboardService.trackItemAttributes;
     // this.dirs = this.dashboardService.trackItemDirectives;
+
+    this.activities = this.dashboardService.getFeed(this.userId).pipe(catchError(err => []));
 
     this._subs.add(
       this.dashboardService.tracks$.subscribe(tracks => {

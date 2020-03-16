@@ -11,6 +11,7 @@ import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { TrackItem } from '../../../../server-models/entities/track-item.model';
 import { Track } from '../../../../server-models/entities/track.model';
+import { Activity } from '../models/activity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -105,4 +106,8 @@ export class DashboardService extends BaseService {
     this._trackState.next(state);
   }
 
+  getFeed(userId: string) {
+    return this.http.get<Activity[]>(this.url + 'GetFeed/' + userId)
+      .pipe(catchError(this.handleError));
+  }
 }

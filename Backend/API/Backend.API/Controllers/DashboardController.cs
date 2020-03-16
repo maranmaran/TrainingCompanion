@@ -22,7 +22,7 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 
-        [HttpGet]
+        [HttpGet("{userId}")]
         public async Task<IActionResult> GetFeed(Guid userId, CancellationToken cancellationToken = default)
         {
             return Ok(await Cache.GetOrAddAsync($"GetFeed{userId}", entry => Mediator.Send(new GetUserFeedRequest() { UserId = userId }, cancellationToken)));

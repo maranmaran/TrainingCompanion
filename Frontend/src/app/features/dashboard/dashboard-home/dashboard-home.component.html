@@ -32,6 +32,24 @@
         dashboard</button>
     </div>
 
+    <!--FEED-->
+    <style>
+      .example-viewport {
+        height: 200px;
+        width: 200px;
+        border: 1px solid black;
+      }
+
+      .example-item {
+        height: 50px;
+      }
+    </style>
+    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+      <div *cdkVirtualFor="let activity of (activities | async)" class="example-item">
+        {{activity.userName}} - {{ activity.type }} - {{ activity.date | date: 'mediumDate'}}
+      </div>
+    </cdk-virtual-scroll-viewport>
+
     <!--DASHBOARD TRACKS-->
     <div class="board h-100 pl-2 pr-2" fxLayout="row" fxLayoutAlign="space-between start" fxLayout.xs="column">
 
@@ -69,8 +87,8 @@
           ></ndc-dynamic>
             <!-- [ndcDynamicDirectives]="dirs" -->
       </div>
-    </div>
 
+    </div>
 
   </mat-sidenav-content>
 
