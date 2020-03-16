@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain;
-using Backend.Domain.Entities.Dashboard;
 using Backend.Domain.Entities.User;
-using Backend.Service.Infrastructure.Exceptions;
+using Backend.Domain.Entities.User.Dashboard;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.Dashboard.Dashboard.GetMainDashboard
+namespace Backend.Business.Dashboard.DashboardRequests.GetMainDashboard
 {
     public class GetMainDashboardRequestHandler : IRequestHandler<GetMainDashboardRequest, IEnumerable<Track>>
     {
