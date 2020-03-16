@@ -1,6 +1,7 @@
 ﻿using Backend.API.Extensions;
 using Backend.API.Middleware;
 using Backend.Business.Chat;
+using Backend.Business.Dashboard;
 using Backend.Business.Notifications.PushNotificationRequests;
 using Backend.Library.Logging.Extensions;
 using Backend.Persistance;
@@ -98,6 +99,7 @@ namespace Backend.API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<PushNotificationHub>("/api/notifications-hub");
+                endpoints.MapHub<FeedHub>("/api/feed-hub");
                 endpoints.MapHub<ChatHub>("/api/chat-hub");
             });
 

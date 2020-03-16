@@ -8,6 +8,7 @@ export const environment = {
   showStackTrace: true,
   apiUrl: 'http://localhost:50000/api/',
   notificationHubUrl: 'http://localhost:50000/api/notifications-hub',
+  feedHubUrl: 'http://localhost:50000/api/feed-hub',
   chatHubUrl: 'http://localhost:50000/api/chat-hub',
   stripePublishableKey: 'pk_test_zScuAdL8ZCULuob3sbgWfnzw',
   planColors: [
@@ -15,7 +16,7 @@ export const environment = {
       'linear-gradient(45deg, #00b4db, #0083b0)',
       'linear-gradient(45deg, #4568dc, #b06ab3)'
     ],
-  
+
 };
 
 

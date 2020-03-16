@@ -1,6 +1,6 @@
-import { SignalrNgChatAdapter } from "../core/ng-chat/signalr-ng-chat-adapter"
-import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service'
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core'
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
+import { SignalrNgChatAdapter } from "../core/ng-chat/signalr-ng-chat-adapter";
 
 /**
  * Singleton services - this pattern is used to have singleton instances of services inside lazy loaded modules
@@ -20,10 +20,10 @@ export class SignalrHubsModule {
             ngModule: SignalrHubsModule,
             providers: [
                 SignalrNgChatAdapter,
-                NotificationSignalrService 
+                NotificationSignalrService,
             ]
         }
     }
-    
+
 }
 

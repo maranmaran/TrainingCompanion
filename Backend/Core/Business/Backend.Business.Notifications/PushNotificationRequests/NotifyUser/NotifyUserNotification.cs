@@ -61,7 +61,6 @@ namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
                 // send notification
                 if (notificationSetting.ReceiveNotification && notification.ReceiverId.HasValue)
                 {
-                    // TODO: Send to receiver.. not all, put cancellation token
                     await _hubContext.Clients.User(notification.ReceiverId.Value.ToString()).SendNotification(notification);
                 }
             }
