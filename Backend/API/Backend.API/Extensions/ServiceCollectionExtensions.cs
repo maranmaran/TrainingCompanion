@@ -4,13 +4,13 @@ using Backend.Business.Authorization.Extensions;
 using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Extensions;
+using Backend.Infrastructure.Providers;
 using Backend.Library.AmazonS3.Extensions;
 using Backend.Library.Email.Extensions;
 using Backend.Library.ImageProcessing.Extensions;
 using Backend.Library.Logging.Extensions;
 using Backend.Library.Payment.Extensions;
 using Backend.Persistance;
-using Backend.Infrastructure.Providers;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -190,6 +190,7 @@ namespace Backend.API.Extensions
                 Assembly.GetAssembly(typeof(Business.TrainingLog.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Users.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Exercises.Mappings)),
+                Assembly.GetAssembly(typeof(Business.Dashboard.Mappings)),
             };
 
             services.AddMediatR(assemblies.ToArray());
@@ -234,6 +235,7 @@ namespace Backend.API.Extensions
                 typeof(Business.TrainingLog.Mappings),
                 typeof(Business.Users.Mappings),
                 typeof(Business.Exercises.Mappings),
+                typeof(Business.Dashboard.Mappings),
             };
 
             services.AddAutoMapper(types);
