@@ -16,9 +16,8 @@ namespace Backend.Domain.Entities.Auditing
         public string EntityType { get; set; }
         public string Table { get; set; }
         public string PrimaryKey { get; set; }
-        public string Title { get; set; }
         public string Action { get; set; }
-        public string User { get; set; }
+        public Guid UserId { get; set; }
         public DateTime Date { get; set; }
     }
 

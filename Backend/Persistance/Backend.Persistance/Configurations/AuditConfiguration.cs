@@ -8,7 +8,8 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<AuditRecord> builder)
         {
-
+            builder.HasIndex(x => x.UserId);
+            builder.HasIndex(x => x.PrimaryKey);
         }
     }
 }

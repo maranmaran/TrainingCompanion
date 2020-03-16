@@ -4,6 +4,7 @@ using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -30,19 +31,29 @@ namespace Backend.Persistance
             // Special mappings and one table per entity.. Audit_TrainingLog
             // Or putting all eggs in one basket
             // For now we'll put all eggs in one basket.. (for feed)
+            Configuration.AddCustomAction(ActionType.OnScopeCreated, scope =>
+            {
+                var serviceProvider = services.BuildServiceProvider();
+                var ctxAccessor = serviceProvider.GetService<IHttpContextAccessor>();
+                var userId = ctxAccessor?.HttpContext?.User?.Identity?.Name;
+
+                scope.SetCustomField("UserId", userId);
+            });
+
             Configuration.Setup()
                 .UseEntityFramework(_ => _
                     .AuditTypeMapper(t => typeof(AuditRecord))
                     .AuditEntityAction<AuditRecord>((ev, entry, entity) =>
                     {
+                        Guid.TryParse(ev.CustomFields["UserId"].ToString(), out var userId);
+                        entity.UserId = userId;
+
                         entity.Data = entry.ToJson();
                         entity.EntityType = entry.EntityType.Name;
                         entity.Date = DateTime.Now;
-                        entity.User = Environment.UserName;
                         entity.PrimaryKey = entry.PrimaryKey.First().Value.ToString();
                         entity.Table = entry.Table;
                         entity.Action = entry.Action;
-                        entity.Title = entity.Title;
                         entity.Date = DateTime.Now;
                     })
                     .IgnoreMatchedProperties(true));
