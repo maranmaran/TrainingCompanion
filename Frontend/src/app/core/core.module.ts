@@ -26,7 +26,7 @@ import { MessageDialogComponent } from '../shared/dialogs/message-dialog/message
 import { ExportImportServicesModule } from '../shared/export-import-services.module';
 import { NotificationToastComponent } from '../shared/notifications/notification-toast/notification-toast.component';
 import { SharedModule } from '../shared/shared.module';
-import { SignalrHubsModule } from '../shared/signlar-hubs.module';
+import { SignalrHubsModule } from '../shared/signalr-hubs.module';
 import { CoreEffects } from './../../ngrx/global-setup.ngrx';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { CoreRoutingModule } from './core-routing.module';

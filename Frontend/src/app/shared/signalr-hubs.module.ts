@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { FeedSignalrService } from 'src/business/services/feature-services/feed-signalr.service';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { SignalrNgChatAdapter } from "../core/ng-chat/signalr-ng-chat-adapter";
 
@@ -21,6 +22,7 @@ export class SignalrHubsModule {
             providers: [
                 SignalrNgChatAdapter,
                 NotificationSignalrService,
+                FeedSignalrService
             ]
         }
     }
