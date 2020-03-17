@@ -7,7 +7,7 @@
         Save customization
       </button>
 
-      <div class="p-3 mb-4"
+      <div *ngIf="false" class="p-3 mb-4"
         fxLayout="column" fxLayoutAlign="center"
         cdkDropList #componentsList="cdkDropList"
         [cdkDropListConnectedTo]="[trackOne, trackTwo, componentsList]" [cdkDropListData]="mainDashboardComponents"
@@ -34,24 +34,45 @@
 
     <!--FEED-->
     <style>
-      .example-viewport {
-        height: 200px;
-        width: 200px;
-        border: 1px solid black;
+
+      .feed-viewport {
+        height: 100%;
+        width: 100%;
       }
 
-      .example-item {
-        height: 50px;
+      .feed-item {
+        margin-top: 1rem;
+        border-radius: 10%;
+        max-width: 30%;
+        width: 100%;
+        padding: 15px;
       }
+
+      .feed-user-avatar {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+      }
+
     </style>
-    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-      <div *cdkVirtualFor="let activity of (activities | async)" class="example-item">
-        {{activity.userName}} - {{ activity.type }} - {{ activity.date | date: 'mediumDate'}}
-      </div>
-    </cdk-virtual-scroll-viewport>
+      <cdk-virtual-scroll-viewport itemSize="50" class="feed-viewport">
+        <div *cdkVirtualFor="let activity of (activities | async)" class="feed-item-container" fxLayout="column" fxLayoutAlign="center center">
+          <div class="feed-item mat-elevation-z3" fxLayout="row" fxLayoutGap="1rem">
+            <img class="feed-user-avatar" src="https://www.bigstockphoto.com/images/homepage/module-6.jpg" />
+            <div>
+              <div>
+                <b>{{ activity.userName }}</b> added new {{ activity.type }}
+              </div>
+              <div>
+                {{ activity.date | date: 'mediumDate'}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
 
     <!--DASHBOARD TRACKS-->
-    <div class="board h-100 pl-2 pr-2" fxLayout="row" fxLayoutAlign="space-between start" fxLayout.xs="column">
+   <div *ngIf="false" class="board h-100 pl-2 pr-2" fxLayout="row" fxLayoutAlign="space-between start" fxLayout.xs="column">
 
       <!--TRACK ONE-->
       <div
