@@ -17,6 +17,7 @@ import { Track } from '../../../../server-models/entities/track.model';
 import { DashboardOutletDirective } from '../directives/dashboard-outlet.directive';
 import { Activity } from '../models/activity.model';
 import { dashboardCards, mainDashboardComponents } from '../models/dashboard-cards';
+import { TracksService } from '../services/tracks.service';
 import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
 import { sidebarCards } from './../models/dashboard-cards';
 import { DashboardService } from './../services/dashboard.service';
@@ -29,7 +30,6 @@ import { DashboardService } from './../services/dashboard.service';
 export class DashboardHomeComponent implements OnInit, OnDestroy {
 
   @ViewChildren(DashboardOutletDirective) dashboardOutlets: QueryList<DashboardOutletDirective>;
-
   @ViewChildren('trackOne, trackTwo') dropLists: QueryList<CdkDropList>;
 
   activities: Observable<Activity[]>;
@@ -56,6 +56,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     private notificationService: NotificationSignalrService,
     private store: Store<AppState>,
     private dashboardService: DashboardService,
+    private tracksService: TracksService,
     private UIService: UIService,
     private renderer: Renderer2
   ) {
@@ -67,19 +68,19 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.UIService.addOrUpdateSidenav(UISidenav.DashboardComponents, this.sidenav);
 
     this.dashboardService.getUserTracks();
-    this.attrs = this.dashboardService.trackItemAttributes;
+    this.attrs = this.tracksService.trackItemAttributes;
     // this.dirs = this.dashboardService.trackItemDirectives;
 
     this.activities = this.dashboardService.getFeed(this.userId).pipe(catchError(err => []));
 
     this._subs.add(
-      this.dashboardService.tracks$.subscribe(tracks => {
+      this.tracksService.tracks$.subscribe(tracks => {
         this.tracks = tracks;
       }));
   }
 
   ngOnDestroy() {
-    this.document.getElementById('dashboard-sidenav-content').style.setProperty("overflow-y", "auto", "important")
+    // this.document.getElementById('dashboard-sidenav-content').style.setProperty("overflow-y", "auto", "important")
 
     this._subs.unsubscribe();
   }
@@ -101,7 +102,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     if (event.previousContainer != event.container) {
       this.dashboardUpdated = true;
       const item = event.previousContainer.data[event.previousIndex];
-      this.dashboardService.addItem(item, trackIdx);
+      this.tracksService.addItem(item, trackIdx);
     }
   }
 
@@ -113,7 +114,6 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
 
   dragEnter(event: any) {
     const droplist = event.container;
-    const draggedItem = event.item;
 
     this.dropLists.filter(list => list.id != droplist.id).forEach(droplist => {
       this.renderer.removeClass(droplist.element.nativeElement, 'theme-hover-background')
