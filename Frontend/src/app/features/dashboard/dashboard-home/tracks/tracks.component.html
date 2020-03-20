@@ -1,0 +1,38 @@
+  <div class="board w-100 h-100 pl-2 pr-2" fxLayout="row" fxLayoutAlign="space-between start" fxLayout.xs="column">
+
+    <!--TRACK ONE-->
+    <div
+      id="track1"
+      class="h-100"
+      #trackOne="cdkDropList" cdkDropList
+      [cdkDropListConnectedTo]="['track2', 'trackItemsList']" [cdkDropListData]="(tracks | async)[0]?.items"
+      (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 0})"
+      fxFlex="1 1 calc(50% - 1rem)" fxLayout="row wrap" fxLayoutAlign="space-between start"
+      fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
+    >
+      <ndc-dynamic *ngFor="let item of (tracks | async)[0]?.items"
+        [ndcDynamicComponent]="dashboardCards[item.component]"
+        [ndcDynamicAttributes]="attrs"
+      ></ndc-dynamic>
+        <!-- [ndcDynamicDirectives]="dirs" -->
+    </div>
+
+    <!--TRACK TWO-->
+    <div
+      id="track2"
+      class="h-100"
+      cdkDropList #trackTwo="cdkDropList"
+      [cdkDropListConnectedTo]="['track1', 'trackItemsList']" [cdkDropListData]="(tracks | async)[1]?.items"
+      (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 1})"
+      fxFlex="1 1 calc(50% - 1rem)" fxLayout="row wrap" fxLayoutAlign="space-between start"
+      fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
+    >
+        <ndc-dynamic
+          *ngFor="let item of (tracks | async)[1]?.items"
+          [ndcDynamicComponent]="dashboardCards[item.component]"
+          [ndcDynamicAttributes]="attrs"
+        ></ndc-dynamic>
+          <!-- [ndcDynamicDirectives]="dirs" -->
+    </div>
+
+  </div>

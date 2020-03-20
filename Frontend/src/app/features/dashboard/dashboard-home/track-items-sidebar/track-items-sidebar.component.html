@@ -1,0 +1,20 @@
+<div fxLayout="column">
+
+  <button *ngIf="(dashboardEditMode | async)" mat-stroked-button class="m-3" (click)="toggleSidenav()">
+    Save customization
+  </button>
+
+  <div id="trackItemsList" class="p-3 mb-4"
+    fxLayout="column" fxLayoutAlign="center"
+    cdkDropList #componentsList="cdkDropList"
+    [cdkDropListConnectedTo]="['track1', 'track2', 'trackItemsList']"
+    [cdkDropListData]="mainDashboardComponents"
+    [cdkDropListSortingDisabled]="true"
+    (cdkDropListDropped)="drop.emit({event: $event, trackIdx: null})" (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()">
+
+    <div *ngFor="let component of mainDashboardComponents" [innerHtml]="sidebarCards[component.component]"
+      cdkDrag (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()">
+    </div>
+  </div>
+
+</div>
