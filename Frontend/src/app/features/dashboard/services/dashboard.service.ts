@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Store } from '@ngrx/store';
-import { catchError, take } from 'rxjs/operators';
+import { Guid } from 'guid-typescript';
+import { catchError } from 'rxjs/operators';
 import { BaseService } from 'src/business/services/base.service';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { activitiesFetched, setDashboardUpdated, tracksFetched } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { Track } from '../../../../server-models/entities/track.model';
 import { Activity } from '../models/activity.model';
-import { TracksService } from './tracks.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,51 +17,64 @@ export class DashboardService extends BaseService {
   constructor(
     private httpDI: HttpClient,
     private store: Store<AppState>,
-    private tracksService: TracksService
+    // private tracksService: TracksService
   ) {
     super(httpDI, 'Dashboard');
-    this.store.select(currentUserId).pipe(take(1)).subscribe(id => {
-      this._userId = id
-    });
   };
-
-  private _userId: string;
 
   getFeed(userId: string) {
     return this.http.get<Activity[]>(this.url + 'GetFeed/' + userId)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError))
+      .subscribe((activities: Activity[]) => this.store.dispatch(activitiesFetched({activities})));
   }
 
-  getUserTracks() {
+  getUserTracks(userId: string) {
     this.http
-      .get<Track[]>(this.url + 'GetMainDashboard/' + this._userId)
+      .get<Track[]>(this.url + 'GetMainDashboard/' + userId)
       .pipe(
         catchError(this.handleError)
       ).subscribe(
         (tracks: Track[]) => {
 
           if (tracks.length > 2)
-            console.error('You cannot have more than 2 tracks for Main dashboard');
+            throw new Error('You cannot have more than 2 tracks for Main dashboard');
 
           if (tracks.length == 0)
-            tracks = this.tracksService.defaultState;
+            tracks = this.getDefaultTracksState();
 
-          this.tracksService.setState(tracks);
+          this.store.dispatch(tracksFetched({tracks}));
         },
         err => console.log(err)
       );
   }
 
-  saveMainDashboard(tracks: Track[]) {
-    var request = { userId: this._userId, tracks: tracks };
+  saveMainDashboard(userId: string, tracks: Track[]) {
+    var request = { userId: userId, tracks: tracks };
 
     this.http
-      .post(this.url + 'SaveMainDashboard/', request)
+      .put(this.url + 'SaveMainDashboard/', request)
       .pipe(
         catchError(this.handleError)
       ).subscribe(
-        (tracks: Track[]) => this.tracksService.setState(tracks),
-        err => console.log(err)
+        (tracks: Track[]) => {
+          this.store.dispatch(setDashboardUpdated({updated: false}));
+          this.store.dispatch(tracksFetched({tracks}));
+        },
+        err => console.log(err),
+        () => this.store.dispatch(setDashboardUpdated({updated: false}))
       );
+  }
+
+  private getDefaultTracksState(): Track[] {
+    return  [
+      {
+        id: Guid.create().toString(),
+        items: []
+      },
+      {
+        id: Guid.create().toString(),
+        items: []
+      }
+    ]
   }
 }
