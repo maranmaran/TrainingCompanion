@@ -1,130 +1,16 @@
 <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
-
   <mat-sidenav class="sidenav" [autoFocus]="false" [mode]="'side'" [position]="'end'">
-    <div fxLayout="column">
-
-      <button *ngIf="dashboardEditMode" mat-stroked-button class="m-3" (click)="toggleSidenav(); onSaveDashboard()">
-        Save customization
-      </button>
-
-      <div class="p-3 mb-4"
-        fxLayout="column" fxLayoutAlign="center"
-        cdkDropList #componentsList="cdkDropList"
-        [cdkDropListConnectedTo]="[trackOne, trackTwo, componentsList]" [cdkDropListData]="mainDashboardComponents"
-        [cdkDropListSortingDisabled]="true"
-        (cdkDropListDropped)="drop($event)" (cdkDragEntered)="dragEnter($event)" (cdkDragEnded)="dragEnd($event)"
-      >
-        <div *ngFor="let component of mainDashboardComponents" [innerHtml]="sidebarCards[component.component]"
-          cdkDrag (cdkDragEntered)="dragEnter($event)" (cdkDragEnded)="dragEnd($event)"
-        ></div>
-      </div>
-
-    </div>
+    <app-track-items-sidebar (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()" (saveTracks)="onSaveTracks($event)"></app-track-items-sidebar>
   </mat-sidenav>
 
   <mat-sidenav-content id="dashboard-sidenav-content">
 
-    <!--ACTIONS-->
-    <div class="dashboard-actions mb-3" fxLayout="row" fxLayoutAlign="space-between">
-      <button mat-stroked-button class="m-3" (click)="activateNotif()">Send test notification</button>
+    <app-actions></app-actions>
 
-      <button *ngIf="!dashboardEditMode" mat-stroked-button class="m-3" (click)="toggleSidenav()">Customize
-        dashboard</button>
-    </div>
-
-    <style>
-      .main-dashboard-container{
-        height: 100%;
-        width: 100%;
-      }
-    </style>
-    <div class="main-dashboard-container" fxLayout="row" fxLayoutGap="1rem">
-      <!--FEED-->
-      <style>
-
-        .feed-viewport {
-          height: 100%;
-          width: 100%;
-        }
-
-        .feed-item-container{
-          margin-left:5px;
-          margin-right:5px;
-        }
-
-        .feed-item {
-          margin-top: 0.5rem;
-          margin-bottom: 0.5rem;
-          border-radius: 10%;
-          /* max-width: 30%; */
-          width: 100%;
-          padding: 15px;
-        }
-
-        .feed-user-avatar {
-          height: 40px;
-          width: 40px;
-          border-radius: 50%;
-        }
-
-      </style>
-      <cdk-virtual-scroll-viewport itemSize="50" class="feed-viewport" fxFlex="0 0 30%">
-        <div *cdkVirtualFor="let activity of (activities | async)" class="feed-item-container" fxLayout="column" fxLayoutAlign="center center">
-          <div class="feed-item mat-elevation-z3" fxLayout="row" fxLayoutGap="1rem">
-            <img class="feed-user-avatar" src="https://www.bigstockphoto.com/images/homepage/module-6.jpg" />
-            <div>
-              <div>
-                <b>{{ activity.userName }}</b> added new {{ activity.type }}
-              </div>
-              <div>
-                {{ activity.date | date: 'mediumDate'}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </cdk-virtual-scroll-viewport>
-
-      <!--DASHBOARD TRACKS-->
-     <div class="board w-100 h-100 pl-2 pr-2" fxLayout="row" fxLayoutAlign="space-between start" fxLayout.xs="column">
-
-        <!--TRACK ONE-->
-        <div
-          id="track1"
-          class="h-100"
-          #trackOne="cdkDropList" cdkDropList
-          [cdkDropListConnectedTo]="[trackTwo, componentsList]" [cdkDropListData]="tracks[0]?.items"
-          (cdkDropListDropped)="drop($event, 0)"
-          fxFlex="1 1 calc(50% - 1rem)" fxLayout="row wrap" fxLayoutAlign="space-between start"
-          fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
-        >
-          <ndc-dynamic *ngFor="let item of tracks[0]?.items"
-            [ndcDynamicComponent]="dashboardCards[item.component]"
-            [ndcDynamicAttributes]="attrs"
-          ></ndc-dynamic>
-            <!-- [ndcDynamicDirectives]="dirs" -->
-        </div>
-
-        <!--TRACK TWO-->
-        <div
-          id="track2"
-          class="h-100"
-          cdkDropList #trackTwo="cdkDropList"
-          [cdkDropListConnectedTo]="[trackOne, componentsList]" [cdkDropListData]="tracks[1]?.items"
-          (cdkDropListDropped)="drop($event, 1)"
-          fxFlex="1 1 calc(50% - 1rem)" fxLayout="row wrap" fxLayoutAlign="space-between start"
-          fxFlex.xs="1 1 100%" fxLayoutAlign.xs="center"
-        >
-            <ndc-dynamic
-              *ngFor="let item of tracks[1]?.items"
-              [ndcDynamicComponent]="dashboardCards[item.component]"
-              [ndcDynamicAttributes]="attrs"
-            ></ndc-dynamic>
-              <!-- [ndcDynamicDirectives]="dirs" -->
-        </div>
-
-      </div>
+    <div class="main-dashboard-container h-100 w-100" fxLayout="row" fxLayoutGap="1rem">
+       <app-feed class="w-100 h-100" fxFlex="0 0 30%"></app-feed>
+       <app-tracks class="w-100 h-100" (drop)="drop($event)"></app-tracks>
     </div>
 
   </mat-sidenav-content>
-
 </mat-sidenav-container>

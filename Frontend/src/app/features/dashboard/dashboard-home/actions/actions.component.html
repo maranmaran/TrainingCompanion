@@ -1,0 +1,6 @@
+<div class="dashboard-actions mb-3" fxLayout="row" fxLayoutAlign="space-between">
+  <button mat-stroked-button class="m-3" (click)="sendNotification()">Send test notification</button>
+
+  <button *ngIf="!(editMode | async)" mat-stroked-button class="m-3" (click)="toggleSidenav()">Customize
+    dashboard</button>
+</div>

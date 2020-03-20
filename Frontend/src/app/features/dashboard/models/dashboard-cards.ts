@@ -1,6 +1,6 @@
 import { Guid } from 'guid-typescript';
 import { TrackItem } from '../../../../server-models/entities/track-item.model';
-import { TestCardComponent } from '../dashboard-home/dashboard-card-container/card-components/test-card/test-card.component';
+import { TestCardComponent } from '../dashboard-home/track-items-sidebar/card-components/test-card/test-card.component';
 
 export enum DashboardCards {
   Test = 'Test',
