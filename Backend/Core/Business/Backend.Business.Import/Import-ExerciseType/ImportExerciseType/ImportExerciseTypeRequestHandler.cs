@@ -90,7 +90,7 @@ namespace Backend.Business.Import.ImportExerciseType
 
                 var notification = await _mediator.Send(new CreatePushNotificationRequest(NotificationType.ImportFinished, payload, receiverId), CancellationToken.None);
 
-                await _mediator.Publish(new NotifyUserNotification(notification, notification.Receiver.UserSetting.NotificationSettings), cancellationToken);
+                await _mediator.Publish(new NotifyUserNotification(notification, receiverId), cancellationToken);
             }
             catch (Exception e)
             {
