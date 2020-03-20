@@ -14,10 +14,12 @@ using Backend.Persistance;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -277,6 +279,19 @@ namespace Backend.API.Extensions
         }
 
         /// <summary>
+        /// Register http context accessor in fail safe way
+        /// </summary>
+        public static void ConfigureHttpContextAccessor(this IServiceCollection services)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        }
+
+        /// <summary>
         /// Configures all core services (business and shared)
         /// </summary>
         /// <param name="services"></param>
@@ -288,7 +303,9 @@ namespace Backend.API.Extensions
             services.ConfigureS3Services();
             services.ConfigureLoggingService();
             services.ConfigureImageProcessingServices();
+            services.ConfigureHttpContextAccessor();
         }
+
 
         /// <summary>
         /// Configures core settings

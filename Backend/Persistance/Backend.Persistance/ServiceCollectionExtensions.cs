@@ -1,10 +1,12 @@
 ﻿using Audit.Core;
 using Backend.Business.Dashboard;
 using Backend.Business.Dashboard.Models;
+using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
 using Backend.Business.Users.UsersRequests.GetUser;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
+using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Enum;
@@ -66,19 +68,27 @@ namespace Backend.Persistance
                        entity.Action = entry.Action;
                        entity.Date = DateTime.Now;
 
-
                        //TODO method for pushing to feed in real time
                        var provider = services.BuildServiceProvider();
                        var ctx = provider.GetService<IHttpContextAccessor>();
-                       var hub = ctx.HttpContext.RequestServices.GetRequiredService<IHubContext<FeedHub, IFeedHub>>();
-                       var mediator = ctx.HttpContext.RequestServices.GetRequiredService<IMediator>();
+                       var hub = provider.GetService<IHubContext<FeedHub, IFeedHub>>();
+                       var mediator = provider.GetService<IMediator>();
+
+                       var notification = new Notification()
+                       {
+                           Payload = "Audit notification",
+                           ReceiverId = entity.UserId,
+                           SentAt = DateTime.Now,
+                       };
+
+                       await mediator.Publish(new NotifyUserNotification(notification, entity.UserId));
 
                        var activity = new Activity()
                        {
                            Date = entity.Date,
                            Type = (ActivityType)Enum.Parse(typeof(ActivityType), entity.EntityType, true),
                            UserId = entity.UserId,
-                           UserName = (await mediator.Send(new GetUserRequest(entity.UserId, AccountType.Athlete))).FullName
+                           UserName = (await mediator.Send(new GetUserRequest(entity.UserId, AccountType.User))).FullName
                        };
 
                        await hub.Clients.All.PushFeedActivity(activity);

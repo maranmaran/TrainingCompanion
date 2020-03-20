@@ -31,7 +31,7 @@ namespace Backend.Business.Notifications.PushNotificationRequests
 
             var notification = await _mediator.Send(new CreatePushNotificationRequest(type, payload, senderId, receiverId), CancellationToken.None);
 
-            await _mediator.Publish(new NotifyUserNotification(notification, notification.Receiver.UserSetting.NotificationSettings));
+            await _mediator.Publish(new NotifyUserNotification(notification, receiverId));
         }
 
         public async Task ReadNotification(Guid id)

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.Notification;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification
 {
@@ -32,8 +32,6 @@ namespace Backend.Business.Notifications.PushNotificationRequests.CreatePushNoti
 
                 _context.Entry(newNotification).Reference(x => x.Sender).Load();
                 _context.Entry(newNotification).Reference(x => x.Receiver).Load();
-                _context.Entry(newNotification.Receiver).Reference(x => x.UserSetting).Load();
-                _context.Entry(newNotification.Receiver.UserSetting).Collection(x => x.NotificationSettings).Load();
 
                 return newNotification;
             }
