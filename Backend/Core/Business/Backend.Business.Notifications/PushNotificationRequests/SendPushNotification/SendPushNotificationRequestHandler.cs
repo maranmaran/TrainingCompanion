@@ -28,8 +28,7 @@ namespace Backend.Business.Notifications.PushNotificationRequests.SendPushNotifi
 
                 var notification = await _mediator.Send(newNotificationRequest, cancellationToken);
 
-
-                await _mediator.Publish(new NotifyUserNotification(notification, notification.Receiver.UserSetting.NotificationSettings), cancellationToken);
+                await _mediator.Publish(new NotifyUserNotification(notification, notification.Receiver.Id), cancellationToken);
 
                 return Unit.Value;
             }
