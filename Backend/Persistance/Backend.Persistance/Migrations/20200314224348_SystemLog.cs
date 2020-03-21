@@ -7,6 +7,9 @@ namespace Backend.Persistance.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "SystemExceptions");
+
             migrationBuilder.CreateTable(
                 name: "SystemLog",
                 columns: table => new
