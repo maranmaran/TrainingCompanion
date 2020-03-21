@@ -12,6 +12,7 @@ import { BaseService } from '../base.service';
 import { ImportExerciseTypeRequest, ImportTrainingRequest } from './../../../server-models/cqrs/import/import.request';
 import { ImportResponse } from './../../../server-models/cqrs/import/import.response';
 import { ServerStatusCodes } from './../../../server-models/error/status-codes/server.codes';
+import { genericErrorMessage } from './../../utils/messages.utils';
 import { NotificationSignalrService } from './notification-signalr.service';
 
 @Injectable()
@@ -51,7 +52,7 @@ export class ImportService extends BaseService {
           response.errors = [
             {
               status: ServerStatusCodes.InternalServerError,
-              message: err?.message ?? "Something went wrong"
+              message: err?.message ?? genericErrorMessage()
             }
           ];
           this.store.dispatch(setImportResponse({ response }));
