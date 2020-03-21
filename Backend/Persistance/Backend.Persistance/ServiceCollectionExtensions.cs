@@ -2,11 +2,15 @@
 using Audit.EntityFramework;
 using Backend.Business.Dashboard;
 using Backend.Business.Notifications;
+using Backend.Business.Users.AthleteRequests.Get;
+using Backend.Business.Users.UsersRequests.GetUser;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
+using Backend.Domain.Enum;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -53,13 +57,17 @@ namespace Backend.Persistance
                     {
                         audit = entry.MapToAudit(ev);
 
-                        // push feed
-                        var feedAuditCoordinator = new FeedAuditCoordinator(services);
-                        await feedAuditCoordinator.Push(audit);
+                        var mediator = services.BuildServiceProvider().GetService<IMediator>();
+                        var user = await mediator.Send(new GetUserRequest(audit.UserId, AccountType.User));
 
-                        // notify
+                        var feedAuditCoordinator = new FeedAuditCoordinator(services, mediator);
                         var notificationAuditCoordinator = new NotificationsAuditCoordinator(services);
-                        await notificationAuditCoordinator.Push(audit);
+                        if (user.AccountType == AccountType.Athlete)
+                        {
+                            var athlete = await mediator.Send(new GetAthleteRequest(user.Id));
+                            await feedAuditCoordinator.PushToCoach(audit, athlete);
+                            await notificationAuditCoordinator.PushToCoach(audit, athlete);
+                        }
                     })
                     .IgnoreMatchedProperties(true));
         }

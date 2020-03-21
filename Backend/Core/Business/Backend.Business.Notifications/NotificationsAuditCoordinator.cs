@@ -6,6 +6,7 @@ using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
+using Backend.Domain.Entities.User;
 using Backend.Domain.Interfaces;
 using Backend.Infrastructure.Exceptions;
 using Backend.Library.Logging.Interfaces;
@@ -30,12 +31,15 @@ namespace Backend.Business.Notifications
             _logger = provider.GetService<ILoggingService>();
         }
 
-        public async Task Push(AuditRecord audit)
+        public async Task PushToCoach(AuditRecord audit, Athlete athlete)
         {
             try
             {
-                var receiverId = audit.UserId;
-                var notification = GetNotification(audit);
+                if (!athlete.CoachId.HasValue)
+                    throw new Exception("Athlete must have coach");
+
+                var receiverId = athlete.CoachId.Value;
+                var notification = GetNotification(audit, athlete);
 
                 await _mediator.Publish(new NotifyUserNotification(notification, receiverId));
             }
@@ -46,15 +50,17 @@ namespace Backend.Business.Notifications
             }
         }
 
-        internal Notification GetNotification(AuditRecord audit)
+        internal Notification GetNotification(AuditRecord audit, Athlete athlete)
         {
             try
             {
                 var notification = new Notification()
                 {
                     Payload = GetPayload(audit.EntityType),
-                    ReceiverId = audit.UserId,
+                    SenderId = athlete.Id,
+                    ReceiverId = athlete.CoachId,
                     SentAt = DateTime.Now,
+                    Type = NotificationHelper.GetNotificationType(audit.EntityType),
                 };
 
                 return notification;
