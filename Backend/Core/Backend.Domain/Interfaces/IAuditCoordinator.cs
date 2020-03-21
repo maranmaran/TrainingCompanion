@@ -1,10 +1,11 @@
 ﻿using Backend.Domain.Entities.Auditing;
+using Backend.Domain.Entities.User;
 using System.Threading.Tasks;
 
 namespace Backend.Domain.Interfaces
 {
     public interface IAuditCoordinator
     {
-        Task Push(AuditRecord audit);
+        Task PushToCoach(AuditRecord audit, Athlete athlete);
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Backend.Domain.Entities.Chat;
+using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Enum;
 using System;
 using System.Collections.Generic;
-using Backend.Domain.Entities.Exercises;
 using TagGroup = Backend.Domain.Entities.Exercises.TagGroup;
 
 namespace Backend.Domain.Entities.User
