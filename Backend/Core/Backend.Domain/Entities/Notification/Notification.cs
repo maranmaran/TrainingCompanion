@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
+using System;
 
 namespace Backend.Domain.Entities.Notification
 {
@@ -9,7 +9,7 @@ namespace Backend.Domain.Entities.Notification
         public Guid Id { get; set; }
 
         public NotificationType Type { get; set; }
-        public string Subtype { get; set; }
+        public string Subtype { get; set; } // What is this for.. comment it ?
 
         public string Payload { get; set; }
         public DateTime SentAt { get; set; }

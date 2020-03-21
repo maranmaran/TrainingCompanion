@@ -1,17 +1,18 @@
 ﻿using Audit.Core;
 using Audit.EntityFramework;
+using Audit.EntityFramework.Providers;
 using Backend.Business.Dashboard;
 using Backend.Business.Notifications;
-using Backend.Business.Users.AthleteRequests.Get;
-using Backend.Business.Users.UsersRequests.GetUser;
+using Backend.Domain;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Enum;
-using MediatR;
+using Backend.Library.Logging.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace Backend.Persistance
         //TODO Move all this to Dashboard project..because thats BoundedContext for FEED
         public static void ConfigureAuditEfCore(this IServiceProvider provider)
         {
+            Audit.Core.Configuration.DataProvider = new EntityFrameworkDataProvider();
+
             Audit.EntityFramework.Configuration.Setup()
                 .ForContext<ApplicationDbContext>(config => config
                     .IncludeEntityObjects()
@@ -35,7 +38,6 @@ namespace Backend.Persistance
                 .Include<MediaFile>()
                 .Include<Bodyweight>()
                 .Include<PersonalBest>();
-
 
             // Audit.EntityFrameworkCore offers more granulated approach
             // Special mappings and one table per entity.. Audit_TrainingLog
@@ -61,14 +63,29 @@ namespace Backend.Persistance
                         using (var scope = provider.CreateScope())
                         {
                             MapToAudit(ev, entry, audit);
-                            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                            var user = await mediator.Send(new GetUserRequest(audit.UserId, AccountType.User));
+                            var context = scope.ServiceProvider.GetRequiredService<IApplicationDbContext>();
+                            var logger = scope.ServiceProvider.GetRequiredService<ILoggingService>();
+
+                            var user = await context.Users.FirstOrDefaultAsync(x => x.Id == audit.UserId);
+                            if (user == null)
+                            {
+                                await logger.LogWarning($"User not found to send audit information to. UserId: {audit.UserId}");
+                                return;
+                            }
 
                             var feedAuditCoordinator = new FeedAuditCoordinator(scope.ServiceProvider);
                             var notificationAuditCoordinator = new NotificationsAuditCoordinator(scope.ServiceProvider);
+
+                            // until there's FRIENDS options.. only one concerend about activities is COACH
+                            // TODO unless vice-versa.. Coach added training for you (Athlete)....
                             if (user.AccountType == AccountType.Athlete)
                             {
-                                var athlete = await mediator.Send(new GetAthleteRequest(user.Id));
+                                var athlete = await context.Athletes
+                                                            .Include(x => x.Coach)
+                                                            .Include(x => x.UserSetting)
+                                                            .FirstOrDefaultAsync(x => x.AccountType == AccountType.Athlete && x.Id == user.Id);
+
+
                                 await feedAuditCoordinator.PushToCoach(audit, athlete);
                                 await notificationAuditCoordinator.PushToCoach(audit, athlete);
                             }

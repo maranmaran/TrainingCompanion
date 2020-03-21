@@ -1,6 +1,7 @@
 ﻿using Backend.Business.Notifications.Interfaces;
 using Backend.Business.Notifications.PushNotificationRequests;
 using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
+using Backend.Domain;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
@@ -56,11 +57,15 @@ namespace Backend.Business.Notifications
             {
                 var notification = new Notification()
                 {
-                    Payload = GetPayload(audit.EntityType),
+                    Payload = GetPayload(audit, athlete.UserSetting),
                     SenderId = athlete.Id,
                     ReceiverId = athlete.CoachId,
                     SentAt = DateTime.Now,
                     Type = NotificationHelper.GetNotificationType(audit.EntityType),
+                    Sender = athlete,
+                    Receiver = athlete.Coach,
+                    Read = false,
+
                 };
 
                 return notification;
@@ -71,20 +76,20 @@ namespace Backend.Business.Notifications
             }
         }
 
-        internal string GetPayload(string entityType)
+        internal string GetPayload(AuditRecord audit, UserSetting settings)
         {
-            switch (entityType)
+            switch (audit.EntityType)
             {
                 case nameof(Training):
-                    return string.Empty;
+                    return "added new training";
                 case nameof(MediaFile):
-                    return string.Empty;
+                    return "attached new media";
                 case nameof(Bodyweight):
-                    return string.Empty;
+                    return $"logged bodyweight of {audit.GetData<Bodyweight>().Entity.Value.FromMetricTo(settings.UnitSystem)} {settings.UnitSystem.GetUnitLabel()}";
                 case nameof(PersonalBest):
-                    return string.Empty;
+                    return "has new PR!";
                 default:
-                    throw new ArgumentException($"Entity type is not recognized. {entityType}");
+                    throw new ArgumentException($"Entity type is not recognized. {audit.EntityType}");
             }
         }
     }
