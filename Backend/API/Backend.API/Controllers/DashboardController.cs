@@ -1,6 +1,6 @@
-﻿using Backend.Business.Dashboard.FeedRequests.GetUserFeed;
-using Backend.Business.Users.DashboardRequests.GetMainDashboard;
-using Backend.Business.Users.DashboardRequests.SaveMainDashboard;
+﻿using Backend.Business.Dashboard.DashboardRequests.GetMainDashboard;
+using Backend.Business.Dashboard.DashboardRequests.SaveMainDashboard;
+using Backend.Business.Dashboard.FeedRequests.GetUserFeed;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
