@@ -6,6 +6,7 @@ using Backend.Domain;
 using Backend.Domain.Extensions;
 using Backend.Infrastructure.Providers;
 using Backend.Library.AmazonS3.Extensions;
+using Backend.Library.AmazonS3.Interfaces;
 using Backend.Library.Email.Extensions;
 using Backend.Library.ImageProcessing.Extensions;
 using Backend.Library.Logging.Extensions;
@@ -223,24 +224,31 @@ namespace Backend.API.Extensions
         /// <param name="services"></param>
         public static void ConfigureAutomapper(this IServiceCollection services)
         {
-            var types = new Type[]
-            {
-                typeof(Mappings),
-                typeof(Business.Billing.Mappings),
-                typeof(Business.Authorization.Mappings),
-                typeof(Business.Media.Mappings),
-                typeof(Business.Chat.Mappings),
-                typeof(Business.Export.Mappings),
-                typeof(Business.Import.Mappings),
-                typeof(Business.Notifications.Mappings),
-                typeof(Business.ProgressTracking.Mappings),
-                typeof(Business.TrainingLog.Mappings),
-                typeof(Business.Users.Mappings),
-                typeof(Business.Exercises.Mappings),
-                typeof(Business.Dashboard.Mappings),
-            };
+            // AddAutoMapper is Syntactic sugar.. we can do it manually
+            // needed because of chat mappings and it's constructor that needs s3Service
+            //services.AddAutoMapper(types); 
 
-            services.AddAutoMapper(types);
+            services.AddSingleton<IMapper>(provider =>
+            {
+                var config = new MapperConfiguration(c =>
+                {
+                    c.AddProfile<Mappings>();
+                    c.AddProfile(new Business.Chat.Mappings(provider.GetService<IS3Service>()));
+                    c.AddProfile<Business.Billing.Mappings>();
+                    c.AddProfile<Business.Authorization.Mappings>();
+                    c.AddProfile<Business.Media.Mappings>();
+                    c.AddProfile<Business.Export.Mappings>();
+                    c.AddProfile<Business.Import.Mappings>();
+                    c.AddProfile<Business.Notifications.Mappings>();
+                    c.AddProfile<Business.ProgressTracking.Mappings>();
+                    c.AddProfile<Business.TrainingLog.Mappings>();
+                    c.AddProfile<Business.Users.Mappings>();
+                    c.AddProfile<Business.Exercises.Mappings>();
+                    c.AddProfile<Business.Dashboard.Mappings>();
+                });
+
+                return config.CreateMapper();
+            });
         }
 
         /// <summary>
