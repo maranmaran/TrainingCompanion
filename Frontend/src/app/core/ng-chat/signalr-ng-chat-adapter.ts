@@ -3,7 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from "@microsoft/signalr";
 import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { ChatAdapter } from 'src/app/core/ng-chat/core/chat-adapter';
 import { Message } from 'src/app/core/ng-chat/core/message';
 import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-response';
@@ -83,9 +83,8 @@ export class SignalrNgChatAdapter extends ChatAdapter implements OnDestroy {
     return this.http
       .get('chat/GetFriendsList/' + this.userId + '/' + this.userAccountType)
       .pipe(
-        map((res: any) => {
-          return res;
-        }),
+        tap(res => console.log(res)),
+        map((res: any) => res),
         catchError((error: any) => throwError(error.error || 'Server error'))
       );
   }

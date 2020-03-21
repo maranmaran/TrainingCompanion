@@ -10,6 +10,7 @@ using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
+using Backend.Library.AmazonS3.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,11 +20,13 @@ namespace Backend.Business.Chat.ChatRequests.GetFriendList
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IS3Service _s3Service;
 
-        public GetFriendsListRequestHandler(IApplicationDbContext context, IMapper mapper)
+        public GetFriendsListRequestHandler(IApplicationDbContext context, IMapper mapper, IS3Service s3Service)
         {
             _context = context;
             _mapper = mapper;
+            _s3Service = s3Service;
         }
 
         public async Task<IEnumerable<ParticipantResponseViewModel>> Handle(GetFriendsListRequest request, CancellationToken cancellationToken)
