@@ -1,9 +1,10 @@
-import { TrainingLogTabGroup1, TrainingLogTabGroup2, TrainingLogTab } from './../../app/features/training-log/training-log-home/training-log-home.component';
 import { createAction, props } from '@ngrx/store';
 import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
+import { TrainingLogTab, TrainingLogTabGroup1, TrainingLogTabGroup2 } from './../../app/features/training-log/training-log-home/training-log-home.component';
+import { genericErrorMessage } from './../../business/utils/messages.utils';
 
-export const httpErrorOccured = createAction('[Http request] Error', (errorMessage: string = 'Something went wrong') => ({ errorMessage }));
+export const httpErrorOccured = createAction('[Http request] Error', (errorMessage: string = genericErrorMessage()) => ({ errorMessage }));
 
 export const httpRequestStartLoading = createAction('[Http request] Start Loading');
 export const httpRequestStopLoading = createAction('[Http request] Stop Loading');

@@ -3,12 +3,12 @@ import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import { UIService } from 'src/business/services/shared/ui.service';
 import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
 import { addTrackItem } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from 'src/server-models/entities/track.model';
+import { UIService } from './../../../../business/services/shared/ui.service';
 import { currentUserId } from './../../../../ngrx/auth/auth.selectors';
 import { DashboardService } from './../services/dashboard.service';
 import { TracksComponent } from './tracks/tracks.component';
@@ -27,7 +27,7 @@ export class DashboardHomeComponent implements OnInit {
     private store: Store<AppState>,
     private UIService: UIService,
     private renderer: Renderer2,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
   ) {
   }
 
@@ -44,7 +44,12 @@ export class DashboardHomeComponent implements OnInit {
 
     if (data.event.previousContainer.id != data.event.container.id) {
       const item = data.event.previousContainer.data[data.event.previousIndex];
-      this.store.dispatch(addTrackItem({item, idx: data.trackIdx}));
+
+      if(data.event.container.data.length < 3) {
+        this.store.dispatch(addTrackItem({item, idx: data.trackIdx}));
+      } else {
+        this.UIService.fadeOutMessage("Can't add more than 3 items to one track", 2000)
+      }
     }
 
   }
