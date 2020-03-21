@@ -1,4 +1,5 @@
 ﻿using Backend.Business.Dashboard.Models;
+using Backend.Domain;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.ProgressTracking;
@@ -37,27 +38,27 @@ namespace Backend.Business.Dashboard
                 Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                 UserId = audit.UserId,
                 UserName = user.FullName,
-                Message = GetPayload(audit.EntityType)
+                Message = GetPayload(audit, user.UserSetting)
             };
 
             return activity;
         }
 
 
-        internal string GetPayload(string entityType)
+        internal string GetPayload(AuditRecord audit, UserSetting settings)
         {
-            switch (entityType)
+            switch (audit.EntityType)
             {
                 case nameof(Training):
                     return "added new training";
                 case nameof(MediaFile):
-                    return "attache new media";
+                    return "attached new media";
                 case nameof(Bodyweight):
-                    return "logged bodyweight";
+                    return $"logged bodyweight of {audit.GetData<Bodyweight>().Entity.Value.FromMetricTo(settings.UnitSystem)} {settings.UnitSystem.GetUnitLabel()}";
                 case nameof(PersonalBest):
                     return "has new PR!";
                 default:
-                    throw new ArgumentException($"Entity type is not recognized. {entityType}");
+                    throw new ArgumentException($"Entity type is not recognized. {audit.EntityType}");
             }
         }
     }
