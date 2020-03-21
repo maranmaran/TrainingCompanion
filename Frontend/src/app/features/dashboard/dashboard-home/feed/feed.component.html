@@ -4,7 +4,7 @@
       <img class="feed-user-avatar" src="https://www.bigstockphoto.com/images/homepage/module-6.jpg" />
       <div>
         <div>
-          <b>{{ activity.userName }}</b> added new {{ activity.type }}
+          <b>{{ activity.userName }}</b> {{ activity.message }}
         </div>
         <div>
           {{ activity.date | date: 'mediumDate'}}

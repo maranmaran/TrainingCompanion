@@ -40,7 +40,7 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
             try
             {
                 // TODO: We can just assume this will be only available to coaches right.. unless other users are allowed to have FRIENDS!
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
+                var user = await _context.Users.Include(x => x.UserSetting).FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
                 if (user == null)
                     throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
@@ -62,7 +62,7 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                 }
 
 
-                return GetActivities(audits, athletes);
+                return GetActivities(audits, user.UserSetting, athletes);
             }
             catch (Exception e)
             {
@@ -70,7 +70,7 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
             }
         }
 
-        private IEnumerable<Activity> GetActivities(IEnumerable<AuditRecord> audits, IEnumerable<(Guid id, string name)> athletes)
+        private IEnumerable<Activity> GetActivities(IEnumerable<AuditRecord> audits, UserSetting settings, IEnumerable<(Guid id, string name)> athletes)
         {
             var activities = new List<Activity>();
             foreach (var audit in audits)
@@ -81,18 +81,13 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                     Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                     UserId = audit.UserId,
                     UserName = athletes.First(x => x.id == audit.UserId).name.Trim(),
+                    Message = ActivityHelper.GetPayload(audit, settings)
                 };
 
-                activity.Message = GetAdditionalPayload(activity.Type, audit.Data);
                 activities.Add(activity);
             }
 
             return activities;
-        }
-
-        private string GetAdditionalPayload(ActivityType type, string json)
-        {
-            return string.Empty;
         }
     }
 }
