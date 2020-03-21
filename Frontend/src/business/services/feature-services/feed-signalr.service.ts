@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
+import { pushActivity } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { AppSettingsService } from '../shared/app-settings.service';
@@ -47,7 +48,7 @@ export class FeedSignalrService implements OnDestroy {
 
   initializeListeners() {
     this.hubConnection.on('PushFeedActivity', (activity: Activity) => {
-      console.log(activity);
+      this.store.dispatch(pushActivity({activity}));
     });
   }
 

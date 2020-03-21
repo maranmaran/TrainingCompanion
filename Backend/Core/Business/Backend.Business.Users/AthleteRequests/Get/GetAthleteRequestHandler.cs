@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Users.AthleteRequests.Get
 {
@@ -23,7 +23,7 @@ namespace Backend.Business.Users.AthleteRequests.Get
         {
             try
             {
-                var athlete = await _context.Athletes.FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
+                var athlete = await _context.Athletes.Include(x => x.Coach).FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
                 if (athlete == null)
                     throw new NotFoundException("Athlete not found", request.UserId);

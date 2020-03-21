@@ -1,5 +1,5 @@
-﻿using System;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
+using System;
 
 namespace Backend.Domain
 {
@@ -36,6 +36,19 @@ namespace Backend.Domain
         public static double FromMetricTo(this double weight, UnitSystem unitSystem)
         {
             return weight.ToUnitSystem(UnitSystem.Metric, unitSystem);
+        }
+
+        public static string GetUnitLabel(this UnitSystem unitSystem)
+        {
+            switch (unitSystem)
+            {
+                case UnitSystem.Imperial:
+                    return "lbs";
+                case UnitSystem.Metric:
+                    return "kg";
+                default:
+                    throw new ArgumentException("Unknown unit system.");
+            }
         }
 
         /// <summary>
