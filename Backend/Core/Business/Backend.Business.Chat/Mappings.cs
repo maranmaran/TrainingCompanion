@@ -2,14 +2,16 @@
 using Backend.Business.Chat.ChatRequests.CreateChatMessage;
 using Backend.Business.Chat.ChatRequests.SendChatMessage;
 using Backend.Business.Chat.Models;
+using Backend.Common;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.User;
+using Backend.Library.AmazonS3.Interfaces;
 
 namespace Backend.Business.Chat
 {
     public class Mappings : Profile
     {
-        public Mappings()
+        public Mappings(IS3Service s3Service)
         {
             CreateMap<MessageViewModel, CreateChatMessageRequest>()
                     .ForMember(x => x.SentAt, o => o.MapFrom(x => x.DateSent))
@@ -35,7 +37,7 @@ namespace Backend.Business.Chat
             CreateMap<ApplicationUser, ParticipantResponseViewModel>()
                 .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
                 {
-                    Avatar = z.Avatar,
+                    Avatar = GenericAvatarConstructor.IsGenericAvatar(z.Avatar) ? z.Avatar : s3Service.GetPresignedUrlAsync(z.Avatar).Result,
                     Id = z.Id.ToString(),
                     DisplayName = $"{z.FirstName} {z.LastName}",
                     Status = ChatParticipantStatus.Offline
@@ -48,7 +50,7 @@ namespace Backend.Business.Chat
             CreateMap<Athlete, ParticipantResponseViewModel>()
                 .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
                 {
-                    Avatar = z.Avatar,
+                    Avatar = GenericAvatarConstructor.IsGenericAvatar(z.Avatar) ? z.Avatar : s3Service.GetPresignedUrlAsync(z.Avatar).Result,
                     Id = z.Id.ToString(),
                     DisplayName = $"{z.FirstName} {z.LastName}",
                     Status = ChatParticipantStatus.Offline
@@ -61,7 +63,7 @@ namespace Backend.Business.Chat
             CreateMap<Coach, ParticipantResponseViewModel>()
                 .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
                 {
-                    Avatar = z.Avatar,
+                    Avatar = GenericAvatarConstructor.IsGenericAvatar(z.Avatar) ? z.Avatar : s3Service.GetPresignedUrlAsync(z.Avatar).Result,
                     Id = z.Id.ToString(),
                     DisplayName = $"{z.FirstName} {z.LastName}",
                     Status = ChatParticipantStatus.Offline
