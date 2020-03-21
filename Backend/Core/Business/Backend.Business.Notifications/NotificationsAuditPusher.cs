@@ -1,4 +1,5 @@
-﻿using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
+﻿using AutoMapper;
+using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
 using Backend.Domain;
 using Backend.Domain.Deserializators;
 using Backend.Domain.Entities.Auditing;
@@ -17,14 +18,18 @@ using System.Threading.Tasks;
 
 namespace Backend.Business.Notifications
 {
-    public class NotificationsAuditCoordinator : IAuditCoordinator
+    public class NotificationsAuditPusher : IAuditPusher
     {
         private readonly IMediator _mediator;
         private readonly ILoggingService _logger;
-        public NotificationsAuditCoordinator(IServiceProvider provider)
+        private readonly IApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        public NotificationsAuditPusher(IServiceProvider provider)
         {
             _mediator = provider.GetService<IMediator>();
             _logger = provider.GetService<ILoggingService>();
+            _context = provider.GetService<IApplicationDbContext>();
+            _mapper = provider.GetService<IMapper>();
         }
 
         public async Task PushToCoach(AuditRecord audit, Athlete athlete)
@@ -36,6 +41,10 @@ namespace Backend.Business.Notifications
 
                 var receiverId = athlete.CoachId.Value;
                 var notification = GetNotification(audit, athlete);
+
+                var notificationToSave = _mapper.Map<Notification>(notification);
+                await _context.Notifications.AddAsync(notificationToSave);
+                await _context.SaveChangesAsync();
 
                 await _mediator.Publish(new NotifyUserNotification(notification, receiverId));
             }

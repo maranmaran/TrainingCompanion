@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Domain.Interfaces
 {
-    public interface IAuditCoordinator
+    public interface IAuditPusher
     {
         Task PushToCoach(AuditRecord audit, Athlete athlete);
     }

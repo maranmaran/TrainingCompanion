@@ -73,8 +73,8 @@ namespace Backend.Persistance
                                 return;
                             }
 
-                            var feedAuditCoordinator = new FeedAuditCoordinator(scope.ServiceProvider);
-                            var notificationAuditCoordinator = new NotificationsAuditCoordinator(scope.ServiceProvider);
+                            var feedAuditCoordinator = new FeedAuditPusher(scope.ServiceProvider);
+                            var notificationAuditCoordinator = new NotificationsAuditPusher(scope.ServiceProvider);
 
                             try
                             {
