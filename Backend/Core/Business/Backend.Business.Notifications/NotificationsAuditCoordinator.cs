@@ -23,9 +23,9 @@ namespace Backend.Business.Notifications
         private readonly IHubContext<PushNotificationHub, IPushNotificationHub> _hub;
         private readonly IMediator _mediator;
         private readonly ILoggingService _logger;
-        public NotificationsAuditCoordinator(IServiceCollection services)
+        public NotificationsAuditCoordinator(IServiceProvider provider)
         {
-            var provider = services.BuildServiceProvider();
+            //var provider = services.BuildServiceProvider();
             _hub = provider.GetService<IHubContext<PushNotificationHub, IPushNotificationHub>>();
             _mediator = provider.GetService<IMediator>();
             _logger = provider.GetService<ILoggingService>();

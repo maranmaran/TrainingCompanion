@@ -23,7 +23,7 @@ namespace Backend.Persistance
     {
 
         //TODO Move all this to Dashboard project..because thats BoundedContext for FEED
-        public static void ConfigureAuditEfCore(this IServiceCollection services)
+        public static void ConfigureAuditEfCore(this IServiceProvider provider)
         {
             Audit.EntityFramework.Configuration.Setup()
                 .ForContext<ApplicationDbContext>(config => config
@@ -43,11 +43,14 @@ namespace Backend.Persistance
             // For now we'll put all eggs in one basket.. (for feed)
             Configuration.AddCustomAction(ActionType.OnScopeCreated, scope =>
             {
-                var serviceProvider = services.BuildServiceProvider();
-                var ctxAccessor = serviceProvider.GetService<IHttpContextAccessor>();
-                var userId = ctxAccessor?.HttpContext?.User?.Identity?.Name;
+                using (var serviceScope = provider.CreateScope())
+                {
+                    //var serviceProvider = services.BuildServiceProvider();
+                    var ctxAccessor = serviceScope.ServiceProvider.GetService<IHttpContextAccessor>();
+                    var userId = ctxAccessor?.HttpContext?.User?.Identity?.Name;
 
-                scope.SetCustomField("UserId", userId);
+                    scope.SetCustomField("UserId", userId);
+                }
             });
 
             Configuration.Setup()
@@ -55,18 +58,20 @@ namespace Backend.Persistance
                     .AuditTypeMapper(t => typeof(AuditRecord))
                     .AuditEntityAction<AuditRecord>(async (ev, entry, audit) =>
                     {
-                        MapToAudit(ev, entry, audit);
-
-                        var mediator = services.BuildServiceProvider().GetService<IMediator>();
-                        var user = await mediator.Send(new GetUserRequest(audit.UserId, AccountType.User));
-
-                        var feedAuditCoordinator = new FeedAuditCoordinator(services, mediator);
-                        var notificationAuditCoordinator = new NotificationsAuditCoordinator(services);
-                        if (user.AccountType == AccountType.Athlete)
+                        using (var scope = provider.CreateScope())
                         {
-                            var athlete = await mediator.Send(new GetAthleteRequest(user.Id));
-                            await feedAuditCoordinator.PushToCoach(audit, athlete);
-                            await notificationAuditCoordinator.PushToCoach(audit, athlete);
+                            MapToAudit(ev, entry, audit);
+                            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                            var user = await mediator.Send(new GetUserRequest(audit.UserId, AccountType.User));
+
+                            var feedAuditCoordinator = new FeedAuditCoordinator(scope.ServiceProvider);
+                            var notificationAuditCoordinator = new NotificationsAuditCoordinator(scope.ServiceProvider);
+                            if (user.AccountType == AccountType.Athlete)
+                            {
+                                var athlete = await mediator.Send(new GetAthleteRequest(user.Id));
+                                await feedAuditCoordinator.PushToCoach(audit, athlete);
+                                await notificationAuditCoordinator.PushToCoach(audit, athlete);
+                            }
                         }
                     })
                     .IgnoreMatchedProperties(true));
