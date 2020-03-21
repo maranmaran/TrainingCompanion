@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Backend.Business.Dashboard
 {
-    public class FeedAuditCoordinator : IAuditCoordinator
+    public class FeedAuditPusher : IAuditPusher
     {
         private readonly IHubContext<FeedHub, IFeedHub> _hub;
         private readonly ILoggingService _logger;
 
-        public FeedAuditCoordinator(IServiceProvider provider)
+        public FeedAuditPusher(IServiceProvider provider)
         {
             //var provider = services.BuildServiceProvider();
             _hub = provider.GetService<IHubContext<FeedHub, IFeedHub>>();

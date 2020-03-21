@@ -20,7 +20,7 @@ namespace Backend.Domain.Entities.Notification
 
         public bool SystemNotification { get; set; }
 
-        public virtual Guid? SenderId { get; set; }
+        public Guid? SenderId { get; set; }
         public virtual ApplicationUser Sender { get; set; }
 
         public Guid? ReceiverId { get; set; }

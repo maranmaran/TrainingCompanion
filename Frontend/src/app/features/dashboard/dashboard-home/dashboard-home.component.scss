@@ -35,6 +35,10 @@
   transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
 }
 
+.main-dashboard-container {
+  height: calc(100% - 83px);
+}
+
 @media (max-width: 600px) {
   .sidenav {
     width: 70%;
