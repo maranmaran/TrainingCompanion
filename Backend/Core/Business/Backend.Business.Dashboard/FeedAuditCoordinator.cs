@@ -27,7 +27,6 @@ namespace Backend.Business.Dashboard
             var activity = GetActivity(audit, athlete);
 
             await _hub.Clients.User(athlete.CoachId.ToString()).PushFeedActivity(activity);
-            await _hub.Clients.All.PushFeedActivity(activity);
         }
 
         internal Activity GetActivity(AuditRecord audit, ApplicationUser user)

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SignalrNgChatAdapter } from 'src/app/core/ng-chat/signalr-ng-chat-adapter';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
+import { FeedSignalrService } from 'src/business/services/feature-services/feed-signalr.service';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { Theme } from 'src/business/shared/theme.enum';
@@ -45,6 +46,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     public store: Store<AppState>,
     public chatService: ChatService,
     private notificationService: NotificationSignalrService,
+    private feedSignalrService: FeedSignalrService,
     public chatAdapter: SignalrNgChatAdapter,
     private route: ActivatedRoute,
     private uiService: UIService,

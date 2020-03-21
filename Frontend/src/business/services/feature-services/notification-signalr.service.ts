@@ -44,13 +44,6 @@ export class NotificationSignalrService implements OnDestroy {
 
     // configure connection
     this.configureHubConnection();
-    this.configureHubConnection2();
-  }
-
-  readNotification(id: string) {
-    if (this.hubConnection && this.hubConnection.state === signalR.HubConnectionState.Connected) {
-      this.hubConnection.send('ReadNotification', id);
-    }
   }
 
   configureHubConnection() {
@@ -70,36 +63,12 @@ export class NotificationSignalrService implements OnDestroy {
       );
   }
 
-  configureHubConnection2() {
-    let hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(this.appSettingsService.feedHubUrl)
-      // { accessTokenFactory: () => this.authService.getToken() })
-      .build();
-
-    hubConnection.serverTimeoutInMilliseconds = 100000; // 100 sec
-    hubConnection
-      .start()
-      .then(() => {
-        this.initializeListeners2(hubConnection);
-      })
-      .catch(err =>
-        console.log(`Error while establishing chat connection. ${err}`)
-      );
-  }
-
-
-  // all listeners we react to
   initializeListeners() {
     this.hubConnection.on('SendNotification', (notification: PushNotification) => {
+      console.log(notification);
       this.doWork(notification.type);
       this.notifications$.next(notification);
       this.toastService.show(JSON.stringify(notification), 'Notification')
-    });
-  }
-
-  initializeListeners2(conn) {
-    conn.on('PushFeedActivity', (activity: any) => {
-      console.log(activity);
     });
   }
 
@@ -119,6 +88,12 @@ export class NotificationSignalrService implements OnDestroy {
       .pipe(
         catchError((error: any) => throwError(error.error || 'Server error'))
       );
+  }
+
+  readNotification(id: string) {
+    if (this.hubConnection && this.hubConnection.state === signalR.HubConnectionState.Connected) {
+      this.hubConnection.send('ReadNotification', id);
+    }
   }
 
   sendNotification(type: NotificationType, payload: string, senderId: string, receiverId: string): void {

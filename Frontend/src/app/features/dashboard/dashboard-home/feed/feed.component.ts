@@ -19,7 +19,8 @@ export class FeedComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+
   ) { }
 
   ngOnInit(): void {
