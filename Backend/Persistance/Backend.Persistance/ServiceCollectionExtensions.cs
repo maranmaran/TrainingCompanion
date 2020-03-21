@@ -55,7 +55,7 @@ namespace Backend.Persistance
                     .AuditTypeMapper(t => typeof(AuditRecord))
                     .AuditEntityAction<AuditRecord>(async (ev, entry, audit) =>
                     {
-                        audit = entry.MapToAudit(ev);
+                        MapToAudit(ev, entry, audit);
 
                         var mediator = services.BuildServiceProvider().GetService<IMediator>();
                         var user = await mediator.Send(new GetUserRequest(audit.UserId, AccountType.User));
@@ -75,21 +75,17 @@ namespace Backend.Persistance
         /// <summary>
         /// Maps audit event and entry to AuditRecord entity for DB
         /// </summary>
-        private static AuditRecord MapToAudit(this EventEntry entry, AuditEvent ev)
+        private static void MapToAudit(AuditEvent ev, EventEntry entry, AuditRecord audit)
         {
-            var entity = new AuditRecord();
-
             Guid.TryParse(ev.CustomFields["UserId"].ToString(), out var userId);
-            entity.UserId = userId;
-            entity.Data = entry.ToJson();
-            entity.EntityType = entry.EntityType.Name;
-            entity.Date = DateTime.Now;
-            entity.PrimaryKey = entry.PrimaryKey.First().Value.ToString();
-            entity.Table = entry.Table;
-            entity.Action = entry.Action;
-            entity.Date = DateTime.Now;
-
-            return entity;
+            audit.UserId = userId;
+            audit.Data = entry.ToJson();
+            audit.EntityType = entry.EntityType.Name;
+            audit.Date = DateTime.Now;
+            audit.PrimaryKey = entry.PrimaryKey.First().Value.ToString();
+            audit.Table = entry.Table;
+            audit.Action = entry.Action;
+            audit.Date = DateTime.Now;
         }
     }
 }

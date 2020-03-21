@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.Notifications.Extensions;
+﻿using Backend.Business.Notifications.Extensions;
 using Backend.Business.Notifications.Interfaces;
 using Backend.Domain;
 using Backend.Domain.Entities.Notification;
@@ -17,6 +11,12 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using MimeKit.Utils;
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
 {
@@ -75,8 +75,7 @@ namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
             }
             catch (Exception e)
             {
-                // log
-                await _loggingService.LogError(e, $"Could not send notification to receiver: {notification.ReceiverId}");
+                await _loggingService.LogError(e, $"Could not send mail to receiver: {notification.ReceiverId}");
             }
         }
 
