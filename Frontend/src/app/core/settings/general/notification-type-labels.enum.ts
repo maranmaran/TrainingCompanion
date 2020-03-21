@@ -3,4 +3,6 @@ export enum NotificationTypeLabel {
   TrainingCreated = 'New trainings',
   ImportFinished = 'Finished imports',
   NoteAdded = 'New training notes',
+  BodyweightAdded = 'New bodyweight log',
+  PersonalBestAdded = 'New PB record'
 }
