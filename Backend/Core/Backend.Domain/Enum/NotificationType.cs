@@ -5,6 +5,8 @@
         TrainingCreated,
         NoteAdded,
         MediaAdded,
-        ImportFinished
+        ImportFinished,
+        BodyweightAdded,
+        PersonalBestAdded
     }
 }
