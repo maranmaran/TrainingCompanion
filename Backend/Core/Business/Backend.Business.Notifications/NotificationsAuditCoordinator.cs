@@ -1,7 +1,6 @@
-﻿using Backend.Business.Notifications.Interfaces;
-using Backend.Business.Notifications.PushNotificationRequests;
-using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
+﻿using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
 using Backend.Domain;
+using Backend.Domain.Deserializators;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.Notification;
@@ -12,7 +11,6 @@ using Backend.Domain.Interfaces;
 using Backend.Infrastructure.Exceptions;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
@@ -21,13 +19,10 @@ namespace Backend.Business.Notifications
 {
     public class NotificationsAuditCoordinator : IAuditCoordinator
     {
-        private readonly IHubContext<PushNotificationHub, IPushNotificationHub> _hub;
         private readonly IMediator _mediator;
         private readonly ILoggingService _logger;
         public NotificationsAuditCoordinator(IServiceProvider provider)
         {
-            //var provider = services.BuildServiceProvider();
-            _hub = provider.GetService<IHubContext<PushNotificationHub, IPushNotificationHub>>();
             _mediator = provider.GetService<IMediator>();
             _logger = provider.GetService<ILoggingService>();
         }
@@ -46,7 +41,7 @@ namespace Backend.Business.Notifications
             }
             catch (Exception e)
             {
-                await _logger.LogError(e,
+                await _logger.LogWarning(e,
                     $"Could not notify user about audit record. UserId: {audit.UserId} Entity: {audit.EntityType} AuditId: {audit.Id}");
             }
         }
@@ -85,7 +80,7 @@ namespace Backend.Business.Notifications
                 case nameof(MediaFile):
                     return "attached new media";
                 case nameof(Bodyweight):
-                    return $"logged bodyweight of {audit.GetData<Bodyweight>().Entity.Value.FromMetricTo(settings.UnitSystem)} {settings.UnitSystem.GetUnitLabel()}";
+                    return $"logged bodyweight of {audit.GetData<BodyweightDeserializer>().Entity.Value.FromMetricTo(settings.UnitSystem)} {settings.UnitSystem.GetUnitLabel()}";
                 case nameof(PersonalBest):
                     return "has new PR!";
                 default:

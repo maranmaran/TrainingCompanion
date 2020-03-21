@@ -76,18 +76,26 @@ namespace Backend.Persistance
                             var feedAuditCoordinator = new FeedAuditCoordinator(scope.ServiceProvider);
                             var notificationAuditCoordinator = new NotificationsAuditCoordinator(scope.ServiceProvider);
 
-                            // until there's FRIENDS options.. only one concerend about activities is COACH
-                            // TODO unless vice-versa.. Coach added training for you (Athlete)....
-                            if (user.AccountType == AccountType.Athlete)
+                            try
                             {
-                                var athlete = await context.Athletes
-                                                            .Include(x => x.Coach)
-                                                            .Include(x => x.UserSetting)
-                                                            .FirstOrDefaultAsync(x => x.AccountType == AccountType.Athlete && x.Id == user.Id);
+                                // until there's FRIENDS options.. only one concerend about activities is COACH
+                                // TODO unless vice-versa.. Coach added training for you (Athlete)....
+                                if (user.AccountType == AccountType.Athlete)
+                                {
+                                    var athlete = await context.Athletes
+                                        .Include(x => x.Coach)
+                                        .Include(x => x.UserSetting)
+                                        .FirstOrDefaultAsync(x =>
+                                            x.AccountType == AccountType.Athlete && x.Id == user.Id);
 
 
-                                await feedAuditCoordinator.PushToCoach(audit, athlete);
-                                await notificationAuditCoordinator.PushToCoach(audit, athlete);
+                                    await feedAuditCoordinator.PushToCoach(audit, athlete);
+                                    await notificationAuditCoordinator.PushToCoach(audit, athlete);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                await logger.LogError(e);
                             }
                         }
                     })
