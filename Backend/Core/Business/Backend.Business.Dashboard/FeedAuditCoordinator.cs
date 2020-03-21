@@ -5,7 +5,6 @@ using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Interfaces;
-using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,12 +15,10 @@ namespace Backend.Business.Dashboard
     public class FeedAuditCoordinator : IAuditCoordinator
     {
         private readonly IHubContext<FeedHub, IFeedHub> _hub;
-        private readonly IMediator _mediator;
-        public FeedAuditCoordinator(IServiceCollection services, IMediator mediator)
+        public FeedAuditCoordinator(IServiceProvider provider)
         {
-            var provider = services.BuildServiceProvider();
+            //var provider = services.BuildServiceProvider();
             _hub = provider.GetService<IHubContext<FeedHub, IFeedHub>>();
-            _mediator = mediator;
 
         }
 
@@ -30,6 +27,7 @@ namespace Backend.Business.Dashboard
             var activity = GetActivity(audit, athlete);
 
             await _hub.Clients.User(athlete.CoachId.ToString()).PushFeedActivity(activity);
+            await _hub.Clients.All.PushFeedActivity(activity);
         }
 
         internal Activity GetActivity(AuditRecord audit, ApplicationUser user)

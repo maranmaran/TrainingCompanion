@@ -47,7 +47,6 @@ namespace Backend.API
             services.ConfigureEPPlus();
             services.ConfigureNLog();
             services.ConfigureLazyCache();
-            services.ConfigureAuditEfCore();
         }
 
 
@@ -55,6 +54,7 @@ namespace Backend.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             // ===== SPA angular setup (wwwroot folder) =====
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -105,6 +105,8 @@ namespace Backend.API
 
             // ===== Global error handling middleware with logging =====
             app.UseHttpsRedirection();
+
+            app.ApplicationServices.ConfigureAuditEfCore();
         }
     }
 }

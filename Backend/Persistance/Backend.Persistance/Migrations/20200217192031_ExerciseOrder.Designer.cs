@@ -409,30 +409,6 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("ExerciseMax");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.System.SystemException", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Date")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getutcdate()");
-
-                    b.Property<string>("InnerException")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StatusCode")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SystemExceptions");
-                });
 
             modelBuilder.Entity("Backend.Domain.Entities.TrainingLog.Exercise", b =>
                 {
