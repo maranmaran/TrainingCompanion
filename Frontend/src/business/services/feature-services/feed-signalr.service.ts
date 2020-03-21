@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 export class FeedSignalrService implements OnDestroy {
 
   private hubConnection: signalR.HubConnection;
+
   private subs = new SubSink();
 
   constructor(
@@ -44,7 +45,6 @@ export class FeedSignalrService implements OnDestroy {
       );
   }
 
-  // all listeners we react to
   initializeListeners() {
     this.hubConnection.on('PushFeedActivity', (activity: Activity) => {
       console.log(activity);
