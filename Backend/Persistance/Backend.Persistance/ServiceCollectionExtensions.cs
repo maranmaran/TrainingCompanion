@@ -1,21 +1,17 @@
 ﻿using Audit.Core;
+using Audit.EntityFramework;
 using Backend.Business.Dashboard;
-using Backend.Business.Dashboard.Models;
-using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
-using Backend.Business.Users.UsersRequests.GetUser;
+using Backend.Business.Notifications;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
-using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
-using Backend.Domain.Enum;
-using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using Configuration = Audit.Core.Configuration;
 
 namespace Backend.Persistance
 {
@@ -53,47 +49,39 @@ namespace Backend.Persistance
             Configuration.Setup()
                 .UseEntityFramework(_ => _
                     .AuditTypeMapper(t => typeof(AuditRecord))
-                    .AuditEntityAction<AuditRecord>(async (ev, entry, entity) =>
-                   {
-                       //TODO method for mapping
+                    .AuditEntityAction<AuditRecord>(async (ev, entry, audit) =>
+                    {
+                        audit = entry.MapToAudit(ev);
 
-                       Guid.TryParse(ev.CustomFields["UserId"].ToString(), out var userId);
-                       entity.UserId = userId;
+                        // push feed
+                        var feedAuditCoordinator = new FeedAuditCoordinator(services);
+                        await feedAuditCoordinator.Push(audit);
 
-                       entity.Data = entry.ToJson();
-                       entity.EntityType = entry.EntityType.Name;
-                       entity.Date = DateTime.Now;
-                       entity.PrimaryKey = entry.PrimaryKey.First().Value.ToString();
-                       entity.Table = entry.Table;
-                       entity.Action = entry.Action;
-                       entity.Date = DateTime.Now;
-
-                       //TODO method for pushing to feed in real time
-                       var provider = services.BuildServiceProvider();
-                       var ctx = provider.GetService<IHttpContextAccessor>();
-                       var hub = provider.GetService<IHubContext<FeedHub, IFeedHub>>();
-                       var mediator = provider.GetService<IMediator>();
-
-                       var notification = new Notification()
-                       {
-                           Payload = "Audit notification",
-                           ReceiverId = entity.UserId,
-                           SentAt = DateTime.Now,
-                       };
-
-                       await mediator.Publish(new NotifyUserNotification(notification, entity.UserId));
-
-                       var activity = new Activity()
-                       {
-                           Date = entity.Date,
-                           Type = (ActivityType)Enum.Parse(typeof(ActivityType), entity.EntityType, true),
-                           UserId = entity.UserId,
-                           UserName = (await mediator.Send(new GetUserRequest(entity.UserId, AccountType.User))).FullName
-                       };
-
-                       await hub.Clients.All.PushFeedActivity(activity);
-                   })
+                        // notify
+                        var notificationAuditCoordinator = new NotificationsAuditCoordinator(services);
+                        await notificationAuditCoordinator.Push(audit);
+                    })
                     .IgnoreMatchedProperties(true));
+        }
+
+        /// <summary>
+        /// Maps audit event and entry to AuditRecord entity for DB
+        /// </summary>
+        private static AuditRecord MapToAudit(this EventEntry entry, AuditEvent ev)
+        {
+            var entity = new AuditRecord();
+
+            Guid.TryParse(ev.CustomFields["UserId"].ToString(), out var userId);
+            entity.UserId = userId;
+            entity.Data = entry.ToJson();
+            entity.EntityType = entry.EntityType.Name;
+            entity.Date = DateTime.Now;
+            entity.PrimaryKey = entry.PrimaryKey.First().Value.ToString();
+            entity.Table = entry.Table;
+            entity.Action = entry.Action;
+            entity.Date = DateTime.Now;
+
+            return entity;
         }
     }
 }
