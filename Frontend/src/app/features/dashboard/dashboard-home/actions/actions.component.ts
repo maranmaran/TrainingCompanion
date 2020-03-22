@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
@@ -36,14 +37,14 @@ export class ActionsComponent implements OnInit {
 
   //TODO: TEST
   sendNotification() {
-    let id = '';
-    this.store.select(currentUserId).subscribe(id => id = id);
 
-    this.notificationService.sendNotification(
-      NotificationType.TrainingCreated,
-      "Test notification " + Math.round(Math.random() * 10) + " from client",
-      id,
-      id);
+    this.store.select(currentUserId).pipe(take(1)).subscribe(id => {
+      this.notificationService.sendNotification(
+        NotificationType.TrainingCreated,
+        "Test notification " + Math.round(Math.random() * 10) + " from client",
+        id,
+        id)
+    });
   }
 
 

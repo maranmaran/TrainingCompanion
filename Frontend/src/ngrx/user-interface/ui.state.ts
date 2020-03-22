@@ -1,6 +1,6 @@
+import { TrainingLogTab, TrainingLogTabGroup1, TrainingLogTabGroup2 } from 'src/app/features/training-log/training-log-home/training-log-home.component';
 import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
-import { TrainingLogTabGroup1, TrainingLogTabGroup2, TrainingLogTab } from 'src/app/features/training-log/training-log-home/training-log-home.component';
 
 export interface UIState {
     theme: Theme,
@@ -9,7 +9,8 @@ export interface UIState {
     httpErrorMessage: string,
     activeProgressBar: UIProgressBar,
     isMobile: boolean,
-    trainingLogTabs: {index: TrainingLogTabGroup1 | TrainingLogTabGroup2, tab: TrainingLogTab}
+    trainingLogTabs: {index: TrainingLogTabGroup1 | TrainingLogTabGroup2, tab: TrainingLogTab},
+    dashboardTab:  0 | 1
 }
 
 export const initialUIState: UIState = {
@@ -19,5 +20,6 @@ export const initialUIState: UIState = {
     httpErrorMessage: undefined,
     activeProgressBar: UIProgressBar.MainAppScreen,
     isMobile: undefined,
-    trainingLogTabs: undefined
+    trainingLogTabs: undefined,
+    dashboardTab: 0
 };

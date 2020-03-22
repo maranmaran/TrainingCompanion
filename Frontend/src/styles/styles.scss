@@ -24,6 +24,16 @@ body {
   margin: 8px;
 }
 
+.h-100vh {
+  height: 100vh;
+  min-height: 100vh;
+}
+
+.w-100vh {
+  width: 100vh;
+  min-width: 100vh;
+}
+
 // .mat-drawer-content {
 #main-sidenav-content {
   display: flex !important;
