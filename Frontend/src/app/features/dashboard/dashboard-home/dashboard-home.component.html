@@ -1,16 +1,51 @@
 <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
+
   <mat-sidenav class="sidenav" [autoFocus]="false" [mode]="'side'" [position]="'end'">
-    <app-track-items-sidebar (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()" (saveTracks)="onSaveTracks($event)"></app-track-items-sidebar>
+
+    <app-track-items-sidebar
+    (drop)="drop($event)"
+    (dragEnter)="dragEnter($event)"
+    (dragEnd)="dragEnd()"
+    (saveTracks)="onSaveTracks($event)"
+    ></app-track-items-sidebar>
+
   </mat-sidenav>
 
   <mat-sidenav-content id="dashboard-sidenav-content">
 
-    <app-actions></app-actions>
+    <app-actions fxHide.lt-md></app-actions>
 
-    <div class="main-dashboard-container w-100" fxLayout="row" fxLayoutGap="1rem">
-       <app-feed class="w-100 h-100" fxFlex="0 0 30%"></app-feed>
-       <app-tracks class="w-100 h-100" (drop)="drop($event)"></app-tracks>
+    <div fxHide.lt-md class="main-dashboard-container" fxLayout="row">
+      <app-feed fxFlex="0 0 calc(400px)"></app-feed>
+      <app-tracks fxFlex="0 0 calc(100% - 400px)" (drop)="drop($event)"></app-tracks>
     </div>
+
+    <mat-tab-group fxShow="true" fxShow.lt-md="true" fxShow.gt-sm="false"
+    headerPosition="below" dynamicHeight mat-align-tabs="center">
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <button mat-icon-button color="accent" [disableRipple]="true">
+              <i class="fas fa-home fa-1-5x"></i>
+          </button>
+        </ng-template>
+        <div style="height: calc(100vh - 173px + 68px)">
+          <app-feed></app-feed>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <button mat-icon-button color="accent" [disableRipple]="true">
+              <i class="fas fa-chart-pie fa-1-5x"></i>
+          </button>
+        </ng-template>
+        <div style="height: calc(100vh - 173px + 68px); overflow-y: auto">
+          <app-tracks (drop)="drop($event)"></app-tracks>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

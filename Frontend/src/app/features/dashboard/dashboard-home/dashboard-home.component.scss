@@ -9,7 +9,6 @@
 .sidenav-container {
   position: relative !important;
   top: 0px;
-  // top: 0px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -37,6 +36,11 @@
 
 .main-dashboard-container {
   height: calc(100% - 83px);
+  margin-bottom: 1rem;
+}
+
+.tabs-active {
+  height: calc(100% - 150px) !important;
 }
 
 @media (max-width: 600px) {
