@@ -1,13 +1,13 @@
 ﻿using Backend.Common.Extensions;
+using Backend.Domain.Entities.Exercises;
+using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
+using Backend.Domain.Factories;
 using Backend.Persistance.Seed;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Backend.Domain.Entities.Exercises;
-using Backend.Domain.Entities.User;
-using Backend.Domain.Factories;
 using Tag = Backend.Domain.Entities.Exercises.Tag;
 
 namespace Backend.Persistance
@@ -108,15 +108,25 @@ namespace Backend.Persistance
         // USERS
         private static void SeedNotificationSettings(ModelBuilder b, IEnumerable<Guid> userSettingIds)
         {
+            // missing last character
+            // we'll use index of setting to fill that in
+            // Other characters will be removed by counter
+            var startGuid = "71691ddc-039f-4606-b614-ff4a19516cd";
+            var counter = 0;
             foreach (var userSettingId in userSettingIds)
             {
-                var values = EnumFactory.SeedEnum<NotificationType, NotificationSetting>((value) => new NotificationSetting()
+                if (counter % 10 == 0)
                 {
-                    Id = Guid.NewGuid(),
+                    startGuid = startGuid.Remove(startGuid.Length - 1);
+                }
+                var values = EnumFactory.SeedEnum<NotificationType, NotificationSetting>((value, index) => new NotificationSetting()
+                {
+                    Id = Guid.Parse(startGuid + counter + index),
                     NotificationType = value,
                     UserSettingId = userSettingId
                 }).ToList();
 
+                counter++;
                 b.Entity<NotificationSetting>().HasData(values);
             }
         }

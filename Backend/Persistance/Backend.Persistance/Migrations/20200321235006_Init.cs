@@ -8,6 +8,24 @@ namespace Backend.Persistance.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Audits",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Data = table.Column<string>(nullable: true),
+                    EntityType = table.Column<string>(nullable: true),
+                    Table = table.Column<string>(nullable: true),
+                    PrimaryKey = table.Column<string>(nullable: true),
+                    Action = table.Column<string>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Audits", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Dashboards",
                 columns: table => new
                 {
@@ -20,18 +38,18 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SystemExceptions",
+                name: "SystemLog",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    StatusCode = table.Column<int>(nullable: false),
+                    LogLevel = table.Column<string>(nullable: true),
                     Message = table.Column<string>(nullable: true),
                     InnerException = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SystemExceptions", x => x.Id);
+                    table.PrimaryKey("PK_SystemLog", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,6 +193,26 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bodyweights",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Value = table.Column<double>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
+                    UserId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bodyweights", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bodyweights_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ChatMessages",
                 columns: table => new
                 {
@@ -233,6 +271,7 @@ namespace Backend.Persistance.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Type = table.Column<int>(nullable: false),
+                    Subtype = table.Column<string>(nullable: true),
                     Payload = table.Column<string>(nullable: true),
                     SentAt = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     Read = table.Column<bool>(nullable: false, defaultValue: false),
@@ -303,21 +342,22 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExerciseMax",
+                name: "PBs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ExerciseTypeId = table.Column<Guid>(nullable: false),
+                    Value = table.Column<double>(nullable: false),
                     DateAchieved = table.Column<DateTime>(nullable: false),
-                    Max = table.Column<double>(nullable: false),
+                    Bodyweight = table.Column<double>(nullable: true),
                     WilksScore = table.Column<double>(nullable: false),
-                    IpfPoints = table.Column<double>(nullable: false)
+                    IpfPoints = table.Column<double>(nullable: false),
+                    ExerciseTypeId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExerciseMax", x => x.Id);
+                    table.PrimaryKey("PK_PBs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExerciseMax_ExerciseTypes_ExerciseTypeId",
+                        name: "FK_PBs_ExerciseTypes_ExerciseTypeId",
                         column: x => x.ExerciseTypeId,
                         principalTable: "ExerciseTypes",
                         principalColumn: "Id",
@@ -351,6 +391,7 @@ namespace Backend.Persistance.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     ExerciseTypeId = table.Column<Guid>(nullable: false),
+                    Order = table.Column<int>(nullable: false),
                     TrainingId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -442,7 +483,8 @@ namespace Backend.Persistance.Migrations
                     Weight = table.Column<double>(nullable: false),
                     Reps = table.Column<double>(nullable: false),
                     Time = table.Column<TimeSpan>(nullable: false),
-                    Rpe = table.Column<double>(nullable: false),
+                    Rpe = table.Column<double>(nullable: false, defaultValue: 8.0),
+                    Rir = table.Column<double>(nullable: false, defaultValue: 2.0),
                     Intensity = table.Column<string>(nullable: true),
                     Volume = table.Column<double>(nullable: false),
                     AverageVelocity = table.Column<string>(nullable: true),
@@ -461,6 +503,21 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Audits_PrimaryKey",
+                table: "Audits",
+                column: "PrimaryKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Audits_UserId",
+                table: "Audits",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bodyweights_UserId",
+                table: "Bodyweights",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_ReceiverId",
                 table: "ChatMessages",
                 column: "ReceiverId");
@@ -469,11 +526,6 @@ namespace Backend.Persistance.Migrations
                 name: "IX_ChatMessages_SenderId",
                 table: "ChatMessages",
                 column: "SenderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExerciseMax_ExerciseTypeId",
-                table: "ExerciseMax",
-                column: "ExerciseTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Exercises_ExerciseTypeId",
@@ -538,6 +590,11 @@ namespace Backend.Persistance.Migrations
                 column: "UserSettingId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PBs_ExerciseTypeId",
+                table: "PBs",
+                column: "ExerciseTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sets_ExerciseId",
                 table: "Sets",
                 column: "ExerciseId");
@@ -558,13 +615,6 @@ namespace Backend.Persistance.Migrations
                 column: "TrackItemId",
                 unique: true,
                 filter: "[TrackItemId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TrackItems_Code",
-                table: "TrackItems",
-                column: "Code",
-                unique: true,
-                filter: "[Code] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TrackItems_TrackId",
@@ -608,10 +658,13 @@ namespace Backend.Persistance.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ChatMessages");
+                name: "Audits");
 
             migrationBuilder.DropTable(
-                name: "ExerciseMax");
+                name: "Bodyweights");
+
+            migrationBuilder.DropTable(
+                name: "ChatMessages");
 
             migrationBuilder.DropTable(
                 name: "ExerciseTypeTags");
@@ -626,10 +679,13 @@ namespace Backend.Persistance.Migrations
                 name: "NotificationSetting");
 
             migrationBuilder.DropTable(
+                name: "PBs");
+
+            migrationBuilder.DropTable(
                 name: "Sets");
 
             migrationBuilder.DropTable(
-                name: "SystemExceptions");
+                name: "SystemLog");
 
             migrationBuilder.DropTable(
                 name: "TrackItemParams");
