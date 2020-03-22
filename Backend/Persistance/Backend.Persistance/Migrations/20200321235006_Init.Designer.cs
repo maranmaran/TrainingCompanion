@@ -11,16 +11,52 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200124194109_NonUniqueCode_TrackItem")]
-    partial class NonUniqueCode_TrackItem
+    [Migration("20200321235006_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Backend.Domain.Entities.Auditing.AuditRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Action")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EntityType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrimaryKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Table")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrimaryKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Audits");
+                });
 
             modelBuilder.Entity("Backend.Domain.Entities.Chat.ChatMessage", b =>
                 {
@@ -69,83 +105,7 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("ChatMessages");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.Dashboard", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserSettingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Dashboards");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.Track", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DashboardId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DashboardId");
-
-                    b.ToTable("Tracks");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.TrackItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Component")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("ParamsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TrackId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrackId");
-
-                    b.ToTable("TrackItems");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.TrackItemParams", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("JsonParams")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("TrackItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrackItemId")
-                        .IsUnique()
-                        .HasFilter("[TrackItemId] IS NOT NULL");
-
-                    b.ToTable("TrackItemParams");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseType", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.Exercises.ExerciseType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -201,7 +161,7 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("ExerciseTypes");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseTypeTag", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.Exercises.ExerciseTypeTag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -227,7 +187,7 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("ExerciseTypeTags");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Tag", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.Exercises.Tag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -254,7 +214,7 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.TagGroup", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.Exercises.TagGroup", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -363,6 +323,9 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getutcdate()");
 
+                    b.Property<string>("Subtype")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("SystemNotification")
                         .HasColumnType("bit");
 
@@ -378,11 +341,38 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ProgressTracking.Max.ExerciseMax", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ProgressTracking.Bodyweight", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getutcdate()");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bodyweights");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.ProgressTracking.PersonalBest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double?>("Bodyweight")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("DateAchieved")
                         .HasColumnType("datetime2");
@@ -393,7 +383,7 @@ namespace Backend.Persistance.Migrations
                     b.Property<double>("IpfPoints")
                         .HasColumnType("float");
 
-                    b.Property<double>("Max")
+                    b.Property<double>("Value")
                         .HasColumnType("float");
 
                     b.Property<double>("WilksScore")
@@ -403,10 +393,10 @@ namespace Backend.Persistance.Migrations
 
                     b.HasIndex("ExerciseTypeId");
 
-                    b.ToTable("ExerciseMax");
+                    b.ToTable("PBs");
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.System.SystemException", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.System.SystemLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -420,15 +410,15 @@ namespace Backend.Persistance.Migrations
                     b.Property<string>("InnerException")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LogLevel")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StatusCode")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.ToTable("SystemExceptions");
+                    b.ToTable("SystemLog");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.TrainingLog.Exercise", b =>
@@ -439,6 +429,9 @@ namespace Backend.Persistance.Migrations
 
                     b.Property<Guid>("ExerciseTypeId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("TrainingId")
                         .HasColumnType("uniqueidentifier");
@@ -473,8 +466,15 @@ namespace Backend.Persistance.Migrations
                     b.Property<double>("Reps")
                         .HasColumnType("float");
 
+                    b.Property<double>("Rir")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(2.0);
+
                     b.Property<double>("Rpe")
-                        .HasColumnType("float");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(8.0);
 
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
@@ -589,6 +589,82 @@ namespace Backend.Persistance.Migrations
                     b.ToTable("Users");
 
                     b.HasDiscriminator<string>("AccountType").HasValue("User");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.User.Dashboard.Dashboard", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserSettingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dashboards");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.User.Dashboard.Track", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DashboardId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DashboardId");
+
+                    b.ToTable("Tracks");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.User.Dashboard.TrackItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Component")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ParamsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TrackId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TrackId");
+
+                    b.ToTable("TrackItems");
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.User.Dashboard.TrackItemParams", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("JsonParams")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TrackItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TrackItemId")
+                        .IsUnique()
+                        .HasFilter("[TrackItemId] IS NOT NULL");
+
+                    b.ToTable("TrackItemParams");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.User.NotificationSetting", b =>
@@ -709,32 +785,7 @@ namespace Backend.Persistance.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.Track", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.Dashboard.Dashboard", "Dashboard")
-                        .WithMany("Tracks")
-                        .HasForeignKey("DashboardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.TrackItem", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.Dashboard.Track", "Track")
-                        .WithMany("Items")
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.Dashboard.TrackItemParams", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.Dashboard.TrackItem", "TrackItem")
-                        .WithOne("Params")
-                        .HasForeignKey("Backend.Domain.Entities.Dashboard.TrackItemParams", "TrackItemId");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseType", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.Exercises.ExerciseType", b =>
                 {
                     b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "ApplicationUser")
                         .WithMany("ExerciseTypes")
@@ -743,31 +794,31 @@ namespace Backend.Persistance.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.ExerciseTypeTag", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.Exercises.ExerciseTypeTag", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.ExerciseType", "ExerciseType")
+                    b.HasOne("Backend.Domain.Entities.Exercises.ExerciseType", "ExerciseType")
                         .WithMany("Properties")
                         .HasForeignKey("ExerciseTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.Tag", "Tag")
+                    b.HasOne("Backend.Domain.Entities.Exercises.Tag", "Tag")
                         .WithMany("ExerciseTypeTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.Tag", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.Exercises.Tag", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.TagGroup", "TagGroup")
+                    b.HasOne("Backend.Domain.Entities.Exercises.TagGroup", "TagGroup")
                         .WithMany("Tags")
                         .HasForeignKey("TagGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ExerciseType.TagGroup", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.Exercises.TagGroup", b =>
                 {
                     b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "ApplicationUser")
                         .WithMany("TagGroups")
@@ -806,10 +857,19 @@ namespace Backend.Persistance.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Backend.Domain.Entities.ProgressTracking.Max.ExerciseMax", b =>
+            modelBuilder.Entity("Backend.Domain.Entities.ProgressTracking.Bodyweight", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.ExerciseType", "ExerciseType")
-                        .WithMany("ExerciseMaxes")
+                    b.HasOne("Backend.Domain.Entities.User.ApplicationUser", "User")
+                        .WithMany("Bodyweights")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.ProgressTracking.PersonalBest", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.Exercises.ExerciseType", "ExerciseType")
+                        .WithMany("PBs")
                         .HasForeignKey("ExerciseTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -817,7 +877,7 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.TrainingLog.Exercise", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.ExerciseType.ExerciseType", "ExerciseType")
+                    b.HasOne("Backend.Domain.Entities.Exercises.ExerciseType", "ExerciseType")
                         .WithMany("Exercises")
                         .HasForeignKey("ExerciseTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -857,6 +917,31 @@ namespace Backend.Persistance.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Backend.Domain.Entities.User.Dashboard.Track", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.User.Dashboard.Dashboard", "Dashboard")
+                        .WithMany("Tracks")
+                        .HasForeignKey("DashboardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.User.Dashboard.TrackItem", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.User.Dashboard.Track", "Track")
+                        .WithMany("Items")
+                        .HasForeignKey("TrackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Domain.Entities.User.Dashboard.TrackItemParams", b =>
+                {
+                    b.HasOne("Backend.Domain.Entities.User.Dashboard.TrackItem", "TrackItem")
+                        .WithOne("Params")
+                        .HasForeignKey("Backend.Domain.Entities.User.Dashboard.TrackItemParams", "TrackItemId");
+                });
+
             modelBuilder.Entity("Backend.Domain.Entities.User.NotificationSetting", b =>
                 {
                     b.HasOne("Backend.Domain.Entities.User.UserSetting", "UserSetting")
@@ -868,7 +953,7 @@ namespace Backend.Persistance.Migrations
 
             modelBuilder.Entity("Backend.Domain.Entities.User.UserSetting", b =>
                 {
-                    b.HasOne("Backend.Domain.Entities.Dashboard.Dashboard", "MainDashboard")
+                    b.HasOne("Backend.Domain.Entities.User.Dashboard.Dashboard", "MainDashboard")
                         .WithOne("UserSetting")
                         .HasForeignKey("Backend.Domain.Entities.User.UserSetting", "MainDashboardId");
                 });

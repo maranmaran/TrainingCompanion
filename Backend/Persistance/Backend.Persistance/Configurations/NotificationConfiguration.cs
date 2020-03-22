@@ -33,9 +33,6 @@ namespace Backend.Persistance.Configurations
                 .HasIndex(x => x.ReceiverId)
                 .IsUnique(false);
 
-            builder.HasIndex(x => x.SenderId);
-            builder.HasIndex(x => x.ReceiverId);
-
         }
     }
 }

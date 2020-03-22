@@ -697,195 +697,195 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("af5887e9-8006-4ce3-bf5e-a21c7bdd429b"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c00"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("08ee7004-3e49-4093-9649-a544565265d3")
+                            UserSettingId = new Guid("0d528a91-fbbe-4a02-924a-792344bbbd65")
                         },
                         new
                         {
-                            Id = new Guid("a10ab8c0-d633-4d1f-a8f9-34ad87c26200"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c01"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("08ee7004-3e49-4093-9649-a544565265d3")
+                            UserSettingId = new Guid("0d528a91-fbbe-4a02-924a-792344bbbd65")
                         },
                         new
                         {
-                            Id = new Guid("bf2468c6-e58a-41a8-89c4-1057049614ae"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c02"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("08ee7004-3e49-4093-9649-a544565265d3")
+                            UserSettingId = new Guid("0d528a91-fbbe-4a02-924a-792344bbbd65")
                         },
                         new
                         {
-                            Id = new Guid("e792a157-4cb5-4f2a-8566-f3bce65445a3"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c03"),
                             NotificationType = "ImportFinished",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("08ee7004-3e49-4093-9649-a544565265d3")
+                            UserSettingId = new Guid("0d528a91-fbbe-4a02-924a-792344bbbd65")
                         },
                         new
                         {
-                            Id = new Guid("57646ddc-87b2-49c3-b413-1c3fb600d076"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c04"),
                             NotificationType = "BodyweightAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("08ee7004-3e49-4093-9649-a544565265d3")
+                            UserSettingId = new Guid("0d528a91-fbbe-4a02-924a-792344bbbd65")
                         },
                         new
                         {
-                            Id = new Guid("a2294ca1-e2b6-4d52-a1cf-bd2616a06d56"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c05"),
                             NotificationType = "PersonalBestAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("08ee7004-3e49-4093-9649-a544565265d3")
+                            UserSettingId = new Guid("0d528a91-fbbe-4a02-924a-792344bbbd65")
                         },
                         new
                         {
-                            Id = new Guid("3a31e75e-4651-42d9-baae-5ce5bfa34f36"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c10"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("e0e2e219-2dee-482d-b951-2aed707cd5cb")
+                            UserSettingId = new Guid("8d399c00-5684-4a54-9c2c-b44a485c3583")
                         },
                         new
                         {
-                            Id = new Guid("6ca101aa-3ca2-4ce9-8776-025391893e50"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c11"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("e0e2e219-2dee-482d-b951-2aed707cd5cb")
+                            UserSettingId = new Guid("8d399c00-5684-4a54-9c2c-b44a485c3583")
                         },
                         new
                         {
-                            Id = new Guid("c0329313-82f4-4172-91b0-64698599d2bc"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c12"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("e0e2e219-2dee-482d-b951-2aed707cd5cb")
+                            UserSettingId = new Guid("8d399c00-5684-4a54-9c2c-b44a485c3583")
                         },
                         new
                         {
-                            Id = new Guid("2314eff9-d4fd-4e39-ac34-4df59624907c"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c13"),
                             NotificationType = "ImportFinished",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("e0e2e219-2dee-482d-b951-2aed707cd5cb")
+                            UserSettingId = new Guid("8d399c00-5684-4a54-9c2c-b44a485c3583")
                         },
                         new
                         {
-                            Id = new Guid("b5b3f332-4e5c-4ccd-8f3a-5432524f6632"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c14"),
                             NotificationType = "BodyweightAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("e0e2e219-2dee-482d-b951-2aed707cd5cb")
+                            UserSettingId = new Guid("8d399c00-5684-4a54-9c2c-b44a485c3583")
                         },
                         new
                         {
-                            Id = new Guid("48bf9d71-15dc-4dac-b682-db6964f9cd49"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c15"),
                             NotificationType = "PersonalBestAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("e0e2e219-2dee-482d-b951-2aed707cd5cb")
+                            UserSettingId = new Guid("8d399c00-5684-4a54-9c2c-b44a485c3583")
                         },
                         new
                         {
-                            Id = new Guid("52023241-1519-4ff7-b10f-2c424d13cf21"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c20"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("8427aa7e-faa7-467e-853d-5df74b6d98a0")
+                            UserSettingId = new Guid("051fde35-1f15-4ffe-81d0-e67e2459a6c5")
                         },
                         new
                         {
-                            Id = new Guid("b05c3356-6361-4041-8ad2-bb135b9d19b1"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c21"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("8427aa7e-faa7-467e-853d-5df74b6d98a0")
+                            UserSettingId = new Guid("051fde35-1f15-4ffe-81d0-e67e2459a6c5")
                         },
                         new
                         {
-                            Id = new Guid("f1b6cdb5-d8e1-419b-b543-a88e3a31c385"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c22"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("8427aa7e-faa7-467e-853d-5df74b6d98a0")
+                            UserSettingId = new Guid("051fde35-1f15-4ffe-81d0-e67e2459a6c5")
                         },
                         new
                         {
-                            Id = new Guid("ead65900-ce32-46ce-8cb2-5cd2a53bdac7"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c23"),
                             NotificationType = "ImportFinished",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("8427aa7e-faa7-467e-853d-5df74b6d98a0")
+                            UserSettingId = new Guid("051fde35-1f15-4ffe-81d0-e67e2459a6c5")
                         },
                         new
                         {
-                            Id = new Guid("d866cdfe-3b70-42f5-ac9f-0f7354c7e6fd"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c24"),
                             NotificationType = "BodyweightAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("8427aa7e-faa7-467e-853d-5df74b6d98a0")
+                            UserSettingId = new Guid("051fde35-1f15-4ffe-81d0-e67e2459a6c5")
                         },
                         new
                         {
-                            Id = new Guid("a0e53b11-f3a3-4e2b-b047-1e07a20abba9"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c25"),
                             NotificationType = "PersonalBestAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("8427aa7e-faa7-467e-853d-5df74b6d98a0")
+                            UserSettingId = new Guid("051fde35-1f15-4ffe-81d0-e67e2459a6c5")
                         },
                         new
                         {
-                            Id = new Guid("0153bdf2-a955-43e9-af15-7edc5ed8cc57"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c30"),
                             NotificationType = "TrainingCreated",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf33c27d-af75-4d20-be23-72742e347867")
+                            UserSettingId = new Guid("46bd253c-a630-4759-a2a5-a4ec7497c88a")
                         },
                         new
                         {
-                            Id = new Guid("517db1ee-8323-450c-a471-0d00804a4616"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c31"),
                             NotificationType = "NoteAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf33c27d-af75-4d20-be23-72742e347867")
+                            UserSettingId = new Guid("46bd253c-a630-4759-a2a5-a4ec7497c88a")
                         },
                         new
                         {
-                            Id = new Guid("3ddb6fad-87ab-4411-8523-41dcb2a4bb42"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c32"),
                             NotificationType = "MediaAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf33c27d-af75-4d20-be23-72742e347867")
+                            UserSettingId = new Guid("46bd253c-a630-4759-a2a5-a4ec7497c88a")
                         },
                         new
                         {
-                            Id = new Guid("6ab5ede3-adfe-4b31-851c-b528f7256c31"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c33"),
                             NotificationType = "ImportFinished",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf33c27d-af75-4d20-be23-72742e347867")
+                            UserSettingId = new Guid("46bd253c-a630-4759-a2a5-a4ec7497c88a")
                         },
                         new
                         {
-                            Id = new Guid("fb20fa6e-2064-4d6f-8e47-3d1bc95b0a31"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c34"),
                             NotificationType = "BodyweightAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf33c27d-af75-4d20-be23-72742e347867")
+                            UserSettingId = new Guid("46bd253c-a630-4759-a2a5-a4ec7497c88a")
                         },
                         new
                         {
-                            Id = new Guid("530ca140-49a8-4576-a27c-854b6e001218"),
+                            Id = new Guid("71691ddc-039f-4606-b614-ff4a19516c35"),
                             NotificationType = "PersonalBestAdded",
                             ReceiveMail = false,
                             ReceiveNotification = false,
-                            UserSettingId = new Guid("cf33c27d-af75-4d20-be23-72742e347867")
+                            UserSettingId = new Guid("46bd253c-a630-4759-a2a5-a4ec7497c88a")
                         });
                 });
 
@@ -937,8 +937,8 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("08ee7004-3e49-4093-9649-a544565265d3"),
-                            ApplicationUserId = new Guid("cd2fbc36-65bb-44bb-9269-5748923b21e9"),
+                            Id = new Guid("0d528a91-fbbe-4a02-924a-792344bbbd65"),
+                            ApplicationUserId = new Guid("0faee6ac-1772-4bbe-9990-a7d9a22dd529"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -946,8 +946,8 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e0e2e219-2dee-482d-b951-2aed707cd5cb"),
-                            ApplicationUserId = new Guid("3823fdab-c8b8-4921-9ad2-55727936f0c1"),
+                            Id = new Guid("8d399c00-5684-4a54-9c2c-b44a485c3583"),
+                            ApplicationUserId = new Guid("8d399c00-5654-4a54-9c2c-b44a485c3583"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -955,8 +955,8 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8427aa7e-faa7-467e-853d-5df74b6d98a0"),
-                            ApplicationUserId = new Guid("962ee222-f961-4984-985d-72a803e7ae0e"),
+                            Id = new Guid("051fde35-1f15-4ffe-81d0-e67e2459a6c5"),
+                            ApplicationUserId = new Guid("fa67c815-486e-4e9d-89dd-3156376ac9b4"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -964,8 +964,8 @@ namespace Backend.Persistance.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cf33c27d-af75-4d20-be23-72742e347867"),
-                            ApplicationUserId = new Guid("be0ae43a-25b2-410c-a645-30861526076f"),
+                            Id = new Guid("46bd253c-a630-4759-a2a5-a4ec7497c88a"),
+                            ApplicationUserId = new Guid("939085da-e515-4422-80eb-7847e7f4eadb"),
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
@@ -982,19 +982,19 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cd2fbc36-65bb-44bb-9269-5748923b21e9"),
+                            Id = new Guid("0faee6ac-1772-4bbe-9990-a7d9a22dd529"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 3, 21, 16, 34, 39, 153, DateTimeKind.Utc).AddTicks(5215),
+                            CreatedOn = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(2718),
                             CustomerId = "cus_FLi7gZv8w0j0GB",
                             Email = "admin@trainingcompanion.com",
                             FirstName = "Admin",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 3, 21, 16, 34, 39, 153, DateTimeKind.Utc).AddTicks(5949),
+                            LastModified = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(3558),
                             LastName = "",
                             PasswordHash = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("08ee7004-3e49-4093-9649-a544565265d3"),
+                            UserSettingId = new Guid("0d528a91-fbbe-4a02-924a-792344bbbd65"),
                             Username = "admin"
                         });
                 });
@@ -1013,20 +1013,20 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3823fdab-c8b8-4921-9ad2-55727936f0c1"),
+                            Id = new Guid("8d399c00-5654-4a54-9c2c-b44a485c3583"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 3, 21, 16, 34, 39, 153, DateTimeKind.Utc).AddTicks(9058),
+                            CreatedOn = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(7394),
                             Email = "athlete@trainingcompanion.com",
                             FirstName = "Athlete",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 3, 21, 16, 34, 39, 153, DateTimeKind.Utc).AddTicks(9072),
+                            LastModified = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(7413),
                             LastName = "",
                             PasswordHash = "23a1f74bc589fe525387f8d2c40f1e552a564fe5de00af935bb7a0592fc976c6",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("e0e2e219-2dee-482d-b951-2aed707cd5cb"),
+                            UserSettingId = new Guid("8d399c00-5684-4a54-9c2c-b44a485c3583"),
                             Username = "athlete",
-                            CoachId = new Guid("962ee222-f961-4984-985d-72a803e7ae0e")
+                            CoachId = new Guid("fa67c815-486e-4e9d-89dd-3156376ac9b4")
                         });
                 });
 
@@ -1039,19 +1039,19 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("962ee222-f961-4984-985d-72a803e7ae0e"),
+                            Id = new Guid("fa67c815-486e-4e9d-89dd-3156376ac9b4"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 3, 21, 16, 34, 39, 154, DateTimeKind.Utc).AddTicks(1772),
+                            CreatedOn = new DateTime(2020, 3, 22, 0, 21, 1, 990, DateTimeKind.Utc).AddTicks(232),
                             CustomerId = "cus_FHk5RepADdfm5H",
                             Email = "coach@trainingcompanion.com",
                             FirstName = "Coach",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 3, 21, 16, 34, 39, 154, DateTimeKind.Utc).AddTicks(1776),
+                            LastModified = new DateTime(2020, 3, 22, 0, 21, 1, 990, DateTimeKind.Utc).AddTicks(237),
                             LastName = "",
                             PasswordHash = "e0f167bc84b881bc06f6884fb48e02f41dfc5579e25489db6c6bde238e4aed15",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("8427aa7e-faa7-467e-853d-5df74b6d98a0"),
+                            UserSettingId = new Guid("051fde35-1f15-4ffe-81d0-e67e2459a6c5"),
                             Username = "coach"
                         });
                 });
@@ -1065,18 +1065,18 @@ namespace Backend.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("be0ae43a-25b2-410c-a645-30861526076f"),
+                            Id = new Guid("939085da-e515-4422-80eb-7847e7f4eadb"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 3, 21, 16, 34, 39, 153, DateTimeKind.Utc).AddTicks(9876),
+                            CreatedOn = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(8220),
                             Email = "solo.athlete@trainingcompanion.com",
                             FirstName = "Solo",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 3, 21, 16, 34, 39, 153, DateTimeKind.Utc).AddTicks(9880),
+                            LastModified = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(8225),
                             LastName = "Athlete",
                             PasswordHash = "304301ea5935cd1d38e55206e09eebcfe95fcb56f96ddf0ef2d8557a295728c8",
                             TrialDuration = 0,
-                            UserSettingId = new Guid("cf33c27d-af75-4d20-be23-72742e347867"),
+                            UserSettingId = new Guid("46bd253c-a630-4759-a2a5-a4ec7497c88a"),
                             Username = "soloathlete"
                         });
                 });
