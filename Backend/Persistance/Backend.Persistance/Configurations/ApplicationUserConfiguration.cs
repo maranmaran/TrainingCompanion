@@ -1,9 +1,9 @@
-﻿using Backend.Domain.Enum;
+﻿using Backend.Domain.Entities.User;
+using Backend.Domain.Enum;
 using Backend.Persistance.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Persistance.Configurations
 {
@@ -16,6 +16,7 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.TrialDuration).HasDefaultValue(15);
             builder.Property(x => x.Active).HasDefaultValue(true);
             builder.Property(x => x.Avatar).HasValueGenerator<AvatarGenerator>();
+            builder.Ignore(x => x.FullName);
 
             builder
                 .HasDiscriminator(x => x.AccountType)
@@ -60,8 +61,8 @@ namespace Backend.Persistance.Configurations
                 .HasMany(x => x.ReceivedNotifications)
                 .WithOne(x => x.Receiver)
                 .HasForeignKey(x => x.ReceiverId)
-                .OnDelete(DeleteBehavior.Cascade);           
-            
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder
                 .HasMany(x => x.ReceivedNotifications)
                 .WithOne(x => x.Receiver)
