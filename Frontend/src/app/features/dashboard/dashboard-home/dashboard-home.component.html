@@ -13,14 +13,14 @@
 
   <mat-sidenav-content id="dashboard-sidenav-content">
 
-    <app-actions fxHide.lt-md></app-actions>
+    <app-actions fxHide.lt-sm></app-actions>
 
-    <div fxHide.lt-md class="main-dashboard-container" fxLayout="row">
-      <app-feed fxFlex="0 0 calc(400px)"></app-feed>
-      <app-tracks fxFlex="0 0 calc(100% - 400px)" (drop)="drop($event)"></app-tracks>
+    <div *ngIf="!mediaObserver.isActive('lt-sm')" class="main-dashboard-container" fxLayout="row">
+      <app-feed fxFlex="1 1 30" fxFlex.lt-md="1 1 50"></app-feed>
+      <app-tracks fxFlex="1 1 70" fxFlex.lt-md="1 1 50" (drop)="drop($event)"></app-tracks>
     </div>
 
-    <mat-tab-group fxShow="true" fxShow.lt-md="true" fxShow.gt-sm="false"
+    <mat-tab-group *ngIf="mediaObserver.isActive('lt-sm')"
     headerPosition="below" dynamicHeight mat-align-tabs="center">
 
       <mat-tab>
