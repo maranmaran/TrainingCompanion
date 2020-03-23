@@ -19,7 +19,7 @@ import { DashboardService } from './../../services/dashboard.service';
 })
 export class TracksComponent implements OnInit {
 
-  @ViewChildren('trackOne, trackTwo') trackDroplists: QueryList<CdkDropList>;
+  @ViewChildren('trackOne, trackTwo') trackDroplists: QueryList<CdkDropList>; // needed for parent component to access
 
   tracks: Observable<Track[]>;
   dashboardCards = dashboardCards;
