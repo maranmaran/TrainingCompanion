@@ -24,8 +24,7 @@ export class DashboardService extends BaseService {
 
   getFeed(userId: string) {
     return this.http.get<Activity[]>(this.url + 'GetFeed/' + userId)
-      .pipe(catchError(this.handleError))
-      .subscribe((activities: Activity[]) => this.store.dispatch(activitiesFetched({activities})));
+      .pipe(catchError(this.handleError));
   }
 
   getUserTracks(userId: string) {

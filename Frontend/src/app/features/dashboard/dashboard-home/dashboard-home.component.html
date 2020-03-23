@@ -17,7 +17,7 @@
 
     <div *ngIf="!mediaObserver.isActive('lt-sm')" class="main-dashboard-container" fxLayout="row">
       <app-feed fxFlex="1 1 30" fxFlex.lt-md="1 1 50"></app-feed>
-      <app-tracks fxFlex="1 1 70" fxFlex.lt-md="1 1 50" (drop)="drop($event)"></app-tracks>
+      <app-tracks fxFlex="1 1 70" fxFlex.lt-md="1 1 50" (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()"></app-tracks>
     </div>
 
     <mat-tab-group *ngIf="mediaObserver.isActive('lt-sm')"
@@ -41,7 +41,7 @@
           </button>
         </ng-template>
         <div style="height: calc(100vh - 173px + 68px); overflow-y: auto">
-          <app-tracks (drop)="drop($event)"></app-tracks>
+          <app-tracks (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()"></app-tracks>
         </div>
       </mat-tab>
 

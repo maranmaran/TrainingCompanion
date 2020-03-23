@@ -22,7 +22,7 @@ import { TracksComponent } from './tracks/tracks.component';
 export class DashboardHomeComponent implements OnInit {
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
-  @ViewChild(TracksComponent, { static: true }) tracksWrapper: TracksComponent;
+  @ViewChild(TracksComponent, { static: false }) tracksWrapper: TracksComponent;
 
   constructor(
     private store: Store<AppState>,

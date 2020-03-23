@@ -1,11 +1,11 @@
-  <div class="pl-2 pr-2" fxLayout="row" fxLayout.lt-lg="column">
+  <div class="pl-2 pr-2 h-100 w-100" fxLayout="row" fxLayout.lt-lg="column">
 
     <!--TRACK ONE-->
     <div
       id="track1"
       #trackOne="cdkDropList" cdkDropList
       [cdkDropListConnectedTo]="['track2', 'trackItemsList']" [cdkDropListData]="(tracks | async)[0]?.items"
-      (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 0})"
+      (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 0})" (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()"
       fxFlex="1 1 calc(50%)" fxFlex.lt-lg="1 1 100%" fxLayout="row wrap"
     >
       <ndc-dynamic *ngFor="let item of (tracks | async)[0]?.items"
@@ -20,7 +20,7 @@
       id="track2"
       cdkDropList #trackTwo="cdkDropList"
       [cdkDropListConnectedTo]="['track1', 'trackItemsList']" [cdkDropListData]="(tracks | async)[1]?.items"
-      (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 1})"
+      (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 1})" (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()"
       fxFlex="1 1 calc(50%)" fxFlex.lt-lg="1 1 100%" fxLayout="row wrap"
     >
         <ndc-dynamic
