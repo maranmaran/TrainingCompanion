@@ -11,6 +11,7 @@ import { TrackItemsSidebarComponent } from './dashboard-home/track-items-sidebar
 import { TracksComponent } from './dashboard-home/tracks/tracks.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardOutletDirective } from './directives/dashboard-outlet.directive';
+import { FeedResolver } from 'src/business/resolvers/feed.resolver';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { DashboardOutletDirective } from './directives/dashboard-outlet.directiv
     exports: [
     ],
     providers: [
+        FeedResolver
     ],
     entryComponents: [
     ]
