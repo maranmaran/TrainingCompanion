@@ -1,5 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -28,6 +29,7 @@ export class DashboardHomeComponent implements OnInit {
     private UIService: UIService,
     private renderer: Renderer2,
     private dashboardService: DashboardService,
+    public mediaObserver: MediaObserver
   ) {
   }
 
