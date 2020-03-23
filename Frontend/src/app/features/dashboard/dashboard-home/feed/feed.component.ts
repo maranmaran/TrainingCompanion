@@ -18,18 +18,11 @@ export class FeedComponent implements OnInit {
   activities: Observable<Activity[]>;
 
   constructor(
-    private store: Store<AppState>,
-    private dashboardService: DashboardService,
+    private store: Store<AppState>
 
   ) { }
 
   ngOnInit(): void {
-
-    // TODO: get feed from resolver
-    this.store.select(currentUserId).pipe(take(1)).subscribe(id => {
-      this.dashboardService.getFeed(id);
-    });
-
     this.activities = this.store.select(activities)
   }
 

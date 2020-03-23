@@ -27,6 +27,8 @@ export class TracksComponent implements OnInit {
   //TODO: Directives in ndcDynamic have trouble with angular AOT - see issue on their github
   // dirs: DynamicDirectiveDef<any>[] = [ dynamicDirectiveDef(MaterialElevationDirective, { raisedElevation: 16 }) ];
 
+  @Output() dragEnter = new EventEmitter<any>()
+  @Output() dragEnd = new EventEmitter()
   @Output() drop = new EventEmitter<{event: CdkDragDrop<TrackItem[]>, trackIdx: number}>();
 
   constructor(
