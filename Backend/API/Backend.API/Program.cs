@@ -23,6 +23,7 @@ namespace Backend.API
             {
                 var services = scope.ServiceProvider;
                 var loggingService = services.GetService<ILoggingService>();
+                loggingService.DisableDbLog();
 
                 try
                 {
