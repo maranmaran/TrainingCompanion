@@ -1,6 +1,5 @@
 ﻿using Audit.Core;
 using Audit.EntityFramework;
-using Audit.EntityFramework.Providers;
 using Backend.Business.Dashboard;
 using Backend.Business.Notifications;
 using Backend.Domain;
@@ -26,8 +25,6 @@ namespace Backend.Persistance
         //TODO Move all this to Dashboard project..because thats BoundedContext for FEED
         public static void ConfigureAuditEfCore(this IServiceProvider provider)
         {
-            Audit.Core.Configuration.DataProvider = new EntityFrameworkDataProvider();
-
             Audit.EntityFramework.Configuration.Setup()
                 .ForContext<ApplicationDbContext>(config => config
                     .IncludeEntityObjects()
