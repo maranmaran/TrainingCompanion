@@ -5,6 +5,7 @@ namespace Backend.Library.Logging.Interfaces
 {
     public interface ILoggingService
     {
+        void DisableDbLog();
         Task LogError(Exception exception, string message = null);
         Task LogWarning(Exception exception, string message = null);
         Task LogInfo(Exception exception, string message = null);
