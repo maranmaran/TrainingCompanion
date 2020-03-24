@@ -54,6 +54,8 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   ) {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
     this.section = this.route.snapshot.data.section;
+
+    this.chatAdapter.init();
   }
 
   ngOnInit() {
