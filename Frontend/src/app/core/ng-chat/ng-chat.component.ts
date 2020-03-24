@@ -243,7 +243,7 @@ export class NgChat implements OnInit, IChatController, OnDestroy {
     @ViewChildren('nativeFileInput') nativeFileInputs: ElementRef[];
 
     ngOnInit() {
-        this.bootstrapChat();
+      setTimeout(() => this.bootstrapChat())
     }
 
     @HostListener('window:resize', ['$event'])
