@@ -22,6 +22,7 @@ import { Message } from '../ng-chat/core/message';
 import { NgChatTheme } from '../ng-chat/core/ng-chat-theme.enum';
 import { SettingsComponent } from '../settings/settings.component';
 import { UISidenavAction } from './../../../business/shared/ui-sidenavs.enum';
+import { currentUserId } from './../../../ngrx/auth/auth.selectors';
 
 @Component({
   selector: 'app-app-container',
@@ -44,14 +45,14 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   constructor(
     public store: Store<AppState>,
-    public chatService: ChatService,
-    private notificationService: NotificationSignalrService,
-    private feedSignalrService: FeedSignalrService,
-    public chatAdapter: SignalrNgChatAdapter,
     private route: ActivatedRoute,
     private uiService: UIService,
+    public chatService: ChatService,
+    private notificationService: NotificationSignalrService, // just here to be instantiated
+    private feedSignalrService: FeedSignalrService, // just here to be instantiated
+    public chatAdapter: SignalrNgChatAdapter, // just here to be instantiated
   ) {
-    this.userId = this.chatAdapter.userId;
+    this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
     this.section = this.route.snapshot.data.section;
   }
 

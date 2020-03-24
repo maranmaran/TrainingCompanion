@@ -5,7 +5,7 @@ import { map, take } from 'rxjs/operators';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
-import { currentUser } from './../../../../ngrx/auth/auth.selectors';
+import { currentUser, currentUserId } from './../../../../ngrx/auth/auth.selectors';
 import { PushNotification } from './../../../../server-models/entities/push-notification.model';
 
 @Component({
@@ -28,14 +28,16 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   avatar: string; // url
 
-  private subSink = new SubSink();
-  private page = 0;
+  subSink = new SubSink();
+
+  page = 0;
   pageSize = 10; // TODO: AppSettings -> NotificationsPageSize
   unreadNotificationCounter = 0;
   notifications: PushNotification[] = [];
   items = Array.from({ length: 100 }).map((_, i) => `Item #${i}`);
 
   stopFetch = false;
+  userId: string;
 
   ngOnInit(): void {
 
@@ -56,8 +58,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.getHistory(this.page++, this.pageSize);
-
+    this.store.select(currentUserId).pipe(take(1))
+    .subscribe(id => {
+      this.userId = id;
+      this.getHistory(id, this.page++, this.pageSize);
+    });
   }
 
   ngOnDestroy(): void {
@@ -75,13 +80,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   // }
 
   loadMoreNotifications() {
-    this.getHistory(this.page++, this.pageSize);
+    this.getHistory(this.userId, this.page++, this.pageSize);
   }
 
-  getHistory(page, pageSize) {
+  getHistory(userId, page, pageSize) {
 
     if (!this.stopFetch) {
-      this.notificationService.getHistory(page, pageSize)
+      this.notificationService.getHistory(userId, page, pageSize)
         .pipe(take(1))
         .subscribe(notifications => {
 

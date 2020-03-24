@@ -2,12 +2,8 @@
 
   <mat-sidenav class="sidenav" [autoFocus]="false" [mode]="'side'" [position]="'end'">
 
-    <app-track-items-sidebar
-    (drop)="drop($event)"
-    (dragEnter)="dragEnter($event)"
-    (dragEnd)="dragEnd()"
-    (saveTracks)="onSaveTracks($event)"
-    ></app-track-items-sidebar>
+    <app-track-items-sidebar (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()"
+      (saveTracks)="onSaveTracks($event)"></app-track-items-sidebar>
 
   </mat-sidenav>
 
@@ -15,18 +11,20 @@
 
     <app-actions fxHide.lt-sm></app-actions>
 
+    <!--Desktop-->
     <div *ngIf="!mediaObserver.isActive('lt-sm')" class="main-dashboard-container" fxLayout="row">
       <app-feed fxFlex="1 1 30" fxFlex.lt-md="1 1 50"></app-feed>
-      <app-tracks fxFlex="1 1 70" fxFlex.lt-md="1 1 50" (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()"></app-tracks>
+      <app-tracks fxFlex="1 1 70" fxFlex.lt-md="1 1 50" (drop)="drop($event)" (dragEnter)="dragEnter($event)"
+        (dragEnd)="dragEnd()"></app-tracks>
     </div>
 
-    <mat-tab-group *ngIf="mediaObserver.isActive('lt-sm')"
-    headerPosition="below" dynamicHeight mat-align-tabs="center">
+    <!--Mobile-->
+    <mat-tab-group *ngIf="mediaObserver.isActive('lt-sm')" headerPosition="below" dynamicHeight mat-align-tabs="center">
 
       <mat-tab>
         <ng-template mat-tab-label>
           <button mat-icon-button color="accent" [disableRipple]="true">
-              <i class="fas fa-home fa-1-5x"></i>
+            <i class="fas fa-home fa-1-5x"></i>
           </button>
         </ng-template>
         <div style="height: calc(100vh - 173px + 68px)">
@@ -37,7 +35,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <button mat-icon-button color="accent" [disableRipple]="true">
-              <i class="fas fa-chart-pie fa-1-5x"></i>
+            <i class="fas fa-chart-pie fa-1-5x"></i>
           </button>
         </ng-template>
         <div style="height: calc(100vh - 173px + 68px); overflow-y: auto">
