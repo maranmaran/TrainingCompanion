@@ -28,16 +28,17 @@ namespace Backend.Business.Reports.ReportsRequests.GetBodyweightReport
                 if (userSetting == null)
                     throw new Exception("User setting cannot be null");
 
-                var unitSystem = userSetting.UnitSystem; //TODO do something..
+                var unitSystem = userSetting.UnitSystem; 
 
                 var data = _context.Bodyweights
                     .OrderBy(x => x.Date.Date)
                     .Where(x => x.Date.Date >= request.DateFrom.Date &&
-                                x.Date.Date <= request.DateTo.Date
+                                x.Date.Date <= request.DateTo.Date &&
+                                x.UserId == request.UserId
                     );
 
                 var dates = await data.Select(x => x.Date).ToListAsync(cancellationToken);
-                var values = await data.Select(x => x.Value).ToListAsync(cancellationToken);
+                var values = await data.Select(x => x.Value.FromMetricTo(unitSystem)).ToListAsync(cancellationToken);
                 var result = new GetBodyweightReportResponse()
                 {
                     Dates = dates,
