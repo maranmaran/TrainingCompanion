@@ -4,8 +4,7 @@ import * as signalR from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, take } from 'rxjs/operators';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { AppSettingsService } from '../shared/app-settings.service';
@@ -16,11 +15,10 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class NotificationSignalrService implements OnDestroy {
 
-  private hubConnection: signalR.HubConnection;
   public notifications$ = new Subject<PushNotification>();
 
-  private userId: string;
-  private subs = new SubSink();
+  hubConnection: signalR.HubConnection;
+  subs = new SubSink();
 
   constructor(
     private authService: AuthService,
@@ -34,14 +32,6 @@ export class NotificationSignalrService implements OnDestroy {
       this.authService.signOutEvent.subscribe(() => this.stopConnection())
     );
 
-    // get some necessary data
-    this.store
-      .select(currentUserId)
-      .pipe(take(1))
-      .subscribe(userId => {
-        this.userId = userId;
-      });
-
     // configure connection
     this.configureHubConnection();
   }
@@ -53,19 +43,13 @@ export class NotificationSignalrService implements OnDestroy {
       .build();
 
     this.hubConnection.serverTimeoutInMilliseconds = 100000; // 100 sec
-    this.hubConnection
-      .start()
-      .then(() => {
-        this.initializeListeners();
-      })
-      .catch(err =>
-        console.log(`Error while establishing chat connection. ${err}`)
-      );
+    this.hubConnection.start()
+    .then(() => this.initializeListeners())
+    .catch(err => console.log(`Error while starting SignalR connection: ${err}`));
   }
 
   initializeListeners() {
     this.hubConnection.on('SendNotification', (notification: PushNotification) => {
-      console.log(notification);
       this.doWork(notification.type);
       this.notifications$.next(notification);
       this.toastService.show(JSON.stringify(notification), 'Notification')
@@ -74,17 +58,17 @@ export class NotificationSignalrService implements OnDestroy {
 
   // do some specific work based on the received notification type
   doWork(type: NotificationType) {
-    switch(type) {
+    // switch(type) {
 
-    }
+    // }
   }
 
   // TODO: Add paging...
-  getHistory(page: number, pageSize: number = 10): Observable<PushNotification[]> {
+  getHistory(userId: string, page: number, pageSize: number = 10): Observable<PushNotification[]> {
     // This could be an API call to your web application that would go to the database
     // and retrieve a N amount of history messages between the users.
     return this.http
-      .get<PushNotification[]>('pushNotifications/GetPushNotificationHistory/' + this.userId + '/' + page + '/' + pageSize)
+      .get<PushNotification[]>('pushNotifications/GetPushNotificationHistory/' + userId + '/' + page + '/' + pageSize)
       .pipe(
         catchError((error: any) => throwError(error.error || 'Server error'))
       );

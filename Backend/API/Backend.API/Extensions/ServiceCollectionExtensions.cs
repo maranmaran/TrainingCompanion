@@ -137,9 +137,10 @@ namespace Backend.API.Extensions
 
                             // If the request is for our hub...
                             var path = context.HttpContext.Request.Path;
-                            if (!string.IsNullOrEmpty(accessToken) && (path.Equals("/api/chat-hub") ||
-                                                                       path.Equals("/api/notifications-hub")
-                                ))
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                (path.Equals("/api/chat-hub") ||
+                                path.Equals("/api/notifications-hub") ||
+                                path.Equals("/api/feed-hub")))
                             {
                                 // Read the token out of the query string
                                 context.Token = $"{accessToken}";
