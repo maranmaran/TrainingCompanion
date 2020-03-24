@@ -1,15 +1,16 @@
-import { Observable } from 'rxjs';
-import { Message } from "./message";
-import { User } from "./user";
-import { ParticipantResponse } from "./participant-response";
+import { Observable, Subject } from 'rxjs';
 import { IChatParticipant } from './chat-participant';
+import { Message } from "./message";
+import { ParticipantResponse } from "./participant-response";
 
 export abstract class ChatAdapter
 {
     // ### Abstract adapter methods ###
 
+    public bootstrap = new Subject<void>();
+
     public abstract listFriends(): Observable<ParticipantResponse[]>;
-    
+
     public abstract getMessageHistory(destinataryId: any): Observable<Message[]>;
 
     public abstract sendMessage(message: Message): void;
@@ -25,7 +26,7 @@ export abstract class ChatAdapter
     {
         this.messageReceivedHandler(participant, message);
     }
-    
+
     // Event handlers
     friendsListChangedHandler: (participantsResponse: ParticipantResponse[]) => void  = (participantsResponse: ParticipantResponse[]) => {};
     messageReceivedHandler: (participant: IChatParticipant, message: Message) => void = (participant: IChatParticipant, message: Message) => {};
