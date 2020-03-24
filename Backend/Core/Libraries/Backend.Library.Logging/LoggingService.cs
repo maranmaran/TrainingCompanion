@@ -17,12 +17,18 @@ namespace Backend.Library.Logging
         private readonly IApplicationDbContext _context;
         private readonly ILogger<LoggingService> _logger;
         private readonly LogLevel _logLevel;
+        private bool _logDb = true;
 
         public LoggingService(IApplicationDbContext context, ILogger<LoggingService> logger, LogLevelSettings settings)
         {
             _context = context;
             _logger = logger;
             _logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), settings.Default, true);
+        }
+
+        public void DisableDbLog()
+        {
+            this._logDb = false;
         }
 
         public async Task LogError(Exception exception, string message = null)
@@ -142,14 +148,17 @@ namespace Backend.Library.Logging
         {
             try
             {
-                await _context.SystemLog.AddAsync(new SystemLog()
+                if (_logDb)
                 {
-                    LogLevel = level.ToString(),
-                    Message = string.IsNullOrWhiteSpace(message) ? exception.Message : message,
-                    InnerException = exception?.InnerException?.Message,
-                });
+                    await _context.SystemLog.AddAsync(new SystemLog()
+                    {
+                        LogLevel = level.ToString(),
+                        Message = string.IsNullOrWhiteSpace(message) ? exception.Message : message,
+                        InnerException = exception?.InnerException?.Message,
+                    });
 
-                await _context.SaveChangesAsync(CancellationToken.None);
+                    await _context.SaveChangesAsync(CancellationToken.None);
+                }
             }
             catch (Exception e)
             {
