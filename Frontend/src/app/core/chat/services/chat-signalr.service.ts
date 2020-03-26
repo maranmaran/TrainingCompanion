@@ -69,7 +69,7 @@ export class ChatSignalrService implements OnDestroy {
   initializeListeners(): void {
     this.hubConnection.on("messageReceived", (participant, message) => {
       // Handle the received message to ng-chat
-      this.onMessageReceived(participant, message);
+      this.onMessageReceivedHandler(participant, message);
     });
 
     this.hubConnection.on("friendsListChanged", () => {
@@ -111,13 +111,11 @@ export class ChatSignalrService implements OnDestroy {
       this.hubConnection.send("messagesSeen", messages);
   }
 
+  getMessageHistoryByPage(destinataryId: any, size: number, page: number) : Observable<Message[]> {
+    throw Error("Not implemented");
+  }
+
   // Event handlers
-  onFriendsListChanged: (participantsResponse: ParticipantResponse[]) => void  = (participantsResponse: ParticipantResponse[]) => {
-
-  };
-
-  onMessageReceived: (participant: IChatParticipant, message: Message) => void = (participant: IChatParticipant, message: Message) => {
-
-  };
-
+  onFriendsListChangedHandler: (participantsResponse: ParticipantResponse[]) => void;
+  onMessageReceivedHandler: (participant: IChatParticipant, message: Message) => void;
 }
