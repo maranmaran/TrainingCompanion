@@ -4,14 +4,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
 import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
-import { IChatParticipant } from './../ng-chat/core/chat-participant';
-import { ParticipantResponse } from './../ng-chat/core/participant-response';
-import { ScrollDirection } from './../ng-chat/core/scroll-direction.enum';
 import { ChatConfiguration } from './chat.configuration';
+import { IChatParticipant } from './models/chat-participant.model';
 import { ChatParticipantStatus } from './models/enums/chat-participant-status.enum';
 import { ChatParticipantType } from './models/enums/chat-participant-type.enum';
 import { MessageType } from './models/enums/message-type.enum';
+import { ScrollDirection } from './models/enums/scroll-direction.enum';
 import { Message } from './models/message.model';
+import { ParticipantResponse } from './models/participant-response.model';
 import { User } from './models/user.model';
 import { Window } from './models/window.model';
 import { ChatSignalrService } from './services/chat-signalr.service';
@@ -21,7 +21,7 @@ import { ChatUploadService } from './services/chat-upload.service';
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: [
-    './chat.component.scss',
+    'chat.component.scss',
     'assets/icons.scss',
     'assets/loading-spinner.scss',
     'assets/themes/chat-dark.theme.scss',
@@ -65,7 +65,7 @@ export class ChatComponent implements OnInit {
   selectedUsersFromFriendsList: User[] = [];
 
   private get localStorageKey(): string {
-    return `ng-chat-users-${this.userId}`; // Appending the user id so the state is unique per user in a computer.
+    return `chat-users-${this.userId}`; // Appending the user id so the state is unique per user in a computer.
   };
 
   // Defines the size of each opened window to calculate how many windows can be opened on the viewport at the same time.
@@ -110,31 +110,6 @@ export class ChatComponent implements OnInit {
     localStorage.removeItem(this.localStorageKey);
   }
 
-
-  get filteredParticipants(): IChatParticipant[] {
-    if (this.searchInput.length > 0) {
-      // Searches in the friend list by the inputted search string
-      return this.participants.filter(x => x.displayName.toUpperCase().includes(this.searchInput.toUpperCase()));
-    }
-
-    return this.participants;
-  }
-
-  // Checks if there are more opened windows than the view port can display
-  private NormalizeWindows(): void {
-    let maxSupportedOpenedWindows = Math.floor((this.viewPortTotalArea - (!this.config.hideFriendsList ? this.friendsListWidth : 0)) / this.windowSizeFactor);
-    let difference = this.windows.length - maxSupportedOpenedWindows;
-
-    if (difference >= 0) {
-      this.windows.splice(this.windows.length - difference);
-    }
-
-    this.updateWindowsState(this.windows);
-
-    // Viewport should have space for at least one chat window.
-    this.unsupportedViewport = this.config.hideFriendsListOnUnsupportedViewport && maxSupportedOpenedWindows < 1;
-  }
-
   // Initializes the chat plugin and the messaging adapter
   private bootstrapChat(): void {
     let initializationException = null;
@@ -167,6 +142,7 @@ export class ChatComponent implements OnInit {
           this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this._httpClient);
         }
 
+        console.log(this.config);
         this.isBootstrapped = true;
       }
       catch (ex) {
@@ -175,19 +151,43 @@ export class ChatComponent implements OnInit {
     }
 
     if (!this.isBootstrapped) {
-      console.error("ng-chat component couldn't be bootstrapped.");
+      console.error("chat component couldn't be bootstrapped.");
 
       if (this.userId == null) {
-        console.error("ng-chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the ng-chat component.");
+        console.error("chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the chat component.");
       }
       if (this.signalrService == null) {
-        console.error("ng-chat can't be bootstrapped without a ChatService. Please make sure you've provided a ChatAdapter implementation as a parameter of the ng-chat component.");
+        console.error("chat can't be bootstrapped without ChatService. Please make sure you've provided a ChatAdapter implementation as a parameter of the chat component.");
       }
       if (initializationException) {
-        console.error(`An exception has occurred while initializing ng-chat. Details: ${initializationException.message}`);
+        console.error(`An exception has occurred while initializing chat. Details: ${initializationException.message}`);
         console.error(initializationException);
       }
     }
+  }
+
+  get filteredParticipants(): IChatParticipant[] {
+    if (this.searchInput.length > 0) {
+      // Searches in the friend list by the inputted search string
+      return this.participants.filter(x => x.displayName.toUpperCase().includes(this.searchInput.toUpperCase()));
+    }
+
+    return this.participants;
+  }
+
+  // Checks if there are more opened windows than the view port can display
+  private NormalizeWindows(): void {
+    let maxSupportedOpenedWindows = Math.floor((this.viewPortTotalArea - (!this.config.hideFriendsList ? this.friendsListWidth : 0)) / this.windowSizeFactor);
+    let difference = this.windows.length - maxSupportedOpenedWindows;
+
+    if (difference >= 0) {
+      this.windows.splice(this.windows.length - difference);
+    }
+
+    this.updateWindowsState(this.windows);
+
+    // Viewport should have space for at least one chat window.
+    this.unsupportedViewport = this.config.hideFriendsListOnUnsupportedViewport && maxSupportedOpenedWindows < 1;
   }
 
   // Initializes browser notifications
@@ -461,7 +461,7 @@ export class ChatComponent implements OnInit {
       }
     }
     catch (ex) {
-      console.error(`An error occurred while restoring ng-chat windows state. Details: ${ex}`);
+      console.error(`An error occurred while restoring chat windows state. Details: ${ex}`);
     }
   }
 
@@ -668,10 +668,10 @@ export class ChatComponent implements OnInit {
   // Generates a unique file uploader id for each participant
   getUniqueFileUploadInstanceId(window: Window): string {
     if (window && window.participant) {
-      return `ng-chat-file-upload-${window.participant.id}`;
+      return `chat-file-upload-${window.participant.id}`;
     }
 
-    return 'ng-chat-file-upload';
+    return 'chat-file-upload';
   }
 
   // Triggers native file upload for file selection from the user

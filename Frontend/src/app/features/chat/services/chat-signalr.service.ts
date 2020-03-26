@@ -3,9 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from "@microsoft/signalr";
 import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, take, tap } from 'rxjs/operators';
-import { Message } from 'src/app/core/ng-chat/core/message';
-import { ParticipantResponse } from 'src/app/core/ng-chat/core/participant-response';
+import { catchError, map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
@@ -13,6 +11,8 @@ import { AuthService } from '../../../../business/services/feature-services/auth
 import { currentUser } from '../../../../ngrx/auth/auth.selectors';
 import { AccountType } from '../../../../server-models/enums/account-type.enum';
 import { IChatParticipant } from '../models/chat-participant.model';
+import { Message } from './../models/message.model';
+import { ParticipantResponse } from './../models/participant-response.model';
 
 @Injectable()
 export class ChatSignalrService implements OnDestroy {
@@ -68,12 +68,12 @@ export class ChatSignalrService implements OnDestroy {
 
   initializeListeners(): void {
     this.hubConnection.on("messageReceived", (participant, message) => {
-      // Handle the received message to ng-chat
+      // Handle the received message to chat
       this.onMessageReceivedHandler(participant, message);
     });
 
     this.hubConnection.on("friendsListChanged", () => {
-      // Handle the received response to ng-chat
+      // Handle the received response to chat
       this.listFriends();
     });
   }
@@ -83,7 +83,6 @@ export class ChatSignalrService implements OnDestroy {
     return this.http
       .get('chat/GetFriendsList/' + this.params.userId + '/' + this.params.userAccountType)
       .pipe(
-        tap(res => console.log(res)),
         map((res: any) => res),
         catchError((error: any) => throwError(error.error || 'Server error'))
       );
