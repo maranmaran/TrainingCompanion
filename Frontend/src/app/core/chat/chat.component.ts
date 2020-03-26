@@ -1,15 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
+import { map } from 'rxjs/operators';
+import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
 import { IChatParticipant } from './../ng-chat/core/chat-participant';
 import { ParticipantResponse } from './../ng-chat/core/participant-response';
+import { ScrollDirection } from './../ng-chat/core/scroll-direction.enum';
 import { ChatConfiguration } from './chat.configuration';
 import { ChatParticipantStatus } from './models/enums/chat-participant-status.enum';
 import { ChatParticipantType } from './models/enums/chat-participant-type.enum';
 import { MessageType } from './models/enums/message-type.enum';
 import { Message } from './models/message.model';
 import { User } from './models/user.model';
+import { Window } from './models/window.model';
 import { ChatSignalrService } from './services/chat-signalr.service';
 import { ChatUploadService } from './services/chat-upload.service';
 
@@ -31,9 +35,10 @@ export class ChatComponent implements OnInit {
     public sanitizer: DomSanitizer,
     private _httpClient: HttpClient,
     private dialog: MatDialog,
-    private uploadService: ChatUploadService,
     private signalrService: ChatSignalrService
   ) { }
+
+  private uploadService: ChatUploadService;
 
   // Exposes enums for the ng-template
   ChatParticipantType = ChatParticipantType;
@@ -47,7 +52,7 @@ export class ChatComponent implements OnInit {
   onMessagesSeen: EventEmitter<Message[]> = new EventEmitter<Message[]>();
 
   browserNotificationsBootstrapped: boolean = false;
-  hasPagedHistory: boolean = false;
+  hasPagedHistory: boolean = true;
 
   private audioFile: HTMLAudioElement;
 
@@ -117,7 +122,7 @@ export class ChatComponent implements OnInit {
 
   // Checks if there are more opened windows than the view port can display
   private NormalizeWindows(): void {
-    let maxSupportedOpenedWindows = Math.floor((this.viewPortTotalArea - (!this.hideFriendsList ? this.friendsListWidth : 0)) / this.windowSizeFactor);
+    let maxSupportedOpenedWindows = Math.floor((this.viewPortTotalArea - (!this.config.hideFriendsList ? this.friendsListWidth : 0)) / this.windowSizeFactor);
     let difference = this.windows.length - maxSupportedOpenedWindows;
 
     if (difference >= 0) {
@@ -127,30 +132,28 @@ export class ChatComponent implements OnInit {
     this.updateWindowsState(this.windows);
 
     // Viewport should have space for at least one chat window.
-    this.unsupportedViewport = this.hideFriendsListOnUnsupportedViewport && maxSupportedOpenedWindows < 1;
+    this.unsupportedViewport = this.config.hideFriendsListOnUnsupportedViewport && maxSupportedOpenedWindows < 1;
   }
 
   // Initializes the chat plugin and the messaging adapter
   private bootstrapChat(): void {
     let initializationException = null;
 
-    if (this.adapter != null && this.userId != null) {
+    if (this.signalrService != null && this.userId != null) {
       try {
         this.viewPortTotalArea = window.innerWidth;
 
-        this.initializeTheme();
-        this.initializeDefaultText();
         this.initializeBrowserNotifications();
 
         // Binding event listeners
-        this.adapter.messageReceivedHandler = (participant, msg) => this.onMessageReceived(participant, msg);
-        this.adapter.friendsListChangedHandler = (participantsResponse) => this.onFriendsListChanged(participantsResponse);
+        this.signalrService.onMessageReceivedHandler = (participant, msg) => this.onMessageReceived(participant, msg);
+        this.signalrService.onFriendsListChangedHandler = (participantsResponse) => this.onFriendsListChanged(participantsResponse);
 
         // Loading current users list
-        if (this.pollFriendsList) {
+        if (this.config.pollFriendsList) {
           // Setting a long poll interval to update the friends list
           this.fetchFriendsList(true);
-          setInterval(() => this.fetchFriendsList(false), this.pollingInterval);
+          setInterval(() => this.fetchFriendsList(false), this.config.pollingInterval);
         }
         else {
           // Since polling was disabled, a friends list update mechanism will have to be implemented in the ChatAdapter.
@@ -159,10 +162,9 @@ export class ChatComponent implements OnInit {
 
         this.bufferAudioFile();
 
-        this.hasPagedHistory = this.adapter instanceof PagedHistoryChatAdapter;
 
-        if (this.fileUploadUrl && this.fileUploadUrl !== "") {
-          this.fileUploadAdapter = new DefaultFileUploadAdapter(this.fileUploadUrl, this._httpClient);
+        if (this.config.fileUploadUrl && this.config.fileUploadUrl !== "") {
+          this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this._httpClient);
         }
 
         this.isBootstrapped = true;
@@ -178,8 +180,8 @@ export class ChatComponent implements OnInit {
       if (this.userId == null) {
         console.error("ng-chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the ng-chat component.");
       }
-      if (this.adapter == null) {
-        console.error("ng-chat can't be bootstrapped without a ChatAdapter. Please make sure you've provided a ChatAdapter implementation as a parameter of the ng-chat component.");
+      if (this.signalrService == null) {
+        console.error("ng-chat can't be bootstrapped without a ChatService. Please make sure you've provided a ChatAdapter implementation as a parameter of the ng-chat component.");
       }
       if (initializationException) {
         console.error(`An exception has occurred while initializing ng-chat. Details: ${initializationException.message}`);
@@ -190,40 +192,16 @@ export class ChatComponent implements OnInit {
 
   // Initializes browser notifications
   private async initializeBrowserNotifications() {
-    if (this.browserNotificationsEnabled && ("Notification" in window)) {
+    if (this.config.browserNotificationsEnabled && ("Notification" in window)) {
       if (await Notification.requestPermission()) {
         this.browserNotificationsBootstrapped = true;
       }
     }
   }
 
-  // Initializes default text
-  private initializeDefaultText(): void {
-    if (!this.localization) {
-      this.localization = {
-        messagePlaceholder: this.messagePlaceholder,
-        searchPlaceholder: this.searchPlaceholder,
-        title: this.title,
-        statusDescription: this.statusDescription,
-        browserNotificationTitle: this.browserNotificationTitle,
-        loadMessageHistoryPlaceholder: "Load older messages"
-      };
-    }
-  }
-
-  private initializeTheme(): void {
-    if (this.customTheme) {
-      this.theme = NgChatTheme.Custom;
-    }
-    else if (this.theme != NgChatTheme.Light && this.theme != NgChatTheme.Dark) {
-      // TODO: Use es2017 in future with Object.values(Theme).includes(this.theme) to do this check
-      throw new Error(`Invalid theme configuration for ng-chat. "${this.theme}" is not a valid theme value.`);
-    }
-  }
-
   // Sends a request to load the friends list
   private fetchFriendsList(isBootstrapping: boolean): void {
-    this.adapter.listFriends()
+    this.signalrService.listFriends()
       .pipe(
         map((participantsResponse: ParticipantResponse[]) => {
           this.participantsResponse = participantsResponse;
@@ -240,7 +218,6 @@ export class ChatComponent implements OnInit {
   }
 
   enlargeImage(message: Message) {
-
     this.dialog.open(MediaDialogComponent, {
       height: 'auto',
       width: '98%',
@@ -252,38 +229,40 @@ export class ChatComponent implements OnInit {
   }
 
   fetchMessageHistory(window: Window) {
+    // PAGED MESSAGE HISTORY RETRIEVAL
     // Not ideal but will keep this until we decide if we are shipping pagination with the default adapter
-    if (this.adapter instanceof PagedHistoryChatAdapter) {
-      window.isLoadingHistory = true;
+    // if (this.signalrService ) {
+    //   window.isLoadingHistory = true;
 
-      this.adapter.getMessageHistoryByPage(window.participant.id, this.historyPageSize, ++window.historyPage)
-        .pipe(
-          map((result: Message[]) => {
-            result.forEach((message) => this.assertMessageType(message));
+    //   this.signalrService.getMessageHistoryByPage(window.participant.id, this.historyPageSize, ++window.historyPage)
+    //     .pipe(
+    //       map((result: Message[]) => {
+    //         result.forEach((message) => this.assertMessageType(message));
 
-            window.messages = result.concat(window.messages);
-            window.isLoadingHistory = false;
+    //         window.messages = result.concat(window.messages);
+    //         window.isLoadingHistory = false;
 
-            const direction: ScrollDirection = (window.historyPage == 1) ? ScrollDirection.Bottom : ScrollDirection.Top;
-            window.hasMoreMessages = result.length == this.historyPageSize;
+    //         const direction: ScrollDirection = (window.historyPage == 1) ? ScrollDirection.Bottom : ScrollDirection.Top;
+    //         window.hasMoreMessages = result.length == this.historyPageSize;
 
-            setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, direction, true));
-          })
-        ).subscribe();
-    }
-    else {
-      this.adapter.getMessageHistory(window.participant.id)
-        .pipe(
-          map((result: Message[]) => {
-            result.forEach((message) => this.assertMessageType(message));
+    //         setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, direction, true));
+    //       })
+    //     ).subscribe();
+    // }
+    // else {
 
-            window.messages = result.concat(window.messages);
-            window.isLoadingHistory = false;
+    // ALL MESSAGE HISTORY RETRIEVAL
+    this.signalrService.getMessageHistory(window.participant.id)
+      .pipe(
+        map((result: Message[]) => {
+          result.forEach((message) => this.assertMessageType(message));
 
-            setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
-          })
-        ).subscribe();
-    }
+          window.messages = result.concat(window.messages);
+          window.isLoadingHistory = false;
+
+          setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
+        })
+      ).subscribe();
   }
 
   private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
@@ -317,7 +296,7 @@ export class ChatComponent implements OnInit {
 
       this.assertMessageType(message);
 
-      if (!chatWindow[1] || !this.historyEnabled) {
+      if (!chatWindow[1] || !this.config.historyEnabled) {
         chatWindow[0].messages.push(message);
 
         this.scrollChatWindow(chatWindow[0], ScrollDirection.Bottom);
@@ -332,7 +311,7 @@ export class ChatComponent implements OnInit {
 
       // Github issue #58
       // Do not push browser notifications with message content for privacy purposes if the 'maximizeWindowOnNewMessage' setting is off and this is a new chat window.
-      if (this.maximizeWindowOnNewMessage || (!chatWindow[1] && !chatWindow[0].isCollapsed)) {
+      if (this.config.maximizeWindowOnNewMessage || (!chatWindow[1] && !chatWindow[0].isCollapsed)) {
         // Some messages are not pushed because they are loaded by fetching the history hence why we supply the message here
         this.emitBrowserNotification(chatWindow[0], message);
       }
@@ -347,25 +326,19 @@ export class ChatComponent implements OnInit {
     let openedWindow = this.windows.find(x => x.participant.id == participant.id);
 
     if (!openedWindow) {
-      if (invokedByUserClick) {
-        this.onParticipantClicked.emit(participant);
-      }
-
       // Refer to issue #58 on Github
-      let collapseWindow = invokedByUserClick ? false : !this.maximizeWindowOnNewMessage;
-
-
-      let newChatWindow: Window = new Window(participant, this.historyEnabled, collapseWindow);
+      let collapseWindow = invokedByUserClick ? false : !this.config.maximizeWindowOnNewMessage;
+      let newChatWindow = new Window(participant, this.config.historyEnabled, collapseWindow);
 
       // Loads the chat history via an RxJs Observable
-      if (this.historyEnabled) {
+      if (this.config.historyEnabled) {
         this.fetchMessageHistory(newChatWindow);
       }
 
       this.windows.unshift(newChatWindow);
 
       // Is there enough space left in the view port ?
-      if (this.windows.length * this.windowSizeFactor >= this.viewPortTotalArea - (!this.hideFriendsList ? this.friendsListWidth : 0)) {
+      if (this.windows.length * this.windowSizeFactor >= this.viewPortTotalArea - (!this.config.hideFriendsList ? this.friendsListWidth : 0)) {
         this.windows.pop();
       }
 
@@ -376,13 +349,11 @@ export class ChatComponent implements OnInit {
       }
 
       this.participantsInteractedWith.push(participant);
-      this.onParticipantChatOpened.emit(participant);
 
       return [newChatWindow, true];
     }
     else {
       // Returns the existing chat window
-
       return [openedWindow, false];
     }
   }
@@ -432,16 +403,16 @@ export class ChatComponent implements OnInit {
 
   // Buffers audio file (For component's bootstrapping)
   private bufferAudioFile(): void {
-    if (this.audioSource && this.audioSource.length > 0) {
+    if (this.config.audioSource && this.config.audioSource.length > 0) {
       this.audioFile = new Audio();
-      this.audioFile.src = this.audioSource;
+      this.audioFile.src = this.config.audioSource;
       this.audioFile.load();
     }
   }
 
   // Emits a message notification audio if enabled after every message received
   private emitMessageSound(window: Window): void {
-    if (this.audioEnabled && !window.hasFocus && this.audioFile) {
+    if (this.config.audioEnabled && !window.hasFocus && this.audioFile) {
       this.audioFile.play();
     }
   }
@@ -449,9 +420,9 @@ export class ChatComponent implements OnInit {
   // Emits a browser notification
   private emitBrowserNotification(window: Window, message: Message): void {
     if (this.browserNotificationsBootstrapped && !window.hasFocus && message) {
-      let notification = new Notification(`${this.localization.browserNotificationTitle} ${window.participant.displayName}`, {
+      let notification = new Notification(`${this.config.localization.browserNotificationTitle} ${window.participant.displayName}`, {
         'body': message.message,
-        'icon': this.browserNotificationIconSource
+        'icon': this.config.browserNotificationIconSource
       });
 
       setTimeout(() => {
@@ -462,7 +433,7 @@ export class ChatComponent implements OnInit {
 
   // Saves current windows state into local storage if persistence is enabled
   private updateWindowsState(windows: Window[]): void {
-    if (this.persistWindowsState) {
+    if (this.config.persistWindowsState) {
       let participantIds = windows.map((w) => {
         return w.participant.id;
       });
@@ -473,7 +444,7 @@ export class ChatComponent implements OnInit {
 
   private restoreWindowsState(): void {
     try {
-      if (this.persistWindowsState) {
+      if (this.config.persistWindowsState) {
         let stringfiedParticipantIds = localStorage.getItem(this.localStorageKey);
 
         if (stringfiedParticipantIds && stringfiedParticipantIds.length > 0) {
@@ -545,7 +516,9 @@ export class ChatComponent implements OnInit {
     }
     else {
       let totalUnreadMessages = this.participantsResponse
-        .filter(x => x.participant.id == participant.id && !this.participantsInteractedWith.find(u => u.id == participant.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
+        .filter(x => x.participant.id == participant.id &&
+                    !this.participantsInteractedWith
+                              .find(u => u.id == participant.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
         .map((participantResponse) => {
           return participantResponse.metadata.totalUnreadMessages
         })[0];
@@ -571,7 +544,7 @@ export class ChatComponent implements OnInit {
           message.dateSent = new Date();
 
           window.messages.push(message);
-          this.adapter.sendMessage(message);
+          this.signalrService.sendMessage(message);
 
           window.newMessage = ""; // Resets the new message input
 
@@ -611,14 +584,12 @@ export class ChatComponent implements OnInit {
     this.windows.splice(index, 1);
 
     this.updateWindowsState(this.windows);
-
-    this.onParticipantChatClosed.emit(window.participant);
   }
 
   // Toggle friends list visibility
   onChatTitleClicked(event: any): void {
-    this.isCollapsed = !this.isCollapsed;
-    localStorage.setItem('chat-collapsed', this.isCollapsed.toString());
+    this.config.isCollapsed = !this.config.isCollapsed;
+    localStorage.setItem('chat-collapsed', this.config.isCollapsed.toString());
   }
 
   // Toggles a chat window visibility between maximized/minimized
@@ -647,17 +618,7 @@ export class ChatComponent implements OnInit {
   }
 
   getChatWindowAvatar(participant: IChatParticipant, message: Message): string | null {
-    if (participant.participantType == ChatParticipantType.User) {
-      return participant.avatar;
-    }
-    else if (participant.participantType == ChatParticipantType.Group) {
-      let group = participant as Group;
-      let userIndex = group.chattingTo.findIndex(x => x.id == message.fromId);
-
-      return group.chattingTo[userIndex >= 0 ? userIndex : 0].avatar;
-    }
-
-    return null;
+    return participant.avatar;
   }
 
   // Toggles a window focus on the focus/blur of a 'newMessage' input
@@ -679,7 +640,7 @@ export class ChatComponent implements OnInit {
   getStatusTitle(status: ChatParticipantStatus): any {
     let currentStatus = status.toString().toLowerCase();
 
-    return this.localization.statusDescription[currentStatus];
+    return this.config.localization.statusDescription[currentStatus];
   }
 
   triggerOpenChatWindow(user: User): void {
@@ -748,7 +709,7 @@ export class ChatComponent implements OnInit {
 
       this.fileUploadersInUse.push(fileUploadInstanceId);
 
-      this.fileUploadAdapter.uploadFile(file, window.participant.id)
+      this.uploadService.uploadFile(file, window.participant.id)
         .subscribe(fileMessage => {
           this.clearInUseFileUploader(fileUploadInstanceId);
 
@@ -757,13 +718,13 @@ export class ChatComponent implements OnInit {
           // Push file message to current user window
           window.messages.push(fileMessage);
 
-          this.adapter.sendMessage(fileMessage);
+          this.signalrService.sendMessage(fileMessage);
 
           this.scrollChatWindow(window, ScrollDirection.Bottom);
 
           // Resets the file upload element
           uploadElementRef.nativeElement.value = '';
-        }, (error) => {
+        }, error => {
           this.clearInUseFileUploader(fileUploadInstanceId);
 
           // Resets the file upload element
@@ -783,27 +744,7 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  onFriendsListActionCancelClicked(): void {
-    if (this.currentActiveOption) {
-      this.currentActiveOption.isActive = false;
-      this.currentActiveOption = null;
-      this.selectedUsersFromFriendsList = [];
-    }
-  }
-
-  onFriendsListActionConfirmClicked(): void {
-    let newGroup = new Group(this.selectedUsersFromFriendsList);
-
-    this.openChatWindow(newGroup);
-
-    if (this.groupAdapter) {
-      this.groupAdapter.groupCreated(newGroup);
-    }
-
-    // Canceling current state
-    this.onFriendsListActionCancelClicked();
-  }
-
+  // TODO: Figure this out.....
   isCoachSelectedFromFriendsList(user: User): boolean {
     return (this.selectedUsersFromFriendsList.filter(item => item.id == user.id)).length > 0
   }

@@ -39,7 +39,7 @@ export class ChatConfiguration {
       online: ChatParticipantStatus.Online,
       busy: ChatParticipantStatus.Busy,
       away: ChatParticipantStatus.Away,
-      offline: ChatParticipantStatus.Offline;
+      offline: ChatParticipantStatus.Offline,
       // [key: string]: string;
     },
   };
