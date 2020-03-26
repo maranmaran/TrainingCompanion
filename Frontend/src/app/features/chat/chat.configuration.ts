@@ -1,4 +1,3 @@
-import { ChatParticipantStatus } from './models/enums/chat-participant-status.enum';
 import { NgChatTheme } from './models/enums/ng-chat-theme.enum';
 import { Localization } from './models/localization.model';
 
@@ -36,10 +35,10 @@ export class ChatConfiguration {
     browserNotificationTitle: "New message from",
     loadMessageHistoryPlaceholder: "Load older messages",
     statusDescription: {
-      online: ChatParticipantStatus.Online,
-      busy: ChatParticipantStatus.Busy,
-      away: ChatParticipantStatus.Away,
-      offline: ChatParticipantStatus.Offline,
+      online: "Online",
+      busy: "Busy",
+      away: "Away",
+      offline: "Offline",
       // [key: string]: string;
     },
   };
