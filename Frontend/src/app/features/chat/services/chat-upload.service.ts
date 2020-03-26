@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Message } from './../models/message.model';
+import { Message } from '../models/message.model';
 
 export class ChatUploadService
 {
@@ -14,8 +14,8 @@ export class ChatUploadService
     uploadFile(file: File, participantId: any): Observable<Message> {
         const formData: FormData = new FormData();
 
-        //formData.append('ng-chat-sender-userid', currentUserId);
-        formData.append('ng-chat-participant-id', participantId);
+        //formData.append('chat-sender-userid', currentUserId);
+        formData.append('chat-participant-id', participantId);
         formData.append('file', file, file.name);
 
         return this._http.post<Message>(this._serverEndpointUrl, formData);

@@ -7,7 +7,7 @@ export class ChatConfiguration {
   theme = NgChatTheme.Light;
   fileUploadUrl: string;
 
-  isCollapsed: boolean = localStorage.getItem('chat-collapsed') ? localStorage.getItem('chat-collapsed') as unknown as boolean : false;
+  isCollapsed = localStorage.getItem('chat-collapsed') ? localStorage.getItem('chat-collapsed') as unknown as boolean : false;
 
   persistWindowsState = true;
   maximizeWindowOnNewMessage = true;

@@ -28,6 +28,7 @@ import { NotificationToastComponent } from '../shared/notifications/notification
 import { SharedModule } from '../shared/shared.module';
 import { SignalrHubsModule } from '../shared/signalr-hubs.module';
 import { CoreEffects } from './../../ngrx/global-setup.ngrx';
+import { ChatModule } from './../features/chat/chat.module';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { CoreRoutingModule } from './core-routing.module';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
@@ -52,6 +53,7 @@ import { SettingsComponent } from './settings/settings.component';
         MaterialModule,
         NgxStripeModule.forRoot(environment.stripePublishableKey),
         NgChatModule,
+        ChatModule,
         StoreModule.forRoot(reducers, {
             metaReducers,
             runtimeChecks: {

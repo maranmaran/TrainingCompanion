@@ -1,4 +1,4 @@
-import { IChatParticipant } from "./chat-participant.modelts";
+import { IChatParticipant } from "./chat-participant.model";
 import { ChatParticipantStatus } from "./enums/chat-participant-status.enum";
 import { ChatParticipantType } from "./enums/chat-participant-type.enum";
 

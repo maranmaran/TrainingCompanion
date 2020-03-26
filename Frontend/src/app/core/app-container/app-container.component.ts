@@ -23,6 +23,8 @@ import { NgChatTheme } from '../ng-chat/core/ng-chat-theme.enum';
 import { SettingsComponent } from '../settings/settings.component';
 import { UISidenavAction } from './../../../business/shared/ui-sidenavs.enum';
 import { currentUserId } from './../../../ngrx/auth/auth.selectors';
+import { ChatConfiguration } from './../../features/chat/chat.configuration';
+import { ChatSignalrService } from './../../features/chat/services/chat-signalr.service';
 
 @Component({
   selector: 'app-app-container',
@@ -50,16 +52,24 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     public chatService: ChatService,
     private notificationService: NotificationSignalrService, // just here to be instantiated
     private feedSignalrService: FeedSignalrService, // just here to be instantiated
+    private chatSignalrService: ChatSignalrService, // just here to be instantiated
     public chatAdapter: SignalrNgChatAdapter, // just here to be instantiated
   ) {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
     this.section = this.route.snapshot.data.section;
 
     this.chatAdapter.init();
+    this.chatSignalrService.init();
   }
+
+  chatConfig: ChatConfiguration;
 
   ngOnInit() {
 
+
+    this.chatConfig = new ChatConfiguration();
+    this.chatConfig.fileUploadUrl = `${this.chatService.url}UploadChatFile`;
+    this.chatConfig.theme = this.theme;
 
     // get user full name from store
     this.store.select(currentUser).pipe(take(1)).subscribe((user: CurrentUser) => this.userFullName = user.fullName);
@@ -75,6 +85,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
       this.store.select(activeTheme)
         .subscribe((theme: Theme) => {
           this.theme = NgChatTheme[theme]
+          this.chatConfig.theme = NgChatTheme[theme];
         })
     );
 
