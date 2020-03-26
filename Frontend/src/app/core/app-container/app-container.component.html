@@ -18,22 +18,21 @@
         <router-outlet id="main-router-outlet"></router-outlet>
       <!-- </span> -->
 
-      <ng-chat fxHide.xs
+       <!-- <ng-chat fxHide.xs
         [hideFriendsList]="false"
         [adapter]="chatAdapter"
         [userId]="userId"
         [theme]="theme"
         (onMessagesSeen)="onMessagesSeen($event)"
         [fileUploadUrl]="chatService.url + 'UploadChatFile'"
-      ></ng-chat>
+      ></ng-chat> -->
 
 
-      <!--
       <app-chat fxHide.xs
       [config]="chatConfig"
       [userId]="userId"
       (onMessagesSeen)="onMessagesSeen($event)"
-    ></app-chat> -->
+    ></app-chat>
 
 
     </mat-sidenav-content>
