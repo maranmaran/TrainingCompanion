@@ -33,7 +33,7 @@ namespace Backend.API.Controllers
 
         [HttpPost]
         public async Task<IActionResult> UploadChatFile(
-            [FromForm(Name = "ng-chat-participant-id")] string userId, 
+            [FromForm(Name = "userId")] string userId, 
             [FromForm(Name = "file")] IFormFile file, 
             CancellationToken cancellationToken = default)
         {
