@@ -220,8 +220,9 @@ export class ChatComponent implements OnInit {
   enlargeImage(message: Message) {
     this.dialog.open(MediaDialogComponent, {
       height: 'auto',
-      width: '98%',
+      width: 'auto',
       maxWidth: '58rem',
+      maxHeight: '40rem',
       autoFocus: false,
       data: { type: message.type, sourceUrl: message.downloadUrl },
       panelClass: 'media-dialog-container'

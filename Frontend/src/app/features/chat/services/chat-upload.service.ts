@@ -15,7 +15,7 @@ export class ChatUploadService
         const formData: FormData = new FormData();
 
         //formData.append('chat-sender-userid', currentUserId);
-        formData.append('chat-participant-id', participantId);
+        formData.append('userId', participantId);
         formData.append('file', file, file.name);
 
         return this._http.post<Message>(this._serverEndpointUrl, formData);

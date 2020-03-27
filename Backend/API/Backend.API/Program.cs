@@ -44,6 +44,7 @@ namespace Backend.API
                 catch (Exception ex)
                 {
                     loggingService.LogError(ex, "Internal server error in Main. Perhaps DB failed to migrate or seed.").Wait();
+                    throw new Exception("Check your internet connection. DB Migration possibly failed also.", ex);
                 }
                 finally
                 {
