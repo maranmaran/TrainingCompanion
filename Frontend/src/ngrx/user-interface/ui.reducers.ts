@@ -1,29 +1,26 @@
-import { Dictionary } from './../../business/utils/dictionary';
-import { Theme } from '../../business/shared/theme.enum';
 import { createReducer, on } from '@ngrx/store';
 import { Action, ActionReducer } from '@ngrx/store/src/models';
-import { UIState, initialUIState } from './ui.state';
-import * as UIActions from './ui.actions';
+import { TrainingLogTab, TrainingLogTabGroup1, TrainingLogTabGroup2 } from 'src/app/features/training-log/training-log-home/training-log-home.component';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
-import { MatSidenav } from '@angular/material/sidenav';
-import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
-import { TrainingLogTabGroup1, TrainingLogTabGroup2, TrainingLogTab } from 'src/app/features/training-log/training-log-home/training-log-home.component';
+import { Theme } from '../../business/shared/theme.enum';
+import * as UIActions from './ui.actions';
+import { initialUIState, UIState } from './ui.state';
 
 export const uiReducer: ActionReducer<UIState, Action> = createReducer(
     initialUIState,
-    
-    // error snackbar 
+
+    // error snackbar
     on(UIActions.disableErrorDialogs, (state: UIState) => {
         return {
             ...state,
             showErrorDialogs: false
-        }   
+        }
     }),
     on(UIActions.enableErrorDialogs, (state: UIState) => {
         return {
             ...state,
             showErrorDialogs: true
-        }   
+        }
     }),
 
     // http requests loading
@@ -31,13 +28,13 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
         return {
             ...state,
             httpRequestLoading: true,
-        }   
+        }
     }),
     on(UIActions.httpRequestStopLoading, (state: UIState) => {
         return {
             ...state,
             httpRequestLoading: false,
-        }   
+        }
     }),
 
     // set progress bar which is active
@@ -45,7 +42,7 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
         return {
             ...state,
             activeProgressBar: payload.progressBar,
-        }   
+        }
     }),
 
     // theme switching
@@ -53,7 +50,7 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
         return {
             ...state,
             theme: payload.theme,
-        }   
+        }
     }),
 
     on(UIActions.setMobileScreenFlag, (state: UIState, payload: { isMobile: boolean }) => {
@@ -61,7 +58,7 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
         return {
             ...state,
             isMobile: payload.isMobile
-        }   
+        }
     }),
 
     on(UIActions.setWebScreenFlag, (state: UIState, payload: { isWeb: boolean }) => {
@@ -69,13 +66,20 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
         return {
             ...state,
             isMobile: !payload.isWeb
-        }   
+        }
     }),
 
     on(UIActions.setTab, (state: UIState, payload: { index: TrainingLogTabGroup1 | TrainingLogTabGroup2, tab: TrainingLogTab}) => {
         return {
             ...state,
             trainingLogTabs: payload
+        }
+    }),
+
+    on(UIActions.setFullscreenChatActive, (state: UIState, payload: { active: boolean }) => {
+        return {
+            ...state,
+            fullscreenChatActive: payload.active
         }
     }),
 

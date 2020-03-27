@@ -1,0 +1,14 @@
+.chat-fullscreen-drawer-container {
+  height: 100%;
+  left: 10%;
+  max-width: calc(100% - 20%);
+
+  .drawer {
+    min-width: 250px;
+  }
+  .content {
+    width: auto;
+  }
+  .container {
+  }
+}

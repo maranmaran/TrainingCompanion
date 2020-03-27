@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MessageType } from 'src/app/core/ng-chat/core/message-type.enum';
+import { MessageType } from 'src/app/features/chat/models/enums/message-type.enum';
 import { MediaType } from 'src/server-models/enums/media-type.enum';
 
 @Component({

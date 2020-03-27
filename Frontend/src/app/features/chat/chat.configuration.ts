@@ -1,9 +1,9 @@
-import { NgChatTheme } from './models/enums/ng-chat-theme.enum';
+import { ChatTheme } from './models/enums/chat-theme.enum';
 import { Localization } from './models/localization.model';
 
 export class ChatConfiguration {
 
-  theme = NgChatTheme.Light;
+  theme = ChatTheme.Light;
   fileUploadUrl: string;
 
   isCollapsed = localStorage.getItem('chat-collapsed') ? localStorage.getItem('chat-collapsed') as unknown as boolean : false;
