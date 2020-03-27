@@ -267,7 +267,7 @@
             position: absolute;
             right: 14px;
             bottom: 8px;
-        }    
+        }
     .ng-chat-window .ng-chat-load-history
     {
         height: 30px;
@@ -340,6 +340,7 @@
             margin-bottom: 5px;
             font-size: 0.9em;
             word-wrap: break-word;
+            border-radius: 5%;
         }
 
         .sent-video-message-container, .received-video-message-container, .sent-image-message-container, .received-image-message-container  {
@@ -418,8 +419,3 @@
                         font-size: 0.8em;
                         margin-top:5px;
                     }
-.ng-chat-options-container
-{
-    float: right;
-    margin-right: 5px;
-}

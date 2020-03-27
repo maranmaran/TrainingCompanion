@@ -33,7 +33,6 @@ import { AppContainerComponent } from './app-container/app-container.component';
 import { CoreRoutingModule } from './core-routing.module';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
-import { NgChatModule } from './ng-chat/ng-chat.module';
 import { AccountComponent } from './settings/account/account.component';
 import { BillingComponent } from './settings/billing/billing.component';
 import { CurrentSubscriptionComponent } from './settings/billing/current-subscription/current-subscription.component';
@@ -52,7 +51,6 @@ import { SettingsComponent } from './settings/settings.component';
         ReactiveFormsModule,
         MaterialModule,
         NgxStripeModule.forRoot(environment.stripePublishableKey),
-        NgChatModule,
         ChatModule,
         StoreModule.forRoot(reducers, {
             metaReducers,

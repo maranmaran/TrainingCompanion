@@ -1,4 +1,4 @@
-export enum NgChatTheme
+export enum ChatTheme
 {
     Custom = 'custom-theme',
     Light = 'light-theme',

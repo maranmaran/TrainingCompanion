@@ -2,26 +2,26 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
-import { ChatConfiguration } from './chat.configuration';
-import { IChatParticipant } from './models/chat-participant.model';
-import { ChatParticipantStatus } from './models/enums/chat-participant-status.enum';
-import { ChatParticipantType } from './models/enums/chat-participant-type.enum';
-import { MessageType } from './models/enums/message-type.enum';
-import { ScrollDirection } from './models/enums/scroll-direction.enum';
-import { Message } from './models/message.model';
-import { ParticipantResponse } from './models/participant-response.model';
-import { User } from './models/user.model';
-import { Window } from './models/window.model';
-import { ChatSignalrService } from './services/chat-signalr.service';
-import { ChatUploadService } from './services/chat-upload.service';
+import { ChatConfiguration } from '../../chat.configuration';
+import { IChatParticipant } from '../../models/chat-participant.model';
+import { ChatParticipantStatus } from '../../models/enums/chat-participant-status.enum';
+import { ChatParticipantType } from '../../models/enums/chat-participant-type.enum';
+import { MessageType } from '../../models/enums/message-type.enum';
+import { ScrollDirection } from '../../models/enums/scroll-direction.enum';
+import { Message } from '../../models/message.model';
+import { ParticipantResponse } from '../../models/participant-response.model';
+import { User } from '../../models/user.model';
+import { Window } from '../../models/window.model';
+import { ChatSignalrService } from '../../services/chat-signalr.service';
+import { ChatUploadService } from '../../services/chat-upload.service';
 
 @Component({
-  selector: 'app-chat',
-  templateUrl: './chat.component.html',
+  selector: 'app-chat-small',
+  templateUrl: './chat-small.component.html',
   styleUrls: [
-    'chat.component.scss',
+    'chat-small.component.scss',
     'assets/icons.scss',
     'assets/loading-spinner.scss',
     'assets/themes/chat-dark.theme.scss',
@@ -29,7 +29,7 @@ import { ChatUploadService } from './services/chat-upload.service';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class ChatComponent implements OnInit {
+export class ChatSmallComponent implements OnInit {
 
   constructor(
     public sanitizer: DomSanitizer,
@@ -142,7 +142,6 @@ export class ChatComponent implements OnInit {
           this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this._httpClient);
         }
 
-        console.log(this.config);
         this.isBootstrapped = true;
       }
       catch (ex) {
@@ -209,7 +208,8 @@ export class ChatComponent implements OnInit {
           this.participants = participantsResponse.map((response: ParticipantResponse) => {
             return response.participant;
           });
-        })
+        }),
+        take(1)
       ).subscribe(() => {
         if (isBootstrapping) {
           this.restoreWindowsState();
@@ -603,19 +603,22 @@ export class ChatComponent implements OnInit {
 
   // Asserts if a user avatar is visible in a chat cluster
   isAvatarVisible(window: Window, message: Message, index: number): boolean {
-    if (message.fromId != this.userId) {
-      if (index == 0) {
-        return true; // First message, good to show the thumbnail
-      }
-      else {
-        // Check if the previous message belongs to the same user, if it belongs there is no need to show the avatar again to form the message cluster
-        if (window.messages[index - 1].fromId != message.fromId) {
-          return true;
-        }
-      }
-    }
 
-    return false;
+    // if i'm sending the message... don't show my avatar to me
+    if(message.fromId == this.userId) return false;
+
+    // ========= other person is only relevant for avatar showing ==========
+
+    // last message
+    if(index >= window.messages?.length) return true;
+
+    // if I sent more messages... i want avatar to show on last one
+    // so if my streak is done... ie next message is from other user.. show avatar
+    if(window.messages[index + 1].fromId != message.fromId)
+      return true;
+
+    // otherwise don't
+    return false
   }
 
   getChatWindowAvatar(participant: IChatParticipant, message: Message): string | null {

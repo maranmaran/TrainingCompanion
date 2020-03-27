@@ -10,7 +10,7 @@ export interface UIState {
     activeProgressBar: UIProgressBar,
     isMobile: boolean,
     trainingLogTabs: {index: TrainingLogTabGroup1 | TrainingLogTabGroup2, tab: TrainingLogTab},
-    dashboardTab:  0 | 1
+    fullscreenChatActive: boolean
 }
 
 export const initialUIState: UIState = {
@@ -21,5 +21,5 @@ export const initialUIState: UIState = {
     activeProgressBar: UIProgressBar.MainAppScreen,
     isMobile: undefined,
     trainingLogTabs: undefined,
-    dashboardTab: 0
+    fullscreenChatActive: false
 };
