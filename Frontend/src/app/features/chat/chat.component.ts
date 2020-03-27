@@ -736,15 +736,6 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  onFriendsListCheckboxChange(selectedUser: User, isChecked: boolean): void {
-    if (isChecked) {
-      this.selectedUsersFromFriendsList.push(selectedUser);
-    }
-    else {
-      this.selectedUsersFromFriendsList.splice(this.selectedUsersFromFriendsList.indexOf(selectedUser), 1);
-    }
-  }
-
   // TODO: Figure this out.....
   isCoachSelectedFromFriendsList(user: User): boolean {
     return (this.selectedUsersFromFriendsList.filter(item => item.id == user.id)).length > 0
