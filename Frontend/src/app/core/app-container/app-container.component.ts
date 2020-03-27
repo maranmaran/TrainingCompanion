@@ -4,7 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { SignalrNgChatAdapter } from 'src/app/core/ng-chat/signalr-ng-chat-adapter';
+import { ChatTheme } from 'src/app/features/chat/models/enums/chat-theme.enum';
+import { Message } from 'src/app/features/chat/models/message.model';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { FeedSignalrService } from 'src/business/services/feature-services/feed-signalr.service';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
@@ -18,11 +19,10 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme, getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { SubSink } from 'subsink';
-import { Message } from '../ng-chat/core/message';
-import { NgChatTheme } from '../ng-chat/core/ng-chat-theme.enum';
 import { SettingsComponent } from '../settings/settings.component';
 import { UISidenavAction } from './../../../business/shared/ui-sidenavs.enum';
 import { currentUserId } from './../../../ngrx/auth/auth.selectors';
+import { isFullScreenChatActive } from './../../../ngrx/user-interface/ui.selectors';
 import { ChatConfiguration } from './../../features/chat/chat.configuration';
 import { ChatSignalrService } from './../../features/chat/services/chat-signalr.service';
 
@@ -36,14 +36,17 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
 
-  theme: NgChatTheme;
+  theme: ChatTheme;
   userId: string;
   userFullName: string;
   loading$: Observable<boolean>;
 
-  private section: string;
-  private subs = new SubSink();
+  // chat variables
+  fullScreenChatActive: Observable<boolean>;
+  chatConfig: ChatConfiguration;
 
+  private section: string; // for routing to settings
+  private subs = new SubSink();
 
   constructor(
     public store: Store<AppState>,
@@ -53,23 +56,18 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     private notificationService: NotificationSignalrService, // just here to be instantiated
     private feedSignalrService: FeedSignalrService, // just here to be instantiated
     private chatSignalrService: ChatSignalrService, // just here to be instantiated
-    public chatAdapter: SignalrNgChatAdapter, // just here to be instantiated
   ) {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
     this.section = this.route.snapshot.data.section;
 
-    this.chatAdapter.init();
     this.chatSignalrService.init();
   }
 
-  chatConfig: ChatConfiguration;
-
   ngOnInit() {
 
-
-    this.chatConfig = new ChatConfiguration();
-    this.chatConfig.fileUploadUrl = `${this.chatService.url}UploadChatFile`;
-    this.chatConfig.theme = this.theme;
+    // chat configurations
+    setTimeout(() => this.fullScreenChatActive = this.store.select(isFullScreenChatActive));
+    this.chatConfig = this.chatService.getChatConfiguration(this.theme);
 
     // get user full name from store
     this.store.select(currentUser).pipe(take(1)).subscribe((user: CurrentUser) => this.userFullName = user.fullName);
@@ -84,9 +82,9 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.store.select(activeTheme)
         .subscribe((theme: Theme) => {
-          this.theme = NgChatTheme[theme]
-          this.chatConfig.theme = NgChatTheme[theme];
-        })
+          this.theme = ChatTheme[theme]
+          this.chatConfig.theme = ChatTheme[theme];
+        }),
     );
 
     // if routing to settings -> open dialog with specific section from route data
@@ -99,7 +97,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   }
 
   onMessagesSeen(messages: Message[]) {
-    this.chatAdapter.sendOnMessagesSeenEvent(messages);
+    this.chatSignalrService.sendOnMessagesSeenEvent(messages);
   }
 
   onOpenSettings(section: string) {

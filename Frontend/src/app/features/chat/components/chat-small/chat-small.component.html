@@ -44,30 +44,45 @@
     [ngClass]="{'ng-chat-window-collapsed': window.isCollapsed}"
     [ngStyle]="{'right': (!config.hideFriendsList ? friendsListWidth : 0) + 20 + windowSizeFactor * i + 'px'}">
 
-    <ng-container *ngIf="window.isCollapsed">
-      <div class="ng-chat-title secondary-background">
-        <div class="ng-chat-title-visibility-toggle-area" (click)="onChatWindowClicked(window)">
+    <ng-template #windowHeader let-window="window">
+      <div class="ng-chat-title secondary-background"
+      fxLayout="row" fxLayoutAlign="space-between center">
+
+        <div class="ng-chat-title-visibility-toggle-area" (click)="onChatWindowClicked(window)"
+        fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+
+          <ng-container>
+            <span *ngIf="!window.participant.avatar" class="icon-wrapper">
+              <i class="user-icon"></i>
+            </span>
+            <img *ngIf="window.participant.avatar" class="avatar" height="20" width="20" style="line-height: 30px;"
+              [src]="sanitizer.bypassSecurityTrustResourceUrl(window.participant.avatar)" />
+          </ng-container>
+
           <strong title="{{window.participant.displayName}}">
             {{window.participant.displayName}}
           </strong>
+
           <span *ngIf="unreadMessagesTotal(window).length > 0"
-            class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">{{unreadMessagesTotal(window)}}</span>
+            class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">
+            {{unreadMessagesTotal(window)}}
+          </span>
+
         </div>
-        <a class="ng-chat-close primary-text" (click)="onCloseChatWindow(window)">X</a>
+
+        <button mat-icon-button class="mat-icon-button__small" color="accent" (click)="onCloseChatWindow(window)">
+          <i class="fas fa-times"></i>
+        </button>
+
       </div>
+    </ng-template>
+
+    <ng-container *ngIf="window.isCollapsed">
+      <ng-container *ngTemplateOutlet="windowHeader; context: { window: window }"></ng-container>
     </ng-container>
 
     <ng-container *ngIf="!window.isCollapsed">
-      <div class="ng-chat-title secondary-background">
-        <div class="ng-chat-title-visibility-toggle-area" (click)="onChatWindowClicked(window)">
-          <strong title="{{window.participant.displayName}}">
-            {{window.participant.displayName}}
-          </strong>
-          <span *ngIf="unreadMessagesTotal(window).length > 0"
-            class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">{{unreadMessagesTotal(window)}}</span>
-        </div>
-        <a class="ng-chat-close primary-text" (click)="onCloseChatWindow(window)">X</a>
-      </div>
+      <ng-container *ngTemplateOutlet="windowHeader; context: { window: window }"></ng-container>
       <div #chatMessages class="ng-chat-messages primary-background">
         <div *ngIf="window.isLoadingHistory" class="ng-chat-loading-wrapper">
           <div class="loader">Loading history...</div>
