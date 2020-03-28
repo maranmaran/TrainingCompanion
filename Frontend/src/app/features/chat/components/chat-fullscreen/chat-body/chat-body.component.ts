@@ -1,5 +1,6 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { noop } from 'rxjs';
@@ -7,6 +8,7 @@ import { take } from 'rxjs/operators';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
+import { currentUserId } from './../../../../../../ngrx/auth/auth.selectors';
 import { selectedFriend } from './../../../../../../ngrx/chat/chat.selectors';
 import { IChatParticipant } from './../../../models/chat-participant.model';
 import { ScrollDirection } from './../../../models/enums/scroll-direction.enum';
@@ -27,6 +29,7 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
   friend: IChatParticipant;
   messages: Message[]
 
+  userId: string;
   form: FormGroup
   textCache: { id: string, message: string }
   textAreaLines: number = 1;
@@ -35,10 +38,13 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
     private _ngZone: NgZone,
     private signalrService: ChatSignalrService,
     private store: Store<AppState>,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private mediaObserver: MediaObserver
   ) { }
 
   ngOnInit(): void {
+    this.store.select(currentUserId).subscribe(id => this.userId = id);
+
     this.createForm();
 
     this.subs.add(
@@ -87,7 +93,7 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
     this.chatService.markMessagesAsRead(unseenMessages);
   }
 
-  private scrollChatWindow(direction: ScrollDirection): void {
+  scrollChatWindow(direction: ScrollDirection): void {
     if (this.window) {
       setTimeout(() => {
         let element = this.window.nativeElement;
@@ -101,22 +107,45 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
     this.textCache = { id: this.friend.id, message };
 
     const lines = message.split('\n').length + 1;
-    if(lines >= 1 && lines <= 5 && this.textAreaLines != lines) {
+    if(lines >= 1 && lines <= 6 && this.textAreaLines != lines) {
       this.textAreaLines = lines;
       this.scrollChatWindow(ScrollDirection.Bottom);
     }
   }
 
   sendMessage(event) {
+
+    // enter adds new line if mobile view
+    if(this.mediaObserver.isActive('lt-sm') && event instanceof KeyboardEvent) {
+      return;
+    }
+
     event.preventDefault();
-    let message = this.messageText.value;
-    if (message == '') return;
+
+    let messageRaw = this.messageText.value;
+    if (messageRaw == '') return;
+
+    let message = new Message();
+    message.fromId = this.userId;
+    message.toId = this.friend.id;
+    message.message = messageRaw;
+    message.dateSent = new Date();
+
+    this.messages.push(message);
+    this.signalrService.sendMessage(message);
+
+    this.messageText.setValue('') // Resets the new message input
+    this.scrollChatWindow(ScrollDirection.Bottom);
   }
 
   triggerResize() {
     // Wait for changes to be applied, then trigger textarea resize.
     this._ngZone.onStable.pipe(take(1))
       .subscribe(() => (this.autosizeTextarea.resizeToFitContent(true)));
+  }
+
+  addFile() {
+
   }
 
 }
