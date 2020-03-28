@@ -12,16 +12,16 @@
 </mat-drawer-container>
 
 <!--MOBILE-->
-<mat-tab-group *ngIf="mediaObserver.isActive('lt-md')" headerPosition="below" dynamicHeight mat-align-tabs="center">
+<mat-tab-group #tabs *ngIf="mediaObserver.isActive('lt-md')" headerPosition="below" dynamicHeight mat-align-tabs="center">
 
-  <mat-tab>
+  <mat-tab #chatTab>
     <ng-template mat-tab-label>
       <button mat-icon-button color="accent" [disableRipple]="true">
         <i class="fas fa-comments fa-1-5x"></i>
       </button>
     </ng-template>
     <div style="height: calc(100vh - 181px + 68px)">
-      <app-chat-body></app-chat-body>
+      <app-chat-body #chatBody></app-chat-body>
     </div>
   </mat-tab>
 
