@@ -37,5 +37,25 @@ export class ChatService extends BaseService {
       msg.dateSeen = currentDate;
     });
   }
+
+  // Asserts if a user avatar is visible in a chat cluster
+  isAvatarVisible(userId: string, messages: Message[], message: Message, index: number): boolean {
+
+    // if i'm sending the message... don't show my avatar to me
+    if(message.fromId == userId) return false;
+
+    // ========= other person is only relevant for avatar showing ==========
+
+    // last message
+    if(index >= messages?.length) return true;
+
+    // if I sent more messages... i want avatar to show on last one
+    // so if my streak is done... ie next message is from other user.. show avatar
+    if(messages[index + 1].fromId != message.fromId)
+      return true;
+
+    // otherwise don't
+    return false
+  }
 }
 

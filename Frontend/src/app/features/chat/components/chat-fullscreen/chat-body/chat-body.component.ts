@@ -1,5 +1,5 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -10,6 +10,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { currentUserId } from './../../../../../../ngrx/auth/auth.selectors';
 import { selectedFriend } from './../../../../../../ngrx/chat/chat.selectors';
+import { ChatConfiguration } from './../../../chat.configuration';
 import { IChatParticipant } from './../../../models/chat-participant.model';
 import { ScrollDirection } from './../../../models/enums/scroll-direction.enum';
 import { Message } from './../../../models/message.model';
@@ -22,6 +23,7 @@ import { ChatSignalrService } from './../../../services/chat-signalr.service';
 })
 export class ChatBodyComponent implements OnInit, OnDestroy {
 
+  @Input() config: ChatConfiguration;
   @ViewChild('chatWindow') window: ElementRef;
   @ViewChild('autosize') autosizeTextarea: CdkTextareaAutosize;
 
