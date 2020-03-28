@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/business/guards/auth.guard';
 import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.guard';
 import { IsCoach } from 'src/business/guards/is-coach.guard';
 import { SubscriptionGuard } from 'src/business/guards/subscription.guard';
+import { ChatResolver } from './../../business/resolvers/chat.resolver';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { BillingComponent } from './settings/billing/billing.component';
 
@@ -12,7 +13,7 @@ const routes: Routes = [
     { path: 'auth', loadChildren: () => import('src/app/features/authorization/auth.module').then(mod => mod.AuthModule) },
     { path: 'app', canActivate: [CurrentUserLoadedGuard], children: [
         {
-            path: '', component: AppContainerComponent, canActivate: [AuthGuard, SubscriptionGuard],  children: [
+            path: '', component: AppContainerComponent, canActivate: [AuthGuard, SubscriptionGuard], resolve: { ChatResolver }, children: [
                 { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                 { path: 'dashboard', loadChildren: () => import('src/app/features/dashboard/dashboard.module').then(mod => mod.DashboardModule)},
                 { path: 'athletes', loadChildren: () => import('src/app/features/athlete-management/athletes.module').then(mod => mod.AthletesModule), canActivate: [IsCoach]},

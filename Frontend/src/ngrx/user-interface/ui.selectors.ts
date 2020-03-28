@@ -35,11 +35,6 @@ export const isMobile = createSelector(
     (uiState: UIState) => uiState.isMobile
 );
 
-export const isFullScreenChatActive = createSelector(
-    selectUIState,
-    (uiState: UIState) => uiState.fullscreenChatActive
-);
-
 export function getLoadingState(store: Store<AppState>, progressBarType: UIProgressBar): Observable<boolean> {
 
     // async because of ExpressionChangedAfterItHasBeenCheckedError

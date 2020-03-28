@@ -1,11 +1,40 @@
-<mat-drawer-container class="chat-fullscreen-drawer-container" autosize>
+<!--DESKTOP-->
+<mat-drawer-container *ngIf="mediaObserver.isActive('gt-sm')" class="chat-fullscreen-drawer-container" autosize>
   <mat-drawer mode="side" opened class="drawer">
-    Drawer content
+    <app-friend-list></app-friend-list>
   </mat-drawer>
 
   <mat-drawer-content class="content">
     <div class="container mat-elevation-z5">
-      Main content
+      <app-chat-body></app-chat-body>
     </div>
   </mat-drawer-content>
 </mat-drawer-container>
+
+<!--MOBILE-->
+<mat-tab-group *ngIf="mediaObserver.isActive('lt-md')" headerPosition="below" dynamicHeight mat-align-tabs="center">
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <button mat-icon-button color="accent" [disableRipple]="true">
+        <i class="fas fa-comments fa-1-5x"></i>
+      </button>
+    </ng-template>
+    <div style="height: calc(100vh - 181px + 68px)">
+      <app-chat-body></app-chat-body>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <button mat-icon-button color="accent" [disableRipple]="true">
+        <i class="fas fa-user-friends fa-1-5x"></i>
+      </button>
+    </ng-template>
+    <div style="height: calc(100vh - 181px + 68px); overflow-y: auto">
+      <app-friend-list></app-friend-list>
+    </div>
+  </mat-tab>
+
+</mat-tab-group>
+

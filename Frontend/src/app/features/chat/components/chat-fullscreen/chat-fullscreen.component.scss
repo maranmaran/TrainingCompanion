@@ -5,9 +5,11 @@
 
   .drawer {
     min-width: 250px;
+    padding-top: 3px; // because of main loading bar
   }
   .content {
     width: auto;
+    padding-top: 3px // because of main loading bar
   }
   .container {
   }
