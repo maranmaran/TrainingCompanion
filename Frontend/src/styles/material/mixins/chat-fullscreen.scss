@@ -4,18 +4,52 @@
   .chat-body-container {
     height: 100%;
     overflow: auto;
-  }
 
-  .text-input {
-    padding: 0 !important;
+    .messages {
+      width: 100%;
+      overflow-wrap: break-word;
 
-    .mat-form-field-wrapper {
-      padding-bottom: 0;
-      margin-bottom: 1rem;
+      .message-row {
+        width: 100%;
+        padding-left: 5px;
+        padding-right: 5px;
 
-      padding-left: 1rem;
-      padding-right: 1rem;
+        .message {
+          min-width: 250px;
+          max-width: 500px;
+          padding: 10px;
+          border-radius: 5%;
+
+          .body {
+
+          }
+          .date {
+
+          }
+        }
+      }
+
+      .my-message {
+        align-self: end;
+      }
+
+      .friend-message {
+
+      }
+    }
+
+    .text-input {
+      padding: 0 !important;
+
+      .mat-form-field-wrapper {
+        padding-bottom: 0;
+        margin-bottom: 1rem;
+
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
     }
   }
+
 }
 

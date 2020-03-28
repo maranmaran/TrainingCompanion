@@ -6,7 +6,7 @@
 
   <mat-drawer-content class="content">
     <div class="container mat-elevation-z5">
-      <app-chat-body></app-chat-body>
+      <app-chat-body [config]="config"></app-chat-body>
     </div>
   </mat-drawer-content>
 </mat-drawer-container>
@@ -21,7 +21,7 @@
       </button>
     </ng-template>
     <div style="height: calc(100vh - 181px + 68px)">
-      <app-chat-body #chatBody></app-chat-body>
+      <app-chat-body #chatBody [config]="config"></app-chat-body>
     </div>
   </mat-tab>
 

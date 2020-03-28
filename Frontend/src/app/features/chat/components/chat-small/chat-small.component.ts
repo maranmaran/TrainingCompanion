@@ -37,7 +37,7 @@ export class ChatSmallComponent implements OnInit {
     private _httpClient: HttpClient,
     private dialog: MatDialog,
     private signalrService: ChatSignalrService,
-    private chatService: ChatService
+    public chatService: ChatService
   ) { }
 
   private uploadService: ChatUploadService;
@@ -561,26 +561,6 @@ export class ChatSmallComponent implements OnInit {
     this.scrollChatWindow(window, ScrollDirection.Bottom);
     var key = 'chat-window-' + window.participant.id;
     localStorage.setItem(key, window.isCollapsed.toString());
-  }
-
-  // Asserts if a user avatar is visible in a chat cluster
-  isAvatarVisible(window: Window, message: Message, index: number): boolean {
-
-    // if i'm sending the message... don't show my avatar to me
-    if(message.fromId == this.userId) return false;
-
-    // ========= other person is only relevant for avatar showing ==========
-
-    // last message
-    if(index >= window.messages?.length) return true;
-
-    // if I sent more messages... i want avatar to show on last one
-    // so if my streak is done... ie next message is from other user.. show avatar
-    if(window.messages[index + 1].fromId != message.fromId)
-      return true;
-
-    // otherwise don't
-    return false
   }
 
   getChatWindowAvatar(participant: IChatParticipant, message: Message): string | null {
