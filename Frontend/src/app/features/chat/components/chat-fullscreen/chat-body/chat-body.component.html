@@ -1,12 +1,28 @@
 <div #chatWindow *ngIf="friend" class="chat-body-container" fxLayout="column" fxLayoutAlign="space-between">
 
   <div class="messages">
-    <div class="message mb-3" *ngFor="let message of messages">
-      <div>From: {{message.fromId}}</div>
-      <div>To: {{message.toId}}</div>
-      <div>Message: {{message.message}}</div>
-      <div>Sent at: {{message.dateSent}}</div>
-    </div>
+     <div class="message-row mb-3" *ngFor="let message of messages; let i = index"
+      fxLayout="row" [fxLayoutAlign]="message.fromId == userId ? 'end center' : 'start center'">
+
+      <ng-container *ngIf="chatService.isAvatarVisible(userId, messages, message, i); else fillerBlock">
+        <div *ngIf="!friend.avatar" class="icon-wrapper">
+          <i class="user-icon"></i>
+        </div>
+        <img *ngIf="friend.avatar" class="avatar" height="30" width="30"
+          [src]="friend.avatar" />
+      </ng-container>
+      <ng-template #fillerBlock>
+         <div style="width: 30px; height: 30px"></div>
+      </ng-template>
+
+       <div class="ml-2 message mat-elevation-z3"
+            [ngClass]="{'my-message': message.fromId == userId, 'friend-message': message.fromId != userId}"
+            fxLayout="column">
+
+            <div class="body">{{message.message}}</div>
+            <div class="date" fxFlexAlign="end">{{message.dateSent | date: config.messageDatePipeFormat }}</div>
+       </div>
+     </div>
   </div>
 
   <form [formGroup]="form" >
