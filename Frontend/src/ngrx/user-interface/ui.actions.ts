@@ -20,4 +20,3 @@ export const setMobileScreenFlag = createAction('[Screen width] Set mobile', pro
 export const setWebScreenFlag = createAction('[Screen width] Set web', props<{ isWeb: boolean}>());
 
 export const setTab = createAction('[Training Log Tab UI] Set Tab', props<{index: TrainingLogTabGroup1 | TrainingLogTabGroup2, tab: TrainingLogTab}>())
-export const setFullscreenChatActive = createAction('[Chat] Set fullscreen chat active state', props<{active: boolean}>());

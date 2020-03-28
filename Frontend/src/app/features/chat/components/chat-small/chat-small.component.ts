@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map, take } from 'rxjs/operators';
 import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
+import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { ChatConfiguration } from '../../chat.configuration';
 import { IChatParticipant } from '../../models/chat-participant.model';
 import { ChatParticipantStatus } from '../../models/enums/chat-participant-status.enum';
@@ -35,7 +36,8 @@ export class ChatSmallComponent implements OnInit {
     public sanitizer: DomSanitizer,
     private _httpClient: HttpClient,
     private dialog: MatDialog,
-    private signalrService: ChatSignalrService
+    private signalrService: ChatSignalrService,
+    private chatService: ChatService
   ) { }
 
   private uploadService: ChatUploadService;
@@ -47,9 +49,6 @@ export class ChatSmallComponent implements OnInit {
 
   @Input() config: ChatConfiguration;
   @Input() userId: string;
-
-  @Output()
-  onMessagesSeen: EventEmitter<Message[]> = new EventEmitter<Message[]>();
 
   browserNotificationsBootstrapped: boolean = false;
   hasPagedHistory: boolean = true;
@@ -230,40 +229,18 @@ export class ChatSmallComponent implements OnInit {
   }
 
   fetchMessageHistory(window: Window) {
-    // PAGED MESSAGE HISTORY RETRIEVAL
-    // Not ideal but will keep this until we decide if we are shipping pagination with the default adapter
-    // if (this.signalrService ) {
-    //   window.isLoadingHistory = true;
-
-    //   this.signalrService.getMessageHistoryByPage(window.participant.id, this.historyPageSize, ++window.historyPage)
-    //     .pipe(
-    //       map((result: Message[]) => {
-    //         result.forEach((message) => this.assertMessageType(message));
-
-    //         window.messages = result.concat(window.messages);
-    //         window.isLoadingHistory = false;
-
-    //         const direction: ScrollDirection = (window.historyPage == 1) ? ScrollDirection.Bottom : ScrollDirection.Top;
-    //         window.hasMoreMessages = result.length == this.historyPageSize;
-
-    //         setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, direction, true));
-    //       })
-    //     ).subscribe();
-    // }
-    // else {
-
     // ALL MESSAGE HISTORY RETRIEVAL
     this.signalrService.getMessageHistory(window.participant.id)
-      .pipe(
-        map((result: Message[]) => {
-          result.forEach((message) => this.assertMessageType(message));
+      .pipe(take(1))
+      .subscribe((result: Message[]) => {
+          result.forEach((message) => this.chatService.assertMessageType(message));
 
           window.messages = result.concat(window.messages);
           window.isLoadingHistory = false;
 
           setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
-        })
-      ).subscribe();
+        }
+      );
   }
 
   private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
@@ -272,8 +249,9 @@ export class ChatSmallComponent implements OnInit {
     if (window.hasFocus || forceMarkMessagesAsSeen) {
       const unseenMessages = messages.filter(m => !m.dateSeen);
 
-      this.markMessagesAsRead(unseenMessages);
-      this.onMessagesSeen.emit(unseenMessages);
+      this.chatService.markMessagesAsRead(unseenMessages);
+
+      this.signalrService.sendOnMessagesSeenEvent(unseenMessages);
     }
   }
 
@@ -295,7 +273,7 @@ export class ChatSmallComponent implements OnInit {
     if (participant && message) {
       let chatWindow = this.openChatWindow(participant);
 
-      this.assertMessageType(message);
+      this.chatService.assertMessageType(message);
 
       if (!chatWindow[1] || !this.config.historyEnabled) {
         chatWindow[0].messages.push(message);
@@ -303,8 +281,8 @@ export class ChatSmallComponent implements OnInit {
         this.scrollChatWindow(chatWindow[0], ScrollDirection.Bottom);
 
         if (chatWindow[0].hasFocus) {
-          this.markMessagesAsRead([message]);
-          this.onMessagesSeen.emit([message]);
+          this.chatService.markMessagesAsRead([message]);
+          this.signalrService.sendOnMessagesSeenEvent([message]);
         }
       }
 
@@ -393,15 +371,6 @@ export class ChatSmallComponent implements OnInit {
     }
   }
 
-  // Marks all messages provided as read with the current time.
-  public markMessagesAsRead(messages: Message[]): void {
-    let currentDate = new Date();
-
-    messages.forEach((msg) => {
-      msg.dateSeen = currentDate;
-    });
-  }
-
   // Buffers audio file (For component's bootstrapping)
   private bufferAudioFile(): void {
     if (this.config.audioSource && this.config.audioSource.length > 0) {
@@ -475,13 +444,6 @@ export class ChatSmallComponent implements OnInit {
     }
     else if (index == 0 && this.windows.length > 1) {
       return this.windows[index + 1];
-    }
-  }
-
-  private assertMessageType(message: Message): void {
-    // Always fallback to "Text" messages to avoid rendenring issues
-    if (!message.type) {
-      message.type = MessageType.Text;
     }
   }
 
@@ -634,8 +596,8 @@ export class ChatSmallComponent implements OnInit {
           && (message.toId == this.userId || window.participant.participantType === ChatParticipantType.Group));
 
       if (unreadMessages && unreadMessages.length > 0) {
-        this.markMessagesAsRead(unreadMessages);
-        this.onMessagesSeen.emit(unreadMessages);
+        this.chatService.markMessagesAsRead(unreadMessages);
+        this.signalrService.sendOnMessagesSeenEvent(unreadMessages);
       }
     }
   }
