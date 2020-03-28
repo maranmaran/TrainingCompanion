@@ -1,12 +1,12 @@
-<div #chatWindow *ngIf="friend" class="chat-body-container">
+<div #chatWindow *ngIf="friend" class="chat-body-container" fxLayout="column" fxLayoutAlign="space-between">
 
-  <span>{{friend.displayName}}</span>
-
-  <div class="mb-3" *ngFor="let message of messages">
-    <div>From: {{message.fromId}}</div>
-    <div>To: {{message.toId}}</div>
-    <div>Message: {{message.message}}</div>
-    <div>Sent at: {{message.dateSent}}</div>
+  <div class="messages">
+    <div class="message mb-3" *ngFor="let message of messages">
+      <div>From: {{message.fromId}}</div>
+      <div>To: {{message.toId}}</div>
+      <div>Message: {{message.message}}</div>
+      <div>Sent at: {{message.dateSent}}</div>
+    </div>
   </div>
 
   <form [formGroup]="form" >
@@ -20,10 +20,16 @@
         (keydown.enter)="sendMessage($event)"
       ></textarea>
 
-      <button class="ml-3" matSuffix mat-icon-button color="accent" (click)="sendMessage($event)"
-      [matTooltipClass]="'multiline'" matTooltip="Press enter to send&#13;Press shift + enter to add new line">
-        <i class="fas fa-paper-plane"></i>
-      </button>
+      <div class="ml-3" matSuffix>
+        <button mat-icon-button color="accent" (click)="addFile($event)">
+          <i class="fas fa-paperclip"></i>
+        </button>
+
+        <button class="ml-1" matSuffix mat-icon-button color="accent" (click)="sendMessage($event)"
+        [matTooltipClass]="'multiline'" matTooltip="Press enter to send&#13;Press shift + enter to add new line">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
 
     </mat-form-field>
   </form>
