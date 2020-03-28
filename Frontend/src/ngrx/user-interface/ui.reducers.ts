@@ -76,11 +76,4 @@ export const uiReducer: ActionReducer<UIState, Action> = createReducer(
         }
     }),
 
-    on(UIActions.setFullscreenChatActive, (state: UIState, payload: { active: boolean }) => {
-        return {
-            ...state,
-            fullscreenChatActive: payload.active
-        }
-    }),
-
 );

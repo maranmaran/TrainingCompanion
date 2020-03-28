@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ChatTheme } from 'src/app/features/chat/models/enums/chat-theme.enum';
-import { Message } from 'src/app/features/chat/models/message.model';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { FeedSignalrService } from 'src/business/services/feature-services/feed-signalr.service';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
@@ -15,6 +14,7 @@ import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
 import { logout } from 'src/ngrx/auth/auth.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { isFullScreenChatActive } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme, getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
@@ -22,7 +22,6 @@ import { SubSink } from 'subsink';
 import { SettingsComponent } from '../settings/settings.component';
 import { UISidenavAction } from './../../../business/shared/ui-sidenavs.enum';
 import { currentUserId } from './../../../ngrx/auth/auth.selectors';
-import { isFullScreenChatActive } from './../../../ngrx/user-interface/ui.selectors';
 import { ChatConfiguration } from './../../features/chat/chat.configuration';
 import { ChatSignalrService } from './../../features/chat/services/chat-signalr.service';
 
@@ -59,8 +58,6 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   ) {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
     this.section = this.route.snapshot.data.section;
-
-    this.chatSignalrService.init();
   }
 
   ngOnInit() {
@@ -94,10 +91,6 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs.unsubscribe();
-  }
-
-  onMessagesSeen(messages: Message[]) {
-    this.chatSignalrService.sendOnMessagesSeenEvent(messages);
   }
 
   onOpenSettings(section: string) {

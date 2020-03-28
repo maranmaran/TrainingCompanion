@@ -1,0 +1,30 @@
+<div #chatWindow *ngIf="friend" class="chat-body-container">
+
+  <span>{{friend.displayName}}</span>
+
+  <div class="mb-3" *ngFor="let message of messages">
+    <div>From: {{message.fromId}}</div>
+    <div>To: {{message.toId}}</div>
+    <div>Message: {{message.message}}</div>
+    <div>Sent at: {{message.dateSent}}</div>
+  </div>
+
+  <form [formGroup]="form" >
+    <mat-form-field class="text-input">
+      <textarea matInput
+        cdkTextareaAutosize
+        [cdkAutosizeMinRows]="1"
+        [cdkAutosizeMaxRows]="5"
+        formControlName="messageText"
+        placeholder="Type a message"
+        (keydown.enter)="sendMessage($event)"
+      ></textarea>
+
+      <button class="ml-3" matSuffix mat-icon-button color="accent" (click)="sendMessage($event)"
+      [matTooltipClass]="'multiline'" matTooltip="Press enter to send&#13;Press shift + enter to add new line">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+
+    </mat-form-field>
+  </form>
+</div>

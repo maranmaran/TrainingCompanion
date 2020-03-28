@@ -27,6 +27,7 @@ import { ExportImportServicesModule } from '../shared/export-import-services.mod
 import { NotificationToastComponent } from '../shared/notifications/notification-toast/notification-toast.component';
 import { SharedModule } from '../shared/shared.module';
 import { SignalrHubsModule } from '../shared/signalr-hubs.module';
+import { ChatResolver } from './../../business/resolvers/chat.resolver';
 import { CoreEffects } from './../../ngrx/global-setup.ngrx';
 import { ChatModule } from './../features/chat/chat.module';
 import { AppContainerComponent } from './app-container/app-container.component';
@@ -97,6 +98,7 @@ import { SettingsComponent } from './settings/settings.component';
         RouterModule,
     ],
     providers: [
+        ChatResolver,
         CurrentUserLoadedGuard,
         UIService,
         CookieService,

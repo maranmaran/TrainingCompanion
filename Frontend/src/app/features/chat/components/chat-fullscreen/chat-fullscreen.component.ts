@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { setFullscreenChatActive } from 'src/ngrx/chat/chat.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setFullscreenChatActive } from 'src/ngrx/user-interface/ui.actions';
 import { SubSink } from 'subsink';
 import { IChatParticipant } from './../../models/chat-participant.model';
 import { ParticipantMetadata } from './../../models/participant-metadata.model';
-import { ParticipantResponse } from './../../models/participant-response.model';
 import { ChatSignalrService } from './../../services/chat-signalr.service';
 
 @Component({
@@ -17,8 +16,8 @@ import { ChatSignalrService } from './../../services/chat-signalr.service';
 })
 export class ChatFullscreenComponent implements OnInit, OnDestroy {
 
-  friends: IChatParticipant[];
-  participantMetadata: ParticipantMetadata[];
+  friends: Observable<IChatParticipant[]>;
+  friendsMetadata: Observable<ParticipantMetadata[]>;
 
   private subs = new SubSink();
 
@@ -30,6 +29,8 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     setTimeout(() => this.store.dispatch(setFullscreenChatActive({active: true})))
+
+    this.init();
   }
 
   ngOnDestroy() {
@@ -38,20 +39,6 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
   }
 
   private init() {
-    this.fetchFriendsList();
-  }
-
-  private fetchFriendsList(): void {
-    this.signalrService.listFriends()
-      .pipe(
-        take(1)
-      ).subscribe((participantsResponse: ParticipantResponse[]) => {
-        this.participantMetadata = participantsResponse.map(x => x.metadata);
-
-        this.friends = participantsResponse.map((response: ParticipantResponse) => {
-          return response.participant;
-        });
-      });
   }
 
 }

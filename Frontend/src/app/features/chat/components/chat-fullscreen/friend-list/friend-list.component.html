@@ -1,0 +1,5 @@
+<h1>Search filter</h1>
+
+<div *ngFor="let friend of (friends | async); let i = index" (click)="onFriendClicked(friend)">
+  {{friend.displayName}} - {{ (metadata | async)[i].totalUnreadMessages }}
+</div>
