@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ChatConfiguration } from 'src/app/features/chat/chat.configuration';
 import { MessageType } from 'src/app/features/chat/models/enums/message-type.enum';
 import { Message } from 'src/app/features/chat/models/message.model';
 import { BaseService } from '../base.service';
+import { ChatConfiguration } from './../../../app/features/chat/chat.configuration';
 import { ChatTheme } from './../../../app/features/chat/models/enums/chat-theme.enum';
 
 
@@ -51,11 +51,23 @@ export class ChatService extends BaseService {
 
     // if I sent more messages... i want avatar to show on last one
     // so if my streak is done... ie next message is from other user.. show avatar
-    if(messages[index + 1].fromId != message.fromId)
+    if(messages[index + 1]?.fromId != message?.fromId)
       return true;
 
     // otherwise don't
     return false
   }
+
+  // Buffers audio file (For component's bootstrapping)
+  bufferAudioFile(config: ChatConfiguration) {
+    if (config.audioSource && config.audioSource.length > 0) {
+      let audioFile = new Audio();
+      audioFile.src = config.audioSource;
+      audioFile.load();
+
+      return audioFile;
+    }
+  }
+
 }
 

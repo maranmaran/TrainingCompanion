@@ -4,7 +4,6 @@ export interface Localization
     messagePlaceholder: string;
     searchPlaceholder: string;
     statusDescription: StatusDescription;
-    browserNotificationTitle: string;
     loadMessageHistoryPlaceholder: string;
 }
 

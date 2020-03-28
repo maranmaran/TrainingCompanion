@@ -32,7 +32,6 @@ export class ChatConfiguration {
     title: "Friends",
     messagePlaceholder: "Type a message",
     searchPlaceholder: "Search",
-    browserNotificationTitle: "New message from",
     loadMessageHistoryPlaceholder: "Load older messages",
     statusDescription: {
       online: "Online",
@@ -44,8 +43,6 @@ export class ChatConfiguration {
   };
 
   // TODO: This might need a better content strategy
-  browserNotificationsEnabled = true;
-  browserNotificationIconSource = 'https://raw.githubusercontent.com/rpaschoal/ng-chat/master/src/ng-chat/assets/notification.png';
   audioEnabled = true;
   audioSource = 'https://raw.githubusercontent.com/rpaschoal/ng-chat/master/src/ng-chat/assets/notification.wav';
 }

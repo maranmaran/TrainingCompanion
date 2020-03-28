@@ -50,7 +50,6 @@ export class ChatSmallComponent implements OnInit {
   @Input() config: ChatConfiguration;
   @Input() userId: string;
 
-  browserNotificationsBootstrapped: boolean = false;
   hasPagedHistory: boolean = true;
 
   private audioFile: HTMLAudioElement;
@@ -117,8 +116,6 @@ export class ChatSmallComponent implements OnInit {
       try {
         this.viewPortTotalArea = window.innerWidth;
 
-        this.initializeBrowserNotifications();
-
         // Binding event listeners
         this.signalrService.onMessageReceivedHandler = (participant, msg) => this.onMessageReceived(participant, msg);
         this.signalrService.onFriendsListChangedHandler = (participantsResponse) => this.onFriendsListChanged(participantsResponse);
@@ -134,7 +131,7 @@ export class ChatSmallComponent implements OnInit {
           this.fetchFriendsList(true);
         }
 
-        this.bufferAudioFile();
+        this.audioFile = this.chatService.bufferAudioFile(this.config);
 
 
         if (this.config.fileUploadUrl && this.config.fileUploadUrl !== "") {
@@ -188,14 +185,6 @@ export class ChatSmallComponent implements OnInit {
     this.unsupportedViewport = this.config.hideFriendsListOnUnsupportedViewport && maxSupportedOpenedWindows < 1;
   }
 
-  // Initializes browser notifications
-  private async initializeBrowserNotifications() {
-    if (this.config.browserNotificationsEnabled && ("Notification" in window)) {
-      if (await Notification.requestPermission()) {
-        this.browserNotificationsBootstrapped = true;
-      }
-    }
-  }
 
   // Sends a request to load the friends list
   private fetchFriendsList(isBootstrapping: boolean): void {
@@ -287,13 +276,6 @@ export class ChatSmallComponent implements OnInit {
       }
 
       this.emitMessageSound(chatWindow[0]);
-
-      // Github issue #58
-      // Do not push browser notifications with message content for privacy purposes if the 'maximizeWindowOnNewMessage' setting is off and this is a new chat window.
-      if (this.config.maximizeWindowOnNewMessage || (!chatWindow[1] && !chatWindow[0].isCollapsed)) {
-        // Some messages are not pushed because they are loaded by fetching the history hence why we supply the message here
-        this.emitBrowserNotification(chatWindow[0], message);
-      }
     }
   }
 
@@ -371,33 +353,10 @@ export class ChatSmallComponent implements OnInit {
     }
   }
 
-  // Buffers audio file (For component's bootstrapping)
-  private bufferAudioFile(): void {
-    if (this.config.audioSource && this.config.audioSource.length > 0) {
-      this.audioFile = new Audio();
-      this.audioFile.src = this.config.audioSource;
-      this.audioFile.load();
-    }
-  }
-
   // Emits a message notification audio if enabled after every message received
   private emitMessageSound(window: Window): void {
     if (this.config.audioEnabled && !window.hasFocus && this.audioFile) {
       this.audioFile.play();
-    }
-  }
-
-  // Emits a browser notification
-  private emitBrowserNotification(window: Window, message: Message): void {
-    if (this.browserNotificationsBootstrapped && !window.hasFocus && message) {
-      let notification = new Notification(`${this.config.localization.browserNotificationTitle} ${window.participant.displayName}`, {
-        'body': message.message,
-        'icon': this.config.browserNotificationIconSource
-      });
-
-      setTimeout(() => {
-        notification.close();
-      }, message.message.length <= 50 ? 5000 : 7000); // More time to read longer messages
     }
   }
 
