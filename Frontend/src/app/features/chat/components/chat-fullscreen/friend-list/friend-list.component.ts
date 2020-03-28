@@ -18,7 +18,7 @@ export class FriendListComponent implements OnInit {
   metadata: Observable<ParticipantMetadata[]>;
 
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) { }
 
   ngOnInit(): void {

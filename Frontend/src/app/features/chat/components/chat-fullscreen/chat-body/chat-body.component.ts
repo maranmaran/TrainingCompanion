@@ -27,6 +27,8 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
   @ViewChild('chatWindow') window: ElementRef;
   @ViewChild('autosize') autosizeTextarea: CdkTextareaAutosize;
 
+  isBootstrapped = false;
+
   subs = new SubSink();
   friend: IChatParticipant;
   messages: Message[]
@@ -35,6 +37,8 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
   form: FormGroup
   textCache: { id: string, message: string }
   textAreaLines: number = 1;
+
+  private audioFile: HTMLAudioElement;
 
   constructor(
     private _ngZone: NgZone,
@@ -62,6 +66,9 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
 
   init(friend) {
     this.friend = friend;
+    this.audioFile = this.chatService.bufferAudioFile(this.config);
+
+    this.signalrService.onMessageReceivedHandler = (friend, message) => this.onMessageReceived(friend, message);
 
     if (this.textCache?.id == this.friend.id)
       this.messageText.setValue(this.textCache.message);
@@ -87,12 +94,28 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
       });
   }
 
+  private onMessageReceived(friend: IChatParticipant, message: Message) {
+    if (!friend || !message) return;
+
+    this.chatService.assertMessageType(message);
+
+    this.messages.push(message);
+
+    this.scrollChatWindow(ScrollDirection.Bottom);
+
+    this.chatService.markMessagesAsRead([message]);
+    this.signalrService.sendOnMessagesSeenEvent([message]);
+
+    this.audioFile.play();
+  }
+
   private onFetchMessageHistoryLoaded(messages: Message[], direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
 
     this.scrollChatWindow(direction)
     const unseenMessages = messages.filter(m => !m.dateSeen);
 
     this.chatService.markMessagesAsRead(unseenMessages);
+    setTimeout(() => this.isBootstrapped = true);
   }
 
   scrollChatWindow(direction: ScrollDirection): void {
@@ -146,7 +169,7 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
       .subscribe(() => (this.autosizeTextarea.resizeToFitContent(true)));
   }
 
-  addFile() {
+  addFile(event) {
 
   }
 
