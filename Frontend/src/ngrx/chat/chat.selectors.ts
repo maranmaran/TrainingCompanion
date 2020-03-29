@@ -19,3 +19,7 @@ export const selectedFriend = createSelector(
   selectChatState,
   (chatState: ChatState) => chatState.selectedFriend
 );
+export const totalUnreadChatMessages = createSelector(
+  selectChatState,
+  (chatState: ChatState) => chatState.friendsMetadata.reduce((prev, cur) => prev + cur.totalUnreadMessages, 0)
+)

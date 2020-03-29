@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Business.Chat.Models;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
@@ -13,6 +7,12 @@ using Backend.Infrastructure.Exceptions;
 using Backend.Library.AmazonS3.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Chat.ChatRequests.GetFriendList
 {

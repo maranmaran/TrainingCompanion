@@ -48,6 +48,7 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
     setTimeout(() => this.store.dispatch(setFullscreenChatActive({ active: true })))
 
     this.subs.add(
+      // theme
       this.store.select(activeTheme)
         .subscribe(theme => {
           let chatTheme = ChatTheme.Light;
@@ -58,6 +59,7 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
           this.config = this.chatService.getChatConfiguration(chatTheme);
         }),
 
+      // tabs active state
       this.store.select(selectedFriend)
         .pipe(filter(friend => {
           let tabsActive = this.mediaObserver.isActive('lt-md');
@@ -68,15 +70,18 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
               // disabled if no1 is selected
               this.tabs._tabs.first.disabled = !friend;
               this.tabs.selectedIndex = 1;
+              this.tabs.realignInkBar()
             }
           })
 
           return !!friend && tabsActive;
         }))
         .subscribe(_ => {
-          this.tabs.selectedIndex = 0;
-          this.chatBody?.scrollChatWindow(ScrollDirection.Bottom);
-          this.tabs.realignInkBar()
+          setTimeout(() => {
+            this.tabs.selectedIndex = 0;
+            this.chatBody?.scrollChatWindow(ScrollDirection.Bottom);
+            this.tabs.realignInkBar()
+          })
         })
     )
   }

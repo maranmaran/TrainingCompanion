@@ -117,8 +117,8 @@ export class ChatSmallComponent implements OnInit {
         this.viewPortTotalArea = window.innerWidth;
 
         // Binding event listeners
-        this.signalrService.onMessageReceivedHandler = (participant, msg) => this.onMessageReceived(participant, msg);
-        this.signalrService.onFriendsListChangedHandler = (participantsResponse) => this.onFriendsListChanged(participantsResponse);
+        this.signalrService.onMessageReceivedHandlerSmallChat = (participant, msg) => this.onMessageReceived(participant, msg);
+        this.signalrService.onFriendsListChangedHandlerSmallChat = (participantsResponse) => this.onFriendsListChanged(participantsResponse);
 
         // Loading current users list
         if (this.config.pollFriendsList) {

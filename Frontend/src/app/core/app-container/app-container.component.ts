@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -48,6 +49,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
 
   constructor(
+    public mediaObserver: MediaObserver,
     public store: Store<AppState>,
     private route: ActivatedRoute,
     private uiService: UIService,
