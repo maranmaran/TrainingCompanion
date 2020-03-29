@@ -3,9 +3,9 @@ import { Component, ElementRef, Input, NgZone, OnDestroy, OnInit, ViewChild } fr
 import { MediaObserver } from '@angular/flex-layout';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { noop } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
+import { allMessagesSeen, messageFromAnotherFriend } from 'src/ngrx/chat/chat.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { currentUserId } from './../../../../../../ngrx/auth/auth.selectors';
@@ -45,17 +45,17 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
     private signalrService: ChatSignalrService,
     private store: Store<AppState>,
     private chatService: ChatService,
-    private mediaObserver: MediaObserver
+    private mediaObserver: MediaObserver,
   ) { }
 
   ngOnInit(): void {
     this.store.select(currentUserId).subscribe(id => this.userId = id);
 
+    this.signalrService.onMessageReceivedHandlerFullscreenChat = (friend, message) => this.onMessageReceived(friend, message);
     this.createForm();
 
     this.subs.add(
-      this.store.select(selectedFriend).subscribe(friend => friend ? this.init(friend) : noop()),
-
+      this.store.select(selectedFriend).subscribe(friend => friend ? this.init(friend) : this.friend = undefined),
       this.messageText.valueChanges.subscribe(val => this.onMessageChange(val))
     );
   }
@@ -67,8 +67,6 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
   init(friend) {
     this.friend = friend;
     this.audioFile = this.chatService.bufferAudioFile(this.config);
-
-    this.signalrService.onMessageReceivedHandler = (friend, message) => this.onMessageReceived(friend, message);
 
     if (this.textCache?.id == this.friend.id)
       this.messageText.setValue(this.textCache.message);
@@ -95,7 +93,11 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
   }
 
   private onMessageReceived(friend: IChatParticipant, message: Message) {
-    if (!friend || !message) return;
+    if(!message) return;
+    if (this.friend?.id != message.fromId) {
+      this.store.dispatch(messageFromAnotherFriend({friend}))
+      return;
+    };
 
     this.chatService.assertMessageType(message);
 
@@ -103,19 +105,21 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
 
     this.scrollChatWindow(ScrollDirection.Bottom);
 
-    this.chatService.markMessagesAsRead([message]);
-    this.signalrService.sendOnMessagesSeenEvent([message]);
-
     this.audioFile.play();
   }
 
-  private onFetchMessageHistoryLoaded(messages: Message[], direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
+  private onFetchMessageHistoryLoaded(messages: Message[], direction: ScrollDirection): void {
+    this.scrollChatWindow(direction);
 
-    this.scrollChatWindow(direction)
-    const unseenMessages = messages.filter(m => !m.dateSeen);
+    this.markMessagesSeen(messages);
+    this.store.dispatch(allMessagesSeen({friendId: this.friend.id}));
 
-    this.chatService.markMessagesAsRead(unseenMessages);
     setTimeout(() => this.isBootstrapped = true);
+  }
+
+  markMessagesSeen(messages: Message[]) {
+    const unseenMessages = messages.filter(m => !m.dateSeen);
+    this.chatService.markMessagesAsRead(unseenMessages);
   }
 
   scrollChatWindow(direction: ScrollDirection): void {

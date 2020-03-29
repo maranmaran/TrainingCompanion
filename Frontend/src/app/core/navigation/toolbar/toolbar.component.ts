@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
+import { totalUnreadChatMessages } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { currentUser, currentUserId } from './../../../../ngrx/auth/auth.selectors';
@@ -30,6 +31,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   subSink = new SubSink();
 
+  unreadChatMessages: Observable<number>
   page = 0;
   pageSize = 10; // TODO: AppSettings -> NotificationsPageSize
   unreadNotificationCounter = 0;
@@ -40,6 +42,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   userId: string;
 
   ngOnInit(): void {
+
+    this.unreadChatMessages = this.store.select(totalUnreadChatMessages);
 
     // subscribe to notifications
     // only new ones.. in real time

@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Action, ActionReducer } from '@ngrx/store/src/models';
+import * as _ from 'lodash';
 import { IChatParticipant } from './../../app/features/chat/models/chat-participant.model';
 import { ParticipantResponse } from './../../app/features/chat/models/participant-response.model';
 import * as ChatActions from './chat.actions';
@@ -24,7 +25,31 @@ export const chatReducer: ActionReducer<ChatState, Action> = createReducer(
     on(ChatActions.setSelectedFriend, (state: ChatState, payload: { friend: IChatParticipant }) => {
         return {
             ...state,
-            selectedFriend: state.selectedFriend?.id == payload.friend.id ? null : payload.friend
+            selectedFriend: payload.friend
+        }
+    }),
+    on(ChatActions.allMessagesSeen , (state: ChatState, payload: { friendId: string }) => {
+      let friendsMetadata = _.cloneDeep(state.friendsMetadata);
+      let friendIdx = state.friends?.findIndex(x => x.id == payload.friendId);
+
+      if(friendIdx != -1)
+        friendsMetadata[friendIdx].totalUnreadMessages = 0;
+
+      return {
+            ...state,
+            friendsMetadata: friendsMetadata
+        }
+    }),
+    on(ChatActions.messageFromAnotherFriend, (state: ChatState, payload: { friend: IChatParticipant }) => {
+      let friendsMetadata = _.cloneDeep(state.friendsMetadata);
+      let friendIdx = state.friends?.findIndex(x => x.id == payload.friend.id);
+
+      if(friendIdx != -1)
+        friendsMetadata[friendIdx].totalUnreadMessages += 1;
+
+      return {
+            ...state,
+            friendsMetadata: friendsMetadata
         }
     }),
 

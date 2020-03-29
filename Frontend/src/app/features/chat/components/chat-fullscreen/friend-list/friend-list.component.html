@@ -1,13 +1,15 @@
-<h1>Search filter</h1>
+<mat-form-field class="friends-search-input pt-3">
+  <input [formControl]="searchField" matInput placeholder="Search" />
+</mat-form-field>
 
-<div class="friend-container" fxLayout="column" fxLayoutGap="1rem">
+<div class="friend-container" fxLayout="column" >
 
   <div class="friend pl-1 pr-1" *ngFor="let friend of (friends | async); let i = index" (click)="onFriendClicked(friend)"
-  fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+  fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center" [ngClass]="{'selected-friend': (selectedFriend | async)?.id == friend.id }">
 
     <img *ngIf="friend.avatar" class="avatar" height="40" width="40" [src]="friend.avatar" />
     <div class="friend-body"
-    matBadge="(metadata | async)[i].totalUnreadMessages"
+    [matBadge]="(metadata | async)[i].totalUnreadMessages"
     matBadgeColor="accent"
     [matBadgeHidden]="(metadata | async)[i].totalUnreadMessages == 0">
 

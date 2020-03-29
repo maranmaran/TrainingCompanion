@@ -18,7 +18,7 @@
         <router-outlet id="main-router-outlet"></router-outlet>
       <!-- </span> -->
 
-      <app-chat-small [hidden]="(fullScreenChatActive | async)" [config]="chatConfig" [userId]="userId"></app-chat-small>
+      <app-chat-small *ngIf="!(fullScreenChatActive | async) && !mediaObserver.isActive('lt-md')" [config]="chatConfig" [userId]="userId"></app-chat-small>
 
     </mat-sidenav-content>
 

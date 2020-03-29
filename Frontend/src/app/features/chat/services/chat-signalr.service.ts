@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import * as signalR from "@microsoft/signalr";
 import { Store } from '@ngrx/store';
 import { Observable, throwError } from 'rxjs';
@@ -25,7 +26,8 @@ export class ChatSignalrService implements OnDestroy {
   constructor(
     private authService: AuthService,
     private store: Store<AppState>,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private mediaObserver: MediaObserver) {
     this.subs.add(this.authService.signOutEvent.subscribe(() => this.stopConnection()));
   }
 
@@ -69,7 +71,12 @@ export class ChatSignalrService implements OnDestroy {
   initializeListeners(): void {
     this.hubConnection.on("messageReceived", (participant, message) => {
       // Handle the received message to chat
-      this.onMessageReceivedHandler(participant, message);
+      if(this.mediaObserver.isActive('lt-md')) {
+        this.onMessageReceivedHandlerFullscreenChat(participant, message);
+      } else {
+        this.onMessageReceivedHandlerSmallChat(participant, message);
+        this.onMessageReceivedHandlerFullscreenChat(participant, message);
+      }
     });
 
     this.hubConnection.on("friendsListChanged", () => {
@@ -115,6 +122,8 @@ export class ChatSignalrService implements OnDestroy {
   }
 
   // Event handlers
-  onFriendsListChangedHandler: (participantsResponse: ParticipantResponse[]) => void;
-  onMessageReceivedHandler: (participant: IChatParticipant, message: Message) => void;
+  onFriendsListChangedHandlerSmallChat: (participantsResponse: ParticipantResponse[]) => void;
+  onFriendsListChangedHandlerFullscreenChat: (participantsResponse: ParticipantResponse[]) => void;
+  onMessageReceivedHandlerSmallChat: (participant: IChatParticipant, message: Message) => void;
+  onMessageReceivedHandlerFullscreenChat: (participant: IChatParticipant, message: Message) => void;
 }
