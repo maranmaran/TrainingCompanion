@@ -2,12 +2,29 @@
 
 @mixin chat-fullscreen-theme($theme) {
 
-  .friend-container {
-    .friend {
-      cursor: pointer;
+  $background-palette: map-get($theme, background);
+  $highlight: map-get($background-palette, hover);
+
+  .friends-search-input {
+    .mat-form-field-wrapper{
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
     }
   }
-  
+  .friend-container {
+    .friend {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .selected-friend {
+      background: red;
+      background-color: rgba($highlight, 0.1) !important;
+    }
+    .friend:hover {
+      background-color: rgba($highlight, 0.1) !important;
+    }
+  }
+
   .chat-body-container {
     height: 100%;
     overflow: auto;
