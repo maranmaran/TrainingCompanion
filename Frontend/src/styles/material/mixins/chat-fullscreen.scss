@@ -27,9 +27,9 @@
 
   .chat-body-container {
     height: 100%;
-    overflow: auto;
 
     .messages {
+      overflow: auto;
       width: 100%;
       overflow-wrap: break-word;
 
