@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { debounceTime, map, take } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
+import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { setSelectedFriend } from 'src/ngrx/chat/chat.actions';
 import { friends, friendsMetadata } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -10,6 +11,7 @@ import { SubSink } from 'subsink';
 import { selectedFriend } from './../../../../../../ngrx/chat/chat.selectors';
 import { IChatParticipant } from './../../../models/chat-participant.model';
 import { ParticipantMetadata } from './../../../models/participant-metadata.model';
+import { ChatSignalrService } from './../../../services/chat-signalr.service';
 
 @Component({
   selector: 'app-friend-list',
@@ -27,15 +29,14 @@ export class FriendListComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
+    private chatService: ChatService,
+    private signalrService: ChatSignalrService
   ) { }
 
   ngOnInit(): void {
     this.selectedFriend = this.store.select(selectedFriend);
     this.friends = this.store.select(friends);
     this.metadata = this.store.select(friendsMetadata);
-
-    this.friends.pipe(take(1), map(friends => friends[0]))
-    .subscribe(friend => this.store.dispatch(setSelectedFriend({ friend })));
 
     this.searchField = new FormControl('');
 
@@ -62,4 +63,5 @@ export class FriendListComponent implements OnInit, OnDestroy {
   onFriendClicked(friend: IChatParticipant) {
     this.store.dispatch(setSelectedFriend({friend}))
   }
+
 }
