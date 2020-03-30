@@ -1,4 +1,4 @@
-<div  (focus)="onWindowFocus()" [hidden]="!isBootstrapped" *ngIf="friend" class="chat-body-container" fxLayout="column" fxLayoutAlign="space-between">
+<div *ngIf="isBootstrapped" class="chat-body-container" fxLayout="column" fxLayoutAlign="space-between">
 
   <div #chatWindow class="messages">
      <div class="message-row mb-3" *ngFor="let message of messages; let i = index"
@@ -49,4 +49,8 @@
 
     </mat-form-field>
   </form>
+</div>
+
+<div class="h-100 w-100" *ngIf="!isBootstrapped" fxLayout="row" fxLayoutAlign="center center">
+  <mat-spinner></mat-spinner>
 </div>
