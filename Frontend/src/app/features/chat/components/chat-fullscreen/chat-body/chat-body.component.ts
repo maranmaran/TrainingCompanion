@@ -1,15 +1,14 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { Component, ElementRef, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
-import { allMessagesSeen, messageFromAnotherFriend } from 'src/ngrx/chat/chat.actions';
+import { allMessagesSeen, messageFromAnotherFriend, pushMessage } from 'src/ngrx/chat/chat.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { currentUserId } from './../../../../../../ngrx/auth/auth.selectors';
-import { selectedFriend } from './../../../../../../ngrx/chat/chat.selectors';
 import { ChatConfiguration } from './../../../chat.configuration';
 import { IChatParticipant } from './../../../models/chat-participant.model';
 import { ScrollDirection } from './../../../models/enums/scroll-direction.enum';
@@ -21,17 +20,18 @@ import { ChatSignalrService } from './../../../services/chat-signalr.service';
   templateUrl: './chat-body.component.html',
   styleUrls: ['./chat-body.component.scss']
 })
-export class ChatBodyComponent implements OnInit, OnDestroy {
+export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() config: ChatConfiguration;
+  @Input() friend: IChatParticipant;
+
   @ViewChild('chatWindow') window: ElementRef;
   @ViewChild('autosize') autosizeTextarea: CdkTextareaAutosize;
 
   isBootstrapped = false;
 
   subs = new SubSink();
-  friend: IChatParticipant;
-  messages: Message[]
+  messages: Message[];
 
   userId: string;
   form: FormGroup
@@ -55,23 +55,25 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
     this.createForm();
 
     this.subs.add(
-      this.store.select(selectedFriend).subscribe(friend => friend ? this.init(friend) : this.friend = undefined),
       this.messageText.valueChanges.subscribe(val => this.onMessageChange(val))
     );
+
+    // this.init(this.friend);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.isBootstrapped = false;
+
+    // 600 ms is default transition for tabs
+    //https://material.angular.io/components/tabs/api#MatTabsConfig
+    let tabsAnimationDelay = 600;
+    if(changes.friend.currentValue && changes.friend.currentValue.id != changes.friend.previousValue?.id)
+      setTimeout(_ => this.init(changes.friend.currentValue), this.mediaObserver.isActive('lt-md') ? tabsAnimationDelay : 0);
   }
 
   ngOnDestroy() {
+    console.log('destroyed')
     this.subs.unsubscribe();
-  }
-
-  init(friend) {
-    this.friend = friend;
-    this.audioFile = this.chatService.bufferAudioFile(this.config);
-
-    if (this.textCache?.id == this.friend.id)
-      this.messageText.setValue(this.textCache.message);
-
-    this.fetchMessageHistory(this.friend.id);
   }
 
   createForm() {
@@ -82,39 +84,50 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
 
   get messageText(): AbstractControl { return this.form.get('messageText'); }
 
-  fetchMessageHistory(friendId: string) {
-    this.signalrService.getMessageHistory(friendId)
-      .pipe(take(1))
-      .subscribe((result: Message[]) => {
-        result.forEach((message) => this.chatService.assertMessageType(message));
-        this.messages = result;
-        setTimeout(() => this.onFetchMessageHistoryLoaded(result, ScrollDirection.Bottom));
+  init(friend) {
+    this.friend = friend;
+    this.audioFile = this.chatService.bufferAudioFile(this.config);
+
+    if (this.textCache?.id == this.friend.id)
+      this.messageText.setValue(this.textCache.message);
+
+    this.getMessageHistory(this.friend.id);
+  }
+
+  getMessageHistory(friendId: string) {
+    this.signalrService.getMessageHistory(friendId).pipe(take(1))
+      .subscribe(messages => {
+        messages.forEach((message) => this.chatService.assertMessageType(message));
+        this.messagesFetched(messages, ScrollDirection.Bottom);
       });
   }
 
-  private onMessageReceived(friend: IChatParticipant, message: Message) {
-    if(!message) return;
+  messagesFetched(messages: Message[], direction: ScrollDirection): void {
+    this.messages = messages;
+
+    this.markMessagesSeen(messages);
+    this.store.dispatch(allMessagesSeen({ friendId: this.friend.id }));
+
+    this.isBootstrapped = true;
+    setTimeout(_ => this.scrollChatWindow(direction));
+    // this.scrollChatWindow(direction);
+  }
+
+  onMessageReceived(friend: IChatParticipant, message: Message) {
+    if (!message) return;
     if (this.friend?.id != message.fromId) {
-      this.store.dispatch(messageFromAnotherFriend({friend}))
+      this.store.dispatch(messageFromAnotherFriend({ friend }))
       return;
     };
 
     this.chatService.assertMessageType(message);
 
-    this.messages.push(message);
+    this.store.dispatch(pushMessage({ message }));
+    // this.messages.push(message);
 
     this.scrollChatWindow(ScrollDirection.Bottom);
 
     this.audioFile.play();
-  }
-
-  private onFetchMessageHistoryLoaded(messages: Message[], direction: ScrollDirection): void {
-    this.scrollChatWindow(direction);
-
-    this.markMessagesSeen(messages);
-    this.store.dispatch(allMessagesSeen({friendId: this.friend.id}));
-
-    setTimeout(() => this.isBootstrapped = true);
   }
 
   markMessagesSeen(messages: Message[]) {
@@ -124,11 +137,9 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
 
   scrollChatWindow(direction: ScrollDirection): void {
     if (this.window) {
-      setTimeout(() => {
-        let element = this.window.nativeElement;
-        let position = (direction === ScrollDirection.Top) ? 0 : element.scrollHeight;
-        element.scrollTop = position;
-      })
+      let element = this.window.nativeElement;
+      let position = (direction === ScrollDirection.Top) ? 0 : element.scrollHeight;
+      element.scrollTop = position;
     }
   }
 
@@ -136,7 +147,7 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
     this.textCache = { id: this.friend.id, message };
 
     const lines = message.split('\n').length + 1;
-    if(lines >= 1 && lines <= 6 && this.textAreaLines != lines) {
+    if (lines >= 1 && lines <= 6 && this.textAreaLines != lines) {
       this.textAreaLines = lines;
       this.scrollChatWindow(ScrollDirection.Bottom);
     }
@@ -145,7 +156,7 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
   sendMessage(event) {
 
     // enter adds new line if mobile view
-    if(this.mediaObserver.isActive('lt-sm') && event instanceof KeyboardEvent) {
+    if (this.mediaObserver.isActive('lt-sm') && event instanceof KeyboardEvent) {
       return;
     }
 
@@ -160,7 +171,9 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
     message.message = messageRaw;
     message.dateSent = new Date();
 
-    this.messages.push(message);
+    this.store.dispatch(pushMessage({ message }));
+    // this.messages.push(message);
+
     this.signalrService.sendMessage(message);
 
     this.messageText.setValue('') // Resets the new message input
