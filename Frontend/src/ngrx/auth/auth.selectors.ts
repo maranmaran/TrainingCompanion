@@ -31,7 +31,7 @@ export const exertionSystem = createSelector(
 
 export const isLoggedIn = createSelector(
     selectAuthState,
-    (authState: AuthState) =>  !!authState.currentUser
+    (authState: AuthState) => !!authState.currentUser
 );
 
 export const isLoggedOut = createSelector(
@@ -67,41 +67,18 @@ export const isTrialing = createSelector(
     (daysRemaining: number) => daysRemaining > 0 ? true : false
 );
 
-export const isCoachOrSoloAthlete = createSelector(
-    currentUser,
-    (user: CurrentUser) => {
-        if(user) {
-            const accountType = user.accountType;
-            return accountType == AccountType.Coach || accountType == AccountType.Admin || accountType == AccountType.SoloAthlete;
-        }
-    }
-);
-
-export const isCoach = createSelector(
-  currentUser,
-  (user: CurrentUser) => {
-      if(user) {
-          const accountType = user.accountType;
-          return accountType == AccountType.Coach || accountType == AccountType.Admin;
-      }
-  }
-);
+export const isCoachOrSoloAthlete = createSelector(currentUser, (user: CurrentUser) => user?.accountType == AccountType.Coach || user?.accountType == AccountType.Admin || user?.accountType == AccountType.SoloAthlete);
+export const isCoach = createSelector(currentUser, (user: CurrentUser) => user?.accountType == AccountType.Coach)
+export const isSoloAthlete = createSelector(currentUser, (user: CurrentUser) => user?.accountType == AccountType.SoloAthlete)
+export const isAthlete = createSelector(currentUser, (user: CurrentUser) => user?.accountType == AccountType.Athlete)
 
 export const isPayingUser = createSelector(
     currentUser,
     (user: CurrentUser) => {
-        if(user) {
+        if (user) {
             const accountType = user.accountType;
             return accountType == AccountType.Coach || accountType == AccountType.SoloAthlete || accountType == AccountType.Admin;
         }
-    }
-);
-
-export const isAthlete = createSelector(
-    currentUser,
-    (user: CurrentUser) => {
-        const accountType = user.accountType;
-        return accountType == AccountType.Athlete || accountType == AccountType.Coach || accountType == AccountType.Admin || accountType == AccountType.SoloAthlete;
     }
 );
 
@@ -109,4 +86,3 @@ export const loginError = createSelector(
     selectAuthState,
     (state: AuthState) => state.loginError
 );
-
