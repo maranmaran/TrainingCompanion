@@ -50,8 +50,6 @@ export class ChatSmallComponent implements OnInit {
   @Input() config: ChatConfiguration;
   @Input() userId: string;
 
-  hasPagedHistory: boolean = true;
-
   private audioFile: HTMLAudioElement;
 
   public searchInput: string = '';

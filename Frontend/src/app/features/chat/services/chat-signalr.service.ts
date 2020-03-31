@@ -12,6 +12,7 @@ import { AuthService } from '../../../../business/services/feature-services/auth
 import { currentUser } from '../../../../ngrx/auth/auth.selectors';
 import { AccountType } from '../../../../server-models/enums/account-type.enum';
 import { IChatParticipant } from '../models/chat-participant.model';
+import { PagingModel } from './../../../shared/material-table/table-models/paging.model';
 import { Message } from './../models/message.model';
 import { ParticipantResponse } from './../models/participant-response.model';
 
@@ -95,11 +96,22 @@ export class ChatSignalrService implements OnDestroy {
       );
   }
 
-  getMessageHistory(destinataryId: any): Observable<Message[]> {
-    // This could be an API call to your web application that would go to the database
-    // and retrieve a N amount of history messages between the users.
+  getMessageHistory(receiverId: string, pagingModel: PagingModel = null): Observable<Message[]> {
+
+    let endpoint = 'GetChatHistoryFull';
+    let request: any = {
+      userId: this.params.userId,
+      receiverId: receiverId
+    }
+
+    if(pagingModel) {
+      endpoint = 'GetChatHistoryPaged';
+      request.page = pagingModel.page;
+      request.pageSize = pagingModel.pageSize;
+    }
+
     return this.http
-      .get('chat/GetChatHistory/' + this.params.userId + "/" + destinataryId)
+      .post(`chat/${endpoint}`, request)
       .pipe(
         map((res: any) => res),
         catchError((error: any) => throwError(error.error || 'Server error'))

@@ -1,9 +1,9 @@
-import { isCoach } from 'src/ngrx/auth/auth.selectors';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+import { isCoachOrSoloAthlete } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 
 @Injectable({ providedIn: 'root' })
 export class IsCoach implements CanActivate {
@@ -14,7 +14,7 @@ export class IsCoach implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        return this.store.select(isCoach).pipe(take(1))
+        return this.store.select(isCoachOrSoloAthlete).pipe(take(1))
     }
 
 }

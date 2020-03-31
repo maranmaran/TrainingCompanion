@@ -33,6 +33,7 @@ import { ChatModule } from './../features/chat/chat.module';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { CoreRoutingModule } from './core-routing.module';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
+import { TabsComponent } from './navigation/tabs/tabs.component';
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
 import { AccountComponent } from './settings/account/account.component';
 import { BillingComponent } from './settings/billing/billing.component';
@@ -81,6 +82,7 @@ import { SettingsComponent } from './settings/settings.component';
         AppContainerComponent,
         SidebarComponent,
         ToolbarComponent,
+        TabsComponent,
         SettingsComponent,
         BillingComponent,
         PlansComponent,

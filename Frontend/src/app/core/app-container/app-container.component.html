@@ -4,21 +4,19 @@
       <app-sidebar></app-sidebar>
   </mat-sidenav>
 
-  <mat-sidenav-content id="main-sidenav-content">
+  <mat-sidenav-content class="main-sidenav-content">
 
-      <app-toolbar
-          [fullName]="userFullName"
-          [loading$]="loading$"
-          (openSettingsEvent)="onOpenSettings($event)"
-          (toggleSidenavEvent)="onToggleSidebar($event)"
-          (logoutEvent)="onLogout($event)"
-      ></app-toolbar>
+    <span [ngClass]="{'invisible-overflow-y': (isAthlete | async)}">
+      <app-toolbar></app-toolbar>
 
-      <!-- <span class="vertical-scroll"> -->
-        <router-outlet id="main-router-outlet"></router-outlet>
-      <!-- </span> -->
+      <router-outlet [ngClass]="{'main-router-outlet': !(isAthlete | async)}"></router-outlet>
+    </span>
 
-      <app-chat-small *ngIf="!(fullScreenChatActive | async) && !mediaObserver.isActive('lt-md')" [config]="chatConfig" [userId]="userId"></app-chat-small>
+    <app-tabs *ngIf="mediaObserver.isActive('lt-sm') && (isAthlete | async)"></app-tabs>
+
+    <app-chat-small *ngIf="!(fullScreenChatActive | async) && !mediaObserver.isActive('lt-md')"
+    [config]="chatConfig" [userId]="userId"
+    ></app-chat-small>
 
     </mat-sidenav-content>
 

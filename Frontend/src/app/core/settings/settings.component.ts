@@ -5,14 +5,13 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
-import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
-import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
 import { UIService } from 'src/business/services/shared/ui.service';
-import { isCoach } from 'src/ngrx/auth/auth.selectors';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
+import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
+import { isCoachOrSoloAthlete } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setActiveProgressBar } from 'src/ngrx/user-interface/ui.actions';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
-import { UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
 import { UserService } from '../../../business/services/feature-services/user.service';
 
 @Component({
@@ -42,7 +41,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // store state setup
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.SettingsScreen }));
-    this.isCoach = this.store.select(isCoach);
+    this.isCoach = this.store.select(isCoachOrSoloAthlete);
 
     this.loading$ = getLoadingState(this.store, UIProgressBar.SettingsScreen);;
 

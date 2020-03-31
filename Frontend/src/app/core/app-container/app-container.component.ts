@@ -11,20 +11,16 @@ import { FeedSignalrService } from 'src/business/services/feature-services/feed-
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { Theme } from 'src/business/shared/theme.enum';
-import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
-import { logout } from 'src/ngrx/auth/auth.actions';
-import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { isAthlete } from 'src/ngrx/auth/auth.selectors';
 import { isFullScreenChatActive } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { activeTheme, getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
-import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
+import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
-import { SettingsComponent } from '../settings/settings.component';
-import { UISidenavAction } from './../../../business/shared/ui-sidenavs.enum';
 import { currentUserId } from './../../../ngrx/auth/auth.selectors';
 import { ChatConfiguration } from './../../features/chat/chat.configuration';
 import { ChatSignalrService } from './../../features/chat/services/chat-signalr.service';
+import { ToolbarComponent } from './../navigation/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-app-container',
@@ -35,11 +31,11 @@ import { ChatSignalrService } from './../../features/chat/services/chat-signalr.
 export class AppContainerComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
+  @ViewChild(ToolbarComponent, { static: true }) toolbar: ToolbarComponent;
 
+  isAthlete: Observable<boolean>;
   theme: ChatTheme;
   userId: string;
-  userFullName: string;
-  loading$: Observable<boolean>;
 
   // chat variables
   fullScreenChatActive: Observable<boolean>;
@@ -68,11 +64,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     setTimeout(() => this.fullScreenChatActive = this.store.select(isFullScreenChatActive));
     this.chatConfig = this.chatService.getChatConfiguration(this.theme);
 
-    // get user full name from store
-    this.store.select(currentUser).pipe(take(1)).subscribe((user: CurrentUser) => this.userFullName = user.fullName);
-
-    // set observable for main progress bar
-    this.loading$ = getLoadingState(this.store, UIProgressBar.MainAppScreen);;
+    this.isAthlete = this.store.select(isAthlete);
 
     // set sidenav
     this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);
@@ -87,33 +79,15 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     );
 
     // if routing to settings -> open dialog with specific section from route data
-    this.section && this.onOpenSettings(this.section);
-
+    if(this.section) {
+      this.toolbar.onOpenSettings(this.section);
+    }
   }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
   }
 
-  onOpenSettings(section: string) {
 
-    this.uiService.openDialogFromComponent(SettingsComponent, {
-      height: 'auto',
-      width: '98%',
-      maxWidth: '58rem',
-      autoFocus: false,
-      data: { title: 'Settings', section },
-      panelClass: ['settings-dialog-container']
-    });
-
-  }
-
-  onLogout(event) {
-    this.store.dispatch(logout());
-  }
-
-  onToggleSidebar(event) {
-    this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
-  }
 
 }
