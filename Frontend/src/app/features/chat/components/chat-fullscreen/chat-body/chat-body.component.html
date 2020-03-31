@@ -1,6 +1,6 @@
 <div *ngIf="isBootstrapped" class="chat-body-container" fxLayout="column" fxLayoutAlign="space-between">
 
-  <div #chatWindow class="messages">
+  <div #chatWindow class="messages" (scroll)="scrollEvent.next($event)">
      <div class="message-row mb-3" *ngFor="let message of messages; let i = index"
       fxLayout="row" [fxLayoutAlign]="message.fromId == userId ? 'end center' : 'start center'">
 

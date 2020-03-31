@@ -1,12 +1,11 @@
-import { Store } from '@ngrx/store';
-import { UISidenavAction } from '../../../../business/shared/ui-sidenavs.enum';
-import { UIService } from 'src/business/services/shared/ui.service';
 import { Component, OnInit } from '@angular/core';
-import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { isCoach } from 'src/ngrx/auth/auth.selectors';
-import { tap } from 'rxjs/operators';
+import { UIService } from 'src/business/services/shared/ui.service';
+import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
+import { isCoachOrSoloAthlete } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { UISidenavAction } from '../../../../business/shared/ui-sidenavs.enum';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,7 +22,7 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.isCoach$ = this.store.select(isCoach);
+    this.isCoach$ = this.store.select(isCoachOrSoloAthlete);
   }
 
   //TODO: Event source this out

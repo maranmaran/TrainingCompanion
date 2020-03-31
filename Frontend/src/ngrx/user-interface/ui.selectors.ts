@@ -36,14 +36,12 @@ export const isMobile = createSelector(
 );
 
 export function getLoadingState(store: Store<AppState>, progressBarType: UIProgressBar): Observable<boolean> {
-
     // async because of ExpressionChangedAfterItHasBeenCheckedError
-
     return combineLatest(
         store.select(requestLoading),
         store.select(activeProgressBar)
     ).pipe(
         map(([isLoading, progressBar]) => isLoading && progressBar == progressBarType),
-        observeOn(asyncScheduler));
-
+        observeOn(asyncScheduler)
+    );
 }

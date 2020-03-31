@@ -23,11 +23,19 @@ export class ChatService extends BaseService {
     return chatConfig;
   }
 
-  assertMessageType(message: Message): void {
-    // Always fallback to "Text" messages to avoid rendenring issues
+
+  assertMessageTypes(messages: Message[]) {
+    messages.forEach(message => this.assertMessageType(message));
+    return messages;
+  }
+
+  assertMessageType(message: Message) {
+
     if (!message.type) {
       message.type = MessageType.Text;
     }
+
+    return message;
   }
 
   markMessagesAsRead(messages: Message[]): void {

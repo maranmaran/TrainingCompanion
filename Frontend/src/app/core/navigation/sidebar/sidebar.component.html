@@ -23,7 +23,7 @@
       <span class="label">Manage users</span>
     </a>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="(isCoach$ | async)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <i class="fas fa-list"></i>

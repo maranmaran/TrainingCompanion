@@ -1,4 +1,4 @@
-<mat-tab-group #group1 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab1 ? 'none' : 'inherit'"
+<mat-tab-group mat-stretch-tabs #group1 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab1 ? 'none' : 'inherit'"
     (selectedIndexChange)="changeTab1($event, true, true)" [selectedIndex]="selectedTab1" dynamicHeight="false">
     <mat-tab>
         <ng-template mat-tab-label>
@@ -9,7 +9,7 @@
     <mat-tab label="Exercise" [disabled]="!selectedExercise ? true : false"></mat-tab>
 </mat-tab-group>
 
-<mat-tab-group #group2 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab2 ? 'none' : 'inherit'"
+<mat-tab-group mat-stretch-tabs #group2 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab2 ? 'none' : 'inherit'"
     (selectedIndexChange)="changeTab2($event)" [selectedIndex]="selectedTab2" dynamicHeight="false">
     <mat-tab label="Calendar"></mat-tab>
     <mat-tab label="Week"></mat-tab>

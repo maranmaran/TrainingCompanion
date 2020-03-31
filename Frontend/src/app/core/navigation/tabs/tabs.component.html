@@ -1,0 +1,14 @@
+<mat-tab-group headerPosition="below" dynamicHeight mat-stretch-tabs (selectedTabChange)="tabChange($event)">
+  <ng-container *ngFor="let link of links">
+
+    <mat-tab *ngIf="link.canNavigate" [active]="link.routeActive">
+      <ng-template mat-tab-label>
+        <button mat-icon-button color="accent" [disableRipple]="true">
+          <i class="fas fa-home fa-1-5x"></i>
+        </button>
+      </ng-template>
+    </mat-tab>
+
+  </ng-container>
+</mat-tab-group>
+

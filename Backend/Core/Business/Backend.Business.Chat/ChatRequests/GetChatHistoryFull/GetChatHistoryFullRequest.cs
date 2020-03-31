@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Backend.Business.Chat.ChatRequests.GetChatHistory
 {
-    public class GetChatHistoryRequest : IRequest<IEnumerable<MessageViewModel>>
+    public class GetChatHistoryFullRequest : IRequest<IEnumerable<MessageViewModel>>
     {
         public Guid UserId { get; set; }
         public Guid ReceiverId { get; set; }
