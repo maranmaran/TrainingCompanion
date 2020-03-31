@@ -3,10 +3,10 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angul
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { isCoach } from 'src/ngrx/auth/auth.selectors';
+import { isAthlete } from 'src/ngrx/auth/auth.selectors';
 
 @Injectable({ providedIn: 'root' })
-export class IsCoach implements CanActivate {
+export class IsAthlete implements CanActivate {
 
     constructor(
         private store: Store<AppState>
@@ -14,7 +14,7 @@ export class IsCoach implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        return this.store.select(isCoach).pipe(take(1))
+        return this.store.select(isAthlete).pipe(take(1))
     }
 
 }
