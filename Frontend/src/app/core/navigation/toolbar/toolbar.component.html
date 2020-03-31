@@ -1,17 +1,20 @@
-<mat-toolbar color="primary" class="toolbar-navigation-bar no-padding" fxLayout="row"
-  fxLayoutAlign="space-between center">
+<mat-toolbar color="primary" class="toolbar-navigation-bar no-padding" fxLayout="row" [fxLayoutAlign]="userInfo.isAthlete ? 'end center' : 'space-between center'">
 
-  <div id="left" fxLayout="row wrap" fxLayoutAlign="center center">
-    <button mat-icon-button (click)="toggleSidenavEvent.emit()">
+  <div id="left" *ngIf="!userInfo.isAthlete" fxLayout="row wrap" fxLayoutAlign="center center">
+
+    <button mat-icon-button (click)="onToggleSidebar()">
       <i class="fas fa-bars fa-lg"></i>
     </button>
-    <span class="toolbar-title">{{ fullName }}</span>
+
+    <!--Impersonate feature..-->
+    <span *ngIf="userInfo.isCoach" class="toolbar-title">{{ userInfo.fullName }}</span>
+
   </div>
 
   <div id="right" fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="center center">
 
     <!--MESSENGER-->
-    <i id="messaging" routerLink="chat" class="fas fa-comments"
+    <i id="messaging" routerLink="/app/chat" class="fas fa-comments"
     [matBadge]="(unreadChatMessages | async)"
     matBadgeColor="accent"
     [matBadgeHidden]="(unreadChatMessages | async) == 0"></i>
@@ -57,27 +60,27 @@
 
     <!--AVATAR-->
     <!-- <ngx-avatar size="40" name="{{ fullName }}"></ngx-avatar> -->
-    <img class="img-fluid avatar-img" src="{{ avatar }}"  [matMenuTriggerFor]="userMenu" style="max-width: 40px; cursor: pointer;"/>
+    <img class="img-fluid avatar-img" src="{{ userInfo.avatar }}"  [matMenuTriggerFor]="userMenu" style="max-width: 40px; cursor: pointer;"/>
 
     <mat-menu #userMenu="matMenu">
 
       <div class="container" fxLayout="column wrap">
 
         <div id="avatar-settings-row" fxFlexAlign="end">
-          <button mat-icon-button (click)="openSettingsEvent.emit()">
+          <button mat-icon-button (click)="onOpenSettings()">
             <i id="settings" class="fas fa-cog"></i>
           </button>
         </div>
 
         <div id="avatar-content-row" fxFlexAlign="center">
-          <img id="content-avatar" class="img-fluid avatar-img" src="{{ avatar }}" style="width: 100px; cursor: pointer;"/>
+          <img id="content-avatar" class="img-fluid avatar-img" src="{{ userInfo.avatar }}" style="width: 100px; cursor: pointer;"/>
         </div>
 
         <div id="avatar-actions-row" fxLayout="row wrap" fxLayoutGap="3rem" fxLayoutAlign="space-between center">
           <button mat-stroked-button routerLink="">
             Homepage
           </button>
-          <button id="logout" (click)="logoutEvent.emit()" mat-button color="accent">
+          <button id="logout" (click)="onLogout()" mat-button color="accent">
             Sign out
           </button>
         </div>
@@ -85,7 +88,6 @@
 
     </mat-menu>
   </div>
-
 
 </mat-toolbar>
 

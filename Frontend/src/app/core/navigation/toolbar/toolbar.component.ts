@@ -1,13 +1,20 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
+import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
+import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
+import { logout } from 'src/ngrx/auth/auth.actions';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { totalUnreadChatMessages } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
-import { currentUser, currentUserId } from './../../../../ngrx/auth/auth.selectors';
+import { SettingsComponent } from '../../settings/settings.component';
+import { UIService } from './../../../../business/services/shared/ui.service';
 import { PushNotification } from './../../../../server-models/entities/push-notification.model';
+import { AccountType } from './../../../../server-models/enums/account-type.enum';
 
 @Component({
   selector: 'app-toolbar',
@@ -18,30 +25,36 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private notificationService: NotificationSignalrService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private UIService: UIService
   ) { }
-
-  @Input() fullName: string;
-  @Input() loading$: Observable<boolean>;
-  @Output() openSettingsEvent = new EventEmitter<string>();
-  @Output() toggleSidenavEvent = new EventEmitter<void>();
-  @Output() logoutEvent = new EventEmitter<void>();
-
-  avatar: string; // url
 
   subSink = new SubSink();
 
+  // chat
   unreadChatMessages: Observable<number>
+
+  // notifications
   page = 0;
   pageSize = 10; // TODO: AppSettings -> NotificationsPageSize
   unreadNotificationCounter = 0;
   notifications: PushNotification[] = [];
-  items = Array.from({ length: 100 }).map((_, i) => `Item #${i}`);
-
   stopFetch = false;
-  userId: string;
+
+  userInfo: {
+    userId: string;
+    avatar: string;
+    fullName: string;
+    isCoach: boolean;
+    isAthlete: boolean;
+  }
+
+  loading$: Observable<boolean>;
 
   ngOnInit(): void {
+
+    // set observable for main progress bar
+    this.loading$ = getLoadingState(this.store, UIProgressBar.MainAppScreen);;
 
     this.unreadChatMessages = this.store.select(totalUnreadChatMessages);
 
@@ -49,24 +62,28 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     // only new ones.. in real time
     // this.notifications$ = this.notificationService.notifications$;
     this.subSink.add(
-      this.store.select(currentUser).pipe(map(x => x?.avatar)).subscribe(avatar => this.avatar = avatar),
-      this.notificationService.notifications$.subscribe(
-        (notification: PushNotification) => {
+      this.store.select(currentUser)
+      .subscribe(user => {
+        this.userInfo = {
+          userId: user.id,
+          isCoach: user.accountType == AccountType.Coach || user.accountType == AccountType.Admin,
+          isAthlete: user.accountType == AccountType.Athlete,
+          fullName: user.fullName,
+          avatar: user?.avatar,
+        }
+      }),
+
+      this.notificationService.notifications$
+      .subscribe((notification: PushNotification) => {
 
           this.notifications = [notification, ...this.notifications];
           !notification.read && this.unreadNotificationCounter++;
 
           // do stuff... Display some toastr or something for new notifications while user is logged in
-        },
-        err => console.log(err)
-      )
+      }),
     );
 
-    this.store.select(currentUserId).pipe(take(1))
-    .subscribe(id => {
-      this.userId = id;
-      this.getHistory(id, this.page++, this.pageSize);
-    });
+    setTimeout(_ => this.getHistory(this.userInfo.userId, this.page++, this.pageSize));
   }
 
   ngOnDestroy(): void {
@@ -84,7 +101,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   // }
 
   loadMoreNotifications() {
-    this.getHistory(this.userId, this.page++, this.pageSize);
+    this.getHistory(this.userInfo.userId, this.page++, this.pageSize);
   }
 
   getHistory(userId, page, pageSize) {
@@ -117,5 +134,24 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.unreadNotificationCounter--;
     this.notificationService.readNotification(notification.id);
     return;
+  }
+
+  onOpenSettings(section: string = 'General') {
+    this.UIService.openDialogFromComponent(SettingsComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '58rem',
+      autoFocus: false,
+      data: { title: 'Settings', section },
+      panelClass: ['settings-dialog-container']
+    });
+  }
+
+  onLogout() {
+    this.store.dispatch(logout());
+  }
+
+  onToggleSidebar() {
+    this.UIService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
   }
 }

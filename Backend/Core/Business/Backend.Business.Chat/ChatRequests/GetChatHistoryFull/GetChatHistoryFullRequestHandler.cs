@@ -12,18 +12,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Business.Chat.ChatRequests.GetChatHistory
 {
-    public class GetChatHistoryRequestHandler : IRequestHandler<GetChatHistoryRequest, IEnumerable<MessageViewModel>>
+    public class GetChatHistoryFullRequestHandler : IRequestHandler<GetChatHistoryFullRequest, IEnumerable<MessageViewModel>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetChatHistoryRequestHandler(IApplicationDbContext context, IMapper mapper)
+        public GetChatHistoryFullRequestHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<MessageViewModel>> Handle(GetChatHistoryRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MessageViewModel>> Handle(GetChatHistoryFullRequest request, CancellationToken cancellationToken)
         {
             try
             {
