@@ -6,18 +6,22 @@ import { AuthEffects } from './auth/auth.effects';
 import { authReducer } from './auth/auth.reducers';
 import { AuthState } from './auth/auth.state';
 import { clearState } from './clear-state.reducer';
+import { navigationsReducer } from './navigation/navigation.reducer';
+import { NavigationState } from './navigation/navigation.state';
 import { UIEffects } from './user-interface/ui.effects';
 import { uiReducer } from './user-interface/ui.reducers';
 import { UIState } from './user-interface/ui.state';
 
 export interface AppState {
   router: RouterReducerState,
+  navigation: NavigationState,
   auth: AuthState,
   ui: UIState,
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: routerReducer,
+  navigation: navigationsReducer,
   auth: authReducer,
   ui: uiReducer,
 };
