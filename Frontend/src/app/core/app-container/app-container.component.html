@@ -7,7 +7,9 @@
   <mat-sidenav-content class="main-sidenav-content">
 
     <app-toolbar *ngIf="!showTabs"></app-toolbar>
+
     <router-outlet class="main-router-outlet"></router-outlet>
+
     <app-tabs *ngIf="showTabs"></app-tabs>
 
     <app-chat-small *ngIf="showSmallChat" [config]="chatConfig" [userId]="userId"></app-chat-small>
