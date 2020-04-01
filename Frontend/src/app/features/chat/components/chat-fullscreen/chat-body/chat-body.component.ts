@@ -78,7 +78,6 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('destroyed')
     this.subs.unsubscribe();
   }
 

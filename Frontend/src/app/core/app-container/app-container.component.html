@@ -6,17 +6,11 @@
 
   <mat-sidenav-content class="main-sidenav-content">
 
-    <span [ngClass]="{'invisible-overflow-y': (isAthlete | async)}">
-      <app-toolbar></app-toolbar>
+    <app-toolbar *ngIf="!showTabs"></app-toolbar>
+    <router-outlet class="main-router-outlet"></router-outlet>
+    <app-tabs *ngIf="showTabs"></app-tabs>
 
-      <router-outlet [ngClass]="{'main-router-outlet': !(isAthlete | async)}"></router-outlet>
-    </span>
-
-    <app-tabs *ngIf="mediaObserver.isActive('lt-sm') && (isAthlete | async)"></app-tabs>
-
-    <app-chat-small *ngIf="!(fullScreenChatActive | async) && !mediaObserver.isActive('lt-md')"
-    [config]="chatConfig" [userId]="userId"
-    ></app-chat-small>
+    <app-chat-small *ngIf="showSmallChat" [config]="chatConfig" [userId]="userId"></app-chat-small>
 
     </mat-sidenav-content>
 
