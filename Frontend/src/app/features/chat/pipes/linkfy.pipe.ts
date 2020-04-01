@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 */
 @Pipe({name: 'linkfy'})
 export class LinkfyPipe implements PipeTransform {
-    transform(message: string, pipeEnabled: boolean): string {
+    transform(message: string, pipeEnabled: boolean = true): string {
         if (pipeEnabled && message && message.length > 1)
         {
             let replacedText;
@@ -29,5 +29,5 @@ export class LinkfyPipe implements PipeTransform {
         }
         else
             return message;
-    } 
+    }
 }

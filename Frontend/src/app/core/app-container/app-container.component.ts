@@ -96,7 +96,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   }
 
   get showSmallChat() : boolean {
-    return this.fullScreenChatActive && !this.mediaObserver.isActive('lt-md')
+    return !this.fullScreenChatActive && !this.mediaObserver.isActive('lt-md')
   }
 
 
