@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable, of } from 'rxjs';
 import { BottomNavigation } from 'src/ngrx/navigation/navigation.state';
 
@@ -78,12 +78,21 @@ export class TabsComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.activeNavigation = BottomNavigation.Main;
     this.mainIndex = 0;
     this.chatIndex = 2;
+
+    this.mainLinks.forEach(mLink => {
+      // contains
+      if(this.router.url.includes(mLink.route)) {
+        this.mainIndex = this.mainLinks.indexOf(mLink);
+      }
+    });
+
   }
 
   onMainChange(event: MatTabChangeEvent) {
