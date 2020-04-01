@@ -1,4 +1,5 @@
-<mat-tab-group *ngIf="activeNavigation == navigation.Main" [selectedIndex]="mainIndex" (selectedTabChange)="onMainChange($event)" #main headerPosition="below" mat-stretch-tabs>
+<mat-tab-group *ngIf="activeNavigation == navigation.Main" [selectedIndex]="mainIndex" (selectedTabChange)="onMainChange($event)"
+#main headerPosition="below" mat-stretch-tabs [disablePagination]="true">
   <ng-container *ngFor="let link of mainLinks">
 
     <mat-tab *ngIf="link.canNavigate" [active]="link.routeActive">
@@ -11,20 +12,4 @@
 
   </ng-container>
 </mat-tab-group>
-<!--
-<mat-tab-group *ngIf="activeNavigation == navigation.Chat" [selectedIndex]="chatIndex" (selectedTabChange)="onChatChange($event)" #chat headerPosition="below" mat-stretch-tabs >
-
-  <ng-container *ngFor="let link of chatLinks">
-
-    <mat-tab *ngIf="link.canNavigate" [active]="link.routeActive">
-      <ng-template mat-tab-label>
-        <button mat-icon-button color="accent" [disableRipple]="true">
-          <i class="{{link.icon}} fa-1-5x"></i>
-        </button>
-      </ng-template>
-    </mat-tab>
-
-  </ng-container>
-
-</mat-tab-group> -->
 
