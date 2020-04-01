@@ -18,7 +18,7 @@ fxLayout="row" [fxLayoutAlign]="(userInfo.isAthlete && mediaObserver.isActive('l
     <!--MESSENGER-->
     <i *ngIf="!canShowToAthlete" id="messaging" routerLink="/app/chat" class="fas fa-comments"
     [matBadge]="(unreadChatMessages | async)"
-    matBadgeColor="accent"
+    matBadgeColor="warn"
     [matBadgeHidden]="(unreadChatMessages | async) == 0"></i>
 
     <!--NOTIFICATIONS-->
