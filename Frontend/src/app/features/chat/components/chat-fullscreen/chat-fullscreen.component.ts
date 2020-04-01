@@ -27,7 +27,6 @@ import { ChatBodyComponent } from './chat-body/chat-body.component';
 })
 export class ChatFullscreenComponent implements OnInit, OnDestroy {
 
-
   @ViewChild('tabs') tabs: MatTabGroup;
   @ViewChild('chatBody') chatBody: ChatBodyComponent;
 
@@ -51,7 +50,9 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
 
     setTimeout(() => this.store.dispatch(setFullscreenChatActive({ active: true })))
 
+
     this.subs.add(
+
       // theme
       this.store.select(activeTheme)
         .subscribe(theme => {

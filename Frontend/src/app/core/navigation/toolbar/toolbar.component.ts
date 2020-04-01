@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -26,7 +27,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   constructor(
     private notificationService: NotificationSignalrService,
     private store: Store<AppState>,
-    private UIService: UIService
+    private UIService: UIService,
+    public mediaObserver: MediaObserver
   ) { }
 
   subSink = new SubSink();
@@ -51,10 +53,16 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   loading$: Observable<boolean>;
 
+
+  public get canShowToAthlete() : boolean {
+    return this.userInfo.isAthlete && this.mediaObserver.isActive('lt-sm');
+  }
+
+
   ngOnInit(): void {
 
     // set observable for main progress bar
-    this.loading$ = getLoadingState(this.store, UIProgressBar.MainAppScreen);;
+    this.loading$ = getLoadingState(this.store, UIProgressBar.MainAppScreen);
 
     this.unreadChatMessages = this.store.select(totalUnreadChatMessages);
 
@@ -154,4 +162,5 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   onToggleSidebar() {
     this.UIService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
   }
+
 }
