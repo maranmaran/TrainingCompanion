@@ -105,7 +105,7 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
         if (!messages || messages.length == 0)
           return this.noMoreData.next(false);
 
-        this.window.nativeElement.scrollTop = 20;
+        this.window.nativeElement.scrollTop = 5;
 
         this.pagingModel.page += 1;
         this.messages = [...messages, ...this.messages]
@@ -125,6 +125,7 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
   messagesFetched(messages: Message[], direction: ScrollDirection): void {
     this.messages = messages;
     this.pagingModel.page += 1;
+    this.pagingModel.pageSize = 10;
 
     this.markMessagesSeen(messages);
     this.store.dispatch(allMessagesSeen({ friendId: this.friend.id }));
