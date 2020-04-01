@@ -4,7 +4,7 @@ import { MediaObserver } from '@angular/flex-layout';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { delay, exhaustMap, filter, map, take, takeUntil } from 'rxjs/operators';
+import { delay, exhaustMap, filter, map, take, takeUntil, tap } from 'rxjs/operators';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { allMessagesSeen } from 'src/ngrx/chat/chat.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -73,7 +73,7 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
     // 600 ms is default transition for tabs
     //https://material.angular.io/components/tabs/api#MatTabsConfig
     let tabsAnimationDelay = 600;
-    if(changes.friend.currentValue && changes.friend.currentValue.id != changes.friend.previousValue?.id)
+    if (changes.friend.currentValue && changes.friend.currentValue.id != changes.friend.previousValue?.id)
       setTimeout(_ => this.init(changes.friend.currentValue), this.mediaObserver.isActive('lt-md') ? tabsAnimationDelay : 0);
   }
 
@@ -92,7 +92,7 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
   init(friend) {
     this.friend = friend;
     this.audioFile = this.chatService.bufferAudioFile(this.config);
-    this.pagingModel = new PagingModel({ pageSize: 10 });
+    this.pagingModel = new PagingModel({ pageSize: 20 });
 
     if (this.textCache?.id == this.friend.id)
       this.messageText.setValue(this.textCache.message);
@@ -102,10 +102,11 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
     this.subs.add(
       this.onScroll().subscribe(messages => {
 
-        if(!messages || messages.length == 0)
+        if (!messages || messages.length == 0)
           return this.noMoreData.next(false);
 
-        console.log(messages.map(x => x.message));
+        this.window.nativeElement.scrollTop = 20;
+
         this.pagingModel.page += 1;
         this.messages = [...messages, ...this.messages]
       })
@@ -115,10 +116,10 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
 
   getMessageHistory(friendId: string) {
     return this.signalrService.getMessageHistory(friendId, this.pagingModel)
-    .pipe(
-      take(1),
-      map(messages => this.chatService.assertMessageTypes(messages))
-    );
+      .pipe(
+        take(1),
+        map(messages => this.chatService.assertMessageTypes(messages))
+      );
   }
 
   messagesFetched(messages: Message[], direction: ScrollDirection): void {
@@ -155,9 +156,10 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   scrollChatWindow(direction: ScrollDirection): void {
-    if(this.window) {
+    if (this.window) {
       setTimeout(_ => {
         let element = this.window.nativeElement;
+        this.scrollYPosition = element.scrollHeight;
         let position = (direction === ScrollDirection.Top) ? 0 : element.scrollHeight;
         element.scrollTop = position;
       })
@@ -207,10 +209,15 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(() => (this.autosizeTextarea.resizeToFitContent(true)));
   }
 
+  private scrollYPosition = 0;
+  private upScroll: boolean;
   onScroll() {
     return this.scrollEvent
       .pipe(
-        filter(event => event?.target?.scrollTop <= 50),
+        map(event => event?.target?.scrollTop),
+        tap(scrollTop => this.upScroll = scrollTop - this.scrollYPosition < 0),
+        map(scrollTop => this.scrollYPosition = scrollTop),
+        filter(scrollTop => scrollTop <= 50 && this.upScroll),
         takeUntil(this.noMoreData),
         exhaustMap(_ => this.getMessageHistory(this.friend.id).pipe(delay(500))),
       );
