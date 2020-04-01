@@ -3,7 +3,6 @@ import { MediaObserver } from '@angular/flex-layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ChatTheme } from 'src/app/features/chat/models/enums/chat-theme.enum';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
@@ -33,12 +32,14 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   @ViewChild(MatSidenav, { static: true }) sidenav: MatSidenav;
   @ViewChild(ToolbarComponent, { static: true }) toolbar: ToolbarComponent;
 
-  isAthlete: Observable<boolean>;
+  isAthlete: boolean;
+  showTabsNavigation: boolean;
+
   theme: ChatTheme;
   userId: string;
 
   // chat variables
-  fullScreenChatActive: Observable<boolean>;
+  fullScreenChatActive: boolean;
   chatConfig: ChatConfiguration;
 
   private section: string; // for routing to settings
@@ -61,10 +62,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     // chat configurations
-    setTimeout(() => this.fullScreenChatActive = this.store.select(isFullScreenChatActive));
     this.chatConfig = this.chatService.getChatConfiguration(this.theme);
-
-    this.isAthlete = this.store.select(isAthlete);
 
     // set sidenav
     this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);
@@ -72,10 +70,14 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     // chat theme subscription
     this.subs.add(
       this.store.select(activeTheme)
-        .subscribe((theme: Theme) => {
-          this.theme = ChatTheme[theme]
-          this.chatConfig.theme = ChatTheme[theme];
-        }),
+      .subscribe((theme: Theme) => {
+        this.theme = ChatTheme[theme]
+        this.chatConfig.theme = ChatTheme[theme];
+      }),
+      this.store.select(isAthlete)
+      .subscribe(isAthlete => this.isAthlete = isAthlete),
+      this.store.select(isFullScreenChatActive)
+      .subscribe(isFullScreenChatActive => this.fullScreenChatActive = isFullScreenChatActive),
     );
 
     // if routing to settings -> open dialog with specific section from route data
@@ -86,6 +88,15 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+
+  get showTabs() : boolean {
+    return this.mediaObserver.isActive('lt-sm') && this.isAthlete;
+  }
+
+  get showSmallChat() : boolean {
+    return this.fullScreenChatActive && !this.mediaObserver.isActive('lt-md')
   }
 
 

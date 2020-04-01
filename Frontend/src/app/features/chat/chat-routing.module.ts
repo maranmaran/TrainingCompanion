@@ -3,8 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { ChatFullscreenComponent } from './components/chat-fullscreen/chat-fullscreen.component';
 
 const routes: Routes = [
-    { path: '', component: ChatFullscreenComponent, resolve: { }, children: [
-    ]},
+    { path: '', component: ChatFullscreenComponent, resolve: { }},
+    // { path: 'friends', component: FriendListComponent, resolve: { }},
+    // { path: 'messages', component: ChatBodyRouteComponent, resolve: { }},
     { path: '**', redirectTo: '/' }, //always last
 ];
 

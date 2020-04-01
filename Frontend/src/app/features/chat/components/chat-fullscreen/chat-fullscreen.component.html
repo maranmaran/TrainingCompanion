@@ -12,7 +12,7 @@
 </mat-drawer-container>
 
 <!--MOBILE-->
-<mat-tab-group #tabs mat-stretch-tabs *ngIf="mediaObserver.isActive('lt-md')" headerPosition="below" dynamicHeight mat-align-tabs="center">
+<mat-tab-group #tabs mat-stretch-tabs *ngIf="mediaObserver.isActive('lt-md')" headerPosition="below" dynamicHeight>
 
   <mat-tab #chatTab>
     <ng-template mat-tab-label>
@@ -20,9 +20,9 @@
         <i class="fas fa-comments fa-1-5x"></i>
       </button>
     </ng-template>
-      <div style="height: calc(100vh - 181px + 68px)">
-        <app-chat-body #chatBody *ngIf="selectedFriend" [friend]="selectedFriend" [config]="config"></app-chat-body>
-      </div>
+    <div style="height: calc(100vh - 181px + 76px)">
+      <app-chat-body #chatBody *ngIf="selectedFriend" [friend]="selectedFriend" [config]="config"></app-chat-body>
+    </div>
   </mat-tab>
 
   <mat-tab #friendsTab>
@@ -31,10 +31,9 @@
         <i class="fas fa-user-friends fa-1-5x"></i>
       </button>
     </ng-template>
-      <div style="height: calc(100vh - 181px + 68px); overflow-y: auto">
-        <app-friend-list></app-friend-list>
-      </div>
+    <div style="height: calc(100vh - 181px + 76px); overflow-y: auto">
+      <app-friend-list></app-friend-list>
+    </div>
   </mat-tab>
 
 </mat-tab-group>
-

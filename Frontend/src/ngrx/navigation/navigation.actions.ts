@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { AthleteBottomNavigation } from './navigation.state';
+import { BottomNavigation } from './navigation.state';
 
-export const athleteActiveBottomNav = createAction('[Navigation - Athlete] Set active nav', props<{ nav: AthleteBottomNavigation }>());
-export const athleteActiveTab = createAction('[Navigation - Athlete] Set active tab', props<{ tab: number }>());
-export const athletePreviousRoute = createAction('[Navigation - Athlete] Set previous route', props<{ route: string }>());
+export const setActiveNavigation = createAction('[Navigation - Athlete] Set active navigation', props<{ nav: BottomNavigation }>());
+export const setActiveTab = createAction('[Navigation - Athlete] Set active tab', props<{ tab: number }>());
+export const setPreviousRoute = createAction('[Navigation - Athlete] Set previous route', props<{ route: string }>());

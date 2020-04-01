@@ -1,4 +1,4 @@
-export enum AthleteBottomNavigation {
+export enum BottomNavigation {
   Main = 0,
   Chat = 1,
   Dashboard = 2,
@@ -8,15 +8,15 @@ export enum AthleteBottomNavigation {
 
 export interface NavigationState {
   // athlete routes and navigation (tabs)
-  athleteActiveNavigation: AthleteBottomNavigation,
-  athleteActiveTabIdx: number;
-  athletePreviousRoute: string;
+  activeNavigation: BottomNavigation,
+  activeTab: number;
+  previousRoute: string;
 }
 
 export const navigationInitialState: NavigationState = {
-  athleteActiveNavigation: AthleteBottomNavigation.Main,
-  athleteActiveTabIdx: 0,
-  athletePreviousRoute: undefined
+  activeNavigation: BottomNavigation.Main,
+  activeTab: 0,
+  previousRoute: undefined
 }
 
 
