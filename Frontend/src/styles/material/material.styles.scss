@@ -41,6 +41,10 @@
   display: block !important;
 }
 
+.mat-toolbar-row, .mat-toolbar-single-row {
+  height: 56px !important; //constant height
+}
+
 .navlist {
   padding-top: 0 !important;
 }
