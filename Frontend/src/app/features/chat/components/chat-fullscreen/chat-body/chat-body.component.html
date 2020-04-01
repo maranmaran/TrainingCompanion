@@ -19,7 +19,7 @@
             [ngClass]="{'my-message': message.fromId == userId, 'friend-message': message.fromId != userId}"
             fxLayout="column">
 
-            <div class="body">{{message.message}}</div>
+            <div class="body"><div [innerHtml]="message.message | emojify | linkfy"></div></div>
             <div class="date" fxFlexAlign="end">{{message.dateSent | date: config.messageDatePipeFormat }}</div>
        </div>
      </div>

@@ -125,7 +125,6 @@ export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
   messagesFetched(messages: Message[], direction: ScrollDirection): void {
     this.messages = messages;
     this.pagingModel.page += 1;
-    this.pagingModel.pageSize = 10;
 
     this.markMessagesSeen(messages);
     this.store.dispatch(allMessagesSeen({ friendId: this.friend.id }));
