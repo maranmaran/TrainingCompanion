@@ -20,9 +20,11 @@
         <i class="fas fa-comments fa-1-5x"></i>
       </button>
     </ng-template>
-    <div style="height: calc(100vh - 181px + 76px)">
-      <app-chat-body #chatBody *ngIf="selectedFriend" [friend]="selectedFriend" [config]="config"></app-chat-body>
-    </div>
+    <ng-template matTabContent>
+      <div style="height: calc(100vh - 56px - 49px)">
+        <app-chat-body #chatBody *ngIf="selectedFriend" [friend]="selectedFriend" [config]="config"></app-chat-body>
+      </div>
+    </ng-template>
   </mat-tab>
 
   <mat-tab #friendsTab>
@@ -31,9 +33,11 @@
         <i class="fas fa-user-friends fa-1-5x"></i>
       </button>
     </ng-template>
-    <div style="height: calc(100vh - 181px + 76px); overflow-y: auto">
-      <app-friend-list></app-friend-list>
-    </div>
+    <ng-template matTabContent>
+      <div style="height: calc(100vh -56px - 49px); overflow-y: auto">
+        <app-friend-list></app-friend-list>
+      </div>
+    </ng-template>
   </mat-tab>
 
 </mat-tab-group>
