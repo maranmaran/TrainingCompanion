@@ -22,7 +22,7 @@ export const selectedFriend = createSelector(
 );
 export const selectedFriendWindow = createSelector(
   selectChatState,
-  (chatState: ChatState) => chatState.windows[chatState.selectedFriend.id]
+  (chatState: ChatState) => Object.assign({}, chatState.windows[chatState.selectedFriend.id])
 );
 export const totalUnreadChatMessages = createSelector(
   selectChatState,
