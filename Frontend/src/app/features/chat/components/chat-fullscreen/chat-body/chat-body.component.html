@@ -27,7 +27,7 @@
 
   <form [formGroup]="form" >
     <mat-form-field class="text-input">
-      <textarea matInput
+      <textarea #messageInput matInput
         cdkTextareaAutosize
         [cdkAutosizeMinRows]="1"
         [cdkAutosizeMaxRows]="5"

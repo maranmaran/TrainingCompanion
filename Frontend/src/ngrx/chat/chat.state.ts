@@ -3,6 +3,7 @@ import { IChatParticipant } from './../../app/features/chat/models/chat-particip
 import { ParticipantMetadata } from './../../app/features/chat/models/participant-metadata.model';
 
 export interface ChatState {
+    windows: {[key: string]: Window},
     friends: IChatParticipant[],
     friendsMetadata: ParticipantMetadata[],
     selectedFriend: IChatParticipant,
@@ -11,6 +12,7 @@ export interface ChatState {
 }
 
 export const initialChatState: ChatState = {
+    windows: undefined,
     friends: undefined,
     friendsMetadata: undefined,
     selectedFriend: undefined,

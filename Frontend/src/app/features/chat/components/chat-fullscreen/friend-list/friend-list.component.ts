@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { setSelectedFriend } from 'src/ngrx/chat/chat.actions';
 import { friends, friendsMetadata } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -11,7 +10,6 @@ import { SubSink } from 'subsink';
 import { selectedFriend } from './../../../../../../ngrx/chat/chat.selectors';
 import { IChatParticipant } from './../../../models/chat-participant.model';
 import { ParticipantMetadata } from './../../../models/participant-metadata.model';
-import { ChatSignalrService } from './../../../services/chat-signalr.service';
 
 @Component({
   selector: 'app-friend-list',
@@ -29,8 +27,6 @@ export class FriendListComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private chatService: ChatService,
-    private signalrService: ChatSignalrService
   ) { }
 
   ngOnInit(): void {
