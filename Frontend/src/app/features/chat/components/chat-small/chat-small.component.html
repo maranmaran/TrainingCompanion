@@ -1,37 +1,37 @@
-<div id="ng-chat" *ngIf="isBootstrapped && !unsupportedViewport" [ngClass]="config?.theme">
+<div id="ng-chat" *ngIf="chat.isBootstrapped && !chat.unsupportedViewport" [ngClass]="chat.config?.theme">
 
   <!--MENU-->
-  <div *ngIf="!config.hideFriendsList" id="ng-chat-people"
-    [ngClass]="{'primary-outline-color': true, 'primary-background': true, 'ng-chat-people-collapsed': config?.isCollapsed}">
+  <div *ngIf="!chat.config.hideFriendsList" id="ng-chat-people" class="primary-outline-color primary-background"
+    [ngClass]="{'ng-chat-people-collapsed': chat.config?.isCollapsed}">
 
     <!--TITLE-->
-    <a class="ng-chat-title secondary-background shadowed" (click)="onChatTitleClicked($event)">
-      {{config.localization.title}}
+    <a class="ng-chat-title secondary-background shadowed" (click)="chat.onChatTitleClicked($event)">
+      {{chat.config.localization.title}}
     </a>
 
     <!--FILTER-->
-    <input *ngIf="config.searchEnabled" id="ng-chat-search_friend" class="friends-search-bar" type="search"
-      [placeholder]="config.localization.searchPlaceholder" [(ngModel)]="searchInput" />
+    <input *ngIf="chat.config.searchEnabled" id="ng-chat-search_friend" class="friends-search-bar" type="search"
+      [placeholder]="chat.config.localization.searchPlaceholder" [(ngModel)]="chat.searchInput" />
 
     <!--USERS-->
-    <ul id="ng-chat-users" *ngIf="!config?.isCollapsed" [ngClass]="{'offset-search': config.searchEnabled}">
-      <li *ngFor="let user of filteredParticipants">
+    <ul id="ng-chat-users" *ngIf="!chat.config?.isCollapsed" [ngClass]="{'offset-search': chat.config.searchEnabled}">
+      <li *ngFor="let friend of chat.filteredFriends">
         <!-- USER ROW -->
-        <div [ngClass]="{'ng-chat-friends-list-selectable-offset': currentActiveOption, 'ng-chat-friends-list-container': true}"
-          (click)="openChatWindow(user, true, true)">
+        <div class="ng-chat-friends-list-container"
+          (click)="chat.openChatWindow(friend, true, true)">
 
-          <div *ngIf="!user.avatar" class="icon-wrapper">
+          <div *ngIf="!friend.avatar" class="icon-wrapper">
             <i class="user-icon"></i>
           </div>
 
-          <img *ngIf="user.avatar" class="avatar" height="30" width="30"
-            [src]="sanitizer.bypassSecurityTrustResourceUrl(user.avatar)" />
+          <img *ngIf="friend.avatar" class="avatar" height="30" width="30"
+            [src]="sanitizer.bypassSecurityTrustResourceUrl(friend.avatar)" />
 
-          <strong title="{{user.displayName}}">{{user.displayName}}</strong>
+          <strong title="{{friend.displayName}}">{{friend.displayName}}</strong>
 
-          <span *ngIf="unreadMessagesTotalByParticipant(user).length > 0"
+          <span *ngIf="chat.unreadMessagesTotalByFriend(friend).length > 0"
             class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">
-            {{unreadMessagesTotalByParticipant(user)}}
+            {{chat.unreadMessagesTotalByFriend(friend)}}
           </span>
         </div>
       </li>
@@ -39,16 +39,17 @@
   </div>
 
   <!--CHAT WINDOWS-->
-  <div *ngFor="let window of windows; let i = index"
+  <div *ngFor="let window of chat.windows; let i = index"
     class="ng-chat-window primary-outline-color"
     [ngClass]="{'ng-chat-window-collapsed': window.isCollapsed}"
-    [ngStyle]="{'right': (!config.hideFriendsList ? friendsListWidth : 0) + 20 + windowSizeFactor * i + 'px'}">
+    [ngStyle]="{'right': (!chat.config.hideFriendsList ? chat.friendsListWidth : 0) + 20 + chat.windowSizeFactor * i + 'px'}">
 
+    <!--Header template-->
     <ng-template #windowHeader let-window="window">
       <div class="ng-chat-title secondary-background"
       fxLayout="row" fxLayoutAlign="space-between center">
 
-        <div class="ng-chat-title-visibility-toggle-area" (click)="onChatWindowClicked(window)"
+        <div class="ng-chat-title-visibility-toggle-area" (click)="chat.onChatWindowClicked(window)"
         fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
 
           <ng-container>
@@ -63,39 +64,38 @@
             {{window.participant.displayName}}
           </strong>
 
-          <span *ngIf="unreadMessagesTotal(window).length > 0"
+          <span *ngIf="chat.unreadMessagesTotal(window).length > 0"
             class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">
-            {{unreadMessagesTotal(window)}}
+            {{chat.unreadMessagesTotal(window)}}
           </span>
 
         </div>
 
-        <button mat-icon-button class="mat-icon-button__small" color="accent" (click)="onCloseChatWindow(window)">
+        <button mat-icon-button class="mat-icon-button__small" color="accent" (click)="chat.onCloseChatWindow(window)">
           <i class="fas fa-times"></i>
         </button>
 
       </div>
     </ng-template>
 
+    <!--closed window-->
     <ng-container *ngIf="window.isCollapsed">
       <ng-container *ngTemplateOutlet="windowHeader; context: { window: window }"></ng-container>
     </ng-container>
 
+    <!--Open window-->
     <ng-container *ngIf="!window.isCollapsed">
       <ng-container *ngTemplateOutlet="windowHeader; context: { window: window }"></ng-container>
-      <div #chatMessages class="ng-chat-messages primary-background">
+
+      <div #messageSection class="ng-chat-messages primary-background">
         <div *ngIf="window.isLoadingHistory" class="ng-chat-loading-wrapper">
           <div class="loader">Loading history...</div>
         </div>
-        <div *ngIf="hasPagedHistory && window.hasMoreMessages && !window.isLoadingHistory" class="ng-chat-load-history">
-          <a class="load-history-action"
-            (click)="fetchMessageHistory(window)">{{config.localization.loadMessageHistoryPlaceholder}}</a>
-        </div>
 
         <div *ngFor="let message of window.messages; let i = index" class="ng-chat-message"
-          [ngClass]="{'ng-chat-message-received': message.fromId != userId}">
+          [ngClass]="{'ng-chat-message-received': message.fromId != chat.userId}">
 
-          <ng-container *ngIf="chatService.isAvatarVisible(userId, window.messages, message, i)">
+          <ng-container *ngIf="chat.isAvatarVisible(chat.userId, window.messages, message, i)">
             <div *ngIf="!window.participant.avatar" class="icon-wrapper">
               <i class="user-icon"></i>
             </div>
@@ -104,59 +104,60 @@
           </ng-container>
 
           <ng-container [ngSwitch]="message.type">
-            <div *ngSwitchCase="MessageType.Text"
-              [ngClass]="{'sent-chat-message-container': message.fromId == userId, 'received-chat-message-container': message.fromId != userId}">
+            <div *ngSwitchCase="chat.MessageType.Text"
+              [ngClass]="{'sent-chat-message-container': message.fromId == chat.userId, 'received-chat-message-container': message.fromId != chat.userId}">
               <span
-                [innerHtml]="message.message | sanitizeHtml | emojify:config.emojisEnabled | linkfy:config.linkfyEnabled"></span>
-              <span *ngIf="config.showMessageDate && message.dateSent"
-                class="message-sent-date">{{message.dateSent | date:config.messageDatePipeFormat}}</span>
+                [innerHtml]="message.message | sanitizeHtml | emojify| linkfy"></span>
+              <span *ngIf="chat.config.showMessageDate && message.dateSent"
+                class="message-sent-date">{{message.dateSent | date: chat.config.messageDatePipeFormat}}</span>
             </div>
-            <div *ngSwitchCase="MessageType.File"
-              [ngClass]="{'file-message-container': true, 'received': message.fromId != userId}">
+            <div *ngSwitchCase="chat.MessageType.File" class="file-message-container"
+              [ngClass]="{'received': message.fromId != chat.userId}">
               <div class="file-message-icon-container">
                 <i class="paperclip-icon"></i>
               </div>
               <a class="file-details" [attr.href]="message.downloadUrl" target="_blank" rel="noopener noreferrer"
-                (click)="this.markMessagesAsRead([message])" download>
+                (click)="chat.markMessagesAsRead([message])" download>
                 <span class="file-message-title" [attr.title]="message.message">{{message.message}}</span>
                 <span *ngIf="message.fileSizeInBytes" class="file-message-size">{{message.fileSizeInBytes}} Bytes</span>
               </a>
             </div>
-            <div *ngSwitchCase="MessageType.Image"
-              [ngClass]="{'sent-image-message-container': message.fromId == userId, 'received-image-message-container': message.fromId != userId}">
-              <img (click)="enlargeImage(message)" class="img-fluid" src="{{message.downloadUrl}}"
+            <div *ngSwitchCase="chat.MessageType.Image"
+              [ngClass]="{'sent-image-message-container': message.fromId == chat.userId, 'received-image-message-container': message.fromId != chat.userId}">
+              <img (click)="chat.enlargeImage(message)" class="img-fluid" src="{{message.downloadUrl}}"
                 style="cursor: pointer">
-              <span *ngIf="config.showMessageDate && message.dateSent"
-                class="message-sent-date">{{message.dateSent | date:config.messageDatePipeFormat}}</span>
+              <span *ngIf="chat.config.showMessageDate && message.dateSent"
+                class="message-sent-date">{{message.dateSent | date: chat.config.messageDatePipeFormat}}</span>
             </div>
-            <div *ngSwitchCase="MessageType.Video"
-              [ngClass]="{'sent-video-message-container': message.fromId == userId, 'received-video-message-container': message.fromId != userId}">
+            <div *ngSwitchCase="chat.MessageType.Video"
+              [ngClass]="{'sent-video-message-container': message.fromId == chat.userId, 'received-video-message-container': message.fromId != chat.userId}">
               <video width="100%" height="auto" controls>
                 <source src="{{message.downloadUrl}}" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
-              <span *ngIf="config.showMessageDate && message.dateSent"
-                class="message-sent-date">{{message.dateSent | date:config.messageDatePipeFormat}}</span>
+              <span *ngIf="chat.config.showMessageDate && message.dateSent"
+                class="message-sent-date">{{message.dateSent | date: chat.config.messageDatePipeFormat}}</span>
             </div>
           </ng-container>
 
         </div>
       </div>
+
       <div class="ng-chat-footer primary-outline-color primary-background">
-        <input #chatWindowInput type="text" [ngModel]="window.newMessage | emojify:config.hideFriendsList"
-          (ngModelChange)="window.newMessage=$event" [placeholder]="config.localization.messagePlaceholder"
+        <input #messageInput type="text" [ngModel]="window.newMessage | emojify"
+          (ngModelChange)="window.newMessage=$event" [placeholder]="chat.config.localization.messagePlaceholder"
           [ngClass]="{'chat-window-input': true, 'has-side-action': uploadService}"
-          (keydown)="onChatInputTyped($event, window)" (blur)="toggleWindowFocus(window)"
-          (focus)="toggleWindowFocus(window)" />
+          (keydown)="chat.onChatInputTyped($event, window)" (blur)="chat.toggleWindowFocus(window)"
+          (focus)="chat.toggleWindowFocus(window)" />
 
         <!-- File Upload -->
-        <ng-container *ngIf="uploadService">
-          <a *ngIf="!isUploadingFile(window)" class="btn-add-file" (click)="triggerNativeFileUpload(window)">
+        <ng-container *ngIf="chat.uploadService">
+          <a *ngIf="!chat.isUploadingFile(window)" class="btn-add-file" (click)="chat.triggerNativeFileUpload(window)">
             <i class="upload-icon"></i>
           </a>
-          <input type="file" #nativeFileInput style="display: none;" [attr.id]="getUniqueFileUploadInstanceId(window)"
-            (change)="onFileChosen(window)" />
-          <div *ngIf="isUploadingFile(window)" class="loader"></div>
+          <input type="file" #fileInput style="display: none;" [attr.id]="chat.getUniqueFileUploadInstanceId(window)"
+            (change)="chat.onFileChosen(window)" />
+          <div *ngIf="chat.isUploadingFile(window)" class="loader"></div>
         </ng-container>
       </div>
     </ng-container>

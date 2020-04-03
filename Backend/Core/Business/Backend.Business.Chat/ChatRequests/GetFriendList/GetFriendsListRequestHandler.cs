@@ -21,12 +21,14 @@ namespace Backend.Business.Chat.ChatRequests.GetFriendList
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IS3Service _s3Service;
+        private readonly IMediator _mediator;
 
-        public GetFriendsListRequestHandler(IApplicationDbContext context, IMapper mapper, IS3Service s3Service)
+        public GetFriendsListRequestHandler(IApplicationDbContext context, IMapper mapper, IS3Service s3Service, IMediator mediator)
         {
             _context = context;
             _mapper = mapper;
             _s3Service = s3Service;
+            _mediator = mediator;
         }
 
         public async Task<IEnumerable<ParticipantResponseViewModel>> Handle(GetFriendsListRequest request, CancellationToken cancellationToken)
@@ -69,11 +71,23 @@ namespace Backend.Business.Chat.ChatRequests.GetFriendList
                         throw new InvalidEnumArgumentException();
                 }
 
+                GetUnreadMessages(request.UserId, friendList);
                 return friendList;
             }
             catch (Exception e)
             {
                 throw new NotFoundException("No friends were found to add to list", e);
+            }
+        }
+
+        private void GetUnreadMessages(Guid userId, IEnumerable<ParticipantResponseViewModel> friends)
+        {
+            foreach (var friend in friends)
+            {
+                friend.Metadata = new ParticipantMetadataViewModel();
+                friend.Metadata.TotalUnreadMessages = _context.ChatMessages
+                    .Where(x => x.ReceiverId == userId && x.SenderId == Guid.Parse(friend.Participant.Id))
+                    .Count(x => x.SeenAt == null);
             }
         }
     }

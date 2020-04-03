@@ -91,3 +91,7 @@ export function randomColor() {
   return (c);
 }
 
+export function isNullOrWhitespace(str: string): boolean {
+  return !str || str.trim() == '';
+}
+
