@@ -3,6 +3,10 @@ import { Localization } from './models/localization.model';
 
 export class ChatConfiguration {
 
+  constructor(config: Partial<ChatConfiguration>) {
+    Object.assign(this, config);
+  }
+
   theme = ChatTheme.Light;
   fileUploadUrl: string;
 

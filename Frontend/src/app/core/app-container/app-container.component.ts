@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { ChatTheme } from 'src/app/features/chat/models/enums/chat-theme.enum';
-import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { FeedSignalrService } from 'src/business/services/feature-services/feed-signalr.service';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -50,7 +49,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     public store: Store<AppState>,
     private route: ActivatedRoute,
     private uiService: UIService,
-    public chatService: ChatService,
+    // public chatService: ChatService,
     private notificationService: NotificationSignalrService, // just here to be instantiated
     private feedSignalrService: FeedSignalrService, // just here to be instantiated
     private chatSignalrService: ChatSignalrService, // just here to be instantiated
@@ -62,7 +61,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     // chat configurations
-    this.chatConfig = this.chatService.getChatConfiguration(this.theme);
+    // this.chatConfig = this.chatService.getChatConfiguration(this.theme);
 
     // set sidenav
     this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);
@@ -72,7 +71,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
       this.store.select(activeTheme)
       .subscribe((theme: Theme) => {
         this.theme = ChatTheme[theme]
-        this.chatConfig.theme = ChatTheme[theme];
+        // this.chatConfig.theme = ChatTheme[theme];
       }),
       this.store.select(isAthlete)
       .subscribe(isAthlete => this.isAthlete = isAthlete),
