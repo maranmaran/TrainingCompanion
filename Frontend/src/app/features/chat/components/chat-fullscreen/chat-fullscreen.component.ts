@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
-import { distinctUntilKeyChanged } from 'rxjs/operators';
 import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { setFullscreenChatActive } from 'src/ngrx/chat/chat.actions';
@@ -34,7 +33,7 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
 
     // listen to friend list selection and handle tab change
     this.subs.add(
-      this.store.select(selectedFriend).pipe(distinctUntilKeyChanged('friend'))
+      this.store.select(selectedFriend)
       .subscribe(_ => {
         // new friend
         if(!this.mediaObserver.isActive('lt-md')) return; // do nothing if tabs are not active

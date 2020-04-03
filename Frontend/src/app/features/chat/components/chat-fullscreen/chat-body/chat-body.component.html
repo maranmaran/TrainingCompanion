@@ -1,26 +1,26 @@
-<div *ngIf="isBootstrapped" class="chat-body-container" fxLayout="column" fxLayoutAlign="space-between">
+<div *ngIf="chat.isBootstrapped" class="chat-body-container" fxLayout="column" fxLayoutAlign="space-between">
 
   <div #chatWindow class="messages" (scroll)="scrollEvent.next($event)">
-     <div class="message-row mb-3" *ngFor="let message of messages; let i = index"
-      fxLayout="row" [fxLayoutAlign]="message.fromId == userId ? 'end center' : 'start center'">
+     <div class="message-row mb-3" *ngFor="let message of chat.windows[0].messages; let i = index"
+      fxLayout="row" [fxLayoutAlign]="message.fromId == chat.userId ? 'end center' : 'start center'">
 
-      <ng-container *ngIf="chatService.isAvatarVisible(userId, messages, message, i); else fillerBlock">
-        <div *ngIf="!friend.avatar" class="icon-wrapper">
+      <ng-container *ngIf="chat.isAvatarVisible(chat.userId, chat.windows[0].messages, message, i); else fillerBlock">
+        <div *ngIf="!chat.friends[0].avatar" class="icon-wrapper">
           <i class="user-icon"></i>
         </div>
-        <img *ngIf="friend.avatar" class="avatar" height="30" width="30"
-          [src]="friend.avatar" />
+        <img *ngIf="chat.friends[0].avatar" class="avatar" height="30" width="30"
+          [src]="chat.friends[0].avatar" />
       </ng-container>
       <ng-template #fillerBlock>
          <div style="width: 30px; height: 30px"></div>
       </ng-template>
 
        <div class="ml-2 message mat-elevation-z3"
-            [ngClass]="{'my-message': message.fromId == userId, 'friend-message': message.fromId != userId}"
+            [ngClass]="{'my-message': message.fromId == chat.userId, 'friend-message': message.fromId != chat.userId}"
             fxLayout="column">
 
             <div class="body"><div [innerHtml]="message.message | emojify | linkfy"></div></div>
-            <div class="date" fxFlexAlign="end">{{message.dateSent | date: config.messageDatePipeFormat }}</div>
+            <div class="date" fxFlexAlign="end">{{message.dateSent | date: chat.config.messageDatePipeFormat }}</div>
        </div>
      </div>
   </div>
@@ -51,6 +51,6 @@
   </form>
 </div>
 
-<div class="h-100 w-100" *ngIf="!isBootstrapped" fxLayout="row" fxLayoutAlign="center center">
+<div class="h-100 w-100" *ngIf="!chat.isBootstrapped" fxLayout="row" fxLayoutAlign="center center">
   <mat-spinner></mat-spinner>
 </div>

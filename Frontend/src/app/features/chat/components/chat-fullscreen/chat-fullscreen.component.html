@@ -6,7 +6,7 @@
 
   <mat-drawer-content class="content">
     <div class="container mat-elevation-z5">
-      <app-chat-body *ngIf="selectedFriend" [friend]="selectedFriend" [config]="config"></app-chat-body>
+      <app-chat-body></app-chat-body>
     </div>
   </mat-drawer-content>
 </mat-drawer-container>
@@ -22,7 +22,7 @@
     </ng-template>
     <ng-template matTabContent>
       <div style="height: calc(100vh - 56px - 49px); overflow-y: auto">
-        <app-chat-body #chatBody *ngIf="selectedFriend" [friend]="selectedFriend" [config]="config"></app-chat-body>
+        <app-chat-body #chatBody></app-chat-body>
       </div>
     </ng-template>
   </mat-tab>
