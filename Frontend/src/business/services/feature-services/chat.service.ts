@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ElementRef, Injectable, OnDestroy, QueryList } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { take, tap } from 'rxjs/operators';
@@ -22,9 +23,17 @@ import { Window } from './../../../app/features/chat/models/window.model';
 import { ChatSignalrService } from './../../../app/features/chat/services/chat-signalr.service';
 import { PagingModel } from './../../../app/shared/material-table/table-models/paging.model';
 
-
 @Injectable()
 export class ChatService implements OnDestroy {
+
+
+  //chat fullscreen
+  textCache: { id: string, message: string }
+  noMoreData = new Subject<boolean>();
+
+
+  //Chat small
+
 
   // Exposes enums
   ChatParticipantType = ChatParticipantType;
@@ -85,7 +94,7 @@ export class ChatService implements OnDestroy {
   }
 
   paramsInitialized = false;
-  setParams(userId, fileInputs, messageInputs, messageSections) {
+  setParams(userId: string, fileInputs: QueryList<ElementRef>, messageInputs: QueryList<ElementRef>, messageSections: QueryList<ElementRef>) {
     this.userId = userId;
     this.fileInputs = fileInputs;
     this.messageInputs = messageInputs;
@@ -101,8 +110,44 @@ export class ChatService implements OnDestroy {
     });
   }
 
+   // init(friend) {
+  //   this.friend = friend;
+  //   this.audioFile = this.chatService.bufferAudioFile(this.config);
 
-  bootstrapChat(window: globalThis.Window): void {
+  //   if (this.textCache?.id == this.friend.id)
+  //     this.messageText.setValue(this.textCache.message);
+
+  //   this.chatService.getMessageHistory(this.friend.id).subscribe(messages => this.messagesFetched(messages, ScrollDirection.Bottom));
+
+  //   this.subs.add(
+  //     this.onScroll().subscribe(messages => {
+
+  //       if (!messages || messages.length == 0)
+  //         return this.noMoreData.next(false);
+
+  //       this.window.nativeElement.scrollTop = 5;
+
+  //       this.chatService.pagingModel.page += 1;
+  //       this.messages = [...messages, ...this.messages]
+  //     })
+  //   )
+
+  // }
+
+  bootstrapChatFullscreen(window: Window) {
+    let friend = window.participant;
+
+    this.friends = [friend];
+    this.windows = [window];
+
+    this.audioFile = this.bufferAudioFile(this.config);
+
+    this.getMessageHistory(friend.id)
+    .pipe(take(1))
+    .subscribe(messages => this.onFetchMessageHistoryLoaded(messages, window, ScrollDirection.Bottom));
+  }
+
+  bootstrapChatSmall(window: globalThis.Window): void {
     if(this.config == null || !this.paramsInitialized) throw Error("Chat configuration or parameters are not set");
     let initializationException = null;
 
@@ -110,13 +155,9 @@ export class ChatService implements OnDestroy {
       try {
         this.viewPortTotalArea = window.innerWidth;
 
-        // Binding event listeners
-        // this.signalrService.onFriendsListChangedHandler = (participantsResponse) => this.onFriendsListChanged(participantsResponse);
-
         this.fetchFriendsList(true);
 
         this.audioFile = this.bufferAudioFile(this.config);
-
 
         if (this.config.fileUploadUrl && this.config.fileUploadUrl !== "") {
           this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this.httpClient);
@@ -129,6 +170,7 @@ export class ChatService implements OnDestroy {
       }
     }
 
+    // error handle
     if (!this.isBootstrapped) {
       console.error("chat component couldn't be bootstrapped.");
 
@@ -181,6 +223,7 @@ export class ChatService implements OnDestroy {
   // Opens a new chat whindow. Takes care of available viewport
   // Returns => [Window: Window object reference, boolean: Indicates if this window is a new chat window]
   openChatWindow(participant: IChatParticipant, focusOnNewWindow: boolean = false, invokedByUserClick: boolean = false): [Window, boolean] {
+
     // Is this window opened?
     let openedWindow = this.windows.find(x => x.participant.id == participant.id);
     if (openedWindow) return [openedWindow, false]; // already open
@@ -232,7 +275,6 @@ export class ChatService implements OnDestroy {
     const unseenMessages = messages.filter(m => !m.dateSeen);
     this.markMessagesAsRead(unseenMessages);
     this.signalrService.sendOnMessagesSeenEvent(unseenMessages);
-
   }
 
   // Updates the friends list via the event handler
@@ -479,29 +521,7 @@ export class ChatService implements OnDestroy {
     }
   }
 
-  // init(friend) {
-  //   this.friend = friend;
-  //   this.audioFile = this.chatService.bufferAudioFile(this.config);
 
-  //   if (this.textCache?.id == this.friend.id)
-  //     this.messageText.setValue(this.textCache.message);
-
-  //   this.chatService.getMessageHistory(this.friend.id).subscribe(messages => this.messagesFetched(messages, ScrollDirection.Bottom));
-
-  //   this.subs.add(
-  //     this.onScroll().subscribe(messages => {
-
-  //       if (!messages || messages.length == 0)
-  //         return this.noMoreData.next(false);
-
-  //       this.window.nativeElement.scrollTop = 5;
-
-  //       this.chatService.pagingModel.page += 1;
-  //       this.messages = [...messages, ...this.messages]
-  //     })
-  //   )
-
-  // }
 
 
   // Generates a unique file uploader id for each participant

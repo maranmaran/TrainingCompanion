@@ -15,9 +15,14 @@ export const isFullScreenChatActive = createSelector(
     selectChatState,
     (chatState: ChatState) => chatState.fullscreenChatActive
 );
+
 export const selectedFriend = createSelector(
   selectChatState,
   (chatState: ChatState) => chatState.selectedFriend
+);
+export const selectedFriendWindow = createSelector(
+  selectChatState,
+  (chatState: ChatState) => chatState.windows[chatState.selectedFriend.id]
 );
 export const totalUnreadChatMessages = createSelector(
   selectChatState,
