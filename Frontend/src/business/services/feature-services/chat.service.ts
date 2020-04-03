@@ -110,41 +110,22 @@ export class ChatService implements OnDestroy {
     });
   }
 
-   // init(friend) {
-  //   this.friend = friend;
-  //   this.audioFile = this.chatService.bufferAudioFile(this.config);
-
-  //   if (this.textCache?.id == this.friend.id)
-  //     this.messageText.setValue(this.textCache.message);
-
-  //   this.chatService.getMessageHistory(this.friend.id).subscribe(messages => this.messagesFetched(messages, ScrollDirection.Bottom));
-
-  //   this.subs.add(
-  //     this.onScroll().subscribe(messages => {
-
-  //       if (!messages || messages.length == 0)
-  //         return this.noMoreData.next(false);
-
-  //       this.window.nativeElement.scrollTop = 5;
-
-  //       this.chatService.pagingModel.page += 1;
-  //       this.messages = [...messages, ...this.messages]
-  //     })
-  //   )
-
-  // }
-
   bootstrapChatFullscreen(window: Window) {
+    if(!this.config || !this.paramsInitialized) throw new Error("Chat configuration not initialized");
+
     let friend = window.participant;
 
     this.friends = [friend];
     this.windows = [window];
 
     this.audioFile = this.bufferAudioFile(this.config);
+    this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this.httpClient);
 
-    this.getMessageHistory(friend.id)
+    this.getMessageHistory(window, true)
     .pipe(take(1))
     .subscribe(messages => this.onFetchMessageHistoryLoaded(messages, window, ScrollDirection.Bottom));
+
+    this.isBootstrapped = true;
   }
 
   bootstrapChatSmall(window: globalThis.Window): void {
@@ -158,10 +139,7 @@ export class ChatService implements OnDestroy {
         this.fetchFriendsList(true);
 
         this.audioFile = this.bufferAudioFile(this.config);
-
-        if (this.config.fileUploadUrl && this.config.fileUploadUrl !== "") {
-          this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this.httpClient);
-        }
+        this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this.httpClient);
 
         this.isBootstrapped = true;
       }

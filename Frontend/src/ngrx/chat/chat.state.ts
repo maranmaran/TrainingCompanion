@@ -1,4 +1,5 @@
 import { Message } from 'src/app/features/chat/models/message.model';
+import { Window } from 'src/app/features/chat/models/window.model';
 import { IChatParticipant } from './../../app/features/chat/models/chat-participant.model';
 import { ParticipantMetadata } from './../../app/features/chat/models/participant-metadata.model';
 
