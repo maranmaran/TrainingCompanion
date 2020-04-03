@@ -1,22 +1,15 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, HostListener, Input, OnInit, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
+import { combineLatest } from 'rxjs/internal/observable/combineLatest';
 import { map, take } from 'rxjs/operators';
-import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
-import { ChatService } from 'src/business/services/feature-services/chat.service';
-import { ChatConfiguration } from '../../chat.configuration';
-import { IChatParticipant } from '../../models/chat-participant.model';
-import { ChatParticipantStatus } from '../../models/enums/chat-participant-status.enum';
-import { ChatParticipantType } from '../../models/enums/chat-participant-type.enum';
-import { MessageType } from '../../models/enums/message-type.enum';
-import { ScrollDirection } from '../../models/enums/scroll-direction.enum';
-import { Message } from '../../models/message.model';
-import { ParticipantResponse } from '../../models/participant-response.model';
-import { User } from '../../models/user.model';
-import { Window } from '../../models/window.model';
-import { ChatSignalrService } from '../../services/chat-signalr.service';
-import { ChatUploadService } from '../../services/chat-upload.service';
+import { Theme } from 'src/business/shared/theme.enum';
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { SubSink } from 'subsink';
+import { ChatService } from './../../../../../business/services/feature-services/chat.service';
+import { activeTheme } from './../../../../../ngrx/user-interface/ui.selectors';
+import { ChatTheme } from './../../models/enums/chat-theme.enum';
 
 @Component({
   selector: 'app-chat-small',
@@ -28,619 +21,58 @@ import { ChatUploadService } from '../../services/chat-upload.service';
     'assets/themes/chat-dark.theme.scss',
     'assets/themes/chat-light.theme.scss'
   ],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [ChatService]
 })
 export class ChatSmallComponent implements OnInit {
 
   constructor(
     public sanitizer: DomSanitizer,
-    private _httpClient: HttpClient,
-    private dialog: MatDialog,
-    private signalrService: ChatSignalrService,
-    public chatService: ChatService
+    private store: Store<AppState>,
+    public chat: ChatService,
   ) { }
 
-  private uploadService: ChatUploadService;
-
-  // Exposes enums for the ng-template
-  ChatParticipantType = ChatParticipantType;
-  ChatParticipantStatus = ChatParticipantStatus;
-  MessageType = MessageType;
-
-  @Input() config: ChatConfiguration;
-  @Input() userId: string;
-
-  private audioFile: HTMLAudioElement;
-
-  public searchInput: string = '';
-
-  participants: IChatParticipant[];
-  participantsResponse: ParticipantResponse[];
-  private participantsInteractedWith: IChatParticipant[] = [];
-
-  selectedUsersFromFriendsList: User[] = [];
-
-  private get localStorageKey(): string {
-    return `chat-users-${this.userId}`; // Appending the user id so the state is unique per user in a computer.
-  };
-
-  // Defines the size of each opened window to calculate how many windows can be opened on the viewport at the same time.
-  public windowSizeFactor: number = 320;
-
-  // Total width size of the friends list section
-  public friendsListWidth: number = 262;
-
-  // Available area to render the plugin
-  private viewPortTotalArea: number;
-
-  // Set to true if there is no space to display at least one chat window and 'hideFriendsListOnUnsupportedViewport' is true
-  public unsupportedViewport: boolean = false;
-
-  // File upload state
-  public fileUploadersInUse: string[] = []; // Id bucket of uploaders in use
-
-  windows: Window[] = [];
-
-  isBootstrapped: boolean = false;
-
-  @ViewChildren('chatMessages') chatMessageClusters: any;
-
-  @ViewChildren('chatWindowInput') chatWindowInputs: any;
-
-  @ViewChildren('nativeFileInput') nativeFileInputs: ElementRef[];
-
-
-  // TODO: Add media observer for this
+  private subs = new SubSink();
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.viewPortTotalArea = event.target.innerWidth;
+    if(!this.chat.isBootstrapped) return;
 
-    this.NormalizeWindows();
-  }
+    this.chat.viewPortTotalArea = event.target.innerWidth;
 
-  ngOnInit() {
-    setTimeout(() => this.bootstrapChat())
-  }
-
-  ngOnDestroy(): void {
-    localStorage.removeItem(this.localStorageKey);
-  }
-
-  // Initializes the chat plugin and the messaging adapter
-  private bootstrapChat(): void {
-    let initializationException = null;
-
-    if (this.signalrService != null && this.userId != null) {
-      try {
-        this.viewPortTotalArea = window.innerWidth;
-
-        // Binding event listeners
-        this.signalrService.onMessageReceivedHandlerSmallChat = (participant, msg) => this.onMessageReceived(participant, msg);
-        this.signalrService.onFriendsListChangedHandlerSmallChat = (participantsResponse) => this.onFriendsListChanged(participantsResponse);
-
-        // Loading current users list
-        if (this.config.pollFriendsList) {
-          // Setting a long poll interval to update the friends list
-          this.fetchFriendsList(true);
-          setInterval(() => this.fetchFriendsList(false), this.config.pollingInterval);
-        }
-        else {
-          // Since polling was disabled, a friends list update mechanism will have to be implemented in the ChatAdapter.
-          this.fetchFriendsList(true);
-        }
-
-        this.audioFile = this.chatService.bufferAudioFile(this.config);
-
-
-        if (this.config.fileUploadUrl && this.config.fileUploadUrl !== "") {
-          this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this._httpClient);
-        }
-
-        this.isBootstrapped = true;
-      }
-      catch (ex) {
-        initializationException = ex;
-      }
-    }
-
-    if (!this.isBootstrapped) {
-      console.error("chat component couldn't be bootstrapped.");
-
-      if (this.userId == null) {
-        console.error("chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the chat component.");
-      }
-      if (this.signalrService == null) {
-        console.error("chat can't be bootstrapped without ChatService. Please make sure you've provided a ChatAdapter implementation as a parameter of the chat component.");
-      }
-      if (initializationException) {
-        console.error(`An exception has occurred while initializing chat. Details: ${initializationException.message}`);
-        console.error(initializationException);
-      }
-    }
-  }
-
-  get filteredParticipants(): IChatParticipant[] {
-    if (this.searchInput.length > 0) {
-      // Searches in the friend list by the inputted search string
-      return this.participants.filter(x => x.displayName.toUpperCase().includes(this.searchInput.toUpperCase()));
-    }
-
-    return this.participants;
-  }
-
-  // Checks if there are more opened windows than the view port can display
-  private NormalizeWindows(): void {
-    let maxSupportedOpenedWindows = Math.floor((this.viewPortTotalArea - (!this.config.hideFriendsList ? this.friendsListWidth : 0)) / this.windowSizeFactor);
-    let difference = this.windows.length - maxSupportedOpenedWindows;
-
-    if (difference >= 0) {
-      this.windows.splice(this.windows.length - difference);
-    }
-
-    this.updateWindowsState(this.windows);
-
-    // Viewport should have space for at least one chat window.
-    this.unsupportedViewport = this.config.hideFriendsListOnUnsupportedViewport && maxSupportedOpenedWindows < 1;
-  }
-
-
-  // Sends a request to load the friends list
-  private fetchFriendsList(isBootstrapping: boolean): void {
-    this.signalrService.listFriends()
-      .pipe(
-        map((participantsResponse: ParticipantResponse[]) => {
-          this.participantsResponse = participantsResponse;
-
-          this.participants = participantsResponse.map((response: ParticipantResponse) => {
-            return response.participant;
-          });
-        }),
-        take(1)
-      ).subscribe(() => {
-        if (isBootstrapping) {
-          this.restoreWindowsState();
-        }
-      });
-  }
-
-  enlargeImage(message: Message) {
-    this.dialog.open(MediaDialogComponent, {
-      height: 'auto',
-      width: 'auto',
-      maxWidth: '58rem',
-      maxHeight: '40rem',
-      autoFocus: false,
-      data: { type: message.type, sourceUrl: message.downloadUrl },
-      panelClass: 'media-dialog-container'
+    setTimeout(_ => {
+      this.chat.normalizeWindows();
     });
   }
 
-  fetchMessageHistory(window: Window) {
-    // ALL MESSAGE HISTORY RETRIEVAL
-    this.signalrService.getMessageHistory(window.participant.id)
-      .pipe(take(1))
-      .subscribe((result: Message[]) => {
-          result.forEach((message) => this.chatService.assertMessageType(message));
+  @ViewChildren('messageSection') messageSections: QueryList<ElementRef>;
+  @ViewChildren('messageInput') messageInputs: QueryList<ElementRef>;
+  @ViewChildren('fileInput') fileInputs: QueryList<ElementRef>;
 
-          window.messages = result.concat(window.messages);
-          window.isLoadingHistory = false;
+  ngOnInit() {
 
-          setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
-        }
-      );
+    this.subs.add(
+
+      combineLatest(
+        this.store.select(currentUserId).pipe(take(1)),
+        this.store.select(activeTheme).pipe(map(theme => theme == Theme.Light ? ChatTheme.Light : ChatTheme.Dark))
+      ).subscribe(([userId, theme]) => {
+
+        setTimeout(_ => {
+          if(!this.chat.paramsInitialized)
+            this.chat.setParams(userId, this.fileInputs, this.messageInputs, this.messageSections);
+
+          this.chat.setConfiguration(theme)
+
+          this.chat.bootstrapChat(window);
+        })
+      })
+    )
+
   }
 
-  private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
-    this.scrollChatWindow(window, direction)
-
-    if (window.hasFocus || forceMarkMessagesAsSeen) {
-      const unseenMessages = messages.filter(m => !m.dateSeen);
-
-      this.chatService.markMessagesAsRead(unseenMessages);
-
-      this.signalrService.sendOnMessagesSeenEvent(unseenMessages);
-    }
-  }
-
-  // Updates the friends list via the event handler
-  private onFriendsListChanged(participantsResponse: ParticipantResponse[]): void {
-    if (participantsResponse) {
-      this.participantsResponse = participantsResponse;
-
-      this.participants = participantsResponse.map((response: ParticipantResponse) => {
-        return response.participant;
-      });
-
-      this.participantsInteractedWith = [];
-    }
-  }
-
-  // Handles received messages by the adapter
-  private onMessageReceived(participant: IChatParticipant, message: Message) {
-    if (participant && message) {
-      let chatWindow = this.openChatWindow(participant);
-
-      this.chatService.assertMessageType(message);
-
-      if (!chatWindow[1] || !this.config.historyEnabled) {
-        chatWindow[0].messages.push(message);
-
-        this.scrollChatWindow(chatWindow[0], ScrollDirection.Bottom);
-
-        if (chatWindow[0].hasFocus) {
-          this.chatService.markMessagesAsRead([message]);
-          this.signalrService.sendOnMessagesSeenEvent([message]);
-        }
-      }
-
-      this.emitMessageSound(chatWindow[0]);
-    }
-  }
-
-  // Opens a new chat whindow. Takes care of available viewport
-  // Works for opening a chat window for an user or for a group
-  // Returns => [Window: Window object reference, boolean: Indicates if this window is a new chat window]
-  public openChatWindow(participant: IChatParticipant, focusOnNewWindow: boolean = false, invokedByUserClick: boolean = false): [Window, boolean] {
-    // Is this window opened?
-    let openedWindow = this.windows.find(x => x.participant.id == participant.id);
-
-    if (!openedWindow) {
-      // Refer to issue #58 on Github
-      let collapseWindow = invokedByUserClick ? false : !this.config.maximizeWindowOnNewMessage;
-      let newChatWindow = new Window(participant, this.config.historyEnabled, collapseWindow);
-
-      // Loads the chat history via an RxJs Observable
-      if (this.config.historyEnabled) {
-        this.fetchMessageHistory(newChatWindow);
-      }
-
-      this.windows.unshift(newChatWindow);
-
-      // Is there enough space left in the view port ?
-      if (this.windows.length * this.windowSizeFactor >= this.viewPortTotalArea - (!this.config.hideFriendsList ? this.friendsListWidth : 0)) {
-        this.windows.pop();
-      }
-
-      this.updateWindowsState(this.windows);
-
-      if (focusOnNewWindow && !collapseWindow) {
-        this.focusOnWindow(newChatWindow);
-      }
-
-      this.participantsInteractedWith.push(participant);
-
-      return [newChatWindow, true];
-    }
-    else {
-      // Returns the existing chat window
-      return [openedWindow, false];
-    }
-  }
-
-  // Focus on the input element of the supplied window
-  private focusOnWindow(window: Window, callback: Function = () => { }): void {
-    let windowIndex = this.windows.indexOf(window);
-    if (windowIndex >= 0) {
-      setTimeout(() => {
-        if (this.chatWindowInputs) {
-          let messageInputToFocus = this.chatWindowInputs.toArray()[windowIndex];
-
-          messageInputToFocus.nativeElement.focus();
-        }
-
-        callback();
-      });
-    }
-  }
-
-  // Scrolls a chat window message flow to the bottom
-  private scrollChatWindow(window: Window, direction: ScrollDirection): void {
-    if (!window.isCollapsed) {
-      let windowIndex = this.windows.indexOf(window);
-      setTimeout(() => {
-        if (this.chatMessageClusters) {
-          let targetWindow = this.chatMessageClusters.toArray()[windowIndex];
-
-          if (targetWindow) {
-            let element = this.chatMessageClusters.toArray()[windowIndex].nativeElement;
-            let position = (direction === ScrollDirection.Top) ? 0 : element.scrollHeight;
-            element.scrollTop = position;
-          }
-        }
-      });
-    }
-  }
-
-  // Emits a message notification audio if enabled after every message received
-  private emitMessageSound(window: Window): void {
-    if (this.config.audioEnabled && !window.hasFocus && this.audioFile) {
-      this.audioFile.play();
-    }
-  }
-
-  // Saves current windows state into local storage if persistence is enabled
-  private updateWindowsState(windows: Window[]): void {
-    if (this.config.persistWindowsState) {
-      let participantIds = windows.map((w) => {
-        return w.participant.id;
-      });
-
-      localStorage.setItem(this.localStorageKey, JSON.stringify(participantIds));
-    }
-  }
-
-  private restoreWindowsState(): void {
-    try {
-      if (this.config.persistWindowsState) {
-        let stringfiedParticipantIds = localStorage.getItem(this.localStorageKey);
-
-        if (stringfiedParticipantIds && stringfiedParticipantIds.length > 0) {
-          let participantIds = <number[]>JSON.parse(stringfiedParticipantIds);
-
-          let participantsToRestore = this.participants.filter(u => participantIds.indexOf(u.id) >= 0);
-
-          participantsToRestore.forEach((participant) => {
-            const window = this.openChatWindow(participant)[0];
-            window.isCollapsed = localStorage.getItem(`chat-window-${participant.id}`) == 'true' ?
-              true : false;
-          });
-        }
-      }
-    }
-    catch (ex) {
-      console.error(`An error occurred while restoring chat windows state. Details: ${ex}`);
-    }
-  }
-
-  // Gets closest open window if any. Most recent opened has priority (Right)
-  private getClosestWindow(window: Window): Window | undefined {
-    let index = this.windows.indexOf(window);
-
-    if (index > 0) {
-      return this.windows[index - 1];
-    }
-    else if (index == 0 && this.windows.length > 1) {
-      return this.windows[index + 1];
-    }
-  }
-
-  private formatUnreadMessagesTotal(totalUnreadMessages: number): string {
-    if (totalUnreadMessages > 0) {
-
-      if (totalUnreadMessages > 99)
-        return "99+";
-      else
-        return String(totalUnreadMessages);
-    }
-
-    // Empty fallback.
-    return "";
-  }
-
-  // Returns the total unread messages from a chat window. TODO: Could use some Angular pipes in the future
-  unreadMessagesTotal(window: Window): string {
-    let totalUnreadMessages = 0;
-
-    if (window) {
-      totalUnreadMessages = window.messages.filter(x => x.fromId != this.userId && !x.dateSeen).length;
-    }
-
-    return this.formatUnreadMessagesTotal(totalUnreadMessages);
-  }
-
-  unreadMessagesTotalByParticipant(participant: IChatParticipant): string {
-    let openedWindow = this.windows.find(x => x.participant.id == participant.id);
-
-    if (openedWindow) {
-      return this.unreadMessagesTotal(openedWindow);
-    }
-    else {
-      let totalUnreadMessages = this.participantsResponse
-        .filter(x => x.participant.id == participant.id &&
-                    !this.participantsInteractedWith
-                              .find(u => u.id == participant.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
-        .map((participantResponse) => {
-          return participantResponse.metadata.totalUnreadMessages
-        })[0];
-
-      return this.formatUnreadMessagesTotal(totalUnreadMessages);
-    }
-  }
-
-  /*  Monitors pressed keys on a chat window
-      - Dispatches a message when the ENTER key is pressed
-      - Tabs between windows on TAB or SHIFT + TAB
-      - Closes the current focused window on ESC
-  */
-  onChatInputTyped(event: any, window: Window): void {
-    switch (event.keyCode) {
-      case 13:
-        if (window.newMessage && window.newMessage.trim() != "") {
-          let message = new Message();
-
-          message.fromId = this.userId;
-          message.toId = window.participant.id;
-          message.message = window.newMessage;
-          message.dateSent = new Date();
-
-          window.messages.push(message);
-          this.signalrService.sendMessage(message);
-
-          window.newMessage = ""; // Resets the new message input
-
-          this.scrollChatWindow(window, ScrollDirection.Bottom);
-        }
-        break;
-      case 9:
-        event.preventDefault();
-
-        let currentWindowIndex = this.windows.indexOf(window);
-        let messageInputToFocus = this.chatWindowInputs.toArray()[currentWindowIndex + (event.shiftKey ? 1 : -1)]; // Goes back on shift + tab
-
-        if (!messageInputToFocus) {
-          // Edge windows, go to start or end
-          messageInputToFocus = this.chatWindowInputs.toArray()[currentWindowIndex > 0 ? 0 : this.chatWindowInputs.length - 1];
-        }
-
-        messageInputToFocus.nativeElement.focus();
-
-        break;
-      case 27:
-        let closestWindow = this.getClosestWindow(window);
-
-        if (closestWindow) {
-          this.focusOnWindow(closestWindow, () => { this.onCloseChatWindow(window); });
-        }
-        else {
-          this.onCloseChatWindow(window);
-        }
-    }
-  }
-
-  // Closes a chat window via the close 'X' button
-  onCloseChatWindow(window: Window): void {
-    let index = this.windows.indexOf(window);
-
-    this.windows.splice(index, 1);
-
-    this.updateWindowsState(this.windows);
-  }
-
-  // Toggle friends list visibility
-  onChatTitleClicked(event: any): void {
-    this.config.isCollapsed = !this.config.isCollapsed;
-    localStorage.setItem('chat-collapsed', this.config.isCollapsed.toString());
-  }
-
-  // Toggles a chat window visibility between maximized/minimized
-  onChatWindowClicked(window: Window): void {
-    window.isCollapsed = !window.isCollapsed;
-    this.scrollChatWindow(window, ScrollDirection.Bottom);
-    var key = 'chat-window-' + window.participant.id;
-    localStorage.setItem(key, window.isCollapsed.toString());
-  }
-
-  getChatWindowAvatar(participant: IChatParticipant, message: Message): string | null {
-    return participant.avatar;
-  }
-
-  // Toggles a window focus on the focus/blur of a 'newMessage' input
-  toggleWindowFocus(window: Window): void {
-    window.hasFocus = !window.hasFocus;
-    if (window.hasFocus) {
-      const unreadMessages = window.messages
-        .filter(message => message.dateSeen == null
-          && (message.toId == this.userId || window.participant.participantType === ChatParticipantType.Group));
-
-      if (unreadMessages && unreadMessages.length > 0) {
-        this.chatService.markMessagesAsRead(unreadMessages);
-        this.signalrService.sendOnMessagesSeenEvent(unreadMessages);
-      }
-    }
-  }
-
-  // [Localized] Returns the status descriptive title
-  getStatusTitle(status: ChatParticipantStatus): any {
-    let currentStatus = status.toString().toLowerCase();
-
-    return this.config.localization.statusDescription[currentStatus];
-  }
-
-  triggerOpenChatWindow(user: User): void {
-    if (user) {
-      this.openChatWindow(user);
-    }
-  }
-
-  triggerCloseChatWindow(userId: any): void {
-    let openedWindow = this.windows.find(x => x.participant.id == userId);
-
-    if (openedWindow) {
-      this.onCloseChatWindow(openedWindow);
-    }
-  }
-
-  triggerToggleChatWindowVisibility(userId: any): void {
-    let openedWindow = this.windows.find(x => x.participant.id == userId);
-
-    if (openedWindow) {
-      this.onChatWindowClicked(openedWindow);
-    }
-  }
-
-  // Generates a unique file uploader id for each participant
-  getUniqueFileUploadInstanceId(window: Window): string {
-    if (window && window.participant) {
-      return `chat-file-upload-${window.participant.id}`;
-    }
-
-    return 'chat-file-upload';
-  }
-
-  // Triggers native file upload for file selection from the user
-  triggerNativeFileUpload(window: Window): void {
-    if (window) {
-      const fileUploadInstanceId = this.getUniqueFileUploadInstanceId(window);
-      const uploadElementRef = this.nativeFileInputs.filter(x => x.nativeElement.id === fileUploadInstanceId)[0];
-
-      if (uploadElementRef)
-        uploadElementRef.nativeElement.click();
-    }
-  }
-
-  private clearInUseFileUploader(fileUploadInstanceId: string): void {
-    const uploaderInstanceIdIndex = this.fileUploadersInUse.indexOf(fileUploadInstanceId);
-
-    if (uploaderInstanceIdIndex > -1) {
-      this.fileUploadersInUse.splice(uploaderInstanceIdIndex, 1);
-    }
-  }
-
-  isUploadingFile(window: Window): boolean {
-    const fileUploadInstanceId = this.getUniqueFileUploadInstanceId(window);
-
-    return this.fileUploadersInUse.indexOf(fileUploadInstanceId) > -1;
-  }
-
-  // Handles file selection and uploads the selected file using the file upload adapter
-  onFileChosen(window: Window): void {
-    const fileUploadInstanceId = this.getUniqueFileUploadInstanceId(window);
-    const uploadElementRef = this.nativeFileInputs.filter(x => x.nativeElement.id === fileUploadInstanceId)[0];
-
-    if (uploadElementRef) {
-      const file: File = uploadElementRef.nativeElement.files[0];
-
-      this.fileUploadersInUse.push(fileUploadInstanceId);
-
-      this.uploadService.uploadFile(file, window.participant.id)
-        .subscribe(fileMessage => {
-          this.clearInUseFileUploader(fileUploadInstanceId);
-
-          fileMessage.fromId = this.userId;
-
-          // Push file message to current user window
-          window.messages.push(fileMessage);
-
-          this.signalrService.sendMessage(fileMessage);
-
-          this.scrollChatWindow(window, ScrollDirection.Bottom);
-
-          // Resets the file upload element
-          uploadElementRef.nativeElement.value = '';
-        }, error => {
-          this.clearInUseFileUploader(fileUploadInstanceId);
-
-          // Resets the file upload element
-          uploadElementRef.nativeElement.value = '';
-
-          // TODO: Invoke a file upload adapter error here
-        });
-    }
-  }
-
-  // TODO: Figure this out.....
-  isCoachSelectedFromFriendsList(user: User): boolean {
-    return (this.selectedUsersFromFriendsList.filter(item => item.id == user.id)).length > 0
+  ngOnDestroy(): void {
+    localStorage.removeItem(this.chat.localStorageKey);
+    this.subs.unsubscribe();
   }
 
 }

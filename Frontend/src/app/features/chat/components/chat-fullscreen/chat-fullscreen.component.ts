@@ -10,7 +10,6 @@ import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { setFullscreenChatActive } from 'src/ngrx/chat/chat.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
-import { ScrollDirection } from '../../models/enums/scroll-direction.enum';
 import { selectedFriend } from './../../../../../ngrx/chat/chat.selectors';
 import { setActiveProgressBar } from './../../../../../ngrx/user-interface/ui.actions';
 import { activeTheme } from './../../../../../ngrx/user-interface/ui.selectors';
@@ -23,7 +22,8 @@ import { ChatBodyComponent } from './chat-body/chat-body.component';
 @Component({
   selector: 'app-chat-fullscreen',
   templateUrl: './chat-fullscreen.component.html',
-  styleUrls: ['./chat-fullscreen.component.scss']
+  styleUrls: ['./chat-fullscreen.component.scss'],
+  providers: [ChatService]
 })
 export class ChatFullscreenComponent implements OnInit, OnDestroy {
 
@@ -61,7 +61,7 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
             chatTheme = ChatTheme.Dark;
           }
 
-          this.config = this.chatService.getChatConfiguration(chatTheme);
+          this.chatService.setConfiguration(chatTheme);
         }),
 
       // tabs active state
@@ -87,7 +87,7 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
         this.tabs.selectedIndex = 1;
       } else {
         this.tabs.selectedIndex = 0;
-        this.chatBody?.scrollChatWindow(ScrollDirection.Bottom);
+        // this.chatBody?.scrollChatWindow(ScrollDirection.Bottom);
       }
 
       this.tabs.realignInkBar()
