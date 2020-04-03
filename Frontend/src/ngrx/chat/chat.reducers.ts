@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { Message } from 'src/app/features/chat/models/message.model';
 import { IChatParticipant } from './../../app/features/chat/models/chat-participant.model';
 import { ParticipantResponse } from './../../app/features/chat/models/participant-response.model';
+import { Window } from './../../app/features/chat/models/window.model';
 import * as ChatActions from './chat.actions';
 import { ChatState, initialChatState } from './chat.state';
 
@@ -11,8 +12,15 @@ export const chatReducer: ActionReducer<ChatState, Action> = createReducer(
     initialChatState,
 
     on(ChatActions.friendsFetched, (state: ChatState, payload: { response: ParticipantResponse[] }) => {
+
+      let windows = {};
+      for(let res of payload.response) {
+        windows[res.participant.id] = new Window(res.participant, false, false);
+      }
+
       return {
           ...state,
+          windows: windows,
           friendsMetadata: payload.response.map(x => x.metadata),
           friends: payload.response.map(x => x.participant),
       }

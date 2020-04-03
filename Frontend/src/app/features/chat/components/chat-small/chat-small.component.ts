@@ -63,7 +63,7 @@ export class ChatSmallComponent implements OnInit {
 
           this.chat.setConfiguration(theme)
 
-          this.chat.bootstrapChat(window);
+          this.chat.bootstrapChatSmall(window);
         })
       })
     )
