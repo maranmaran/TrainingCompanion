@@ -174,8 +174,6 @@ export class ChatService implements OnDestroy {
 
   restoreWindowsState(): void {
     try {
-      if (!this.config.persistWindowsState) return;
-
       let friendIdsStr = localStorage.getItem(this.localStorageKey);
       if (isNullOrWhitespace(friendIdsStr)) return;
 
@@ -201,8 +199,8 @@ export class ChatService implements OnDestroy {
     if (openedWindow) return [openedWindow, false]; // already open
 
     // Refer to issue #58 on Github
-    let collapseWindow = invokedByUserClick ? false : !this.config.maximizeWindowOnNewMessage;
-    let newChatWindow = new Window(participant, this.config.historyEnabled, collapseWindow);
+    let collapseWindow = !invokedByUserClick;
+    let newChatWindow = new Window(participant, false, collapseWindow);
 
     // Loads the chat history via an RxJs Observable
     this.getMessageHistory(newChatWindow).subscribe(messages =>this.onFetchMessageHistoryLoaded(messages, newChatWindow, ScrollDirection.Bottom));
@@ -210,7 +208,7 @@ export class ChatService implements OnDestroy {
     this.windows.unshift(newChatWindow);
 
     // Is there enough space left in the view port ?
-    if (this.windows.length * this.windowSizeFactor >= this.viewPortTotalArea - (!this.config.hideFriendsList ? this.friendsListWidth : 0)) {
+    if (this.windows.length * this.windowSizeFactor >= this.viewPortTotalArea - this.friendsListWidth) {
       this.windows.pop();
     }
 
@@ -295,13 +293,11 @@ export class ChatService implements OnDestroy {
 
   // Saves current windows state into local storage if persistence is enabled
   updateWindowsState(windows: Window[]): void {
-    if (this.config.persistWindowsState) {
       let participantIds = windows.map((w) => {
         return w.participant.id;
       });
 
       localStorage.setItem(this.localStorageKey, JSON.stringify(participantIds));
-    }
   }
 
   // Focus on the input element of the supplied window
@@ -322,7 +318,7 @@ export class ChatService implements OnDestroy {
 
   // Checks if there are more opened windows than the view port can display
   normalizeWindows(): void {
-    let maxSupportedOpenedWindows = Math.floor((this.viewPortTotalArea - (!this.config.hideFriendsList ? this.friendsListWidth : 0)) / this.windowSizeFactor);
+    let maxSupportedOpenedWindows = Math.floor((this.viewPortTotalArea - this.friendsListWidth) / this.windowSizeFactor);
     let difference = this.windows.length - maxSupportedOpenedWindows;
 
     if (difference >= 0) {
@@ -332,7 +328,7 @@ export class ChatService implements OnDestroy {
     this.updateWindowsState(this.windows);
 
     // Viewport should have space for at least one chat window.
-    this.unsupportedViewport = this.config.hideFriendsListOnUnsupportedViewport && maxSupportedOpenedWindows < 1;
+    this.unsupportedViewport = maxSupportedOpenedWindows < 1;
   }
 
   get filteredFriends(): IChatParticipant[] {

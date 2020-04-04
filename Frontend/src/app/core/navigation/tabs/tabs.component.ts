@@ -29,6 +29,9 @@ export class NavigationLink {
   }
 }
 
+///This component was ment to bring
+///tab like UI on mobile devices for ATHLETE mainly since
+///they have so little features to use... but this is just not practical enough
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',

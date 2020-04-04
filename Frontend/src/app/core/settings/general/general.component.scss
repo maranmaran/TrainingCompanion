@@ -16,3 +16,9 @@ th {
   padding: 2rem;
   height: 100%
 }
+
+@media(max-width: 600px) {
+  #general-settings-container {
+    padding-top: 0;
+  }
+}

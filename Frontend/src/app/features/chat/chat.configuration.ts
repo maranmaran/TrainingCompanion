@@ -9,27 +9,8 @@ export class ChatConfiguration {
 
   theme = ChatTheme.Light;
   fileUploadUrl: string;
-
   isCollapsed = localStorage.getItem('chat-collapsed') ? localStorage.getItem('chat-collapsed') as unknown as boolean : false;
-
-  persistWindowsState = true;
-  maximizeWindowOnNewMessage = true;
-
-  hideFriendsList = false;
-  hideFriendsListOnUnsupportedViewport = true;
-  closeFriendList = false;
-
-  pollFriendsList = false;
-  pollingInterval = 5000;
-
-  historyEnabled = true;
   historyPageSize = 10;
-
-  emojisEnabled = true;
-  linkfyEnabled = true;
-  searchEnabled = true;
-
-  showMessageDate = true;
   messageDatePipeFormat = "short";
 
   localization: Localization = {

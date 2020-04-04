@@ -3,8 +3,12 @@ form {
     width: auto;
 }
 
+.container {
+  display: flex;
+}
+
 img {
-  max-height: 300px;
+  max-height: 250px;
   border-radius: 50%;
 }
 
@@ -16,7 +20,7 @@ img {
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 9rem;
+  bottom: 11.5rem;
   z-index: 100;
   visibility: hidden;
 }
@@ -31,6 +35,17 @@ img {
   + .upload-chip {
     visibility: visible;
 
+  }
+}
+
+@media(max-width: 600px) {
+  img {
+    max-height: 160px;
+    margin-bottom: 2rem;
+  }
+
+  .upload-chip {
+    bottom: 16.75rem;
   }
 }
 

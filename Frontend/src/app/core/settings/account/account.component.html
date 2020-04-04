@@ -1,7 +1,6 @@
-<div class="container" fxFlex fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign.xs="center center">
+<div class="container" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign.xs="center center">
 
-  <div fxFlex="0 1 50%" fxFlex.lt-md="0 1 100%" fxFlexOrder.lt-md="2" fxFlexAlign="center" fxLayout="column"
-    fxLayoutAlign="center center">
+  <div fxFlex.gt-xs="0 1 50%" fxFlex.lt-sm="0 1 100%" fxFlexOrder.lt-sm="2" fxFlexOrder.gt-xs="1" fxFlexAlign="center" fxLayout="column" fxLayoutAlign="center center">
     <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" autocomplete="off">
 
       <mat-form-field>
@@ -23,7 +22,7 @@
     </form>
   </div>
 
-  <div class="avatar-section" fxFlex="0 1 50%" fxFlex.lt-md="0 1 100%" fxFlexOrder.lt-md="1" fxFlexAlign="center" fxLayout="column" fxLayoutAlign="center center">
+  <div class="avatar-section" fxFlex.gt-xs="0 1 50%" fxFlex.lt-sm="0 1 100%" fxFlexOrder.lt-sm="1" fxFlexOrder.gt-xs="2" fxFlexAlign="center" fxLayout="column" fxLayoutAlign="center center">
 
     <img (click)="uploadInput.click()" class="img-fluid avatar-img" src="{{ currentUser.avatar }}" />
 
