@@ -1,11 +1,11 @@
+import { Action, ActionReducer } from '@ngrx/store';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { logout, login } from './auth/auth.actions';
-import { ActionReducer, Action } from '@ngrx/store';
+import { logoutClearState } from './auth/auth.actions';
 
 export const clearState = (reducer: ActionReducer<AppState>): ActionReducer<AppState> => {
     return (state: AppState, action: Action): AppState => {
 
-        if (action.type === logout().type) {
+        if (action.type === logoutClearState().type) {
             state = undefined;
         }
 
