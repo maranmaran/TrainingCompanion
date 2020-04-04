@@ -19,7 +19,8 @@ import { IChatParticipant } from './../../../models/chat-participant.model';
 @Component({
   selector: 'app-chat-body',
   templateUrl: './chat-body.component.html',
-  styleUrls: ['./chat-body.component.scss']
+  styleUrls: ['./chat-body.component.scss'],
+  providers: [ChatService]
 })
 // export class ChatBodyComponent implements OnInit, OnChanges, OnDestroy {
 export class ChatBodyComponent implements OnInit, OnDestroy {
