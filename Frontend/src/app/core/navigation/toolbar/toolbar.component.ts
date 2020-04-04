@@ -53,12 +53,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   loading$: Observable<boolean>;
 
-
-  public get canShowToAthlete() : boolean {
-    return this.userInfo.isAthlete && this.mediaObserver.isActive('lt-sm');
-  }
-
-
   ngOnInit(): void {
 
     // set observable for main progress bar
