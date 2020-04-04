@@ -1,4 +1,5 @@
 import { Guid } from 'guid-typescript';
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { IChatParticipant } from './chat-participant.model';
 import { Message } from './message.model';
 
@@ -13,18 +14,22 @@ export class Window
         this.hasFocus = false; // This will be triggered when the 'newMessage' input gets the current focus
         this.isCollapsed = isCollapsed;
         this.hasMoreMessages = false;
-        this.historyPage = 0;
+        this.pagingModel = new PagingModel({pageSize: 20});
     }
 
-    public id: string;
-    public participant: IChatParticipant;
-    public messages: Message[] = [];
-    public newMessage?: string = "";
+    id: string;
+    participant: IChatParticipant;
+    messages: Message[] = [];
+    newMessage?: string = "";
 
     // UI Behavior properties
-    public isCollapsed?: boolean = false;
-    public isLoadingHistory: boolean = false;
-    public hasFocus: boolean = false;
-    public hasMoreMessages: boolean = true;
-    public historyPage: number = 0;
+    isCollapsed?: boolean = false;
+    isLoadingHistory: boolean = false;
+    hasFocus: boolean = false;
+    hasMoreMessages: boolean = true;
+    pagingModel: PagingModel;
+
+    reset() {
+      this.pagingModel = new PagingModel({pageSize: 20});
+    }
 }

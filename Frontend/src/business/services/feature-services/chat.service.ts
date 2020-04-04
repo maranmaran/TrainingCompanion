@@ -20,7 +20,6 @@ import { ChatTheme } from './../../../app/features/chat/models/enums/chat-theme.
 import { ParticipantResponse } from './../../../app/features/chat/models/participant-response.model';
 import { Window } from './../../../app/features/chat/models/window.model';
 import { ChatSignalrService } from './../../../app/features/chat/services/chat-signalr.service';
-import { PagingModel } from './../../../app/shared/material-table/table-models/paging.model';
 
 @Injectable()
 export class ChatService implements OnDestroy {
@@ -53,7 +52,6 @@ export class ChatService implements OnDestroy {
   viewPortTotalArea: number; // Available area to render small chat
   unsupportedViewport: boolean;
 
-  pagingModel: PagingModel;
   windows: Window[] = [];
   messageSections: QueryList<ElementRef>;
   messageInputs: QueryList<ElementRef>; // message inputs
@@ -90,7 +88,6 @@ export class ChatService implements OnDestroy {
     this.fileInputs = fileInputs;
     this.messageInputs = messageInputs;
     this.messageSections = messageSections;
-    this.pagingModel = new PagingModel({pageSize: 20});
 
     this.paramsInitialized = true;
   }
@@ -139,6 +136,13 @@ export class ChatService implements OnDestroy {
     }
 
     // error handle
+    setTimeout(_ => {
+      this.checkForBootstrapingError(initializationException)
+    })
+
+  }
+
+  checkForBootstrapingError(initializationException) {
     if (!this.isBootstrapped) {
       console.error("chat component couldn't be bootstrapped.");
 
@@ -225,7 +229,7 @@ export class ChatService implements OnDestroy {
   getMessageHistory(window: Window, init = true) {
     window.isLoadingHistory = true;
 
-    return this.signalrService.getMessageHistory(window.participant.id, this.pagingModel)
+    return this.signalrService.getMessageHistory(window.participant.id, window.pagingModel)
       .pipe(
         take(1),
         tap(messages => messages.forEach(message => this.assertMessageType(message))),
@@ -235,7 +239,7 @@ export class ChatService implements OnDestroy {
   onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
     window.isLoadingHistory = false;
     window.messages = [...messages, ...window.messages];
-    this.pagingModel.page += 1;
+    window.pagingModel.page += 1;
 
     setTimeout(_ => {
       this.scrollChatWindow(window, direction)
@@ -480,6 +484,7 @@ export class ChatService implements OnDestroy {
   onCloseChatWindow(window: Window): void {
     let index = this.windows.indexOf(window);
 
+    window.reset();
     this.windows.splice(index, 1);
 
     this.updateWindowsState(this.windows);
