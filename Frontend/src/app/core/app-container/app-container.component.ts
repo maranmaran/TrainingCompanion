@@ -89,10 +89,9 @@ export class AppContainerComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-
-  get showTabs() : boolean {
-    return this.mediaObserver.isActive('lt-sm') && this.isAthlete;
-  }
+  // get showTabs() : boolean {
+  //   return this.mediaObserver.isActive('lt-sm') && this.isAthlete;
+  // }
 
   get showSmallChat() : boolean {
     return !this.fullScreenChatActive && !this.mediaObserver.isActive('lt-md')

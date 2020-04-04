@@ -1,20 +1,20 @@
 <div id="ng-chat" *ngIf="chat.isBootstrapped && !chat.unsupportedViewport" [ngClass]="chat.config?.theme">
 
   <!--MENU-->
-  <div *ngIf="!chat.config.hideFriendsList" id="ng-chat-people" class="primary-outline-color primary-background"
+  <div id="ng-chat-people" class="primary-outline-color primary-background"
     [ngClass]="{'ng-chat-people-collapsed': chat.config?.isCollapsed}">
 
     <!--TITLE-->
-    <a class="ng-chat-title secondary-background shadowed" (click)="chat.onChatTitleClicked($event)">
+    <div class="ng-chat-title accent-foreground shadowed" (click)="chat.onChatTitleClicked($event)">
       {{chat.config.localization.title}}
-    </a>
+    </div>
 
     <!--FILTER-->
-    <input *ngIf="chat.config.searchEnabled" id="ng-chat-search_friend" class="friends-search-bar" type="search"
+    <input  id="ng-chat-search_friend" class="friends-search-bar" type="search"
       [placeholder]="chat.config.localization.searchPlaceholder" [(ngModel)]="chat.searchInput" />
 
     <!--USERS-->
-    <ul id="ng-chat-users" *ngIf="!chat.config?.isCollapsed" [ngClass]="{'offset-search': chat.config.searchEnabled}">
+    <ul id="ng-chat-users" *ngIf="!chat.config?.isCollapsed" class="offset-search">
       <li *ngFor="let friend of chat.filteredFriends">
         <!-- USER ROW -->
         <div class="ng-chat-friends-list-container"
@@ -42,7 +42,7 @@
   <div *ngFor="let window of chat.windows; let i = index"
     class="ng-chat-window primary-outline-color"
     [ngClass]="{'ng-chat-window-collapsed': window.isCollapsed}"
-    [ngStyle]="{'right': (!chat.config.hideFriendsList ? chat.friendsListWidth : 0) + 20 + chat.windowSizeFactor * i + 'px'}">
+    [ngStyle]="{'right': chat.friendsListWidth + 20 + chat.windowSizeFactor * i + 'px'}">
 
     <!--Header template-->
     <ng-template #windowHeader let-window="window">
@@ -108,7 +108,7 @@
               [ngClass]="{'sent-chat-message-container': message.fromId == chat.userId, 'received-chat-message-container': message.fromId != chat.userId}">
               <span
                 [innerHtml]="message.message | sanitizeHtml | emojify| linkfy"></span>
-              <span *ngIf="chat.config.showMessageDate && message.dateSent"
+              <span *ngIf="message.dateSent"
                 class="message-sent-date">{{message.dateSent | date: chat.config.messageDatePipeFormat}}</span>
             </div>
             <div *ngSwitchCase="chat.MessageType.File" class="file-message-container"
@@ -126,7 +126,7 @@
               [ngClass]="{'sent-image-message-container': message.fromId == chat.userId, 'received-image-message-container': message.fromId != chat.userId}">
               <img (click)="chat.enlargeImage(message)" class="img-fluid" src="{{message.downloadUrl}}"
                 style="cursor: pointer">
-              <span *ngIf="chat.config.showMessageDate && message.dateSent"
+              <span *ngIf="message.dateSent"
                 class="message-sent-date">{{message.dateSent | date: chat.config.messageDatePipeFormat}}</span>
             </div>
             <div *ngSwitchCase="chat.MessageType.Video"
@@ -135,7 +135,7 @@
                 <source src="{{message.downloadUrl}}" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
-              <span *ngIf="chat.config.showMessageDate && message.dateSent"
+              <span *ngIf="message.dateSent"
                 class="message-sent-date">{{message.dateSent | date: chat.config.messageDatePipeFormat}}</span>
             </div>
           </ng-container>

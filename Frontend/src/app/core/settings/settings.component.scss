@@ -4,7 +4,7 @@
     justify-content: center;
     width: 12rem;
   }
-  
+
   .settings-sidenav-container {
     position: relative !important;
     top: 0; bottom: 0; left: 0; right: 0;
@@ -18,11 +18,11 @@
   #spinner-container{
     left: 0 !important;
   }
-  
+
   @media (max-width: 600px) {
     .settings-sidenav {
-      width: 70% !important;
+      width: 50% !important;
     }
 
   }
-  
+
