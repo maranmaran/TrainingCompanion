@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import * as _ from 'lodash';
 import { ChatState } from './chat.state';
 
 export const selectChatState = createFeatureSelector<ChatState>("chat");
@@ -22,7 +23,7 @@ export const selectedFriend = createSelector(
 );
 export const selectedFriendWindow = createSelector(
   selectChatState,
-  (chatState: ChatState) => Object.assign({}, chatState.windows[chatState.selectedFriend.id])
+  (chatState: ChatState) => _.cloneDeep(chatState.windows[chatState.selectedFriend.id])
 );
 export const totalUnreadChatMessages = createSelector(
   selectChatState,

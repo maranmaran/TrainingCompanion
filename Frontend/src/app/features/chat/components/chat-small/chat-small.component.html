@@ -147,7 +147,7 @@
         <input #messageInput type="text" [ngModel]="window.newMessage | emojify"
           (ngModelChange)="window.newMessage=$event" [placeholder]="chat.config.localization.messagePlaceholder"
           [ngClass]="{'chat-window-input': true, 'has-side-action': uploadService}"
-          (keydown)="chat.onChatInputTyped($event, window)" (blur)="chat.toggleWindowFocus(window)"
+          (keydown.enter)="chat.onSendMessage($event, window)" (blur)="chat.toggleWindowFocus(window)"
           (focus)="chat.toggleWindowFocus(window)" />
 
         <!-- File Upload -->
