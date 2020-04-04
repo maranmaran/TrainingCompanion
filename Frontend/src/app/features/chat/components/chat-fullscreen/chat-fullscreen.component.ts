@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
-import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { setFullscreenChatActive } from 'src/ngrx/chat/chat.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -14,7 +13,6 @@ import { setActiveProgressBar } from './../../../../../ngrx/user-interface/ui.ac
   selector: 'app-chat-fullscreen',
   templateUrl: './chat-fullscreen.component.html',
   styleUrls: ['./chat-fullscreen.component.scss'],
-  providers: [ChatService]
 })
 export class ChatFullscreenComponent implements OnInit, OnDestroy {
 
