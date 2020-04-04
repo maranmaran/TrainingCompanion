@@ -24,7 +24,9 @@ export const loginFailure = createAction(
 export const logout = createAction(
     '[Auth API] Logout'
 )
-
+export const logoutClearState = createAction(
+  '[Auth API] Clear state - logout'
+)
 //#endregion
 
 //#region Current user actions

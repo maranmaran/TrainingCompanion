@@ -76,7 +76,11 @@ export class AuthEffects {
           this.authService.signOutEvent.next(true);
           localStorage.removeItem('id');
           this.cookieService.delete('jwt');
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/auth/login']).then(
+            _ =>  {
+              this.store.dispatch(AuthActions.logoutClearState())
+            }
+          );
         })
       ),
     { dispatch: false }

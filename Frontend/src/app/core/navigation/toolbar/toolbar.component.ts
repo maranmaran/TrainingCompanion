@@ -64,6 +64,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     // only new ones.. in real time
     // this.notifications$ = this.notificationService.notifications$;
     this.subSink.add(
+
       this.store.select(currentUser)
       .subscribe(user => {
         this.userInfo = {
