@@ -56,7 +56,7 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
         this.messageSection.toArray()[0].nativeElement.scrollTop = 5;
 
         this.chat.pagingModel.page += 1;
-        this.chat.messages = [...messages, ...this.chat.messages]
+        this.chat.windows[0].messages = [...messages, ...this.chat.windows[0].messages]
       }),
 
       combineLatest(
@@ -131,6 +131,5 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
         exhaustMap(_ => this.chat.getMessageHistory(this.chat.windows[0], false).pipe(delay(500))),
       );
   }
-
 
 }
