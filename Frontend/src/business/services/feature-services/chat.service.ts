@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { ElementRef, Injectable, OnDestroy, QueryList } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { take, tap } from 'rxjs/operators';
@@ -26,15 +25,6 @@ import { PagingModel } from './../../../app/shared/material-table/table-models/p
 @Injectable()
 export class ChatService implements OnDestroy {
 
-
-  //chat fullscreen
-  textCache: { id: string, message: string }
-  noMoreData = new Subject<boolean>();
-
-
-  //Chat small
-
-
   // Exposes enums
   ChatParticipantType = ChatParticipantType;
   ChatParticipantStatus = ChatParticipantStatus;
@@ -49,6 +39,8 @@ export class ChatService implements OnDestroy {
   audioFile: HTMLAudioElement
 
   scrollYPosition = 0;
+  textCache: { id: string, message: string }
+
   messages: Message[] = [];
   pagingModel = new PagingModel();
 
@@ -108,6 +100,9 @@ export class ChatService implements OnDestroy {
       fileUploadUrl: `Chat/UploadChatFile`,
       theme: theme
     });
+
+    this.audioFile = this.bufferAudioFile(this.config);
+    this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this.httpClient);
   }
 
   bootstrapChatFullscreen(window: Window) {
@@ -118,14 +113,12 @@ export class ChatService implements OnDestroy {
     this.friends = [friend];
     this.windows = [window];
 
-    this.audioFile = this.bufferAudioFile(this.config);
-    this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this.httpClient);
+    this.isBootstrapped = true;
 
     this.getMessageHistory(window, true)
     .pipe(take(1))
     .subscribe(messages => this.onFetchMessageHistoryLoaded(messages, window, ScrollDirection.Bottom));
 
-    this.isBootstrapped = true;
   }
 
   bootstrapChatSmall(window: globalThis.Window): void {
@@ -138,10 +131,7 @@ export class ChatService implements OnDestroy {
 
         this.fetchFriendsList(true);
 
-        this.audioFile = this.bufferAudioFile(this.config);
-        this.uploadService = new ChatUploadService(this.config.fileUploadUrl, this.httpClient);
-
-        this.isBootstrapped = true;
+        setTimeout(_ => this.isBootstrapped = true);
       }
       catch (ex) {
         initializationException = ex;
@@ -246,7 +236,9 @@ export class ChatService implements OnDestroy {
     window.isLoadingHistory = false;
     window.messages = [...messages, ...window.messages];
 
-    this.scrollChatWindow(window, direction)
+    setTimeout(_ => {
+      this.scrollChatWindow(window, direction)
+    });
 
     if (!window.hasFocus && !forceMarkMessagesAsSeen) return;
 
@@ -499,9 +491,6 @@ export class ChatService implements OnDestroy {
     }
   }
 
-
-
-
   // Generates a unique file uploader id for each participant
   getUniqueFileUploadInstanceId(window: Window): string {
     if (window && window.participant) {
@@ -571,17 +560,6 @@ export class ChatService implements OnDestroy {
         });
     }
   }
-
-  // messagesFetched(messages: Message[], direction: ScrollDirection): void {
-  //   this.messages = messages;
-  //   this.pagingModel.page += 1;
-
-  //   this.markMessagesSeen(messages);
-  //   this.store.dispatch(allMessagesSeen({ friendId: this.friend.id }));
-
-  //   this.isBootstrapped = true;
-  //   setTimeout(_ => this.scrollChatWindow(this.window, direction));
-  // }
 
   markMessagesSeen(messages: Message[]) {
     const unseenMessages = messages.filter(m => !m.dateSeen);
