@@ -3,7 +3,6 @@ import { ElementRef, Injectable, OnDestroy, QueryList } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/internal/operators/map';
-import { Subscription } from 'rxjs/internal/Subscription';
 import { take, tap } from 'rxjs/operators';
 import { ChatParticipantStatus } from 'src/app/features/chat/models/enums/chat-participant-status.enum';
 import { ChatParticipantType } from 'src/app/features/chat/models/enums/chat-participant-type.enum';
@@ -14,6 +13,7 @@ import { ChatUploadService } from 'src/app/features/chat/services/chat-upload.se
 import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
 import { isNullOrWhitespace } from 'src/business/utils/utils';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { SubSink } from 'subsink';
 import { ChatConfiguration } from './../../../app/features/chat/chat.configuration';
 import { IChatParticipant } from './../../../app/features/chat/models/chat-participant.model';
 import { ChatTheme } from './../../../app/features/chat/models/enums/chat-theme.enum';
@@ -41,9 +41,8 @@ export class ChatService implements OnDestroy {
   scrollYPosition = 0;
   textCache: { id: string, message: string }
 
-  messages: Message[] = [];
-  pagingModel = new PagingModel();
 
+  searchInput: string = '';
   friendsResponse: ParticipantResponse[];
   friends: IChatParticipant[];
   friendsInteractedWith: IChatParticipant[] = [];
@@ -54,19 +53,19 @@ export class ChatService implements OnDestroy {
   viewPortTotalArea: number; // Available area to render small chat
   unsupportedViewport: boolean;
 
+  pagingModel: PagingModel;
   windows: Window[] = [];
   messageSections: QueryList<ElementRef>;
   messageInputs: QueryList<ElementRef>; // message inputs
-  fileInputs: QueryList<ElementRef>;
-  searchInput: string = '';
 
+  fileInputs: QueryList<ElementRef>;
   fileInputsInUse: string[] = []; // Id bucket of uploaders in use
 
   get localStorageKey(): string {
     return `chat-users-${this.userId}`; // Appending the user id so the state is unique per user in a computer.
   };
 
-  messagesSubscription: Subscription
+  subs = new SubSink();
 
   constructor(
     private httpClient: HttpClient,
@@ -74,14 +73,14 @@ export class ChatService implements OnDestroy {
     private store: Store<AppState>,
     private dialog: MatDialog
   ) {
-    this.pagingModel.pageSize = 20;
-
-    this.messagesSubscription = this.signalrService.messages$
-    .subscribe(data => this.onMessageReceived(data.friend, data.message));
+    this.subs.add(
+      this.signalrService.messages$
+      .subscribe(data => this.onMessageReceived(data.friend, data.message))
+    )
   }
 
   ngOnDestroy() {
-    this.messagesSubscription.unsubscribe();
+    this.subs.unsubscribe();
     console.log('Destroyed chat service..');
   }
 
@@ -91,6 +90,7 @@ export class ChatService implements OnDestroy {
     this.fileInputs = fileInputs;
     this.messageInputs = messageInputs;
     this.messageSections = messageSections;
+    this.pagingModel = new PagingModel({pageSize: 20});
 
     this.paramsInitialized = true;
   }
@@ -235,6 +235,7 @@ export class ChatService implements OnDestroy {
   onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
     window.isLoadingHistory = false;
     window.messages = [...messages, ...window.messages];
+    this.pagingModel.page += 1;
 
     setTimeout(_ => {
       this.scrollChatWindow(window, direction)
