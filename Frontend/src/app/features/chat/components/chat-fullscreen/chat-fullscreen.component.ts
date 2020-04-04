@@ -37,8 +37,11 @@ export class ChatFullscreenComponent implements OnInit, OnDestroy {
       .subscribe(_ => {
         // new friend
         if(!this.mediaObserver.isActive('lt-md')) return; // do nothing if tabs are not active
-        this.tabs.selectedIndex = 0;
-        this.tabs.realignInkBar()
+
+        setTimeout(_ => {
+          this.tabs.selectedIndex = 0;
+          this.tabs.realignInkBar()
+        });
       })
     )
   }
