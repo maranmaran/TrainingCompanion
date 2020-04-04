@@ -33,7 +33,7 @@
         [cdkAutosizeMaxRows]="5"
         formControlName="messageText"
         placeholder="Type a message"
-        (keydown.enter)="sendMessage($event)"
+        (keydown.enter)="onSendMessage($event)"
       ></textarea>
 
       <div class="ml-3" matSuffix>
@@ -41,7 +41,7 @@
           <i class="fas fa-paperclip"></i>
         </button>
 
-        <button class="ml-1" matSuffix mat-icon-button color="accent" (click)="sendMessage($event)"
+        <button class="ml-1" matSuffix mat-icon-button color="accent" (click)="onSendMessage($event)"
         [matTooltipClass]="'multiline'" matTooltip="Press enter to send&#13;Press shift + enter to add new line">
           <i class="fas fa-paper-plane"></i>
         </button>

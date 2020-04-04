@@ -1,5 +1,6 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Component, ElementRef, NgZone, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { combineLatest, Subject } from 'rxjs';
@@ -41,7 +42,8 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
   constructor(
     private _ngZone: NgZone,
     private store: Store<AppState>,
-    public chat: ChatService
+    public chat: ChatService,
+    private mediaObserver: MediaObserver
   ) { }
 
   ngOnInit(): void {
@@ -130,6 +132,15 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
         takeUntil(this.noMoreData),
         exhaustMap(_ => this.chat.getMessageHistory(this.chat.windows[0], false).pipe(delay(500))),
       );
+  }
+
+  onSendMessage(event: any) {
+    // enter triggers new line in mobile view
+    if(this.mediaObserver.isActive('lt-md') && event instanceof KeyboardEvent) return;
+
+    this.chat.windows[0].newMessage = this.messageText.value;
+    this.chat.onSendMessage(event, this.chat.windows[0]);
+    this.messageText.setValue('');
   }
 
 }

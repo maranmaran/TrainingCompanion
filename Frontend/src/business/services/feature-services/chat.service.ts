@@ -405,52 +405,74 @@ export class ChatService implements OnDestroy {
   }
 
   /*  Monitors pressed keys on a chat window
-    - Dispatches a message when the ENTER key is pressed
-    - Tabs between windows on TAB or SHIFT + TAB
-    - Closes the current focused window on ESC
-*/
-  onChatInputTyped(event: any, window: Window): void {
-    switch (event.keyCode) {
-      case 13:
-        if (window.newMessage && window.newMessage.trim() != "") {
-          let message = new Message();
+      - Dispatches a message when the ENTER key is pressed
+      - Tabs between windows on TAB or SHIFT + TAB
+      - Closes the current focused window on ESC
+  */
+  onSendMessage(event: KeyboardEvent | MouseEvent, window: Window): void {
+    event.preventDefault();
+    if(event instanceof KeyboardEvent) {
+      switch (event.keyCode) {
+        // enter
+        case 13:
+          if (window.newMessage && window.newMessage.trim() != "") {
 
-          message.fromId = this.userId;
-          message.toId = window.participant.id;
-          message.message = window.newMessage;
-          message.dateSent = new Date();
+            let message = new Message();
+            message.fromId = this.userId;
+            message.toId = window.participant.id;
+            message.message = window.newMessage;
+            message.dateSent = new Date();
 
-          window.messages.push(message);
-          this.signalrService.sendMessage(message);
+            window.messages.push(message);
+            this.signalrService.sendMessage(message);
 
-          window.newMessage = ""; // Resets the new message input
+            window.newMessage = ""; // Resets the new message input
 
-          this.scrollChatWindow(window, ScrollDirection.Bottom);
-        }
-        break;
-      case 9:
-        event.preventDefault();
+            this.scrollChatWindow(window, ScrollDirection.Bottom);
+          }
+          break;
+        // tab
+        case 9:
+          event.preventDefault();
 
-        let currentWindowIndex = this.windows.indexOf(window);
-        let messageInputToFocus = this.messageInputs.toArray()[currentWindowIndex + (event.shiftKey ? 1 : -1)]; // Goes back on shift + tab
+          let currentWindowIndex = this.windows.indexOf(window);
+          let messageInputToFocus = this.messageInputs.toArray()[currentWindowIndex + (event.shiftKey ? 1 : -1)]; // Goes back on shift + tab
 
-        if (!messageInputToFocus) {
-          // Edge windows, go to start or end
-          messageInputToFocus = this.messageInputs.toArray()[currentWindowIndex > 0 ? 0 : this.messageInputs.toArray().length - 1];
-        }
+          if (!messageInputToFocus) {
+            // Edge windows, go to start or end
+            messageInputToFocus = this.messageInputs.toArray()[currentWindowIndex > 0 ? 0 : this.messageInputs.toArray().length - 1];
+          }
 
-        messageInputToFocus.nativeElement.focus();
+          messageInputToFocus.nativeElement.focus();
 
-        break;
-      case 27:
-        let closestWindow = this.getClosestWindow(window);
+          break;
+        // esc
+        case 27:
+          let closestWindow = this.getClosestWindow(window);
 
-        if (closestWindow) {
-          this.focusOnWindow(closestWindow, () => { this.onCloseChatWindow(window); });
-        }
-        else {
-          this.onCloseChatWindow(window);
-        }
+          if (closestWindow) {
+            this.focusOnWindow(closestWindow, () => { this.onCloseChatWindow(window); });
+          }
+          else {
+            this.onCloseChatWindow(window);
+          }
+      }
+    } else if(event instanceof MouseEvent) {
+      if (window.newMessage && window.newMessage.trim() != "") {
+
+        let message = new Message();
+        message.fromId = this.userId;
+        message.toId = window.participant.id;
+        message.message = window.newMessage;
+        message.dateSent = new Date();
+
+        window.messages.push(message);
+        this.signalrService.sendMessage(message);
+
+        window.newMessage = ""; // Resets the new message input
+
+        this.scrollChatWindow(window, ScrollDirection.Bottom);
+      }
     }
   }
 
