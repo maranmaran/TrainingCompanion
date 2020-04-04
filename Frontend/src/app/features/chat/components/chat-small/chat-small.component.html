@@ -24,7 +24,7 @@
             <i class="user-icon"></i>
           </div>
 
-          <img *ngIf="friend.avatar" class="avatar" height="30" width="30"
+          <img *ngIf="friend.avatar" class="ng-avatar" height="30" width="30"
             [src]="sanitizer.bypassSecurityTrustResourceUrl(friend.avatar)" />
 
           <strong title="{{friend.displayName}}">{{friend.displayName}}</strong>
@@ -56,7 +56,7 @@
             <span *ngIf="!window.participant.avatar" class="icon-wrapper">
               <i class="user-icon"></i>
             </span>
-            <img *ngIf="window.participant.avatar" class="avatar" height="20" width="20" style="line-height: 30px;"
+            <img *ngIf="window.participant.avatar" class="ng-avatar" height="20" width="20" style="line-height: 30px;"
               [src]="sanitizer.bypassSecurityTrustResourceUrl(window.participant.avatar)" />
           </ng-container>
 
@@ -99,7 +99,7 @@
             <div *ngIf="!window.participant.avatar" class="icon-wrapper">
               <i class="user-icon"></i>
             </div>
-            <img *ngIf="window.participant.avatar" class="avatar" height="30" width="30"
+            <img *ngIf="window.participant.avatar" class="ng-avatar" height="30" width="30"
               [src]="sanitizer.bypassSecurityTrustResourceUrl(window.participant.avatar)" />
           </ng-container>
 
