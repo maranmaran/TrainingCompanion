@@ -1,40 +1,54 @@
 <div *ngIf="chat.isBootstrapped" class="chat-body-container" fxLayout="column" fxLayoutAlign="space-between">
 
+  <!-- all messages -->
   <div #chatWindow class="messages" (scroll)="scrollEvent.next($event)">
-     <div class="message-row mb-3" *ngFor="let message of chat.windows[0].messages; let i = index"
-      fxLayout="row" [fxLayoutAlign]="message.fromId == chat.userId ? 'end center' : 'start center'">
 
+    <!--Message row-->
+    <div class="message-row mb-3" *ngFor="let message of chat.windows[0].messages; let i = index" fxLayout="row"
+      [fxLayoutAlign]="message.fromId == chat.userId ? 'end center' : 'start center'">
+
+      <!--Avatar-->
       <ng-container *ngIf="chat.isAvatarVisible(chat.userId, chat.windows[0].messages, message, i); else fillerBlock">
         <div *ngIf="!chat.friends[0].avatar" class="icon-wrapper">
           <i class="user-icon"></i>
         </div>
-        <img *ngIf="chat.friends[0].avatar" class="avatar" height="30" width="30"
-          [src]="chat.friends[0].avatar" />
+        <img *ngIf="chat.friends[0].avatar" class="avatar" height="30" width="30" [src]="chat.friends[0].avatar" />
       </ng-container>
       <ng-template #fillerBlock>
-         <div style="width: 30px; height: 30px"></div>
+        <div style="width: 30px; height: 30px"></div>
       </ng-template>
 
-       <div class="ml-2 message mat-elevation-z3"
-            [ngClass]="{'my-message': message.fromId == chat.userId, 'friend-message': message.fromId != chat.userId}"
-            fxLayout="column">
+      <!--Actual message body-->
+      <div class="ml-2 message mat-elevation-z3" [ngClass]="{'my-message': message.fromId == chat.userId}" fxLayout="column">
 
-            <div class="body"><div [innerHtml]="message.message | emojify | linkfy"></div></div>
-            <div class="date" fxFlexAlign="end">{{message.dateSent | date: chat.config.messageDatePipeFormat }}</div>
-       </div>
-     </div>
+        <div class="body" [ngSwitch]="message.type">
+
+          <!--Plain text-->
+          <div *ngSwitchCase="chat.MessageType.Text" [innerHtml]="message.message | emojify | linkfy"></div>
+
+          <!--Image-->
+          <img *ngSwitchCase="chat.MessageType.Image" (click)="chat.enlargeImage(message)" class="body img-fluid"
+            src="{{message.downloadUrl}}" style="cursor: pointer" />
+
+            <!--Video-->
+            <video *ngSwitchCase="chat.MessageType.Video" class="body" width="100%" height="auto" controls>
+            <source src="{{message.downloadUrl}}" type="video/mp4">
+          </video>
+
+        </div>
+
+        <div class="date" fxFlexAlign="end">{{message.dateSent | date: chat.config.messageDatePipeFormat}}</div>
+
+      </div>
+
+    </div>
   </div>
 
-  <form [formGroup]="form" >
+  <!-- message input -->
+  <form [formGroup]="form">
     <mat-form-field class="text-input">
-      <textarea #messageInput matInput
-        cdkTextareaAutosize
-        [cdkAutosizeMinRows]="1"
-        [cdkAutosizeMaxRows]="5"
-        formControlName="messageText"
-        placeholder="Type a message"
-        (keydown.enter)="onSendMessage($event)"
-      ></textarea>
+      <textarea #messageInput matInput cdkTextareaAutosize [cdkAutosizeMinRows]="1" [cdkAutosizeMaxRows]="5"
+        formControlName="messageText" placeholder="Type a message" (keydown.enter)="onSendMessage($event)"></textarea>
 
       <div class="ml-3" matSuffix>
         <button mat-icon-button color="accent" (click)="addFile($event)">
@@ -42,7 +56,7 @@
         </button>
 
         <button class="ml-1" matSuffix mat-icon-button color="accent" (click)="onSendMessage($event)"
-        [matTooltipClass]="'multiline'" matTooltip="Press enter to send&#13;Press shift + enter to add new line">
+          [matTooltipClass]="'multiline'" matTooltip="Press enter to send&#13;Press shift + enter to add new line">
           <i class="fas fa-paper-plane"></i>
         </button>
       </div>

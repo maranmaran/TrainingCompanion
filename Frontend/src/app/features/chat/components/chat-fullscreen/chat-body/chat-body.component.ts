@@ -57,7 +57,7 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
 
         this.messageSection.toArray()[0].nativeElement.scrollTop = 5;
 
-        this.chat.pagingModel.page += 1;
+        this.chat.windows[0].pagingModel.page += 1;
         this.chat.windows[0].messages = [...messages, ...this.chat.windows[0].messages]
       }),
 
