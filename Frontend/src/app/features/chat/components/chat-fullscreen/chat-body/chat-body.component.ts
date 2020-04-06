@@ -8,6 +8,7 @@ import { delay, distinctUntilChanged, distinctUntilKeyChanged, exhaustMap, filte
 import { ChatService } from 'src/business/services/feature-services/chat.service';
 import { Theme } from 'src/business/shared/theme.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { allMessagesSeen } from 'src/ngrx/chat/chat.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
@@ -76,6 +77,7 @@ export class ChatBodyComponent implements OnInit, OnDestroy {
           if(!this.chat.isBootstrapped)
             this.chat.bootstrapChatFullscreen(window);
 
+          this.store.dispatch(allMessagesSeen({friendId: window.participant.id}))
           this.createForm();
         })
       })
