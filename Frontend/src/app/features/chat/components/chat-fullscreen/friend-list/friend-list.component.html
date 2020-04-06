@@ -10,7 +10,7 @@
     <img *ngIf="friend.avatar" class="avatar" height="40" width="40" [src]="friend.avatar" />
     <div class="friend-body"
     [matBadge]="(metadata | async)[i].totalUnreadMessages"
-    matBadgeColor="accent"
+    matBadgeColor="warn"
     [matBadgeHidden]="(metadata | async)[i].totalUnreadMessages == 0">
 
         <h3 style="margin: 0">{{friend.displayName}}</h3>
