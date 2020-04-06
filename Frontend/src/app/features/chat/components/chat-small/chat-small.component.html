@@ -27,12 +27,13 @@
           <img *ngIf="friend.avatar" class="ng-avatar" height="30" width="30"
             [src]="sanitizer.bypassSecurityTrustResourceUrl(friend.avatar)" />
 
-          <strong title="{{friend.displayName}}">{{friend.displayName}}</strong>
+          <strong title="{{friend.displayName}}"
+          [matBadge]="(chat.unreadMessagesTotalByFriend(friend.id) | async)"
+          matBadgeColor="warn"
+          [matBadgeHidden]="(chat.unreadMessagesTotalByFriend(friend.id) | async) == 0">
+            {{friend.displayName}}
+          </strong>
 
-          <span *ngIf="(chat.unreadMessagesTotalByFriend(friend.id) | async).length > 0"
-            class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">
-            {{ (chat.unreadMessagesTotalByFriend(friend.id) | async) }}
-          </span>
         </div>
       </li>
     </ul>
@@ -60,14 +61,12 @@
               [src]="sanitizer.bypassSecurityTrustResourceUrl(window.participant.avatar)" />
           </ng-container>
 
-          <strong title="{{window.participant.displayName}}">
+          <strong title="{{window.participant.displayName}}"
+          [matBadge]="(chat.unreadMessagesTotalByFriend(window.participant.id) | async)"
+          matBadgeColor="warn"
+          [matBadgeHidden]="(chat.unreadMessagesTotalByFriend(window.participant.id) | async) == 0">
             {{window.participant.displayName}}
           </strong>
-
-          <span *ngIf="(chat.unreadMessagesTotalByFriend(window.participant.id) | async).length > 0"
-            class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">
-            {{(chat.unreadMessagesTotalByFriend(window.participant.id) | async)}}
-          </span>
 
         </div>
 
