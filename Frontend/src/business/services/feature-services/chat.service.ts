@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ElementRef, Injectable, OnDestroy, QueryList } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { take, tap } from 'rxjs/operators';
 import { ChatParticipantStatus } from 'src/app/features/chat/models/enums/chat-participant-status.enum';
@@ -12,14 +13,16 @@ import { Message } from 'src/app/features/chat/models/message.model';
 import { ChatUploadService } from 'src/app/features/chat/services/chat-upload.service';
 import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
 import { isNullOrWhitespace } from 'src/business/utils/utils';
+import { messageFromAnotherFriend } from 'src/ngrx/chat/chat.actions';
+import { friends } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { ChatConfiguration } from './../../../app/features/chat/chat.configuration';
 import { IChatParticipant } from './../../../app/features/chat/models/chat-participant.model';
 import { ChatTheme } from './../../../app/features/chat/models/enums/chat-theme.enum';
-import { ParticipantResponse } from './../../../app/features/chat/models/participant-response.model';
 import { Window } from './../../../app/features/chat/models/window.model';
 import { ChatSignalrService } from './../../../app/features/chat/services/chat-signalr.service';
+import { totalUnreadChatMessagesForFriend } from './../../../ngrx/chat/chat.selectors';
 
 @Injectable()
 export class ChatService implements OnDestroy {
@@ -42,7 +45,6 @@ export class ChatService implements OnDestroy {
 
 
   searchInput: string = '';
-  friendsResponse: ParticipantResponse[];
   friends: IChatParticipant[];
   friendsInteractedWith: IChatParticipant[] = [];
 
@@ -161,15 +163,15 @@ export class ChatService implements OnDestroy {
 
   // Sends a request to load the friends list
   fetchFriendsList(isBootstrapping: boolean): void {
-    this.signalrService.listFriends()
-      .pipe(take(1), map(response => this.onFriendsListChanged(response))
-      ).subscribe(_ => {
+    this.store.select(friends).pipe(take(1))
+    .subscribe(friends => {
+      this.friends = friends;
+      this.friendsInteractedWith = [];
 
-        if (isBootstrapping) {
-          this.restoreWindowsState();
-        }
-
-      });
+      if (isBootstrapping) {
+        this.restoreWindowsState();
+      }
+    })
   }
 
   restoreWindowsState(): void {
@@ -248,16 +250,6 @@ export class ChatService implements OnDestroy {
     const unseenMessages = messages.filter(m => !m.dateSeen);
     this.markMessagesAsRead(unseenMessages);
     this.signalrService.sendOnMessagesSeenEvent(unseenMessages);
-  }
-
-  // Updates the friends list via the event handler
-  onFriendsListChanged(friendsResponse: ParticipantResponse[]): void {
-    if (!friendsResponse) return;
-
-    this.friendsResponse = friendsResponse;
-
-    this.friends = friendsResponse.map(res => res.participant);
-    this.friendsInteractedWith = [];
   }
 
   markMessagesAsRead(messages: Message[]): void {
@@ -364,31 +356,13 @@ export class ChatService implements OnDestroy {
     }
   }
 
-  // Returns the total unread messages from a chat window. TODO: Could use some Angular pipes in the future
-  unreadMessagesTotal(window: Window): string {
-    let totalUnreadMessages = 0;
+  // // Returns the total unread messages from a chat window. TODO: Could use some Angular pipes in the future
+  // unreadMessagesTotal(window: Window): Observable<string> {
+  //   return this.store.select(totalUnreadChatMessagesForFriend, window.participant.id).pipe(map(x => this.formatUnreadMessagesTotal(x)));
+  // }
 
-    if (window) {
-      totalUnreadMessages = window.messages.filter(x => x.fromId != this.userId && !x.dateSeen).length;
-    }
-
-    return this.formatUnreadMessagesTotal(totalUnreadMessages);
-  }
-
-  unreadMessagesTotalByFriend(friend: IChatParticipant): string {
-    let openedWindow = this.windows.find(x => x.participant.id == friend.id);
-
-    if (openedWindow) {
-      return this.unreadMessagesTotal(openedWindow);
-    }
-    else {
-      let totalUnreadMessages = this.friendsResponse
-      .filter(x => x.participant.id == friend.id && !this.friendsInteractedWith
-      .find(u => u.id == friend.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
-      .map(res => res.metadata.totalUnreadMessages)[0];
-
-      return this.formatUnreadMessagesTotal(totalUnreadMessages);
-    }
+  unreadMessagesTotalByFriend(friendId: string): Observable<string> {
+    return this.store.select(totalUnreadChatMessagesForFriend, friendId).pipe(map(x => this.formatUnreadMessagesTotal(x)));
   }
 
   formatUnreadMessagesTotal(totalUnreadMessages: number): string {
@@ -592,13 +566,10 @@ export class ChatService implements OnDestroy {
 
   onMessageReceived(friend: IChatParticipant, message: Message) {
     if (!message) return;
-    if (friend?.id != message.fromId) {
-      // this.store.dispatch(messageFromAnotherFriend({ friend }))
-      return;
-    };
 
     let chatWindow = this.openChatWindow(friend);
 
+    this.store.dispatch(messageFromAnotherFriend({ friend }))
     this.assertMessageType(message);
 
     // this.store.dispatch(pushMessage({ message }));

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AthletesHomeComponent } from './athletes-home/athletes-home.component';
 import { AthletesResolver } from 'src/business/resolvers/athletes.resolver';
+import { AthletesHomeComponent } from './athletes-home/athletes-home.component';
 
 const routes: Routes = [
     { path: '', component: AthletesHomeComponent, resolve: {AthletesResolver}, children: [

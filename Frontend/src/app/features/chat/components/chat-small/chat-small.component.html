@@ -29,9 +29,9 @@
 
           <strong title="{{friend.displayName}}">{{friend.displayName}}</strong>
 
-          <span *ngIf="chat.unreadMessagesTotalByFriend(friend).length > 0"
+          <span *ngIf="(chat.unreadMessagesTotalByFriend(friend.id) | async).length > 0"
             class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">
-            {{chat.unreadMessagesTotalByFriend(friend)}}
+            {{ (chat.unreadMessagesTotalByFriend(friend.id) | async) }}
           </span>
         </div>
       </li>
@@ -64,9 +64,9 @@
             {{window.participant.displayName}}
           </strong>
 
-          <span *ngIf="chat.unreadMessagesTotal(window).length > 0"
+          <span *ngIf="(chat.unreadMessagesTotalByFriend(window.participant.id) | async).length > 0"
             class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">
-            {{chat.unreadMessagesTotal(window)}}
+            {{(chat.unreadMessagesTotalByFriend(window.participant.id) | async)}}
           </span>
 
         </div>

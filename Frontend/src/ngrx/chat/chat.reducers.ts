@@ -67,11 +67,11 @@ export const chatReducer: ActionReducer<ChatState, Action> = createReducer(
             messages: [...payload.messages]
         }
     }),
-    on(ChatActions.pushMessage, (state: ChatState, payload: { message: Message }) => {
-      return {
-            ...state,
-            messages: [...state.messages, payload.message]
-        }
-    }),
+    // on(ChatActions.pushMessage, (state: ChatState, payload: { message: Message }) => {
+    //   return {
+    //         ...state,
+    //         messages: [...state.messages, payload.message]
+    //     }
+    // }),
 
 );
