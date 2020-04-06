@@ -13,7 +13,7 @@ import { Message } from 'src/app/features/chat/models/message.model';
 import { ChatUploadService } from 'src/app/features/chat/services/chat-upload.service';
 import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
 import { isNullOrWhitespace } from 'src/business/utils/utils';
-import { messageFromAnotherFriend } from 'src/ngrx/chat/chat.actions';
+import { allMessagesSeen, messageFromAnotherFriend } from 'src/ngrx/chat/chat.actions';
 import { friends } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
@@ -245,11 +245,12 @@ export class ChatService implements OnDestroy {
       this.scrollChatWindow(window, direction)
     });
 
-    if (!window.hasFocus && !forceMarkMessagesAsSeen) return;
+    if(!window.hasFocus) return;
 
     const unseenMessages = messages.filter(m => !m.dateSeen);
     this.markMessagesAsRead(unseenMessages);
     this.signalrService.sendOnMessagesSeenEvent(unseenMessages);
+    this.store.dispatch(allMessagesSeen({ friendId: window.participant.id}));
   }
 
   markMessagesAsRead(messages: Message[]): void {
@@ -272,11 +273,11 @@ export class ChatService implements OnDestroy {
   scrollChatWindow(window: Window, direction: ScrollDirection): void {
     if (window.isCollapsed) return;
 
-    let windowIdx = this.windows.indexOf(window);
-    let element = this.messageSections.toArray()[windowIdx].nativeElement;
-    if (!element) return;
-
     setTimeout(_ => {
+      let windowIdx = this.windows.indexOf(window);
+      let element = this.messageSections.toArray()[windowIdx].nativeElement;
+      if (!element) return;
+
       this.scrollYPosition = element.scrollHeight;
       let position = (direction === ScrollDirection.Top) ? 0 : element.scrollHeight;
       element.scrollTop = position;
@@ -478,6 +479,7 @@ export class ChatService implements OnDestroy {
   toggleWindowFocus(window: Window): void {
     window.hasFocus = !window.hasFocus;
     if (window.hasFocus) {
+
       const unreadMessages = window.messages
         .filter(message => message.dateSeen == null
           && (message.toId == this.userId || window.participant.participantType === ChatParticipantType.Group));
@@ -485,6 +487,7 @@ export class ChatService implements OnDestroy {
       if (unreadMessages && unreadMessages.length > 0) {
         this.markMessagesAsRead(unreadMessages);
         this.signalrService.sendOnMessagesSeenEvent(unreadMessages);
+        this.store.dispatch(allMessagesSeen({friendId: window.participant.id}))
       }
     }
   }
@@ -566,6 +569,8 @@ export class ChatService implements OnDestroy {
 
   onMessageReceived(friend: IChatParticipant, message: Message) {
     if (!message) return;
+
+    console.log(message);
 
     let chatWindow = this.openChatWindow(friend);
 
