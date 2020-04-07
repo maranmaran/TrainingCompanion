@@ -30,15 +30,18 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
   // template relevant things
   form: FormGroup;
+  exerciseTypes: ExerciseType[];
   cardBootstrapped = false;
   error = false;
+  isLoading = false;
+
 
   config: ChartConfiguration[]; // config is main driver of chart
 
   // params
+  isMobile: boolean;
   _theme: Theme;
   _userId: string;
-  _isMobile: boolean;
   _unitSystem: UnitSystem;
 
   _initializer$: Observable<any>; // kickstart listener for init
@@ -66,6 +69,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
         this.createForm(types);
         (this._initializer$ as ConnectableObservable<any>).connect() // now we can fetch card data
+        this.cardBootstrapped = true;
       },
       _ => this.error = true
     );
@@ -100,7 +104,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
    */
   prepareData([theme, unitSystem, mobile]) {
     this._theme = theme;
-    this._isMobile = mobile;
+    this.isMobile = mobile;
 
     let formData = this.validateAndGetFormData();
     if(!formData) return;
@@ -144,7 +148,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     // needed to create config for chat
     const labels = chartData.labels.map(date => moment(date).format('L'));
     const data = chartData.dataSets[0].data;
-    const settings = { theme: this._theme, unitSystem: this._unitSystem, mobile: this._isMobile };
+    const settings = { theme: this._theme, unitSystem: this._unitSystem, mobile: this.isMobile };
 
     this.config = [ GetVolumeCardChartConfig(settings, data, labels) ];
   }
@@ -161,6 +165,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   get exerciseType(): AbstractControl { return this.form.get('exerciseType'); }
 
   createForm(types: ExerciseType[]) {
+    this.exerciseTypes = types;
     this.form = new FormGroup({
       exerciseType: new FormControl(types[0], Validators.required),
       dateFrom: new FormControl(moment(new Date()).subtract(1, 'month').toDate(), Validators.required),
@@ -173,5 +178,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
     return (this.exerciseType.value.id, this.dateFrom.value, this.dateTo.value)
   }
+
+  displayFunction = (exerciseType: ExerciseType) => exerciseType ? exerciseType.name : null;
 
 }

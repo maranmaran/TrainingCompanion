@@ -1,1 +1,44 @@
-<p>volume-card works!</p>
+<div class="volume-chart-container h-100" fxLayout="column" fxLayoutGap.lt-md="1rem" *ngIf="cardBootstrapped">
+  <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem">
+
+    <mat-form-field fxFlex="0 0 calc(65% - 0.25rem)">
+      <input matInput placeholder="Exercise type" [matAutocomplete]="auto" [formControl]="exerciseType">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
+        <mat-option *ngIf="isLoading">
+          <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+          <mat-option *ngFor="let type of exerciseTypes" [value]="type">
+            <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="0 0 calc(17.5% - 0.25rem)">
+
+      <mat-label>From: </mat-label>
+      <input matInput [matDatepicker]="datepicker1" formControlName="dateFrom">
+      <!-- (dateChange)="getReportData()" -->
+
+      <mat-datepicker-toggle matSuffix [for]="datepicker1">
+      </mat-datepicker-toggle>
+      <mat-datepicker [touchUi]="isMobile" #datepicker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="0 0 calc(17.5% - 0.25rem)">
+      <mat-label>To: </mat-label>
+      <input matInput [matDatepicker]="datepicker2" formControlName="dateTo">
+
+      <mat-datepicker-toggle matSuffix [for]="datepicker2">
+      </mat-datepicker-toggle>
+      <mat-datepicker [touchUi]="isMobile" #datepicker2></mat-datepicker>
+    </mat-form-field>
+
+  </form>
+  <div id="tags" *ngIf="exerciseType && exerciseType.value">
+    <app-exercise-type-chip-list  *ngIf="exerciseType.value" [propertyList]="exerciseType.value.properties"></app-exercise-type-chip-list>
+  </div>
+
+  <app-chart class="mt-3" [configuration]="config"></app-chart>
+</div>
