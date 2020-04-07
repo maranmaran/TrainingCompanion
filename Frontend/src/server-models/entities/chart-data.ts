@@ -1,6 +1,6 @@
-export class ChartData<T> {
-  labels: string[]
-  dataSets: ChartDataSet<T>[]
+export class ChartData<TData, TLabel> {
+  labels: TLabel[]
+  dataSets: ChartDataSet<TData>[]
 }
 
 export class ChartDataSet<T> {
