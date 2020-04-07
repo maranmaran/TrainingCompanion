@@ -80,8 +80,6 @@ export class TrainingMetricsComponent implements OnInit, OnDestroy {
       this._unitSystem = unitSystem;
       this.loadTrainingMetrics(this._trainingId);
       return;
-    } else {
-      this._unitSystem = unitSystem;
     }
 
     // if training data already exists.. just setup configs

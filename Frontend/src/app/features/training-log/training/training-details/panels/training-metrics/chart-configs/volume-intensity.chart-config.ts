@@ -4,7 +4,7 @@ import { Theme } from 'src/business/shared/theme.enum';
 import { ChartData } from 'src/server-models/entities/chart-data';
 import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
 
-export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitSystem: UnitSystem}, chartData: ChartData<number>,): MyChartConfiguration {
+export function getTotalVolumeIntensityChartConfig(setting: {theme: Theme, unitSystem: UnitSystem}, chartData: ChartData<number, string>,): MyChartConfiguration {
 
     return {
       generationId: Guid.create(),
