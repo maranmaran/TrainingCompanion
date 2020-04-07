@@ -12,6 +12,8 @@ import { TracksComponent } from './dashboard-home/tracks/tracks.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardOutletDirective } from './directives/dashboard-outlet.directive';
 import { FeedResolver } from 'src/business/resolvers/feed.resolver';
+import { VolumeCardComponent } from './dashboard-home/track-items-sidebar/card-components/volume-card/volume-card.component';
+import { MaxCardComponent } from './dashboard-home/track-items-sidebar/card-components/max-card/max-card.component';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { FeedResolver } from 'src/business/resolvers/feed.resolver';
         ActionsComponent,
         TrackItemsSidebarComponent,
         TracksComponent,
-        FeedComponent
+        FeedComponent,
+        VolumeCardComponent,
+        MaxCardComponent
     ],
     exports: [
     ],

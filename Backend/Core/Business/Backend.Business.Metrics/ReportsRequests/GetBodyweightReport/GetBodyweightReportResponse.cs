@@ -5,7 +5,7 @@ namespace Backend.Business.Reports.ReportsRequests.GetBodyweightReport
 {
     public class GetBodyweightReportResponse
     {
-        public List<DateTime> Dates { get; set; }
-        public List<double> Values { get; set; }
+        public IEnumerable<DateTime> Dates { get; set; }
+        public IEnumerable<double> Values { get; set; }
     }
 }

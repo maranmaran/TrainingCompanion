@@ -1,5 +1,4 @@
-﻿using Backend.Business.Chat.ChatRequests.GetChatHistory;
-using Backend.Business.Chat.ChatRequests.GetChatHistoryPaged;
+﻿using Backend.Business.Chat.ChatRequests.GetChatHistoryPaged;
 using Backend.Business.Chat.ChatRequests.GetFriendList;
 using Backend.Business.Chat.ChatRequests.SendChatMessage;
 using Backend.Business.Chat.ChatRequests.UploadChatFile;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.Chat.ChatRequests.GetChatHistoryFull;
 
 namespace Backend.API.Controllers
 {

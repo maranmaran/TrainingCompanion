@@ -10,7 +10,7 @@ using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.Chat.ChatRequests.GetChatHistory
+namespace Backend.Business.Chat.ChatRequests.GetChatHistoryFull
 {
     public class GetChatHistoryFullRequestHandler : IRequestHandler<GetChatHistoryFullRequest, IEnumerable<MessageViewModel>>
     {
