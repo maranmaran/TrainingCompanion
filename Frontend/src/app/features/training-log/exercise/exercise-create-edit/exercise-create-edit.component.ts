@@ -3,7 +3,8 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { debounceTime, distinct, finalize, skip, switchMap, take, tap } from 'rxjs/operators';
+import * as _ from 'lodash';
+import { debounceTime, distinct, filter, finalize, skip, switchMap, take, tap } from 'rxjs/operators';
 import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
@@ -14,12 +15,12 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
 import { selectedTraining } from 'src/ngrx/training-log/training.selectors';
 import { CreateExerciseRequest } from 'src/server-models/cqrs/exercise/create-exercise.request';
-import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
+import { ExerciseType } from './../../../../../server-models/entities/exercise-type.model';
 
 @Component({
   selector: 'app-exercise-create-edit',
@@ -61,7 +62,7 @@ export class ExerciseCreateEditComponent implements OnInit {
 
   createForm() {
     this.form = new FormGroup({
-      exerciseType: new FormControl(this.exercise.exerciseType, Validators.required),
+      exerciseType: new FormControl(this.exercise.exerciseType, [Validators.required]),
       setsCount: new FormControl(this.exercise.sets ? this.exercise.sets.length : 0, [Validators.required, Validators.min(0), Validators.max(30)]),
     });
 
@@ -84,10 +85,12 @@ export class ExerciseCreateEditComponent implements OnInit {
         debounceTime(500),
         distinct(),
         skip(1),
+        filter(val => _.isString(val)),
         tap(() => {
           this.isLoading = true;
         }),
         switchMap(val => {
+          console.log(val);
           this.data.pagingModel.filterQuery = val;
           return this.exerciseTypeService.getPaged(this._userId, this.data.pagingModel).pipe(finalize(() => this.isLoading = false));
         }

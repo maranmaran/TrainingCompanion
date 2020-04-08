@@ -32,6 +32,7 @@ export function GetVolumeCardChartConfig(
         mode: 'x',
         callbacks: {
           label: (tooltipItem, data) => {
+            console.log(setting.unitSystem)
             return tooltipItem.yLabel + " " + UnitSystemUnitOfMeasurement[setting.unitSystem];
           }
         }
