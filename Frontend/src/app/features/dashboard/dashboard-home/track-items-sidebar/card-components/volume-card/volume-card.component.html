@@ -1,9 +1,9 @@
-<div class="volume-chart-container h-100" fxLayout="column" fxLayoutGap.lt-md="1rem" *ngIf="cardBootstrapped">
+<div class="card-chart-container h-100" fxLayout="column" fxLayoutGap.lt-md="1rem" *ngIf="cardBootstrapped">
   <form [formGroup]="form"
   fxLayout="row" fxLayoutGap="0.25rem"
   fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
 
-    <mat-form-field fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
+    <mat-form-field fxFlexOrder.lt-md="2" fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
       <input matInput placeholder="Exercise type" [matAutocomplete]="auto" [formControl]="exerciseType">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
         <mat-option *ngIf="isLoading">
@@ -17,7 +17,7 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <span fxFlex="calc(35% - 0.25rem)" fxLayout="row" fxLayoutGap="0.25rem">
+    <span fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxLayout="row" fxLayoutGap="0.25rem">
       <mat-form-field fxFlex="calc(50% - 0.25rem)">
 
         <mat-label>From: </mat-label>
@@ -44,7 +44,7 @@
     <app-exercise-type-chip-list  *ngIf="exerciseType.value" [propertyList]="exerciseType.value.properties"></app-exercise-type-chip-list>
   </div>
 
-  <app-chart class="mt-3" [configuration]="config"></app-chart>
+  <app-chart [configuration]="config"></app-chart>
 </div>
 
 <div class="h-100 w-100" *ngIf="!cardBootstrapped" fxLayout="row" fxLayoutAlign="center center">

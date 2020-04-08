@@ -29,7 +29,6 @@ namespace Backend.Persistance
         public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<Track> Tracks { get; set; }
         public DbSet<TrackItem> TrackItems { get; set; }
-        public DbSet<TrackItemParams> TrackItemParams { get; set; }
         public DbSet<SystemLog> SystemLog { get; set; }
         public DbSet<Bodyweight> Bodyweights { get; set; }
         public DbSet<PersonalBest> PBs { get; set; }
@@ -60,7 +59,7 @@ namespace Backend.Persistance
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // comment this if you don't want to see seed values in migrations
-            //modelBuilder.Seed();
+            modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);
 

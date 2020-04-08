@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.User.Dashboard;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Dashboard.DashboardRequests.SaveMainDashboard
 {
@@ -31,7 +31,6 @@ namespace Backend.Business.Dashboard.DashboardRequests.SaveMainDashboard
                     .ThenInclude(x => x.MainDashboard)
                     .ThenInclude(x => x.Tracks)
                     .ThenInclude(x => x.Items)
-                    .ThenInclude(x => x.Params)
                     .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
                 if (user.UserSetting.MainDashboardId == null || user.UserSetting.MainDashboardId == Guid.Empty)
@@ -61,39 +60,12 @@ namespace Backend.Business.Dashboard.DashboardRequests.SaveMainDashboard
 
                     foreach (var track in user.UserSetting.MainDashboard.Tracks)
                     {
-                        if (track.Id == Guid.Empty)
-                        {
-                            _context.Entry(track).State = EntityState.Added;
-                        }
-                        else
-                        {
-                            _context.Entry(track).State = EntityState.Modified;
-                        }
-
                         foreach (var item in track.Items)
                         {
-                            if (item.Id == Guid.Empty)
-                            {
-                                _context.Entry(item).State = EntityState.Added;
-                            }
-                            else
-                            {
-                                _context.Entry(item).State = EntityState.Modified;
-                            }
-
-                            if (item.Params != null)
-                            {
-                                if (item.Params.Id == Guid.Empty)
-                                {
-                                    _context.Entry(item.Params).State = EntityState.Added;
-                                }
-                                else
-                                {
-                                    _context.Entry(item.Params).State = EntityState.Modified;
-                                }
-                            }
-
+                            _context.Entry(item).State = item.Id == Guid.Empty ? EntityState.Added : EntityState.Modified;
                         }
+
+                        _context.Entry(track).State = track.Id == Guid.Empty ? EntityState.Added : EntityState.Modified;
                     }
                 }
 
