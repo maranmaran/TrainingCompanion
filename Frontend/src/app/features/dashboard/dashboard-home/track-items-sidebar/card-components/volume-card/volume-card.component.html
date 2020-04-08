@@ -1,7 +1,9 @@
 <div class="volume-chart-container h-100" fxLayout="column" fxLayoutGap.lt-md="1rem" *ngIf="cardBootstrapped">
-  <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem">
+  <form [formGroup]="form"
+  fxLayout="row" fxLayoutGap="0.25rem"
+  fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
 
-    <mat-form-field fxFlex="0 0 calc(65% - 0.25rem)">
+    <mat-form-field fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
       <input matInput placeholder="Exercise type" [matAutocomplete]="auto" [formControl]="exerciseType">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
         <mat-option *ngIf="isLoading">
@@ -15,25 +17,27 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field fxFlex="0 0 calc(17.5% - 0.25rem)">
+    <span fxFlex="calc(35% - 0.25rem)" fxLayout="row" fxLayoutGap="0.25rem">
+      <mat-form-field fxFlex="calc(50% - 0.25rem)">
 
-      <mat-label>From: </mat-label>
-      <input matInput [matDatepicker]="datepicker1" formControlName="dateFrom">
-      <!-- (dateChange)="getReportData()" -->
+        <mat-label>From: </mat-label>
+        <input matInput [matDatepicker]="datepicker1" formControlName="dateFrom">
+        <!-- (dateChange)="getReportData()" -->
 
-      <mat-datepicker-toggle matSuffix [for]="datepicker1">
-      </mat-datepicker-toggle>
-      <mat-datepicker [touchUi]="isMobile" #datepicker1></mat-datepicker>
-    </mat-form-field>
+        <mat-datepicker-toggle matSuffix [for]="datepicker1">
+        </mat-datepicker-toggle>
+        <mat-datepicker [touchUi]="isMobile" #datepicker1></mat-datepicker>
+      </mat-form-field>
 
-    <mat-form-field fxFlex="0 0 calc(17.5% - 0.25rem)">
-      <mat-label>To: </mat-label>
-      <input matInput [matDatepicker]="datepicker2" formControlName="dateTo">
+      <mat-form-field fxFlex="calc(50% - 0.25rem)">
+        <mat-label>To: </mat-label>
+        <input matInput [matDatepicker]="datepicker2" formControlName="dateTo">
 
-      <mat-datepicker-toggle matSuffix [for]="datepicker2">
-      </mat-datepicker-toggle>
-      <mat-datepicker [touchUi]="isMobile" #datepicker2></mat-datepicker>
-    </mat-form-field>
+        <mat-datepicker-toggle matSuffix [for]="datepicker2">
+        </mat-datepicker-toggle>
+        <mat-datepicker [touchUi]="isMobile" #datepicker2></mat-datepicker>
+      </mat-form-field>
+    </span>
 
   </form>
   <div id="tags" *ngIf="exerciseType && exerciseType.value">
