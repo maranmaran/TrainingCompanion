@@ -22,6 +22,7 @@
 @import "./mixins/autofill.scss";
 @import "./mixins/image-cropper.scss";
 @import "./mixins/chat-fullscreen.scss";
+@import "./mixins/dashboard-cards.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -43,6 +44,7 @@
   @include create-edit-exercise-types-theme($theme);
   @include image-cropper-theme($theme);
   @include chat-fullscreen-theme($theme);
+  @include dashboard-cards-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

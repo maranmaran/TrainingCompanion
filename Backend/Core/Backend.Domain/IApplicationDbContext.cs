@@ -29,7 +29,6 @@ namespace Backend.Domain
         DbSet<Dashboard> Dashboards { get; set; }
         DbSet<Track> Tracks { get; set; }
         DbSet<TrackItem> TrackItems { get; set; }
-        DbSet<TrackItemParams> TrackItemParams { get; set; }
         DbSet<SystemLog> SystemLog { get; set; }
         DbSet<Bodyweight> Bodyweights { get; set; }
         DbSet<PersonalBest> PBs { get; set; }
@@ -53,6 +52,7 @@ namespace Backend.Domain
         DbSet<Set> Sets { get; set; } // lifts
 
         #endregion Training log
+
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 

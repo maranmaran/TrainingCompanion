@@ -1,5 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
@@ -8,9 +10,11 @@ import * as moment from 'moment';
 import { ConnectableObservable, Observable } from 'rxjs';
 import { combineLatest } from 'rxjs/internal/observable/combineLatest';
 import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, skip, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { Theme } from 'src/business/shared/theme.enum';
 import { settingsUpdated } from 'src/ngrx/auth/auth.actions';
+import { updateTrackItemParams } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme, isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { ChartData } from 'src/server-models/entities/chart-data';
@@ -27,9 +31,14 @@ import { GetVolumeCardChartConfig } from './volume-card-chart.config';
   selector: 'app-volume-card',
   templateUrl: './volume-card.component.html',
   styleUrls: ['./volume-card.component.scss'],
-  providers: [ExerciseTypeService, ReportService]
+  providers: [ExerciseTypeService, ReportService,
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] }]
 })
 export class VolumeCardComponent implements OnInit, OnDestroy {
+
+  @Input() cardId: string;
+  @Input() jsonParams: string;
+  params: { dateFrom: Date, dateTo: Date, exerciseType: ExerciseType }
 
   // template relevant things
   form: FormGroup;
@@ -56,10 +65,14 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private exerciseTypeService: ExerciseTypeService,
     private actions$: Actions,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private dashboardService: DashboardService
   ) { }
 
   ngOnInit() {
+    this.params = JSON.parse(this.jsonParams);
+    console.log(this.params);
+
     this._initializer$ = this.getCardInitializer();
 
     // get props
@@ -78,7 +91,8 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
     // listen to changes from initializer abd prepare data accordingly
     this._subs.add(
-      this._initializer$.subscribe(val => this.prepareData(val))
+      this._initializer$.subscribe(val => this.prepareData(val)),
+      this.dashboardService.saveTrackItemParams.subscribe(_ => this.saveParams())
     )
   }
 
@@ -157,9 +171,9 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   createForm(types: ExerciseType[]) {
     this.exerciseTypes = types;
     this.form = new FormGroup({
-      exerciseType: new FormControl(types[0], Validators.required),
-      dateFrom: new FormControl(moment(new Date()).subtract(1, 'month').toDate(), Validators.required),
-      dateTo: new FormControl(new Date(), Validators.required)
+      exerciseType: new FormControl(this.params?.exerciseType ?? types[0], Validators.required),
+      dateFrom: new FormControl(this.params?.dateFrom ? new Date(this.params?.dateFrom) : moment(new Date()).subtract(1, 'month').toDate(), Validators.required),
+      dateTo: new FormControl(this.params?.dateTo ? new Date(this.params?.dateTo) : new Date(), Validators.required)
     });
 
     this.form.updateValueAndValidity();
@@ -203,4 +217,14 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
   displayFunction = (exerciseType: ExerciseType) => exerciseType ? exerciseType.name : null;
 
+  saveParams() {
+    let params = {
+      dateFrom: this.dateFrom.value,
+      dateTo: this.dateTo.value,
+      exerciseType: this.exerciseType.value
+    };
+
+    let jsonParams = JSON.stringify(params);
+    this.store.dispatch(updateTrackItemParams({trackItemId: this.cardId, jsonParams }));
+  }
 }

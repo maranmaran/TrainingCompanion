@@ -9,6 +9,39 @@ import { DashboardState, initialDashboardState } from './dashboard.state';
 export const dashboardReducer: ActionReducer<DashboardState, Action> = createReducer(
   initialDashboardState,
 
+  on(DashboardActions.updateTrackItemParams, (state: DashboardState, payload: {trackItemId: string, jsonParams: string}) => {
+    let tracks = _.cloneDeep(state.tracks);
+
+    for(let track of tracks) {
+      let itemIdx = track.items.findIndex(item => item.id == payload.trackItemId);
+      if(itemIdx !== -1) {
+        let trackItem = track.items[itemIdx];
+        trackItem.jsonParams = payload.jsonParams;
+      }
+    }
+
+    return {
+        ...state,
+        tracks: tracks
+    }
+  }),
+
+  on(DashboardActions.trackItemParamsUpdated, (state: DashboardState, payload: { trackItemId: string, jsonParams: string}) => {
+
+    let tracks = _.cloneDeep(state.tracks);
+    for(let track of tracks) {
+      let itemIdx = track.items.findIndex(item => item.id == payload.trackItemId);
+      if(itemIdx !== -1) {
+        let trackItem = track.items[itemIdx];
+        trackItem.jsonParams = payload.jsonParams;
+      }
+    }
+
+    return {
+        ...state,
+        trackEdit: !state.trackEdit
+    }
+  }),
   on(DashboardActions.setTrackEditMode, (state: DashboardState) => {
       return {
           ...state,

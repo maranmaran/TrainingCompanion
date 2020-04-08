@@ -1,0 +1,19 @@
+@import "~@angular/material/theming";
+
+@mixin dashboard-cards-theme($theme) {
+  .card-chart-container {
+    #tags {
+      position: relative;
+      bottom: 2rem;
+    }
+  }
+
+  @media(min-width: 960px) {
+    .card-chart-container {
+      #tags {
+        position: relative;
+        bottom: 1rem;
+      }
+    }
+  }
+}

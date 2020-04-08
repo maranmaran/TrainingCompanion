@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Entities.User.Dashboard;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Dashboard.DashboardRequests.GetMainDashboard
 {
@@ -29,7 +29,7 @@ namespace Backend.Business.Dashboard.DashboardRequests.GetMainDashboard
                     .ThenInclude(x => x.MainDashboard)
                     .ThenInclude(x => x.Tracks)
                     .ThenInclude(x => x.Items)
-                    .ThenInclude(x => x.Params)
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
                 if (user == null)

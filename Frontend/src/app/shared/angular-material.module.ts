@@ -46,7 +46,7 @@ const MY_DATEPICKER_FORMAT = {
     dateInput: 'DD/MM/YYYY',
   },
   display: {
-    dateInput: 'DD/MM/YYYY',
+    dateInput: 'DD/MM/YY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
