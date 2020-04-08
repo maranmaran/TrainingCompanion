@@ -18,5 +18,5 @@ export const sidebarCards = {
 }
 
 export const mainDashboardComponents: TrackItem[] = [
-  { component: DashboardCards.Volume, code: 'dashboard-volume', id: Guid.EMPTY, params: null },
+  { component: DashboardCards.Volume, code: 'dashboard-volume', id: Guid.EMPTY, jsonParams: null },
 ]

@@ -2,10 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
+import { Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BaseService } from 'src/business/services/base.service';
-import { activitiesFetched, setDashboardUpdated, tracksFetched } from 'src/ngrx/dashboard/dashboard.actions';
+import { setDashboardUpdated, tracksFetched } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from '../../../../server-models/entities/track.model';
 import { Activity } from '../models/activity.model';
 
@@ -13,6 +15,8 @@ import { Activity } from '../models/activity.model';
   providedIn: 'root'
 })
 export class DashboardService extends BaseService {
+
+  saveTrackItemParams = new Subject();
 
   constructor(
     private httpDI: HttpClient,
@@ -47,14 +51,19 @@ export class DashboardService extends BaseService {
       );
   }
 
+  updateTrackItem(trackItemId: string, jsonParams: string) {
+    return this.http
+    .put<TrackItem>(this.url + 'UpdateTrackItem/', { trackItemId, jsonParams })
+    .pipe(catchError(this.handleError))
+  }
+
   saveMainDashboard(userId: string, tracks: Track[]) {
     var request = { userId: userId, tracks: tracks };
 
     this.http
       .put(this.url + 'SaveMainDashboard/', request)
-      .pipe(
-        catchError(this.handleError)
-      ).subscribe(
+      .pipe(catchError(this.handleError))
+      .subscribe(
         (tracks: Track[]) => {
           this.store.dispatch(setDashboardUpdated({updated: false}));
           this.store.dispatch(tracksFetched({tracks}));

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
@@ -23,7 +24,8 @@ export class ActionsComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private UIService: UIService,
-    private notificationService: NotificationSignalrService
+    private notificationService: NotificationSignalrService,
+    private dashboardService: DashboardService
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +47,10 @@ export class ActionsComponent implements OnInit {
         id,
         id)
     });
+  }
+
+  saveCardParams() {
+    this.dashboardService.saveTrackItemParams.next();
   }
 
 

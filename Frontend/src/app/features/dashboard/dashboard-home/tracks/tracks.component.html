@@ -11,6 +11,7 @@
       <ndc-dynamic *ngFor="let item of (tracks | async)[0]?.items"
         [ndcDynamicComponent]="dashboardCards[item.component]"
         [ndcDynamicAttributes]="attrs"
+        [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }"
       ></ndc-dynamic>
         <!-- [ndcDynamicDirectives]="dirs" -->
     </div>
@@ -27,6 +28,7 @@
           *ngFor="let item of (tracks | async)[1]?.items"
           [ndcDynamicComponent]="dashboardCards[item.component]"
           [ndcDynamicAttributes]="attrs"
+          [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }"
         ></ndc-dynamic>
           <!-- [ndcDynamicDirectives]="dirs" -->
     </div>
