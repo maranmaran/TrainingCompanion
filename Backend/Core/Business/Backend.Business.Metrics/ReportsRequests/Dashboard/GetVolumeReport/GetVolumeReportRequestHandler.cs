@@ -34,6 +34,7 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
                 // get relevant trainings (for user, in between dates and that has at least one exercise of wanted type)
                 var trainings = await _context.Trainings
                     .Include(x => x.Exercises)
+                    .ThenInclude(x => x.Sets)
                     .Where(x => x.ApplicationUserId == request.UserId &&
                                 x.DateTrained.Date >= request.DateFrom.Date &&
                                 x.DateTrained.Date <= request.DateTo.Date &&

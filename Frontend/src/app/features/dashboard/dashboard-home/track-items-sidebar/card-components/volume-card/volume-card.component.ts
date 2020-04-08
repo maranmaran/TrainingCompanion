@@ -3,21 +3,24 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
+import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectableObservable, Observable } from 'rxjs';
 import { combineLatest } from 'rxjs/internal/observable/combineLatest';
-import { distinctUntilChanged, map, publish, startWith, switchMap, take } from 'rxjs/operators';
+import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, skip, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { Theme } from 'src/business/shared/theme.enum';
 import { settingsUpdated } from 'src/ngrx/auth/auth.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme, isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { ChartData } from 'src/server-models/entities/chart-data';
+import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
 import { ExerciseTypeService } from './../../../../../../../business/services/feature-services/exercise-type.service';
-import { currentUserId, unitSystem } from './../../../../../../../ngrx/auth/auth.selectors';
+import { currentUserId } from './../../../../../../../ngrx/auth/auth.selectors';
 import { ExerciseType } from './../../../../../../../server-models/entities/exercise-type.model';
 import { UnitSystem } from './../../../../../../../server-models/enums/unit-system.enum';
+import { PagingModel } from './../../../../../../shared/material-table/table-models/paging.model';
 import { GetVolumeCardChartConfig } from './volume-card-chart.config';
 
 @Component({
@@ -35,7 +38,6 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   error = false;
   isLoading = false;
 
-
   config: ChartConfiguration[]; // config is main driver of chart
 
   // params
@@ -46,6 +48,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
   _initializer$: Observable<any>; // kickstart listener for init
   _metricsData: ChartData<number, Date>; // actual data
+  _pagingModel = new PagingModel();
 
   _subs = new SubSink();
 
@@ -61,7 +64,6 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
     // get props
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this._userId = id);
-    this.store.select(unitSystem).pipe(take(1)).subscribe(system => this._unitSystem = system);
 
     // get all exercise types and initialize form
     this.getExerciseTypes().subscribe((types: ExerciseType[]) => {
@@ -89,7 +91,8 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
       this.store.select(activeTheme),
       // listening to this action because first we need unit
       // system to be stored in db.. then fetch all new calculated data from server
-      this.actions$.pipe(ofType(settingsUpdated), map(val => val.unitSystem), startWith(this._unitSystem)),
+      this.actions$.pipe(ofType(settingsUpdated), map(val => val.unitSystem), startWith(UnitSystem.Metric)),
+      this.store.select(currentUserId),
       this.store.select(isMobile)
     )
     .pipe(
@@ -102,32 +105,19 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
    * Should we fetch new data from server
    * or update existing chart configurations only
    */
-  prepareData([theme, unitSystem, mobile]) {
+  prepareData([theme, unitSystem, userId, mobile]) {
     this._theme = theme;
+    this._unitSystem = unitSystem;
+    this._userId = userId;
     this.isMobile = mobile;
 
-    let formData = this.validateAndGetFormData();
-    if(!formData) return;
-
-    // if we need to refresh data because we need additional calculations or transform
-    if (this._unitSystem != unitSystem) {
-
-      // get transformed data from server
-      this._unitSystem = unitSystem;
-
-      let formData = this.validateAndGetFormData();
-      if(formData) {
-        this.loadCardData(this._userId, this.exerciseType.value.id, this.dateFrom.value, this.dateTo.value);
-      }
-
-      return;
-    }
+    if(!this.validateAndGetFormData()) return;
 
     // if data already exists.. just setup configs
-    if (this._metricsData) {
-      this.getChartConfigs(this._metricsData);
-      return;
-    }
+    if (this._metricsData)
+      return this.getChartConfigs(this._metricsData);
+
+    this.loadCardData(this._userId, this.exerciseType.value.id, this.dateFrom.value, this.dateTo.value);
   }
 
   /** Fetches metric data from server */
@@ -171,6 +161,38 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
       dateFrom: new FormControl(moment(new Date()).subtract(1, 'month').toDate(), Validators.required),
       dateTo: new FormControl(new Date(), Validators.required)
     });
+
+    this.form.updateValueAndValidity();
+    this.initListeners();
+  }
+
+  initListeners() {
+    this._subs.add(
+      // changes on inputs to fetch chart data if inputs change
+      this.dateFrom.valueChanges.subscribe(dateFrom => this.loadCardData(this._userId, this.exerciseType.value.id, dateFrom, this.dateTo.value)),
+      this.dateTo.valueChanges.subscribe(dateTo => this.loadCardData(this._userId, this.exerciseType.value.id, this.dateFrom.value, dateTo)),
+      this.exerciseType.valueChanges
+      .pipe(filter(val => !!val.id), map(type => type.id))
+      .subscribe(typeId => {
+        this.loadCardData(this._userId, typeId, this.dateFrom.value, this.dateTo.value)
+      }),
+      // autocomplete input changes.. for paging of dropdown
+      this.exerciseType.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinct(),
+        skip(1),
+        filter(val => _.isString(val) || !val),
+        tap(() => {
+          this.isLoading = true;
+        }),
+        switchMap(val => {
+          this._pagingModel.filterQuery = val;
+          return this.exerciseTypeService.getPaged(this._userId, this._pagingModel).pipe(finalize(() => this.isLoading = false));
+      })).subscribe((data: PagedList<ExerciseType>) => {
+        this.exerciseTypes = data.list;
+      })
+    )
   }
 
   validateAndGetFormData() {
