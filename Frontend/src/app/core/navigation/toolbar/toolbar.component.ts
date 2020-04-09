@@ -1,3 +1,4 @@
+import { dashboardActive } from './../../../../ngrx/dashboard/dashboard.selectors';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
@@ -16,6 +17,7 @@ import { SettingsComponent } from '../../settings/settings.component';
 import { UIService } from './../../../../business/services/shared/ui.service';
 import { PushNotification } from './../../../../server-models/entities/push-notification.model';
 import { AccountType } from './../../../../server-models/enums/account-type.enum';
+import { setTrackEditMode } from 'src/ngrx/dashboard/dashboard.actions';
 
 @Component({
   selector: 'app-toolbar',
@@ -52,11 +54,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   loading$: Observable<boolean>;
+  dashboardActive$: Observable<boolean>;
 
   ngOnInit(): void {
 
     // set observable for main progress bar
     this.loading$ = getLoadingState(this.store, UIProgressBar.MainAppScreen);
+    this.dashboardActive$ = this.store.select(dashboardActive);
 
     this.unreadChatMessages = this.store.select(totalUnreadChatMessages);
 
@@ -66,24 +70,24 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.subSink.add(
 
       this.store.select(currentUser)
-      .subscribe(user => {
-        this.userInfo = {
-          userId: user.id,
-          isCoach: user.accountType == AccountType.Coach || user.accountType == AccountType.Admin,
-          isAthlete: user.accountType == AccountType.Athlete,
-          fullName: user.fullName,
-          avatar: user?.avatar,
-        }
-      }),
+        .subscribe(user => {
+          this.userInfo = {
+            userId: user.id,
+            isCoach: user.accountType == AccountType.Coach || user.accountType == AccountType.Admin,
+            isAthlete: user.accountType == AccountType.Athlete,
+            fullName: user.fullName,
+            avatar: user?.avatar,
+          }
+        }),
 
       this.notificationService.notifications$
-      .subscribe((notification: PushNotification) => {
+        .subscribe((notification: PushNotification) => {
 
           this.notifications = [notification, ...this.notifications];
           !notification.read && this.unreadNotificationCounter++;
 
           // do stuff... Display some toastr or something for new notifications while user is logged in
-      }),
+        }),
     );
 
     setTimeout(_ => this.getHistory(this.userInfo.userId, this.page++, this.pageSize));
@@ -157,5 +161,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   onToggleSidebar() {
     this.UIService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
   }
+
+  toggleDashboardEdit() {
+    this.store.dispatch(setTrackEditMode());
+    this.UIService.doSidenavAction(UISidenav.DashboardComponents, UISidenavAction.Toggle);
+  }
+
 
 }
