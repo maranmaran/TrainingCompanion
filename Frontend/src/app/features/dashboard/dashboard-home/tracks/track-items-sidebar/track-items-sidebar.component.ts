@@ -3,14 +3,14 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { concatMap, filter, take } from 'rxjs/operators';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
+import { setTrackEditMode } from 'src/ngrx/dashboard/dashboard.actions';
+import { dashboardUpdated, trackEditMode, tracks } from 'src/ngrx/dashboard/dashboard.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from 'src/server-models/entities/track.model';
-import { mainDashboardComponents, sidebarCards } from '../../models/dashboard-cards';
-import { UIService } from './../../../../../business/services/shared/ui.service';
-import { setTrackEditMode } from './../../../../../ngrx/dashboard/dashboard.actions';
-import { dashboardUpdated, trackEditMode, tracks } from './../../../../../ngrx/dashboard/dashboard.selectors';
+import { mainDashboardComponents, sidebarCards } from '../../../models/dashboard-cards';
 
 @Component({
   selector: 'app-track-items-sidebar',

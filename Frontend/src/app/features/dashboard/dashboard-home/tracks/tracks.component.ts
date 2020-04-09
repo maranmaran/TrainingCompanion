@@ -1,5 +1,6 @@
 import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
 import { AttributesMap } from 'ng-dynamic-component';
 import { Observable } from 'rxjs';
@@ -24,7 +25,7 @@ export class TracksComponent implements OnInit {
 
   tracks: Observable<Track[]>;
   dashboardCards = dashboardCards;
-  attrs: AttributesMap = { class: 'dashboard-component' };
+  attrs: AttributesMap = { class: 'dashboard-component mat-elevation-z3' };
 
   exerciseTypes: ExerciseType[];
   //TODO: Directives in ndcDynamic have trouble with angular AOT - see issue on their github
@@ -37,6 +38,7 @@ export class TracksComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private dashboardService: DashboardService,
+    public mediaObserver: MediaObserver
   ) { }
 
   ngOnInit(): void {
