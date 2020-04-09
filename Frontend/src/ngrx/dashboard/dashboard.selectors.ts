@@ -6,7 +6,7 @@ export const selectDashboardState = createFeatureSelector<DashboardState>('dashb
 export const trackEditMode = createSelector(
   selectDashboardState,
   (dashboardState: DashboardState) => dashboardState.trackEdit
-  )
+)
 
 export const dashboardUpdated = createSelector(
   selectDashboardState,
@@ -22,4 +22,7 @@ export const activities = createSelector(
   selectDashboardState,
   (dashboardState: DashboardState) => dashboardState.activities
 )
-
+export const dashboardActive = createSelector(
+  selectDashboardState,
+  (dashboardState: DashboardState) => dashboardState.dashboardActive
+)

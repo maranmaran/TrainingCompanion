@@ -19,14 +19,12 @@ import { mainDashboardComponents, sidebarCards } from '../../../models/dashboard
 })
 export class TrackItemsSidebarComponent implements OnInit {
 
-  dashboardEditMode: Observable<boolean>;
-
   sidebarCards = sidebarCards;
   mainDashboardComponents = mainDashboardComponents;
 
   @Output() dragEnter = new EventEmitter<any>()
   @Output() dragEnd = new EventEmitter()
-  @Output() drop = new EventEmitter<{event: CdkDragDrop<TrackItem[]>, trackIdx: number}>();
+  @Output() drop = new EventEmitter<{ event: CdkDragDrop<TrackItem[]>, trackIdx: number }>();
 
   @Output('saveTracks') saveTracksEvent = new EventEmitter<Track[]>();
 
@@ -36,7 +34,6 @@ export class TrackItemsSidebarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dashboardEditMode = this.store.select(trackEditMode);
   }
 
   toggleSidenav = () => {
@@ -46,8 +43,8 @@ export class TrackItemsSidebarComponent implements OnInit {
     this.UIService.doSidenavAction(UISidenav.DashboardComponents, UISidenavAction.Toggle);
 
     this.store.select(dashboardUpdated)
-    .pipe(take(1), filter(updated => !!updated), concatMap(_ => this.store.select(tracks).pipe(take(1))))
-    .subscribe(tracks => this.saveTracksEvent.emit(tracks))
+      .pipe(take(1), filter(updated => !!updated), concatMap(_ => this.store.select(tracks).pipe(take(1))))
+      .subscribe(tracks => this.saveTracksEvent.emit(tracks))
   }
 
 }

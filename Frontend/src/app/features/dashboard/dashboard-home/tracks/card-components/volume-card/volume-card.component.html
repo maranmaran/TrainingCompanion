@@ -1,7 +1,5 @@
 <div class="card-chart-container h-100" fxLayout="column" fxLayoutGap.lt-md="1rem" *ngIf="cardBootstrapped">
-  <form [formGroup]="form"
-  fxLayout="row" fxLayoutGap="0.25rem"
-  fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
+  <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem" fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
 
     <mat-form-field fxFlexOrder.lt-md="2" fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
       <input matInput placeholder="Exercise type" [matAutocomplete]="auto" [formControl]="exerciseType">
@@ -40,17 +38,18 @@
 
   </form>
   <div id="tags" *ngIf="exerciseType && exerciseType.value">
-    <app-exercise-type-chip-list  *ngIf="exerciseType.value" [propertyList]="exerciseType.value.properties"></app-exercise-type-chip-list>
+    <app-exercise-type-chip-list *ngIf="exerciseType.value" [propertyList]="exerciseType.value.properties">
+    </app-exercise-type-chip-list>
   </div>
 
   <app-chart [configuration]="config"></app-chart>
 </div>
 
-<div class="h-100 w-100" *ngIf="!cardBootstrapped" fxLayout="row" fxLayoutAlign="center center">
+<div class="h-100 w-100" *ngIf="!cardBootstrapped && !error" fxLayout="row" fxLayoutAlign="center center">
   <mat-spinner></mat-spinner>
 </div>
 
-
- <div *ngIf="error" class="h-100 w-100" fxLayout="row" fxLayoutAlign="center center">
-   <h3>Could not render chart</h3>
- </div>
+<div *ngIf="error" fxLayout="column" class="h-100 w-100" fxLayoutAlign="center center">
+  <h2>Could not render chart</h2>
+  <h3 *ngIf="details">{{details}}</h3>
+</div>

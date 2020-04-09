@@ -1,36 +1,26 @@
-  <div class="pl-2 pr-2 w-100" [ngClass]="{'h-100': mediaObserver.isActive('gt-xs')}" fxLayout="row" fxLayout.lt-lg="column" fxLayoutGap="0.25rem">
+<div class="pl-2 pr-2 w-100" [ngClass]="{'h-100': mediaObserver.isActive('gt-md')}" fxLayout="row"
+  fxLayout.lt-lg="column" fxLayoutGap="0.25rem">
 
-    <!--TRACK ONE-->
-    <div
-      id="track1"
-      #trackOne="cdkDropList" cdkDropList
-      [cdkDropListConnectedTo]="['track2', 'trackItemsList']" [cdkDropListData]="(tracks | async)[0]?.items"
-      (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 0})" (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()"
-      fxFlex="1 1 calc(50% - 0.25rem)" fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem"
-    >
-      <ndc-dynamic *ngFor="let item of (tracks | async)[0]?.items"
-        [ndcDynamicComponent]="dashboardCards[item.component]"
-        [ndcDynamicAttributes]="attrs"
-        [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }"
-      ></ndc-dynamic>
-        <!-- [ndcDynamicDirectives]="dirs" -->
-    </div>
-
-    <!--TRACK TWO-->
-    <div
-      id="track2"
-      cdkDropList #trackTwo="cdkDropList"
-      [cdkDropListConnectedTo]="['track1', 'trackItemsList']" [cdkDropListData]="(tracks | async)[1]?.items"
-      (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 1})" (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()"
-      fxFlex="1 1 calc(50%  - 0.25rem)" fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem"
-    >
-        <ndc-dynamic
-          *ngFor="let item of (tracks | async)[1]?.items"
-          [ndcDynamicComponent]="dashboardCards[item.component]"
-          [ndcDynamicAttributes]="attrs"
-          [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }"
-        ></ndc-dynamic>
-          <!-- [ndcDynamicDirectives]="dirs" -->
-    </div>
-
+  <!--TRACK ONE-->
+  <div id="track1" #trackOne="cdkDropList" cdkDropList [cdkDropListConnectedTo]="['track2', 'trackItemsList']"
+    [cdkDropListData]="(tracks | async)[0]?.items" (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 0})"
+    (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()" fxFlex="1 1 calc(50% - 0.25rem)"
+    fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem">
+    <ndc-dynamic *ngFor="let item of (tracks | async)[0]?.items" [ndcDynamicComponent]="dashboardCards[item.component]"
+      [ndcDynamicAttributes]="attrs" [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }">
+    </ndc-dynamic>
+    <!-- [ndcDynamicDirectives]="dirs" -->
   </div>
+
+  <!--TRACK TWO-->
+  <div id="track2" cdkDropList #trackTwo="cdkDropList" [cdkDropListConnectedTo]="['track1', 'trackItemsList']"
+    [cdkDropListData]="(tracks | async)[1]?.items" (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 1})"
+    (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()" fxFlex="1 1 calc(50%  - 0.25rem)"
+    fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem">
+    <ndc-dynamic *ngFor="let item of (tracks | async)[1]?.items" [ndcDynamicComponent]="dashboardCards[item.component]"
+      [ndcDynamicAttributes]="attrs" [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }">
+    </ndc-dynamic>
+    <!-- [ndcDynamicDirectives]="dirs" -->
+  </div>
+
+</div>
