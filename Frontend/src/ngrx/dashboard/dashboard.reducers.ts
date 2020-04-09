@@ -9,14 +9,14 @@ import { DashboardState, initialDashboardState } from './dashboard.state';
 export const dashboardReducer: ActionReducer<DashboardState, Action> = createReducer(
   initialDashboardState,
 
-  on(DashboardActions.updateTrackItemParams, (state: DashboardState, payload: {trackItemId: string, jsonParams: string}) => {
+  on(DashboardActions.updateTrackItem, (state: DashboardState, payload: {trackItem: TrackItem}) => {
     let tracks = _.cloneDeep(state.tracks);
 
     for(let track of tracks) {
-      let itemIdx = track.items.findIndex(item => item.id == payload.trackItemId);
+      let itemIdx = track.items.findIndex(item => item.id == payload.trackItem.id);
       if(itemIdx !== -1) {
         let trackItem = track.items[itemIdx];
-        trackItem.jsonParams = payload.jsonParams;
+        trackItem.jsonParams = payload.trackItem.jsonParams;
       }
     }
 
@@ -26,20 +26,20 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
     }
   }),
 
-  on(DashboardActions.trackItemParamsUpdated, (state: DashboardState, payload: { trackItemId: string, jsonParams: string}) => {
+  on(DashboardActions.trackItemUpdated, (state: DashboardState, payload: { trackItem: TrackItem}) => {
 
     let tracks = _.cloneDeep(state.tracks);
+
     for(let track of tracks) {
-      let itemIdx = track.items.findIndex(item => item.id == payload.trackItemId);
-      if(itemIdx !== -1) {
-        let trackItem = track.items[itemIdx];
-        trackItem.jsonParams = payload.jsonParams;
-      }
+      let itemIdx = track.items.findIndex(item => item.id == payload.trackItem.id);
+
+      if(itemIdx !== -1)
+        track.items[itemIdx] = payload.trackItem;
     }
 
     return {
         ...state,
-        trackEdit: !state.trackEdit
+        tracks: tracks
     }
   }),
   on(DashboardActions.setTrackEditMode, (state: DashboardState) => {
