@@ -9,7 +9,7 @@
 
   <mat-sidenav-content id="dashboard-sidenav-content">
 
-    <app-actions fxHide.lt-sm></app-actions>
+    <!-- <app-actions fxHide.lt-sm></app-actions> -->
 
     <!--Desktop-->
     <div *ngIf="!mediaObserver.isActive('lt-sm')" class="main-dashboard-container" fxLayout="row">
@@ -27,7 +27,7 @@
             <i class="fas fa-home fa-1-5x"></i>
           </button>
         </ng-template>
-        <div style="height: calc(100vh - 173px + 68px)">
+        <div style="height: calc(100vh - 105px)">
           <app-feed></app-feed>
         </div>
       </mat-tab>
@@ -38,7 +38,7 @@
             <i class="fas fa-chart-pie fa-1-5x"></i>
           </button>
         </ng-template>
-        <div style="height: calc(100vh - 173px + 68px); overflow-y: auto">
+        <div style="height: calc(100vh - 105px); overflow-y: auto">
           <app-tracks (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()"></app-tracks>
         </div>
       </mat-tab>

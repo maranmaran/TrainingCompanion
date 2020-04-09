@@ -1,6 +1,7 @@
 ﻿using Backend.Business.TrainingLog.SetRequests.Create;
 using Backend.Business.TrainingLog.SetRequests.Delete;
 using Backend.Business.TrainingLog.SetRequests.UpdateMany;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
@@ -19,7 +20,11 @@ namespace Backend.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateMany([FromBody] UpdateManySetsRequest request, CancellationToken cancellationToken = default)
         {
-            RemoveCacheKeys($"Report/TrainingMetrics");
+            var userId = HttpContext.User.Identity.Name;
+            RemoveCacheKeys($"Report/TrainingMetrics{userId}",
+                            $"Report/GetDashboardVolumeReport{userId}",
+                            $"Report/GetDashboardMaxReport{userId}");
+
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 
