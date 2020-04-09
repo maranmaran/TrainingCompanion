@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { tracks } from 'src/ngrx/dashboard/dashboard.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from 'src/server-models/entities/track.model';
 import { dashboardCards } from '../../models/dashboard-cards';
@@ -24,6 +25,8 @@ export class TracksComponent implements OnInit {
   tracks: Observable<Track[]>;
   dashboardCards = dashboardCards;
   attrs: AttributesMap = { class: 'dashboard-component' };
+
+  exerciseTypes: ExerciseType[];
   //TODO: Directives in ndcDynamic have trouble with angular AOT - see issue on their github
   // dirs: DynamicDirectiveDef<any>[] = [ dynamicDirectiveDef(MaterialElevationDirective, { raisedElevation: 16 }) ];
 

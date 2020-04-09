@@ -5,6 +5,7 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
+import { Guid } from 'guid-typescript';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectableObservable, Observable } from 'rxjs';
@@ -23,6 +24,7 @@ import { SubSink } from 'subsink';
 import { ExerciseTypeService } from './../../../../../../../business/services/feature-services/exercise-type.service';
 import { currentUserId } from './../../../../../../../ngrx/auth/auth.selectors';
 import { trackItemUpdated } from './../../../../../../../ngrx/dashboard/dashboard.actions';
+import { trackEditMode } from './../../../../../../../ngrx/dashboard/dashboard.selectors';
 import { ExerciseType } from './../../../../../../../server-models/entities/exercise-type.model';
 import { UnitSystem } from './../../../../../../../server-models/enums/unit-system.enum';
 import { PagingModel } from './../../../../../../shared/material-table/table-models/paging.model';
@@ -55,6 +57,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   _theme: Theme;
   _userId: string;
   _unitSystem: UnitSystem;
+  _trackEditMode: boolean;
 
   _initializer$: Observable<any>; // kickstart listener for init
   _metricsData: ChartData<number, Date>; // actual data
@@ -77,12 +80,14 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
     // get props
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this._userId = id);
+    this.store.select(trackEditMode).pipe(take(1)).subscribe(editMode => this._trackEditMode = editMode);
 
+    // TODO: Move this to parent container
     // get all exercise types and initialize form
-    this.getExerciseTypes().subscribe((types: ExerciseType[]) => {
-        if(!types || types.length == 0) return;
+    this.getExerciseTypes().subscribe((types: PagedList<ExerciseType>) => {
+        if(!types || types.list.length == 0) return;
 
-        this.createForm(types);
+        this.createForm(types.list);
         (this._initializer$ as ConnectableObservable<any>).connect() // now we can fetch card data
         this.cardBootstrapped = true;
       },
@@ -97,7 +102,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.cardBootstrapped && this.form.valid)
+    if(this.cardId != Guid.EMPTY && !this._trackEditMode && this.cardBootstrapped && this.form.valid)
       this.saveParams();
 
       this._subs.unsubscribe();
@@ -162,7 +167,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
   getExerciseTypes() {
     return this.store.select(currentUserId).pipe(
-      switchMap(id => this.exerciseTypeService.getAll(id).pipe(take(1))),
+      switchMap(id => this.exerciseTypeService.getPaged(id, this._pagingModel).pipe(take(1))),
       take(1),
     );
   }
