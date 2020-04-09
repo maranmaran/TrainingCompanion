@@ -15,5 +15,5 @@ export const addTrackItem = createAction('[Dashboard] Add track item', props<{it
 export const removeTrackItem = createAction('[Dashboard] Remove track item', props<{item: TrackItem, idx: number}>())
 export const saveDashboard = createAction('[Dashboard] Save', props<{tracks: Track[]}>());
 
-export const updateTrackItemParams = createAction('[Dashboard] Update track item params', props<{trackItemId: string, jsonParams: string}>());
-export const trackItemParamsUpdated = createAction('[Dashboard] Track item params updated', props<{ trackItemId: string, jsonParams: string}>());
+export const updateTrackItem = createAction('[Dashboard] Update track item', props<{ trackItem: TrackItem }>());
+export const trackItemUpdated = createAction('[Dashboard] Track item updated', props<{ trackItem: TrackItem}>());
