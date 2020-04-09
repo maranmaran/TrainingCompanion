@@ -49,8 +49,9 @@
   }
 }
 
-@media(max-width: 1279px) { // because of lt-lg in fxLayout
-  .main-dashboard-container{
-    height: auto;
-  }
+@media (max-width: 1279px) {
+  // because of lt-lg in fxLayout
+  // .main-dashboard-container{
+  //   height: auto;
+  // }
 }
