@@ -48,6 +48,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   exerciseTypes: ExerciseType[];
   cardBootstrapped = false;
   error = false;
+  details: string;
   isLoading = false;
 
   config: ChartConfiguration[]; // config is main driver of chart
@@ -84,12 +85,16 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
     // get first exercise types page and initialize form
     this.getExerciseTypes().pipe(take(1)).subscribe((types: PagedList<ExerciseType>) => {
-        if(!types || types.list.length == 0) return;
+      if (!types || types.list.length == 0) {
+        this.error = true;
+        this.details = 'You have no exercises. Please add or import some.';
+        return;
+      }
 
-        this.createForm(types.list);
-        (this._initializer$ as ConnectableObservable<any>).connect() // now we can fetch card data
-        this.cardBootstrapped = true;
-      },
+      this.createForm(types.list);
+      (this._initializer$ as ConnectableObservable<any>).connect() // now we can fetch card data
+      this.cardBootstrapped = true;
+    },
       _ => this.error = true
     );
 
@@ -101,10 +106,10 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.cardId != Guid.EMPTY && !this._trackEditMode && this.cardBootstrapped && this.form.valid)
+    if (this.cardId != Guid.EMPTY && !this._trackEditMode && this.cardBootstrapped && this.form.valid)
       this.saveParams();
 
-      this._subs.unsubscribe();
+    this._subs.unsubscribe();
   }
 
   getCardInitializer() {
@@ -116,10 +121,10 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
       this.store.select(currentUserId),
       this.store.select(isMobile)
     )
-    .pipe(
-      distinctUntilChanged((a,b) => JSON.stringify(a) == JSON.stringify(b)),
-      publish()
-    );
+      .pipe(
+        distinctUntilChanged((a, b) => JSON.stringify(a) == JSON.stringify(b)),
+        publish()
+      );
   }
 
   /** Determines how data should be prepared for component
@@ -132,7 +137,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     this._userId = userId;
     this.isMobile = mobile;
 
-    if(!this.validateAndGetFormData()) return;
+    if (!this.validateAndGetFormData()) return;
 
     // if data already exists.. just setup configs
     if (this._metricsData)
@@ -161,7 +166,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     const data = chartData.dataSets[0].data;
     const settings = { theme: this._theme, unitSystem: this._unitSystem, mobile: this.isMobile };
 
-    this.config = [ GetVolumeCardChartConfig(settings, data, labels) ];
+    this.config = [GetVolumeCardChartConfig(settings, data, labels)];
   }
 
   getExerciseTypes() {
@@ -192,31 +197,31 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
       this.dateFrom.valueChanges.subscribe(dateFrom => this.loadCardData(this._userId, this.exerciseType.value.id, dateFrom, this.dateTo.value)),
       this.dateTo.valueChanges.subscribe(dateTo => this.loadCardData(this._userId, this.exerciseType.value.id, this.dateFrom.value, dateTo)),
       this.exerciseType.valueChanges
-      .pipe(filter(val => !!val.id), map(type => type.id))
-      .subscribe(typeId => {
-        this.loadCardData(this._userId, typeId, this.dateFrom.value, this.dateTo.value)
-      }),
+        .pipe(filter(val => !!val.id), map(type => type.id))
+        .subscribe(typeId => {
+          this.loadCardData(this._userId, typeId, this.dateFrom.value, this.dateTo.value)
+        }),
       // autocomplete input changes.. for paging of dropdown
       this.exerciseType.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinct(),
-        skip(1),
-        filter(val => _.isString(val) || !val),
-        tap(() => {
-          this.isLoading = true;
-        }),
-        switchMap(val => {
-          this._pagingModel.filterQuery = val;
-          return this.exerciseTypeService.getPaged(this._userId, this._pagingModel).pipe(finalize(() => this.isLoading = false));
-      })).subscribe((data: PagedList<ExerciseType>) => {
-        this.exerciseTypes = data.list;
-      })
+        .pipe(
+          debounceTime(500),
+          distinct(),
+          skip(1),
+          filter(val => _.isString(val) || !val),
+          tap(() => {
+            this.isLoading = true;
+          }),
+          switchMap(val => {
+            this._pagingModel.filterQuery = val;
+            return this.exerciseTypeService.getPaged(this._userId, this._pagingModel).pipe(finalize(() => this.isLoading = false));
+          })).subscribe((data: PagedList<ExerciseType>) => {
+            this.exerciseTypes = data.list;
+          })
     )
   }
 
   validateAndGetFormData() {
-    if(!this.form.valid) return null;
+    if (!this.form.valid) return null;
 
     return (this.exerciseType.value.id, this.dateFrom.value, this.dateTo.value)
   }
@@ -233,7 +238,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     let jsonParams = JSON.stringify(params);
     // this.store.dispatch(updateTrackItemParams({trackItemId: this.cardId, jsonParams }));
     this.dashboardService.updateTrackItem(this.cardId, jsonParams)
-    .pipe(take(1))
-    .subscribe((trackItem: TrackItem) => this.store.dispatch(trackItemUpdated({trackItem})))
+      .pipe(take(1))
+      .subscribe((trackItem: TrackItem) => this.store.dispatch(trackItemUpdated({ trackItem })))
   }
 }

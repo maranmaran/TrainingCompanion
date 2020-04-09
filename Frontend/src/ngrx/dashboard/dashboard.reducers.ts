@@ -9,78 +9,84 @@ import { DashboardState, initialDashboardState } from './dashboard.state';
 export const dashboardReducer: ActionReducer<DashboardState, Action> = createReducer(
   initialDashboardState,
 
-  on(DashboardActions.updateTrackItem, (state: DashboardState, payload: {trackItem: TrackItem}) => {
+  on(DashboardActions.updateTrackItem, (state: DashboardState, payload: { trackItem: TrackItem }) => {
     let tracks = _.cloneDeep(state.tracks);
 
-    for(let track of tracks) {
+    for (let track of tracks) {
       let itemIdx = track.items.findIndex(item => item.id == payload.trackItem.id);
-      if(itemIdx !== -1) {
+      if (itemIdx !== -1) {
         let trackItem = track.items[itemIdx];
         trackItem.jsonParams = payload.trackItem.jsonParams;
       }
     }
 
     return {
-        ...state,
-        tracks: tracks
+      ...state,
+      tracks: tracks
     }
   }),
 
-  on(DashboardActions.trackItemUpdated, (state: DashboardState, payload: { trackItem: TrackItem}) => {
+  on(DashboardActions.trackItemUpdated, (state: DashboardState, payload: { trackItem: TrackItem }) => {
 
     let tracks = _.cloneDeep(state.tracks);
 
-    for(let track of tracks) {
+    for (let track of tracks) {
       let itemIdx = track.items.findIndex(item => item.id == payload.trackItem.id);
 
-      if(itemIdx !== -1)
+      if (itemIdx !== -1)
         track.items[itemIdx] = payload.trackItem;
     }
 
     return {
-        ...state,
-        tracks: tracks
+      ...state,
+      tracks: tracks
     }
   }),
   on(DashboardActions.setTrackEditMode, (state: DashboardState) => {
-      return {
-          ...state,
-          trackEdit: !state.trackEdit
-      }
+    return {
+      ...state,
+      trackEdit: !state.trackEdit
+    }
   }),
-  on(DashboardActions.setDashboardUpdated, (state: DashboardState, payload: {updated: boolean}) => {
-      return {
-          ...state,
-          dashboardUpdated: payload.updated
-      }
+  on(DashboardActions.setDashboardActive, (state: DashboardState, payload: { active: boolean }) => {
+    return {
+      ...state,
+      dashboardActive: payload.active
+    }
+  }),
+  on(DashboardActions.setDashboardUpdated, (state: DashboardState, payload: { updated: boolean }) => {
+    return {
+      ...state,
+      dashboardUpdated: payload.updated
+    }
   }),
   on(DashboardActions.tracksFetched, (state: DashboardState, payload: { tracks: Track[] }) => {
-      return {
-          ...state,
-          tracks: [...payload.tracks]
-      }
+    return {
+      ...state,
+      tracks: [...payload.tracks]
+    }
   }),
   on(DashboardActions.activitiesFetched, (state: DashboardState, payload: { activities: Activity[] }) => {
-      return {
-          ...state,
-          activities: [...payload.activities]
-      }
+    return {
+      ...state,
+      activities: [...payload.activities]
+    }
   }),
   on(DashboardActions.pushActivity, (state: DashboardState, payload: { activity: Activity }) => {
-      return {
-          ...state,
-          activities: [payload.activity, ...state.activities]
-      }
+    return {
+      ...state,
+      activities: [payload.activity, ...state.activities]
+    }
   }),
   on(DashboardActions.addTrackItem, (state: DashboardState, payload: { item: TrackItem, idx: number }) => {
     let tracks = _.cloneDeep(state.tracks);
     tracks[payload.idx].items.push(payload.item);
 
     return {
-          ...state,
-          tracks: [...tracks],
-          dashboardUpdated: true
-      }
+      ...state,
+      tracks: [...tracks],
+      dashboardUpdated: true
+    }
   }),
   on(DashboardActions.removeTrackItem, (state: DashboardState, payload: { item: TrackItem, idx: number }) => {
     let tracks = _.cloneDeep(state.tracks);
@@ -92,9 +98,9 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
     });
 
     return {
-          ...state,
-          tracks: [...tracks],
-          dashboardUpdated: true
-      }
+      ...state,
+      tracks: [...tracks],
+      dashboardUpdated: true
+    }
   }),
 )

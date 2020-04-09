@@ -6,6 +6,7 @@ export interface DashboardState {
   dashboardUpdated: boolean;
   tracks: Track[],
   activities: Activity[],
+  dashboardActive: boolean;
 }
 
 export const initialDashboardState: DashboardState = {
@@ -13,4 +14,5 @@ export const initialDashboardState: DashboardState = {
   dashboardUpdated: false,
   tracks: [],
   activities: [],
+  dashboardActive: false,
 };
