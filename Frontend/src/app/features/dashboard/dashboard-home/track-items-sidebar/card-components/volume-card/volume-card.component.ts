@@ -14,14 +14,15 @@ import { DashboardService } from 'src/app/features/dashboard/services/dashboard.
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { Theme } from 'src/business/shared/theme.enum';
 import { settingsUpdated } from 'src/ngrx/auth/auth.actions';
-import { updateTrackItemParams } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme, isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { ChartData } from 'src/server-models/entities/chart-data';
+import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
 import { ExerciseTypeService } from './../../../../../../../business/services/feature-services/exercise-type.service';
 import { currentUserId } from './../../../../../../../ngrx/auth/auth.selectors';
+import { trackItemUpdated } from './../../../../../../../ngrx/dashboard/dashboard.actions';
 import { ExerciseType } from './../../../../../../../server-models/entities/exercise-type.model';
 import { UnitSystem } from './../../../../../../../server-models/enums/unit-system.enum';
 import { PagingModel } from './../../../../../../shared/material-table/table-models/paging.model';
@@ -71,7 +72,6 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.params = JSON.parse(this.jsonParams);
-    console.log(this.params);
 
     this._initializer$ = this.getCardInitializer();
 
@@ -92,12 +92,15 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     // listen to changes from initializer abd prepare data accordingly
     this._subs.add(
       this._initializer$.subscribe(val => this.prepareData(val)),
-      this.dashboardService.saveTrackItemParams.subscribe(_ => this.saveParams())
+      // this.dashboardService.saveTrackItemParams.subscribe(_ => this.saveParams())
     )
   }
 
   ngOnDestroy(): void {
-    this._subs.unsubscribe();
+    if(this.cardBootstrapped && this.form.valid)
+      this.saveParams();
+
+      this._subs.unsubscribe();
   }
 
   getCardInitializer() {
@@ -225,6 +228,9 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     };
 
     let jsonParams = JSON.stringify(params);
-    this.store.dispatch(updateTrackItemParams({trackItemId: this.cardId, jsonParams }));
+    // this.store.dispatch(updateTrackItemParams({trackItemId: this.cardId, jsonParams }));
+    this.dashboardService.updateTrackItem(this.cardId, jsonParams)
+    .pipe(take(1))
+    .subscribe((trackItem: TrackItem) => this.store.dispatch(trackItemUpdated({trackItem})))
   }
 }
