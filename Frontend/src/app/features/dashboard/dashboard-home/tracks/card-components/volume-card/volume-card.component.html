@@ -22,7 +22,6 @@
 
         <mat-label>From: </mat-label>
         <input matInput [matDatepicker]="datepicker1" formControlName="dateFrom">
-        <!-- (dateChange)="getReportData()" -->
 
         <mat-datepicker-toggle matSuffix [for]="datepicker1">
         </mat-datepicker-toggle>
@@ -50,3 +49,8 @@
 <div class="h-100 w-100" *ngIf="!cardBootstrapped" fxLayout="row" fxLayoutAlign="center center">
   <mat-spinner></mat-spinner>
 </div>
+
+
+ <div *ngIf="error" class="h-100 w-100" fxLayout="row" fxLayoutAlign="center center">
+   <h3>Could not render chart</h3>
+ </div>

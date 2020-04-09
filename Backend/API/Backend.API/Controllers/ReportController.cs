@@ -15,7 +15,7 @@ namespace Backend.API.Controllers
         [HttpGet("{trainingId}/{userId}")]
         public async Task<IActionResult> GetTrainingMetrics(Guid trainingId, Guid userId, CancellationToken cancellationToken = default)
         {
-            var key = $"Report/TrainingMetrics{trainingId}{userId}";
+            var key = $"Report/TrainingMetrics{userId}{trainingId}";
             AddCacheKey(key);
 
             return Ok(await Cache.GetOrAddAsync(
@@ -29,7 +29,7 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}/{dateFrom}/{dateTo}")]
         public async Task<IActionResult> GetBodyweightReport(Guid userId, DateTime dateFrom, DateTime dateTo, CancellationToken cancellationToken = default)
         {
-            var key = $"Report/BodyweightMetrics{userId}{dateFrom}{dateTo}";
+            var key = $"Report/BodyweightMetrics{userId}";
             AddCacheKey(key);
 
             return Ok(await Cache.GetOrAddAsync(
@@ -43,29 +43,29 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}/{exerciseTypeId}/{dateFrom}/{dateTo}")]
         public async Task<IActionResult> GetDashboardVolumeReport(Guid userId, Guid exerciseTypeId, DateTime dateFrom, DateTime dateTo, CancellationToken cancellationToken = default)
         {
-            //var key = $"Report/GetDashboardVolumeReport{userId}{exerciseTypeId}{dateFrom}{dateTo}";
-            //AddCacheKey(key);
+            var key = $"Report/GetDashboardVolumeReport{userId}{exerciseTypeId}";
+            AddCacheKey(key);
 
-            //return Ok(await Cache.GetOrAddAsync(
-            //    key,
-            //    entry => Mediator.Send(new GetBodyweightReportRequest(userId, dateFrom, dateTo), cancellationToken)
-            //));
+            return Ok(await Cache.GetOrAddAsync(
+                key,
+                entry => Mediator.Send(new GetVolumeReportRequest(userId, exerciseTypeId, dateFrom, dateTo), cancellationToken)
+            ));
 
-            return Ok(await Mediator.Send(new GetVolumeReportRequest(userId, exerciseTypeId, dateFrom, dateTo), cancellationToken));
+            //return Ok(await Mediator.Send(new GetVolumeReportRequest(userId, exerciseTypeId, dateFrom, dateTo), cancellationToken));
         }
 
         [HttpGet("{userId}/{exerciseTypeId}/{dateFrom}/{dateTo}")]
         public async Task<IActionResult> GetDashboardMaxReport(Guid userId, Guid exerciseTypeId, DateTime dateFrom, DateTime dateTo, CancellationToken cancellationToken = default)
         {
-            //var key = $"Report/GetDashboardVolumeReport{userId}{exerciseTypeId}{dateFrom}{dateTo}";
-            //AddCacheKey(key);
+            var key = $"Report/GetDashboardMaxReport{userId}{exerciseTypeId}";
+            AddCacheKey(key);
 
-            //return Ok(await Cache.GetOrAddAsync(
-            //    key,
-            //    entry => Mediator.Send(new GetBodyweightReportRequest(userId, dateFrom, dateTo), cancellationToken)
-            //));
+            return Ok(await Cache.GetOrAddAsync(
+                key,
+                entry => Mediator.Send(new GetMaxReportRequest(userId, exerciseTypeId, dateFrom, dateTo), cancellationToken)
+            ));
 
-            return Ok(await Mediator.Send(new GetMaxReportRequest(userId, exerciseTypeId, dateFrom, dateTo), cancellationToken));
+            //return Ok(await Mediator.Send(new GetMaxReportRequest(userId, exerciseTypeId, dateFrom, dateTo), cancellationToken));
         }
     }
 }

@@ -82,9 +82,8 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this._userId = id);
     this.store.select(trackEditMode).pipe(take(1)).subscribe(editMode => this._trackEditMode = editMode);
 
-    // TODO: Move this to parent container
-    // get all exercise types and initialize form
-    this.getExerciseTypes().subscribe((types: PagedList<ExerciseType>) => {
+    // get first exercise types page and initialize form
+    this.getExerciseTypes().pipe(take(1)).subscribe((types: PagedList<ExerciseType>) => {
         if(!types || types.list.length == 0) return;
 
         this.createForm(types.list);
@@ -150,7 +149,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
           this._metricsData = data;
           this.getChartConfigs(data);
         },
-        err => console.log(err)
+        err => this.error = true
       )
   }
 
@@ -167,8 +166,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
   getExerciseTypes() {
     return this.store.select(currentUserId).pipe(
-      switchMap(id => this.exerciseTypeService.getPaged(id, this._pagingModel).pipe(take(1))),
-      take(1),
+      switchMap(id => this.exerciseTypeService.getPaged(id, this._pagingModel))
     );
   }
 

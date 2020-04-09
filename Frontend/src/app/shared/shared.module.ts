@@ -9,7 +9,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { ButtonSizeDirective } from 'src/business/directives/button-size.directive';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
-import { TestCardComponent } from '../features/dashboard/dashboard-home/track-items-sidebar/card-components/test-card/test-card.component';
+import { MaxCardComponent } from '../features/dashboard/dashboard-home/tracks/card-components/max-card/max-card.component';
+import { VolumeCardComponent } from '../features/dashboard/dashboard-home/tracks/card-components/volume-card/volume-card.component';
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
@@ -53,7 +54,8 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
             ExerciseTypeChipListComponent,
             ActiveFlagComponent,
             TrainingMonthViewDayComponent,
-            TestCardComponent,
+            VolumeCardComponent,
+            MaxCardComponent
         ]),
         AvatarModule,
         ImageCropperModule
@@ -84,11 +86,12 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         TrainingMonthViewDayComponent,
         ChartComponent,
         NotificationTypeIconComponent,
-        TestCardComponent,
         ApplyTimezonePipe,
         ButtonSizeDirective,
         TransformWeightPipe,
-        ImageCropperComponent
+        ImageCropperComponent,
+        VolumeCardComponent,
+        MaxCardComponent
     ],
     exports: [
         CommonModule,
@@ -125,7 +128,8 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         TrainingMonthViewDayComponent,
         ChartComponent,
         NotificationTypeIconComponent,
-        TestCardComponent,
+        VolumeCardComponent,
+        MaxCardComponent,
         ApplyTimezonePipe,
         ButtonSizeDirective,
         TransformWeightPipe,
