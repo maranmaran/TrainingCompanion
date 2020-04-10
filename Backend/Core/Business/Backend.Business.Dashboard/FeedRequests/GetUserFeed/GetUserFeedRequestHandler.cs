@@ -1,11 +1,10 @@
-﻿using AutoMapper;
+﻿using Backend.Business.Dashboard.Interfaces;
 using Backend.Business.Dashboard.Models;
 using Backend.Domain;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
-using Backend.Library.Logging.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,19 +18,12 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
     public class GetUserFeedRequestHandler : IRequestHandler<GetUserFeedRequest, IEnumerable<Activity>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IMapper _mapper;
-        private readonly IMediator _mediator;
-        private readonly ILoggingService _logger;
+        private readonly IActivityService _activityService;
 
-        public GetUserFeedRequestHandler(IApplicationDbContext context,
-            IMapper mapper,
-            IMediator mediator,
-            ILoggingService logger)
+        public GetUserFeedRequestHandler(IApplicationDbContext context, IActivityService activityService)
         {
             _context = context;
-            _mapper = mapper;
-            _mediator = mediator;
-            _logger = logger;
+            _activityService = activityService;
         }
 
 
@@ -58,11 +50,12 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                 var audits = new List<AuditRecord>();
                 foreach (var athlete in athletes)
                 {
-                    audits.AddRange(await _context.Audits.Where(x => x.UserId == athlete.id).ToListAsync(cancellationToken));
+                    var userActivities = await _context.Audits.Where(x => x.UserId == athlete.id).ToListAsync(cancellationToken);
+                    audits.AddRange(userActivities);
                 }
 
 
-                return GetActivities(audits, user.UserSetting, athletes);
+                return await GetActivities(audits, user.UserSetting, athletes);
             }
             catch (Exception e)
             {
@@ -70,7 +63,7 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
             }
         }
 
-        private IEnumerable<Activity> GetActivities(IEnumerable<AuditRecord> audits, UserSetting settings, IEnumerable<(Guid id, string name)> athletes)
+        private async Task<IEnumerable<Activity>> GetActivities(IEnumerable<AuditRecord> audits, UserSetting settings, IEnumerable<(Guid id, string name)> athletes)
         {
             var activities = new List<Activity>();
             foreach (var audit in audits)
@@ -81,13 +74,14 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                     Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                     UserId = audit.UserId,
                     UserName = athletes.First(x => x.id == audit.UserId).name.Trim(),
-                    Message = ActivityHelper.GetPayload(audit, settings)
+                    Message = await _activityService.GetPayload(audit, settings),
+                    JsonEntity = _activityService.GetEntityAsJson(audit)
                 };
 
                 activities.Add(activity);
             }
 
-            return activities;
+            return activities.OrderByDescending(x => x.Date); // newest activity is first
         }
     }
 }

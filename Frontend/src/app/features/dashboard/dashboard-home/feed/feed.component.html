@@ -1,10 +1,11 @@
-<cdk-virtual-scroll-viewport itemSize="50" class="feed-viewport" >
-  <div *cdkVirtualFor="let activity of (activities | async)" class="feed-item-container" fxLayout="column" fxLayoutAlign="center center">
+<cdk-virtual-scroll-viewport itemSize="50" class="feed-viewport">
+  <div *cdkVirtualFor="let activity of (activities | async)" class="feed-item-container" fxLayout="column"
+    fxLayoutAlign="center center">
     <div class="feed-item mat-elevation-z3" fxLayout="row" fxLayoutGap="1rem">
       <img class="feed-user-avatar" src="https://www.bigstockphoto.com/images/homepage/module-6.jpg" />
       <div>
         <div>
-          <b>{{ activity.userName }}</b> {{ activity.message }}
+          <b>{{ activity.userName + ' ' }}</b> <span [innerHtml]="activity.message | sanitizeHtml"></span>
         </div>
         <div>
           {{ activity.date | date: 'mediumDate'}}

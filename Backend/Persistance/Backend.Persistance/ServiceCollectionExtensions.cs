@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using Backend.Business.Dashboard.Services;
 using Configuration = Audit.Core.Configuration;
 
 namespace Backend.Persistance

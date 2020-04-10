@@ -1,9 +1,11 @@
-export interface Activity {
+export class Activity {
   userId: string;
   userName: string;
   type: ActivityType;
   date: Date;
   message: string;
+  jsonEntity: string;
+  entity: string;
 }
 
 export enum ActivityType {
@@ -12,4 +14,3 @@ export enum ActivityType {
   Bodyweight = "Bodyweight",
   PersonalBest = "PersonalBest"
 }
-
