@@ -89,7 +89,7 @@ namespace Backend.Business.Notifications
                 case nameof(MediaFile):
                     return "attached new media";
                 case nameof(Bodyweight):
-                    return $"logged bodyweight of {audit.GetData<BodyweightDeserializer>().Entity.Value.FromMetricTo(settings.UnitSystem)} {settings.UnitSystem.GetUnitLabel()}";
+                    return $"logged bodyweight of {audit.GetData<BodyweightDeserializeResult>().Entity.Value.FromMetricTo(settings.UnitSystem)} {settings.UnitSystem.GetUnitLabel()}";
                 case nameof(PersonalBest):
                     return "has new PR!";
                 default:

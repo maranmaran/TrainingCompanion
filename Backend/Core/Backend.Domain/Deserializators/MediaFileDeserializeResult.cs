@@ -1,10 +1,9 @@
-﻿using Backend.Domain.Entities.User;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
 using System;
 
-namespace Backend.Domain.Entities.Media
+namespace Backend.Domain.Deserializators
 {
-    public class MediaFile
+    public class MediaFileDeserializeResult
     {
         public Guid Id { get; set; }
         public string Filename { get; set; }
@@ -16,12 +15,9 @@ namespace Backend.Domain.Entities.Media
         public DateTime DateModified { get; set; }
 
         public Guid ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
 
         public Guid? TrainingId { get; set; }
-        public TrainingLog.Training Training { get; set; }
 
         public Guid? ExerciseId { get; set; }
-        public TrainingLog.Exercise Exercise { get; set; }
     }
 }
