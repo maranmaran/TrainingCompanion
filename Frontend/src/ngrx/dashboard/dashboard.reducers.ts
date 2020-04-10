@@ -67,9 +67,14 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
     }
   }),
   on(DashboardActions.activitiesFetched, (state: DashboardState, payload: { activities: Activity[] }) => {
+
+    let extendedActivities = payload.activities.map(activity => {
+      return Object.assign({}, activity, { entity: JSON.parse(activity.jsonEntity) });
+    });
+
     return {
       ...state,
-      activities: [...payload.activities]
+      activities: [...extendedActivities]
     }
   }),
   on(DashboardActions.pushActivity, (state: DashboardState, payload: { activity: Activity }) => {

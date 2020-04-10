@@ -1,4 +1,5 @@
-﻿using Backend.Business.Dashboard.Models;
+﻿using Backend.Business.Dashboard.Interfaces;
+using Backend.Business.Dashboard.Models;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Interfaces;
@@ -8,16 +9,17 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
-namespace Backend.Business.Dashboard
+namespace Backend.Business.Dashboard.Services
 {
     public class FeedAuditPusher : IAuditPusher
     {
         private readonly IHubContext<FeedHub, IFeedHub> _hub;
         private readonly ILoggingService _logger;
+        private readonly IActivityService _activityService;
 
         public FeedAuditPusher(IServiceProvider provider)
         {
-            //var provider = services.BuildServiceProvider();
+            _activityService = provider.GetService<IActivityService>();
             _hub = provider.GetService<IHubContext<FeedHub, IFeedHub>>();
             _logger = provider.GetService<ILoggingService>();
         }
@@ -26,7 +28,7 @@ namespace Backend.Business.Dashboard
         {
             try
             {
-                var activity = GetActivity(audit, athlete);
+                var activity = await GetActivity(audit, athlete);
                 await _hub.Clients.User(athlete.CoachId.ToString()).PushFeedActivity(activity);
             }
             catch (Exception e)
@@ -36,7 +38,7 @@ namespace Backend.Business.Dashboard
             }
         }
 
-        internal Activity GetActivity(AuditRecord audit, ApplicationUser user)
+        internal async Task<Activity> GetActivity(AuditRecord audit, ApplicationUser user)
         {
             var activity = new Activity()
             {
@@ -44,7 +46,7 @@ namespace Backend.Business.Dashboard
                 Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                 UserId = audit.UserId,
                 UserName = user.FullName,
-                Message = ActivityHelper.GetPayload(audit, user.UserSetting)
+                Message = await _activityService.GetPayload(audit, user.UserSetting)
             };
 
             return activity;

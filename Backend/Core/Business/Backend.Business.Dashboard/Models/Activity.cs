@@ -9,6 +9,7 @@ namespace Backend.Business.Dashboard.Models
         public ActivityType Type { get; set; }
         public DateTime Date { get; set; }
         public string Message { get; set; } // some kind of payload.. depending on type.. can be null
+        public string JsonEntity { get; set; }
     }
 
     public enum ActivityType

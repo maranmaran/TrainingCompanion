@@ -2,7 +2,7 @@
 
 namespace Backend.Domain.Deserializators
 {
-    public class BodyweightDeserializer
+    public class BodyweightDeserializeResult
     {
         public string Id { get; set; }
         public double Value { get; set; }
