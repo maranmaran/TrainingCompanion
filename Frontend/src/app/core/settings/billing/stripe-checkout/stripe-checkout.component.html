@@ -51,7 +51,7 @@
 </div>
 
 <div id="actions" class="mt-2" fxLayout="row" fxLayoutAlign="space-between">
-  <button mat-button color="accent" (click)="onClose()">Go back</button>
-  <button mat-stroked-button color="primary" (click)="getCardToken()"
+  <button mat-button (click)="onClose()">Go back</button>
+  <button mat-stroked-button color="accent" (click)="getCardToken()"
     [disabled]="!complete && !checkoutForm.valid">Finish</button>
 </div>
