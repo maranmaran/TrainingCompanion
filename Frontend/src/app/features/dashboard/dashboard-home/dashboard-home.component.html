@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
 
-  <mat-sidenav class="sidenav" [autoFocus]="false" [mode]="'side'" [position]="'end'">
+  <mat-sidenav class="sidenav" [autoFocus]="false" [mode]="'over'" [position]="'end'">
 
     <app-track-items-sidebar (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()"
       (saveTracks)="onSaveTracks($event)"></app-track-items-sidebar>
