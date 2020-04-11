@@ -140,8 +140,8 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     if (!this.validateAndGetFormData()) return;
 
     // if data already exists.. just setup configs
-    if (this._metricsData)
-      return this.getChartConfigs(this._metricsData);
+    // if (this._metricsData)
+    //   return this.getChartConfigs(this._metricsData);
 
     this.loadCardData(this._userId, this.exerciseType.value.id, this.dateFrom.value, this.dateTo.value);
   }

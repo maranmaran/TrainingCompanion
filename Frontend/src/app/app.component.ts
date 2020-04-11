@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.uiService.setupTheme(theme);
           },
           err => console.log(err)),
+
       this.mediaObserver.media$.subscribe(
         (change: MediaChange) => {
           if (change.mqAlias == 'xs') {
