@@ -1,53 +1,57 @@
 <h2>Payment information: </h2>
 
 <div class="checkout-form" fxLayout="column">
-    <form [formGroup]="checkoutForm">
-      
-            <mat-form-field>
-              <input matInput formControlName="name" placeholder="Name">
-              <mat-error *ngIf="name.invalid"></mat-error>
-            </mat-form-field>
+  <form [formGroup]="checkoutForm">
 
-            <mat-form-field>
-              <input matInput formControlName="phone" placeholder="Phone">
-              <mat-error *ngIf="phone.invalid"></mat-error>
-            </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="name" placeholder="Name">
+      <mat-error *ngIf="name.invalid"></mat-error>
+    </mat-form-field>
 
-            <mat-form-field>
-              <input matInput placeholder="Select a country" formControlName="country" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
-                  {{ country }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="phone" placeholder="Phone">
+      <mat-error *ngIf="phone.invalid"></mat-error>
+    </mat-form-field>
 
-            <mat-form-field>
-              <input matInput formControlName="address" placeholder="Address">
-              <mat-error *ngIf="address.invalid"></mat-error>
-            </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Select a country" formControlName="country" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <img class="flag mat-elevation-z3" src="{{country.flag}}" height="25" />
+            <div> {{country.alpha2Code}} - {{ country.name }} </div>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
 
-            <mat-form-field>
-              <input matInput formControlName="city" placeholder="City">
-              <mat-error *ngIf="city.invalid"></mat-error>
-            </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="address" placeholder="Address">
+      <mat-error *ngIf="address.invalid"></mat-error>
+    </mat-form-field>
 
-            <mat-form-field>
-              <input matInput formControlName="state" placeholder="State">
-              <mat-error *ngIf="state.invalid"></mat-error>
-            </mat-form-field>
-      </form>
+    <mat-form-field>
+      <input matInput formControlName="city" placeholder="City">
+      <mat-error *ngIf="city.invalid"></mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="state" placeholder="State">
+      <mat-error *ngIf="state.invalid"></mat-error>
+    </mat-form-field>
+  </form>
 </div>
 
 
-<ngx-stripe-card  autocomplete="off" class="mt-3" [options]="cardOptions" [elementsOptions]="elementsOptions" (error)="error = $event">
+<ngx-stripe-card autocomplete="off" class="mt-3" [options]="cardOptions" [elementsOptions]="elementsOptions"
+  (error)="error = $event">
 </ngx-stripe-card>
 <div *ngIf="error" class="alert alert-danger" style="font-size: 13px">
   {{error}}
 </div>
 
 <div id="actions" class="mt-2" fxLayout="row" fxLayoutAlign="space-between">
-  <button  mat-button color="accent" (click)="onClose()">Go back</button>
-  <button  mat-stroked-button color="primary" (click)="getCardToken()"
+  <button mat-button color="accent" (click)="onClose()">Go back</button>
+  <button mat-stroked-button color="primary" (click)="getCardToken()"
     [disabled]="!complete && !checkoutForm.valid">Finish</button>
 </div>
