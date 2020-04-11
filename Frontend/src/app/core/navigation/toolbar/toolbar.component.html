@@ -14,7 +14,7 @@
 
   <div id="right" fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="center center">
 
-    <i id="dashboard-edit" *ngIf="dashboardActive$ | async" class="fas fa-edit" (click)="toggleDashboardEdit()"></i>
+    <i id="dashboard-edit" *ngIf="(dashboardActive$ | async) && !mediaObserver.isActive('lt-md')" class="fas fa-edit" (click)="toggleDashboardEdit()"></i>
 
     <!--MESSENGER-->
     <i id="messaging" routerLink="/app/chat" class="fas fa-comments" [matBadge]="(unreadChatMessages | async)"
