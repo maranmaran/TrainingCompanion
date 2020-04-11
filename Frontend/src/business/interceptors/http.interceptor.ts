@@ -25,6 +25,7 @@ export class HttpInterceptor implements HttpInterceptor {
             // headers: this.appSettingsService.apiHeaders
         });
 
+
         return next.handle(req)
             .pipe(
                 finalize(() => this.store.dispatch(httpRequestStopLoading()))
