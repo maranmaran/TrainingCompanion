@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
+import { HammerModule } from "@angular/platform-browser";
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { HammerModule } from "@angular/platform-browser";
 
 @NgModule({
   imports: [
     CoreModule,
     HammerModule,
+  ],
+  exports: [
   ],
   declarations: [
     AppComponent,
@@ -15,5 +17,5 @@ import { HammerModule } from "@angular/platform-browser";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
 }

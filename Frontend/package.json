@@ -31,6 +31,8 @@
     "@ngrx/router-store": "^8.6.0",
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
+    "@ngx-translate/core": "^12.1.2",
+    "@ngx-translate/http-loader": "^4.0.0",
     "@types/chart.js": "^2.9.13",
     "@types/file-saver": "^2.0.1",
     "@types/moment-timezone": "^0.5.12",

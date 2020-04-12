@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { AvatarModule } from 'ngx-avatar';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -58,7 +59,7 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
             MaxCardComponent
         ]),
         AvatarModule,
-        ImageCropperModule
+        ImageCropperModule,
     ],
     declarations: [
         MediaDialogComponent,
@@ -99,6 +100,10 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         RouterModule,
         MaterialModule,
         CKEditorModule,
+        // export translate module to
+        // others who use it
+        // https://github.com/ngx-translate/core#1-import-the-translatemodule
+        TranslateModule,
 
         DynamicModule,
 
