@@ -45,3 +45,7 @@ export function getLoadingState(store: Store<AppState>, progressBarType: UIProgr
         observeOn(asyncScheduler)
     );
 }
+export const language = createSelector(
+  selectUIState,
+  state => state.language
+)

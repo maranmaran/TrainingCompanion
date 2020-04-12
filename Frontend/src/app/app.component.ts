@@ -66,10 +66,10 @@ export class AppComponent implements OnInit, OnDestroy {
   translationSetup() {
     console.log('setting up translation');
 
-    this.translate.addLangs(['en', 'hr']);
-    this.translate.setDefaultLang('en');
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang.match(/en | hr/) ? browserLang : 'en');
+    // this.translate.addLangs(['en', 'hr']);
+    // this.translate.setDefaultLang('en');
+    // const browserLang = this.translate.getBrowserLang();
+    // this.translate.use(browserLang.match(/en | hr/) ? browserLang : 'en');
   }
 
 }

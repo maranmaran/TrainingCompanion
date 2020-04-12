@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Backend.Domain.Enum;
+using System;
 using System.Collections.Generic;
-using Backend.Domain.Enum;
 
 namespace Backend.Domain.Entities.User
 {
@@ -11,6 +11,7 @@ namespace Backend.Domain.Entities.User
         public UnitSystem UnitSystem { get; set; }
         public bool UseRpeSystem { get; set; }
         public RpeSystem RpeSystem { get; set; }
+        public string Language { get; set; }
 
         public Guid? MainDashboardId { get; set; }
         public virtual Dashboard.Dashboard MainDashboard { get; set; }

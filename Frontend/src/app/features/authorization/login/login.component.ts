@@ -3,13 +3,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { login } from 'src/ngrx/auth/auth.actions';
 import { loginError } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { disableErrorDialogs, setActiveProgressBar, switchTheme } from 'src/ngrx/user-interface/ui.actions';
-import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
+import { getLoadingState, language } from 'src/ngrx/user-interface/ui.selectors';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
 
 @Component({
@@ -27,10 +28,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private translateService: TranslateService,
     private store: Store<AppState>,
-  ) { }
+  ) {
+    this.store.select(language).pipe(take(1)).subscribe(lang => this.translateService.use(lang));
+   }
 
   ngOnInit() {
-    this.translateService.use('en');
 
     // state setup for login component
     this.store.dispatch(switchTheme({ theme: Theme.Light }));
