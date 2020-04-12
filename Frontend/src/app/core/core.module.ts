@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,9 +8,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxStripeModule } from 'ngx-stripe';
 import { ToastrModule } from 'ngx-toastr';
+import { CoreHttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
 import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.guard';
 import { ErrorInterceptor } from 'src/business/interceptors/error.interceptor';
 import { HttpInterceptor } from 'src/business/interceptors/http.interceptor';
@@ -43,6 +45,7 @@ import { PlansComponent } from './settings/billing/plans/plans.component';
 import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stripe-checkout.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
+
 @NgModule({
     imports: [
         SharedModule,
@@ -76,7 +79,15 @@ import { SettingsComponent } from './settings/settings.component';
           toastComponent: NotificationToastComponent // added custom toast!
         }), // ToastrModule added,
         SignalrHubsModule.forRoot(),
-        ExportImportServicesModule.forRoot()
+        ExportImportServicesModule.forRoot(),
+        TranslateModule.forRoot({
+          isolate: true,
+          loader: {
+              provide: TranslateLoader,
+              useFactory: CoreHttpLoaderFactory,
+              deps: [HttpBackend]
+          }
+        })
     ],
     declarations: [
         AppContainerComponent,
