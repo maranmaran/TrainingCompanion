@@ -1,8 +1,8 @@
-﻿using Backend.Domain.Enum;
+﻿using Backend.Domain.Entities.User;
+using Backend.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using Backend.Domain.Entities.User;
 
 namespace Backend.Persistance.Configurations
 {
@@ -11,6 +11,7 @@ namespace Backend.Persistance.Configurations
         public void Configure(EntityTypeBuilder<UserSetting> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Language).HasMaxLength(2).HasDefaultValue("en");
 
             builder.Property(x => x.Theme)
                 .HasDefaultValue(Themes.Light)
