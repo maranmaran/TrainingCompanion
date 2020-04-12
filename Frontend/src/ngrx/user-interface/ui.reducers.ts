@@ -9,6 +9,13 @@ import { initialUIState, UIState } from './ui.state';
 export const uiReducer: ActionReducer<UIState, Action> = createReducer(
     initialUIState,
 
+    on(UIActions.setLanguage, (state: UIState, payload: { language: string }) => {
+      return {
+        ...state,
+        language: payload.language
+      }
+    }),
+
     // error snackbar
     on(UIActions.disableErrorDialogs, (state: UIState) => {
         return {
