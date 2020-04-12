@@ -10,6 +10,7 @@ export class UserSetting {
     useRpeSystem: boolean;
     rpeSystem: RpeSystem;
     notificationSettings: NotificationSetting[];
+    language: string;
 }
 
 

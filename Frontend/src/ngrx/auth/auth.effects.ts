@@ -13,6 +13,7 @@ import { AuthService } from '../../business/services/feature-services/auth.servi
 import { AppState } from '../global-setup.ngrx';
 import { enableErrorDialogs, setActiveProgressBar, switchTheme } from '../user-interface/ui.actions';
 import { SignInRequest } from './../../server-models/cqrs/authorization/sign-in.request';
+import { setLanguage } from './../user-interface/ui.actions';
 import * as AuthActions from './auth.actions';
 
 @Injectable()
@@ -59,6 +60,7 @@ export class AuthEffects {
         tap(
           (response: { currentUser: CurrentUser; navigationSuccess: boolean; }) => {
             if (response.navigationSuccess) {
+              this.store.dispatch(setLanguage({language: response.currentUser.userSetting.language }))
               this.store.dispatch(switchTheme({ theme: response.currentUser.userSetting.theme }));
               this.store.dispatch(enableErrorDialogs());
             }
