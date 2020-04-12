@@ -9,13 +9,13 @@
 
       <mat-form-field>
         <input matInput autofocus formControlName="username" autocomplete="username" type="text" id="username"
-          placeholder="Username">
+          placeholder="{{ 'USERNAME' | translate }}">
         <i matSuffix class="fas fa-user"></i>
       </mat-form-field>
 
       <mat-form-field>
         <input #passwordInput matInput formControlName="password" autocomplete="current-password"
-               class="form-control" id="password" placeholder="Password">
+               class="form-control" id="password" placeholder="{{ 'PASSWORD' | translate }}">
 
         <button type="button" mat-icon-button matSuffix showHidePassword [passwordInput]="passwordInput" [passwordIcon]="passwordIcon">
           <i #passwordIcon class="fas"></i>

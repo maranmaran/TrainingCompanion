@@ -1,5 +1,7 @@
 {
   "WRONG_USERNAME_PASSWORD": "Username or password is invalid",
   "FORGOT_PASSWORD": "I forgot my password",
-  "SIGN_IN": "Sign in"
+  "SIGN_IN": "Sign in",
+  "USERNAME": "Username",
+  "PASSWORD": "Password"
 }
