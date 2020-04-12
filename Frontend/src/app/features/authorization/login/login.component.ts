@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
@@ -24,10 +25,13 @@ export class LoginComponent implements OnInit {
   public error: Observable<Error>;
 
   constructor(
+    private translateService: TranslateService,
     private store: Store<AppState>,
   ) { }
 
   ngOnInit() {
+    this.translateService.use('en');
+
     // state setup for login component
     this.store.dispatch(switchTheme({ theme: Theme.Light }));
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.LoginScreen }))
