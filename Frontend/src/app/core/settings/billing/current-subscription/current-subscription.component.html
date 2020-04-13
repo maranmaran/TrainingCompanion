@@ -9,11 +9,11 @@
   <div id="body" fxFlexOffset="2rem" fxLayout="column" fxLayoutAlign="center center">
 
     <div id="details" >
-      <label><b>Status:</b></label>
+      <label><b>{{ 'SETTINGS.BILLING.STATUS' | translate }}:</b></label>
       <span>{{ subscription.status | titlecase }}</span>
 
       <div *ngIf="SubscriptionStatus[subscription.status.toLowerCase()] == SubscriptionStatus.trialing">
-        <label><b>Trial is ending on:</b></label>
+        <label><b>{{ 'SETTINGS.BILLING.TRIAL_END' | translate}}:</b></label>
         <span>{{ subscription.trial_end * 1000 | date:'mediumDate' }}</span>
       </div>
     </div>
@@ -21,11 +21,11 @@
     <div id="actions" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5rem">
 
       <div id="cancel">
-        <button mat-button (click)="cancelSubscription.emit(subscription.id)">Cancel</button>
+        <button mat-button (click)="cancelSubscription.emit(subscription.id)">{{ 'SHARED.CANCEL' | translate}}</button>
       </div>
 
       <div id="change">
-        <button mat-stroked-button color="accent" (click)="onUpgrade(subscription.id)">Change</button>
+        <button mat-stroked-button color="accent" (click)="onUpgrade(subscription.id)">{{ 'SETTINGS.BILLING.CHANGE' | translate }}</button>
       </div>
     </div>
 
