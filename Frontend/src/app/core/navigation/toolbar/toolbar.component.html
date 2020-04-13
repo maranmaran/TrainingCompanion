@@ -79,10 +79,10 @@
 
         <div id="avatar-actions-row" fxLayout="row wrap" fxLayoutGap="3rem" fxLayoutAlign="space-between center">
           <button mat-stroked-button routerLink="">
-            Homepage
+            {{ 'AVATAR_DIALOG.HOMEPAGE' | translate }}
           </button>
           <button id="logout" (click)="onLogout()" mat-button color="accent">
-            Sign out
+            {{ 'AVATAR_DIALOG.SIGN_OUT' | translate }}
           </button>
         </div>
       </div>

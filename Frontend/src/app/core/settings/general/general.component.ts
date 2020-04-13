@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
@@ -12,8 +13,9 @@ import { userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { NotificationSetting } from 'src/server-models/entities/notification-setting.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
-import { UserService } from '../../../../business/services/feature-services/user.service';
+import { SubSink } from 'subsink';
 import { CountryService } from './../../../../business/services/feature-services/country.service';
+import { setLanguage } from './../../../../ngrx/user-interface/ui.actions';
 import { UserSetting } from './../../../../server-models/entities/user-settings.model';
 import { UnitSystem } from './../../../../server-models/enums/unit-system.enum';
 import { NotificationTypeLabel } from './notification-type-labels.enum';
@@ -29,22 +31,34 @@ export class GeneralComponent implements OnInit {
   public userSetting: UserSetting;
   unitSystems = UnitSystem;
   rpeSystems = RpeSystem;
-  supportedCountryLanguages: Observable<Country[]>;
 
   notificationTypeLabels = NotificationTypeLabel;
 
+  supportedCountryLanguages: Observable<Country[]>;
+  language = new FormControl('language');
+
+  subs = new SubSink();
+
   constructor(
     private store: Store<AppState>,
-    private usersService: UserService,
     private countryService: CountryService
   ) { }
 
   ngOnInit() {
     this.getSupportedLanguages();
 
+    this.subs.add(
+      this.language.valueChanges.subscribe(value => {
+        this.userSetting.language = value;
+        this.store.dispatch(updateUserSetting(this.userSetting));
+        this.store.dispatch(setLanguage({language: this.userSetting.language}))
+      })
+    )
+
     this.store.select(userSetting).pipe(take(1))
       .subscribe((userSetting: UserSetting) => {
         this.userSetting = { ...userSetting };
+        this.language.setValue(this.userSetting.language);
       });
   }
 

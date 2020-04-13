@@ -6,7 +6,43 @@
     "SAVE": "Save",
     "MALE": "Male",
     "FEMALE": "Female",
-    "FILTER": "Filter"
+    "FILTER": "Filter",
+    "NOTIFICATION": "Notification"
+  },
+  "SETTINGS": {
+    "SETTINGS_LABEL": "Settings",
+
+    "GENERAL_LABEL": "General",
+    "GENERAL": {
+      "LANGUAGE": "Language",
+      "THEME": "Theme",
+      "UNIT_SYSTEM": "Unit system",
+      "RPE_SYSTEM": "RPE system",
+      "INFORM_ME": "Inform me about"
+    },
+    "ACCOUNT_LABEL": "Account",
+    "ACCOUNT": {
+
+    },
+    "BILLING_LABEL": "Billing",
+    "BILLING": {
+
+    }
+  },
+  "AVATAR_DIALOG": {
+    "HOMEPAGE": "Homepage",
+    "SIGN_OUT": "Sign out"
+  },
+  "MAIN_SIDEBAR": {
+    "MENU": "Menu",
+    "DASHBOARD": "Dashboard",
+    "MANAGE_USERS": "Manage users",
+    "EXERCISE_LIBRARY": "Exercise library",
+    "EXERCISE_PROPERTIES": "Properties",
+    "EXERCISES": "Exercises",
+    "TRAINING_LOG": "Training log",
+    "EXPORT_IMPORT": "Export / Import",
+    "BODYWEIGHT": "Bodyweight"
   },
   "PAGINATOR": {
     "ITEMS_PER_PAGE_LABEL": "Items per page",

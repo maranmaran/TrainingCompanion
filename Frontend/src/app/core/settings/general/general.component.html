@@ -5,8 +5,8 @@
     <!--Language-->
     <div fxLayout="row" fxLayoutGap="1rem">
       <mat-form-field class="language-dropdown">
-        <mat-label>Language</mat-label>
-        <mat-select>
+        <mat-label>{{ 'SETTINGS.GENERAL.LANGUAGE' | translate }}</mat-label>
+        <mat-select [formControl]="language">
           <mat-option *ngFor="let country of (supportedCountryLanguages | async)" [value]="country.languages[0].iso639_1">
             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
               <img class="flag mat-elevation-z3" src="{{country.flag}}" height="25" />
@@ -19,7 +19,7 @@
 
     <!--THEME-->
     <div fxLayout="row" fxLayoutGap="1rem">
-      <label>Theme: </label>
+      <label>{{ 'SETTINGS.GENERAL.THEME' | translate }}: </label>
       <mat-slide-toggle [color]="'accent'" [checked]="themeButtonChecked" (change)="onThemeChange($event)">
         {{ userSetting.theme }}
       </mat-slide-toggle>
@@ -27,7 +27,7 @@
 
     <!--Unit system-->
     <div fxLayout="row" fxLayoutGap="1rem">
-      <label>Unit system: </label>
+      <label>{{ 'SETTINGS.GENERAL.UNIT_SYSTEM' | translate }}: </label>
       <mat-slide-toggle [color]="'accent'" [checked]="unitSystemButtonChecked" (change)="onUnitSystemChange($event)">
         {{ userSetting.unitSystem }}
       </mat-slide-toggle>
@@ -35,7 +35,7 @@
 
     <!--RPE system-->
     <div fxLayout="row" fxLayoutGap="1rem">
-      <label>Rpe system: </label>
+      <label>{{ 'SETTINGS.GENERAL.RPE_SYSTEM' | translate }}: </label>
       <mat-slide-toggle [disabled]="!userSetting.useRpeSystem" [color]="'accent'" [checked]="rpeSystemButtonChecked"
         (change)="onRpeSystemChange($event)">
         {{ userSetting.rpeSystem }}
@@ -50,9 +50,9 @@
   <div id="right-column" fxLayout="column" fxLayoutGap="1rem" fxFlex="0 0 50%" fxFlex.lt-sm="0 1 auto">
     <!--Notification settings-->
     <table>
-      <th>Inform me about</th>
-      <th>Mail</th>
-      <th>Notification</th>
+      <th>{{ 'SETTINGS.GENERAL.INFORM_ME' | translate }}</th>
+      <th>{{ 'SHARED.EMAIL' | translate }}</th>
+      <th>{{ 'SHARED.NOTIFICATION' | translate }}</th>
 
       <tr *ngFor="let notificationSetting of userSetting.notificationSettings">
         <!-- TODO: Make this pascal case into something meaningful... -->
