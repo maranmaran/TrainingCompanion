@@ -8,3 +8,7 @@ export function CoreHttpLoaderFactory(httpBackend: HttpBackend) {
 export function AuthorizationHttpLoaderFactory(httpBackend: HttpBackend) {
   return new TranslateHttpLoader(new HttpClient(httpBackend), './assets/i18n/authorization/', '.json');
 }
+
+export function AthleteManagementHttpLoaderFactory(httpBackend: HttpBackend) {
+  return new TranslateHttpLoader(new HttpClient(httpBackend), './assets/i18n/athlete-management/', '.json');
+}

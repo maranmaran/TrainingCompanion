@@ -23,7 +23,7 @@ import { SetPasswordComponent } from './set-password/set-password.component';
             useFactory: AuthorizationHttpLoaderFactory,
             deps: [HttpBackend]
           }
-      })
+        })
     ],
     declarations: [
         LoginComponent,

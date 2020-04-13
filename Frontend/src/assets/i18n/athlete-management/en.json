@@ -1,0 +1,18 @@
+{
+  "ACTIVATE": "Activate",
+  "DEACTIVATE": "Deactivate",
+  "USERNAME": "Username",
+  "EMAIL": "Email",
+  "JOINED_ON": "Joined on",
+  "ACC_STATUS": "Account status",
+  "CLOSE": "Close",
+  "SAVE": "Save",
+  "REGISTER": "Register",
+  "ACTIVE": "Active",
+  "INACTIVE": "Inactive",
+  "FULL_NAME": "Full name",
+  "MALE": "Male",
+  "FEMALE": "Female",
+  "ADD_TITLE": "Add athlete",
+  "UPDATE_TITLE": "Update athlete"
+}

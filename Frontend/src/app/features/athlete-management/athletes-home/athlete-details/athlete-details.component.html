@@ -6,9 +6,9 @@
 
         <span>
             <button *ngIf="athlete.active" mat-stroked-button color="accent"
-                (click)="onSetActive(false)">Deactivate</button>
+                (click)="onSetActive(false)">{{ 'DEACTIVATE' | translate}}</button>
             <button *ngIf="!athlete.active" mat-stroked-button color="accent"
-                (click)="onSetActive(true)">Activate</button>
+                (click)="onSetActive(true)">{{ 'ACTIVATE' | translate}}</button>
         </span>
     </h1>
 
@@ -21,16 +21,16 @@
 
             <div gdArea="left-label">
                 <div class="detail">
-                    <mat-label class="label">Username:</mat-label>
+                    <mat-label class="label">{{ 'USERNAME' | translate}}:</mat-label>
                 </div>
                 <div class="detail">
-                    <mat-label class="label">Email:</mat-label>
+                    <mat-label class="label">{{ 'EMAIL' | translate}}:</mat-label>
                 </div>
                 <div class="detail">
-                    <mat-label class="label">Joined on:</mat-label>
+                    <mat-label class="label">{{ 'JOINED_ON' | translate}}:</mat-label>
                 </div>
                 <div class="detail">
-                    <mat-label class="label">Account status:</mat-label>
+                    <mat-label class="label">{{ 'ACC_STATUS' | translate}}:</mat-label>
                 </div>
             </div>
 
