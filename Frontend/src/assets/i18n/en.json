@@ -1,0 +1,28 @@
+{
+  "SHARED": {
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "CLOSE": "Close",
+    "SAVE": "Save",
+    "MALE": "Male",
+    "FEMALE": "Female"
+  },
+  "AUTHORIZATION": {
+    "WRONG_USERNAME_PASSWORD": "Username or password is invalid",
+    "FORGOT_PASSWORD": "I forgot my password",
+    "SIGN_IN": "Sign in",
+    "PASSWORD": "Password"
+  },
+  "ATHLETE_MANAGEMENT": {
+    "ACTIVATE": "Activate",
+    "DEACTIVATE": "Deactivate",
+    "JOINED_ON": "Joined on",
+    "ACC_STATUS": "Account status",
+    "REGISTER": "Register",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "FULL_NAME": "Full name",
+    "ADD_TITLE": "Add athlete",
+    "UPDATE_TITLE": "Update athlete"
+  }
+}

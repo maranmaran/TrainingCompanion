@@ -90,7 +90,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: 'ADD_TITLE', action: CRUD.Create },
+      data: { title: 'ATHLETE_MANAGEMENT.ADD_TITLE', action: CRUD.Create },
       panelClass: []
     })
 
@@ -110,7 +110,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: 'UPDATE_TITLE', action: CRUD.Update, athlete: athlete },
+      data: { title: 'ATHLETE_MANAGEMENT.UPDATE_TITLE', action: CRUD.Update, athlete: athlete },
       panelClass: []
     })
 

@@ -1,0 +1,29 @@
+{
+  "SHARED": {
+    "USERNAME": "Korisničko ime",
+    "EMAIL": "E-pošta",
+    "CLOSE": "Zatvori",
+    "SAVE": "Spremi",
+    "MALE": "Muško",
+    "FEMALE": "Žensko"
+  },
+  "AUTHORIZATION": {
+    "WRONG_USERNAME_PASSWORD": "Krivo korisničko ime ili lozinka",
+    "FORGOT_PASSWORD": "Zaboravljena lozinka",
+    "SIGN_IN": "Prijava",
+    "PASSWORD": "Lozinka"
+  },
+  "ATHLETE_MANAGEMENT": {
+    "ACTIVATE": "Aktiviraj",
+    "DEACTIVATE": "Deaktiviraj",
+    "JOINED_ON": "Datum dolaska",
+    "ACC_STATUS": "Status računa",
+    "REGISTER": "Registriraj",
+    "ACTIVE": "Aktivan",
+    "INACTIVE": "Neaktivan",
+    "FULL_NAME": "Ime i prezime",
+    "ADD_TITLE": "Dodaj informacije o klijentu",
+    "UPDATE_TITLE": "Uredi detalje o klijentu"
+  }
+}
+
