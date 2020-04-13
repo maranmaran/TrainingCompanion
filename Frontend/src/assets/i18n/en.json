@@ -7,7 +7,8 @@
     "MALE": "Male",
     "FEMALE": "Female",
     "FILTER": "Filter",
-    "NOTIFICATION": "Notification"
+    "NOTIFICATION": "Notification",
+    "CANCEL": "Cancel"
   },
   "SETTINGS": {
     "SETTINGS_LABEL": "Settings",
@@ -22,11 +23,14 @@
     },
     "ACCOUNT_LABEL": "Account",
     "ACCOUNT": {
-
+      "CHANGE_PASSWORD": "Change password",
+      "CHANGE_AVATAR": "Change"
     },
     "BILLING_LABEL": "Billing",
     "BILLING": {
-
+      "STATUS": "Status",
+      "TRIAL_END": "Trial ends on",
+      "CHANGE": "Change"
     }
   },
   "AVATAR_DIALOG": {
