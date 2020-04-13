@@ -3,9 +3,10 @@ import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setMobileScreenFlag } from 'src/ngrx/user-interface/ui.actions';
-import { activeTheme, getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
+import { activeTheme, getLoadingState, language } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
 import { UIService } from '../business/services/shared/ui.service';
 import { Theme } from './../business/shared/theme.enum';
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private uiService: UIService,
     private mediaObserver: MediaObserver,
-    private translate: TranslateService) {
+    private translateService: TranslateService) {
       this.translationSetup();
   }
 
@@ -64,12 +65,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   translationSetup() {
-    console.log('setting up translation');
-
-    // this.translate.addLangs(['en', 'hr']);
-    // this.translate.setDefaultLang('en');
-    // const browserLang = this.translate.getBrowserLang();
-    // this.translate.use(browserLang.match(/en | hr/) ? browserLang : 'en');
+    console.log('Setting up translation...');
+    this.translateService.setDefaultLang('en');
+    this.store.select(language).pipe(take(1)).subscribe(lang => this.translateService.use("hr"));
+    // this.translateService.addLangs(['en', 'hr']);
+    // const browserLang = this.translateService.getBrowserLang();
+    // this.translateService.use(browserLang.match(/en | hr/) ? browserLang : 'en');
   }
 
 }

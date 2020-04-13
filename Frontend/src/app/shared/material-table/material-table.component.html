@@ -3,7 +3,7 @@
 
   <!--FILTER-->
   <mat-form-field *ngIf="config.filterEnabled">
-    <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)" placeholder="Filter">
+    <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)" placeholder="{{ 'SHARED.FILTER' | translate }}">
   </mat-form-field>
 
   <!--TABLE-->
@@ -30,11 +30,11 @@
 
       <ng-container *ngIf="col.sort">
         <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef mat-sort-header matTooltip="{{col.tooltip}}">
-          {{ col.title }} </mat-header-cell>
+          {{ col.title | translate }} </mat-header-cell>
       </ng-container>
 
       <ng-container *ngIf="!col.sort">
-        <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef matTooltip="{{col.tooltip}}"> {{ col.title }}
+        <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef matTooltip="{{col.tooltip}}"> {{ col.title | translate }}
         </mat-header-cell>
       </ng-container>
 
