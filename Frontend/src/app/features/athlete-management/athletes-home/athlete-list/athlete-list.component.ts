@@ -75,7 +75,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       }),
       new CustomColumn({
         definition: 'fullName',
-        title: 'FULL_NAME',
+        title: 'ATHLETE_MANAGEMENT.FULL_NAME',
         sort: true,
         displayFn: (item: ApplicationUser) => item.fullName,
       }),

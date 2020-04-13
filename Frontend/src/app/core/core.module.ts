@@ -2,17 +2,19 @@ import { CommonModule } from '@angular/common';
 import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxStripeModule } from 'ngx-stripe';
 import { ToastrModule } from 'ngx-toastr';
-import { CoreHttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
+import { PaginatorTranslateFactory } from 'src/assets/i18n/paginator-translate.factory';
+import { HttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
 import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.guard';
 import { ErrorInterceptor } from 'src/business/interceptors/error.interceptor';
 import { HttpInterceptor } from 'src/business/interceptors/http.interceptor';
@@ -81,10 +83,10 @@ import { SettingsComponent } from './settings/settings.component';
         SignalrHubsModule.forRoot(),
         ExportImportServicesModule.forRoot(),
         TranslateModule.forRoot({
-          isolate: true,
+          isolate: false,
           loader: {
               provide: TranslateLoader,
-              useFactory: CoreHttpLoaderFactory,
+              useFactory: HttpLoaderFactory,
               deps: [HttpBackend]
           }
         })
@@ -118,6 +120,10 @@ import { SettingsComponent } from './settings/settings.component';
         APP_SETTINGS_PROVIDER,
         { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        {
+          provide: MatPaginatorIntl, deps: [TranslateService],
+          useFactory: (translateService: TranslateService) => new PaginatorTranslateFactory(translateService).getPaginatorIntl()
+        }
         // { provide: MAT_HAMMER_OPTIONS, useClass: CustomHammerJsConfig }
         // { provide: APP_INITIALIZER, useFactory: initApplication, multi: true, deps: [Store, Actions] }
     ],
