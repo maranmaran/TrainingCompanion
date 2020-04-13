@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
+import { HttpBackend } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { AvatarModule } from 'ngx-avatar';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { HttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
 import { ButtonSizeDirective } from 'src/business/directives/button-size.directive';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
@@ -39,7 +41,6 @@ import { MediaListComponent } from './media/media-uploader/media-list/media-list
 import { MediaUploaderComponent } from './media/media-uploader/media-uploader.component';
 import { UploadInputComponent } from './media/media-uploader/upload-input/upload-input.component';
 
-
 @NgModule({
     imports: [
         CommonModule,
@@ -60,6 +61,16 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         ]),
         AvatarModule,
         ImageCropperModule,
+         // lazy loaded modules import of translate module
+        // https://github.com/ngx-translate/core#1-import-the-translatemodule
+        TranslateModule.forChild({
+            isolate: true,
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpBackend]
+            }
+          })
     ],
     declarations: [
         MediaDialogComponent,

@@ -6,19 +6,19 @@
   <form [formGroup]="form">
 
     <mat-form-field>
-      <input matInput formControlName="fullName" placeholder="{{ 'FULL_NAME' | translate}}">
+      <input matInput formControlName="fullName" placeholder="{{ 'ATHLETE_MANAGEMENT.FULL_NAME' | translate}}">
       <mat-error *ngIf="fullName.invalid"></mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="username" placeholder="{{ 'USERNAME' | translate}}">
+      <input matInput formControlName="username" placeholder="{{ 'SHARED.USERNAME' | translate}}">
       <mat-error *ngIf="username.invalid && username.errors">
         <div class="validation-error" *ngFor="let error of usernameErrors">{{error}}</div>
       </mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="email" placeholder="{{ 'EMAIL' | translate}}" type="email">
+      <input matInput formControlName="email" placeholder="{{ 'SHARED.EMAIL' | translate}}" type="email">
       <mat-error *ngIf="email.invalid && email.errors">
         <div class="validation-error" *ngFor="let error of emailErrors">{{error}}</div>
       </mat-error>
@@ -27,11 +27,11 @@
     <div fxLayout="row" fxLayoutAlign="space-between">
       <mat-slide-toggle *ngIf="data.action == 'Update'" color="primary" [checked]="this.athlete.active"
         (change)="onActiveChange($event)">
-        {{ (athlete.active ? 'ACTIVE' : 'INACTIVE') | translate }}
+        {{ (athlete.active ? 'ATHLETE_MANAGEMENT.ACTIVE' : 'ATHLETE_MANAGEMENT.INACTIVE') | translate }}
       </mat-slide-toggle>
 
       <mat-slide-toggle color="primary" [checked]="this.athlete.gender == 'Male'" (change)="onGenderChange($event)">
-        {{ athlete.gender | uppercase | translate }}
+        {{ 'SHARED.' + athlete.gender | uppercase | translate }}
       </mat-slide-toggle>
     </div>
 
@@ -39,7 +39,7 @@
 </div>
 
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-  <button mat-button (click)="onClose()">{{ 'CLOSE' | translate}}</button>
+  <button mat-button (click)="onClose()">{{ 'SHARED.CLOSE' | translate}}</button>
   <button mat-stroked-button color="accent" (click)="onSubmit()"
-    [disabled]="!form.valid">{{ (data.action == 'Create' ? 'REGISTER' : 'SAVE') | translate }}</button>
+    [disabled]="!form.valid">{{ (data.action == 'Create' ? 'ATHLETE_MANAGEMENT.REGISTER' : 'SHARED.SAVE') | translate }}</button>
 </div>

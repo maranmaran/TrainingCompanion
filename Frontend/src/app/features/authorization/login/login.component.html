@@ -9,27 +9,27 @@
 
       <mat-form-field>
         <input matInput autofocus formControlName="username" autocomplete="username" type="text" id="username"
-          placeholder="{{ 'USERNAME' | translate }}">
+          placeholder="{{ 'SHARED.USERNAME' | translate }}">
         <i matSuffix class="fas fa-user"></i>
       </mat-form-field>
 
       <mat-form-field>
         <input #passwordInput matInput formControlName="password" autocomplete="current-password"
-               class="form-control" id="password" placeholder="{{ 'PASSWORD' | translate }}">
+               class="form-control" id="password" placeholder="{{ 'AUTHORIZATION.PASSWORD' | translate }}">
 
         <button type="button" mat-icon-button matSuffix showHidePassword [passwordInput]="passwordInput" [passwordIcon]="passwordIcon">
           <i #passwordIcon class="fas"></i>
         </button>
       </mat-form-field>
 
-      <mat-error *ngIf="(error | async)">{{ 'WRONG_USERNAME_PASSWORD'  | translate }}</mat-error>
+      <mat-error *ngIf="(error | async)">{{ 'AUTHORIZATION.WRONG_USERNAME_PASSWORD'  | translate }}</mat-error>
 
       <div id="actions" fxLayout="row" fxLayoutAlign="space-between center">
         <!-- <mat-checkbox formControlName="rememberMe" id="checkbox" color="primary">Remember me</mat-checkbox> -->
 
-        <a href="/auth/reset-password">{{ 'FORGOT_PASSWORD' | translate }}</a>
+        <a href="/auth/reset-password">{{ 'AUTHORIZATION.FORGOT_PASSWORD' | translate }}</a>
         <button mat-flat-button color="primary" id="signin" type="submit" class="float-right"
-          [disabled]="!loginForm.valid">{{ 'SIGN_IN' | translate }}</button>
+          [disabled]="!loginForm.valid">{{ 'AUTHORIZATION.SIGN_IN' | translate }}</button>
       </div>
 
     </form>

@@ -22,16 +22,6 @@ import { AthletesRoutingModule } from './athletes-routing.module';
         AthletesRoutingModule,
         StoreModule.forFeature('athletes', athletesReducer),
         EffectsModule.forFeature([AthletesEffects]),
-        // lazy loaded modules import of translate module
-        // https://github.com/ngx-translate/core#1-import-the-translatemodule
-        TranslateModule.forChild({
-          isolate: true,
-          loader: {
-            provide: TranslateLoader,
-            useFactory: AthleteManagementHttpLoaderFactory,
-            deps: [HttpBackend]
-          }
-        })
     ],
     declarations: [
         AthletesHomeComponent,
