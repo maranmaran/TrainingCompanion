@@ -7,7 +7,9 @@
     "MALE": "Muško",
     "FEMALE": "Žensko",
     "FILTER": "Filtriraj",
-    "NOTIFICATION": "Notifikacija"
+    "NOTIFICATION": "Notifikacija",
+    "CANCEL": "Poništi"
+
   },
   "SETTINGS": {
     "SETTINGS_LABEL": "Postavke",
@@ -22,10 +24,14 @@
     },
     "ACCOUNT_LABEL": "Korisnički račun",
     "ACCOUNT": {
-
+      "CHANGE_PASSWORD": "Promijeni lozinku",
+      "CHANGE_AVATAR": "Promijeni"
     },
     "BILLING_LABEL": "Plaćanje",
     "BILLING": {
+      "STATUS": "Status",
+      "TRIAL_END": "Probni račun vrijedi do",
+      "CHANGE": "Promijeni"
 
     }
   },
