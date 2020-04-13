@@ -64,7 +64,8 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
          // lazy loaded modules import of translate module
         // https://github.com/ngx-translate/core#1-import-the-translatemodule
         TranslateModule.forChild({
-            isolate: true,
+            isolate: false,
+            extend: true,
             loader: {
               provide: TranslateLoader,
               useFactory: HttpLoaderFactory,

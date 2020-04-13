@@ -5,7 +5,17 @@
     "CLOSE": "Zatvori",
     "SAVE": "Spremi",
     "MALE": "Muško",
-    "FEMALE": "Žensko"
+    "FEMALE": "Žensko",
+    "FILTER": "Filtriraj"
+  },
+  "PAGINATOR": {
+    "ITEMS_PER_PAGE_LABEL": "Broj redaka",
+    "NEXT_PAGE_LABEL": "Sljedeća stranica",
+    "PREVIOUS_PAGE_LABEL": "Prijašnja stranica",
+    "FIRST_PAGE_LABEL": "Prva stranica",
+    "LAST_PAGE_LABEL": "Zadnja stranica",
+    "RANGE_PAGE_LABEL_1": "0 od {{length}}",
+    "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} od {{length}}"
   },
   "AUTHORIZATION": {
     "WRONG_USERNAME_PASSWORD": "Krivo korisničko ime ili lozinka",
