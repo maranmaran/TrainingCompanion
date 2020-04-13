@@ -10,7 +10,7 @@
 
     <div id="details" >
       <label><b>{{ 'SETTINGS.BILLING.STATUS' | translate }}:</b></label>
-      <span>{{ subscription.status | titlecase }}</span>
+      <span>{{ SubscriptionStatusTranslation[subscription.status] | translate }}</span>
 
       <div *ngIf="SubscriptionStatus[subscription.status.toLowerCase()] == SubscriptionStatus.trialing">
         <label><b>{{ 'SETTINGS.BILLING.TRIAL_END' | translate}}:</b></label>

@@ -1,4 +1,4 @@
-<h2> {{data.title}} </h2>
+<h2> {{data.title | translate }} </h2>
 
 <mat-divider class="dialog-form-divider"></mat-divider>
 
@@ -6,7 +6,7 @@
   <form [formGroup]="form">
 
     <mat-form-field>
-      <input matInput formControlName="type" placeholder="Exercise property type">
+      <input matInput formControlName="type" placeholder="{{ 'TAGS.EXERCISE_PROPERTY_TYPE' | translate }}">
       <mat-error *ngIf="type.invalid"></mat-error>
     </mat-form-field>
 
@@ -19,7 +19,7 @@
                           'background-color': tagGroup.hexBackground,
                           'color': tagGroup.hexColor
                       }">
-            Tag
+            {{ 'TAGS.TAG' | translate }}
           </mat-chip>
         </mat-chip-list>
       </div>
@@ -33,14 +33,14 @@
 
     <mat-slide-toggle *ngIf="data.action == 'Update'" [color]="primary" [checked]="tagGroup.active"
       (change)="onActiveChange($event)">
-      {{ tagGroup.active ? 'Active' : 'Inactive' }}
+      {{ (tagGroup.active ? 'SHARED.ACTIVE' : 'SHARED.INACTIVE') | translate }}
     </mat-slide-toggle>
 
   </form>
 </div>
 
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-  <button mat-button (click)="onClose()">Close</button>
+  <button mat-button (click)="onClose()">{{ 'SHARED.CLOSE' | translate }}</button>
   <button mat-stroked-button color="accent" (click)="onSubmit()"
-    [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
+    [disabled]="!form.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
 </div>
