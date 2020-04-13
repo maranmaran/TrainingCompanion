@@ -75,7 +75,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       }),
       new CustomColumn({
         definition: 'fullName',
-        title: 'Name',
+        title: 'FULL_NAME',
         sort: true,
         displayFn: (item: ApplicationUser) => item.fullName,
       }),
@@ -90,7 +90,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: 'Add athlete', action: CRUD.Create },
+      data: { title: 'ADD_TITLE', action: CRUD.Create },
       panelClass: []
     })
 
@@ -110,7 +110,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: 'Update athlete', action: CRUD.Update, athlete: athlete },
+      data: { title: 'UPDATE_TITLE', action: CRUD.Update, athlete: athlete },
       panelClass: []
     })
 
