@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, noop } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
@@ -28,7 +29,7 @@ import { TypesCreateEditComponent } from './../types-create-edit/types-create-ed
 export class TypesListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
-  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TAGS.DELETE_TYPE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
@@ -38,7 +39,8 @@ export class TypesListComponent implements OnInit, OnDestroy {
   constructor(
     private uiService: UIService,
     private tagGroupService: TagGroupService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
@@ -83,7 +85,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
       }),
       new CustomColumn({
         definition: 'type',
-        title: 'Type',
+        title: 'TAGS.TYPE',
         sort: true,
         headerClass: 'type-header',
         cellClass: 'type-cell',
@@ -107,7 +109,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
         cellClass: 'hex-cell',
         useComponent: true,
         component: ExerciseTypeChipComponent,
-        componentInputs: (item: TagGroup) => { return { value: "Tag", show: true, backgroundColor: item.hexBackground, color: item.hexColor } },
+        componentInputs: (item: TagGroup) => { return { value: "TAGS.TAG", show: true, backgroundColor: item.hexBackground, color: item.hexColor } },
       }),
     ]
   }
@@ -136,7 +138,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
         width: '98%',
         maxWidth: '20rem',
         autoFocus: false,
-        data: { title: 'Add exercise property type', action: CRUD.Create, tagGroup: group},
+        data: { title: 'TAGS.ADD_TYPE', action: CRUD.Create, tagGroup: group},
         panelClass: []
       })
 
@@ -151,7 +153,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: 'Update exercise property type', action: CRUD.Update, tagGroup: tagGroup },
+      data: { title: 'TAGS.UPDATE_TYPE', action: CRUD.Update, tagGroup: tagGroup },
       panelClass: []
     })
 
@@ -167,9 +169,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
 
   onDeleteSingle(tagGroup: TagGroup) {
 
-    this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete type ${tagGroup.type} ?</p>
-     <p>All data will be lost if you delete this type.</p>`;
+    this.deleteDialogConfig.message = this.translateService.instant('TAGS.DELETE_TYPE', { type: tagGroup.type });
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
@@ -189,9 +189,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
 
   onDeleteSelection(tagGroups: TagGroup[]) {
 
-    this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete all (${tagGroups.length}) selected types ?</p>
-     <p>All data will be lost if you delete these types.</p>`;
+    this.deleteDialogConfig.message = this.translateService.instant('TAGS.DELETE_TYPE_SELECTION', { length: tagGroups.length });
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig)
 

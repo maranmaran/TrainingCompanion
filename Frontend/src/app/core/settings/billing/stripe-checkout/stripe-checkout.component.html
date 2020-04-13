@@ -1,20 +1,20 @@
-<h2>Payment information: </h2>
+<h2>{{ 'SETTINGS.BILLING.PAYMENT_INFO' | translate }}: </h2>
 
 <div class="checkout-form" fxLayout="column">
   <form [formGroup]="checkoutForm">
 
     <mat-form-field>
-      <input matInput formControlName="name" placeholder="Name">
+      <input matInput formControlName="name" placeholder="{{ 'SETTINGS.BILLING.NAME' | translate }}">
       <mat-error *ngIf="name.invalid"></mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="phone" placeholder="Phone">
+      <input matInput formControlName="phone" placeholder="{{ 'SETTINGS.BILLING.PHONE' | translate }}">
       <mat-error *ngIf="phone.invalid"></mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Select a country" formControlName="country" [matAutocomplete]="auto">
+      <input matInput placeholder="{{ 'SETTINGS.BILLING.COUNTRY' | translate }}" formControlName="country" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name">
           <div fxLayout="row" fxLayoutAlign="start center">
@@ -26,17 +26,17 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="address" placeholder="Address">
+      <input matInput formControlName="address" placeholder="{{ 'SETTINGS.BILLING.ADDRESS' | translate }}">
       <mat-error *ngIf="address.invalid"></mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="city" placeholder="City">
+      <input matInput formControlName="city" placeholder="{{ 'SETTINGS.BILLING.CITY' | translate }}">
       <mat-error *ngIf="city.invalid"></mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="state" placeholder="State">
+      <input matInput formControlName="state" placeholder="{{ 'SETTINGS.BILLING.STATE' | translate }}">
       <mat-error *ngIf="state.invalid"></mat-error>
     </mat-form-field>
   </form>
@@ -51,7 +51,7 @@
 </div>
 
 <div id="actions" class="mt-2" fxLayout="row" fxLayoutAlign="space-between">
-  <button mat-button (click)="onClose()">Go back</button>
+  <button mat-button (click)="onClose()">{{ 'SETTINGS.BILLING.GO_BACK' | translate }}</button>
   <button mat-stroked-button color="accent" (click)="getCardToken()"
-    [disabled]="!complete && !checkoutForm.valid">Finish</button>
+    [disabled]="!complete && !checkoutForm.valid">{{ 'SETTINGS.BILLING.FINISH' | translate }}</button>
 </div>
