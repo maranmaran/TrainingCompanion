@@ -106,12 +106,9 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.updateCurrentUser),
         tap((currentUser: CurrentUser) => {
-          this.store.dispatch(
-            setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen })
-          );
-          this.store.dispatch(
-            switchTheme({ theme: currentUser.userSetting.theme })
-          );
+          this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }));
+          this.store.dispatch(setLanguage({language: currentUser.userSetting.language }))
+          this.store.dispatch(switchTheme({ theme: currentUser.userSetting.theme }));
         })
       ),
     { dispatch: false }

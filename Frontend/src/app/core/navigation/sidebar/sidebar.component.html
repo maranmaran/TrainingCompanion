@@ -1,6 +1,6 @@
 <mat-toolbar>
   <mat-toolbar-row class="justify-content-between">
-    <h2 class="toolbar-title float-left"> Menu </h2>
+    <h2 class="toolbar-title float-left"> {{ 'MAIN_SIDEBAR.MENU' | translate}} </h2>
 
     <button mat-icon-button color="accent" (click)="close()">
       <i class="fas fa-times"></i>
@@ -15,31 +15,31 @@
 
     <a mat-list-item routerLink="/app/dashboard" (click)="onRoute()">
       <i class="fas fa-home"></i>
-      <span class="label">Dashboard</span>
+      <span class="label">{{ 'MAIN_SIDEBAR.DASHBOARD' | translate}}</span>
     </a>
 
     <a *ngIf="(isCoach$ | async)" mat-list-item routerLink="/app/athletes" (click)="onRoute()">
       <i class="fas fa-users"></i>
-      <span class="label">Manage users</span>
+      <span class="label">{{ 'MAIN_SIDEBAR.MANAGE_USERS' | translate}}</span>
     </a>
 
     <mat-expansion-panel *ngIf="(isCoach$ | async)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <i class="fas fa-list"></i>
-          <span class="label">Exercise library</span>
+          <span class="label">{{ 'MAIN_SIDEBAR.EXERCISE_LIBRARY' | translate}}</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <a mat-list-item routerLink="/app/exercise-properties" (click)="onRoute()">
         <i class="fas fa-tools"></i>
-        <span class="label">Properties</span>
+        <span class="label">{{ 'MAIN_SIDEBAR.EXERCISE_PROPERTIES' | translate}}</span>
       </a>
 
 
       <a mat-list-item routerLink="/app/exercise-types" (click)="onRoute()">
         <i class="fas fa-dumbbell"></i>
-        <span class="label"> Exercises</span>
+        <span class="label"> {{ 'MAIN_SIDEBAR.EXERCISES' | translate}}</span>
       </a>
 
 
@@ -47,17 +47,17 @@
 
     <a mat-list-item routerLink="/app/training-log" (click)="onRoute()">
       <i class="fas fa-calendar-alt"></i>
-      <span class="label">Training log</span>
+      <span class="label">{{ 'MAIN_SIDEBAR.TRAINING_LOG' | translate}}</span>
     </a>
 
     <a mat-list-item routerLink="/app/export-import" (click)="onRoute()" *ngIf="(isCoach$ | async)">
       <i class="fas fa-cloud-upload-alt"></i>
-      <span class="label">Export / Import</span>
+      <span class="label">{{ 'MAIN_SIDEBAR.EXPORT_IMPORT' | translate}}</span>
     </a>
 
     <a mat-list-item routerLink="/app/bodyweight" (click)="onRoute()">
       <i class="fas fa-weight"></i>
-      <span class="label">Bodyweight</span>
+      <span class="label">{{ 'MAIN_SIDEBAR.BODYWEIGHT' | translate}}</span>
     </a>
 <!--
     <mat-expansion-panel>

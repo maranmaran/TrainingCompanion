@@ -6,7 +6,43 @@
     "SAVE": "Spremi",
     "MALE": "Muško",
     "FEMALE": "Žensko",
-    "FILTER": "Filtriraj"
+    "FILTER": "Filtriraj",
+    "NOTIFICATION": "Notifikacija"
+  },
+  "SETTINGS": {
+    "SETTINGS_LABEL": "Postavke",
+
+    "GENERAL_LABEL": "Općenito",
+    "GENERAL": {
+      "LANGUAGE": "Jezik",
+      "THEME": "Tema",
+      "UNIT_SYSTEM": "Mjerni sustav",
+      "RPE_SYSTEM": "RPE sistem",
+      "INFORM_ME": "Obavijesti me o"
+    },
+    "ACCOUNT_LABEL": "Korisnički račun",
+    "ACCOUNT": {
+
+    },
+    "BILLING_LABEL": "Plaćanje",
+    "BILLING": {
+
+    }
+  },
+  "AVATAR_DIALOG": {
+    "HOMEPAGE": "Početna stranica",
+    "SIGN_OUT": "Odjava"
+  },
+  "MAIN_SIDEBAR": {
+    "MENU": "Meni",
+    "DASHBOARD": "Kontrolna ploča",
+    "MANAGE_USERS": "Klijenti",
+    "EXERCISE_LIBRARY": "Vježbe",
+    "EXERCISE_PROPERTIES": "Svojstva vježbi",
+    "EXERCISES": "Popis vježbi",
+    "TRAINING_LOG": "Dnevnik treninga",
+    "EXPORT_IMPORT": "Uvoz / izvoz podataka",
+    "BODYWEIGHT": "Tjelesna težina"
   },
   "PAGINATOR": {
     "ITEMS_PER_PAGE_LABEL": "Broj redaka",
