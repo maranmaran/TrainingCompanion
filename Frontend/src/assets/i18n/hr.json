@@ -8,8 +8,41 @@
     "FEMALE": "Žensko",
     "FILTER": "Filtriraj",
     "NOTIFICATION": "Notifikacija",
-    "CANCEL": "Poništi"
+    "CANCEL": "Poništi",
+    "DELETE": "Izbriši",
+    "ACTIVE": "Aktivan",
+    "INACTIVE": "Neaktivan",
+    "ADD": "Dodaj"
+  },
+  "TAGS": {
+    "TYPE": "Tip",
+    "ADD_TYPE": "Dodaj tip svojstva",
+    "UPDATE_TYPE": "Uredi tip svojstva",
+    "DELETE_TYPE": "<p>Jeste li sigurni da želite izbrisati tip svojstva {{type}} ?</p>\n<p>Svi podaci će biti izgubljeni ako obrišete ovaj tip svojstva.</p>",
+    "DELETE_TYPE_SELECTION": "<p>Jeste li sigurni da želite izbrisati svih ({{length}}) tipova svojstva ?</p>\n<p>Svi podaci će biti izgubljeni ako obrišete ove tipove stvojstva.</p>`;",
+    "DELETE_TYPE_TITLE": "Obriši tip svojstva",
+    "TAG": "Oznaka",
+    "EXERCISE_PROPERTY_TYPE": "Naziv tipa svojstva vježbe"
+  },
+  "EXERCISE_TYPES": {
 
+  },
+  "TRAINING_LOG": {
+
+  },
+  "EXPORT_IMPORT": {
+
+  },
+  "BODYWEIGHT": {
+
+  },
+  "CHAT": {
+    "FULLSCREEN": {
+
+    },
+    "SMALL": {
+
+    }
   },
   "SETTINGS": {
     "SETTINGS_LABEL": "Postavke",
@@ -31,8 +64,23 @@
     "BILLING": {
       "STATUS": "Status",
       "TRIAL_END": "Probni račun vrijedi do",
-      "CHANGE": "Promijeni"
-
+      "CHANGE": "Promijeni",
+      "ACTIVE": "Aktivna pretplata",
+      "INCOMPLETE": "Nepotpuna pretplata",
+      "INCOMPLETE_EXPIRED": "Istekla pretplata",
+      "TRIALING": "Probni rok",
+      "PAST_DUE": "Istekao rok",
+      "CANCELED": "Otkazana pretplata",
+      "UNPAID":"Neplaćena pretplata",
+      "PAYMENT_INFO": "Informacije o plaćanju",
+      "NAME": "Ime i prezime",
+      "PHONE": "Telefon",
+      "COUNTRY": "Država",
+      "ADDRESS": "Adresa",
+      "CITY": "Grad",
+      "STATE": "Županija",
+      "GO_BACK":" Natrag",
+      "FINISH": "Završi"
     }
   },
   "AVATAR_DIALOG": {

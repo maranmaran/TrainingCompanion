@@ -8,7 +8,41 @@
     "FEMALE": "Female",
     "FILTER": "Filter",
     "NOTIFICATION": "Notification",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "DELETE": "Delete",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "ADD": "Add"
+  },
+  "TAGS": {
+    "TYPE": "Type",
+    "ADD_TYPE": "Add exercise property type",
+    "UPDATE_TYPE": "Update exercise property type",
+    "DELETE_TYPE": "<p>Are you sure you wish to delete type {{type}} ?</p>\n<p>All data will be lost if you delete this type.</p>",
+    "DELETE_TYPE_SELECTION": "<p>Are you sure you wish to delete all ({{length}}) selected types ?</p>\n<p>All data will be lost if you delete these types.</p>`;",
+    "DELETE_TYPE_TITLE": "Delete exercise property type",
+    "TAG": "Tag",
+    "EXERCISE_PROPERTY_TYPE": "Exercise property type"
+  },
+  "EXERCISE_TYPES": {
+
+  },
+  "TRAINING_LOG": {
+
+  },
+  "EXPORT_IMPORT": {
+
+  },
+  "BODYWEIGHT": {
+
+  },
+  "CHAT": {
+    "FULLSCREEN": {
+
+    },
+    "SMALL": {
+
+    }
   },
   "SETTINGS": {
     "SETTINGS_LABEL": "Settings",
@@ -30,7 +64,23 @@
     "BILLING": {
       "STATUS": "Status",
       "TRIAL_END": "Trial ends on",
-      "CHANGE": "Change"
+      "CHANGE": "Change",
+      "ACTIVE": "Active subscription",
+      "INCOMPLETE": "Incomplete",
+      "INCOMPLETE_EXPIRED": "Expired",
+      "TRIALING": "Trialing",
+      "PAST_DUE": "Past due",
+      "CANCELED": "Canceled",
+      "UNPAID":"Unpaid",
+      "PAYMENT_INFO": "Payment info",
+      "NAME": "Full name",
+      "PHONE": "Phone",
+      "COUNTRY": "Select a country",
+      "ADDRESS": "Address",
+      "CITY": "City",
+      "STATE": "State",
+      "GO_BACK":" Go back",
+      "FINISH": "Finish"
     }
   },
   "AVATAR_DIALOG": {
