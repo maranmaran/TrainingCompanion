@@ -3,7 +3,9 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import * as _ from "lodash";
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { Country } from 'src/business/shared/models/country.model';
 import { Theme } from 'src/business/shared/theme.enum';
 import { updateUserSetting } from 'src/ngrx/auth/auth.actions';
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
@@ -11,6 +13,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { NotificationSetting } from 'src/server-models/entities/notification-setting.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UserService } from '../../../../business/services/feature-services/user.service';
+import { CountryService } from './../../../../business/services/feature-services/country.service';
 import { UserSetting } from './../../../../server-models/entities/user-settings.model';
 import { UnitSystem } from './../../../../server-models/enums/unit-system.enum';
 import { NotificationTypeLabel } from './notification-type-labels.enum';
@@ -18,26 +21,35 @@ import { NotificationTypeLabel } from './notification-type-labels.enum';
 @Component({
   selector: 'app-general',
   templateUrl: './general.component.html',
-  styleUrls: ['./general.component.scss']
+  styleUrls: ['./general.component.scss'],
+  providers: [CountryService]
 })
 export class GeneralComponent implements OnInit {
 
   public userSetting: UserSetting;
   unitSystems = UnitSystem;
   rpeSystems = RpeSystem;
+  supportedCountryLanguages: Observable<Country[]>;
 
   notificationTypeLabels = NotificationTypeLabel;
 
   constructor(
     private store: Store<AppState>,
     private usersService: UserService,
+    private countryService: CountryService
   ) { }
 
   ngOnInit() {
+    this.getSupportedLanguages();
+
     this.store.select(userSetting).pipe(take(1))
       .subscribe((userSetting: UserSetting) => {
         this.userSetting = { ...userSetting };
       });
+  }
+
+  getSupportedLanguages() {
+    this.supportedCountryLanguages = this.countryService.getCountriesByCodes('us', 'hr');
   }
 
   get themeButtonChecked(): boolean { return this.userSetting.theme == Theme.Dark; }

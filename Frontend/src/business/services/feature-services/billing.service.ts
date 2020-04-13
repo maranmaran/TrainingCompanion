@@ -1,4 +1,4 @@
-import { HttpClient, HttpBackend } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { AddPaymentOptionRequest } from 'src/server-models/cqrs/billing/add-payment-option.request';
@@ -7,21 +7,14 @@ import { GetSubscriptionRequest } from 'src/server-models/cqrs/billing/get-subsc
 import { SubscribeRequest } from 'src/server-models/cqrs/billing/subscribe.request';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
 import { BaseService } from '../base.service';
-import { Country } from 'src/business/shared/models/country.model';
 
 @Injectable()
 export class BillingService extends BaseService {
 
   constructor(
     private httpDI: HttpClient,
-    private httpBackend: HttpBackend
   ) {
     super(httpDI, 'Billing');
-  }
-
-  public getCountries() {
-    let httpClient = new HttpClient(this.httpBackend);
-    return httpClient.get<Country[]>('https://restcountries.eu/rest/v2/all');
   }
 
   public getSubscriptionInformation(query: GetSubscriptionRequest) {

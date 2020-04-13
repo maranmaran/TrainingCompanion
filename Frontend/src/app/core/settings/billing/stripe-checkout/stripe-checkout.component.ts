@@ -1,23 +1,23 @@
-import { BillingService } from 'src/business/services/feature-services/billing.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Element as StripeElement, ElementOptions, ElementsOptions, StripeCardComponent, StripeService } from 'ngx-stripe';
-import { Observable, observable, of } from 'rxjs';
-import { map, startWith, take, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith, take } from 'rxjs/operators';
 import { Theme } from 'src/business/shared/theme.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { SubSink } from 'subsink';
-import { Country } from 'src/business/shared/models/country.model';
+import { CountryService } from './../../../../../business/services/feature-services/country.service';
+import { Country } from './../../../../../business/shared/models/country.model';
 
 @Component({
   selector: 'app-stripe-checkout',
   templateUrl: './stripe-checkout.component.html',
   styleUrls: ['./stripe-checkout.component.scss'],
-  providers: [BillingService]
+  providers: [CountryService]
 })
 export class StripeCheckoutComponent implements OnInit, OnDestroy {
 
@@ -54,11 +54,9 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy {
     private _stripe: StripeService,
     private dialogRef: MatDialogRef<StripeCheckoutComponent>,
     private store: Store<AppState>,
-    private _billingService: BillingService
+    private _countryService: CountryService
   ) {
   }
-
-
 
   ngOnInit() {
 
@@ -76,7 +74,7 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy {
         this.createForm();
       });
 
-    this._billingService.getCountries().pipe(take(1))
+    this._countryService.getCountries().pipe(take(1))
       .subscribe(
         countries => (this.countries = countries as Country[], this.getCountries()),
         err => console.log(err)
