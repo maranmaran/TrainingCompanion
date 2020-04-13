@@ -3,7 +3,7 @@
   <mat-sidenav class="settings-sidenav">
     <mat-toolbar>
       <mat-toolbar-row class="justify-content-between">
-        <h2 class="toolbar-title float-left"> {{ data.title }} </h2>
+        <h2 class="toolbar-title float-left"> {{ data.title | translate }} </h2>
 
         <button mat-icon-button color="accent" (click)="toggleSidenav()">
           <i class="fas fa-bars"></i>
@@ -16,15 +16,15 @@
       <mat-accordion [displayMode]="'flat'">
 
         <a mat-list-item (click)="openTab('General')">
-          General
+          {{ 'SETTINGS.GENERAL_LABEL' | translate }}
         </a>
         <mat-divider></mat-divider>
         <a mat-list-item (click)="openTab('Account')">
-          Account
+          {{ 'SETTINGS.ACCOUNT_LABEL' | translate }}
         </a>
         <mat-divider></mat-divider>
         <a mat-list-item (click)="openTab('Billing')" *ngIf="(isCoach | async)">
-          Billing
+          {{ 'SETTINGS.BILLING_LABEL' | translate }}
         </a>
 
       </mat-accordion>

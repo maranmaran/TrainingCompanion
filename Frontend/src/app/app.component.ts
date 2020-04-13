@@ -3,7 +3,6 @@ import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setMobileScreenFlag } from 'src/ngrx/user-interface/ui.actions';
 import { activeTheme, getLoadingState, language } from 'src/ngrx/user-interface/ui.selectors';
@@ -67,7 +66,9 @@ export class AppComponent implements OnInit, OnDestroy {
   translationSetup() {
     console.log('Setting up translation...');
     this.translateService.setDefaultLang('en');
-    this.store.select(language).pipe(take(1)).subscribe(lang => this.translateService.use("hr"));
+    this.subs.add(
+      this.store.select(language).subscribe(lang => this.translateService.use(lang))
+    )
     // this.translateService.addLangs(['en', 'hr']);
     // const browserLang = this.translateService.getBrowserLang();
     // this.translateService.use(browserLang.match(/en | hr/) ? browserLang : 'en');

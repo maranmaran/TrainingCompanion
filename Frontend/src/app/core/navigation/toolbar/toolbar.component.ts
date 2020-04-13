@@ -1,4 +1,3 @@
-import { dashboardActive } from './../../../../ngrx/dashboard/dashboard.selectors';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
@@ -10,14 +9,15 @@ import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum
 import { logout } from 'src/ngrx/auth/auth.actions';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { totalUnreadChatMessages } from 'src/ngrx/chat/chat.selectors';
+import { setTrackEditMode } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
 import { SettingsComponent } from '../../settings/settings.component';
 import { UIService } from './../../../../business/services/shared/ui.service';
+import { dashboardActive } from './../../../../ngrx/dashboard/dashboard.selectors';
 import { PushNotification } from './../../../../server-models/entities/push-notification.model';
 import { AccountType } from './../../../../server-models/enums/account-type.enum';
-import { setTrackEditMode } from 'src/ngrx/dashboard/dashboard.actions';
 
 @Component({
   selector: 'app-toolbar',
@@ -149,7 +149,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '58rem',
       autoFocus: false,
-      data: { title: 'Settings', section },
+      data: { title: 'SETTINGS.SETTINGS_LABEL', section },
       panelClass: ['settings-dialog-container']
     });
   }
