@@ -48,7 +48,7 @@
   <form [formGroup]="form">
     <mat-form-field class="text-input">
       <textarea #messageInput matInput cdkTextareaAutosize [cdkAutosizeMinRows]="1" [cdkAutosizeMaxRows]="5"
-        formControlName="messageText" placeholder="{{'CHAT.FULLSCREEN.TYPEMESSAGE_LABEL' | translate}}" (keydown.enter)="onSendMessage($event)"></textarea>
+        formControlName="messageText" placeholder="{{'CHAT.FULLSCREEN.TYPE_MESSAGE_LABEL' | translate}}" (keydown.enter)="onSendMessage($event)"></textarea>
 
       <div class="ml-3" matSuffix>
         <button mat-icon-button color="accent" (click)="addFile($event)">
