@@ -3,7 +3,7 @@
   <app-import-button class="w-100" fxFlex="1 1 50%" fxFlexAlign="start" [importFn]="import" [isUploading]="isUploading$"></app-import-button>
 
   <div fxFlex="1 1 50%" >
-    <h3>Sample sheets: </h3>
+    <h3>{{'EXPORT_IMPORT.SAMPLE_SHEETS' | translate}}: </h3>
     <mat-card class="sample-card" import-sample sampleType="Powerlifting" importType="ExerciseType"></mat-card>
     <mat-card class="sample-card" import-sample sampleType="Weightlifting" importType="ExerciseType"></mat-card>
     <mat-card class="sample-card" import-sample sampleType="Gym" importType="ExerciseType"></mat-card>

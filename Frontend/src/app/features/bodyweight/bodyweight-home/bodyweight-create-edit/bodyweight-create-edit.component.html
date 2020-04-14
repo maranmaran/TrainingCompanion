@@ -1,4 +1,4 @@
-<h2> {{data.title}} </h2>
+<h2> {{data.title | translate}} </h2>
 
 <mat-divider class="dialog-form-divider"></mat-divider>
 
@@ -6,7 +6,7 @@
     <form [formGroup]="form">
 
       <mat-form-field>
-        <mat-label>Date</mat-label>
+        <mat-label>{{'SHARED.DATE' | translate}}</mat-label>
         <input matInput [matDatepicker]="datepicker" [formControl]="date" formControlname="date">
 
         <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
@@ -14,14 +14,14 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput type="number" min="0" formControlName="value" placeholder="Weight">
+        <input matInput type="number" min="0" formControlName="value" placeholder="{{'BODYWEIGHT.WEIGHT' | translate}}">
       </mat-form-field>
 
     </form>
 </div>
 
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-    <button  mat-button  (click)="onClose()">Close</button>
+    <button  mat-button  (click)="onClose()">{{'SHARED.CLOSE' | translate}}</button>
     <button mat-stroked-button color="accent"(click)="onSubmit()"
-      [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
+      [disabled]="!form.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
   </div>
