@@ -10,7 +10,7 @@ fxLayoutGap="15px"
   </div>
   <div class="notification-body-container" fxLayout="column" fxFlex="1 1 100%">
     <div id="payload" fxFlex="0 0 70%">
-      <b *ngIf="!model.systemNotification">{{model.sender.fullName}} </b>{{ model.payload }}
+      <b *ngIf="!model.systemNotification">{{model.sender.fullName}} </b>{{ model.payload | translate }}
     </div>
     <div id="metadata" fxFlex="0 0 30%" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
 
