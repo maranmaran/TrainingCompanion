@@ -24,10 +24,17 @@
     "SEARCH": "Traži",
     "VIDEO_NOT_SUPPORTED": "Vaš preglednik ne podržava ovaj tip snimke"
   },
+  "DASHBOARD": {
+    "CARDS": {
+      "VOLUME_CARD": {
+        "EXERCISE_TYPE": "Vježba"
+      }
+    }
+  },
   "CHAT": {
     "FULLSCREEN": {
       "TYPE_MESSAGE_LABEL": "Napiši poruku",
-      "PRESS_ENTER_SEND": "Stisni enter za poslati\nStisni shift + enter za dodati novi redak poruke",
+      "PRESS_ENTER_SEND": "Stisni enter za poslati\nStisni shift + enter za dodati novi redak poruke"
     },
     "SMALL": {
       "TITLE_LABEL": "Prijatelji",

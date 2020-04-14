@@ -144,7 +144,7 @@
 
       <div class="ng-chat-footer primary-outline-color primary-background">
         <input #messageInput type="text" [ngModel]="window.newMessage | emojify"
-          (ngModelChange)="window.newMessage=$event" placeholder="{{chat.config.localization.messagePlaceholder | translate}}"
+          (ngModelChange)="window.newMessage=$event" placeholder="{{ chat.config.localization.messagePlaceholder | translate }}"
           [ngClass]="{'chat-window-input': true, 'has-side-action': uploadService}"
           (keydown.enter)="chat.onSendMessage($event, window)" (blur)="chat.toggleWindowFocus(window)"
           (focus)="chat.toggleWindowFocus(window)" />
