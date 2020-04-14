@@ -1,24 +1,22 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { take, tap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
 import { TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
-import { TagService } from 'src/business/services/feature-services/tag.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { reorderTags, setSelectedTag } from 'src/ngrx/tag-group/tag-group.actions';
 import { selectedTagGroup } from 'src/ngrx/tag-group/tag-group.selectors';
-import { tagCount } from 'src/ngrx/tag/tag.selectors';
 import { Tag } from 'src/server-models/entities/tag.model';
 import { SubSink } from 'subsink';
 import { TagGroup } from '../../../../../../server-models/entities/tag-group.model';
 import { TagsCreateEditComponent } from '../properties-create-edit/properties-create-edit.component';
-import { noop } from 'rxjs';
 
 @Component({
   selector: 'app-properties-list',
@@ -40,7 +38,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
   tagsCount: number = 0;
 
   constructor(
-    private propertyService: TagService,
+    private translateService: TranslateService,
     private uiService: UIService,
     private store: Store<AppState>
   ) { }
@@ -100,7 +98,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       }),
       new CustomColumn({
         definition: 'value',
-        title: 'Value',
+        title: 'SHARED.VALUE',
         sort: true,
         displayFn: (item: Tag) => item.value,
       }),
@@ -131,7 +129,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: `Add ${this.tagGroupName} property`, action: CRUD.Create, tag: Object.assign(new Tag(), { order: this.tagsCount }) },
+      data: { title: this.translateService.instant('TAGS.ADD_PROPERTY', { groupName: this.tagGroupName}), action: CRUD.Create, tag: Object.assign(new Tag(), { order: this.tagsCount }) },
       panelClass: []
     })
 
@@ -151,7 +149,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: `Update ${this.tagGroupName} property`, action: CRUD.Update, tag: tag },
+      data: { title: this.translateService.instant('TAGS.UPDATE_PROPERTY', { groupName: this.tagGroupName}), action: CRUD.Update, tag: tag },
       panelClass: []
     })
 

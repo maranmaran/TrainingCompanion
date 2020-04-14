@@ -11,19 +11,19 @@
     <!-- GRAPHS -->
 
     <div class="detail">
-      <mat-label class="label">Exercise volume:</mat-label>
+      <mat-label class="label">{{'TRAINING_LOG.EXERCISE_VOLUME' | translate }}:</mat-label>
       <span class="label-value">{{ totalVolume }}</span>
     </div>
 
     <div class="detail">
-      <mat-label class="label">Projected max:</mat-label>
+      <mat-label class="label">{{'TRAINING_LOG.PROJECTED_MAX' | translate }}:</mat-label>
       <span class="label-value">{{ projectedMax }}</span>
     </div>
 
     <!--------- MEDIA ---------->
     <mat-expansion-panel class="media-panel">
       <mat-expansion-panel-header>
-        Exercise media
+        {{'TRAINING_LOG.EXERCISE_MEDIA' | translate }}
       </mat-expansion-panel-header>
       <app-media-uploader (fileUploaded)="onFileUploaded($event)" [files]="exercise.media"></app-media-uploader>
     </mat-expansion-panel>

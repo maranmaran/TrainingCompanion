@@ -2,15 +2,15 @@
 <mat-expansion-panel #notePanel class="note-panel" *ngIf="note && !showEditor" [(expanded)]="panelExpanded">
   <mat-expansion-panel-header>
     <mat-panel-title>
-      Note
+      {{'TRAINING_LOG.NOTE_LABEL' | translate}}
     </mat-panel-title>
     <mat-panel-description>
-      <span class="seen" *ngIf="noteRead">Coach has seen this note</span>
+      <span class="seen" *ngIf="noteRead">{{'TRAINING_LOG.NOTE_SEEN' | translate}}</span>
     </mat-panel-description>
   </mat-expansion-panel-header>
   <mat-action-row>
     <button mat-stroked-button color="accent" (click)="openUserNoteEditor()">
-      <i class="fas fa-edit mr-1"></i>Edit
+      <i class="fas fa-edit mr-1"></i>{{'SHARED.EDIT' | translate}}
     </button>
   </mat-action-row>
   <div [innerHtml]="note"></div>
@@ -20,12 +20,12 @@
   <mat-expansion-panel class="coach-note-panel" *ngIf="coachNote">
     <mat-expansion-panel-header>
         <mat-panel-title>
-            Coach note
+          {{'TRAINING_LOG.COACH_NOTE' | translate}}
           </mat-panel-title>
     </mat-expansion-panel-header>
     <mat-action-row>
       <button mat-stroked-button color="accent" (click)="openCoachNoteEditor()">
-        <i class="fas fa-edit mr-1"></i>Edit
+        <i class="fas fa-edit mr-1"></i>{{'SHARED.EDIT' | translate}}
       </button>
     </mat-action-row>
     <div [innerHtml]="coachNote"></div>
@@ -33,10 +33,10 @@
 
 <!----------EDITOR---------->
 <button mat-stroked-button color="accent" *ngIf="!showEditor && !note" (click)="showEditor = true">
-  <i class="fas fa-plus mr-1"></i> Note
+  <i class="fas fa-plus mr-1"></i> {{'TRAINING_LOG.NOTE_LABEL' | translate}}
 </button>
 <ckeditor id="editor" [hidden]="!showEditor" [editor]="ckEditor" [config]="ckEditorConfig" data="{{ckEditor.note}}"
   (change)="onChange($event)"></ckeditor>
 <button mat-stroked-button color="accent" *ngIf="showEditor" (click)="saveNote()">
-  <i class="fas fa-save mr-1"></i> Save
+  <i class="fas fa-save mr-1"></i> {{'SHARED.SAVE' | translate}}
 </button>

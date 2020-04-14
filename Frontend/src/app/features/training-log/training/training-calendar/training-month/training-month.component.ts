@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -32,7 +33,8 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
   constructor(
     private UIService: UIService,
     private trainingService: TrainingService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
@@ -112,7 +114,7 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '18rem',
       autoFocus: false,
-      data: { title: `Add training on ${day.utc().format("DD, MMM")}`, action: CRUD.Create, day, timeOnly: true },
+      data: { title: this.translateService.instant('TRAINING_LOG.ADD_TRAINING_TITLE', { date: day.utc().format("DD, MMM")}), action: CRUD.Create, day, timeOnly: true },
       panelClass: []
     });
 

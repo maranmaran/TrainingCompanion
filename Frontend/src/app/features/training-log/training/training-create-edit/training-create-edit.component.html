@@ -1,4 +1,4 @@
-<h2> {{data.title}} </h2>
+<h2> {{data.title | translate }} </h2>
 
 <mat-divider class="dialog-form-divider"></mat-divider>
 
@@ -6,7 +6,7 @@
     <form [formGroup]="form">
 
       <mat-form-field *ngIf="!data.timeOnly">
-        <mat-label>Training date</mat-label>
+        <mat-label>{{'TRAINING_LOG.TRAINING_DATE' | translate}}</mat-label>
         <input matInput [matDatepicker]="dp" [formControl]="date">
         <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
         <mat-datepicker #dp></mat-datepicker>
@@ -18,7 +18,7 @@
 </div>
 
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-    <button  mat-button  (click)="onClose()">Close</button>
+    <button  mat-button  (click)="onClose()">{{'SHARED.CLOSE' | translate}}</button>
     <button mat-stroked-button color="accent"(click)="onSubmit()"
-      [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
+      [disabled]="!form.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
   </div>

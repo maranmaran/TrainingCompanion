@@ -5,15 +5,15 @@
             <i class="fas fa-arrow-circle-left"></i>
         </ng-template>
     </mat-tab>
-    <mat-tab label="Training"></mat-tab>
-    <mat-tab label="Exercise" [disabled]="!selectedExercise ? true : false"></mat-tab>
+    <mat-tab label="{{'TRAINING_LOG.TRAINING_LABEL' | translate}}"></mat-tab>
+    <mat-tab label="{{'TRAINING_LOG.EXERCISE_LABEL' | translate}}" [disabled]="!selectedExercise ? true : false"></mat-tab>
 </mat-tab-group>
 
 <mat-tab-group mat-stretch-tabs #group2 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab2 ? 'none' : 'inherit'"
     (selectedIndexChange)="changeTab2($event)" [selectedIndex]="selectedTab2" dynamicHeight="false">
-    <mat-tab label="Calendar"></mat-tab>
-    <mat-tab label="Week"></mat-tab>
-    <mat-tab label="List"></mat-tab>
+    <mat-tab label="{{'TRAINING_LOG.CALENDAR_LABEL' | translate}}"></mat-tab>
+    <mat-tab label="{{'TRAINING_LOG.WEEK_LABEL' | translate}}"></mat-tab>
+    <mat-tab label="{{'TRAINING_LOG.LIST_LABEL' | translate}}"></mat-tab>
 </mat-tab-group>
 
 <!-- TABS STATE CAN BE KEPT IN NGRX -->
