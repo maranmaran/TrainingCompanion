@@ -1,3 +1,4 @@
+
 export class Activity {
   userId: string;
   userName: string;
@@ -5,7 +6,7 @@ export class Activity {
   date: Date;
   message: string;
   jsonEntity: string;
-  entity: string;
+  entity: any;
 }
 
 export enum ActivityType {

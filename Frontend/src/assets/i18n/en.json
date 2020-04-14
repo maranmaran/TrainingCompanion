@@ -24,7 +24,19 @@
     "SEARCH": "Search",
     "VIDEO_NOT_SUPPORTED": "Your browser does not support this video tag"
   },
+  "TOOLBAR": {
+    "DASHBOARD_EDIT_LABEL": "Edit dashboard",
+    "CHAT": "Open chat in fullscreen mode",
+    "SETTINGS_LABEL": "Settings",
+    "PROFILE_LABEL": "Profile"
+  },
   "DASHBOARD": {
+    "FEED": {
+      "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",
+      "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> logged a new bodyweight value of {{value}}.",
+      "TRAINING_MESSAGE": "<b>{{username}}</b> logged new training.",
+      "PERSONAL_BEST_MESSAGE": "<b>{{username}}</b> hit a new PB of {{value}}!"
+    },
     "CARDS": {
       "VOLUME_CARD": {
         "EXERCISE_TYPE": "Exercise type"

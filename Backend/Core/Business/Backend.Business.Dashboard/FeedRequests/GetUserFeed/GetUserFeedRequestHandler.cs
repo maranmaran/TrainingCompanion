@@ -74,8 +74,8 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                     Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                     UserId = audit.UserId,
                     UserName = athletes.First(x => x.id == audit.UserId).name.Trim(),
-                    Message = await _activityService.GetPayload(audit, settings),
-                    JsonEntity = _activityService.GetEntityAsJson(audit)
+                    //Message = await _activityService.GetPayload(audit, settings),
+                    JsonEntity = await _activityService.GetEntityAsJson(audit)
                 };
 
                 activities.Add(activity);

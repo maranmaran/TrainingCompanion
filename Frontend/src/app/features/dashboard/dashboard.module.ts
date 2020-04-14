@@ -7,6 +7,10 @@ import { DashboardEffects } from 'src/ngrx/dashboard/dashboard.effects';
 import { dashboardReducer } from './../../../ngrx/dashboard/dashboard.reducers';
 import { ActionsComponent } from './dashboard-home/actions/actions.component';
 import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
+import { BodyweightFeedItemComponent } from './dashboard-home/feed/feed-items/bodyweight-feed-item/bodyweight-feed-item.component';
+import { MediaFeedItemComponent } from './dashboard-home/feed/feed-items/media-feed-item/media-feed-item.component';
+import { PersonalBestFeedItemComponent } from './dashboard-home/feed/feed-items/personal-best-feed-item/personal-best-feed-item.component';
+import { TrainingFeedItemComponent } from './dashboard-home/feed/feed-items/training-feed-item/training-feed-item.component';
 import { FeedComponent } from './dashboard-home/feed/feed.component';
 import { TrackItemsSidebarComponent } from './dashboard-home/tracks/track-items-sidebar/track-items-sidebar.component';
 import { TracksComponent } from './dashboard-home/tracks/tracks.component';
@@ -28,6 +32,10 @@ import { DashboardOutletDirective } from './directives/dashboard-outlet.directiv
         TrackItemsSidebarComponent,
         TracksComponent,
         FeedComponent,
+        MediaFeedItemComponent,
+        TrainingFeedItemComponent,
+        BodyweightFeedItemComponent,
+        PersonalBestFeedItemComponent,
     ],
     exports: [
     ],
