@@ -14,11 +14,12 @@
 
   <div id="right" fxLayout="row wrap" fxLayoutGap="1rem" fxLayoutAlign="center center">
 
-    <i id="dashboard-edit" *ngIf="(dashboardActive$ | async) && !mediaObserver.isActive('lt-md')" class="fas fa-edit" (click)="toggleDashboardEdit()"></i>
+    <i id="dashboard-edit" *ngIf="(dashboardActive$ | async) && !mediaObserver.isActive('lt-md')"
+    class="fas fa-edit" (click)="toggleDashboardEdit()" matTooltip="{{'TOOLBAR.DASHBOARD_EDIT_LABEL' | translate }}"></i>
 
     <!--MESSENGER-->
     <i id="messaging" routerLink="/app/chat" class="fas fa-comments" [matBadge]="(unreadChatMessages | async)"
-      matBadgeColor="warn" [matBadgeHidden]="(unreadChatMessages | async) == 0"></i>
+      matBadgeColor="warn" [matBadgeHidden]="(unreadChatMessages | async) == 0" matTooltip="{{'TOOLBAR.CHAT' | translate }}"></i>
 
     <!--NOTIFICATIONS-->
     <i id="notifications" class="fas fa-bell" matBadge="{{unreadNotificationCounter}}"
@@ -60,14 +61,14 @@
     <!--AVATAR-->
     <!-- <ngx-avatar size="40" name="{{ fullName }}"></ngx-avatar> -->
     <img class="img-fluid avatar-img" src="{{ userInfo.avatar }}" [matMenuTriggerFor]="userMenu"
-      style="max-width: 40px; cursor: pointer;" />
+      style="max-width: 40px; cursor: pointer;" matTooltip="{{'TOOLBAR.PROFILE_LABEL' | translate }}"/>
 
     <mat-menu #userMenu="matMenu">
 
       <div class="container" fxLayout="column wrap">
 
-        <div id="avatar-settings-row" fxFlexAlign="end">
-          <button mat-icon-button (click)="onOpenSettings()">
+        <div id="avatar-settings-row" fxFlexAlign="end" >
+          <button mat-icon-button (click)="onOpenSettings()" matTooltip="{{'TOOLBAR.SETTINGS_LABEL' | translate }}">
             <i id="settings" class="fas fa-cog"></i>
           </button>
         </div>

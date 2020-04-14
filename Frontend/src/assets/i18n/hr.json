@@ -24,7 +24,19 @@
     "SEARCH": "Traži",
     "VIDEO_NOT_SUPPORTED": "Vaš preglednik ne podržava ovaj tip snimke"
   },
+  "TOOLBAR": {
+    "DASHBOARD_EDIT_LABEL": "Uredi kontrolnu ploču",
+    "CHAT": "Otvori razgovore na velikom zaslonu",
+    "SETTINGS_LABEL": "Postavke",
+    "PROFILE_LABEL": "Profil"
+  },
   "DASHBOARD": {
+    "FEED": {
+      "MEDIA_MESSAGE": "<b>{{username}}</b> je dodao/la novu multimedijsku datoteku.",
+      "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> je dodao/la novi zapis tjelesne težine od {{value}}.",
+      "TRAINING_MESSAGE": "<b>{{username}}</b> je dodao/la novi trening.",
+      "PERSONAL_BEST_MESSAGE": "<b>{{username}}</b> je napravio/la novi PR od {{value}}!"
+    },
     "CARDS": {
       "VOLUME_CARD": {
         "EXERCISE_TYPE": "Vježba"

@@ -46,7 +46,8 @@ namespace Backend.Business.Dashboard.Services
                 Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                 UserId = audit.UserId,
                 UserName = user.FullName,
-                Message = await _activityService.GetPayload(audit, user.UserSetting)
+                //Message = await _activityService.GetPayload(audit, user.UserSetting),
+                JsonEntity = await _activityService.GetEntityAsJson(audit)
             };
 
             return activity;
