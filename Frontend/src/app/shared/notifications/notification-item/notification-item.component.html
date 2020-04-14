@@ -5,15 +5,24 @@ fxLayoutGap="15px"
 [ngClass]="{'unread': !model.read}">
 
   <div id="image-wrapper" fxFlex="0 0 auto" fxLayoutAlign="center">
-    <ngx-avatar name="image" *ngIf="!model.systemNotification" size="40" name="{{ model.sender.fullName }}"></ngx-avatar>
+
+    <img class="notification_avatar" *ngIf="!model.systemNotification" [src]="(avatar | async)"/>
     <app-notification-type-icon name="image" *ngIf="model.systemNotification" [notificationType]="model.type"></app-notification-type-icon>
   </div>
   <div class="notification-body-container" fxLayout="column" fxFlex="1 1 100%">
-    <div id="payload" fxFlex="0 0 70%">
-      <b *ngIf="!model.systemNotification">{{model.sender.fullName}} </b>{{ model.payload | translate }}
+    <div id="payload" fxFlex="0 0 70%" fxLayout="row" fxLayoutGap="4px">
+      <b *ngIf="!model.systemNotification">{{model.sender.fullName}}</b>
+      <ng-container [ngSwitch]="model.type">
+        <app-bodyweight-notification-body *ngSwitchCase="notificationType.BodyweightAdded" [notification]="model" [unitSystem]="unitSystem"></app-bodyweight-notification-body>
+        <app-media-notification-body *ngSwitchCase="notificationType.MediaAdded"  [notification]="model"></app-media-notification-body>
+        <app-training-notification-body *ngSwitchCase="notificationType.TrainingCreated" [notification]="model"></app-training-notification-body>
+        <app-personal-best-notification-body *ngSwitchCase="notificationType.PersonalBestAdded" [notification]="model"  [unitSystem]="unitSystem"></app-personal-best-notification-body>
+        <app-note-notification-body *ngSwitchCase="notificationType.NoteAdded" [notification]="model"></app-note-notification-body>
+        <app-import-notification-body *ngSwitchCase="notificationType.ImportFinished" [notification]="model"></app-import-notification-body>
+        <span *ngSwitchCaseDefault>{{ model.payload }}</span>
+      </ng-container>
     </div>
     <div id="metadata" fxFlex="0 0 30%" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
-
       <ng-container [ngSwitch]="model.type">
         <i *ngSwitchCase="'TrainingCreated'" class="fas fa-dumbbell"></i>
         <i *ngSwitchCase="'NoteAdded'" class="fas fa-envelope-open-text"></i>

@@ -50,17 +50,18 @@ export class NotificationSignalrService implements OnDestroy {
 
   initializeListeners() {
     this.hubConnection.on('SendNotification', (notification: PushNotification) => {
-      this.doWork(notification.type);
+      notification = this.doWork(notification);
       this.notifications$.next(notification);
       this.toastService.show(JSON.stringify(notification), 'Notification')
     });
   }
 
   // do some specific work based on the received notification type
-  doWork(type: NotificationType) {
-    // switch(type) {
-
+  doWork(notification: PushNotification) {
+    notification.entity = JSON.parse(notification.jsonEntity);
+    // switch(notification.type) {
     // }
+    return notification;
   }
 
   // TODO: Add paging...

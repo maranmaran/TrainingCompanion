@@ -1,5 +1,4 @@
-﻿using Backend.Business.Dashboard.Interfaces;
-using Backend.Domain.Deserializators;
+﻿using Backend.Domain.Deserializators;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.ProgressTracking;
@@ -8,6 +7,7 @@ using Backend.Library.AmazonS3.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using Backend.Infrastructure.Interfaces;
 
 namespace Backend.Business.Dashboard.Services
 {

@@ -10,6 +10,7 @@ using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Interfaces;
 using Backend.Infrastructure.Exceptions;
+using Backend.Infrastructure.Interfaces;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,12 +25,14 @@ namespace Backend.Business.Notifications
         private readonly ILoggingService _logger;
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IActivityService _activityService;
         public NotificationsAuditPusher(IServiceProvider provider)
         {
             _mediator = provider.GetService<IMediator>();
             _logger = provider.GetService<ILoggingService>();
             _context = provider.GetService<IApplicationDbContext>();
             _mapper = provider.GetService<IMapper>();
+            _activityService = provider.GetService<IActivityService>();
         }
 
         public async Task PushToCoach(AuditRecord audit, Athlete athlete)
@@ -40,7 +43,7 @@ namespace Backend.Business.Notifications
                     throw new Exception("Athlete must have coach");
 
                 var receiverId = athlete.CoachId.Value;
-                var notification = GetNotification(audit, athlete);
+                var notification = await GetNotification(audit, athlete);
 
                 var notificationToSave = _mapper.Map<Notification>(notification);
                 await _context.Notifications.AddAsync(notificationToSave);
@@ -55,7 +58,7 @@ namespace Backend.Business.Notifications
             }
         }
 
-        internal Notification GetNotification(AuditRecord audit, Athlete athlete)
+        internal async Task<Notification> GetNotification(AuditRecord audit, Athlete athlete)
         {
             try
             {
@@ -69,7 +72,7 @@ namespace Backend.Business.Notifications
                     Sender = athlete,
                     Receiver = athlete.Coach,
                     Read = false,
-
+                    JsonEntity = await _activityService.GetEntityAsJson(audit)
                 };
 
                 return notification;
