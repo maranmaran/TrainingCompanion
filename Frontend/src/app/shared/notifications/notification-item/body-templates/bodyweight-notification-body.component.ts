@@ -21,7 +21,7 @@ export class BodyweightNotificationBodyComponent implements OnInit {
 
   ngOnInit(): void {
     const params = {
-      value: transformWeight(this.notification.entity.value, this.unitSystem)
+      value: transformWeight(this.notification.entity.Value, this.unitSystem)
     }
 
     this.message = this.translateService.instant('NOTIFICATIONS.BODYWEIGHT_MESSAGE', params);

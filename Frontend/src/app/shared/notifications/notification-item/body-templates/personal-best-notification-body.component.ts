@@ -19,8 +19,10 @@ export class PersonalBestNotificationBodyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.notification);
+
     const params = {
-      value: transformWeight(this.notification.entity.value, this.unitSystem)
+      value: transformWeight(this.notification.entity.Value, this.unitSystem)
     }
 
     this.message = this.translateService.instant('NOTIFICATIONS.PERSONAL_BEST_MESSAGE', params);
