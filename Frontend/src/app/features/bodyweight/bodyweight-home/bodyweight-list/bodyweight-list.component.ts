@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
@@ -32,7 +33,7 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
   private lastLoggedValue: number = 0;
 
   private subs = new SubSink();
-  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'BODYWEIGHT.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
@@ -42,7 +43,8 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
   constructor(
     private uiService: UIService,
     private bodyweightService: BodyweightService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
@@ -97,13 +99,13 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
         headerClass: 'bodyweight-header',
         cellClass: 'bodyweight-cell',
         definition: 'value',
-        title: 'Bodyweight',
+        title: 'BODYWEIGHT.BODYWEIGHT_LABEL',
         sort: true,
         displayFn: (item: Bodyweight) => transformWeight(item.value, this._unitSystem),
       }),
       new CustomColumn({
         definition: 'date',
-        title: 'Date',
+        title: 'SHARED.DATE',
         sort: true,
         displayFn: (item: Bodyweight) => moment(item.date).format('D, MMM'),
       }),
@@ -122,7 +124,7 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: 'Add bodyweight', action: CRUD.Create, bodyweight },
+      data: { title: 'BODYWEIGHT.ADD_TITLE', action: CRUD.Create, bodyweight },
       panelClass: []
     })
 
@@ -142,7 +144,7 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: 'Update bodyweight', action: CRUD.Update, bodyweight: Object.assign({}, bodyweight) },
+      data: { title: 'BODYWEIGHT.UPDATE_TITLE', action: CRUD.Update, bodyweight: Object.assign({}, bodyweight) },
       panelClass: []
     })
 
@@ -157,10 +159,7 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
 
   onDeleteSingle(bodyweight: Bodyweight) {
 
-    this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete
-      bodyweight record of ${transformWeight(bodyweight.value, this._unitSystem)}
-      on ${moment(bodyweight.date).format('D, MMM')}?</p>`;
+    this.deleteDialogConfig.message = this.translateService.instant('BODYWEIGHT.DELETE_DIALOG', {bodyweight: transformWeight(bodyweight.value, this._unitSystem), date: moment(bodyweight.date).format('D, MMM')})
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
@@ -174,9 +173,7 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
 
   onDeleteSelection(bodyweights: Bodyweight[]) {
 
-    this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete all (${bodyweights.length}) selected bodyweights ?</p>
-     <p>All data will be lost if you delete these bodyweights.</p>`;
+    this.deleteDialogConfig.message = this.translateService.instant('BODYWEIGHT.DELETE_SELECTION_DIALOG', {length: bodyweights.length});
 
     this.deleteDialogConfig.action = (bodyweights: Bodyweight[]) => {
       for(let bodyweight in bodyweights) {

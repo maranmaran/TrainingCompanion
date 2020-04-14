@@ -6,12 +6,12 @@
 
     <!--TITLE-->
     <div class="ng-chat-title accent-foreground shadowed" (click)="chat.onChatTitleClicked($event)">
-      {{chat.config.localization.title}}
+      {{chat.config.localization.title | translate}}
     </div>
 
     <!--FILTER-->
     <input  id="ng-chat-search_friend" class="friends-search-bar" type="search"
-      [placeholder]="chat.config.localization.searchPlaceholder" [(ngModel)]="chat.searchInput" />
+      placeholder="{{chat.config.localization.searchPlaceholder | translate}}" [(ngModel)]="chat.searchInput" />
 
     <!--USERS-->
     <ul id="ng-chat-users" *ngIf="!chat.config?.isCollapsed" class="offset-search">
@@ -88,7 +88,7 @@
 
       <div #messageSection class="ng-chat-messages primary-background">
         <div *ngIf="window.isLoadingHistory" class="ng-chat-loading-wrapper">
-          <div class="loader">Loading history...</div>
+          <div class="loader">{{'CHAT.SMALL.LOADING_HISTORY'}}</div>
         </div>
 
         <div *ngFor="let message of window.messages; let i = index" class="ng-chat-message"
@@ -132,7 +132,7 @@
               [ngClass]="{'sent-video-message-container': message.fromId == chat.userId, 'received-video-message-container': message.fromId != chat.userId}">
               <video width="100%" height="auto" controls>
                 <source src="{{message.downloadUrl}}" type="video/mp4">
-                Your browser does not support the video tag.
+                {{'SHARED.VIDEO_NOT_SUPPORTED' | translate}}
               </video>
               <span *ngIf="message.dateSent"
                 class="message-sent-date">{{message.dateSent | date: chat.config.messageDatePipeFormat}}</span>
@@ -144,7 +144,7 @@
 
       <div class="ng-chat-footer primary-outline-color primary-background">
         <input #messageInput type="text" [ngModel]="window.newMessage | emojify"
-          (ngModelChange)="window.newMessage=$event" [placeholder]="chat.config.localization.messagePlaceholder"
+          (ngModelChange)="window.newMessage=$event" placeholder="{{chat.config.localization.messagePlaceholder | translate}}"
           [ngClass]="{'chat-window-input': true, 'has-side-action': uploadService}"
           (keydown.enter)="chat.onSendMessage($event, window)" (blur)="chat.toggleWindowFocus(window)"
           (focus)="chat.toggleWindowFocus(window)" />

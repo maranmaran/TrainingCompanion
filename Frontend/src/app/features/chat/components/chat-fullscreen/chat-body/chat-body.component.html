@@ -48,15 +48,16 @@
   <form [formGroup]="form">
     <mat-form-field class="text-input">
       <textarea #messageInput matInput cdkTextareaAutosize [cdkAutosizeMinRows]="1" [cdkAutosizeMaxRows]="5"
-        formControlName="messageText" placeholder="Type a message" (keydown.enter)="onSendMessage($event)"></textarea>
+        formControlName="messageText" placeholder="{{'CHAT.FULLSCREEN.TYPEMESSAGE_LABEL' | translate}}" (keydown.enter)="onSendMessage($event)"></textarea>
 
       <div class="ml-3" matSuffix>
         <button mat-icon-button color="accent" (click)="addFile($event)">
           <i class="fas fa-paperclip"></i>
         </button>
 
+        <!--//&#13;-->
         <button class="ml-1" matSuffix mat-icon-button color="accent" (click)="onSendMessage($event)"
-          [matTooltipClass]="'multiline'" matTooltip="Press enter to send&#13;Press shift + enter to add new line">
+          [matTooltipClass]="'multiline'" matTooltip="{{'CHAT.FULLSCREEN.PRESS_ENTER_SEND' | translate}}">
           <i class="fas fa-paper-plane"></i>
         </button>
       </div>

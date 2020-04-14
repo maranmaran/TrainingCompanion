@@ -17,10 +17,46 @@
     "VALUE": "Value",
     "CODE": "Code",
     "NAME": "Name",
-    "EDIT": "Edit"
+    "EDIT": "Edit",
+    "DATE": "Date",
+    "FROM": "From",
+    "TO": "To",
+    "SEARCH": "Search",
+    "VIDEO_NOT_SUPPORTED": "Your browser does not support this video tag"
+  },
+  "CHAT": {
+    "FULLSCREEN": {
+      "TYPE_MESSAGE_LABEL": "Type a message",
+      "PRESS_ENTER_SEND": "Press enter to send\nPress shift + enter to add new line",
+
+    },
+    "SMALL": {
+      "TITLE_LABEL": "Friends",
+      "MESSAGE_PLACEHOLDER": "Type a message",
+      "SEARCH_PLACEHOLDER": "Search",
+      "LOAD_HISTORY": "Load older messages",
+      "LOADING_HISTORY": "Loading history...",
+      "STATUS": {
+        "ONLINE": "Online",
+        "BUSY": "Busy",
+        "AWAY": "Away",
+        "OFFLINE": "Offline"
+      }
+    }
+  },
+  "BODYWEIGHT": {
+    "BODYWEIGHT_LABEL": "Bodyweight",
+    "DELETE_TITLE": "Delete bodyweight record",
+    "DELETE_DIALOG": "<p>Are you sure you wish to delete bodyweight record of {{bodyweight}} on {{date}}?</p>",
+    "DELETE_SELECTION_DIALOG": "<p>Are you sure you wish to delete all ({{length}}) selected bodyweights ?</p>\n<p>All data will be lost if you delete these bodyweights.</p>",
+    "ADD_TITLE": "Add bodyweight",
+    "UPDATE_TITLE": "Update bodyweight",
+    "WEIGHT": "Weight"
   },
   "EXPORT_IMPORT": {
-
+    "IMPORT_LABEL": "Import",
+    "LAST_IMPORT": "Last import",
+    "SAMPLE_SHEETS": "Sample sheets"
   },
   "TRAINING_LOG": {
     "CALENDAR_LABEL": "Calendar",
@@ -89,19 +125,6 @@
     "DELETE_PROPERTY": "",
     "DELETE_PROPERTY_SELECTION": "",
     "DELETE_PROPERTY_TITLE": ""
-  },
-
-  "BODYWEIGHT": {
-    "BODYWEIGHT": "Bodyweight"
-
-  },
-  "CHAT": {
-    "FULLSCREEN": {
-
-    },
-    "SMALL": {
-
-    }
   },
   "SETTINGS": {
     "SETTINGS_LABEL": "Settings",

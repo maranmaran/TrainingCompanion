@@ -17,10 +17,45 @@
     "VALUE": "Vrijednost",
     "CODE": "Jedinstveni kod",
     "NAME": "Naziv",
-    "EDIT": "Uredi"
+    "EDIT": "Uredi",
+    "DATE": "Datum",
+    "FROM": "Od",
+    "TO": "Do",
+    "SEARCH": "Traži",
+    "VIDEO_NOT_SUPPORTED": "Vaš preglednik ne podržava ovaj tip snimke"
+  },
+  "CHAT": {
+    "FULLSCREEN": {
+      "TYPE_MESSAGE_LABEL": "Napiši poruku",
+      "PRESS_ENTER_SEND": "Stisni enter za poslati\nStisni shift + enter za dodati novi redak poruke",
+    },
+    "SMALL": {
+      "TITLE_LABEL": "Prijatelji",
+      "MESSAGE_PLACEHOLDER": "Napiši poruku",
+      "SEARCH_PLACEHOLDER": "Traži",
+      "LOAD_HISTORY": "Učitaj starije poruke",
+      "LOADING_HISTORY": "Učitavanje...",
+      "STATUS": {
+        "ONLINE": "Na vezi",
+        "BUSY": "Zauzet",
+        "AWAY": "Udaljen",
+        "OFFLINE": "Nije na vezi"
+      }
+    }
+  },
+  "BODYWEIGHT": {
+    "BODYWEIGHT_LABEL": "Tjelesna težina",
+    "DELETE_TITLE": "Izbriši tjelesnu težinu",
+    "DELETE_DIALOG": "<p>Jeste li sigurni da želite izbrisati ovaj zapis težine {{bodyweight}} na datum {{date}}?</p>",
+    "DELETE_SELECTION_DIALOG": "<p>Jeste li sigurni da želite izbrisati svih({{length}}) označenih težina ?</p>\n<p>Svi podaci će biti izgubljeni ako nastavite.</p>",
+    "ADD_TITLE": "Dodaj težinu",
+    "UPDATE_TITLE": "Uredi težinu",
+    "WEIGHT": "Težina"
   },
   "EXPORT_IMPORT": {
-
+    "IMPORT_LABEL": "Uvoz podataka",
+    "LAST_IMPORT": "Zadnji uvoz podataka",
+    "SAMPLE_SHEETS": "Primjeri dokumenata za uvoz"
   },
   "TRAINING_LOG": {
     "CALENDAR_LABEL": "Kalendar",
@@ -89,17 +124,6 @@
     "DELETE_PROPERTY": "",
     "DELETE_PROPERTY_SELECTION": "",
     "DELETE_PROPERTY_TITLE": ""
-  },
-  "BODYWEIGHT": {
-
-  },
-  "CHAT": {
-    "FULLSCREEN": {
-
-    },
-    "SMALL": {
-
-    }
   },
   "SETTINGS": {
     "SETTINGS_LABEL": "Postavke",
