@@ -1,6 +1,6 @@
 <span id="exercise-type-create-edit">
 
-  <h2 mat-dialog-title> {{data.title}} </h2>
+  <h2 mat-dialog-title> {{data.title | translate}} </h2>
 
   <mat-divider class="dialog-form-divider"></mat-divider>
 
@@ -9,28 +9,36 @@
 
       <!--FIELDS-->
       <mat-form-field>
-        <input matInput formControlName="name" placeholder="Name">
+        <input matInput formControlName="name" placeholder="{{ 'SHARED.NAME' | translate }}">
         <mat-error *ngIf="name?.invalid"></mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="code" placeholder="Code">
+        <input matInput formControlName="code" placeholder="{{ 'SHARED.CODE' | translate }}">
         <mat-error *ngIf="code?.invalid"></mat-error>
       </mat-form-field>
 
       <!--CHECKBOXES-->
       <div class="checkboxes-wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
         <div id="group1" fxLayout="column">
-          <mat-checkbox formControlName="requiresWeight" [name]="'weight'" (change)="onCheckboxChange($event)">Weight
+          <mat-checkbox formControlName="requiresWeight" [name]="'weight'" (change)="onCheckboxChange($event)">
+            {{'EXERCISE_TYPES.WEIGHT' | translate}}
           </mat-checkbox>
-          <mat-checkbox formControlName="requiresReps" [name]="'reps'" (change)="onCheckboxChange($event)">Reps
+          <mat-checkbox formControlName="requiresReps" [name]="'reps'" (change)="onCheckboxChange($event)">
+            {{'EXERCISE_TYPES.REPS' | translate}}
           </mat-checkbox>
-          <mat-checkbox formControlName="requiresSets">Sets</mat-checkbox>
+          <mat-checkbox formControlName="requiresSets">
+            {{'EXERCISE_TYPES.SETS' | translate}}
+          </mat-checkbox>
         </div>
         <div id="group2" fxLayout="column">
-          <mat-checkbox formControlName="active">Active</mat-checkbox>
+          <mat-checkbox formControlName="active">
+            {{'SHARED.ACTIVE' | translate}}
+          </mat-checkbox>
           <mat-checkbox formControlName="requiresBodyweight" [name]="'bodyweight'" (change)="onCheckboxChange($event)">
-            Bodyweight only</mat-checkbox>
-          <mat-checkbox formControlName="requiresTime" [name]="'time'" (change)="onCheckboxChange($event)">Measure time
+            {{'EXERCISE_TYPES.BODYWEIGHT_ONLY' | translate}}
+          </mat-checkbox>
+          <mat-checkbox formControlName="requiresTime" [name]="'time'" (change)="onCheckboxChange($event)">
+            {{'EXERCISE_TYPES.MEASURE_TIME' | translate}}
           </mat-checkbox>
         </div>
       </div>
@@ -63,7 +71,7 @@
             </ng-container>
 
             <ng-template #noProperties>
-              <span><em>No properties added from this group.</em></span>
+              <span><em>{{'EXERCISE_TYPES.NO_PROPS' | translate}}</em></span>
             </ng-template>
 
             <mat-action-row *ngIf="getGroupTags(tagGroup.id).length > 0">
@@ -83,9 +91,9 @@
   </div>
 
   <div mat-dialog-actions class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button mat-dialog-close>{{'SHARED.CLOSE' | translate}}</button>
     <button mat-stroked-button color="accent" (click)="onSubmit()"
-      [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
+      [disabled]="!form.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
   </div>
 
 </span>
@@ -107,7 +115,7 @@
 
 <ng-template #newPropertyTemplate let-groupId="tagGroupId">
   <mat-form-field>
-    <mat-label>Add tag</mat-label>
+    <mat-label>{{'EXERCISE_TYPES.ADD_TAG' | translate}}</mat-label>
     <mat-select #tagSelector (selectionChange)="tagSelectionChanged($event)">
       <mat-option *ngFor="let property of getGroupTags(groupId)" [value]="property">
         {{ property.value }}

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import * as _ from "lodash";
 import { concatMap, map, take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
@@ -32,7 +33,7 @@ import { ExerciseTypeCreateEditComponent } from './../exercise-type-create-edit/
 export class ExerciseTypeListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
-  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'EXERCISE_TYPES.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
@@ -47,7 +48,8 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     private uiService: UIService,
     private exerciseTypeService: ExerciseTypeService,
     private tagGroupService: TagGroupService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
@@ -87,7 +89,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     return [
       new CustomColumn({
         definition: 'name',
-        title: 'Name',
+        title: 'SHARED.NAME',
         sort: true,
         useComponent: true,
         component: ExerciseTypePreviewComponent,
@@ -99,7 +101,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       }),
       new CustomColumn({
         definition: 'code',
-        title: 'Code',
+        title: 'SHARED.CODE',
         headerClass: 'code-header',
         cellClass: 'code-cell',
         sort: false,
@@ -118,7 +120,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '50rem',
       autoFocus: false,
-      data: { title: 'Add exercise type', action: CRUD.Create },
+      data: { title: 'EXERCISE_TYPES.ADD_TYPE_LABEL', action: CRUD.Create },
       panelClass: []
     })
 
@@ -164,7 +166,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       maxWidth: '30rem',
       // maxHeight: '50vh',
       autoFocus: false,
-      data: { title: `Update ${exerciseType.name}`, action: CRUD.Update, entity: exerciseType, tagGroups},
+      data: { title: this.translateService.instant('EXERCISE_TYPES.UPDATE_TYPE_LABEL', { name: exerciseType.name }), action: CRUD.Update, entity: exerciseType, tagGroups},
       panelClass: ['exercise-type-dialog-container']
     })
 

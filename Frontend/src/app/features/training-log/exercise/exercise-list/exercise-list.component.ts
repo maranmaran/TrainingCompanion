@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, noop } from 'rxjs';
 import { concatMap, map, take, tap } from 'rxjs/operators';
 import { ExerciseTypePreviewComponent } from 'src/app/shared/custom-preview-components/exercise-type-preview/exercise-type-preview.component';
@@ -32,7 +33,7 @@ import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-cr
 export class ExerciseListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
-  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_LOG.EXERCISE_DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
@@ -45,7 +46,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     private uiService: UIService,
     private exerciseService: ExerciseService,
     private exerciseTypeService: ExerciseTypeService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
@@ -97,7 +99,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       }),
       new CustomColumn({
         definition: 'exercise',
-        title: 'Exercise',
+        title: 'TRAINING_LOG.EXERCISE_LABEL',
         sort: true,
         sortFn: (item: Exercise) => item.exerciseType.name,
         useComponent: true,
@@ -140,7 +142,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
           width: '98%',
           maxWidth: '50rem',
           autoFocus: false,
-          data: { title: 'Add exercise', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
+          data: { title: 'TRAINING_LOG.EXERCISE_ADD_TITLE', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
           panelClass: []
         });
 
@@ -156,9 +158,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
 
   onDeleteSingle(exercise: Exercise) {
 
-    this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete ${exercise.exerciseType.name} ?</p>
-     <p>All data will be lost if you delete this exercise.</p>`;
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.EXERCISE_DELETE_DIALOG', { name: exercise.exerciseType.name});
 
     const dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
@@ -194,9 +194,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
 
   onDeleteSelection(exercises: Exercise[]) {
 
-    this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete all (${exercises.length}) selected exercises ?</p>
-     <p>All data will be lost if you delete these exercises.</p>`;
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.EXERCISE_DELETE_DIALOG', { length: exercises.length});
 
     // tslint:disable-next-line: no-shadowed-variable
     this.deleteDialogConfig.action = (exercises: Exercise[]) => {

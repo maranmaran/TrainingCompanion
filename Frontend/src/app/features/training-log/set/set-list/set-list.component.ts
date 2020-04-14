@@ -28,7 +28,7 @@ import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.compo
 })
 export class SetListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
-  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete action', confirmLabel: 'Delete' });
+  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_LOG.SET_DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
@@ -98,7 +98,7 @@ export class SetListComponent implements OnInit, OnDestroy {
       columns.push(
         new CustomColumn({
           definition: 'weight',
-          title: 'Weight',
+          title: 'TRAINING_LOG.SET_WEIGHT',
           sort: true,
           displayFn: (item: Set) => transformWeight(item.weight, this.userSettings.unitSystem), // transform
         }));
@@ -107,7 +107,7 @@ export class SetListComponent implements OnInit, OnDestroy {
       columns.push(
         new CustomColumn({
           definition: 'reps',
-          title: 'Reps',
+          title: 'TRAINING_LOG.SET_REPS',
           sort: true,
           displayFn: (item: Set) => item.reps,
         }));
@@ -116,7 +116,7 @@ export class SetListComponent implements OnInit, OnDestroy {
       columns.push(
         new CustomColumn({
           definition: 'bodyweight',
-          title: 'Bodyweight',
+          title: 'TRAINING_LOG.SET_BODYWEIGHT',
           sort: true,
           displayFn: (item: Set) => 'Bodyweight', // transform
         }));
@@ -125,7 +125,7 @@ export class SetListComponent implements OnInit, OnDestroy {
       columns.push(
         new CustomColumn({
           definition: 'time',
-          title: 'Time',
+          title: 'TRAINING_LOG.SET_TIME',
           sort: true,
           displayFn: (item: Set) => item.time, // transform
         }));
@@ -134,7 +134,7 @@ export class SetListComponent implements OnInit, OnDestroy {
       columns.push(
         new CustomColumn({
           definition: this.userSettings.rpeSystem,
-          title: this.userSettings.rpeSystem == RpeSystem.Rpe ? 'RPE' : 'RIR',
+          title: this.userSettings.rpeSystem == RpeSystem.Rpe ? 'TRAINING_LOG.SET_RPE' : 'TRAINING_LOG.SET_RIR',
           sort: true,
           displayFn: (item: Set) => this.userSettings.rpeSystem == RpeSystem.Rpe ? item.rpe : 10 - item.rpe, // transform
         }));
@@ -173,7 +173,7 @@ export class SetListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '50rem',
       autoFocus: false,
-      data: { title: 'Update sets', action: CRUD.Update, sets: this.sets },
+      data: { title: 'TRAINING_LOG.SET_UPDATE_TITLE', action: CRUD.Update, sets: this.sets },
       panelClass: 'sets-dialog-container',
     })
 

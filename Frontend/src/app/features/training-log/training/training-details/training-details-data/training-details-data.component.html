@@ -1,10 +1,10 @@
 <ng-container *ngIf="data">
   <div class="detail">
-    <mat-label class="label">Total volume:</mat-label>
+    <mat-label class="label">{{'TRAINING_LOG.TOTAL_VOLUME' | translate}}:</mat-label>
     <span class="label-value">{{ (data | async).volume }}</span>
   </div>
   <div class="detail">
-    <mat-label class="label">Total number of lifts:</mat-label>
+    <mat-label class="label">{{'TRAINING_LOG.TOTAL_NOL' | translate}}:</mat-label>
     <span class="label-value">{{ (data | async).numOfLifts }} lifts</span>
   </div>
 </ng-container>

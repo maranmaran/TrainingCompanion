@@ -12,7 +12,67 @@
     "DELETE": "Delete",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
-    "ADD": "Add"
+    "ADD": "Add",
+    "ORDER": "Order",
+    "VALUE": "Value",
+    "CODE": "Code",
+    "NAME": "Name",
+    "EDIT": "Edit"
+  },
+  "EXPORT_IMPORT": {
+
+  },
+  "TRAINING_LOG": {
+    "CALENDAR_LABEL": "Calendar",
+    "WEEK_LABEL": "Week",
+    "LIST_LABEL": "List",
+    "TRAINING_LABEL": "Training",
+    "EXERCISE_LABEL": "Exercise",
+    "TOTAL_VOLUME": "Total volume",
+    "TOTAL_NOL": "Total number of lifts",
+    "NOTE_LABEL": "Note",
+    "NOTE_SEEN": "Coach has seen this note",
+    "COACH_NOTE": "Coach note",
+    "MEDIA": "Training media",
+    "TRAINING_DATE": "Training date",
+    "ADD_TRAINING_TITLE": "Add training on {{date}}",
+    "SUMMARY_LABEL": "Summary",
+    "COPY_LABEL": "Copy trianing",
+    "DELETE_LABEL": "Delete training",
+    "SET_WEIGHT": "Weight",
+    "SET_BODYWEIGHT": "Bodyweight",
+    "SET_REPS": "Reps",
+    "SET_TIME": "Time",
+    "SET_RPE": "RPE",
+    "SET_RIR": "RIR",
+    "SET_DELETE_TITLE": "Delete set",
+    "SET_UPDATE_TITLE": "Update sets",
+    "EXERCISE_DELETE_TITLE": "Delete exercise",
+    "EXERCISE_ADD_TITLE": "Add exercise",
+    "EXERCISE_DELETE_DIALOG": "<p>Are you sure you wish to delete {{name}} ?</p>\n<p>All data will be lost if you delete this exercise.</p>",
+    "EXERCISE_DELETE_SELECTION_DIALOG": "<p>Are you sure you wish to delete all ({{length}}) selected exercises ?</p>\n<p>All data will be lost if you delete these exercises.</p>",
+    "EXERCISE_VOLUME": "Exercise volume",
+    "PROJECTED_MAX": "Projected max",
+    "EXERCISE_MEDIA": "Exercise media",
+    "SETS_LABEL": "Sets",
+    "EXERCISE_TYPE_LABEL": "Exercise type",
+    "REMOVE_SET": "Remove set",
+    "COPY_DOWN": "Copy down"
+  },
+  "EXERCISE_TYPES": {
+    "ADD_TYPE_LABEL": "Add exercise type",
+    "UPDATE_TYPE_LABEL": "Update {{name}}",
+    "DELETE_TITLE": "Delete exercise type",
+    "BODYWEIGHT": "Bodyweight",
+    "TIME": "Time",
+    "REPS": "Reps",
+    "SETS": "Sets",
+    "WEIGHT": "Weight",
+    "PROPS": "Properties",
+    "BODYWEIGHT_ONLY": "Bodyweight only",
+    "MEASURE_TIME": "Measure time",
+    "NO_PROPS": "No properties added from this group.",
+    "ADD_TAG": "Add tag"
   },
   "TAGS": {
     "TYPE": "Type",
@@ -22,18 +82,17 @@
     "DELETE_TYPE_SELECTION": "<p>Are you sure you wish to delete all ({{length}}) selected types ?</p>\n<p>All data will be lost if you delete these types.</p>`;",
     "DELETE_TYPE_TITLE": "Delete exercise property type",
     "TAG": "Tag",
-    "EXERCISE_PROPERTY_TYPE": "Exercise property type"
+    "EXERCISE_PROPERTY_TYPE": "Exercise property type",
+    "DESCRIPTION": "Description",
+    "ADD_PROPERTY": "Add {{groupName}} property",
+    "UPDATE_PROPERTY": "Update {{groupName}} property",
+    "DELETE_PROPERTY": "",
+    "DELETE_PROPERTY_SELECTION": "",
+    "DELETE_PROPERTY_TITLE": ""
   },
-  "EXERCISE_TYPES": {
 
-  },
-  "TRAINING_LOG": {
-
-  },
-  "EXPORT_IMPORT": {
-
-  },
   "BODYWEIGHT": {
+    "BODYWEIGHT": "Bodyweight"
 
   },
   "CHAT": {
