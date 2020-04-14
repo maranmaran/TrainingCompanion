@@ -2,7 +2,7 @@
   <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem" fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
 
     <mat-form-field fxFlexOrder.lt-md="2" fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
-      <input matInput placeholder="Exercise type" [matAutocomplete]="auto" [formControl]="exerciseType">
+      <input matInput placeholder="{{'DASHBOARD.CARDS.VOLUME_CARD.EXERCISE_TYPE' | translate}}" [matAutocomplete]="auto" [formControl]="exerciseType">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
         <mat-option *ngIf="isLoading">
           <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
@@ -18,7 +18,7 @@
     <span fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxLayout="row" fxLayoutGap="0.25rem">
       <mat-form-field fxFlex="calc(50% - 0.25rem)">
 
-        <mat-label>From: </mat-label>
+        <mat-label>{{'SHARED.FROM' | translate}}: </mat-label>
         <input matInput [matDatepicker]="datepicker1" formControlName="dateFrom">
 
         <mat-datepicker-toggle matSuffix [for]="datepicker1">
@@ -27,7 +27,7 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="calc(50% - 0.25rem)">
-        <mat-label>To: </mat-label>
+        <mat-label>{{'SHARED.TO' | translate}}: </mat-label>
         <input matInput [matDatepicker]="datepicker2" formControlName="dateTo">
 
         <mat-datepicker-toggle matSuffix [for]="datepicker2">

@@ -14,15 +14,15 @@ export class ChatConfiguration {
   messageDatePipeFormat = "short";
 
   localization: Localization = {
-    title: "Friends",
-    messagePlaceholder: "Type a message",
-    searchPlaceholder: "Search",
-    loadMessageHistoryPlaceholder: "Load older messages",
+    title: "CHAT.SMALL.TITLE_LABEL",
+    messagePlaceholder: "CHAT.SMALL.MESSAGE_PLACEHOLDER",
+    searchPlaceholder: "CHAT.SMALL.SEARCH_PLACEHOLDER",
+    loadMessageHistoryPlaceholder: "CHAT.SMALL.LOAD_HISTORY",
     statusDescription: {
-      online: "Online",
-      busy: "Busy",
-      away: "Away",
-      offline: "Offline",
+      online: "CHAT.SMALL.STATUS.ONLINE",
+      busy: "CHAT.SMALL.STATUS.BUSY",
+      away: "CHAT.SMALL.STATUS.AWAY",
+      offline: "CHAT.SMALL.STATUS.OFFLINE",
       // [key: string]: string;
     },
   };
