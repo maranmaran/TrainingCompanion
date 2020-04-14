@@ -4,11 +4,11 @@ import * as signalR from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { PushNotification } from 'src/server-models/entities/push-notification.model';
 import { SubSink } from 'subsink';
 import { AppSettingsService } from '../shared/app-settings.service';
-import { PushNotification } from './../../../server-models/entities/push-notification.model';
 import { NotificationType } from './../../../server-models/enums/notification-type.enum';
 import { AuthService } from './auth.service';
 
@@ -71,7 +71,15 @@ export class NotificationSignalrService implements OnDestroy {
     return this.http
       .get<PushNotification[]>('pushNotifications/GetPushNotificationHistory/' + userId + '/' + page + '/' + pageSize)
       .pipe(
-        catchError((error: any) => throwError(error.error || 'Server error'))
+        catchError((error: any) => throwError(error.error || 'Server error')),
+        map((notifications: PushNotification[]) => {
+          notifications.forEach(notification => {
+            notification.entity = JSON.parse(notification.jsonEntity);
+            return notification;
+          });
+
+          return notifications;
+        })
       );
   }
 
