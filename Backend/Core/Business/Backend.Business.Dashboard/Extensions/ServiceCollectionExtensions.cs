@@ -1,5 +1,5 @@
-﻿using Backend.Business.Dashboard.Interfaces;
-using Backend.Business.Dashboard.Services;
+﻿using Backend.Business.Dashboard.Services;
+using Backend.Infrastructure.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Backend.Business.Dashboard.Extensions

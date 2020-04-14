@@ -5,7 +5,7 @@
     <div class="feed-item mat-elevation-z3" fxLayout="row" fxLayoutGap="1rem">
 
       <!--AVATAR-->
-      <img class="feed-user-avatar" src="https://www.bigstockphoto.com/images/homepage/module-6.jpg" />
+      <img class="feed-user-avatar" [src]="(avatar | async)"/>
 
       <!--BODY-->
       <div class="feed-item-content" fxFlex="1 1 auto" fxLayout="column">

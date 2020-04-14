@@ -24,6 +24,17 @@
     "SEARCH": "Search",
     "VIDEO_NOT_SUPPORTED": "Your browser does not support this video tag"
   },
+  "NOTIFICATIONS": {
+    "BODYWEIGHT_MESSAGE": "logged a new bodyweight value of {{value}}",
+    "MEDIA_MESSAGE": "added new media file",
+    "TRAINING_MESSAGE": "logged new training",
+    "PERSONAL_BEST_MESSAGE": "hit a new PR of {{value}}",
+    "IMPORT_MESSAGE_SUCCESS": "import finished successfully",
+    "IMPORT_MESSAGE_FAILURE": "import failed",
+    "NOTE_MESSAGE": "added new note",
+    "NO_NOTIFICATIONS": "No notifications to show",
+    "SHOW_MORE": "Show more notifications"
+  },
   "TOOLBAR": {
     "DASHBOARD_EDIT_LABEL": "Edit dashboard",
     "CHAT": "Open chat in fullscreen mode",

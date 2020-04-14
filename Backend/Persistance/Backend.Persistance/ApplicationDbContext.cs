@@ -59,7 +59,7 @@ namespace Backend.Persistance
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // comment this if you don't want to see seed values in migrations
-            modelBuilder.Seed();
+            //modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);
 

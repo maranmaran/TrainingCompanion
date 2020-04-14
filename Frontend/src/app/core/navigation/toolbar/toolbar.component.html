@@ -40,7 +40,7 @@
 
       <p id="no-notifications" fxLayout="row" fxLayoutAlign="center"
         *ngIf="!notifications || notifications.length == 0">
-        <i>No notifications to show</i>
+        <i>{{'NOTIFICATIONS.NO_NOTIFICATIONS' | translate}}</i>
       </p>
 
       <div id="notification-item-wrapper" *ngIf="notifications && notifications.length > 0">
@@ -53,8 +53,8 @@
 
       </div>
 
-      <button class="w-100" *ngIf="!stopFetch" mat-stroked-button color="primary" (click)="$event.stopPropagation()"
-        (click)="loadMoreNotifications()">Show more notifications</button>
+      <button class="w-100" *ngIf="!stopFetch" mat-stroked-button color="accent" (click)="$event.stopPropagation()"
+        (click)="loadMoreNotifications()">{{'NOTIFICATIONS.SHOW_MORE' | translate}}</button>
 
     </mat-menu>
 

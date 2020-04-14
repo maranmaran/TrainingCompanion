@@ -5,6 +5,8 @@ export class PushNotification {
   id: string;
 
   type: NotificationType;
+  jsonEntity: string;
+  entity: any;
   payload: string;
 
   read: boolean;
