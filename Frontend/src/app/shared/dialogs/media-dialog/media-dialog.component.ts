@@ -14,6 +14,8 @@ export class MediaDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<MediaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { type: MessageType | MediaType, sourceUrl: string }) { }
 
+  mediaType = MediaType;
+
   ngOnInit() {
   }
 

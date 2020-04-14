@@ -1,0 +1,8 @@
+<div class="media-feed-item__container" fxLayout="column" fxLayoutGap="0.5rem">
+
+  <div class="media-feed-item__content" [innerHtml]="message"></div>
+  <img class="media-feed-item__image" fxFlexAlign="center" src="{{activity.entity.DownloadUrl}}" (click)="enlargeImage()"/>
+
+</div>
+
+
