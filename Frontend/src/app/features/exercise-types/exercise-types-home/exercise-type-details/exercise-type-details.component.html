@@ -16,15 +16,15 @@
 
             <div gdArea="left-label">
                 <div class="detail">
-                    <mat-label class="label">Active:</mat-label>
+                    <mat-label class="label">{{'SHARED.ACTIVE' | translate }}:</mat-label>
 
                 </div>
                 <div class="detail">
-                    <mat-label class="label">Bodyweight:</mat-label>
+                    <mat-label class="label">{{'EXERCISE_TYPES.BODYWEIGHT' | translate}}:</mat-label>
 
                 </div>
                 <div class="detail">
-                    <mat-label class="label">Time:</mat-label>
+                    <mat-label class="label">{{'EXERCISE_TYPES.TIME' | translate}}:</mat-label>
                 </div>
             </div>
 
@@ -52,13 +52,13 @@
 
             <div gdArea="right-label">
                 <div class="detail">
-                    <mat-label class="label">Reps:</mat-label>
+                    <mat-label class="label">{{ 'EXERCISE_TYPES.REPS' | translate}}:</mat-label>
                 </div>
                 <div class="detail">
-                    <mat-label class="label">Sets:</mat-label>
+                    <mat-label class="label">{{ 'EXERCISE_TYPES.SETS' | translate}}:</mat-label>
                 </div>
                 <div class="detail">
-                    <mat-label class="label">Weight:</mat-label>
+                    <mat-label class="label">{{ 'EXERCISE_TYPES.WEIGHT' | translate}}:</mat-label>
                 </div>
             </div>
 
@@ -86,7 +86,7 @@
 
 
         <div class="detail">
-            <mat-label class="label">Properties:</mat-label>
+            <mat-label class="label">{{ 'EXERCISE_TYPES.PROPS' | translate }}:</mat-label>
             <span class="label-value" style="display: inline-flex">
                 <app-exercise-type-chip-list
                   [propertyList]="type.properties"

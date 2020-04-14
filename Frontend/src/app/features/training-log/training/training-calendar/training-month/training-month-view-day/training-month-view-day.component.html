@@ -15,7 +15,7 @@
     <!--SUMMARY PREVIEW - TODO put in component or ng-template -->
     <div fxHide.xs class="preview-container theme-tooltip-background mat-elevation-z16"
       *ngIf="showPreview && training.exercises && training.exercises.length > 0" (mouseenter)="showPreview = false">
-      <h5><b>Summary</b></h5>
+      <h5><b>{{ 'TRAINING_LOG.SUMMARY_LABEL' | translate}}</b></h5>
       <mat-divider></mat-divider>
       <div class="exercise-preview-container" fxLayout="column">
         <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
@@ -32,13 +32,13 @@
 
       <button mat-icon-button color="accent" button-size size="20px"
       (click)="onCopy()" (click)="$event.stopPropagation()"
-      [matTooltip]="'Copy training'" [matTooltipPosition]="'right'">
+      matTooltip="'{{'TRAINING_LOG.COPY_LABEL' | translate}}'" [matTooltipPosition]="'right'">
         <i class="fas fa-copy accent-foreground"></i>
       </button>
 
       <button mat-icon-button color="accent" button-size size="20px"
       (click)="onDelete()" (click)="$event.stopPropagation()"
-      [matTooltip]="'Delete training'" [matTooltipPosition]="'right'">
+      matTooltip="{{'TRAINING_LOG.DELETE_LABEL' | translate}}" [matTooltipPosition]="'right'">
         <i class="fas fa-trash accent-foreground"></i>
       </button>
 
@@ -50,12 +50,12 @@
     <div fxLayout="column">
       <button mat-menu-item (click)="onCopy()" (click)="$event.stopPropagation()">
         <i class="fas fa-copy accent-foreground"></i>
-        <span class="ml-2">Copy training</span>
+        <span class="ml-2">{{'TRAINING_LOG.COPY_LABEL' | translate}}</span>
       </button>
 
       <button mat-menu-item (click)="onDelete()" (click)="$event.stopPropagation()">
         <i class="fas fa-trash accent-foreground"></i>
-        <span class="ml-2">Delete training</span>
+        <span class="ml-2">{{'TRAINING_LOG.DELETE_LABEL' | translate}}</span>
       </button>
     </div>
   </mat-menu>

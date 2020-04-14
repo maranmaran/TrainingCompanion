@@ -1,4 +1,4 @@
-<h2> {{data.title}} </h2>
+<h2> {{data.title | translate}} </h2>
 
 <mat-divider class="dialog-form-divider"></mat-divider>
 
@@ -6,13 +6,13 @@
   <form [formGroup]="form">
 
     <mat-form-field>
-      <input matInput formControlName="value" placeholder="Value">
+      <input matInput formControlName="value" placeholder="{{'SHARED.VALUE' | translate}}">
       <mat-error *ngIf="value.invalid"></mat-error>
     </mat-form-field>
 
     <mat-slide-toggle *ngIf="data.action == 'Update'" [color]="primary" [checked]="tag.active"
       (change)="onActiveChange($event)">
-      {{ tag.active ? 'Active' : 'Inactive' }}
+      {{ (tag.active ? 'SHARED.ACTIVE' : 'SHARED.INACTIVE') | translate }}
     </mat-slide-toggle>
 
   </form>
@@ -21,5 +21,5 @@
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
   <button mat-button (click)="onClose()">Close</button>
   <button mat-stroked-button color="accent" (click)="onSubmit()"
-    [disabled]="!form.valid">{{ data.action == 'Create' ? 'Add' : 'Save' }}</button>
+    [disabled]="!form.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
 </div>
