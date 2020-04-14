@@ -1,5 +1,4 @@
-﻿using Backend.Business.Dashboard.Interfaces;
-using Backend.Business.Dashboard.Models;
+﻿using Backend.Business.Dashboard.Models;
 using Backend.Domain;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.User;
@@ -12,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Infrastructure.Interfaces;
 
 namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
 {

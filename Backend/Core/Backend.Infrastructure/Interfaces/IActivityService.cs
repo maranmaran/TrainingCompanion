@@ -1,7 +1,7 @@
 ﻿using Backend.Domain.Entities.Auditing;
 using System.Threading.Tasks;
 
-namespace Backend.Business.Dashboard.Interfaces
+namespace Backend.Infrastructure.Interfaces
 {
     public interface IActivityService
     {

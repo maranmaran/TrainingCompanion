@@ -11,6 +11,7 @@ namespace Backend.Domain.Entities.Notification
         public NotificationType Type { get; set; }
         public string Subtype { get; set; } // What is this for.. comment it ?
 
+        public string JsonEntity { get; set; }
         public string Payload { get; set; }
         public DateTime SentAt { get; set; }
 

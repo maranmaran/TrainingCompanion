@@ -1,5 +1,4 @@
-﻿using Backend.Business.Dashboard.Interfaces;
-using Backend.Business.Dashboard.Models;
+﻿using Backend.Business.Dashboard.Models;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Interfaces;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
+using Backend.Infrastructure.Interfaces;
 
 namespace Backend.Business.Dashboard.Services
 {
