@@ -55,12 +55,6 @@ export class AppSettingsService {
     return environment.showStackTrace;
   }
 
-  /**
-   * Gets colors scheme for active and available plans for subscription
-   */
-  public get planColors(): string[] {
-    return environment.planColors;
-  }
 }
 
 export const APP_SETTINGS_PROVIDER = [
