@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
+using System;
 
 namespace Backend.Domain.Factories
 {
@@ -13,7 +13,6 @@ namespace Backend.Domain.Factories
                 Id = Guid.NewGuid(),
                 RpeSystem = RpeSystem.Rpe,
                 Theme = Themes.Light,
-                
             };
         }
     }

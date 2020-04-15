@@ -156,6 +156,10 @@
     "DELETE_PROPERTY_SELECTION": "",
     "DELETE_PROPERTY_TITLE": ""
   },
+  "LANGUAGES": {
+    "ENGLISH": "Engleski",
+    "CROATIAN": "Hrvatski"
+  },
   "SETTINGS": {
     "SETTINGS_LABEL": "Postavke",
     "GENERAL_LABEL": "Općenito",

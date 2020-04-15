@@ -1,6 +1,7 @@
 
 export class Activity {
   userId: string;
+  userAvatar: string;
   userName: string;
   type: ActivityType;
   date: Date;
