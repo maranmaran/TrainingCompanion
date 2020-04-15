@@ -6,7 +6,7 @@ fxLayoutGap="15px"
 
   <div id="image-wrapper" fxFlex="0 0 auto" fxLayoutAlign="center">
 
-    <img class="notification_avatar" *ngIf="!model.systemNotification" [src]="(avatar | async)"/>
+    <img class="notification_avatar" *ngIf="!model.systemNotification" [src]="model.sender.avatar"/>
     <app-notification-type-icon name="image" *ngIf="model.systemNotification" [notificationType]="model.type"></app-notification-type-icon>
   </div>
   <div class="notification-body-container" fxLayout="column" fxFlex="1 1 100%">

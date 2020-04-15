@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
+using Backend.Common;
 using Backend.Domain;
 using Backend.Domain.Deserializators;
 using Backend.Domain.Entities.Auditing;
@@ -11,6 +12,7 @@ using Backend.Domain.Entities.User;
 using Backend.Domain.Interfaces;
 using Backend.Infrastructure.Exceptions;
 using Backend.Infrastructure.Interfaces;
+using Backend.Library.AmazonS3.Interfaces;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,9 +28,12 @@ namespace Backend.Business.Notifications
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IActivityService _activityService;
+        private readonly IS3Service _s3Service;
+
         public NotificationsAuditPusher(IServiceProvider provider)
         {
             _mediator = provider.GetService<IMediator>();
+            _s3Service = provider.GetService<IS3Service>();
             _logger = provider.GetService<ILoggingService>();
             _context = provider.GetService<IApplicationDbContext>();
             _mapper = provider.GetService<IMapper>();
@@ -62,10 +67,17 @@ namespace Backend.Business.Notifications
         {
             try
             {
+                var avatar = athlete.Avatar;
+                if (!GenericAvatarConstructor.IsGenericAvatar(avatar) &&
+                    _s3Service.CheckIfPresignedUrlIsExpired(avatar))
+                    avatar = await _s3Service.GetPresignedUrlAsync(avatar);
+
                 var notification = new Notification()
                 {
                     Payload = GetPayload(audit, athlete.UserSetting),
                     SenderId = athlete.Id,
+                    SenderAvatar = avatar,
+                    SystemNotification = false,
                     ReceiverId = athlete.CoachId,
                     SentAt = DateTime.Now,
                     Type = NotificationHelper.GetNotificationType(audit.EntityType),
