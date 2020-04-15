@@ -137,7 +137,8 @@
     "BODYWEIGHT_ONLY": "Koristi samo tjelesnu težinu",
     "MEASURE_TIME": "Zahtjeva mjerenje vremena",
     "NO_PROPS": "Nema dodanih stavki od ove oznake",
-    "ADD_TAG": "Dodaj stavku"
+    "ADD_TAG": "Dodaj stavku",
+    "CODE_OPTIONAL": "Jedinstveni kod (Neobavezno)"
   },
   "TAGS": {
     "TYPE": "Tip",
@@ -157,7 +158,6 @@
   },
   "SETTINGS": {
     "SETTINGS_LABEL": "Postavke",
-
     "GENERAL_LABEL": "Općenito",
     "GENERAL": {
       "LANGUAGE": "Jezik",
@@ -183,7 +183,7 @@
       "TRIALING": "Probni rok",
       "PAST_DUE": "Istekao rok",
       "CANCELED": "Otkazana pretplata",
-      "UNPAID":"Neplaćena pretplata",
+      "UNPAID": "Neplaćena pretplata",
       "PAYMENT_INFO": "Informacije o plaćanju",
       "NAME": "Ime i prezime",
       "PHONE": "Telefon",
@@ -191,7 +191,7 @@
       "ADDRESS": "Adresa",
       "CITY": "Grad",
       "STATE": "Županija",
-      "GO_BACK":" Natrag",
+      "GO_BACK": " Natrag",
       "FINISH": "Završi"
     }
   },
@@ -238,4 +238,3 @@
     "UPDATE_TITLE": "Uredi detalje o klijentu"
   }
 }
-

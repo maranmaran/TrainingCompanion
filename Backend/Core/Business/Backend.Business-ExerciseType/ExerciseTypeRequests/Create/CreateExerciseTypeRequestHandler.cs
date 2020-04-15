@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Exercises.ExerciseTypeRequests.Create
 {
@@ -29,6 +29,14 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.Create
 
                 _context.ExerciseTypes.Add(exerciseType);
                 await _context.SaveChangesAsync(cancellationToken);
+
+                // load tags for display
+                foreach (var prop in exerciseType.Properties)
+                {
+                    // tag must be loaded.. so we can access parent tag group
+                    await _context.Entry(prop).Reference(x => x.Tag).LoadAsync(cancellationToken);
+                    await _context.Entry(prop.Tag).Reference(x => x.TagGroup).LoadAsync(cancellationToken);
+                }
 
                 return exerciseType;
             }
