@@ -5,6 +5,7 @@ using Backend.Domain;
 using Backend.Domain.Enum;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -89,6 +90,7 @@ namespace Backend.Business.Import.ImportExerciseType
                     : "Exercise type import finished with errors. Check import page for more details";
 
                 var notification = await _mediator.Send(new CreatePushNotificationRequest(NotificationType.ImportFinished, payload, receiverId), CancellationToken.None);
+                notification.JsonEntity = JsonConvert.SerializeObject(response);
 
                 await _mediator.Publish(new NotifyUserNotification(notification, receiverId), cancellationToken);
             }

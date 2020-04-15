@@ -40,6 +40,12 @@ import { MediaContainerComponent } from './media/media-container/media-container
 import { MediaListComponent } from './media/media-uploader/media-list/media-list.component';
 import { MediaUploaderComponent } from './media/media-uploader/media-uploader.component';
 import { UploadInputComponent } from './media/media-uploader/upload-input/upload-input.component';
+import { BodyweightNotificationBodyComponent } from './notifications/notification-item/body-templates/bodyweight-notification-body.component';
+import { ImportNotificationBodyComponent } from './notifications/notification-item/body-templates/import-notification-body.component';
+import { MediaNotificationBodyComponent } from './notifications/notification-item/body-templates/media-notification-body.component';
+import { NoteNotificationBodyComponent } from './notifications/notification-item/body-templates/note-notification-body.component';
+import { PersonalBestNotificationBodyComponent } from './notifications/notification-item/body-templates/personal-best-notification-body.component';
+import { TrainingNotificationBodyComponent } from './notifications/notification-item/body-templates/training-notification-body.component';
 
 @NgModule({
     imports: [
@@ -104,7 +110,13 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         TransformWeightPipe,
         ImageCropperComponent,
         VolumeCardComponent,
-        MaxCardComponent
+        MaxCardComponent,
+        MediaNotificationBodyComponent,
+        BodyweightNotificationBodyComponent,
+        TrainingNotificationBodyComponent,
+        NoteNotificationBodyComponent,
+        PersonalBestNotificationBodyComponent,
+        ImportNotificationBodyComponent
     ],
     exports: [
         CommonModule,
@@ -152,6 +164,12 @@ import { UploadInputComponent } from './media/media-uploader/upload-input/upload
         TransformWeightPipe,
         ImageCropperModule,
         ImageCropperComponent,
+        MediaNotificationBodyComponent,
+        BodyweightNotificationBodyComponent,
+        TrainingNotificationBodyComponent,
+        NoteNotificationBodyComponent,
+        PersonalBestNotificationBodyComponent,
+        ImportNotificationBodyComponent
     ],
     providers: [
     ],

@@ -5,24 +5,15 @@ import { VolumeCardComponent } from '../dashboard-home/tracks/card-components/vo
 export enum DashboardCards {
   Volume = 'Volume',
   Max = 'Max',
+  Test = 'Test'
 }
 
 export const dashboardCards = {
   Volume: VolumeCardComponent,
 }
 
-export const sidebarCards = {
-  Volume: `
-          <h4>Track exercises volume: </h4>
-          <i class="fas fa-chart-pie fa-5x row-center additional-padding"></i>
-        `,
-  Max: `
-          <h4>Track exercises volume: </h4>
-          <i class="fas fa-chart-pie fa-5x row-center additional-padding"></i>
-        `,
-}
-
 export const mainDashboardComponents: TrackItem[] = [
   { component: DashboardCards.Volume, code: 'dashboard-volume', id: Guid.EMPTY, jsonParams: null },
   { component: DashboardCards.Max, code: 'dashboard-max', id: Guid.EMPTY, jsonParams: null },
+  { component: DashboardCards.Test, code: 'dashboard-test', id: Guid.EMPTY, jsonParams: null },
 ]

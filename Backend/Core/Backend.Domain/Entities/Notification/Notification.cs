@@ -11,6 +11,7 @@ namespace Backend.Domain.Entities.Notification
         public NotificationType Type { get; set; }
         public string Subtype { get; set; } // What is this for.. comment it ?
 
+        public string JsonEntity { get; set; }
         public string Payload { get; set; }
         public DateTime SentAt { get; set; }
 
@@ -22,6 +23,7 @@ namespace Backend.Domain.Entities.Notification
 
         public Guid? SenderId { get; set; }
         public virtual ApplicationUser Sender { get; set; }
+        public string SenderAvatar { get; set; }
 
         public Guid? ReceiverId { get; set; }
         public virtual ApplicationUser Receiver { get; set; }

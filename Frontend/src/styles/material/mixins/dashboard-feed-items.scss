@@ -1,0 +1,53 @@
+@import "~@angular/material/theming";
+
+@mixin dashboard-feed-items-theme($theme) {
+
+  $background-palette: map-get($theme, background);
+  $highlight: map-get($background-palette, hover);
+
+  $foreground-palette: map-get($theme, foreground);
+  $theme-disabled: map-get($foreground-palette, disabled);
+
+
+  .media-feed-item {
+    &__image {
+      max-width: 150px;
+      cursor: pointer;
+    }
+  }
+
+  .feed-viewport {
+    height: 100%;
+    width: 100%;
+
+    .feed-item-container {
+      margin-left: 5px;
+      margin-right: 5px;
+
+      .feed-item {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-radius: 5%;
+        /* max-width: 30%; */
+        width: 100%;
+        padding: 15px;
+        padding-bottom: 5px;
+
+        .feed-user-avatar {
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+        }
+
+        &__footer {
+          font-size: 12px;
+          color: $theme-disabled;
+          margin-top: 2px;
+          padding-bottom: 3px;
+          padding-top: 7px;
+        }
+      }
+    }
+  }
+
+}

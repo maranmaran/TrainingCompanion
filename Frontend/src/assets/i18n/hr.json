@@ -7,7 +7,7 @@
     "MALE": "Muško",
     "FEMALE": "Žensko",
     "FILTER": "Filtriraj",
-    "NOTIFICATION": "Notifikacija",
+    "NOTIFICATION": "Obavijest",
     "CANCEL": "Poništi",
     "DELETE": "Izbriši",
     "ACTIVE": "Aktivan",
@@ -24,7 +24,31 @@
     "SEARCH": "Traži",
     "VIDEO_NOT_SUPPORTED": "Vaš preglednik ne podržava ovaj tip snimke"
   },
+  "NOTIFICATIONS": {
+    "BODYWEIGHT_MESSAGE": "je dodao/la novi zapis tjelesne težine od {{value}}",
+    "MEDIA_MESSAGE": "je dodao/la novu multimedijsku datoteku",
+    "TRAINING_MESSAGE": "je dodao/la novi trening",
+    "PERSONAL_BEST_MESSAGE": "je napravio/la novi PR od {{value}}!",
+    "IMPORT_MESSAGE_SUCCESS": "Uvoz podataka je završio uspješno",
+    "IMPORT_MESSAGE_FAILURE": "Uvoz podataka nije uspio",
+    "NOTE_MESSAGE": "je dodao novu napomenu",
+    "NO_NOTIFICATIONS": "Nema više obavijesti za prikaz",
+    "SHOW_MORE": "Prikaži još obavijesti"
+  },
+  "TOOLBAR": {
+    "DASHBOARD_EDIT_LABEL": "Uredi kontrolnu ploču",
+    "CHAT": "Otvori razgovore na velikom zaslonu",
+    "SETTINGS_LABEL": "Postavke",
+    "PROFILE_LABEL": "Profil"
+  },
   "DASHBOARD": {
+    "REMOVE_TRACK_ITEM": "Izbriši graf iz trake",
+    "FEED": {
+      "MEDIA_MESSAGE": "<b>{{username}}</b> je dodao/la novu multimedijsku datoteku.",
+      "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> je dodao/la novi zapis tjelesne težine od {{value}}.",
+      "TRAINING_MESSAGE": "<b>{{username}}</b> je dodao/la novi trening.",
+      "PERSONAL_BEST_MESSAGE": "<b>{{username}}</b> je napravio/la novi PR od {{value}}!"
+    },
     "CARDS": {
       "VOLUME_CARD": {
         "EXERCISE_TYPE": "Vježba"
@@ -114,7 +138,8 @@
     "BODYWEIGHT_ONLY": "Koristi samo tjelesnu težinu",
     "MEASURE_TIME": "Zahtjeva mjerenje vremena",
     "NO_PROPS": "Nema dodanih stavki od ove oznake",
-    "ADD_TAG": "Dodaj stavku"
+    "ADD_TAG": "Dodaj stavku",
+    "CODE_OPTIONAL": "Jedinstveni kod (Neobavezno)"
   },
   "TAGS": {
     "TYPE": "Tip",
@@ -132,15 +157,19 @@
     "DELETE_PROPERTY_SELECTION": "",
     "DELETE_PROPERTY_TITLE": ""
   },
+  "LANGUAGES": {
+    "ENGLISH": "Engleski",
+    "CROATIAN": "Hrvatski"
+  },
   "SETTINGS": {
     "SETTINGS_LABEL": "Postavke",
-
     "GENERAL_LABEL": "Općenito",
     "GENERAL": {
       "LANGUAGE": "Jezik",
       "THEME": "Tema",
       "UNIT_SYSTEM": "Mjerni sustav",
       "RPE_SYSTEM": "RPE sistem",
+      "PERCENTAGE_SYSTEM": "Koristi postotke",
       "INFORM_ME": "Obavijesti me o"
     },
     "ACCOUNT_LABEL": "Korisnički račun",
@@ -159,7 +188,7 @@
       "TRIALING": "Probni rok",
       "PAST_DUE": "Istekao rok",
       "CANCELED": "Otkazana pretplata",
-      "UNPAID":"Neplaćena pretplata",
+      "UNPAID": "Neplaćena pretplata",
       "PAYMENT_INFO": "Informacije o plaćanju",
       "NAME": "Ime i prezime",
       "PHONE": "Telefon",
@@ -167,7 +196,7 @@
       "ADDRESS": "Adresa",
       "CITY": "Grad",
       "STATE": "Županija",
-      "GO_BACK":" Natrag",
+      "GO_BACK": " Natrag",
       "FINISH": "Završi"
     }
   },
@@ -214,4 +243,3 @@
     "UPDATE_TITLE": "Uredi detalje o klijentu"
   }
 }
-

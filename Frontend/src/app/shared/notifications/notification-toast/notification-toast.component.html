@@ -6,13 +6,21 @@ fxLayoutGap="15px"
 (click)="readNotification()">
 
   <div id="image-wrapper" fxFlex="0 0 auto" fxLayoutAlign="center">
-    <ngx-avatar name="image" *ngIf="!notification.systemNotification" size="40" name="{{ notification.sender.fullName }}"></ngx-avatar>
-    <app-notification-type-icon name="image" *ngIf="notification.systemNotification" [notificationType]="notification.type"></app-notification-type-icon>
+    <img class="notification_avatar" *ngIf="!notification.systemNotification" [src]="notification.sender.avatar"/>
+    <app-notification-type-icon name="image" *ngIf="notification.systemNotification" [notificationType]="notification.type" [entity]="notification.entity"></app-notification-type-icon>
   </div>
-
   <div class="notification-body-container" fxLayout="column" fxFlex="1 1 100%">
-    <div id="payload" fxFlex="0 0 70%">
-      <b *ngIf="!notification.systemNotification">{{notification.sender.fullName}} </b>{{ notification.payload }}
+    <div id="payload" fxFlex="0 0 70%" fxLayout="row" fxLayoutGap="4px">
+      <b *ngIf="!notification.systemNotification">{{notification.sender.fullName}}</b>
+      <ng-container [ngSwitch]="notification.type">
+        <app-bodyweight-notification-body *ngSwitchCase="notificationType.BodyweightAdded" [notification]="notification" [unitSystem]="unitSystem"></app-bodyweight-notification-body>
+        <app-media-notification-body *ngSwitchCase="notificationType.MediaAdded"  [notification]="notification"></app-media-notification-body>
+        <app-training-notification-body *ngSwitchCase="notificationType.TrainingCreated" [notification]="notification"></app-training-notification-body>
+        <app-personal-best-notification-body *ngSwitchCase="notificationType.PersonalBestAdded" [notification]="notification"  [unitSystem]="unitSystem"></app-personal-best-notification-body>
+        <app-note-notification-body *ngSwitchCase="notificationType.NoteAdded" [notification]="notification"></app-note-notification-body>
+        <app-import-notification-body *ngSwitchCase="notificationType.ImportFinished" [notification]="notification"></app-import-notification-body>
+        <span *ngSwitchCaseDefault>{{ notification.payload }}</span>
+      </ng-container>
     </div>
     <div id="metadata" fxFlex="0 0 30%" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
 

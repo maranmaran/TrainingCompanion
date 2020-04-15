@@ -7,6 +7,7 @@ import * as _ from "lodash";
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Country } from 'src/business/shared/models/country.model';
+import { SupportedLanguages } from 'src/business/shared/supported-languages.enum';
 import { Theme } from 'src/business/shared/theme.enum';
 import { updateUserSetting } from 'src/ngrx/auth/auth.actions';
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
@@ -34,6 +35,7 @@ export class GeneralComponent implements OnInit {
 
   notificationTypeLabels = NotificationTypeLabel;
 
+  supportedLanguages = SupportedLanguages;
   supportedCountryLanguages: Observable<Country[]>;
   language = new FormControl('language');
 
@@ -93,6 +95,13 @@ export class GeneralComponent implements OnInit {
 
   public onUseRpeSystemChecked(event: MatCheckboxChange) {
     this.userSetting.useRpeSystem = event.checked;
+    this.userSetting.usePercentages = !event.checked;
+    this.store.dispatch(updateUserSetting(this.userSetting));
+  }
+
+  public onUsePercentagesChecked(event: MatCheckboxChange) {
+    this.userSetting.usePercentages = event.checked;
+    this.userSetting.useRpeSystem = !event.checked;
     this.store.dispatch(updateUserSetting(this.userSetting));
   }
 

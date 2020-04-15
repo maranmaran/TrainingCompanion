@@ -7,6 +7,7 @@ export class UserSetting {
     id: string;
     theme: Theme;
     unitSystem: UnitSystem;
+    usePercentages: boolean;
     useRpeSystem: boolean;
     rpeSystem: RpeSystem;
     notificationSettings: NotificationSetting[];

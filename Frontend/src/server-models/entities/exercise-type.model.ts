@@ -17,8 +17,8 @@ export class ExerciseType {
     applicationUserId: string;
     applicationUser: ApplicationUser;
 
-    properties: ExerciseTypeTag[];
-    pbs: PersonalBest[];
+    properties: ExerciseTypeTag[] = [];
+    pbs: PersonalBest[] = [];
     //exerciseMaxes: ExerciseMax[]
 }
 

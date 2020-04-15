@@ -6,10 +6,18 @@
     [cdkDropListData]="(tracks | async)[0]?.items" (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 0})"
     (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()" fxFlex="1 1 calc(50% - 0.25rem)"
     fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem">
-    <ndc-dynamic *ngFor="let item of (tracks | async)[0]?.items" [ndcDynamicComponent]="dashboardCards[item.component]"
-      [ndcDynamicAttributes]="attrs" [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }">
-    </ndc-dynamic>
-    <!-- [ndcDynamicDirectives]="dirs" -->
+
+    <ng-container *ngFor="let item of (tracks | async)[0]?.items">
+      <button *ngIf="(editMode | async)" mat-icon-button color="accent" (click)="removeTrackItem(item, 0)"
+        matTooltip="{{ 'DASHBOARD.REMOVE_TRACK_ITEM' | translate }}">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <ndc-dynamic [ndcDynamicComponent]="dashboardCards[item.component]" [ndcDynamicAttributes]="attrs"
+        [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }">
+      </ndc-dynamic>
+      <!-- [ndcDynamicDirectives]="dirs" -->
+    </ng-container>
   </div>
 
   <!--TRACK TWO-->
@@ -17,10 +25,18 @@
     [cdkDropListData]="(tracks | async)[1]?.items" (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 1})"
     (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()" fxFlex="1 1 calc(50%  - 0.25rem)"
     fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem">
-    <ndc-dynamic *ngFor="let item of (tracks | async)[1]?.items" [ndcDynamicComponent]="dashboardCards[item.component]"
-      [ndcDynamicAttributes]="attrs" [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }">
-    </ndc-dynamic>
-    <!-- [ndcDynamicDirectives]="dirs" -->
+
+    <ng-container *ngFor="let item of (tracks | async)[1]?.items">
+      <button *ngIf="(editMode | async)" mat-icon-button color="accent" (click)="removeTrackItem(item, 1)"
+        matTooltip="{{ 'DASHBOARD.REMOVE_TRACK_ITEM' | translate }}">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <ndc-dynamic [ndcDynamicComponent]="dashboardCards[item.component]" [ndcDynamicAttributes]="attrs"
+        [ndcDynamicInputs]="{ cardId: item.id, jsonParams: item.jsonParams }">
+      </ndc-dynamic>
+      <!-- [ndcDynamicDirectives]="dirs" -->
+    </ng-container>
   </div>
 
 </div>

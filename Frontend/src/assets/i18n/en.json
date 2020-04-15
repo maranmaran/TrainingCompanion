@@ -24,7 +24,31 @@
     "SEARCH": "Search",
     "VIDEO_NOT_SUPPORTED": "Your browser does not support this video tag"
   },
+  "NOTIFICATIONS": {
+    "BODYWEIGHT_MESSAGE": "logged a new bodyweight value of {{value}}",
+    "MEDIA_MESSAGE": "added new media file",
+    "TRAINING_MESSAGE": "logged new training",
+    "PERSONAL_BEST_MESSAGE": "hit a new PR of {{value}}",
+    "IMPORT_MESSAGE_SUCCESS": "Import finished successfully",
+    "IMPORT_MESSAGE_FAILURE": "Import failed",
+    "NOTE_MESSAGE": "added new note",
+    "NO_NOTIFICATIONS": "No notifications to show",
+    "SHOW_MORE": "Show more notifications"
+  },
+  "TOOLBAR": {
+    "DASHBOARD_EDIT_LABEL": "Edit dashboard",
+    "CHAT": "Open chat in fullscreen mode",
+    "SETTINGS_LABEL": "Settings",
+    "PROFILE_LABEL": "Profile"
+  },
   "DASHBOARD": {
+    "REMOVE_TRACK_ITEM": "Remove chart from track",
+    "FEED": {
+      "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",
+      "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> logged a new bodyweight value of {{value}}.",
+      "TRAINING_MESSAGE": "<b>{{username}}</b> logged new training.",
+      "PERSONAL_BEST_MESSAGE": "<b>{{username}}</b> hit a new PB of {{value}}!"
+    },
     "CARDS": {
       "VOLUME_CARD": {
         "EXERCISE_TYPE": "Exercise type"
@@ -35,7 +59,6 @@
     "FULLSCREEN": {
       "TYPE_MESSAGE_LABEL": "Type a message",
       "PRESS_ENTER_SEND": "Press enter to send\nPress shift + enter to add new line"
-
     },
     "SMALL": {
       "TITLE_LABEL": "Friends",
@@ -115,7 +138,8 @@
     "BODYWEIGHT_ONLY": "Bodyweight only",
     "MEASURE_TIME": "Measure time",
     "NO_PROPS": "No properties added from this group.",
-    "ADD_TAG": "Add tag"
+    "ADD_TAG": "Add tag",
+    "CODE_OPTIONAL": "Code (Optional)"
   },
   "TAGS": {
     "TYPE": "Type",
@@ -133,15 +157,19 @@
     "DELETE_PROPERTY_SELECTION": "",
     "DELETE_PROPERTY_TITLE": ""
   },
+  "LANGUAGES": {
+    "ENGLISH": "English",
+    "CROATIAN": "Croatian"
+  },
   "SETTINGS": {
     "SETTINGS_LABEL": "Settings",
-
     "GENERAL_LABEL": "General",
     "GENERAL": {
       "LANGUAGE": "Language",
       "THEME": "Theme",
       "UNIT_SYSTEM": "Unit system",
       "RPE_SYSTEM": "RPE system",
+      "PERCENTAGE_SYSTEM": "Use percentages",
       "INFORM_ME": "Inform me about"
     },
     "ACCOUNT_LABEL": "Account",
@@ -160,7 +188,7 @@
       "TRIALING": "Trialing",
       "PAST_DUE": "Past due",
       "CANCELED": "Canceled",
-      "UNPAID":"Unpaid",
+      "UNPAID": "Unpaid",
       "PAYMENT_INFO": "Payment info",
       "NAME": "Full name",
       "PHONE": "Phone",
@@ -168,7 +196,7 @@
       "ADDRESS": "Address",
       "CITY": "City",
       "STATE": "State",
-      "GO_BACK":" Go back",
+      "GO_BACK": " Go back",
       "FINISH": "Finish"
     }
   },

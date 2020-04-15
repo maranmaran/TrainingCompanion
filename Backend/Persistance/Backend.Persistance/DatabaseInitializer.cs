@@ -138,7 +138,7 @@ namespace Backend.Persistance
                 var userSetting = new UserSetting()
                 {
                     Id = settingIds[i],
-                    ApplicationUserId = userIds[i]
+                    ApplicationUserId = userIds[i],
                 };
 
                 b.Entity<UserSetting>().HasData(userSetting);

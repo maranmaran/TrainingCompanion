@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200322002102_SeedUsers")]
+    [Migration("20200415143435_SeedUsers")]
     partial class SeedUsers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -301,6 +301,9 @@ namespace Backend.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("JsonEntity")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Payload")
                         .HasColumnType("nvarchar(max)");
 
@@ -313,6 +316,9 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RedirectUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderAvatar")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("SenderId")
@@ -633,8 +639,8 @@ namespace Backend.Persistance.Migrations
                     b.Property<string>("Component")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ParamsId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("JsonParams")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("TrackId")
                         .HasColumnType("uniqueidentifier");
@@ -644,27 +650,6 @@ namespace Backend.Persistance.Migrations
                     b.HasIndex("TrackId");
 
                     b.ToTable("TrackItems");
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.User.Dashboard.TrackItemParams", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("JsonParams")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("TrackItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrackItemId")
-                        .IsUnique()
-                        .HasFilter("[TrackItemId] IS NOT NULL");
-
-                    b.ToTable("TrackItemParams");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.User.NotificationSetting", b =>
@@ -900,6 +885,12 @@ namespace Backend.Persistance.Migrations
                     b.Property<Guid>("ApplicationUserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Language")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(2)")
+                        .HasMaxLength(2)
+                        .HasDefaultValue("en");
+
                     b.Property<Guid?>("MainDashboardId")
                         .HasColumnType("uniqueidentifier");
 
@@ -920,6 +911,11 @@ namespace Backend.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("Metric");
+
+                    b.Property<bool>("UsePercentages")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("UseRpeSystem")
                         .ValueGeneratedOnAdd()
@@ -944,6 +940,7 @@ namespace Backend.Persistance.Migrations
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
+                            UsePercentages = false,
                             UseRpeSystem = false
                         },
                         new
@@ -953,6 +950,7 @@ namespace Backend.Persistance.Migrations
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
+                            UsePercentages = false,
                             UseRpeSystem = false
                         },
                         new
@@ -962,6 +960,7 @@ namespace Backend.Persistance.Migrations
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
+                            UsePercentages = false,
                             UseRpeSystem = false
                         },
                         new
@@ -971,6 +970,7 @@ namespace Backend.Persistance.Migrations
                             RpeSystem = "Rpe",
                             Theme = "Light",
                             UnitSystem = "Imperial",
+                            UsePercentages = false,
                             UseRpeSystem = false
                         });
                 });
@@ -987,12 +987,12 @@ namespace Backend.Persistance.Migrations
                             Id = new Guid("0faee6ac-1772-4bbe-9990-a7d9a22dd529"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(2718),
+                            CreatedOn = new DateTime(2020, 4, 15, 14, 34, 34, 499, DateTimeKind.Utc).AddTicks(2311),
                             CustomerId = "cus_FLi7gZv8w0j0GB",
                             Email = "admin@trainingcompanion.com",
                             FirstName = "Admin",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(3558),
+                            LastModified = new DateTime(2020, 4, 15, 14, 34, 34, 499, DateTimeKind.Utc).AddTicks(3020),
                             LastName = "",
                             PasswordHash = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
                             TrialDuration = 0,
@@ -1018,11 +1018,11 @@ namespace Backend.Persistance.Migrations
                             Id = new Guid("8d399c00-5654-4a54-9c2c-b44a485c3583"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(7394),
+                            CreatedOn = new DateTime(2020, 4, 15, 14, 34, 34, 499, DateTimeKind.Utc).AddTicks(6121),
                             Email = "athlete@trainingcompanion.com",
                             FirstName = "Athlete",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(7413),
+                            LastModified = new DateTime(2020, 4, 15, 14, 34, 34, 499, DateTimeKind.Utc).AddTicks(6134),
                             LastName = "",
                             PasswordHash = "23a1f74bc589fe525387f8d2c40f1e552a564fe5de00af935bb7a0592fc976c6",
                             TrialDuration = 0,
@@ -1044,12 +1044,12 @@ namespace Backend.Persistance.Migrations
                             Id = new Guid("fa67c815-486e-4e9d-89dd-3156376ac9b4"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 3, 22, 0, 21, 1, 990, DateTimeKind.Utc).AddTicks(232),
+                            CreatedOn = new DateTime(2020, 4, 15, 14, 34, 34, 499, DateTimeKind.Utc).AddTicks(8601),
                             CustomerId = "cus_FHk5RepADdfm5H",
                             Email = "coach@trainingcompanion.com",
                             FirstName = "Coach",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 3, 22, 0, 21, 1, 990, DateTimeKind.Utc).AddTicks(237),
+                            LastModified = new DateTime(2020, 4, 15, 14, 34, 34, 499, DateTimeKind.Utc).AddTicks(8606),
                             LastName = "",
                             PasswordHash = "e0f167bc84b881bc06f6884fb48e02f41dfc5579e25489db6c6bde238e4aed15",
                             TrialDuration = 0,
@@ -1070,11 +1070,11 @@ namespace Backend.Persistance.Migrations
                             Id = new Guid("939085da-e515-4422-80eb-7847e7f4eadb"),
                             AccountType = "User",
                             Active = false,
-                            CreatedOn = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(8220),
+                            CreatedOn = new DateTime(2020, 4, 15, 14, 34, 34, 499, DateTimeKind.Utc).AddTicks(6874),
                             Email = "solo.athlete@trainingcompanion.com",
                             FirstName = "Solo",
                             Gender = "Male",
-                            LastModified = new DateTime(2020, 3, 22, 0, 21, 1, 989, DateTimeKind.Utc).AddTicks(8225),
+                            LastModified = new DateTime(2020, 4, 15, 14, 34, 34, 499, DateTimeKind.Utc).AddTicks(6878),
                             LastName = "Athlete",
                             PasswordHash = "304301ea5935cd1d38e55206e09eebcfe95fcb56f96ddf0ef2d8557a295728c8",
                             TrialDuration = 0,
@@ -1240,13 +1240,6 @@ namespace Backend.Persistance.Migrations
                         .HasForeignKey("TrackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Backend.Domain.Entities.User.Dashboard.TrackItemParams", b =>
-                {
-                    b.HasOne("Backend.Domain.Entities.User.Dashboard.TrackItem", "TrackItem")
-                        .WithOne("Params")
-                        .HasForeignKey("Backend.Domain.Entities.User.Dashboard.TrackItemParams", "TrackItemId");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.User.NotificationSetting", b =>

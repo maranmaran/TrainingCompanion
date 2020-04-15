@@ -23,6 +23,7 @@
 @import "./mixins/image-cropper.scss";
 @import "./mixins/chat-fullscreen.scss";
 @import "./mixins/dashboard-cards.scss";
+@import "./mixins/dashboard-feed-items.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -45,6 +46,7 @@
   @include image-cropper-theme($theme);
   @include chat-fullscreen-theme($theme);
   @include dashboard-cards-theme($theme);
+  @include dashboard-feed-items-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================
