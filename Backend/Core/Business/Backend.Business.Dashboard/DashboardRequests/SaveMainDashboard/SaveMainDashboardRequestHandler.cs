@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -58,14 +59,27 @@ namespace Backend.Business.Dashboard.DashboardRequests.SaveMainDashboard
                     _context.Entry(user.UserSetting).State = EntityState.Modified;
                     _context.Entry(user.UserSetting.MainDashboard).State = EntityState.Modified;
 
+                    var modifiedTrackItems = new List<TrackItem>();
                     foreach (var track in user.UserSetting.MainDashboard.Tracks)
                     {
                         foreach (var item in track.Items)
                         {
+                            modifiedTrackItems.Add(item);
                             _context.Entry(item).State = item.Id == Guid.Empty ? EntityState.Added : EntityState.Modified;
                         }
 
                         _context.Entry(track).State = track.Id == Guid.Empty ? EntityState.Added : EntityState.Modified;
+                    }
+
+                    var trackIds = request.Tracks.Select(x => x.Id).ToArray();
+                    var removedTrackItems =
+                        await _context.TrackItems.Where(x => trackIds[0] == x.TrackId || trackIds[1] == x.TrackId).ToListAsync(cancellationToken);
+                    foreach (var trackItem in removedTrackItems)
+                    {
+                        if (modifiedTrackItems.All(x => x.Id != trackItem.Id))
+                        {
+                            _context.TrackItems.Remove(trackItem);
+                        }
                     }
                 }
 

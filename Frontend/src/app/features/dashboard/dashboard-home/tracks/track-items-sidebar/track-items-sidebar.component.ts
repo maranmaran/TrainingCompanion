@@ -1,8 +1,9 @@
+import { SubSink } from 'subsink';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { ChartConfiguration } from 'chart.js';
 import { DashboardCards } from './../../../models/dashboard-cards';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { concatMap, filter, take } from 'rxjs/operators';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -14,13 +15,15 @@ import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from 'src/server-models/entities/track.model';
 import { mainDashboardComponents } from '../../../models/dashboard-cards';
 import { getLineChartPreviewConfig } from './chart-preview-configurations/line-chart.preview-config';
+import { getBarChartPreviewConfig } from './chart-preview-configurations/bar-chart.preview-config';
+import { getPieChartPreviewConfig } from './chart-preview-configurations/pie-chart.preview-configuration';
 
 @Component({
   selector: 'app-track-items-sidebar',
   templateUrl: './track-items-sidebar.component.html',
   styleUrls: ['./track-items-sidebar.component.scss']
 })
-export class TrackItemsSidebarComponent implements OnInit {
+export class TrackItemsSidebarComponent implements OnInit, OnDestroy {
 
   dashboardCards = DashboardCards;
   mainDashboardComponents = mainDashboardComponents;
@@ -33,6 +36,9 @@ export class TrackItemsSidebarComponent implements OnInit {
 
   maxChartPreviewConfiguration: ChartConfiguration[];
   volumeChartPreviewConfiguration: ChartConfiguration[];
+  pieChart: ChartConfiguration[];
+
+  private _subs = new SubSink();
 
   constructor(
     private store: Store<AppState>,
@@ -40,9 +46,17 @@ export class TrackItemsSidebarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store.select(activeTheme).pipe(take(1)).subscribe(theme => {
-      this.volumeChartPreviewConfiguration = [getLineChartPreviewConfig(theme)]
-    })
+    this._subs.add(
+      this.store.select(activeTheme).subscribe(theme => {
+        this.volumeChartPreviewConfiguration = [getLineChartPreviewConfig(theme)]
+        this.maxChartPreviewConfiguration = [getPieChartPreviewConfig(theme)]
+        this.pieChart = [getBarChartPreviewConfig(theme)]
+      })
+    )
+  }
+
+  ngOnDestroy() {
+    this._subs.unsubscribe();
   }
 
   toggleSidenav = () => {
