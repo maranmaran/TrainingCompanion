@@ -59,13 +59,13 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
     this.form = new FormGroup({
       name: new FormControl(this.entity.name, [
         Validators.required,
-        Validators.min(1),
-        Validators.max(50)
+        Validators.minLength(1),
+        Validators.maxLength(50)
       ]),
       code: new FormControl(this.entity.code, [
         Validators.required,
-        Validators.min(1),
-        Validators.max(50)
+        Validators.minLength(1),
+        Validators.maxLength(50)
       ]),
       active: new FormControl(this.entity.active),
       requiresWeight: new FormControl(this.entity.requiresWeight),
