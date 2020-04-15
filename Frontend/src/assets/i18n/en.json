@@ -42,6 +42,7 @@
     "PROFILE_LABEL": "Profile"
   },
   "DASHBOARD": {
+    "REMOVE_TRACK_ITEM": "Remove chart from track",
     "FEED": {
       "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",
       "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> logged a new bodyweight value of {{value}}.",
