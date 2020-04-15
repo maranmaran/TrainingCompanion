@@ -10,13 +10,7 @@ export const environment = {
   notificationHubUrl: 'http://localhost:50000/api/notifications-hub',
   feedHubUrl: 'http://localhost:50000/api/feed-hub',
   chatHubUrl: 'http://localhost:50000/api/chat-hub',
-  stripePublishableKey: 'pk_test_zScuAdL8ZCULuob3sbgWfnzw',
-  planColors: [
-      'linear-gradient(45deg, #dd5e89, #f7bb97)',
-      'linear-gradient(45deg, #00b4db, #0083b0)',
-      'linear-gradient(45deg, #4568dc, #b06ab3)'
-    ],
-
+  stripePublishableKey: 'YOUR_PUBLIC_KEY',
 };
 
 
