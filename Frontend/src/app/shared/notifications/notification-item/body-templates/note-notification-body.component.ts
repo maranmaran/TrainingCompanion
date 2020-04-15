@@ -18,10 +18,7 @@ export class NoteNotificationBodyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const params = {
-    }
-
-    this.message = this.translateService.instant('NOTIFICATIONS.NOTE_MESSAGE', params);
+    this.message = this.translateService.instant('NOTIFICATIONS.NOTE_MESSAGE');
   }
 
 }

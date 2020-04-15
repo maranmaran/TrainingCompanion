@@ -7,7 +7,7 @@ fxLayoutGap="15px"
   <div id="image-wrapper" fxFlex="0 0 auto" fxLayoutAlign="center">
 
     <img class="notification_avatar" *ngIf="!model.systemNotification" [src]="model.sender.avatar"/>
-    <app-notification-type-icon name="image" *ngIf="model.systemNotification" [notificationType]="model.type"></app-notification-type-icon>
+    <app-notification-type-icon name="image" *ngIf="model.systemNotification" [notificationType]="model.type" [entity]="model.entity"></app-notification-type-icon>
   </div>
   <div class="notification-body-container" fxLayout="column" fxFlex="1 1 100%">
     <div id="payload" fxFlex="0 0 70%" fxLayout="row" fxLayoutGap="4px">
@@ -24,10 +24,12 @@ fxLayoutGap="15px"
     </div>
     <div id="metadata" fxFlex="0 0 30%" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
       <ng-container [ngSwitch]="model.type">
-        <i *ngSwitchCase="'TrainingCreated'" class="fas fa-dumbbell"></i>
-        <i *ngSwitchCase="'NoteAdded'" class="fas fa-envelope-open-text"></i>
-        <i *ngSwitchCase="'MediaAdded'" class="fas fa-photo-video"></i>
-        <i *ngSwitchCase="'ImportFinished'" class="fas fa-cloud-upload-alt"></i>
+        <i *ngSwitchCase="notificationType.TrainingCreated" class="fas fa-dumbbell"></i>
+        <i *ngSwitchCase="notificationType.NoteAdded" class="fas fa-envelope-open-text"></i>
+        <i *ngSwitchCase="notificationType.MediaAdded" class="fas fa-photo-video"></i>
+        <i *ngSwitchCase="notificationType.ImportFinished" class="fas fa-cloud-upload-alt"></i>
+        <i *ngSwitchCase="notificationType.BodyweightAdded" class="fas fa-weight"></i>
+        <i *ngSwitchCase="notificationType.PersonalBestAdded" class="fas fa-trophy"></i>
       </ng-container>
 
       <span id="date">{{ model.sentAt | date:'medium' }}</span>

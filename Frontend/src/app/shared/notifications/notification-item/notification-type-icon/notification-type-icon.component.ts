@@ -9,6 +9,7 @@ import { NotificationType } from 'src/server-models/enums/notification-type.enum
 export class NotificationTypeIconComponent implements OnInit {
 
   @Input() notificationType: NotificationType;
+  @Input() entity: any;
 
   constructor() { }
 

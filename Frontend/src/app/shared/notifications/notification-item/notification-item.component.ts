@@ -22,7 +22,6 @@ export class NotificationItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.model);
     this.store.select(unitSystem).subscribe(system => this.unitSystem = system);
   }
 

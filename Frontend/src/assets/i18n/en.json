@@ -29,8 +29,8 @@
     "MEDIA_MESSAGE": "added new media file",
     "TRAINING_MESSAGE": "logged new training",
     "PERSONAL_BEST_MESSAGE": "hit a new PR of {{value}}",
-    "IMPORT_MESSAGE_SUCCESS": "import finished successfully",
-    "IMPORT_MESSAGE_FAILURE": "import failed",
+    "IMPORT_MESSAGE_SUCCESS": "Import finished successfully",
+    "IMPORT_MESSAGE_FAILURE": "Import failed",
     "NOTE_MESSAGE": "added new note",
     "NO_NOTIFICATIONS": "No notifications to show",
     "SHOW_MORE": "Show more notifications"
