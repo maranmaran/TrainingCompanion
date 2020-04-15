@@ -5,6 +5,7 @@ import { VolumeCardComponent } from '../dashboard-home/tracks/card-components/vo
 export enum DashboardCards {
   Volume = 'Volume',
   Max = 'Max',
+  Test = 'Test'
 }
 
 export const dashboardCards = {
@@ -14,4 +15,5 @@ export const dashboardCards = {
 export const mainDashboardComponents: TrackItem[] = [
   { component: DashboardCards.Volume, code: 'dashboard-volume', id: Guid.EMPTY, jsonParams: null },
   { component: DashboardCards.Max, code: 'dashboard-max', id: Guid.EMPTY, jsonParams: null },
+  { component: DashboardCards.Test, code: 'dashboard-test', id: Guid.EMPTY, jsonParams: null },
 ]

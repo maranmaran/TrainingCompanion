@@ -6,38 +6,47 @@ import { Theme } from 'src/business/shared/theme.enum';
 
 export function getLineChartPreviewConfig(theme: Theme): MyChartConfiguration {
 
+    // fake data for preview
+    const data = [0, 100, 0, 100];
+
     return {
         generationId: Guid.create(),
         type: 'line',
         data: {
             datasets: [
                 {
-                    data: [0, 1, 0, 1], // fake data for preview
-                    barThickness: 40,
+                    data,
+                    barThickness: 20,
+                    borderWidth: 6,
                     fill: false,
                     borderColor: backgroundColors(0, 1, theme)[0],
                     backgroundColor: backgroundColors(0, 1, theme)[0],
                 }
             ],
+            labels: [0, 1, 2, 3]
         },
         options: {
+            layout: {
+                padding: {
+                    top: 10,
+                    right: 10,
+                    left: 10,
+                    bottom: 10
+                }
+            },
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             plugins: { labels: false },
             title: { display: false },
             legend: { display: false },
             hover: { mode: null },
             tooltips: { enabled: false },
             scales: {
-                display: false,
-                gridLines: {
-                    display: true,
-                    drawBorder: false
-                },
                 xAxes: [
                     {
                         gridLines: {
-                            drawOnChartArea: false,
+                            display: true,
+                            color: colorHelpers(fontColor(theme)).alpha(0.15).rgbString()
                         },
                         // gridLines: { display: false, drawBorder: true },
                         // scaleLabel: { display: false },
@@ -47,7 +56,8 @@ export function getLineChartPreviewConfig(theme: Theme): MyChartConfiguration {
                 yAxes: [
                     {
                         gridLines: {
-                            drawOnChartArea: false,
+                            display: true,
+                            color: colorHelpers(fontColor(theme)).alpha(0.15).rgbString()
                         },
                         // gridLines: { display: false, drawBorder: true },
                         // scaleLabel: { display: false },
