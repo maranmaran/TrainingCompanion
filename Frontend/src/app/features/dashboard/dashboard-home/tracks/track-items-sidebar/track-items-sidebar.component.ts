@@ -1,16 +1,19 @@
+import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
+import { ChartConfiguration } from 'chart.js';
+import { DashboardCards } from './../../../models/dashboard-cards';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { concatMap, filter, take } from 'rxjs/operators';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
 import { setTrackEditMode } from 'src/ngrx/dashboard/dashboard.actions';
-import { dashboardUpdated, trackEditMode, tracks } from 'src/ngrx/dashboard/dashboard.selectors';
+import { dashboardUpdated, tracks } from 'src/ngrx/dashboard/dashboard.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from 'src/server-models/entities/track.model';
-import { mainDashboardComponents, sidebarCards } from '../../../models/dashboard-cards';
+import { mainDashboardComponents } from '../../../models/dashboard-cards';
+import { getLineChartPreviewConfig } from './chart-preview-configurations/line-chart.preview-config';
 
 @Component({
   selector: 'app-track-items-sidebar',
@@ -19,7 +22,7 @@ import { mainDashboardComponents, sidebarCards } from '../../../models/dashboard
 })
 export class TrackItemsSidebarComponent implements OnInit {
 
-  sidebarCards = sidebarCards;
+  dashboardCards = DashboardCards;
   mainDashboardComponents = mainDashboardComponents;
 
   @Output() dragEnter = new EventEmitter<any>()
@@ -28,12 +31,18 @@ export class TrackItemsSidebarComponent implements OnInit {
 
   @Output('saveTracks') saveTracksEvent = new EventEmitter<Track[]>();
 
+  maxChartPreviewConfiguration: ChartConfiguration[];
+  volumeChartPreviewConfiguration: ChartConfiguration[];
+
   constructor(
     private store: Store<AppState>,
     private UIService: UIService,
   ) { }
 
   ngOnInit(): void {
+    this.store.select(activeTheme).pipe(take(1)).subscribe(theme => {
+      this.volumeChartPreviewConfiguration = [getLineChartPreviewConfig(theme)]
+    })
   }
 
   toggleSidenav = () => {
@@ -46,5 +55,6 @@ export class TrackItemsSidebarComponent implements OnInit {
       .pipe(take(1), filter(updated => !!updated), concatMap(_ => this.store.select(tracks).pipe(take(1))))
       .subscribe(tracks => this.saveTracksEvent.emit(tracks))
   }
+
 
 }
