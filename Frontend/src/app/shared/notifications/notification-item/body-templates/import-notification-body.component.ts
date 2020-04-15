@@ -19,14 +19,10 @@ export class ImportNotificationBodyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const params = {
-
-    }
-
     if(this.notification.entity.Success) {
-      this.message = this.translateService.instant('NOTIFICATIONS.IMPORT_MESSAGE_SUCCESS', params);
+      this.message = this.translateService.instant('NOTIFICATIONS.IMPORT_MESSAGE_SUCCESS');
     } else {
-      this.message = this.translateService.instant('NOTIFICATIONS.IMPORT_MESSAGE_FAILURE', params);
+      this.message = this.translateService.instant('NOTIFICATIONS.IMPORT_MESSAGE_FAILURE');
     }
   }
 
