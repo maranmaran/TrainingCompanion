@@ -10,8 +10,18 @@
     (cdkDropListDropped)="drop.emit({event: $event, trackIdx: null})" (cdkDragEntered)="dragEnter.emit($event)"
     (cdkDragEnded)="dragEnd.emit()">
 
-    <div *ngFor="let component of mainDashboardComponents" [innerHtml]="sidebarCards[component.component]" cdkDrag
-      (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()">
+    <div *ngFor="let component of mainDashboardComponents" cdkDrag (cdkDragEntered)="dragEnter.emit($event)"
+      (cdkDragEnded)="dragEnd.emit()">
+      <ng-container [ngSwitch]="component.component">
+        <div *ngSwitchCase="dashboardCards.Volume">
+          <h4>Track exercises volume: </h4>
+          <app-chart [configuration]="volumeChartPreviewConfiguration"></app-chart>
+        </div>
+        <div *ngSwitchCase="dashboardCards.Max">
+          <h4>Track exercises volume: </h4>
+          <i class="fas fa-chart-pie fa-5x row-center additional-padding"></i>
+        </div>
+      </ng-container>
     </div>
   </div>
 
