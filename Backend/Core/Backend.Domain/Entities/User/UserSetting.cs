@@ -9,6 +9,7 @@ namespace Backend.Domain.Entities.User
         public Guid Id { get; set; }
         public Themes Theme { get; set; }
         public UnitSystem UnitSystem { get; set; }
+        public bool UsePercentages { get; set; }
         public bool UseRpeSystem { get; set; }
         public RpeSystem RpeSystem { get; set; }
         public string Language { get; set; }
