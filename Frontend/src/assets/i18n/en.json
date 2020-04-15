@@ -165,6 +165,7 @@
       "THEME": "Theme",
       "UNIT_SYSTEM": "Unit system",
       "RPE_SYSTEM": "RPE system",
+      "PERCENTAGE_SYSTEM": "Use percentages",
       "INFORM_ME": "Inform me about"
     },
     "ACCOUNT_LABEL": "Account",
