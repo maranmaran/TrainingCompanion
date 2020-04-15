@@ -29,8 +29,8 @@
     "MEDIA_MESSAGE": "je dodao/la novu multimedijsku datoteku",
     "TRAINING_MESSAGE": "je dodao/la novi trening",
     "PERSONAL_BEST_MESSAGE": "je napravio/la novi PR od {{value}}!",
-    "IMPORT_MESSAGE_SUCCESS": "uvoz podataka je završio uspješno",
-    "IMPORT_MESSAGE_FAILURE": "uvoz podataka nije uspio",
+    "IMPORT_MESSAGE_SUCCESS": "Uvoz podataka je završio uspješno",
+    "IMPORT_MESSAGE_FAILURE": "Uvoz podataka nije uspio",
     "NOTE_MESSAGE": "je dodao novu napomenu",
     "NO_NOTIFICATIONS": "Nema više obavijesti za prikaz",
     "SHOW_MORE": "Prikaži još obavijesti"

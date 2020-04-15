@@ -19,11 +19,7 @@ export class MediaNotificationBodyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const params = {
-
-    }
-
-    this.message = this.translateService.instant('NOTIFICATIONS.MEDIA_MESSAGE', params);
+    this.message = this.translateService.instant('NOTIFICATIONS.MEDIA_MESSAGE');
   }
 
 }

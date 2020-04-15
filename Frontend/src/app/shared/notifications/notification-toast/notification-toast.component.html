@@ -7,7 +7,7 @@ fxLayoutGap="15px"
 
   <div id="image-wrapper" fxFlex="0 0 auto" fxLayoutAlign="center">
     <img class="notification_avatar" *ngIf="!notification.systemNotification" [src]="notification.sender.avatar"/>
-    <app-notification-type-icon name="image" *ngIf="notification.systemNotification" [notificationType]="notification.type"></app-notification-type-icon>
+    <app-notification-type-icon name="image" *ngIf="notification.systemNotification" [notificationType]="notification.type" [entity]="notification.entity"></app-notification-type-icon>
   </div>
   <div class="notification-body-container" fxLayout="column" fxFlex="1 1 100%">
     <div id="payload" fxFlex="0 0 70%" fxLayout="row" fxLayoutGap="4px">

@@ -18,11 +18,7 @@ export class TrainingNotificationBodyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const params = {
-
-    }
-
-    this.message = this.translateService.instant('NOTIFICATIONS.TRAINING_MESSAGE', params);
+    this.message = this.translateService.instant('NOTIFICATIONS.TRAINING_MESSAGE');
   }
 
 }

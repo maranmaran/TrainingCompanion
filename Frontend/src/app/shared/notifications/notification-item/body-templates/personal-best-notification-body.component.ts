@@ -19,8 +19,6 @@ export class PersonalBestNotificationBodyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.notification);
-
     const params = {
       value: transformWeight(this.notification.entity.Value, this.unitSystem)
     }
