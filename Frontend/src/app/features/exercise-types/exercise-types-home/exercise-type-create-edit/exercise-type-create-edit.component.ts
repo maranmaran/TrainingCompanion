@@ -1,3 +1,5 @@
+import { exerciseTypeCreated } from './../../../../../ngrx/exercise-type/exercise-type.actions';
+import { CreateExerciseTypeRequest } from './../../../../../server-models/cqrs/exercise-type/create-exercise-type.request';
 import { AfterViewInit, Component, Inject, OnInit, QueryList, ViewChildren } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -16,6 +18,7 @@ import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/
 import { ExerciseType, ExerciseTypeTag } from "src/server-models/entities/exercise-type.model";
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { Tag } from 'src/server-models/entities/tag.model';
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 
 @Component({
   selector: "app-exercise-type-create-edit",
@@ -35,10 +38,14 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   entity = new ExerciseType();
   tagGroups: TagGroup[] = [];
+  _userId: string;
 
   @ViewChildren(MatSelect) tagSelects: QueryList<MatSelect>;
 
   ngOnInit() {
+
+    this.store.select(currentUserId).subscribe(id => this._userId = id);
+
     if (this.data.action === CRUD.Update) {
       this.entity = _.cloneDeep(this.data.entity);
     }
@@ -63,7 +70,6 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
         Validators.maxLength(50)
       ]),
       code: new FormControl(this.entity.code, [
-        Validators.required,
         Validators.minLength(1),
         Validators.maxLength(50)
       ]),
@@ -199,7 +205,28 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
   }
 
   createType() {
+    const request = new CreateExerciseTypeRequest({
+      name: this.entity.name,
+      active: true,
+      requiresBodyweight: this.entity.requiresBodyweight,
+      requiresReps: this.entity.requiresReps,
+      requiresSets: this.entity.requiresSets,
+      requiresWeight: this.entity.requiresWeight,
+      requiresTime: this.entity.requiresTime,
+      properties: this.entity.properties,
+      applicationUserId: this._userId
+    });
 
+    console.log(request);
+
+    this.typeService.create<CreateExerciseTypeRequest>(request).pipe(take(1))
+      .subscribe(
+        (exerciseType: ExerciseType) => {
+          this.store.dispatch(exerciseTypeCreated({ entity: exerciseType }));
+          this.onClose(exerciseType);
+        },
+        err => console.log(err)
+      );
   }
 
   updateType() {

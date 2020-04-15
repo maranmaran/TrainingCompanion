@@ -31,6 +31,10 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.GetAll
                     .ThenInclude(x => x.TagGroup)
                     .Where(x => x.ApplicationUserId == request.UserId);
 
+                // if we don't want to fetch inactive.. means we want to fetch active only
+                if (!request.FetchInactive)
+                    exerciseTypes = exerciseTypes.Where(x => x.Active);
+
                 //TODO: Technical debt.. this needs to be done better
                 foreach (var exerciseType in exerciseTypes)
                 {

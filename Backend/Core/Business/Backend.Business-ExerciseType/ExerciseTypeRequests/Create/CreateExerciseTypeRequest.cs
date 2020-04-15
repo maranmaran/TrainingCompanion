@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using Backend.Domain.Entities.Exercises;
+﻿using Backend.Domain.Entities.Exercises;
 using MediatR;
+using System;
+using System.Collections.Generic;
 
 namespace Backend.Business.Exercises.ExerciseTypeRequests.Create
 {
@@ -15,6 +16,8 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.Create
         public bool? RequiresWeight { get; set; }
         public bool? RequiresBodyweight { get; set; }
         public bool? RequiresTime { get; set; }
+
+        public Guid ApplicationUserId { get; set; }
 
         public IEnumerable<ExerciseTypeTag> Properties { get; set; }
     }
