@@ -40,10 +40,17 @@
         (change)="onRpeSystemChange($event)">
         {{ userSetting.rpeSystem }}
       </mat-slide-toggle>
-      <mat-checkbox (change)="onUseRpeSystemChecked($event)" [checked]="userSetting.useRpeSystem">
+      <mat-checkbox (change)="onUseRpeSystemChecked($event)" [checked]="userSetting.useRpeSystem && !userSetting.usePercentages">
         {{ userSetting.useRpeSystem ? '' : 'Turn on' }}
       </mat-checkbox>
 
+    </div>
+
+    <!--PERCENTAGE system-->
+    <div fxLayout="row" fxLayoutGap="1rem">
+      <label>{{ 'SETTINGS.GENERAL.PERCENTAGE_SYSTEM' | translate }}: </label>
+      <mat-checkbox (change)="onUsePercentagesChecked($event)" [checked]="userSetting.usePercentages && !userSetting.useRpeSystem">
+      </mat-checkbox>
     </div>
 
   </div>

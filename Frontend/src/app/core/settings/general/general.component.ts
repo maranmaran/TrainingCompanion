@@ -93,6 +93,13 @@ export class GeneralComponent implements OnInit {
 
   public onUseRpeSystemChecked(event: MatCheckboxChange) {
     this.userSetting.useRpeSystem = event.checked;
+    this.userSetting.usePercentages = !event.checked;
+    this.store.dispatch(updateUserSetting(this.userSetting));
+  }
+
+  public onUsePercentagesChecked(event: MatCheckboxChange) {
+    this.userSetting.usePercentages = event.checked;
+    this.userSetting.useRpeSystem = !event.checked;
     this.store.dispatch(updateUserSetting(this.userSetting));
   }
 

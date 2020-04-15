@@ -11,7 +11,6 @@ import { PushNotification } from 'src/server-models/entities/push-notification.m
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 
-
 @Component({
   selector: '[pink-toast-component]',
   // providers: [NotificationSignalrService],
@@ -59,7 +58,6 @@ export class NotificationToastComponent extends Toast {
   unitSystem: UnitSystem;
   notificationType = NotificationType;
   avatar: Observable<string>;
-
 
   // constructor is only necessary when not using AoT
   constructor(
