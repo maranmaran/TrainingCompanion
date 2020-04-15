@@ -10,7 +10,7 @@ export const environment = {
   notificationHubUrl: 'http://localhost:50000/api/notifications-hub',
   feedHubUrl: 'http://localhost:50000/api/feed-hub',
   chatHubUrl: 'http://localhost:50000/api/chat-hub',
-  stripePublishableKey: 'YOUR_PUBLIC_KEY',
+  stripePublishableKey: 'pk_test_zScuAdL8ZCULuob3sbgWfnzw',
 };
 
 
