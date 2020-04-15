@@ -1,9 +1,12 @@
 ﻿using Backend.Business.Dashboard.Models;
+using Backend.Common;
 using Backend.Domain;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
+using Backend.Infrastructure.Interfaces;
+using Backend.Library.AmazonS3.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Infrastructure.Interfaces;
 
 namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
 {
@@ -19,11 +21,13 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
     {
         private readonly IApplicationDbContext _context;
         private readonly IActivityService _activityService;
+        private readonly IS3Service _s3Service;
 
-        public GetUserFeedRequestHandler(IApplicationDbContext context, IActivityService activityService)
+        public GetUserFeedRequestHandler(IApplicationDbContext context, IActivityService activityService, IS3Service s3Service)
         {
             _context = context;
             _activityService = activityService;
+            _s3Service = s3Service;
         }
 
 
@@ -36,14 +40,14 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                 if (user == null)
                     throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
-                var athletes = new List<(Guid id, string name)>();
+                var athletes = new List<(Guid id, string name, string avatar)>();
                 if (user.AccountType == AccountType.Coach)
                 {
                     athletes.AddRange((await _context.Athletes
                             .Where(x => x.CoachId == request.UserId)
-                            .Select(x => new { x.Id, x.FullName })
+                            .Select(x => new { x.Id, x.FullName, x.Avatar })
                             .ToListAsync(cancellationToken)
-                        ).Select(x => (x.Id, x.FullName))
+                        ).Select(x => (x.Id, x.FullName, x.Avatar))
                     );
                 }
 
@@ -63,18 +67,24 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
             }
         }
 
-        private async Task<IEnumerable<Activity>> GetActivities(IEnumerable<AuditRecord> audits, UserSetting settings, IEnumerable<(Guid id, string name)> athletes)
+        private async Task<IEnumerable<Activity>> GetActivities(IEnumerable<AuditRecord> audits, UserSetting settings, IEnumerable<(Guid id, string name, string avatar)> athletes)
         {
             var activities = new List<Activity>();
             foreach (var audit in audits)
             {
+                var user = athletes.First(x => x.id == audit.UserId);
+
+                // refresh avatar
+                if (!GenericAvatarConstructor.IsGenericAvatar(user.avatar) && _s3Service.CheckIfPresignedUrlIsExpired(user.avatar))
+                    user.avatar = await _s3Service.GetPresignedUrlAsync(user.avatar);
+
                 var activity = new Activity()
                 {
                     Date = audit.Date,
                     Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                     UserId = audit.UserId,
-                    UserName = athletes.First(x => x.id == audit.UserId).name.Trim(),
-                    //Message = await _activityService.GetPayload(audit, settings),
+                    UserName = user.name.Trim(),
+                    UserAvatar = user.avatar,
                     JsonEntity = await _activityService.GetEntityAsJson(audit)
                 };
 

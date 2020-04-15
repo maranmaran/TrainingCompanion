@@ -1,13 +1,15 @@
 ﻿using Backend.Business.Dashboard.Models;
+using Backend.Common;
 using Backend.Domain.Entities.Auditing;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Interfaces;
+using Backend.Infrastructure.Interfaces;
+using Backend.Library.AmazonS3.Interfaces;
 using Backend.Library.Logging.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using Backend.Infrastructure.Interfaces;
 
 namespace Backend.Business.Dashboard.Services
 {
@@ -16,9 +18,11 @@ namespace Backend.Business.Dashboard.Services
         private readonly IHubContext<FeedHub, IFeedHub> _hub;
         private readonly ILoggingService _logger;
         private readonly IActivityService _activityService;
+        private readonly IS3Service _s3Service;
 
         public FeedAuditPusher(IServiceProvider provider)
         {
+            _s3Service = provider.GetService<IS3Service>();
             _activityService = provider.GetService<IActivityService>();
             _hub = provider.GetService<IHubContext<FeedHub, IFeedHub>>();
             _logger = provider.GetService<ILoggingService>();
@@ -40,13 +44,19 @@ namespace Backend.Business.Dashboard.Services
 
         internal async Task<Activity> GetActivity(AuditRecord audit, ApplicationUser user)
         {
+            var avatar = user.Avatar;
+            if (!GenericAvatarConstructor.IsGenericAvatar(avatar) && _s3Service.CheckIfPresignedUrlIsExpired(avatar))
+            {
+                avatar = await _s3Service.GetPresignedUrlAsync(avatar);
+            }
+
             var activity = new Activity()
             {
                 Date = audit.Date,
                 Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                 UserId = audit.UserId,
                 UserName = user.FullName,
-                //Message = await _activityService.GetPayload(audit, user.UserSetting),
+                UserAvatar = avatar,
                 JsonEntity = await _activityService.GetEntityAsJson(audit)
             };
 

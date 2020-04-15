@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
+import { userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { Activity } from '../../models/activity.model';
@@ -18,7 +18,6 @@ export class FeedComponent implements OnInit {
 
   activities: Observable<Activity[]>;
   unitSystem: Observable<UnitSystem>;
-  avatar: Observable<string>;
   activityType = ActivityType;
 
   constructor(
@@ -27,7 +26,6 @@ export class FeedComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.avatar = this.store.select(currentUser).pipe(map(user => user.avatar));
     this.activities = this.store.select(activities)
     this.unitSystem = this.store.select(userSetting).pipe(map(setting => setting.unitSystem));
   }

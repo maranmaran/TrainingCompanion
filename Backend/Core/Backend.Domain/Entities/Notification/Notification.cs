@@ -23,6 +23,7 @@ namespace Backend.Domain.Entities.Notification
 
         public Guid? SenderId { get; set; }
         public virtual ApplicationUser Sender { get; set; }
+        public string SenderAvatar { get; set; }
 
         public Guid? ReceiverId { get; set; }
         public virtual ApplicationUser Receiver { get; set; }

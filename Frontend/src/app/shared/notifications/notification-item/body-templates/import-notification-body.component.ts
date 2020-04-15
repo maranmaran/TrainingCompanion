@@ -23,7 +23,11 @@ export class ImportNotificationBodyComponent implements OnInit {
 
     }
 
-    this.message = this.translateService.instant('NOTIFICATIONS.IMPORT_MESSAGE', params);
+    if(this.notification.entity.Success) {
+      this.message = this.translateService.instant('NOTIFICATIONS.IMPORT_MESSAGE_SUCCESS', params);
+    } else {
+      this.message = this.translateService.instant('NOTIFICATIONS.IMPORT_MESSAGE_FAILURE', params);
+    }
   }
 
 }

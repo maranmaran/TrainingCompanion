@@ -156,6 +156,10 @@
     "DELETE_PROPERTY_SELECTION": "",
     "DELETE_PROPERTY_TITLE": ""
   },
+  "LANGUAGES": {
+    "ENGLISH": "English",
+    "CROATIAN": "Croatian"
+  },
   "SETTINGS": {
     "SETTINGS_LABEL": "Settings",
     "GENERAL_LABEL": "General",

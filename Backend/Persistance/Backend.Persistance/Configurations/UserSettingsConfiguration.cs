@@ -11,7 +11,9 @@ namespace Backend.Persistance.Configurations
         public void Configure(EntityTypeBuilder<UserSetting> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Language).HasMaxLength(2).HasDefaultValue("en");
+
+            builder.Property(x => x.Language).HasMaxLength(2);
+            builder.Property(x => x.Language).HasDefaultValue("en");
 
             builder.Property(x => x.Theme)
                 .HasDefaultValue(Themes.Light)

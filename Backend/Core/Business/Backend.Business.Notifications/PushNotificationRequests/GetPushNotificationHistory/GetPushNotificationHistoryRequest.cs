@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using Backend.Domain.Entities.Notification;
+﻿using Backend.Domain.Entities.Notification;
 using MediatR;
+using System;
+using System.Collections.Generic;
 
 namespace Backend.Business.Notifications.PushNotificationRequests.GetPushNotificationHistory
 {
-    public class GetPushNotificationHistoryRequest : IRequest<IQueryable<Notification>>
+    public class GetPushNotificationHistoryRequest : IRequest<IEnumerable<Notification>>
     {
         public Guid UserId { get; set; }
         public int Page { get; set; }
