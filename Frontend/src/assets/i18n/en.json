@@ -42,7 +42,11 @@
     "PROFILE_LABEL": "Profile"
   },
   "DASHBOARD": {
+<<<<<<< HEAD
     "SAVE_DASHBOARD": "Save customization",
+=======
+    "REMOVE_TRACK_ITEM": "Remove chart from track",
+>>>>>>> da69dbb26dc43e117b48a84ab4c1550084f8df28
     "FEED": {
       "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",
       "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> logged a new bodyweight value of {{value}}.",

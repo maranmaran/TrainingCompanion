@@ -42,7 +42,11 @@
     "PROFILE_LABEL": "Profil"
   },
   "DASHBOARD": {
+<<<<<<< HEAD
     "SAVE_DASHBOARD": "Spremi promjene",
+=======
+    "REMOVE_TRACK_ITEM": "Izbriši graf iz trake",
+>>>>>>> da69dbb26dc43e117b48a84ab4c1550084f8df28
     "FEED": {
       "MEDIA_MESSAGE": "<b>{{username}}</b> je dodao/la novu multimedijsku datoteku.",
       "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> je dodao/la novi zapis tjelesne težine od {{value}}.",
