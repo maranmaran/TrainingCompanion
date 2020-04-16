@@ -97,7 +97,7 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
     let tracks = _.cloneDeep(state.tracks);
 
     tracks[payload.idx].items.forEach((i, index) => {
-      if (i == payload.item) {
+      if (i.id == payload.item.id) {
         tracks[payload.idx].items.splice(index, 1);
       }
     });
