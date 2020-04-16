@@ -44,6 +44,7 @@
   "DASHBOARD": {
     "SAVE_DASHBOARD": "Spremi promjene",
     "REMOVE_TRACK_ITEM": "Izbriši graf iz trake",
+    "MOVE_TRACK_ITEM": "Repozicioniraj graf",
     "FEED": {
       "MEDIA_MESSAGE": "<b>{{username}}</b> je dodao/la novu multimedijsku datoteku.",
       "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> je dodao/la novi zapis tjelesne težine od {{value}}.",

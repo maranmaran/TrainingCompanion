@@ -1,5 +1,5 @@
 <mat-tab-group *ngIf="activeNavigation == navigation.Main" [selectedIndex]="mainIndex" (selectedTabChange)="onMainChange($event)"
-#main headerPosition="below" mat-stretch-tabs [disablePagination]="true">
+#main headerPosition="below" mat-stretch-tabs [disablePagination]="true" [color]="'accent'">
   <ng-container *ngFor="let link of mainLinks">
 
     <mat-tab *ngIf="link.canNavigate" [active]="link.routeActive">
@@ -14,7 +14,7 @@
 </mat-tab-group>
 
 <mat-tab-group *ngIf="activeNavigation == navigation.Chat" [selectedIndex]="chatIndex" (selectedTabChange)="onChatChange($event)"
-#chat headerPosition="below" mat-stretch-tabs [disablePagination]="true">
+#chat headerPosition="below" mat-stretch-tabs [disablePagination]="true" [color]="'accent'">
   <ng-container *ngFor="let link of chatLinks">
 
     <mat-tab *ngIf="link.canNavigate" [active]="link.routeActive">

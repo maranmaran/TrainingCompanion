@@ -16,17 +16,14 @@
         <div *ngSwitchCase="dashboardCards.Volume">
           <h3><b>Track volume:</b></h3>
           <app-chart [configuration]="volumeChartPreviewConfiguration"></app-chart>
-          <mat-divider></mat-divider>
         </div>
         <div class="mt-2" *ngSwitchCase="dashboardCards.Max">
           <h3><b>Track max progression:</b></h3>
           <app-chart [configuration]="maxChartPreviewConfiguration"></app-chart>
-          <mat-divider></mat-divider>
         </div>
         <div class="mt-2" *ngSwitchCase="dashboardCards.Test">
           <h3><b>Test pie chart:</b></h3>
           <app-chart [configuration]="pieChart"></app-chart>
-          <mat-divider></mat-divider>
         </div>
       </ng-container>
     </div>
