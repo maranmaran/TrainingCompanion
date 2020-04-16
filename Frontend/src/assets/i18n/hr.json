@@ -42,6 +42,7 @@
     "PROFILE_LABEL": "Profil"
   },
   "DASHBOARD": {
+    "SAVE_DASHBOARD": "Spremi promjene",
     "FEED": {
       "MEDIA_MESSAGE": "<b>{{username}}</b> je dodao/la novu multimedijsku datoteku.",
       "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> je dodao/la novi zapis tjelesne težine od {{value}}.",
