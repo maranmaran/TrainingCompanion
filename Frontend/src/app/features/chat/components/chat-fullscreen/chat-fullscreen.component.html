@@ -12,7 +12,7 @@
 </mat-drawer-container>
 
 <!--MOBILE-->
-<mat-tab-group #tabs mat-stretch-tabs *ngIf="mediaObserver.isActive('lt-md')" headerPosition="below" dynamicHeight>
+<mat-tab-group #tabs mat-stretch-tabs *ngIf="mediaObserver.isActive('lt-md')" headerPosition="below" dynamicHeight [color]="'accent'">
 
   <mat-tab #chatTab>
     <ng-template mat-tab-label>

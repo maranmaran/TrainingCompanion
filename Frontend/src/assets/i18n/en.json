@@ -44,6 +44,7 @@
   "DASHBOARD": {
     "SAVE_DASHBOARD": "Save customization",
     "REMOVE_TRACK_ITEM": "Remove chart from track",
+    "MOVE_TRACK_ITEM": "Reposition track item",
     "FEED": {
       "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",
       "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> logged a new bodyweight value of {{value}}.",

@@ -1,20 +1,23 @@
-import { MatDialogRef } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from "lodash";
 import { concatMap, map, take } from 'rxjs/operators';
+import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
-import { TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableAction, TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
-import { exerciseTypesFetched, setSelectedExerciseType, exerciseTypeUpdated } from 'src/ngrx/exercise-type/exercise-type.actions';
+import { exerciseTypesFetched, exerciseTypeUpdated, setSelectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.actions';
 import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/update-exercise-type.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
@@ -25,9 +28,6 @@ import { currentUserId } from './../../../../../ngrx/auth/auth.selectors';
 import { ExerciseTypePreviewComponent } from './../../../../shared/custom-preview-components/exercise-type-preview/exercise-type-preview.component';
 import { PagingModel } from './../../../../shared/material-table/table-models/paging.model';
 import { ExerciseTypeCreateEditComponent } from './../exercise-type-create-edit/exercise-type-create-edit.component';
-import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
-import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/update-exercise-type.request';
-import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'app-exercise-type-list',
@@ -83,7 +83,8 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       filterFunction: (data: ExerciseType, filter: string) => data.name.toLocaleLowerCase().indexOf(filter) !== -1,
       pagingOptions: new TablePagingOptions({
         serverSidePaging: true
-      })
+      }),
+      cellActions: [TableAction.update, TableAction.delete]
     });
 
     return tableConfig;

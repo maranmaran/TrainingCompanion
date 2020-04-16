@@ -1,6 +1,6 @@
+import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { Gender } from 'src/server-models/enums/gender.enum';
-import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 
 export class UpdateUserRequest {
     accountType: AccountType;
@@ -13,7 +13,7 @@ export class UpdateUserRequest {
     active: boolean;
 }
 
-export function GetUpdateUserRequest(user: ApplicationUser) {
+export function getUpdateUserRequest(user: ApplicationUser) {
 
     var request = new UpdateUserRequest();
     request.accountType = user.accountType;
