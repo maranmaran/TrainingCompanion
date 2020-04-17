@@ -46,11 +46,11 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
         public string Description { get; set; }
 
         public int DurationInDays { get; set; }
-        public virtual ICollection<Day> Days { get; set; } = new HashSet<Day>();
+        public virtual ICollection<TrainingBlockDay> Days { get; set; } = new HashSet<TrainingBlockDay>();
     }
 
 
-    public class Day
+    public class TrainingBlockDay
     {
         public bool RestDay { get; set; }
 
