@@ -3,6 +3,7 @@ using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.TrainingLog;
+using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Domain.Enum;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace Backend.Domain.Entities.User
         public virtual ICollection<ExerciseType> ExerciseTypes { get; set; } = new HashSet<ExerciseType>();
         public virtual ICollection<Training> Trainings { get; set; } = new HashSet<Training>();
         public virtual ICollection<Bodyweight> Bodyweights { get; set; } = new HashSet<Bodyweight>();
+        public virtual ICollection<TrainingProgramUser> TrainingPrograms { get; set; } = new HashSet<TrainingProgramUser>();
 
         /// <summary>
         /// Exercise types properties

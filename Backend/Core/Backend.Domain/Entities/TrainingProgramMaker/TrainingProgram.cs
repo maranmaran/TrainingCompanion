@@ -3,7 +3,7 @@ using Backend.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
 
-namespace Backend.Domain.Entities.ProgramMaker
+namespace Backend.Domain.Entities.TrainingProgramMaker
 {
     public class TrainingProgram
     {
@@ -17,7 +17,7 @@ namespace Backend.Domain.Entities.ProgramMaker
         public virtual ApplicationUser Creator { get; set; }
 
         // has multiple ...
-        public virtual ICollection<TrainingBlock> Blocks { get; set; } = new HashSet<TrainingBlock>();
+        public virtual ICollection<TrainingBlock> TrainingBlocks { get; set; } = new HashSet<TrainingBlock>();
 
         // is assigned to multiple...
         public virtual ICollection<TrainingProgramUser> Users { get; set; }
@@ -29,7 +29,8 @@ namespace Backend.Domain.Entities.ProgramMaker
     public class TrainingProgramUser
     {
         public DateTime StartedOn { get; set; }
-        public DateTime EndedOn { get; set; }
+        public DateTime? EndedOn { get; set; }
+        public bool IsActive => !EndedOn.HasValue;
 
         public Guid TrainingProgramId { get; set; }
         public virtual TrainingProgram Training { get; set; }
