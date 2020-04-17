@@ -34,6 +34,12 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 
+        [HttpGet("{exerciseTypeId}")]
+        public async Task<IActionResult> Get(Guid exerciseTypeId, CancellationToken cancellationToken = default)
+        {
+            return Ok(await Mediator.Send(new GetExerciseTypeRequest(exerciseTypeId), cancellationToken));
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateExerciseTypeRequest request, CancellationToken cancellationToken = default)

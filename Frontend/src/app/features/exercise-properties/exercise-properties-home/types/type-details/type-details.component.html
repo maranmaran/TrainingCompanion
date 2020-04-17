@@ -4,6 +4,12 @@
 
         <span>{{type.type}}</span>
 
+        <span>
+            <button *ngIf="type.active" mat-stroked-button color="accent"
+                (click)="onSetActive(false)">{{ 'SHARED.DEACTIVATE' | translate}}</button>
+            <button *ngIf="!type.active" mat-stroked-button color="accent"
+                (click)="onSetActive(true)">{{ 'SHARED.ACTIVATE' | translate}}</button>
+        </span>
     </h1>
 
     <mat-divider></mat-divider>

@@ -2,7 +2,8 @@
   <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem" fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
 
     <mat-form-field fxFlexOrder.lt-md="2" fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
-      <input matInput placeholder="{{'DASHBOARD.CARDS.VOLUME_CARD.EXERCISE_TYPE' | translate}}" [matAutocomplete]="auto" [formControl]="exerciseType">
+      <input matInput placeholder="{{'DASHBOARD.CARDS.VOLUME_CARD.EXERCISE_TYPE' | translate}}" [matAutocomplete]="auto"
+        [formControl]="exerciseType">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
         <mat-option *ngIf="isLoading">
           <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
@@ -50,6 +51,6 @@
 </div>
 
 <div *ngIf="error" fxLayout="column" class="h-100 w-100" fxLayoutAlign="center center">
-  <h2>Could not render chart</h2>
+  <h2>{{'DASHBOARD.COULD_NOT_RENDER' | translate}}</h2>
   <h3 *ngIf="details">{{details}}</h3>
 </div>

@@ -6,9 +6,9 @@
 
         <span>
             <button *ngIf="athlete.active" mat-stroked-button color="accent"
-                (click)="onSetActive(false)">{{ 'ATHLETE_MANAGEMENT.DEACTIVATE' | translate}}</button>
+                (click)="onSetActive(false)">{{ 'SHARED.DEACTIVATE' | translate}}</button>
             <button *ngIf="!athlete.active" mat-stroked-button color="accent"
-                (click)="onSetActive(true)">{{ 'ATHLETE_MANAGEMENT.ACTIVATE' | translate}}</button>
+                (click)="onSetActive(true)">{{ 'SHARED.ACTIVATE' | translate}}</button>
         </span>
     </h1>
 
@@ -53,11 +53,12 @@
 
         </div>
 
-        <div class="avatar-container" fxFlexOrder.lt-sm="1" fxFlex="1 0 auto" fxFlex.lt-sm="0 0 100%" fxFlexAlign="center">
+        <div class="avatar-container" fxFlexOrder.lt-sm="1" fxFlex="1 0 auto" fxFlex.lt-sm="0 0 100%"
+            fxFlexAlign="center">
             <img class="img-fluid avatar-img" style="max-width: 10rem" src="{{athlete.avatar}}" />
         </div>
 
     </div>
 
     <div class="details-footer">
-        </div>
+    </div>

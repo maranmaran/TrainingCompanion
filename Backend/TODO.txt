@@ -1,23 +1,60 @@
-1. Add details section for both exercise types and exercise properties
-2. Make CRUD on properties (frontend and backend)
- - This includes validation
-3. Make CRUD on exercise types (frontend and backend)
- - This includes validation
-4. Add description properties to exercise property type and exercise property
-6. PREFETCH first trainings for trianing calendar... maybe keep user settings and remember his last things ?
-7. Propagate exercise types to all sub athletes of a coach
+1. Add details section for both exercise types and exercise properties - DONE
+2. Make CRUD on properties (frontend and backend) - DONE
+ - This includes validation - DONE
+3. Make CRUD on exercise types (frontend and backend) - DONE
+ - This includes validation - DONE
+4. Add description properties to exercise property type and exercise property - TODO
+6. PREFETCH first trainings for trianing calendar... maybe keep user settings and remember his last things ? - NO
+7. Propagate exercise types to all sub athletes of a coach - TODO
 
 
 === 15.03.2020 ===
-Figure out last metric for training details ?
-Figure out metrics for dashboard
+Figure out last metric for training details ? - NO
+Figure out metrics for dashboard - (VOLUME, MAX FOR NOW... Plug and play mostly.. will do this later)
 Make sure athletes inherit coach exercises on creation
 
 Priorities ?:
 	Max tracking + graph.. make tabs perhaps for mobile or new screen route navigation on web
-	i18n?
-	Caching?
-	Service worker?
-	Animations?
-	a11y?
-	Integration with myfitnesspal
+	i18n? - DONE
+	Caching? - DONE
+	Service worker? - NO
+	Animations? - TODO but low prio
+	a11y? - who cares..
+	Integration with myfitnesspal - no
+
+
+
+17.04 TODO UPDATE
+- Make sure athletes inherit coach exercises on creation 
+ -> why wouldn't they use coach exercise types... and then when using all data just query by id..
+ -> if we just copy them to athlete.. that means we have to also maintain them when coach updates exercise type
+
+- Propagate exercise types to all sub athletes of a coach
+- Add description properties to exercise property type and exercise property
+- ADD Activate/Deactivate feature on exercise types and properties
+- Go over each workflow to ensure they are all working
+- Make support for percentages
+- Make weekend view of trainings
+- Make list view of trainings
+- Import of trainings
+- Export of trainings, exercise types, bodyweight
+- Program builder
+- See where and how you will put Personal Bests inside application
+- Help page
+- Athlete UI and experience
+- Solo athlete UI and experience
+- Groups support?
+- Register page
+- Animations? - TODO but low prio
+
+Bigger priority.. functionality!
+- Program builder
+- Go over each workflow to ensure they are all working
+- Make support for percentages
+- Athlete UI and experience
+- Solo athlete UI and experience
+- Make sure athletes inherit coach exercises on creation 
+ -> why wouldn't they use coach exercise types... and then when using all data just query by id..
+ -> if we just copy them to athlete.. that means we have to also maintain them when coach updates exercise type
+
+- Propagate exercise types to all sub athletes of a coach
