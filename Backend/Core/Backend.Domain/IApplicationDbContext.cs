@@ -6,6 +6,7 @@ using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.TrainingLog;
+using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Entities.User.Dashboard;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,13 @@ namespace Backend.Domain
         DbSet<AuditRecord> Audits { get; set; }
 
 
+        #region Program maker
+
+        DbSet<TrainingProgram> TrainingPrograms { get; set; }
+        DbSet<TrainingBlock> TrainingBlocks { get; set; }
+        DbSet<TrainingBlockDay> TrainingBlockDays { get; set; }
+
+        #endregion
 
         #region Exercise type + Properties
 
