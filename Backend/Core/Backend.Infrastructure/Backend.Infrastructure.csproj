@@ -19,24 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\EmailTemplates\Registration\Coach\" />
-    <Folder Include="Assets\EmailTemplates\Registration\SoloAthlete\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Libraries\Backend.Library.Logging\Backend.Library.Logging.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Assets\EmailTemplates\Images\logo.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\EmailTemplates\Registration\Athlete\NewAthleteRegisterTemplate - Development.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\EmailTemplates\Registration\Athlete\NewAthleteRegisterTemplate - Production.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
