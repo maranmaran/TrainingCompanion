@@ -10,7 +10,8 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Image { get; set; }
+        public string ImageUrl { get; set; }
+        public string ImageFtpFilePath { get; set; }
 
         // has one...
         public Guid CreatorId { get; set; }
@@ -28,12 +29,14 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
     // and one program can be assigned to multiple users
     public class TrainingProgramUser
     {
+        public Guid Id { get; set; }
+
         public DateTime StartedOn { get; set; }
         public DateTime? EndedOn { get; set; }
         public bool IsActive => !EndedOn.HasValue;
 
         public Guid TrainingProgramId { get; set; }
-        public virtual TrainingProgram Training { get; set; }
+        public virtual TrainingProgram TrainingProgram { get; set; }
 
         public Guid ApplicationUserId { get; set; }
         public virtual ApplicationUser User { get; set; }
@@ -42,6 +45,7 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
 
     public class TrainingBlock
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -52,6 +56,7 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
 
     public class TrainingBlockDay
     {
+        public Guid Id { get; set; }
         public bool RestDay { get; set; }
 
         // if it's not rest day.. then it most certainly has...
