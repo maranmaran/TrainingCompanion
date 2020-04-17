@@ -1,31 +1,34 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Library.Email;
 using Backend.Library.Email.Interfaces;
 using Backend.Library.Email.Models;
+using Backend.Library.Logging.Interfaces;
 using MediatR;
 using MimeKit;
 using MimeKit.Utils;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.SendRegistrationEmail
 {
     public class SendRegistrationEmailRequestHandler : IRequestHandler<SendRegistrationEmailRequest, Unit>
     {
         private readonly IEmailService _emailService;
-        private readonly IMapper _mapper;
+        private readonly ILoggingService _logger;
         private readonly EmailSettings _emailSettings;
+        private readonly AppSettings _appSettings;
 
-        public SendRegistrationEmailRequestHandler(IEmailService emailService, EmailSettings emailSettings, IMapper mapper)
+        public SendRegistrationEmailRequestHandler(IEmailService emailService, EmailSettings emailSettings, AppSettings appSettings, ILoggingService logger)
         {
             _emailService = emailService;
             _emailSettings = emailSettings;
-            _mapper = mapper;
+            _appSettings = appSettings;
+            _logger = logger;
         }
 
         public async Task<Unit> Handle(SendRegistrationEmailRequest request, CancellationToken cancellationToken)
@@ -63,14 +66,16 @@ namespace Backend.Business.Authorization.AuthorizationRequests.SendRegistrationE
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Could not send registration email for {request.AccountType}", e);
+                var message = $"Could not send registration email for {request.AccountType}";
+                await _logger.LogWarning(e, message);
+                throw new InvalidOperationException(message, e);
             }
         }
 
         private EmailMessage GetRegistrationEmailMessage(Athlete athlete)
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                       "/Assets/EmailTemplates/Registration/Athlete/NewAthleteRegisterTemplate - Development.html";
+                       "/Assets/EmailTemplates/Registration/Athlete/NewAthleteRegisterTemplate.html";
             var logoPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
                            "/Assets/EmailTemplates/Images/logo.jpg";
 
@@ -84,6 +89,7 @@ namespace Backend.Business.Authorization.AuthorizationRequests.SendRegistrationE
             templateBody = templateBody.Replace("{{coachName}}", athlete.Coach.FullName);
             templateBody = templateBody.Replace("{{athleteId}}", athlete.Id.ToString());
             templateBody = templateBody.Replace("{{imageContentId}}", logoImage.ContentId);
+            templateBody = templateBody.Replace("{{frontendDomain}}", _appSettings.FrontendDomain);
 
             bodyBuilder.HtmlBody = templateBody;
 
