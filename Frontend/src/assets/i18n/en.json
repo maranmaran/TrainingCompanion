@@ -218,7 +218,8 @@
     "EXERCISES": "Exercises",
     "TRAINING_LOG": "Training log",
     "EXPORT_IMPORT": "Export / Import",
-    "BODYWEIGHT": "Bodyweight"
+    "BODYWEIGHT": "Bodyweight",
+    "TRAINING_PROGRAM": "Training programs"
   },
   "PAGINATOR": {
     "ITEMS_PER_PAGE_LABEL": "Items per page",
