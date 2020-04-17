@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.Exercises.ExerciseTypeRequests.GetPaged;
 
 namespace Backend.API.Controllers
 {
