@@ -218,7 +218,8 @@
     "EXERCISES": "Popis vježbi",
     "TRAINING_LOG": "Dnevnik treninga",
     "EXPORT_IMPORT": "Uvoz / izvoz podataka",
-    "BODYWEIGHT": "Tjelesna težina"
+    "BODYWEIGHT": "Tjelesna težina",
+    "TRAINING_PROGRAM": "Programi treninga"
   },
   "PAGINATOR": {
     "ITEMS_PER_PAGE_LABEL": "Broj redaka",

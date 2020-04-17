@@ -25,6 +25,7 @@ const routes: Routes = [
                     { path: 'bodyweight', loadChildren: () => import('src/app/features/bodyweight/bodyweight.module').then(mod => mod.BodyweightModule) },
                     { path: 'personal-best', loadChildren: () => import('src/app/features/personal-best/personal-best.module').then(mod => mod.PersonalBestModule) },
                     { path: 'chat', loadChildren: () => import('src/app/features/chat/chat.module').then(mod => mod.ChatModule) },
+                    { path: 'training-program', loadChildren: () => import('src/app/features/training-program/training-program.module').then(mod => mod.TrainingProgramModule) },
                 ]
             },
             {
