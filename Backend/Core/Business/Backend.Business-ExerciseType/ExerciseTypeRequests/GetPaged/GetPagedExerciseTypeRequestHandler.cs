@@ -1,16 +1,16 @@
-﻿using Backend.Common;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Backend.Common;
 using Backend.Common.Extensions;
 using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Backend.Business.Exercises.ExerciseTypeRequests.Get
+namespace Backend.Business.Exercises.ExerciseTypeRequests.GetPaged
 {
     public class GetPagedExerciseTypeRequestHandler : IRequestHandler<GetPagedExerciseTypeRequest, PagedList<ExerciseType>>
     {
