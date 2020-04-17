@@ -5,7 +5,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import * as _ from "lodash";
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, skip, filter, map, tap } from 'rxjs/operators';
 import { Country } from 'src/business/shared/models/country.model';
 import { SupportedLanguages } from 'src/business/shared/supported-languages.enum';
 import { Theme } from 'src/business/shared/theme.enum';
@@ -38,6 +38,7 @@ export class GeneralComponent implements OnInit {
   supportedLanguages = SupportedLanguages;
   supportedCountryLanguages: Observable<Country[]>;
   language = new FormControl('language');
+  selectedCountryLanguageFlag: string;
 
   subs = new SubSink();
 
@@ -50,10 +51,13 @@ export class GeneralComponent implements OnInit {
     this.getSupportedLanguages();
 
     this.subs.add(
-      this.language.valueChanges.subscribe(value => {
+      // skip(1) because of initial value
+      // so we don't trigger save on every open of settings
+      this.language.valueChanges.pipe(skip(1)).subscribe(value => {
         this.userSetting.language = value;
+        this.getCountryFlag(value);
         this.store.dispatch(updateUserSetting(this.userSetting));
-        this.store.dispatch(setLanguage({language: this.userSetting.language}))
+        this.store.dispatch(setLanguage({ language: this.userSetting.language }))
       })
     )
 
@@ -61,11 +65,21 @@ export class GeneralComponent implements OnInit {
       .subscribe((userSetting: UserSetting) => {
         this.userSetting = { ...userSetting };
         this.language.setValue(this.userSetting.language);
+        this.getCountryFlag(this.userSetting.language);
       });
   }
 
   getSupportedLanguages() {
     this.supportedCountryLanguages = this.countryService.getCountriesByCodes('us', 'hr');
+  }
+
+  getCountryFlag(language: string) {
+    this.supportedCountryLanguages.pipe(
+      map(countries => {
+        var country = countries.filter(c => c.languages[0].iso639_1 == language)[0];
+        return country.flag;
+      }
+      )).subscribe(flag => this.selectedCountryLanguageFlag = flag);
   }
 
   get themeButtonChecked(): boolean { return this.userSetting.theme == Theme.Dark; }
