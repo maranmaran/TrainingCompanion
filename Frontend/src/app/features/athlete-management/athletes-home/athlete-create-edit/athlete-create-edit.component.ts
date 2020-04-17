@@ -58,8 +58,8 @@ export class AthleteCreateEditComponent implements OnInit {
   get email(): AbstractControl { return this.form.get('email'); }
   get username(): AbstractControl { return this.form.get('username'); }
 
-  get emailErrors(): string[] { return Object.values(this.email.errors)}
-  get usernameErrors(): string[] { return Object.values(this.username.errors)}
+  get emailErrors(): string[] { return Object.values(this.email.errors) }
+  get usernameErrors(): string[] { return Object.values(this.username.errors) }
 
   onGenderChange(event: MatSlideToggleChange) {
     if (event.checked) this.athlete.gender = Gender.Male;
@@ -127,6 +127,7 @@ export class AthleteCreateEditComponent implements OnInit {
     request.username = this.username.value;
     request.gender = this.athlete.gender;
     request.active = this.athlete.active;
+    request.accountType = AccountType.Athlete;
 
     this.userService.update(request)
       .subscribe(

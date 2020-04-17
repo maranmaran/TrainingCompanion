@@ -14,7 +14,7 @@ export class TagService extends CrudService<Tag> {
     }
 
     public getAll(userId?: string, typeId?: string) {
-        return this.http.get<Tag[]>(this.url + 'GetAll/' + userId + '/' + typeId)
+        return this.http.get<Tag[]>(`${this.url}GetAll/${userId}/${typeId}`)
             .pipe(
                 catchError(this.handleError)
             );

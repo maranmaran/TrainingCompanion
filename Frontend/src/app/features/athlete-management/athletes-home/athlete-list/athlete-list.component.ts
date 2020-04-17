@@ -59,7 +59,8 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   getTableConfig() {
     const tableConfig = new TableConfig({
       filterFunction: (data: ApplicationUser, filter: string) => data.fullName.toLocaleLowerCase().indexOf(filter) !== -1,
-      cellActions: [TableAction.update, TableAction.delete]
+      cellActions: [TableAction.update, TableAction.delete],
+      selectionEnabled: false
     });
 
     return tableConfig;
