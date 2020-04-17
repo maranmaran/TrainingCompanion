@@ -4,95 +4,98 @@
 
         <span>{{type.name}}</span>
 
+        <span>
+            <button *ngIf="type.active" mat-stroked-button color="accent"
+                (click)="onSetActive(false)">{{ 'SHARED.DEACTIVATE' | translate}}</button>
+            <button *ngIf="!type.active" mat-stroked-button color="accent"
+                (click)="onSetActive(true)">{{ 'SHARED.ACTIVATE' | translate}}</button>
+        </span>
     </h1>
 
     <mat-divider></mat-divider>
 
     <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
 
-    <div fxLayout="row" fxLayoutGap="4rem" fxLayout.lt-sm="row">
+        <div fxLayout="row" fxLayoutGap="4rem" fxLayout.lt-sm="row">
 
-        <div fxLayout="row" fxLayoutGap="0.5rem">
+            <div fxLayout="row" fxLayoutGap="0.5rem">
 
-            <div gdArea="left-label">
-                <div class="detail">
-                    <mat-label class="label">{{'SHARED.ACTIVE' | translate }}:</mat-label>
+                <div gdArea="left-label">
+                    <div class="detail">
+                        <mat-label class="label">{{'SHARED.ACTIVE' | translate }}:</mat-label>
 
+                    </div>
+                    <div class="detail">
+                        <mat-label class="label">{{'EXERCISE_TYPES.BODYWEIGHT' | translate}}:</mat-label>
+
+                    </div>
+                    <div class="detail">
+                        <mat-label class="label">{{'EXERCISE_TYPES.TIME' | translate}}:</mat-label>
+                    </div>
                 </div>
-                <div class="detail">
-                    <mat-label class="label">{{'EXERCISE_TYPES.BODYWEIGHT' | translate}}:</mat-label>
 
+                <div gdArea="left-value">
+                    <div class="detail">
+                        <span class="label-value">
+                            <app-active-flag [active]="type.active"></app-active-flag>
+                        </span>
+                    </div>
+                    <div class="detail">
+                        <span class="label-value">
+                            <app-active-flag [active]="type.requiresBodyweight"></app-active-flag>
+                        </span>
+                    </div>
+                    <div class="detail">
+                        <span class="label-value">
+                            <app-active-flag [active]="type.requiresTime"></app-active-flag>
+                        </span>
+                    </div>
                 </div>
-                <div class="detail">
-                    <mat-label class="label">{{'EXERCISE_TYPES.TIME' | translate}}:</mat-label>
-                </div>
+
             </div>
 
-            <div gdArea="left-value">
-                <div class="detail">
-                    <span class="label-value">
-                        <app-active-flag [active]="type.active"></app-active-flag>
-                    </span>
+            <div fxLayout="row" fxLayoutGap="0.5rem">
+
+                <div gdArea="right-label">
+                    <div class="detail">
+                        <mat-label class="label">{{ 'EXERCISE_TYPES.REPS' | translate}}:</mat-label>
+                    </div>
+                    <div class="detail">
+                        <mat-label class="label">{{ 'EXERCISE_TYPES.SETS' | translate}}:</mat-label>
+                    </div>
+                    <div class="detail">
+                        <mat-label class="label">{{ 'EXERCISE_TYPES.WEIGHT' | translate}}:</mat-label>
+                    </div>
                 </div>
-                <div class="detail">
-                    <span class="label-value">
-                        <app-active-flag [active]="type.requiresBodyweight"></app-active-flag>
-                    </span>
+
+                <div gdArea="right-value">
+                    <div class="detail">
+                        <span class="label-value">
+                            <app-active-flag [active]="type.requiresReps"></app-active-flag>
+                        </span>
+                    </div>
+                    <div class="detail">
+                        <span class="label-value">
+                            <app-active-flag [active]="type.requiresSets"></app-active-flag>
+                        </span>
+                    </div>
+                    <div class="detail">
+                        <span class="label-value">
+                            <app-active-flag [active]="type.requiresWeight"></app-active-flag>
+                        </span>
+                    </div>
                 </div>
-                <div class="detail">
-                    <span class="label-value">
-                        <app-active-flag [active]="type.requiresTime"></app-active-flag>
-                    </span>
-                </div>
+
             </div>
 
         </div>
-
-        <div fxLayout="row" fxLayoutGap="0.5rem">
-
-            <div gdArea="right-label">
-                <div class="detail">
-                    <mat-label class="label">{{ 'EXERCISE_TYPES.REPS' | translate}}:</mat-label>
-                </div>
-                <div class="detail">
-                    <mat-label class="label">{{ 'EXERCISE_TYPES.SETS' | translate}}:</mat-label>
-                </div>
-                <div class="detail">
-                    <mat-label class="label">{{ 'EXERCISE_TYPES.WEIGHT' | translate}}:</mat-label>
-                </div>
-            </div>
-
-            <div gdArea="right-value">
-                <div class="detail">
-                    <span class="label-value">
-                        <app-active-flag [active]="type.requiresReps"></app-active-flag>
-                    </span>
-                </div>
-                <div class="detail">
-                    <span class="label-value">
-                        <app-active-flag [active]="type.requiresSets"></app-active-flag>
-                    </span>
-                </div>
-                <div class="detail">
-                    <span class="label-value">
-                        <app-active-flag [active]="type.requiresWeight"></app-active-flag>
-                    </span>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
 
 
         <div class="detail">
             <mat-label class="label">{{ 'EXERCISE_TYPES.PROPS' | translate }}:</mat-label>
             <span class="label-value" style="display: inline-flex">
-                <app-exercise-type-chip-list
-                  [propertyList]="type.properties"
-                  [showInactiveGroups]="true"
-                  [showInactiveTags]="true"
-                ></app-exercise-type-chip-list>
+                <app-exercise-type-chip-list [propertyList]="type.properties" [showInactiveGroups]="true"
+                    [showInactiveTags]="true"></app-exercise-type-chip-list>
             </span>
         </div>
     </div>

@@ -24,5 +24,25 @@ export class TypeDetailsComponent implements OnInit {
     this.tagGroup$ = this.store.select(selectedTagGroup);
   }
 
+  onSetActive(value: boolean) {
+    // this.tag$.pipe(take(1),
+    //   map(tag => Object.assign({}, tag)),
+    //   switchMap(tag => {
+    //     tag.active = value;
+    //     return this.tagsService.update();
+    //   },
+    //     tag => tag
+    //   ),
+    // ).subscribe(
+    //   tagGroup => {
+    //     let updateStatement: Update<TagGroup> = {
+    //       id: tagGroup.id,
+    //       changes: tagGroup
+    //     }
+    //     this.store.dispatch(tagUpdated({ entity: updateStatement }));
+    //   },
+    //   err => console.log(err)
+    // )
+  }
 
 }

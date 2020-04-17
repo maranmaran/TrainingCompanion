@@ -22,7 +22,9 @@
     "FROM": "Od",
     "TO": "Do",
     "SEARCH": "Traži",
-    "VIDEO_NOT_SUPPORTED": "Vaš preglednik ne podržava ovaj tip snimke"
+    "VIDEO_NOT_SUPPORTED": "Vaš preglednik ne podržava ovaj tip snimke",
+    "ACTIVATE": "Aktiviraj",
+    "DEACTIVATE": "Deaktiviraj"
   },
   "NOTIFICATIONS": {
     "BODYWEIGHT_MESSAGE": "je dodao/la novi zapis tjelesne težine od {{value}}",
@@ -42,6 +44,7 @@
     "PROFILE_LABEL": "Profil"
   },
   "DASHBOARD": {
+    "COULD_NOT_RENDER": "Graf se nije uspio pokazati",
     "SAVE_DASHBOARD": "Spremi promjene",
     "REMOVE_TRACK_ITEM": "Izbriši graf iz trake",
     "MOVE_TRACK_ITEM": "Repozicioniraj graf",
@@ -233,8 +236,6 @@
     "PASSWORD": "Lozinka"
   },
   "ATHLETE_MANAGEMENT": {
-    "ACTIVATE": "Aktiviraj",
-    "DEACTIVATE": "Deaktiviraj",
     "JOINED_ON": "Datum dolaska",
     "ACC_STATUS": "Status računa",
     "REGISTER": "Registriraj",

@@ -22,7 +22,9 @@
     "FROM": "From",
     "TO": "To",
     "SEARCH": "Search",
-    "VIDEO_NOT_SUPPORTED": "Your browser does not support this video tag"
+    "VIDEO_NOT_SUPPORTED": "Your browser does not support this video tag",
+    "ACTIVATE": "Activate",
+    "DEACTIVATE": "Deactivate"
   },
   "NOTIFICATIONS": {
     "BODYWEIGHT_MESSAGE": "logged a new bodyweight value of {{value}}",
@@ -42,6 +44,7 @@
     "PROFILE_LABEL": "Profile"
   },
   "DASHBOARD": {
+    "COULD_NOT_RENDER": "Could not render chart",
     "SAVE_DASHBOARD": "Save customization",
     "REMOVE_TRACK_ITEM": "Remove chart from track",
     "MOVE_TRACK_ITEM": "Reposition track item",
@@ -233,8 +236,6 @@
     "PASSWORD": "Password"
   },
   "ATHLETE_MANAGEMENT": {
-    "ACTIVATE": "Activate",
-    "DEACTIVATE": "Deactivate",
     "JOINED_ON": "Joined on",
     "ACC_STATUS": "Account status",
     "REGISTER": "Register",
