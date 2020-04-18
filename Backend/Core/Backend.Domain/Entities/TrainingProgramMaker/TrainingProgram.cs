@@ -49,6 +49,10 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public Guid TrainingProgramId { get; set; }
+        public virtual TrainingProgram TrainingProgram { get; set; }
+
+
         public int DurationInDays { get; set; }
         public virtual ICollection<TrainingBlockDay> Days { get; set; } = new HashSet<TrainingBlockDay>();
     }
@@ -58,6 +62,9 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
     {
         public Guid Id { get; set; }
         public bool RestDay { get; set; }
+
+        public Guid TrainingBlockId { get; set; }
+        public virtual TrainingBlock TrainingBlock { get; set; }
 
         // if it's not rest day.. then it most certainly has...
         public virtual ICollection<Training> Trainings { get; set; }

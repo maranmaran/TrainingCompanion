@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Backend.Domain.Entities.Media;
+﻿using Backend.Domain.Entities.Media;
+using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Domain.Entities.User;
+using System;
+using System.Collections.Generic;
 
 namespace Backend.Domain.Entities.TrainingLog
 {
@@ -16,6 +17,10 @@ namespace Backend.Domain.Entities.TrainingLog
 
         public Guid ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public virtual Guid? TrainingBlockDayId { get; set; }
+        public virtual TrainingBlockDay TrainingBlockDay { get; set; }
+
 
         public virtual ICollection<Exercise> Exercises { get; set; } = new HashSet<Exercise>();
         public virtual ICollection<MediaFile> Media { get; set; } = new HashSet<MediaFile>();
