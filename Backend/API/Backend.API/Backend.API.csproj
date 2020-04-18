@@ -40,6 +40,7 @@
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Notifications\Backend.Business.Notifications.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.ProgressTracking\Backend.Business.ProgressTracking.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.TrainingLog\Backend.Business.TrainingLog.csproj" />
+    <ProjectReference Include="..\..\Core\Business\Backend.Business.TrainingPrograms\Backend.Business.TrainingPrograms.csproj" />
     <ProjectReference Include="..\..\Core\Business\Backend.Business.Users\Backend.Business.Users.csproj" />
     <ProjectReference Include="..\..\Persistance\Backend.Persistance\Backend.Persistance.csproj" />
   </ItemGroup>
