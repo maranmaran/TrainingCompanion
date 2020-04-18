@@ -27,6 +27,11 @@ namespace Backend.Persistance.Configurations
                 .WithOne(x => x.Training);
             // maybe that has one has many config ?
 
+            builder
+                .HasOne(x => x.TrainingBlockDay)
+                .WithMany(x => x.Trainings)
+                .OnDelete(DeleteBehavior.SetNull);
+
             builder.HasIndex(x => x.ApplicationUserId);
 
         }
