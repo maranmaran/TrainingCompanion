@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Backend.Domain;
+using Backend.Domain.Entities.TrainingProgramMaker;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain;
-using Backend.Domain.Entities.TrainingProgramMaker;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Business.TrainingPrograms.TrainingBlockDayRequests.GetAll
 {
@@ -24,7 +24,8 @@ namespace Backend.Business.TrainingPrograms.TrainingBlockDayRequests.GetAll
         {
             try
             {
-                var entities = await _context.TrainingBlockDays.Where(x => x.TrainingBlockId == request.TrainingBlockId)
+                var entities = await _context.TrainingBlockDays
+                    .Where(x => x.TrainingBlockId == request.TrainingBlockId)
                     .ToListAsync(cancellationToken);
 
                 return entities;
