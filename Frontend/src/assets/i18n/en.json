@@ -88,6 +88,16 @@
     "UPDATE_TITLE": "Update bodyweight",
     "WEIGHT": "Weight"
   },
+  "TRAINING_PROGRAM": {
+    "ASSIGN": "Assign program",
+    "DESCRIPTION_LABEL": "Description",
+    "CHANGE_IMAGE": "Upload cover image",
+    "PROGRAM_NAME_LABEL": "Training program",
+    "DELETE_TITLE": "Delete training program",
+    "DELETE_DIALOG": "<p>Are you sure you wish to delete training program {{trainingProgram}}?</p>",
+    "ADD_TITLE": "Add training program",
+    "UPDATE_TITLE": "Update training program"
+  },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Import",
     "LAST_IMPORT": "Last import",

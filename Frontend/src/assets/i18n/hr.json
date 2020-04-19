@@ -88,6 +88,15 @@
     "UPDATE_TITLE": "Uredi težinu",
     "WEIGHT": "Težina"
   },
+  "TRAINING_PROGRAM": {
+    "DESCRIPTION_LABEL": "Opis",
+    "CHANGE_IMAGE": "Dodaj sliku",
+    "PROGRAM_NAME_LABEL": "Trening program",
+    "DELETE_TITLE": "Obriši trening program",
+    "DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening program {{trainingProgram}}?</p>",
+    "ADD_TITLE": "Dodaj trening program",
+    "UPDATE_TITLE": "Uredi trening program"
+  },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Uvoz podataka",
     "LAST_IMPORT": "Zadnji uvoz podataka",

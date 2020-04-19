@@ -14,7 +14,8 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasOne(x => x.ApplicationUser)
                 .WithMany(x => x.Trainings)
-                .HasForeignKey(x => x.ApplicationUserId);
+                .HasForeignKey(x => x.ApplicationUserId)
+                .IsRequired(false);
 
             builder
                 .HasMany(x => x.Exercises)
@@ -30,7 +31,8 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasOne(x => x.TrainingBlockDay)
                 .WithMany(x => x.Trainings)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
 
             builder.HasIndex(x => x.ApplicationUserId);
 

@@ -1,0 +1,28 @@
+.upload-input {
+    img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+    }
+
+    .upload-chip {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        z-index: 100;
+        bottom: 2rem;
+        visibility: hidden;
+    }
+
+    .upload-chip:hover {
+        visibility: visible;
+    }
+
+    img:hover {
+        // opacity: 0.1;
+
+        + .upload-chip {
+            visibility: visible;
+        }
+    }
+}
