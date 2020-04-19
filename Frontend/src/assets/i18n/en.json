@@ -109,8 +109,9 @@
     "UPDATE_TITLE": "Update training block"
   },
   "TRAINING_BLOCK_DAY": {
+    "DAY_LABEL": "Day",
     "HAS_TRAINING": "Has trainings",
-    "NAME_LABEL": "Training block",
+    "NAME_LABEL": "Training block"
   },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Import",
