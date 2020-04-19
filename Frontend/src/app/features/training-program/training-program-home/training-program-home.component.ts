@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-training-program-home',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrainingProgramHomeComponent implements OnInit {
 
-  constructor() { }
+  private _subs = new SubSink();
+
+  constructor(
+  ) { }
 
   ngOnInit(): void {
   }

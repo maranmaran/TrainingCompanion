@@ -89,6 +89,8 @@
     "WEIGHT": "Težina"
   },
   "TRAINING_PROGRAM": {
+    "NO_DESCRIPTION": "Nema opisa",
+    "ASSIGN": "Dodijeli program",
     "DESCRIPTION_LABEL": "Opis",
     "CHANGE_IMAGE": "Dodaj sliku",
     "PROGRAM_NAME_LABEL": "Trening program",
@@ -96,6 +98,15 @@
     "DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening program {{trainingProgram}}?</p>",
     "ADD_TITLE": "Dodaj trening program",
     "UPDATE_TITLE": "Uredi trening program"
+  },
+  "TRAINING_BLOCK": {
+    "DURATION_IN_DAYS": "Trajanje bloka (dani)",
+    "DESCRIPTION_LABEL": "Opis",
+    "BLOCK_NAME_LABEL": "Trening blok",
+    "DELETE_TITLE": "Obriši trening blok",
+    "DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening blok {{trainingBlock}}?</p>",
+    "ADD_TITLE": "Dodaj trening blok",
+    "UPDATE_TITLE": "Uredi trening blok"
   },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Uvoz podataka",

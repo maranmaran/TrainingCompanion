@@ -1,0 +1,31 @@
+<h2> {{data.title | translate}} </h2>
+
+<mat-divider class="dialog-form-divider"></mat-divider>
+
+<div class="form" fxLayout="column" fxLayoutGap="1rem">
+  <form [formGroup]="form">
+
+    <mat-form-field>
+      <input matInput type="text" formControlName="name"
+        placeholder="{{'TRAINING_BLOCK.BLOCK_NAME_LABEL' | translate}}">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" formControlName="durationInDays"
+        placeholder="{{'TRAINING_BLOCK.DURATION_IN_DAYS' | translate}}">
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea rows="5" matInput formControlName="description"
+        placeholder="{{'TRAINING_BLOCK.DESCRIPTION_LABEL' | translate}}">
+            </textarea>
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+  <button mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate}}</button>
+  <button mat-stroked-button color="accent" (click)="onSubmit()"
+    [disabled]="!form.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
+</div>

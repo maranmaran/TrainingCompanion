@@ -18,11 +18,22 @@
 
             <img class="program-image mat-elevation-z5" (click)="uploadInput.click()" src="{{image}}" />
 
-            <p>{{trainingProgram.description}}</p>
+            <p *ngIf="trainingProgram.description && trainingProgram.description.length > 940">
+              {{ trainingProgram.description.slice(0, 940) + ' ' }}
+              <a *ngIf="trainingProgram.description?.length > 940">Show all</a>
+            </p>
+
+            <p *ngIf="trainingProgram.description && trainingProgram.description.length < 940">
+              {{ trainingProgram.description }}
+            </p>
+
+            <i *ngIf="!trainingProgram.description || trainingProgram.description == ''">
+              {{ 'TRAINING_PROGRAM.NO_DESCRIPTION' | translate }}
+            </i>
 
         </div>
 
     </div>
 
-    <div class="details-footer">
+    <div class="details-footer" *ngIf="!trainingProgram.description">
     </div>

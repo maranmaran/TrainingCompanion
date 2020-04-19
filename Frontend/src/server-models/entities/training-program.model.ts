@@ -1,5 +1,5 @@
-import { Training } from './training.model';
 import { ApplicationUser } from './application-user.model';
+import { Training } from './training.model';
 
 export class TrainingProgram {
     id: string;
@@ -34,6 +34,9 @@ export class TrainingBlock {
     description: string;
     durationInDays: number;
     days: TrainingBlockDay[]
+
+    trainingProgramId: string;
+    trainingProgram: TrainingProgram;
 }
 
 export class TrainingBlockDay {
