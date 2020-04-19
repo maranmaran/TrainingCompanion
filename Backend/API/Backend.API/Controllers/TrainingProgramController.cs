@@ -2,6 +2,7 @@
 
 using Backend.Business.TrainingPrograms.TrainingProgramRequests.Create;
 using Backend.Business.TrainingPrograms.TrainingProgramRequests.Delete;
+using Backend.Business.TrainingPrograms.TrainingProgramRequests.Get;
 using Backend.Business.TrainingPrograms.TrainingProgramRequests.GetAll;
 using Backend.Business.TrainingPrograms.TrainingProgramRequests.Update;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,13 @@ namespace Backend.API.Controllers
         {
 
             return Ok(await Mediator.Send(new GetAllTrainingProgramsRequest(creatorId), cancellationToken));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken = default)
+        {
+
+            return Ok(await Mediator.Send(new GetTrainingProgramRequest(id), cancellationToken));
         }
 
         [HttpPost]

@@ -1,12 +1,12 @@
-﻿using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Delete;
+﻿using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Create;
+using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Delete;
+using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Get;
 using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.GetAll;
 using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Update;
-using Backend.Business.TrainingPrograms.TrainingBlockRequests.Create;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Create;
 
 namespace Backend.API.Controllers
 {
@@ -18,6 +18,15 @@ namespace Backend.API.Controllers
 
             return Ok(await Mediator.Send(new GetAllTrainingBlockDaysRequest(trainingBlockId), cancellationToken));
         }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken = default)
+        {
+
+            return Ok(await Mediator.Send(new GetTrainingBlockDayRequest(id), cancellationToken));
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTrainingBlockDayRequest request, CancellationToken cancellationToken = default)

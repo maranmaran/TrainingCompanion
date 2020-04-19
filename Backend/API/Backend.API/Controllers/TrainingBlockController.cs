@@ -1,15 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.TrainingPrograms.TrainingBlockRequests.Create;
+﻿using Backend.Business.TrainingPrograms.TrainingBlockRequests.Create;
 using Backend.Business.TrainingPrograms.TrainingBlockRequests.Delete;
+using Backend.Business.TrainingPrograms.TrainingBlockRequests.Get;
 using Backend.Business.TrainingPrograms.TrainingBlockRequests.GetAll;
 using Backend.Business.TrainingPrograms.TrainingBlockRequests.Update;
-using Backend.Business.TrainingPrograms.TrainingProgramRequests.Create;
-using Backend.Business.TrainingPrograms.TrainingProgramRequests.Delete;
-using Backend.Business.TrainingPrograms.TrainingProgramRequests.GetAll;
-using Backend.Business.TrainingPrograms.TrainingProgramRequests.Update;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {
@@ -21,6 +18,15 @@ namespace Backend.API.Controllers
 
             return Ok(await Mediator.Send(new GetAllTrainingBlocksRequest(trainingProgramId), cancellationToken));
         }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken = default)
+        {
+
+            return Ok(await Mediator.Send(new GetTrainingBlockRequest(id), cancellationToken));
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTrainingBlockRequest request, CancellationToken cancellationToken = default)
