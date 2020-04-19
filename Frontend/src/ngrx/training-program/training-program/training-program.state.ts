@@ -1,5 +1,4 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
-import { Bodyweight } from '../../server-models/entities/bodyweight.model';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 
 export interface TrainingProgramState extends EntityState<TrainingProgram> {

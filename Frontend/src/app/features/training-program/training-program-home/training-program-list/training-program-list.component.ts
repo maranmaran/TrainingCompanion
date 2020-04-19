@@ -1,26 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
-import { SubSink } from 'subsink';
-import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
-import { TableConfig, TableAction } from 'src/app/shared/material-table/table-models/table-config.model';
-import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
-import { TableDatasource } from 'src/app/shared/material-table/table-models/table-datasource.model';
-import { TrainingProgram } from 'src/server-models/entities/training-program.model';
-import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
-import { UIService } from 'src/business/services/shared/ui.service';
-import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { TranslateService } from '@ngx-translate/core';
-import { unitSystem } from 'src/ngrx/auth/auth.selectors';
-import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
-import { trainingPrograms } from 'src/ngrx/training-program/training-program.selectors';
-import { transformWeight } from 'src/business/services/shared/unit-system.service';
-import * as moment from 'moment';
-import { setSelectedTrainingProgram, trainingProgramDeleted } from 'src/ngrx/training-program/training-program.actions';
-import { TrainingProgramCreateEditComponent } from '../training-program-create-edit/training-program-create-edit.component';
+import { filter, take } from 'rxjs/operators';
+import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
+import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
+import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
+import { TableDatasource } from 'src/app/shared/material-table/table-models/table-datasource.model';
+import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
+import { UIService } from 'src/business/services/shared/ui.service';
+import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
-import { take, filter } from 'rxjs/operators';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { setSelectedTrainingProgram, trainingProgramDeleted } from 'src/ngrx/training-program/training-program/training-program.actions';
+import { trainingPrograms } from 'src/ngrx/training-program/training-program/training-program.selectors';
+import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
+import { TrainingProgram } from 'src/server-models/entities/training-program.model';
+import { SubSink } from 'subsink';
+import { TrainingProgramCreateEditComponent } from '../training-program-create-edit/training-program-create-edit.component';
 
 @Component({
   selector: 'app-training-program-list',

@@ -1,19 +1,19 @@
-import { CreateTrainingProgramRequest } from './../../../../../server-models/cqrs/program-maker/create-training-program.request';
-import { Component, OnInit, Inject } from '@angular/core';
-import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
-import { Store, createAction } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { TrainingProgram } from 'src/server-models/entities/training-program.model';
-import { FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { currentUser } from 'src/ngrx/auth/auth.selectors';
-import { take } from 'rxjs/operators';
-import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
-import { trainingProgramCreated, trainingProgramUpdated } from 'src/ngrx/training-program/training-program.actions';
 import { Update } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
+import { CRUD } from 'src/business/shared/crud.enum';
+import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { trainingProgramCreated, trainingProgramUpdated } from 'src/ngrx/training-program/training-program/training-program.actions';
+import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { UpdateTrainingProgramRequest } from 'src/server-models/cqrs/program-maker/update-training-program.request';
+import { TrainingProgram } from 'src/server-models/entities/training-program.model';
+import { CreateTrainingProgramRequest } from './../../../../../server-models/cqrs/program-maker/create-training-program.request';
 
 @Component({
   selector: 'app-training-program-create-edit',
