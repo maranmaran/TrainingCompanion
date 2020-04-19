@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { TrainingProgram } from 'src/server-models/entities/training-program.model';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedTrainingProgram } from 'src/ngrx/training-program/training-program.selectors';
+import { selectedTrainingProgram } from 'src/ngrx/training-program/training-program/training-program.selectors';
+import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 
 @Component({
   selector: 'app-training-program-details',
