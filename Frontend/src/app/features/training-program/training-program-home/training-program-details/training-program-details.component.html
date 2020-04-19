@@ -1,0 +1,28 @@
+<div class="details-container mat-elevation-z3" *ngIf="(trainingProgram$ | async) as trainingProgram">
+
+    <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
+
+        <span>{{trainingProgram.name}}</span>
+
+        <button class="mr-1" mat-stroked-button color="accent" (click)="onAssign(trainingProgram)">
+            {{ 'TRAINING_PROGRAM.ASSIGN' | translate}}
+        </button>
+    </h1>
+
+    <mat-divider></mat-divider>
+
+
+    <div class="details-body" fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
+
+        <div class="details">
+
+            <img class="program-image mat-elevation-z5" (click)="uploadInput.click()" src="{{image}}" />
+
+            <p>{{trainingProgram.description}}</p>
+
+        </div>
+
+    </div>
+
+    <div class="details-footer">
+    </div>

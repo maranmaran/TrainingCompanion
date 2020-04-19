@@ -15,7 +15,7 @@ namespace Backend.Domain.Entities.TrainingLog
 
         public bool NoteRead { get; set; }
 
-        public Guid ApplicationUserId { get; set; }
+        public Guid? ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual Guid? TrainingBlockDayId { get; set; }

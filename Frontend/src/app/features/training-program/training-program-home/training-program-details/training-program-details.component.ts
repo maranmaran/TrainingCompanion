@@ -1,0 +1,37 @@
+import { Component, OnInit } from '@angular/core';
+import { TrainingProgram } from 'src/server-models/entities/training-program.model';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { selectedTrainingProgram } from 'src/ngrx/training-program/training-program.selectors';
+
+@Component({
+  selector: 'app-training-program-details',
+  templateUrl: './training-program-details.component.html',
+  styleUrls: ['./training-program-details.component.scss']
+})
+export class TrainingProgramDetailsComponent implements OnInit {
+
+  trainingProgram$: Observable<TrainingProgram>;
+  image: string;
+
+  constructor(
+    private store: Store<AppState>
+  ) { }
+
+  ngOnInit() {
+    this.trainingProgram$ = this.store.select(selectedTrainingProgram);
+
+    this.trainingProgram$.subscribe(val => {
+      setTimeout(_ => this.image = this.getImage());
+    })
+  }
+
+
+  // for random lorem picsum image
+  getImage() {
+    return `https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200`
+  }
+
+
+}

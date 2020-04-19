@@ -1,0 +1,47 @@
+<h2> {{data.title | translate}} </h2>
+
+<mat-divider class="dialog-form-divider"></mat-divider>
+
+<div class="form" fxLayout="column" fxLayoutGap="1rem">
+    <form [formGroup]="form">
+
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
+            <ng-container *ngTemplateOutlet="uploadInput"></ng-container>
+
+            <mat-form-field>
+                <input matInput type="text" formControlName="name"
+                    placeholder="{{'TRAINING_PROGRAM.PROGRAM_NAME_LABEL' | translate}}">
+            </mat-form-field>
+        </div>
+
+        <mat-form-field>
+            <textarea rows="5" matInput formControlName="description"
+                placeholder="{{'TRAINING_PROGRAM.DESCRIPTION_LABEL' | translate}}">
+            </textarea>
+        </mat-form-field>
+
+    </form>
+</div>
+
+<div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate}}</button>
+    <button mat-stroked-button color="accent" (click)="onSubmit()"
+        [disabled]="!form.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
+</div>
+
+
+<ng-template #uploadInput>
+    <div class="upload-input">
+
+        <img (click)="uploadInput.click()"
+            src="https://akns-images.eonline.com/eol_images/Entire_Site/2019112/rs_1024x759-191202131443-1024-star-wars-yoda-ch-120219.jpg?fit=inside|900:auto&output-quality=90" />
+
+        <mat-chip-list class="upload-chip">
+            <mat-chip color="primary" selected (click)="uploadInput.click()">
+                {{ 'TRAINING_PROGRAM.CHANGE_IMAGE' | translate }}
+            </mat-chip>
+        </mat-chip-list>
+
+        <input fxHide="true" #uploadInput type="file" (change)="fileChangeEvent($event)" accept="image/*">
+    </div>
+</ng-template>

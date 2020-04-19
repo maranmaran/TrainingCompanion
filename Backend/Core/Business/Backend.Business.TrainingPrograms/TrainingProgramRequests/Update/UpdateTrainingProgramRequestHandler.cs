@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingPrograms.TrainingProgramRequests.Update
 {
