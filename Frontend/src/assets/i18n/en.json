@@ -93,7 +93,7 @@
     "ASSIGN": "Assign program",
     "DESCRIPTION_LABEL": "Description",
     "CHANGE_IMAGE": "Upload cover image",
-    "PROGRAM_NAME_LABEL": "Training program",
+    "NAME_LABEL": "Training program",
     "DELETE_TITLE": "Delete training program",
     "DELETE_DIALOG": "<p>Are you sure you wish to delete training program {{trainingProgram}}?</p>",
     "ADD_TITLE": "Add training program",
@@ -102,11 +102,15 @@
   "TRAINING_BLOCK": {
     "DURATION_IN_DAYS": "Duration (in days)",
     "DESCRIPTION_LABEL": "Description",
-    "BLOCK_NAME_LABEL": "Training block",
+    "NAME_LABEL": "Training block",
     "DELETE_TITLE": "Delete training block",
     "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{trainingBlock}}?</p>",
     "ADD_TITLE": "Add training block",
     "UPDATE_TITLE": "Update training block"
+  },
+  "TRAINING_BLOCK_DAY": {
+    "HAS_TRAINING": "Has trainings",
+    "NAME_LABEL": "Training block",
   },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Import",

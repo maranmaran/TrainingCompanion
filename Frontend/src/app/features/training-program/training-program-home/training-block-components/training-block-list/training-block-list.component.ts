@@ -102,7 +102,7 @@ export class TrainingBlockListComponent implements OnInit {
         headerClass: 'trainingBlock-header',
         cellClass: 'trainingBlock-cell',
         definition: 'name',
-        title: 'TRAINING_BLOCK.BLOCK_NAME_LABEL',
+        title: 'TRAINING_BLOCK.NAME_LABEL',
         sort: true,
         displayFn: (item: TrainingBlock) => item.name,
       }),

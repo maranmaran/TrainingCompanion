@@ -1,11 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Create
 {
@@ -33,6 +34,16 @@ namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Create
             try
             {
                 var entity = _mapper.Map<CreateTrainingBlockRequest, TrainingBlock>(request);
+
+                var days = new List<TrainingBlockDay>();
+                for (var i = 0; i < request.DurationInDays; i++)
+                {
+                    days.Add(new TrainingBlockDay()
+                    {
+                        Name = $"Day {i + 1}",
+                        RestDay = true,
+                    });
+                }
 
                 _context.TrainingBlocks.Add(entity);
                 await _context.SaveChangesAsync(cancellationToken);

@@ -6,12 +6,12 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TrainingBlockService } from 'src/business/services/feature-services/training-block.service';
-import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingBlockCreated, trainingBlockUpdated } from 'src/ngrx/training-program/training-block/training-block.actions';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { CreateTrainingBlockRequest } from 'src/server-models/cqrs/program-maker/create-training-program.request';
 import { TrainingBlock } from 'src/server-models/entities/training-program.model';
+import { CRUD } from './../../../../../../business/shared/crud.enum';
 import { selectedTrainingProgramId } from './../../../../../../ngrx/training-program/training-program/training-program.selectors';
 import { UpdateTrainingBlockRequest } from './../../../../../../server-models/cqrs/program-maker/update-training-program.request';
 
@@ -35,6 +35,8 @@ export class TrainingBlockCreateEditComponent implements OnInit {
   form: FormGroup;
   private _programId: string;
   trainingBlock: TrainingBlock;
+
+  crud = CRUD;
 
   isMobile: Observable<boolean>;
 
@@ -102,7 +104,6 @@ export class TrainingBlockCreateEditComponent implements OnInit {
       id: this.trainingBlock.id,
       name: this.name.value,
       description: this.description.value,
-      durationInDays: this.durationInDays.value
     })
 
     this.trainingBlockService.update(request).pipe(take(1))

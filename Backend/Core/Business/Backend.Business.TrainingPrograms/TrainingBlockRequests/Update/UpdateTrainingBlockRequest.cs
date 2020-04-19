@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Domain.Entities.TrainingProgramMaker;
+﻿using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
+using System;
 
 namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Update
 {
@@ -10,6 +10,5 @@ namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Update
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int DurationInDays { get; set; }
     }
 }
