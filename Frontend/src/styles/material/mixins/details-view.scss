@@ -7,6 +7,9 @@
 
 
   .details-container {
+    margin-top: 1rem;
+
+    // min-height: calc(302px + 60.57px); // same as mat table 5 rows + paginator since they are next to each other quite often
 
     .detail{
       margin-bottom: 5px;
@@ -48,7 +51,7 @@
       padding-left: 0.25rem !important;
       padding-right: 0.25rem !important;
     }
-    
+
 
   }
 }

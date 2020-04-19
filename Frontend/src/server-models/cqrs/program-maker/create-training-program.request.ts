@@ -9,3 +9,15 @@ export class CreateTrainingProgramRequest {
     description: string;
     image: string;
 }
+
+export class CreateTrainingBlockRequest {
+
+  constructor(data: Partial<CreateTrainingBlockRequest>) {
+      Object.assign(this, data);
+  }
+
+  trainingProgramId: string;
+  name: string;
+  description: string;
+  durationInDays: number;
+}
