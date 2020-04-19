@@ -34,16 +34,7 @@ namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Create
             try
             {
                 var entity = _mapper.Map<CreateTrainingBlockRequest, TrainingBlock>(request);
-
-                var days = new List<TrainingBlockDay>();
-                for (var i = 0; i < request.DurationInDays; i++)
-                {
-                    days.Add(new TrainingBlockDay()
-                    {
-                        Name = $"Day {i + 1}",
-                        RestDay = true,
-                    });
-                }
+                entity = await ScaffoldTrainingDays(entity);
 
                 _context.TrainingBlocks.Add(entity);
                 await _context.SaveChangesAsync(cancellationToken);
@@ -54,6 +45,22 @@ namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Create
             {
                 throw new Exception(nameof(TrainingBlock), e);
             }
+        }
+
+        public async Task<TrainingBlock> ScaffoldTrainingDays(TrainingBlock entity)
+        {
+            var days = new List<TrainingBlockDay>();
+            for (var i = 0; i < entity.DurationInDays; i++)
+            {
+                days.Add(new TrainingBlockDay()
+                {
+                    Name = $"Day {i + 1}",
+                    RestDay = true,
+                });
+            }
+            entity.Days = days;
+
+            return entity;
         }
     }
 }

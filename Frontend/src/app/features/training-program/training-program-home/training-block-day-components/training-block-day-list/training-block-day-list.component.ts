@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
+import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
 import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
@@ -14,19 +15,19 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTrainingBlockDay, trainingBlockDayDeleted, trainingBlockDayFetched } from 'src/ngrx/training-program/training-block-day/training-block-day.actions';
 import { trainingBlockDays } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
-import { selectedTrainingProgramId } from 'src/ngrx/training-program/training-program/training-program.selectors';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingBlockDayCreateEditComponent } from '../training-block-day-create-edit/training-block-day-create-edit.component';
 import { selectedTrainingBlockId } from './../../../../../../ngrx/training-program/training-block/training-block.selectors';
+import { selectedTrainingProgramId } from './../../../../../../ngrx/training-program/training-program/training-program.selectors';
 
 @Component({
   selector: 'app-training-block-day-list',
   templateUrl: './training-block-day-list.component.html',
   styleUrls: ['./training-block-day-list.component.scss']
 })
-export class TrainingBlockDayDayListComponent implements OnInit {
+export class TrainingBlockDayListComponent implements OnInit {
 
   blockSelected: Observable<boolean>;
 
@@ -47,7 +48,11 @@ export class TrainingBlockDayDayListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.blockSelected = this.store.select(selectedTrainingBlockId).pipe(map(id => !!id));
+    // both program and block must be selected to display days
+    this.blockSelected = combineLatest(
+      this.store.select(selectedTrainingProgramId),
+      this.store.select(selectedTrainingBlockId),
+    ).pipe(map(([programId, blockId]) => !!programId && !!blockId));
 
     // table config
     this.tableDatasource = new TableDatasource([]);
@@ -56,7 +61,7 @@ export class TrainingBlockDayDayListComponent implements OnInit {
 
     this.subs.add(
 
-      this.onTrainingProgramSelected(), // fetch blocks data
+      this.onTrainingBlockSelected(), // fetch blocks data
 
       // handle mobile page size of table
       this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
@@ -67,9 +72,9 @@ export class TrainingBlockDayDayListComponent implements OnInit {
 
   }
 
-  onTrainingProgramSelected() {
-    return this.store.select(selectedTrainingProgramId)
-    .pipe(filter(id => !!id), switchMap(programId => this.trainingBlockDayService.getAll(programId as string)))
+  onTrainingBlockSelected() {
+    return this.store.select(selectedTrainingBlockId)
+    .pipe(filter(id => !!id), switchMap(blockId => this.trainingBlockDayService.getAll(blockId as string)))
     .subscribe((blocks: TrainingBlockDay[]) => this.store.dispatch(trainingBlockDayFetched({ entities: blocks })));
   }
 
@@ -90,7 +95,7 @@ export class TrainingBlockDayDayListComponent implements OnInit {
       },
       selectionEnabled: false,
       defaultSort: 'name',
-      defaultSortDirection: 'desc'
+      defaultSortDirection: 'asc'
     });
 
     return tableConfig;
@@ -104,7 +109,7 @@ export class TrainingBlockDayDayListComponent implements OnInit {
         definition: 'name',
         title: 'TRAINING_BLOCK_DAY.NAME_LABEL',
         sort: true,
-        displayFn: (item: TrainingBlockDay) => item.name,
+        displayFn: (item: TrainingBlockDay) => item.name.replace("Day", this.translateService.instant("TRAINING_BLOCK_DAY.DAY_LABEL")),
       }),
       new CustomColumn({
         headerClass: 'trainingBlockDay-header',
@@ -112,8 +117,9 @@ export class TrainingBlockDayDayListComponent implements OnInit {
         definition: 'hasTraining',
         title: 'TRAINING_BLOCK_DAY.HAS_TRAINING',
         sort: true,
-        displayFn: (item: TrainingBlockDay) => !item.restDay,
-      }),
+        useComponent: true,
+        component: ActiveFlagComponent,
+        componentInputs: (item: TrainingBlockDay) => { return { active: !item.restDay } },      }),
     ]
   }
 
