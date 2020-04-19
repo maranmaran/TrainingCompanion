@@ -41,6 +41,7 @@ export class TrainingBlock {
 
 export class TrainingBlockDay {
     id: string;
+    name: string;
     restDay: boolean;
     trainings: Training[]
 }

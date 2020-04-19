@@ -20,5 +20,4 @@ export class UpdateTrainingBlockRequest {
   id: string;
   name: string;
   description: string;
-  durationInDays: number;
 }

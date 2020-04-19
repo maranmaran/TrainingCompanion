@@ -87,7 +87,7 @@ export class TrainingProgramListComponent implements OnInit {
         headerClass: 'trainingProgram-header',
         cellClass: 'trainingProgram-cell',
         definition: 'name',
-        title: 'TRAINING_PROGRAM.PROGRAM_NAME_LABEL',
+        title: 'TRAINING_PROGRAM.NAME_LABEL',
         sort: true,
         displayFn: (item: TrainingProgram) => item.name,
       }),

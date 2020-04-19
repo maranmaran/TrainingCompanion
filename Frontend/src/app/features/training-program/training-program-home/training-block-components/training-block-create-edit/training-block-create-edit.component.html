@@ -7,10 +7,10 @@
 
     <mat-form-field>
       <input matInput type="text" formControlName="name"
-        placeholder="{{'TRAINING_BLOCK.BLOCK_NAME_LABEL' | translate}}">
+        placeholder="{{'TRAINING_BLOCK.NAME_LABEL' | translate}}">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="data.action == crud.Create">
       <input matInput type="number" formControlName="durationInDays"
         placeholder="{{'TRAINING_BLOCK.DURATION_IN_DAYS' | translate}}">
     </mat-form-field>
