@@ -14,8 +14,8 @@ import { setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/tra
 import { trainings } from 'src/ngrx/training-log/training.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
-import { TrainingCreateEditComponent } from '../../training-create-edit/training-create-edit.component';
-import { UIService } from './../../../../../../business/services/shared/ui.service';
+import { TrainingCreateEditComponent } from '../training-create-edit/training-create-edit.component';
+import { UIService } from './../../../../../business/services/shared/ui.service';
 import { TrainingMonthViewDayComponent } from './training-month-view-day/training-month-view-day.component';
 
 @Component({

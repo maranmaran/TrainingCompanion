@@ -4,14 +4,14 @@ import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { take } from 'rxjs/operators';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
+import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { sortBy } from 'src/business/utils/utils';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training.actions';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
-import { UIService } from '../../../../../../../business/services/shared/ui.service';
-import { Exercise } from '../../../../../../../server-models/entities/exercise.model';
-import { Training } from '../../../../../../../server-models/entities/training.model';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { Training } from 'src/server-models/entities/training.model';
 
 @Component({
   selector: 'app-training-month-view-day',
