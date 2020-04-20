@@ -119,6 +119,7 @@
     "SAMPLE_SHEETS": "Sample sheets"
   },
   "TRAINING_LOG": {
+    "TRAINING_DELETE_DIALOG": "<p>Are you sure you wish to delete training on {{dateTrained}} ?</p>\n<p>All data will be lost if you delete this training.</p>",
     "CALENDAR_LABEL": "Calendar",
     "WEEK_LABEL": "Week",
     "LIST_LABEL": "List",

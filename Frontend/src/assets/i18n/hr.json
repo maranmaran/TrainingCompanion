@@ -119,6 +119,7 @@
     "SAMPLE_SHEETS": "Primjeri dokumenata za uvoz"
   },
   "TRAINING_LOG": {
+    "TRAINING_DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening na dan {{dateTrained}} ?</p>\n<p>Svi podaci će biti izgubljeni ako obrišete ovaj trening.</p>",
     "CALENDAR_LABEL": "Kalendar",
     "WEEK_LABEL": "Tjedan",
     "LIST_LABEL": "Lista",
