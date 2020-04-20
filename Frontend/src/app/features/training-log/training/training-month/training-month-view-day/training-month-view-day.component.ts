@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { take } from 'rxjs/operators';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
@@ -32,6 +33,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
     private store: Store<AppState>,
     private trainingService: TrainingService,
     private uiService: UIService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -49,9 +51,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
 
   onDelete() {
 
-    this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete training on ${moment(this.training.dateTrained).format('L')} ?</p>
-     <p>All data will be lost if you delete this training.</p>`;
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.TRAINING_DELETE_DIALOG', {dateTrained: moment(this.training.dateTrained).format('L')});
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 

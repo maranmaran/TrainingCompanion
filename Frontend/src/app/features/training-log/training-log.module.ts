@@ -26,6 +26,7 @@ import { TrainingDetailsDataComponent } from './training/training-details/traini
 import { TrainingDetailsComponent } from './training/training-details/training-details.component';
 import { TrainingLogRoutingModule } from './training/training-log-routing.module';
 import { TrainingMonthComponent } from './training/training-month/training-month.component';
+import { TrainingListComponent } from './training/training-list/training-list.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { TrainingMonthComponent } from './training/training-month/training-month
         TrainingMetricsComponent,
         TrainingMediaComponent,
         TrainingDetailsDataComponent,
-        TrainingCreateEditComponent
+        TrainingCreateEditComponent,
+        TrainingListComponent
     ],
     exports: [
     ],
