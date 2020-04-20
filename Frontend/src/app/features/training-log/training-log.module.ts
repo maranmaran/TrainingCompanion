@@ -18,15 +18,15 @@ import { ExerciseListComponent } from './exercise/exercise-list/exercise-list.co
 import { SetCreateEditComponent } from './set/set-create-edit/set-create-edit.component';
 import { SetListComponent } from './set/set-list/set-list.component';
 import { TrainingLogHomeComponent } from './training-log-home/training-log-home.component';
+import { TrainingLogRoutingModule } from './training-log-routing.module';
 import { TrainingCreateEditComponent } from './training/training-create-edit/training-create-edit.component';
 import { TrainingMediaComponent } from './training/training-details/panels/training-media/training-media.component';
 import { TrainingMetricsComponent } from './training/training-details/panels/training-metrics/training-metrics.component';
 import { TrainingNoteComponent } from './training/training-details/panels/training-note/training-note.component';
 import { TrainingDetailsDataComponent } from './training/training-details/training-details-data/training-details-data.component';
 import { TrainingDetailsComponent } from './training/training-details/training-details.component';
-import { TrainingLogRoutingModule } from './training/training-log-routing.module';
-import { TrainingMonthComponent } from './training/training-month/training-month.component';
 import { TrainingListComponent } from './training/training-list/training-list.component';
+import { TrainingMonthComponent } from './training/training-month/training-month.component';
 
 
 @NgModule({
@@ -39,19 +39,24 @@ import { TrainingListComponent } from './training/training-list/training-list.co
     ],
     declarations: [
         TrainingLogHomeComponent,
-        TrainingMonthComponent,
+
+
+        TrainingDetailsDataComponent,
         TrainingDetailsComponent,
-        ExerciseListComponent,
-        ExerciseCreateEditComponent,
-        ExerciseDetailsComponent,
-        SetListComponent,
-        SetCreateEditComponent,
         TrainingNoteComponent,
         TrainingMetricsComponent,
         TrainingMediaComponent,
-        TrainingDetailsDataComponent,
         TrainingCreateEditComponent,
-        TrainingListComponent
+        TrainingListComponent,
+        TrainingMonthComponent,
+
+        ExerciseListComponent,
+        ExerciseCreateEditComponent,
+        ExerciseDetailsComponent,
+
+        SetListComponent,
+        SetCreateEditComponent,
+
     ],
     exports: [
     ],
