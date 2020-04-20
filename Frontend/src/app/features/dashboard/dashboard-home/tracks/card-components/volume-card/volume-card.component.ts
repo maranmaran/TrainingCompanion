@@ -8,9 +8,9 @@ import { ChartConfiguration } from 'chart.js';
 import { Guid } from 'guid-typescript';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { ConnectableObservable, Observable, forkJoin, of } from 'rxjs';
+import { ConnectableObservable, forkJoin, Observable, of } from 'rxjs';
 import { combineLatest } from 'rxjs/internal/observable/combineLatest';
-import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, skip, startWith, switchMap, take, tap, combineAll } from 'rxjs/operators';
+import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, skip, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { Theme } from 'src/business/shared/theme.enum';
@@ -75,7 +75,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.params = JSON.parse(this.jsonParams);
+    this.params = JSON.parse(this.jsonParams) ?? { dateFrom: new Date(), dateTo: new Date(), exerciseType: null};
 
     this._initializer$ = this.getCardInitializer();
 
@@ -87,7 +87,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     // also refresh exerciseType from jsonParams because it may be outdated (this could be expensive)
     forkJoin(
       this.getExerciseTypes().pipe(take(1)),
-      this.getExerciseType(this.params?.exerciseType.id).pipe(take(1))
+      this.getExerciseType(this.params?.exerciseType?.id).pipe(take(1))
     ).subscribe(([types, type]) => {
 
       if (types instanceof Error) return;

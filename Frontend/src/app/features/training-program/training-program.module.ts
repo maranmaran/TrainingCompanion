@@ -13,7 +13,7 @@ import { trainingProgramReducer } from 'src/ngrx/training-program/training-progr
 import { trainingBlockDayReducer } from './../../../ngrx/training-program/training-block-day/training-block-day.reducers';
 import { trainingBlockReducer } from './../../../ngrx/training-program/training-block/training-block.reducers';
 import { BlockExerciseCreateEditComponent } from './training-program-home/block-exercise-components/block-exercise-create-edit/block-exercise-create-edit.component';
-import { BlockExerciseListComponent } from './training-program-home/block-exercise-components/block-exercise-list/block-training-exercise-list.component';
+import { BlockExerciseListComponent } from './training-program-home/block-exercise-components/block-exercise-list/block-exercise-list.component';
 import { BlockSetsCreateEditComponent } from './training-program-home/block-sets-components/block-sets-create-edit/block-sets-create-edit.component';
 import { BlockSetsListComponent } from './training-program-home/block-sets-components/block-sets-list/block-sets-list.component';
 import { BlockTrainingCreateEditComponent } from './training-program-home/block-training-components/block-training-create-edit/block-training-create-edit.component';
