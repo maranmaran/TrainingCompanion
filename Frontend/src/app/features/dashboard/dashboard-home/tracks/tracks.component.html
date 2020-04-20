@@ -1,4 +1,4 @@
-<div class="pl-2 pr-2 w-100" [ngClass]="{'h-100': mediaObserver.isActive('gt-md')}" fxLayout="row"
+<div class="pl-2 pr-2 mt-1 w-100" [ngClass]="{'h-100': mediaObserver.isActive('gt-md')}" fxLayout="row"
   fxLayout.lt-lg="column" fxLayoutGap="0.25rem">
 
   <!--TRACK ONE-->
@@ -8,7 +8,7 @@
     fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem">
 
     <ng-container *ngFor="let item of (tracks | async)[0]?.items">
-      <button *ngIf="(editMode | async)" mat-icon-button color="accent" (click)="removeTrackItem(item, 0)"
+      <button *ngIf="(editMode | async)" class="mat-elevation-z3" mat-icon-button color="accent" (click)="removeTrackItem(item, 0)"
         matTooltip="{{ 'DASHBOARD.REMOVE_TRACK_ITEM' | translate }}">
         <i class="fas fa-times"></i>
       </button>
@@ -27,7 +27,7 @@
     fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem">
 
     <ng-container *ngFor="let item of (tracks | async)[1]?.items">
-      <button *ngIf="(editMode | async)" mat-icon-button color="accent" (click)="removeTrackItem(item, 1)"
+      <button *ngIf="(editMode | async)" class="mat-elevation-z3"  mat-icon-button color="accent" (click)="removeTrackItem(item, 1)"
         matTooltip="{{ 'DASHBOARD.REMOVE_TRACK_ITEM' | translate }}">
         <i class="fas fa-times"></i>
       </button>
