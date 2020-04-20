@@ -51,14 +51,19 @@ export class TrainingService extends CrudService<Training> {
   }
 
 
-  onAdd(createEditComponent: ComponentType<any>, day: moment.Moment = moment(new Date())) {
+  onAdd(createEditComponent: ComponentType<any>, partOfTrainingProgram = false, day: moment.Moment = moment(new Date())) {
 
     const dialogRef = this.UIService.openDialogFromComponent(createEditComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '18rem',
       autoFocus: false,
-      data: { title: this.translateService.instant('TRAINING_LOG.ADD_TRAINING_TITLE', { date: day.utc().format("DD, MMM")}), action: CRUD.Create, day, timeOnly: true },
+      data: {
+        title: this.translateService.instant('TRAINING_LOG.ADD_TRAINING_TITLE', { date: day.utc().format("DD, MMM") }),
+        action: CRUD.Create,
+        day,
+        timeOnly: true,
+        partOfTrainingProgram },
       panelClass: []
     });
 

@@ -107,7 +107,7 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
   }
 
   onAddEvent(day: moment.Moment = moment(new Date())) {
-    this.trainingService.onAdd(TrainingCreateEditComponent, day)
+    this.trainingService.onAdd(TrainingCreateEditComponent, false, day)
     .afterClosed()
     .pipe(take(1))
     .subscribe(_ => {});;
