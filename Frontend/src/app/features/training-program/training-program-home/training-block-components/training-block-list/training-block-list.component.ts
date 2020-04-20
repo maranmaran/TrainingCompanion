@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
 import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
@@ -28,8 +27,6 @@ import { selectedTrainingProgramId } from './../../../../../../ngrx/training-pro
 })
 export class TrainingBlockListComponent implements OnInit {
 
-  programSelected: Observable<boolean>;
-
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_BLOCK.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
@@ -46,8 +43,6 @@ export class TrainingBlockListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.programSelected = this.store.select(selectedTrainingProgramId).pipe(map(id => !!id));
 
     // table config
     this.tableDatasource = new TableDatasource([]);

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
 import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
@@ -10,11 +10,9 @@ import { TableDatasource } from 'src/app/shared/material-table/table-models/tabl
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
-import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTraining, trainingDeleted, trainingsFetched } from 'src/ngrx/training-log/training.actions';
+import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training.actions';
 import { trainings } from 'src/ngrx/training-log/training.selectors';
-import { selectedTrainingProgramId } from 'src/ngrx/training-program/training-program/training-program.selectors';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
@@ -51,7 +49,7 @@ export class TrainingListComponent implements OnInit {
 
     this.subs.add(
 
-      this.onTrainingProgramSelected(), // fetch blocks data
+      // this.onTrainingProgramSelected(), // fetch blocks data
 
       // handle mobile page size of table
       this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
@@ -62,11 +60,11 @@ export class TrainingListComponent implements OnInit {
 
   }
 
-  onTrainingProgramSelected() {
-    return this.store.select(selectedTrainingProgramId)
-    .pipe(filter(id => !!id), switchMap(programId => this.trainingService.getAll(programId as string)))
-    .subscribe((blocks: Training[]) => this.store.dispatch(trainingsFetched({ entities: blocks })));
-  }
+  // onTrainingProgramSelected() {
+  //   return this.store.select(selectedTrainingProgramId)
+  //   .pipe(filter(id => !!id), switchMap(programId => this.trainingService.getAll(programId as string)))
+  //   .subscribe((blocks: Training[]) => this.store.dispatch(trainingsFetched({ entities: blocks })));
+  // }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
@@ -96,10 +94,10 @@ export class TrainingListComponent implements OnInit {
       new CustomColumn({
         headerClass: 'training-header',
         cellClass: 'training-cell',
-        definition: 'name',
-        title: 'TRAINING_LOG.NAME_LABEL',
+        definition: 'dateTrained',
+        title: 'TRAINING_LOG.TRAINING_DATE',
         sort: true,
-        displayFn: (item: Training) => item.dateTrained,
+        displayFn: (item: Training) => moment(item.dateTrained).format('L'),
       }),
     ]
   }
@@ -108,37 +106,15 @@ export class TrainingListComponent implements OnInit {
 
   onAdd() {
 
-    const dialogRef = this.uiService.openDialogFromComponent(TrainingCreateEditComponent, {
-      height: 'auto',
-      width: '98%',
-      maxWidth: '60rem',
-      autoFocus: true,
-      data: { title: 'TRAINING_LOG.ADD_TITLE', action: CRUD.Create, training: new Training() },
-      panelClass: []
-    })
+    this.trainingService.onAdd(TrainingCreateEditComponent)
+    .afterClosed()
+    .pipe(take(1))
+    .subscribe((training: Training) => {
+      if (!training) return;
 
-    dialogRef.afterClosed()
-      .pipe(take(1))
-      .subscribe((training: Training) => {
-        if (!training) return;
-
-        this.table.onSelect(training, true);
-        this.onSelect(training);
-      })
-  }
-
-  onUpdate(training: Training) {
-
-    const dialogRef = this.uiService.openDialogFromComponent(TrainingCreateEditComponent, {
-      height: 'auto',
-      width: '98%',
-      maxWidth: '60rem',
-      autoFocus: true,
-      data: { title: 'TRAINING_LOG.UPDATE_TITLE', action: CRUD.Update, training: Object.assign({}, training) },
-      panelClass: []
-    })
-
-    dialogRef.afterClosed().pipe(take(1), filter(program => !!program)).subscribe((training: Training) => (this.table.onSelect(training, true), this.onSelect(training)))
+      this.table.onSelect(training, true);
+      this.onSelect(training);
+    });
   }
 
   onDeleteSingle(training: Training) {

@@ -7,15 +7,14 @@ import { take } from 'rxjs/operators';
 import { CalendarConfig } from 'src/app/shared/event-calendar/models/calendar.config';
 import { CalendarEvent } from 'src/app/shared/event-calendar/models/event-calendar.models';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
-import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training.actions';
 import { trainings } from 'src/ngrx/training-log/training.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
-import { TrainingCreateEditComponent } from '../training-create-edit/training-create-edit.component';
 import { UIService } from './../../../../../business/services/shared/ui.service';
+import { TrainingCreateEditComponent } from './../training-create-edit/training-create-edit.component';
 import { TrainingMonthViewDayComponent } from './training-month-view-day/training-month-view-day.component';
 
 @Component({
@@ -107,21 +106,12 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
     return events;
   }
 
-  onAddEvent(day: moment.Moment) {
-
-    const dialogRef = this.UIService.openDialogFromComponent(TrainingCreateEditComponent, {
-      height: 'auto',
-      width: '98%',
-      maxWidth: '18rem',
-      autoFocus: false,
-      data: { title: this.translateService.instant('TRAINING_LOG.ADD_TRAINING_TITLE', { date: day.utc().format("DD, MMM")}), action: CRUD.Create, day, timeOnly: true },
-      panelClass: []
-    });
-
-    dialogRef.afterClosed().pipe(take(1))
-      .subscribe(_ => {});
+  onAddEvent(day: moment.Moment = moment(new Date())) {
+    this.trainingService.onAdd(TrainingCreateEditComponent, day)
+    .afterClosed()
+    .pipe(take(1))
+    .subscribe(_ => {});;
   }
-
 
   onOpenEvent(trainingEvent: CalendarEvent) {
     const training = trainingEvent.event;

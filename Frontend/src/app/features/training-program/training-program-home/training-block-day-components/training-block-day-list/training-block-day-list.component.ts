@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
@@ -20,7 +19,6 @@ import { TrainingBlockDay } from 'src/server-models/entities/training-program.mo
 import { SubSink } from 'subsink';
 import { TrainingBlockDayCreateEditComponent } from '../training-block-day-create-edit/training-block-day-create-edit.component';
 import { selectedTrainingBlockId } from './../../../../../../ngrx/training-program/training-block/training-block.selectors';
-import { selectedTrainingProgramId } from './../../../../../../ngrx/training-program/training-program/training-program.selectors';
 
 @Component({
   selector: 'app-training-block-day-list',
@@ -28,8 +26,6 @@ import { selectedTrainingProgramId } from './../../../../../../ngrx/training-pro
   styleUrls: ['./training-block-day-list.component.scss']
 })
 export class TrainingBlockDayListComponent implements OnInit {
-
-  blockSelected: Observable<boolean>;
 
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_BLOCK_DAY.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
@@ -47,12 +43,6 @@ export class TrainingBlockDayListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    // both program and block must be selected to display days
-    this.blockSelected = combineLatest(
-      this.store.select(selectedTrainingProgramId),
-      this.store.select(selectedTrainingBlockId),
-    ).pipe(map(([programId, blockId]) => !!programId && !!blockId));
 
     // table config
     this.tableDatasource = new TableDatasource([]);

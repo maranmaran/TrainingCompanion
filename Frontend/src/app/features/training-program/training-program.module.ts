@@ -12,13 +12,7 @@ import { TrainingProgramEffects } from 'src/ngrx/training-program/training-progr
 import { trainingProgramReducer } from 'src/ngrx/training-program/training-program/training-program.reducers';
 import { trainingBlockDayReducer } from './../../../ngrx/training-program/training-block-day/training-block-day.reducers';
 import { trainingBlockReducer } from './../../../ngrx/training-program/training-block/training-block.reducers';
-import { BlockExerciseCreateEditComponent } from './training-program-home/block-exercise-components/block-exercise-create-edit/block-exercise-create-edit.component';
-import { BlockExerciseListComponent } from './training-program-home/block-exercise-components/block-exercise-list/block-exercise-list.component';
-import { BlockSetsCreateEditComponent } from './training-program-home/block-sets-components/block-sets-create-edit/block-sets-create-edit.component';
-import { BlockSetsListComponent } from './training-program-home/block-sets-components/block-sets-list/block-sets-list.component';
-import { BlockTrainingCreateEditComponent } from './training-program-home/block-training-components/block-training-create-edit/block-training-create-edit.component';
-import { BlockTrainingDetailsComponent } from './training-program-home/block-training-components/block-training-details/block-training-details.component';
-import { BlockTrainingListComponent } from './training-program-home/block-training-components/block-training-list/block-training-list.component';
+import { TrainingModule } from './../training-log/training/training.module';
 import { TrainingBlockCreateEditComponent } from './training-program-home/training-block-components/training-block-create-edit/training-block-create-edit.component';
 import { TrainingBlockDetailsComponent } from './training-program-home/training-block-components/training-block-details/training-block-details.component';
 import { TrainingBlockListComponent } from './training-program-home/training-block-components/training-block-list/training-block-list.component';
@@ -38,7 +32,8 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
         StoreModule.forFeature('trainingBlocks', trainingBlockReducer),
         StoreModule.forFeature('trainingBlockDays', trainingBlockDayReducer),
         EffectsModule.forFeature([TrainingProgramEffects]),
-        FormsModule
+        FormsModule,
+        TrainingModule,
     ],
     declarations: [
         TrainingProgramHomeComponent,
@@ -53,16 +48,6 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
 
         TrainingBlockDayListComponent,
         TrainingBlockDayCreateEditComponent,
-
-        BlockTrainingListComponent,
-        BlockTrainingCreateEditComponent,
-        BlockTrainingDetailsComponent,
-
-        BlockExerciseListComponent,
-        BlockExerciseCreateEditComponent,
-
-        BlockSetsListComponent,
-        BlockSetsCreateEditComponent,
     ],
     exports: [
     ],
