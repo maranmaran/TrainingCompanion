@@ -25,6 +25,9 @@ namespace Backend.Business.TrainingPrograms.TrainingBlockDayRequests.GetAll
             try
             {
                 var entities = await _context.TrainingBlockDays
+                    .Include(x => x.Trainings)
+                    .ThenInclude(x => x.Exercises)
+                    .ThenInclude(x => x.Sets)
                     .Where(x => x.TrainingBlockId == request.TrainingBlockId)
                     .ToListAsync(cancellationToken);
 

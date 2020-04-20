@@ -5,7 +5,7 @@
     <app-training-block-list *ngIf="programSelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto"></app-training-block-list>
     <app-training-block-details *ngIf="blockSelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto"></app-training-block-details>
     <app-training-block-day-list *ngIf="blockSelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto"></app-training-block-day-list>
-    <app-training-list *ngIf="blockDaySelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto"></app-training-list> -->
+    <app-training-list *ngIf="blockDaySelected" [partOfTrainingProgram]="true" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto"></app-training-list> -->
 
 </div>
 

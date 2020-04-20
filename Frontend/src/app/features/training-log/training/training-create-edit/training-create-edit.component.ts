@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
@@ -10,6 +10,7 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingCreated } from 'src/ngrx/training-log/training.actions';
+import { selectedTrainingBlockDayId } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { TrainingService } from './../../../../../business/services/feature-services/training.service';
 import { CreateTrainingRequest } from './../../../../../server-models/cqrs/training/create-training.request';
@@ -31,11 +32,13 @@ export class TrainingCreateEditComponent implements OnInit {
       title: string,
       action: CRUD,
       day: moment.Moment,
-      timeOnly: boolean
+      timeOnly: boolean,
+      partOfTrainingProgram: boolean
     }) { }
 
   form: FormGroup;
   private _userId: string;
+  private _blockDay: string;
 
   private dateTimeObj = {
     date: this.data.day.toDate(),
@@ -44,6 +47,8 @@ export class TrainingCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
+
+    this.store.select(selectedTrainingBlockDayId).pipe(take(1)).subscribe(blockDay => this._blockDay = blockDay as string);
     this.createForm();
   }
 
@@ -62,7 +67,13 @@ export class TrainingCreateEditComponent implements OnInit {
       return;
 
     const request = new CreateTrainingRequest();
-    request.applicationUserId = this._userId;
+
+    if(this.data.partOfTrainingProgram) {
+      request.trainingBlockDayId = this._blockDay;
+    } else {
+      request.applicationUserId = this._userId;
+    }
+
     request.dateTrained = moment(moment(this.date.value).format('L')  + ' ' + this.time.value, 'L HH:mm').toDate();
 
     this.createEntity(request);
@@ -73,6 +84,7 @@ export class TrainingCreateEditComponent implements OnInit {
   }
 
   createEntity(request: CreateTrainingRequest) {
+
     this.trainingService.create(request).pipe(take(1))
       .subscribe(
         (training: Training) => {

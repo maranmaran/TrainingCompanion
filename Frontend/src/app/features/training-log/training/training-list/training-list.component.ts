@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
@@ -11,8 +12,9 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training.actions';
+import { setSelectedTraining, trainingDeleted, trainingsFetched } from 'src/ngrx/training-log/training.actions';
 import { trainings } from 'src/ngrx/training-log/training.selectors';
+import { blockDayTrainings } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
@@ -24,6 +26,8 @@ import { TrainingCreateEditComponent } from '../training-create-edit/training-cr
   styleUrls: ['./training-list.component.scss']
 })
 export class TrainingListComponent implements OnInit {
+
+  @Input() partOfTrainingProgram = false;
 
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_LOG.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
@@ -49,22 +53,23 @@ export class TrainingListComponent implements OnInit {
 
     this.subs.add(
 
-      // this.onTrainingProgramSelected(), // fetch blocks data
+      this.onTrainingProgramSelected(), // fetch blocks data
 
       // handle mobile page size of table
       this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
 
       // get data for table datasource
-      this.store.select(trainings).subscribe((trainings: Training[]) => this.tableDatasource.updateDatasource([...trainings]))
+      !this.partOfTrainingProgram && this.store.select(trainings).subscribe((trainings: Training[]) => this.tableDatasource.updateDatasource([...trainings]))
     )
 
   }
 
-  // onTrainingProgramSelected() {
-  //   return this.store.select(selectedTrainingProgramId)
-  //   .pipe(filter(id => !!id), switchMap(programId => this.trainingService.getAll(programId as string)))
-  //   .subscribe((blocks: Training[]) => this.store.dispatch(trainingsFetched({ entities: blocks })));
-  // }
+  onTrainingProgramSelected() {
+    if(!this.partOfTrainingProgram) return new Subscription();
+
+    return this.store.select(blockDayTrainings)
+    .subscribe((trainings: Training[]) => this.store.dispatch(trainingsFetched({ entities: trainings })));
+  }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
@@ -106,7 +111,7 @@ export class TrainingListComponent implements OnInit {
 
   onAdd() {
 
-    this.trainingService.onAdd(TrainingCreateEditComponent)
+    this.trainingService.onAdd(TrainingCreateEditComponent, this.partOfTrainingProgram)
     .afterClosed()
     .pipe(take(1))
     .subscribe((training: Training) => {
