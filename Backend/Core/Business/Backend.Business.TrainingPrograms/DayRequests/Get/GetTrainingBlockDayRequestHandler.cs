@@ -7,7 +7,7 @@ using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Get
+namespace Backend.Business.TrainingPrograms.DayRequests.Get
 {
     public class GetTrainingBlockDayRequestHandler : IRequestHandler<GetTrainingBlockDayRequest, TrainingBlockDay>
     {

@@ -1,14 +1,14 @@
-﻿using Backend.Domain;
-using Backend.Domain.Entities.TrainingProgramMaker;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain;
+using Backend.Domain.Entities.TrainingProgramMaker;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.TrainingPrograms.TrainingProgramRequests.GetAll
+namespace Backend.Business.TrainingPrograms.ProgramRequests.GetAll
 {
     public class GetAllTrainingProgramsRequestHandler : IRequestHandler<GetAllTrainingProgramsRequest, IEnumerable<TrainingProgram>>
     {

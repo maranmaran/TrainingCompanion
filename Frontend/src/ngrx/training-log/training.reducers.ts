@@ -51,6 +51,7 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     return undefined;
   }),
 
+
   // REORDER
   on(TrainingActions.reorderExercises, (state: TrainingState, payload: { trainingId:string, previousItem: string, currentItem: string }) => {
 
@@ -89,8 +90,8 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
   }),
 );
 
-export const getSelectedTrainingId = (state: TrainingState) => state.selectedTrainingId;
-export const getSelectedExerciseId = (state: TrainingState) => state.selectedExerciseId;
+export const getSelectedTrainingId = (state: TrainingState) => state?.selectedTrainingId;
+export const getSelectedExerciseId = (state: TrainingState) => state?.selectedExerciseId;
 
 // get the selectors
 export const {

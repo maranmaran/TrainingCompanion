@@ -18,6 +18,7 @@ import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { TrainingCreateEditComponent } from '../training-create-edit/training-create-edit.component';
+import { trainingsFetched } from './../../../../../ngrx/training-log/training.actions';
 
 @Component({
   selector: 'app-training-list',
@@ -57,18 +58,22 @@ export class TrainingListComponent implements OnInit {
 
       // handle mobile page size of table
       this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
+      this.store.select(trainings).subscribe((trainings: Training[]) => this.tableDatasource.updateDatasource([...trainings]))
+
     )
 
   }
 
   getTrainings() {
     if(!this.partOfTrainingProgram) {
-      return this.store.select(trainings).subscribe((trainings: Training[]) => this.tableDatasource.updateDatasource([...trainings]));
     }
 
     if(this.partOfTrainingProgram) {
       return this.store.select(blockDayTrainings)
-        .subscribe((trainings: Training[]) => this.tableDatasource.updateDatasource([...trainings]));
+        .subscribe((trainings: Training[]) => {
+          this.store.dispatch(trainingsFetched({entities: trainings}));
+          // this.tableDatasource.updateDatasource([...trainings])
+        });
     }
   }
 

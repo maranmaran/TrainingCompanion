@@ -1,9 +1,9 @@
-﻿using Backend.Domain.Entities.TrainingProgramMaker;
-using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Backend.Domain.Entities.TrainingProgramMaker;
+using MediatR;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockDayRequests.GetAll
+namespace Backend.Business.TrainingPrograms.DayRequests.GetAll
 {
 
     public class GetAllTrainingBlockDaysRequest : IRequest<IEnumerable<TrainingBlockDay>>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.GetAll
+namespace Backend.Business.TrainingPrograms.BlockRequests.GetAll
 {
 
     public class GetAllTrainingBlocksRequest : IRequest<IEnumerable<TrainingBlock>>

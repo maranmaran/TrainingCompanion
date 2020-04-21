@@ -1,14 +1,14 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Create
+namespace Backend.Business.TrainingPrograms.BlockRequests.Create
 {
     public class CreateTrainingBlockRequestHandler : IRequestHandler<CreateTrainingBlockRequest, TrainingBlock>
     {

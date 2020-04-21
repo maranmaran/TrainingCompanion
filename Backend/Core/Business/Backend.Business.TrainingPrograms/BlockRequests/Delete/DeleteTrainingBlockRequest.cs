@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Delete
+namespace Backend.Business.TrainingPrograms.BlockRequests.Delete
 {
 
     public class DeleteTrainingBlockRequest : IRequest<Unit>

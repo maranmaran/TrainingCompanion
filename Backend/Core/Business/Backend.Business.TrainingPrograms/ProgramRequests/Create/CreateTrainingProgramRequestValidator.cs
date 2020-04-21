@@ -1,7 +1,7 @@
 ﻿using Backend.Domain.Entities.TrainingProgramMaker;
 using FluentValidation;
 
-namespace Backend.Business.TrainingPrograms.TrainingProgramRequests.Create
+namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
 {
     public class CreateTrainingProgramRequestValidator : AbstractValidator<TrainingProgram>
     {

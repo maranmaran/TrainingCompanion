@@ -1,7 +1,7 @@
-﻿using Backend.Business.TrainingPrograms.TrainingBlockRequests.Update;
+﻿using Backend.Business.TrainingPrograms.BlockRequests.Update;
 using FluentValidation;
 
-namespace Backend.Business.TrainingPrograms.TrainingProgramRequests.Update
+namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
 {
     public class UpdateTrainingProgramRequestValidator : AbstractValidator<UpdateTrainingBlockRequest>
     {

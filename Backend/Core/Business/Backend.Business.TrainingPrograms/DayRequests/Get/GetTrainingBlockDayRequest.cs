@@ -2,7 +2,7 @@
 using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Get
+namespace Backend.Business.TrainingPrograms.DayRequests.Get
 {
 
     public class GetTrainingBlockDayRequest : IRequest<TrainingBlockDay>

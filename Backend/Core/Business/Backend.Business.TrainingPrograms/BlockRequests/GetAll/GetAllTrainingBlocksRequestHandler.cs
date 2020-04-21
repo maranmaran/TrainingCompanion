@@ -8,7 +8,7 @@ using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.GetAll
+namespace Backend.Business.TrainingPrograms.BlockRequests.GetAll
 {
     public class GetAllTrainingBlocksRequestHandler : IRequestHandler<GetAllTrainingBlocksRequest, IEnumerable<TrainingBlock>>
     {

@@ -2,7 +2,7 @@
 using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Create
+namespace Backend.Business.TrainingPrograms.BlockRequests.Create
 {
 
     public class CreateTrainingBlockRequest : IRequest<TrainingBlock>

@@ -104,14 +104,17 @@
     "DESCRIPTION_LABEL": "Opis",
     "NAME_LABEL": "Trening ciklus",
     "DELETE_TITLE": "Obriši trening ciklus",
-    "DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening ciklus {{trainingBlock}}?</p>",
+    "DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening ciklus {{trainingBlock}}?</p>/n<p>Svi podaci za taj ciklus će biti izgubljeni</p>",
     "ADD_TITLE": "Dodaj trening ciklus",
     "UPDATE_TITLE": "Uredi trening ciklus"
   },
   "TRAINING_BLOCK_DAY": {
     "DAY_LABEL": "Dan",
     "HAS_TRAINING": "Ima treninge",
-    "NAME_LABEL": "Dan u ciklusu"
+    "NAME_LABEL": "Dan u ciklusu",
+    "DELETE_TITLE": "Izbriši dan trening ciklusa",
+    "DELETE_DIALOG": "<p>Jeste li sigurni da zelite obrisati {{name}}?</p>/n<p>Svi podaci za treninge taj dan će biti izgubljeni</p>",
+    "ADD_TITLE": "Add training block day"
   },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Uvoz podataka",

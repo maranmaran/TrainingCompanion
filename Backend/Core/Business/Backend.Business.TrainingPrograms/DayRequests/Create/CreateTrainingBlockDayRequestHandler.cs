@@ -2,13 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Backend.Business.TrainingPrograms.TrainingBlockRequests.Create;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Create
+namespace Backend.Business.TrainingPrograms.DayRequests.Create
 {
     public class CreateTrainingBlockDayRequestHandler : IRequestHandler<CreateTrainingBlockDayRequest, TrainingBlockDay>
     {

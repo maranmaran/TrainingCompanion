@@ -7,7 +7,7 @@ using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
 
-namespace Backend.Business.TrainingPrograms.TrainingProgramRequests.Create
+namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
 {
     public class CreateTrainingProgramRequestHandler : IRequestHandler<CreateTrainingProgramRequest, TrainingProgram>
     {
