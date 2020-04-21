@@ -4,6 +4,7 @@ import { TrainingDetailsResolver } from 'src/business/resolvers/training-details
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
+import { ExerciseModule } from './../exercise/exercise.module';
 import { TrainingCreateEditComponent } from './training-create-edit/training-create-edit.component';
 import { TrainingMediaComponent } from './training-details/panels/training-media/training-media.component';
 import { TrainingMetricsComponent } from './training-details/panels/training-metrics/training-metrics.component';
@@ -17,6 +18,7 @@ import { TrainingMonthComponent } from './training-month/training-month.componen
 @NgModule({
   imports: [
       SharedModule,
+      ExerciseModule
   ],
   declarations: [
       TrainingDetailsDataComponent,
@@ -29,7 +31,7 @@ import { TrainingMonthComponent } from './training-month/training-month.componen
       TrainingMonthComponent,
   ],
   exports: [
-    TrainingListComponent,
+      TrainingListComponent,
   ],
   providers: [
       UIService,

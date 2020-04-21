@@ -3,5 +3,5 @@
   <mat-expansion-panel-header>
     {{'TRAINING_LOG.MEDIA' | translate}}
   </mat-expansion-panel-header>
-  <app-media-uploader (fileUploaded)="onFileUploaded.emit($event)" [files]="media"></app-media-uploader>
+  <app-media-uploader (fileUploaded)="onFileUploaded.emit($event)" [fileTypesToAccept]="'image/*, video/*'" [files]="media"></app-media-uploader>
 </mat-expansion-panel>

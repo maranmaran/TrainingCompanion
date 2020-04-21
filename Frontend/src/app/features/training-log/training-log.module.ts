@@ -13,13 +13,12 @@ import { TrainingModule } from './training/training.module';
 @NgModule({
     imports: [
         SharedModule,
+        TrainingLogRoutingModule,
+        StoreModule.forFeature('training', trainingReducer),
+        EffectsModule.forFeature([TrainingEffects]),
         TrainingModule,
         ExerciseModule,
         SetModule,
-        TrainingLogRoutingModule,
-        // StoreModule.forFeature('trainingLogState', trainingLogReducerMap),
-        StoreModule.forFeature('training', trainingReducer),
-        EffectsModule.forFeature([TrainingEffects]),
     ],
     declarations: [
         TrainingLogHomeComponent,
