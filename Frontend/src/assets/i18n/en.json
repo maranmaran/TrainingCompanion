@@ -104,14 +104,17 @@
     "DESCRIPTION_LABEL": "Description",
     "NAME_LABEL": "Training block",
     "DELETE_TITLE": "Delete training block",
-    "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{trainingBlock}}?</p>",
+    "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{trainingBlock}}?</p>/n<p>All data for that training block will be lost.</p>",
     "ADD_TITLE": "Add training block",
     "UPDATE_TITLE": "Update training block"
   },
   "TRAINING_BLOCK_DAY": {
     "DAY_LABEL": "Day",
     "HAS_TRAINING": "Has trainings",
-    "NAME_LABEL": "Training block"
+    "NAME_LABEL": "Training block",
+    "DELETE_TITLE": "Delete training block day",
+    "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{name}}?</p>/n<p>Data for all trainings on that day will be lost.</p>",
+    "ADD_TITLE": "Add training block day"
   },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Import",

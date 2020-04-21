@@ -76,8 +76,8 @@ export class TrainingBlockDayListComponent implements OnInit {
 
     const tableConfig = new TableConfig({
       filterFunction: (data: TrainingBlockDay, filter: string) => data.name.trim().toLocaleLowerCase().indexOf(filter) !== -1,
-      cellActions: [TableAction.update, TableAction.delete],
-      headerActions: [TableAction.create, TableAction.deleteMany],
+      cellActions: [TableAction.delete],
+      headerActions: [TableAction.create],
       pagingOptions: {
         pageSizeOptions: [5, 10, 15],
         pageSize: 10,

@@ -10,31 +10,31 @@ export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = cre
 
   // CREATE
   on(ExerciseTypeActions.exerciseTypeCreated, (state: ExerciseTypeState, payload: { entity: ExerciseType }) => {
-      return adapterExerciseType.addOne(payload.entity, state);
+    return adapterExerciseType.addOne(payload.entity, state);
   }),
 
   // UPDATE
   on(ExerciseTypeActions.exerciseTypeUpdated, (state: ExerciseTypeState, payload: { entity: Update<ExerciseType> }) => {
-      return adapterExerciseType.updateOne(payload.entity, state);
+    return adapterExerciseType.updateOne(payload.entity, state);
   }),
 
   // UPDATE MANY
   on(ExerciseTypeActions.manyExerciseTypesUpdated, (state: ExerciseTypeState, payload: { entities: Update<ExerciseType>[] }) => {
-      return adapterExerciseType.updateMany(payload.entities, state);
+    return adapterExerciseType.updateMany(payload.entities, state);
   }),
 
   // DELETE
   on(ExerciseTypeActions.exerciseTypeDeleted, (state: ExerciseTypeState, payload: { id: string }) => {
-      return adapterExerciseType.removeOne(payload.id, state);
+    return adapterExerciseType.removeOne(payload.id, state);
   }),
 
   // GET ALL PAGED
-  on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[], totalItems: number, pagingModel: PagingModel  }) => {
-      return {
-        ...adapterExerciseType.addAll(payload.entities, state),
-        totalItems: payload.totalItems,
-        pagingModel: payload.pagingModel
-      };
+  on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[], totalItems: number, pagingModel: PagingModel }) => {
+    return {
+      ...adapterExerciseType.addAll(payload.entities, state),
+      totalItems: payload.totalItems,
+      pagingModel: payload.pagingModel
+    };
   }),
 
   // GET ALL
@@ -44,15 +44,15 @@ export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = cre
 
   // SET SELECTED
   on(ExerciseTypeActions.setSelectedExerciseType, (state: ExerciseTypeState, payload: { entity: ExerciseType }) => {
-      return {
-          ...state,
-          selectedExerciseTypeId: payload.entity ? payload.entity.id : null,
-      };
+    return {
+      ...state,
+      selectedExerciseTypeId: payload.entity ? payload.entity.id : null,
+    };
   }),
 
   on(ExerciseTypeActions.clearExerciseTypeState, (state: ExerciseTypeState) => {
     return undefined;
-}),
+  }),
 );
 
 export const getSelectedExerciseTypeId = (state: ExerciseTypeState) => state.selectedExerciseTypeId;

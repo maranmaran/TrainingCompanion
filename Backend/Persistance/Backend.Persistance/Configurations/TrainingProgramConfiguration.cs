@@ -43,6 +43,11 @@ namespace Backend.Persistance.Configurations
         public void Configure(EntityTypeBuilder<TrainingBlock> builder)
         {
             builder
+                .HasOne(x => x.TrainingProgram)
+                .WithMany(x => x.TrainingBlocks)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
                 .HasMany(x => x.Days)
                 .WithOne(x => x.TrainingBlock)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -55,12 +60,12 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasOne(x => x.TrainingBlock)
                 .WithMany(x => x.Days)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasMany(x => x.Trainings)
                 .WithOne(x => x.TrainingBlockDay)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

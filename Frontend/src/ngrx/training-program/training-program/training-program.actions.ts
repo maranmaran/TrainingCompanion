@@ -26,3 +26,4 @@ export const setSelectedTrainingProgram = createAction(
   "[TrainingProgram] Set selected trainingProgram",
   props<{ entity: TrainingProgram }>()
 );
+

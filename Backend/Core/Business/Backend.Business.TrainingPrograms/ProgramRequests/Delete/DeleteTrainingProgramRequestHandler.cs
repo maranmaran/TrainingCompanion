@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.TrainingPrograms.TrainingBlockRequests.Delete;
 using Backend.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.TrainingPrograms.TrainingProgramRequests.Delete
+namespace Backend.Business.TrainingPrograms.ProgramRequests.Delete
 {
-    public class DeleteTrainingProgramRequestHandler : IRequestHandler<DeleteTrainingBlockRequest, Unit>
+    public class DeleteTrainingProgramRequestHandler : IRequestHandler<DeleteTrainingProgramRequest, Unit>
     {
         private readonly IApplicationDbContext _context;
 
@@ -18,7 +17,7 @@ namespace Backend.Business.TrainingPrograms.TrainingProgramRequests.Delete
         }
 
 
-        public async Task<Unit> Handle(DeleteTrainingBlockRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteTrainingProgramRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -32,7 +31,7 @@ namespace Backend.Business.TrainingPrograms.TrainingProgramRequests.Delete
             }
             catch (Exception e)
             {
-                throw new Exception(nameof(DeleteTrainingBlockRequest), e);
+                throw new Exception(nameof(DeleteTrainingProgramRequest), e);
             }
         }
     }

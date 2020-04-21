@@ -1,8 +1,8 @@
-﻿using Backend.Domain.Entities.TrainingProgramMaker;
+﻿using System;
+using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
-using System;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Update
+namespace Backend.Business.TrainingPrograms.BlockRequests.Update
 {
 
     public class UpdateTrainingBlockRequest : IRequest<TrainingBlock>

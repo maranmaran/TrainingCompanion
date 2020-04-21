@@ -1,12 +1,12 @@
-﻿using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Create;
-using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Delete;
-using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Get;
-using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.GetAll;
-using Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Update;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.TrainingPrograms.DayRequests.Create;
+using Backend.Business.TrainingPrograms.DayRequests.Delete;
+using Backend.Business.TrainingPrograms.DayRequests.Get;
+using Backend.Business.TrainingPrograms.DayRequests.GetAll;
+using Backend.Business.TrainingPrograms.DayRequests.Update;
 
 namespace Backend.API.Controllers
 {

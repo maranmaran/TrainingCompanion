@@ -1,14 +1,12 @@
-﻿
-
-using Backend.Business.TrainingPrograms.TrainingProgramRequests.Create;
-using Backend.Business.TrainingPrograms.TrainingProgramRequests.Delete;
-using Backend.Business.TrainingPrograms.TrainingProgramRequests.Get;
-using Backend.Business.TrainingPrograms.TrainingProgramRequests.GetAll;
-using Backend.Business.TrainingPrograms.TrainingProgramRequests.Update;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.TrainingPrograms.ProgramRequests.Create;
+using Backend.Business.TrainingPrograms.ProgramRequests.Delete;
+using Backend.Business.TrainingPrograms.ProgramRequests.Get;
+using Backend.Business.TrainingPrograms.ProgramRequests.GetAll;
+using Backend.Business.TrainingPrograms.ProgramRequests.Update;
 
 namespace Backend.API.Controllers
 {

@@ -2,7 +2,7 @@
 using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockDayRequests.Update
+namespace Backend.Business.TrainingPrograms.DayRequests.Update
 {
 
     public class UpdateTrainingBlockDayRequest : IRequest<TrainingBlockDay>

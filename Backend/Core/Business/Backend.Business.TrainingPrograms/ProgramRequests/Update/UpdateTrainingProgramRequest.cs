@@ -1,8 +1,8 @@
-﻿using Backend.Domain.Entities.TrainingProgramMaker;
+﻿using System;
+using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
-using System;
 
-namespace Backend.Business.TrainingPrograms.TrainingProgramRequests.Update
+namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
 {
 
     public class UpdateTrainingProgramRequest : IRequest<TrainingProgram>

@@ -6,7 +6,7 @@ using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Delete
+namespace Backend.Business.TrainingPrograms.BlockRequests.Delete
 {
     public class DeleteTrainingBlockRequestHandler : IRequestHandler<DeleteTrainingBlockRequest, Unit>
     {
@@ -22,9 +22,9 @@ namespace Backend.Business.TrainingPrograms.TrainingBlockRequests.Delete
         {
             try
             {
-                var entity = await _context.TrainingPrograms.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                var entity = await _context.TrainingBlocks.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                _context.TrainingPrograms.Remove(entity);
+                _context.TrainingBlocks.Remove(entity);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
