@@ -10,7 +10,9 @@ import { TrainingProgramService } from 'src/business/services/feature-services/t
 import { UIService } from 'src/business/services/shared/ui.service';
 import { TrainingProgramEffects } from 'src/ngrx/training-program/training-program/training-program.effects';
 import { trainingProgramReducer } from 'src/ngrx/training-program/training-program/training-program.reducers';
+import { TrainingBlockDayEffects } from './../../../ngrx/training-program/training-block-day/training-block-day.effects';
 import { trainingBlockDayReducer } from './../../../ngrx/training-program/training-block-day/training-block-day.reducers';
+import { TrainingBlockEffects } from './../../../ngrx/training-program/training-block/training-block.effects';
 import { trainingBlockReducer } from './../../../ngrx/training-program/training-block/training-block.reducers';
 import { TrainingModule } from './../training-log/training/training.module';
 import { TrainingBlockCreateEditComponent } from './training-program-home/training-block-components/training-block-create-edit/training-block-create-edit.component';
@@ -31,7 +33,7 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
         StoreModule.forFeature('trainingPrograms', trainingProgramReducer),
         StoreModule.forFeature('trainingBlocks', trainingBlockReducer),
         StoreModule.forFeature('trainingBlockDays', trainingBlockDayReducer),
-        EffectsModule.forFeature([TrainingProgramEffects]),
+        EffectsModule.forFeature([TrainingProgramEffects, TrainingBlockEffects, TrainingBlockDayEffects]),
         FormsModule,
         TrainingModule,
     ],

@@ -26,7 +26,7 @@ export const trainingBlockReducer: ActionReducer<TrainingBlockState, Action> = c
 
     // GET ALL
     on(TrainingBlockActions.trainingBlockFetched, (state: TrainingBlockState, payload: { entities: TrainingBlock[] }) => {
-        return adapterTrainingBlock.addMany(payload.entities, state);
+        return adapterTrainingBlock.addAll(payload.entities, state);
     }),
 
     // SET SELECTED

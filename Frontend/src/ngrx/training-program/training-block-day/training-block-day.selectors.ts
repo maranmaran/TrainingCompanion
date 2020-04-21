@@ -11,7 +11,7 @@ export const trainingBlockDayIds = createSelector(
 
 export const blockDayTrainings = createSelector(
     selectTrainingBlockDayState,
-    state => state.entities[state.selectedTrainingBlockDayId].trainings
+    state => state.entities[state.selectedTrainingBlockDayId]?.trainings ?? []
 );
 
 export const trainingBlockDayEntities = createSelector(

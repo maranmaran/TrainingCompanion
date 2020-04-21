@@ -26,7 +26,7 @@ export const trainingBlockDayReducer: ActionReducer<TrainingBlockDayState, Actio
 
     // GET ALL
     on(TrainingBlockDayActions.trainingBlockDayFetched, (state: TrainingBlockDayState, payload: { entities: TrainingBlockDay[] }) => {
-        return adapterTrainingBlockDay.addMany(payload.entities, state);
+       return adapterTrainingBlockDay.addAll(payload.entities, state); // replace current entities with these
     }),
 
     // SET SELECTED
