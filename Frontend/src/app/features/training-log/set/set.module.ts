@@ -13,6 +13,7 @@ import { SetListComponent } from './set-list/set-list.component';
       SetCreateEditComponent,
   ],
   exports: [
+      SetListComponent
   ],
   providers: [
       SetService,

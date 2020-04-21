@@ -28,7 +28,6 @@ import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-cr
   selector: 'app-exercise-list',
   templateUrl: './exercise-list.component.html',
   styleUrls: ['./exercise-list.component.scss'],
-  providers: [ExerciseTypeService]
 })
 export class ExerciseListComponent implements OnInit, OnDestroy {
 
