@@ -13,7 +13,6 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTrainingProgram, trainingProgramDeleted } from 'src/ngrx/training-program/training-program/training-program.actions';
 import { trainingPrograms } from 'src/ngrx/training-program/training-program/training-program.selectors';
-import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingProgramCreateEditComponent } from '../training-program-create-edit/training-program-create-edit.component';
@@ -48,10 +47,6 @@ export class TrainingProgramListComponent implements OnInit {
     this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
     this.subs.add(
-
-      // handle mobile page size of table
-      this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
-
       // get data for table datasource
       this.store.select(trainingPrograms).subscribe((trainingPrograms: TrainingProgram[]) => this.tableDatasource.updateDatasource([...trainingPrograms]))
     )
@@ -70,7 +65,7 @@ export class TrainingProgramListComponent implements OnInit {
       headerActions: [TableAction.create, TableAction.deleteMany],
       pagingOptions: {
         pageSizeOptions: [5, 10, 15],
-        pageSize: 10,
+        pageSize: 5,
         serverSidePaging: false
       },
       selectionEnabled: false,
@@ -88,7 +83,7 @@ export class TrainingProgramListComponent implements OnInit {
         cellClass: 'trainingProgram-cell',
         definition: 'name',
         title: 'TRAINING_PROGRAM.NAME_LABEL',
-        sort: true,
+        sort: false,
         displayFn: (item: TrainingProgram) => item.name,
       }),
     ]

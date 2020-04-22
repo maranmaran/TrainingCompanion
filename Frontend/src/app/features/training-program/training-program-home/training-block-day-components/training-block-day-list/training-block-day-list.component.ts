@@ -14,7 +14,6 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTrainingBlockDay, trainingBlockDayDeleted, trainingBlockDayFetched } from 'src/ngrx/training-program/training-block-day/training-block-day.actions';
 import { trainingBlockDays } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
-import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingBlockDayCreateEditComponent } from '../training-block-day-create-edit/training-block-day-create-edit.component';
@@ -53,9 +52,6 @@ export class TrainingBlockDayListComponent implements OnInit {
 
       this.onTrainingBlockSelected(), // fetch blocks data
 
-      // handle mobile page size of table
-      this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
-
       // get data for table datasource
       this.store.select(trainingBlockDays).subscribe((trainingBlockDays: TrainingBlockDay[]) => this.tableDatasource.updateDatasource([...trainingBlockDays]))
     )
@@ -80,7 +76,7 @@ export class TrainingBlockDayListComponent implements OnInit {
       headerActions: [TableAction.create],
       pagingOptions: {
         pageSizeOptions: [5, 10, 15],
-        pageSize: 10,
+        pageSize: 5,
         serverSidePaging: false
       },
       selectionEnabled: false,
@@ -98,7 +94,7 @@ export class TrainingBlockDayListComponent implements OnInit {
         cellClass: 'trainingBlockDay-cell',
         definition: 'name',
         title: 'TRAINING_BLOCK_DAY.NAME_LABEL',
-        sort: true,
+        sort: false,
         displayFn: (item: TrainingBlockDay) => item.name.replace("Day", this.translateService.instant("TRAINING_BLOCK_DAY.DAY_LABEL")),
       }),
       new CustomColumn({
@@ -106,7 +102,7 @@ export class TrainingBlockDayListComponent implements OnInit {
         cellClass: 'trainingBlockDay-cell',
         definition: 'hasTraining',
         title: 'TRAINING_BLOCK_DAY.HAS_TRAINING',
-        sort: true,
+        sort: false,
         useComponent: true,
         component: ActiveFlagComponent,
         componentInputs: (item: TrainingBlockDay) => { return { active: !item.restDay } },      }),

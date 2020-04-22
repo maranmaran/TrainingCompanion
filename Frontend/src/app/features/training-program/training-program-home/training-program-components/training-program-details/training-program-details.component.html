@@ -16,7 +16,10 @@
 
         <div class="details">
 
-            <img class="program-image mat-elevation-z5" (click)="uploadInput.click()" src="{{image}}" />
+            <img *ngIf="trainingProgram.imageUrl" class="program-image mat-elevation-z5" (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+            <div *ngIf="!trainingProgram.imageUrl" class="image-icon mat-elevation-z5">
+              <i class="fas fa-image"></i>
+            </div>
 
             <p *ngIf="trainingProgram.description && trainingProgram.description.length > 940">
               {{ trainingProgram.description.slice(0, 940) + ' ' }}

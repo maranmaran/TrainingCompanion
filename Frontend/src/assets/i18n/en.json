@@ -92,7 +92,7 @@
     "NO_DESCRIPTION": "No description",
     "ASSIGN": "Assign program",
     "DESCRIPTION_LABEL": "Description",
-    "CHANGE_IMAGE": "Upload cover image",
+    "CHANGE_IMAGE": "Upload",
     "NAME_LABEL": "Training program",
     "DELETE_TITLE": "Delete training program",
     "DELETE_DIALOG": "<p>Are you sure you wish to delete training program {{trainingProgram}}?</p>",

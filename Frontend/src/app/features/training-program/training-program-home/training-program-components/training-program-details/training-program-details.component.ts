@@ -13,7 +13,6 @@ import { TrainingProgram } from 'src/server-models/entities/training-program.mod
 export class TrainingProgramDetailsComponent implements OnInit {
 
   trainingProgram$: Observable<TrainingProgram>;
-  image: string;
 
   constructor(
     private store: Store<AppState>
@@ -21,16 +20,6 @@ export class TrainingProgramDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.trainingProgram$ = this.store.select(selectedTrainingProgram);
-
-    this.trainingProgram$.subscribe(val => {
-      setTimeout(_ => this.image = this.getImage());
-    })
-  }
-
-
-  // for random lorem picsum image
-  getImage() {
-    return `https://picsum.photos/seed/${Math.floor(Math.random() * 100)}/200`
   }
 
 

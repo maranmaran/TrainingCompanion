@@ -13,6 +13,11 @@ export const trainingsFetched = createAction(
     props<{ entities: Training[] }>()
 );
 
+export const trainingsFetchedReplaceState = createAction(
+  '[Training] Fetched',
+  props<{ entities: Training[] }>()
+);
+
 export const trainingUpdated = createAction(
     '[Training] Updated',
     props<{ entity: Update<Training> }>()

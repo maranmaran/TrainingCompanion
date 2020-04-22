@@ -50,18 +50,23 @@ export class TrainingProgramCreateEditComponent implements OnInit {
 
   get name(): AbstractControl { return this.form.get('name'); }
   get description(): AbstractControl { return this.form.get('description'); }
-  get image(): AbstractControl { return this.form.get('image'); }
 
   createForm() {
     this.form = new FormGroup({
       name: new FormControl(this.trainingProgram.name, Validators.required),
       description: new FormControl(this.trainingProgram.description),
-      image: new FormControl(this.trainingProgram.imageUrl),
     });
   }
 
-  fileChangeEvent(event) {
-    console.log(event);
+  fileChangeEvent(files: FileList) {
+    if(!files.item(0)) return;
+
+    let file = files.item(0);
+    // this.trainingProgram.imageUrl = URL.createObjectURL(file);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => this.trainingProgram.imageUrl = reader.result as string;
   }
 
   onSubmit() {
@@ -84,7 +89,7 @@ export class TrainingProgramCreateEditComponent implements OnInit {
       creatorId: this._userId,
       name: this.name.value,
       description: this.description.value,
-      image: this.image.value
+      image: this.trainingProgram.imageUrl
     })
 
     this.trainingProgramService.create(request).pipe(take(1))
@@ -102,7 +107,7 @@ export class TrainingProgramCreateEditComponent implements OnInit {
       id: this.trainingProgram.id,
       name: this.name.value,
       description: this.description.value,
-      image: this.image.value
+      image: this.trainingProgram.imageUrl
     })
 
     this.trainingProgramService.update(request).pipe(take(1))
