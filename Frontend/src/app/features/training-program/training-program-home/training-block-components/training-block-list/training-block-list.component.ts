@@ -13,7 +13,6 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTrainingBlock, trainingBlockDeleted } from 'src/ngrx/training-program/training-block/training-block.actions';
 import { trainingBlocks } from 'src/ngrx/training-program/training-block/training-block.selectors';
-import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { TrainingBlock } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingBlockCreateEditComponent } from '../training-block-create-edit/training-block-create-edit.component';
@@ -53,9 +52,6 @@ export class TrainingBlockListComponent implements OnInit {
 
       this.onTrainingProgramSelected(), // fetch blocks data
 
-      // handle mobile page size of table
-      this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
-
       // get data for table datasource
       this.store.select(trainingBlocks).subscribe((trainingBlocks: TrainingBlock[]) => this.tableDatasource.updateDatasource([...trainingBlocks]))
     )
@@ -80,7 +76,7 @@ export class TrainingBlockListComponent implements OnInit {
       headerActions: [TableAction.create, TableAction.deleteMany],
       pagingOptions: {
         pageSizeOptions: [5, 10, 15],
-        pageSize: 10,
+        pageSize: 5,
         serverSidePaging: false
       },
       selectionEnabled: false,
@@ -98,7 +94,7 @@ export class TrainingBlockListComponent implements OnInit {
         cellClass: 'trainingBlock-cell',
         definition: 'name',
         title: 'TRAINING_BLOCK.NAME_LABEL',
-        sort: true,
+        sort: false,
         displayFn: (item: TrainingBlock) => item.name,
       }),
     ]

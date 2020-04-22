@@ -5,17 +5,19 @@
 <div class="form" fxLayout="column" fxLayoutGap="1rem">
     <form [formGroup]="form">
 
-        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
-            <ng-container *ngTemplateOutlet="uploadInput"></ng-container>
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="space-evenly center"
+        fxLayout.lt-sm="column">
 
-            <mat-form-field>
-                <input matInput type="text" formControlName="name"
-                    placeholder="{{'TRAINING_PROGRAM.NAME_LABEL' | translate}}">
-            </mat-form-field>
+          <mat-form-field style="max-width: 400px">
+            <input matInput type="text" formControlName="name"
+            placeholder="{{'TRAINING_PROGRAM.NAME_LABEL' | translate}}">
+          </mat-form-field>
+
+          <ng-container *ngTemplateOutlet="uploadInput; context: { trainingProgram: trainingProgram }"></ng-container>
         </div>
 
         <mat-form-field>
-            <textarea rows="5" matInput formControlName="description"
+            <textarea rows="8" matInput formControlName="description"
                 placeholder="{{'TRAINING_PROGRAM.DESCRIPTION_LABEL' | translate}}">
             </textarea>
         </mat-form-field>
@@ -30,11 +32,15 @@
 </div>
 
 
-<ng-template #uploadInput>
+<ng-template #uploadInput let-trainingProgram="trainingProgram">
     <div class="upload-input">
 
-        <img (click)="uploadInput.click()"
-            src="https://akns-images.eonline.com/eol_images/Entire_Site/2019112/rs_1024x759-191202131443-1024-star-wars-yoda-ch-120219.jpg?fit=inside|900:auto&output-quality=90" />
+        <img *ngIf="trainingProgram.imageUrl; else fallbackImage" class="mat-elevation-z5" (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+        <ng-template #fallbackImage >
+          <div class="image-icon  mat-elevation-z5" (click)="uploadInput.click()">
+            <i class="fas fa-image"></i>
+          </div>
+        </ng-template>
 
         <mat-chip-list class="upload-chip">
             <mat-chip color="primary" selected (click)="uploadInput.click()">
@@ -42,6 +48,6 @@
             </mat-chip>
         </mat-chip-list>
 
-        <input fxHide="true" #uploadInput type="file" (change)="fileChangeEvent($event)" accept="image/*">
+        <input fxHide="true" #uploadInput type="file" (change)="fileChangeEvent($event.target.files)" accept="image/*">
     </div>
 </ng-template>

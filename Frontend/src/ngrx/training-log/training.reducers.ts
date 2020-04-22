@@ -33,6 +33,11 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     return adapterTraining.addMany(payload.entities, state);
   }),
 
+  // GET ALL - but replace state
+  on(TrainingActions.trainingsFetchedReplaceState, (state: TrainingState, payload: { entities: Training[] }) => {
+    return adapterTraining.addAll(payload.entities, state);
+  }),
+
   // SET SELECTED
   on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: { entity: Training }) => {
     return {

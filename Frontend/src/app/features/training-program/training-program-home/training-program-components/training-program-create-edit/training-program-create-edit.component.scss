@@ -1,8 +1,14 @@
 .upload-input {
     img {
-        width: 150px;
-        height: 150px;
+        width: 200px;
+        height: 200px;
         border-radius: 50%;
+    }
+
+    .image-icon {
+      font-size: 140px;
+      padding: 30px;
+      border-radius: 50%;
     }
 
     .upload-chip {
@@ -10,7 +16,7 @@
         justify-content: center;
         position: relative;
         z-index: 100;
-        bottom: 2rem;
+        bottom: 2.5rem;
         visibility: hidden;
     }
 
@@ -19,6 +25,13 @@
     }
 
     img:hover {
+        // opacity: 0.1;
+
+        + .upload-chip {
+            visibility: visible;
+        }
+    }
+    .image-icon:hover {
         // opacity: 0.1;
 
         + .upload-chip {

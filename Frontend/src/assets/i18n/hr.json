@@ -92,7 +92,7 @@
     "NO_DESCRIPTION": "Nema opisa",
     "ASSIGN": "Dodijeli program",
     "DESCRIPTION_LABEL": "Opis",
-    "CHANGE_IMAGE": "Dodaj sliku",
+    "CHANGE_IMAGE": "Dodaj",
     "NAME_LABEL": "Trening program",
     "DELETE_TITLE": "Obriši trening program",
     "DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening program {{trainingProgram}}?</p>",

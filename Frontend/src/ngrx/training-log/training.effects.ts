@@ -33,6 +33,20 @@ export class TrainingEffects {
       )
     , { dispatch: false });
 
+  trainingAdded$ = createEffect(() =>
+    this.actions$
+      .pipe(
+        ofType(TrainingActions.trainingCreated),
+        tap((payload) => {
+          if (payload.entity) {
+            localStorage.setItem(LocalStorageKeys.trainingId, payload.entity.id);
+          } else {
+            localStorage.removeItem(LocalStorageKeys.trainingId);
+          }
+        })
+      )
+    , { dispatch: false });
+
   exerciseSelected$ = createEffect(() =>
     this.actions$
       .pipe(
@@ -58,8 +72,8 @@ export class TrainingEffects {
               take(1),
               map(_ => {
 
-                  let updateStatement: Update<Training>;
-                  updateStatement = { id: training.id, changes: { exercises: training.exercises } }
+                let updateStatement: Update<Training>;
+                updateStatement = { id: training.id, changes: { exercises: training.exercises } }
 
                 return this.store.dispatch(TrainingActions.trainingUpdated({ entity: updateStatement }))
               }))

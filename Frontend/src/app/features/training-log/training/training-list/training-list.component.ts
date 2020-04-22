@@ -11,14 +11,13 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training.actions';
+import { setSelectedTraining, trainingDeleted, trainingsFetchedReplaceState } from 'src/ngrx/training-log/training.actions';
 import { trainings } from 'src/ngrx/training-log/training.selectors';
 import { blockDayTrainings } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { TrainingCreateEditComponent } from '../training-create-edit/training-create-edit.component';
-import { trainingsFetched } from './../../../../../ngrx/training-log/training.actions';
 
 @Component({
   selector: 'app-training-list',
@@ -52,29 +51,24 @@ export class TrainingListComponent implements OnInit {
     this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
     this.subs.add(
-
-      // get data for table datasource
-      this.getTrainings(),
-
       // handle mobile page size of table
       this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
       this.store.select(trainings).subscribe((trainings: Training[]) => this.tableDatasource.updateDatasource([...trainings]))
-
     )
+
+    if(this.partOfTrainingProgram) {
+      this.subs.add(this.getTrainingsFromProgram());
+    }
 
   }
 
-  getTrainings() {
-    if(!this.partOfTrainingProgram) {
-    }
-
-    if(this.partOfTrainingProgram) {
-      return this.store.select(blockDayTrainings)
-        .subscribe((trainings: Training[]) => {
-          this.store.dispatch(trainingsFetched({entities: trainings}));
-          // this.tableDatasource.updateDatasource([...trainings])
-        });
-    }
+  getTrainingsFromProgram() {
+    return this.store.select(blockDayTrainings)
+      .subscribe((trainings: Training[]) => {
+        this.onSelect(null);
+        this.store.dispatch(trainingsFetchedReplaceState({entities: trainings}));
+        // this.tableDatasource.updateDatasource([...trainings])
+      });
   }
 
   ngOnDestroy() {

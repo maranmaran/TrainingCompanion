@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingPrograms.BlockRequests.Create
 {
@@ -55,7 +55,6 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Create
                 days.Add(new TrainingBlockDay()
                 {
                     Name = $"Day {i + 1}",
-                    RestDay = true,
                 });
             }
             entity.Days = days;
