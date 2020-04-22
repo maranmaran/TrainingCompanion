@@ -79,6 +79,19 @@ export class TrainingProgramListComponent implements OnInit {
   getTableColumns() {
     return [
       new CustomColumn({
+        headerClass: 'image-header',
+        cellClass: 'image-cell',
+        definition: 'image',
+        title: '',
+        displayFn: (item: TrainingProgram) => {
+          if(item.imageUrl) {
+            return `<img class="table-img" src="${item.imageUrl}"/>`
+          } else {
+            return `<i class="placeholder-img fas fa-image"></i>`
+          }
+        },
+      }),
+      new CustomColumn({
         headerClass: 'trainingProgram-header',
         cellClass: 'trainingProgram-cell',
         definition: 'name',

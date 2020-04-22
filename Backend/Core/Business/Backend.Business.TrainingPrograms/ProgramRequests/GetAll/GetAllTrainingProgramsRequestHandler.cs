@@ -30,7 +30,6 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.GetAll
                 var entities = await _context.TrainingPrograms.Where(x => x.CreatorId == request.CreatorId)
                     .ToListAsync(cancellationToken);
 
-
                 await RefreshImages(entities);
 
                 return entities;
@@ -43,7 +42,7 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.GetAll
 
         public async Task RefreshImages(IEnumerable<TrainingProgram> entities)
         {
-            foreach (var entity in entities)
+            foreach (var entity in entities.Where(x => !string.IsNullOrWhiteSpace(x.ImageUrl)))
             {
                 if (_s3Service.CheckIfPresignedUrlIsExpired(entity.ImageUrl))
                 {
