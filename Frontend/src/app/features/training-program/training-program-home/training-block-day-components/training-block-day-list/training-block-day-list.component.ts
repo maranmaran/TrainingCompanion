@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
 import { TableDatasource } from 'src/app/shared/material-table/table-models/table-datasource.model';
 import { TrainingBlockDayService } from 'src/business/services/feature-services/training-block-day.service';
@@ -29,6 +31,10 @@ export class TrainingBlockDayListComponent implements OnInit {
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_BLOCK_DAY.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
+  hasMoreData = true;
+  pagingModel: PagingModel;
+  pageChange = new Subject<PagingModel>();
+
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
   tableDatasource: TableDatasource<TrainingBlockDay>;
@@ -41,8 +47,8 @@ export class TrainingBlockDayListComponent implements OnInit {
     private translateService: TranslateService
   ) { }
 
-  ngOnInit() {
 
+  ngOnInit() {
     // table config
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
@@ -52,10 +58,49 @@ export class TrainingBlockDayListComponent implements OnInit {
 
       this.onTrainingBlockSelected(), // fetch blocks data
 
+      this.store.select(selectedTrainingBlockId).pipe(
+        distinctUntilChanged()
+      ).subscribe(id => {
+        this.pagingModel = new PagingModel({pageSize: 28})
+        this.pageChange.next(this.pagingModel);
+      }),
+
       // get data for table datasource
-      this.store.select(trainingBlockDays).subscribe((trainingBlockDays: TrainingBlockDay[]) => this.tableDatasource.updateDatasource([...trainingBlockDays]))
+      combineLatest(
+        this.store.select(trainingBlockDays),
+        this.pageChange.pipe(startWith(this.pagingModel)),
+      ).pipe(
+        tap(([data, paging]) => this.hasMoreData = (paging.page + 1) * paging.pageSize < data.length)
+      )
+      .subscribe(([data, paging]) => {
+
+        data = this.doSlice(data, paging);
+        this.tableDatasource.updateDatasource([...data])
+      })
     )
 
+  }
+
+  doSlice(data, paging) {
+    const from = paging.page * paging.pageSize;
+    const to = from + paging.pageSize;
+    return data.slice(from, to);
+  }
+
+  onNextPage() {
+    if(this.hasMoreData) {
+
+      this.pagingModel.page += 1;
+      this.pageChange.next(this.pagingModel);
+    }
+  }
+
+  onPreviousPage() {
+    if(this.pagingModel.page == 0) return;
+
+    this.pagingModel.page -= 1;
+    this.hasMoreData = true;
+    this.pageChange.next(this.pagingModel);
   }
 
   onTrainingBlockSelected() {
@@ -71,7 +116,7 @@ export class TrainingBlockDayListComponent implements OnInit {
   getTableConfig() {
 
     const tableConfig = new TableConfig({
-      filterFunction: (data: TrainingBlockDay, filter: string) => data.name.trim().toLocaleLowerCase().indexOf(filter) !== -1,
+      filterFunction: (data: TrainingBlockDay, filter: string) => data.order.toString().toLocaleLowerCase().indexOf(filter) !== -1,
       cellActions: [TableAction.delete],
       headerActions: [TableAction.create],
       pagingOptions: {
@@ -95,7 +140,7 @@ export class TrainingBlockDayListComponent implements OnInit {
         definition: 'name',
         title: 'TRAINING_BLOCK_DAY.NAME_LABEL',
         sort: false,
-        displayFn: (item: TrainingBlockDay) => item.name.replace("Day", this.translateService.instant("TRAINING_BLOCK_DAY.DAY_LABEL")),
+        displayFn: (item: TrainingBlockDay) => `${this.translateService.instant("TRAINING_BLOCK_DAY.DAY_LABEL")} ${item.order}`,
       }),
       new CustomColumn({
         headerClass: 'trainingBlockDay-header',
@@ -148,7 +193,7 @@ export class TrainingBlockDayListComponent implements OnInit {
 
   onDeleteSingle(trainingBlockDay: TrainingBlockDay) {
 
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_BLOCK_DAY.DELETE_DIALOG', { trainingBlockDay: trainingBlockDay.name })
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_BLOCK_DAY.DELETE_DIALOG', { trainingBlockDay: `${this.translateService.instant("TRAINING_BLOCK_DAY.DAY_LABEL")} ${trainingBlockDay.order}`})
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 

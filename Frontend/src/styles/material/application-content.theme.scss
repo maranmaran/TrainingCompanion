@@ -24,6 +24,7 @@
 @import "./mixins/chat-fullscreen.scss";
 @import "./mixins/dashboard-cards.scss";
 @import "./mixins/dashboard-feed-items.scss";
+@import "./mixins/carousel.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -47,6 +48,7 @@
   @include chat-fullscreen-theme($theme);
   @include dashboard-cards-theme($theme);
   @include dashboard-feed-items-theme($theme);
+  @include carousel-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

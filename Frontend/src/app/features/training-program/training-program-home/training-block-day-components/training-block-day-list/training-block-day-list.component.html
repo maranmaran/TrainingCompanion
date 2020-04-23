@@ -1,3 +1,28 @@
-<app-material-table [columns]="tableColumns" [datasource]="tableDatasource" [config]="tableConfig"
+<!-- <app-material-table [columns]="tableColumns" [datasource]="tableDatasource" [config]="tableConfig"
     (selectEvent)="onSelect($event)" (addEvent)="onAdd()" (updateEvent)="onUpdate($event)"
-    (deleteEvent)="onDeleteSingle($event)"></app-material-table>
+    (deleteEvent)="onDeleteSingle($event)"></app-material-table> -->
+<!-- <ngu-carousel #carousel [inputs]="carouselTile" (carouselLoad)="carouselTileLoad($event)" [dataSource]="carouselTileItems">
+
+  <ngu-tile *nguCarouselDef="let item;">
+    <button mat-fab>{{ item + 1 }}</button>
+  </ngu-tile>
+
+  <button NguCarouselPrev class='leftRs'>&lt;</button>
+  <button NguCarouselNext class='rightRs'>&gt;</button>
+
+</ngu-carousel> -->
+
+<div class="days-carousel mt-3" fxLayout="column">
+
+  <div class="days-carousel__days" fxLayout="row wrap" fxLayoutAlign="start">
+    <div class="p-1 text-center days_carousel_day" *ngFor="let item of tableDatasource.data">
+      <button mat-fab [color]="item.restDay ? 'warn' : 'primary'" (click)="onSelect(item)">{{ item.order }}</button>
+    </div>
+  </div>
+
+  <div fxFlexAlign="center" class="days-carousel__actions" fxLayout="row">
+    <div class="p-2"><button mat-fab class='carousel-left' (click)="onPreviousPage()" [color]="'accent'" [disabled]="pagingModel.page == 0">&lt;</button></div>
+    <div class="p-2"><button mat-fab class='carousel-right' (click)="onNextPage()" [color]="'accent'"  [disabled]="!hasMoreData">&gt;</button></div>
+  </div>
+
+</div>
