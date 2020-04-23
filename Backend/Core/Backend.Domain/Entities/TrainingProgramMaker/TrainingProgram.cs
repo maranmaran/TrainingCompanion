@@ -62,7 +62,7 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
     public class TrainingBlockDay
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } // generated upon block creation (Day 1, Day 2, Day 3)...
+        public int Order { get; set; } // generated
         public bool RestDay => Trainings?.Count == 0;  // if trainings are inside this day.. this is no rest day
 
         public Guid TrainingBlockId { get; set; }

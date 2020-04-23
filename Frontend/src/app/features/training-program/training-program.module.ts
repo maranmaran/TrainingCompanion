@@ -39,7 +39,7 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
         FormsModule,
         TrainingModule,
         ExerciseModule,
-        SetModule
+        SetModule,
     ],
     declarations: [
         TrainingProgramHomeComponent,

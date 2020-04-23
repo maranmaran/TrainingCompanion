@@ -54,7 +54,7 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Create
             {
                 days.Add(new TrainingBlockDay()
                 {
-                    Name = $"Day {i + 1}",
+                    Order = i + 1,
                 });
             }
             entity.Days = days;

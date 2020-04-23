@@ -8,7 +8,13 @@ export interface TrainingBlockDayState extends EntityState<TrainingBlockDay> {
 
 //sort function
 
-export const adapterTrainingBlockDay = createEntityAdapter<TrainingBlockDay>();
+//sort function
+export function sortByOrder(a: TrainingBlockDay, b: TrainingBlockDay): number {
+  return (a.order - b.order) > 0 ? 1 : (a.order - b.order) < 0 ? -1 : 0;
+}
+
+
+export const adapterTrainingBlockDay = createEntityAdapter<TrainingBlockDay>({sortComparer: sortByOrder});
 
 export const trainingBlockDayInitialState: TrainingBlockDayState = adapterTrainingBlockDay.getInitialState({
     selectedTrainingBlockDayId: undefined,
