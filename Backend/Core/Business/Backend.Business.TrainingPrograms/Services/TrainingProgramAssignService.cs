@@ -58,8 +58,7 @@ namespace Backend.Business.TrainingPrograms.Services
             }
         }
 
-
-        public async Task AddTraining(Training training, ApplicationUser user, DateTime date)
+        private async Task AddTraining(Training training, ApplicationUser user, DateTime date)
         {
             var newTraining = new Training
             {
@@ -114,13 +113,36 @@ namespace Backend.Business.TrainingPrograms.Services
             return newExercise;
         }
 
-        private static async Task<Set> AddSet(Set set)
+        private async Task<Set> AddSet(Set set)
         {
             set.Id = Guid.Empty;
             set.Exercise = null;
             set.ExerciseId = Guid.Empty;
 
             return set;
+        }
+
+        public async Task<bool> CheckIfExerciseTypeExists(ExerciseType exerciseType, ApplicationUser user)
+        {
+            // find all exerciseTypes with same name and user..
+            var types = await _context.ExerciseTypes
+                .Include(x => x.Properties)
+                .ThenInclude(x => x.Tag)
+                .ThenInclude(x => x.TagGroup)
+                .Where(x => x.Code == exerciseType.Code && x.ApplicationUserId == user.Id)
+                .ToListAsync();
+
+            switch (types.Count)
+            {
+                case 0:
+                    return false; // this kind of exercise type doesn't exist
+                case 1:
+                    return true;
+            }
+
+            var exception = new Exception("Duplicate exercise types in system");
+            await _logger.LogError(exception, "Critical exception - duplicate exercise types in system");
+            throw exception;
         }
 
         private async Task<ExerciseType> AddExerciseType(ExerciseType exerciseType, ApplicationUser user)
@@ -148,30 +170,5 @@ namespace Backend.Business.TrainingPrograms.Services
 
             return newExerciseType;
         }
-
-        public async Task<bool> CheckIfExerciseTypeExists(ExerciseType exerciseType, ApplicationUser user)
-        {
-            // find all exerciseTypes with same name and user..
-            var types = await _context.ExerciseTypes
-                .Include(x => x.Properties)
-                .ThenInclude(x => x.Tag)
-                .ThenInclude(x => x.TagGroup)
-                .Where(x => x.Code == exerciseType.Code && x.ApplicationUserId == user.Id)
-                .ToListAsync();
-
-            switch (types.Count)
-            {
-                case 0:
-                    return false; // this kind of exercise type doesn't exist
-                case 1:
-                    return true;
-            }
-
-            var exception = new Exception("Duplicate exercise types in system");
-            await _logger.LogError(exception, "Critical exception - duplicate exercise types in system");
-            throw exception;
-        }
-
-
     }
 }
