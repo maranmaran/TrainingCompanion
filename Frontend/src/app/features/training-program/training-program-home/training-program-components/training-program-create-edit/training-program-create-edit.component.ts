@@ -11,9 +11,9 @@ import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingProgramCreated, trainingProgramUpdated } from 'src/ngrx/training-program/training-program/training-program.actions';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
-import { UpdateTrainingProgramRequest } from 'src/server-models/cqrs/program-maker/update-training-program.request';
+import { UpdateTrainingProgramRequest } from 'src/server-models/cqrs/training-program/update-training-program.request';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
-import { CreateTrainingProgramRequest } from '../../../../../../server-models/cqrs/program-maker/create-training-program.request';
+import { CreateTrainingProgramRequest } from '../../../../../../server-models/cqrs/training-program/create-training-program.request';
 
 @Component({
   selector: 'app-training-program-create-edit',

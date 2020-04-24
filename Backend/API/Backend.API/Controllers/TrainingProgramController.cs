@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.TrainingPrograms.ProgramRequests.Create;
+﻿using Backend.Business.TrainingPrograms.ProgramRequests.Create;
 using Backend.Business.TrainingPrograms.ProgramRequests.Delete;
 using Backend.Business.TrainingPrograms.ProgramRequests.Get;
 using Backend.Business.TrainingPrograms.ProgramRequests.GetAll;
 using Backend.Business.TrainingPrograms.ProgramRequests.Update;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {

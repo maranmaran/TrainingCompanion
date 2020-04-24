@@ -30,6 +30,7 @@ export class TrainingProgramUser {
 
 export class TrainingBlock {
     id: string;
+    order: number;
     name: string;
     description: string;
     durationInDays: number;

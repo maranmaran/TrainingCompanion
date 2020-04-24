@@ -5,12 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Extensions\**" />
-    <EmbeddedResource Remove="Extensions\**" />
-    <None Remove="Extensions\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Libraries\Backend.Library.AmazonS3\Backend.Library.AmazonS3.csproj" />
     <ProjectReference Include="..\..\Libraries\Backend.Library.Logging\Backend.Library.Logging.csproj" />

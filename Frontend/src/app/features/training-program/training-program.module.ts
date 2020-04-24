@@ -6,6 +6,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { TrainingProgramsResolver } from 'src/business/resolvers/training-program.resolver';
 import { TrainingBlockDayService } from 'src/business/services/feature-services/training-block-day.service';
 import { TrainingBlockService } from 'src/business/services/feature-services/training-block.service';
+import { TrainingProgramUserService } from 'src/business/services/feature-services/training-program-user.service';
 import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { TrainingProgramEffects } from 'src/ngrx/training-program/training-program/training-program.effects';
@@ -63,6 +64,8 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
 
         TrainingBlockService,
         TrainingBlockDayService,
+
+        TrainingProgramUserService,
 
         UIService
     ],

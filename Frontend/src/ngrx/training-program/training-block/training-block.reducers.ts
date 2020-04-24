@@ -37,6 +37,31 @@ export const trainingBlockReducer: ActionReducer<TrainingBlockState, Action> = c
         };
     }),
 
+    // REORDER
+    on(TrainingBlockActions.reorderTrainingBlock, (state: TrainingBlockState, payload: { previousItem: string, currentItem: string }) => {
+
+      // pluck types
+      const first = state.entities[payload.previousItem];
+      const second = state.entities[payload.currentItem];
+
+      // temp
+      let firstOrder = first.order;
+      let secondOrder = second.order;
+
+      // update statements
+      const firstUpdate: Update<TrainingBlock> = {
+          id: first.id,
+          changes: { order: secondOrder }
+      }
+      const secondUpdate: Update<TrainingBlock> = {
+          id: second.id,
+          changes: { order: firstOrder }
+      }
+
+      // update
+      return adapterTrainingBlock.updateMany([firstUpdate, secondUpdate], state);
+  }),
+
 );
 
 export const getSelectedTrainingBlockId = (state: TrainingBlockState) => state.selectedTrainingBlockId;
