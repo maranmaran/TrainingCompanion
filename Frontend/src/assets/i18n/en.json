@@ -109,6 +109,7 @@
     "UPDATE_TITLE": "Update training block"
   },
   "TRAINING_BLOCK_DAY": {
+    "DAYS_HEADER": "Training block days",
     "DAY_LABEL": "Day",
     "HAS_TRAINING": "Has trainings",
     "NAME_LABEL": "Training block",

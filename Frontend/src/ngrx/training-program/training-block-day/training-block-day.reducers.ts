@@ -33,7 +33,7 @@ export const trainingBlockDayReducer: ActionReducer<TrainingBlockDayState, Actio
     on(TrainingBlockDayActions.setSelectedTrainingBlockDay, (state: TrainingBlockDayState, payload: { entity: TrainingBlockDay }) => {
         return {
             ...state,
-            selectedTrainingBlockDayId: payload.entity ? payload.entity.id : null,
+            selectedTrainingBlockDayId: payload.entity?.id == state.selectedTrainingBlockDayId ? null : payload.entity?.id,
         };
     }),
 
