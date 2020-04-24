@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { combineLatest, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
@@ -19,6 +19,7 @@ import { trainingBlockDays } from 'src/ngrx/training-program/training-block-day/
 import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingBlockDayCreateEditComponent } from '../training-block-day-create-edit/training-block-day-create-edit.component';
+import { selectedTrainingBlockDay } from './../../../../../../ngrx/training-program/training-block-day/training-block-day.selectors';
 import { selectedTrainingBlockId } from './../../../../../../ngrx/training-program/training-block/training-block.selectors';
 
 @Component({
@@ -34,6 +35,8 @@ export class TrainingBlockDayListComponent implements OnInit {
   hasMoreData = true;
   pagingModel: PagingModel;
   pageChange = new Subject<PagingModel>();
+
+  selectedDay: Observable<TrainingBlockDay>
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
@@ -53,6 +56,8 @@ export class TrainingBlockDayListComponent implements OnInit {
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
     this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
+
+    this.selectedDay = this.store.select(selectedTrainingBlockDay);
 
     this.subs.add(
 
@@ -177,39 +182,29 @@ export class TrainingBlockDayListComponent implements OnInit {
       })
   }
 
-  onUpdate(trainingBlockDay: TrainingBlockDay) {
+  onDeleteSingle() {
 
-    const dialogRef = this.uiService.openDialogFromComponent(TrainingBlockDayCreateEditComponent, {
-      height: 'auto',
-      width: '98%',
-      maxWidth: '60rem',
-      autoFocus: true,
-      data: { title: 'TRAINING_BLOCK_DAY.UPDATE_TITLE', action: CRUD.Update, trainingBlockDay: Object.assign({}, trainingBlockDay) },
-      panelClass: []
-    })
+    this.selectedDay.pipe(take(1)).subscribe(
+      (trainingBlockDay: TrainingBlockDay) => {
+        this.deleteDialogConfig.message = this.translateService.instant('TRAINING_BLOCK_DAY.DELETE_DIALOG', { trainingBlockDay: `${this.translateService.instant("TRAINING_BLOCK_DAY.DAY_LABEL")} ${trainingBlockDay.order}`})
 
-    dialogRef.afterClosed().pipe(take(1), filter(program => !!program)).subscribe((trainingBlockDay: TrainingBlockDay) => (this.table.onSelect(trainingBlockDay, true), this.onSelect(trainingBlockDay)))
+        var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
+
+        dialogRef.afterClosed().pipe(take(1))
+          .subscribe((result: ConfirmResult) => {
+            if (result == ConfirmResult.Confirm) {
+              this.deleteTrainingBlockDay(trainingBlockDay.id);
+            }
+          })
+      }
+    )
   }
 
-  onDeleteSingle(trainingBlockDay: TrainingBlockDay) {
-
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_BLOCK_DAY.DELETE_DIALOG', { trainingBlockDay: `${this.translateService.instant("TRAINING_BLOCK_DAY.DAY_LABEL")} ${trainingBlockDay.order}`})
-
-    var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
-
-    dialogRef.afterClosed().pipe(take(1))
-      .subscribe((result: ConfirmResult) => {
-        if (result == ConfirmResult.Confirm) {
-          this.deleteTrainingBlockDay(trainingBlockDay);
-        }
-      })
-  }
-
-  deleteTrainingBlockDay(trainingBlockDay) {
-    this.trainingBlockDayService.delete(trainingBlockDay.id)
+  deleteTrainingBlockDay(trainingBlockDayId) {
+    this.trainingBlockDayService.delete(trainingBlockDayId)
       .subscribe(
         _ => {
-          this.store.dispatch(trainingBlockDayDeleted({ id: trainingBlockDay.id }))
+          this.store.dispatch(trainingBlockDayDeleted({ id: trainingBlockDayId }))
         },
         err => console.log(err)
       )

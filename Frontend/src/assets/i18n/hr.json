@@ -109,6 +109,7 @@
     "UPDATE_TITLE": "Uredi trening ciklus"
   },
   "TRAINING_BLOCK_DAY": {
+    "DAYS_HEADER": "Dani u ciklusu",
     "DAY_LABEL": "Dan",
     "HAS_TRAINING": "Ima treninge",
     "NAME_LABEL": "Dan u ciklusu",
