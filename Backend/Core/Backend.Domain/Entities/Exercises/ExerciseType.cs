@@ -9,6 +9,18 @@ namespace Backend.Domain.Entities.Exercises
     public class ExerciseType
     {
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// Code is mainly used for user to know identity of it's exercise type
+        /// Why ? Because of imports mainly.
+        /// But this is useful also internally for assigning training programs
+        /// Since training programs is created with it's creators set of exercise types
+        /// We will need to map that exercise to the users library the program is being assigned to
+        /// However there's a catch but we need to make sure it's happening
+        /// Coaches and solo athletes can only create training programs
+        /// Coaches will have all changes to exercise types mapped to the athletes (this is crucial)
+        /// Meaning we can use CODE to compare exercise types between accounts even if their Ids (in db) do not match
+        /// </summary>
         public string Code { get; set; }
 
         public string Name { get; set; }

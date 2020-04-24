@@ -102,6 +102,12 @@ export class TrainingBlockListComponent implements OnInit {
 
   onSelect = (trainingBlock: TrainingBlock) => this.store.dispatch(setSelectedTrainingBlock({ entity: trainingBlock }));
 
+  onReorder(payload: { previous: TrainingBlock, current: TrainingBlock }) {
+    let previousItem = payload.previous.id;
+    let currentItem = payload.current.id;
+    this.store.dispatch(reorderTrainingBlock({ previousItem, currentItem }));
+  }
+
   onAdd() {
 
     const dialogRef = this.uiService.openDialogFromComponent(TrainingBlockCreateEditComponent, {

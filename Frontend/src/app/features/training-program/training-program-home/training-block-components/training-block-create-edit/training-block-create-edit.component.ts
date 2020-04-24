@@ -9,11 +9,11 @@ import { TrainingBlockService } from 'src/business/services/feature-services/tra
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingBlockCreated, trainingBlockUpdated } from 'src/ngrx/training-program/training-block/training-block.actions';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
-import { CreateTrainingBlockRequest } from 'src/server-models/cqrs/program-maker/create-training-program.request';
+import { CreateTrainingBlockRequest } from 'src/server-models/cqrs/training-program/create-training-program.request';
 import { TrainingBlock } from 'src/server-models/entities/training-program.model';
+import { UpdateTrainingBlockRequest } from '../../../../../../server-models/cqrs/training-program/update-training-program.request';
 import { CRUD } from './../../../../../../business/shared/crud.enum';
 import { selectedTrainingProgramId } from './../../../../../../ngrx/training-program/training-program/training-program.selectors';
-import { UpdateTrainingBlockRequest } from './../../../../../../server-models/cqrs/program-maker/update-training-program.request';
 
 @Component({
   selector: 'app-training-block-create-edit',

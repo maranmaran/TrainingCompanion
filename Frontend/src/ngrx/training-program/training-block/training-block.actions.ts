@@ -26,3 +26,8 @@ export const setSelectedTrainingBlock = createAction(
     '[TrainingBlock] Set selected trainingBlock',
     props<{ entity: TrainingBlock }>()
 );
+
+export const reorderTrainingBlock = createAction(
+  '[TrainingBlock] Reorder',
+  props<{ previousItem: string, currentItem: string }>()
+)

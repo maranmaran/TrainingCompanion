@@ -2,6 +2,7 @@
 using Backend.Business.Authorization;
 using Backend.Business.Authorization.Extensions;
 using Backend.Business.Dashboard.Extensions;
+using Backend.Business.TrainingPrograms.Extensions;
 using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Extensions;
@@ -317,6 +318,7 @@ namespace Backend.API.Extensions
             services.ConfigureImageProcessingServices();
             services.ConfigureHttpContextAccessor();
             services.ConfigureDashboardServices();
+            services.ConfigureTrainingProgramServices();
         }
 
 
