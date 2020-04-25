@@ -1,3 +1,4 @@
+import { Theme } from 'src/business/shared/theme.enum';
 import * as _ from "lodash";
 
 export function flatten(array) {
@@ -27,7 +28,7 @@ export function isEmpty(array: any[]) {
 }
 
 
-export const blobToFile = (theBlob: Blob, fileName:string): File => {
+export const blobToFile = (theBlob: Blob, fileName: string): File => {
   var b: any = theBlob;
   //A Blob() is almost a File() - it's just missing the two properties below which we will add
   b.lastModifiedDate = new Date();
@@ -95,3 +96,9 @@ export function isNullOrWhitespace(str: string): boolean {
   return !str || str.trim() == '';
 }
 
+export function getPlaceholderImagePath(theme: Theme) {
+  if (theme == Theme.Light)
+    return "/assets/images/image-placeholder-light-theme.png";
+
+  return "/assets/images/image-placeholder-dark-theme.png";
+}

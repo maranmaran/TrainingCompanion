@@ -1,13 +1,14 @@
+import { MediaObserver } from '@angular/flex-layout';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import _ from "lodash";
 import { Observable, Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, delay } from 'rxjs/operators';
 import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -66,20 +67,21 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   private subs = new SubSink();
 
   constructor(
-    private store: Store<AppState>
+    private mediaObserver: MediaObserver
   ) { }
 
   ngOnInit() {
+
     this.pageSize = this.config.pagingOptions.pageSize;
     this.pageSizeOptions = this.config.pagingOptions.pageSizeOptions;
 
     this.subs.add(
-      this.applyFilterEvent.pipe(debounceTime(300)).subscribe(filter => this.applyFilter(filter)),
-      this.store.select(isMobile).subscribe((isMobile: boolean) => this.setupColumns(isMobile)),
-      this.datasource.pagingModel().subscribe(model => {
-        this.pagingModel = model;
-        this.setTablePagingVariables(model, this.datasource.totalLength());
-      })
+      // filter event
+      this.onFilterEvent(),
+      // do work on viewport change (mobile, tablet, desktop)
+      this.onViewportChange(),
+      // setup paging
+      this.onDatasourcePagingChange()
     );
   }
 
@@ -92,11 +94,30 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     } else {
       setTimeout(() => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()));
     }
-
   }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  onFilterEvent() {
+    return this.applyFilterEvent
+      .pipe(debounceTime(300))
+      .subscribe(filter => this.applyFilter(filter));
+  }
+
+  onDatasourcePagingChange() {
+    return this.datasource.pagingModel().subscribe(model => {
+      this.pagingModel = model;
+      this.setTablePagingVariables(model, this.datasource.totalLength());
+    })
+  }
+
+  onViewportChange() {
+    return this.mediaObserver.media$.subscribe(change => {
+      var isMobile = change.mqAlias == 'xs';
+      this.setupColumns(isMobile);
+    })
   }
 
   setupColumns(isMobile: boolean) {
@@ -122,11 +143,11 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   customSortDataAccessor(data, prop) {
     let customSortDataFn = this.columns?.filter(x => x.sort && x.sortFn && x.definition == prop)?.map(x => x.sortFn)[0];
 
-    if(customSortDataFn)
+    if (customSortDataFn)
       return customSortDataFn(data);
 
     return data[prop];
-}
+  }
 
   setTablePagingVariables(model: PagingModel, totalItems: Observable<number>) {
     this.totalItems = totalItems;

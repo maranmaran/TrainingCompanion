@@ -1,3 +1,4 @@
+import { MediaObserver } from '@angular/flex-layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
@@ -26,7 +27,8 @@ export class TrainingProgramHomeComponent implements OnInit, OnDestroy {
   exerciseSelected: boolean
 
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    public mediaObserver: MediaObserver
   ) { }
 
   ngOnInit(): void {

@@ -11,7 +11,7 @@ import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTrainingBlock, trainingBlockDeleted } from 'src/ngrx/training-program/training-block/training-block.actions';
+import { setSelectedTrainingBlock, trainingBlockDeleted, reorderTrainingBlock } from 'src/ngrx/training-program/training-block/training-block.actions';
 import { trainingBlocks } from 'src/ngrx/training-program/training-block/training-block.selectors';
 import { TrainingBlock } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
@@ -60,8 +60,8 @@ export class TrainingBlockListComponent implements OnInit {
 
   onTrainingProgramSelected() {
     return this.store.select(selectedTrainingProgramId)
-    .pipe(filter(id => !!id), switchMap(programId => this.trainingBlockService.getAll(programId as string)))
-    .subscribe((blocks: TrainingBlock[]) => this.store.dispatch(trainingBlockFetched({ entities: blocks })));
+      .pipe(filter(id => !!id), switchMap(programId => this.trainingBlockService.getAll(programId as string)))
+      .subscribe((blocks: TrainingBlock[]) => this.store.dispatch(trainingBlockFetched({ entities: blocks })));
   }
 
   ngOnDestroy() {

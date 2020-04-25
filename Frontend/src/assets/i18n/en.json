@@ -26,6 +26,9 @@
     "ACTIVATE": "Activate",
     "DEACTIVATE": "Deactivate"
   },
+  "TABLE": {
+    "NO_DATA": "No records"
+  },
   "NOTIFICATIONS": {
     "BODYWEIGHT_MESSAGE": "logged a new bodyweight value of {{value}}",
     "MEDIA_MESSAGE": "added new media file",
