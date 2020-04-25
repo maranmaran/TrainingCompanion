@@ -18,23 +18,19 @@
 
 
   <!-- <div class="days-carousel__days" fxLayout="row wrap" fxLayoutAlign="start"> -->
-  <div class="days-carousel__days"
-  gdGap="0.5rem"
-  gdColumns="repeat(7, 1fr)"
-  gdRows="repeat(4, 1fr)">
+  <div class="days-carousel__days" gdGap="0.5rem" gdColumns="repeat(7, 1fr)" gdRows="repeat(4, 1fr)">
     <!-- <div class="text-center days_carousel_day" > -->
-      <button mat-fab (click)="onSelect(item)" class="text-center" *ngFor="let item of tableDatasource.data"
-        [ngClass]="{
+    <button mat-fab (click)="onSelect(item)" class="text-center" *ngFor="let item of tableDatasource.data" [ngClass]="{
           'selected-day': (selectedDay | async)?.id == item.id,
           'rest-day': item.restDay,
           'training-day': !item.restDay
-        }" >
-        {{ item.order }}
-      </button>
+        }">
+      {{ item.order }}
+    </button>
     <!-- </div> -->
   </div>
 
-  <div class="days-carousel__actions" fxLayout="row">
+  <div class="days-carousel__actions mt-3" fxLayout="row">
 
     <span fxFlexAlign="center" fxLayout="row">
       <div class="p-2"><button mat-fab class='carousel-left' (click)="onPreviousPage()" [color]="'primary'"
@@ -46,10 +42,10 @@
 
     <span fxFlexAlign="flex-end" fxLayout="row">
       <div class="p-2"><button mat-fab class='carousel-right' (click)="onDeleteSingle()" [color]="'primary'"
-        [disabled]="!(selectedDay | async)"><i class="fas fa-trash fa-1-2x"></i></button></div>
+          [disabled]="!(selectedDay | async)"><i class="fas fa-trash fa-1-2x"></i></button></div>
 
       <div class="p-2"><button mat-fab class='carousel-right' (click)="onAdd()" [color]="'primary'">
-        <i class="fas fa-plus fa-1-2x"></i></button>
+          <i class="fas fa-plus fa-1-2x"></i></button>
       </div>
     </span>
 
