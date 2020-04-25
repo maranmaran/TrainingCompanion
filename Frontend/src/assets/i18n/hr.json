@@ -26,6 +26,9 @@
     "ACTIVATE": "Aktiviraj",
     "DEACTIVATE": "Deaktiviraj"
   },
+  "TABLE": {
+    "NO_DATA": "Nema podataka"
+  },
   "NOTIFICATIONS": {
     "BODYWEIGHT_MESSAGE": "je dodao/la novi zapis tjelesne težine od {{value}}",
     "MEDIA_MESSAGE": "je dodao/la novu multimedijsku datoteku",

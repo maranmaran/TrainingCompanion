@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { filter, take } from 'rxjs/operators';
+import { filter, take, tap, delay } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
 import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
@@ -48,7 +48,8 @@ export class TrainingProgramListComponent implements OnInit {
 
     this.subs.add(
       // get data for table datasource
-      this.store.select(trainingPrograms).subscribe((trainingPrograms: TrainingProgram[]) => this.tableDatasource.updateDatasource([...trainingPrograms]))
+      this.store.select(trainingPrograms).pipe(delay(0))
+        .subscribe((trainingPrograms: TrainingProgram[]) => this.tableDatasource.updateDatasource([...trainingPrograms]))
     )
 
   }
@@ -84,7 +85,7 @@ export class TrainingProgramListComponent implements OnInit {
         definition: 'image',
         title: '',
         displayFn: (item: TrainingProgram) => {
-          if(item.imageUrl) {
+          if (item.imageUrl) {
             return `<img class="table-img" src="${item.imageUrl}"/>`
           } else {
             return `<i class="placeholder-img fas fa-image"></i>`
