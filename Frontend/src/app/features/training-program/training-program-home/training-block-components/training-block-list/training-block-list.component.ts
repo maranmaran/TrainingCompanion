@@ -97,6 +97,14 @@ export class TrainingBlockListComponent implements OnInit {
         sort: false,
         displayFn: (item: TrainingBlock) => item.name,
       }),
+      new CustomColumn({
+        headerClass: 'duration-header',
+        cellClass: 'duration-cell',
+        definition: 'duration',
+        title: 'TRAINING_BLOCK.DURATION_IN_DAYS',
+        sort: false,
+        displayFn: (item: TrainingBlock) => item.durationInDays,
+      }),
     ]
   }
 

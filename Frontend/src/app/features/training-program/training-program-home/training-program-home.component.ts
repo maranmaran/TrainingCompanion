@@ -1,5 +1,5 @@
 import { MediaObserver } from '@angular/flex-layout';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -14,7 +14,8 @@ import { selectedTrainingBlockId } from './../../../../ngrx/training-program/tra
 @Component({
   selector: 'app-training-program-home',
   templateUrl: './training-program-home.component.html',
-  styleUrls: ['./training-program-home.component.scss']
+  styleUrls: ['./training-program-home.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TrainingProgramHomeComponent implements OnInit, OnDestroy {
 

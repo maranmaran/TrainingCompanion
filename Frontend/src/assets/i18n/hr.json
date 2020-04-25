@@ -92,6 +92,11 @@
     "WEIGHT": "Težina"
   },
   "TRAINING_PROGRAM": {
+    "TAB_PROGRAMS": "Programi",
+    "TAB_BLOCKS": "Ciklusi",
+    "TAB_TRAININGS": "Treninzi",
+    "TAB_EXERCISES": "Vježbe",
+    "BLOCK_COUNT": "Broj ciklusa",
     "NO_DESCRIPTION": "Nema opisa",
     "ASSIGN": "Dodijeli program",
     "DESCRIPTION_LABEL": "Opis",

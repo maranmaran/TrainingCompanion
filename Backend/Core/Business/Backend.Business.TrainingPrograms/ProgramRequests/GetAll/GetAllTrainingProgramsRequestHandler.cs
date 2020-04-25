@@ -27,7 +27,9 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.GetAll
         {
             try
             {
-                var entities = await _context.TrainingPrograms.Where(x => x.CreatorId == request.CreatorId)
+                var entities = await _context.TrainingPrograms
+                    .Include(x => x.TrainingBlocks)
+                    .Where(x => x.CreatorId == request.CreatorId)
                     .ToListAsync(cancellationToken);
 
                 await RefreshImages(entities);

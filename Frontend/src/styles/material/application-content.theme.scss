@@ -25,6 +25,7 @@
 @import "./mixins/dashboard-cards.scss";
 @import "./mixins/dashboard-feed-items.scss";
 @import "./mixins/carousel.scss";
+@import "./mixins/tabs.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -49,6 +50,7 @@
   @include dashboard-cards-theme($theme);
   @include dashboard-feed-items-theme($theme);
   @include carousel-theme($theme);
+  @include tabs-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

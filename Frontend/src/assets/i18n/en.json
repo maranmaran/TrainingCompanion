@@ -92,6 +92,11 @@
     "WEIGHT": "Weight"
   },
   "TRAINING_PROGRAM": {
+    "TAB_PROGRAMS": "Programs",
+    "TAB_BLOCKS": "Blocks",
+    "TAB_TRAININGS": "Trainings",
+    "TAB_EXERCISES": "Exercises",
+    "BLOCK_COUNT": "Total blocks",
     "NO_DESCRIPTION": "No description",
     "ASSIGN": "Assign program",
     "DESCRIPTION_LABEL": "Description",
