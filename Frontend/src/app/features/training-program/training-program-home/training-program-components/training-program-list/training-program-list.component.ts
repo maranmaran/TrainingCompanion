@@ -100,6 +100,14 @@ export class TrainingProgramListComponent implements OnInit {
         sort: false,
         displayFn: (item: TrainingProgram) => item.name,
       }),
+      new CustomColumn({
+        headerClass: 'trainingBlockCount-header',
+        cellClass: 'trainingBlockCount-cell',
+        definition: 'blockCount',
+        title: 'TRAINING_PROGRAM.BLOCK_COUNT',
+        sort: false,
+        displayFn: (item: TrainingProgram) => item.trainingBlocks?.length,
+      }),
     ]
   }
 

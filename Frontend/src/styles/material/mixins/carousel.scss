@@ -1,12 +1,11 @@
 @import "~@angular/material/theming";
 
 @function getColor($color) {
-
-  @if(lightness($color) > 90) {
+  @if (lightness($color) > 90) {
     @return darken($color, 40%);
   }
 
-  @if(lightness($color) > 80) {
+  @if (lightness($color) > 80) {
     @return darken($color, 25%);
   }
 
@@ -14,8 +13,6 @@
 }
 
 @mixin carousel-theme($theme) {
-
-
   $background-palette: map-get($theme, background);
   $selected-button-disabled: map-get($background-palette, selected-disabled-button);
 
@@ -34,9 +31,7 @@
   //   box-sizing: border-box;
   //   max-width: 14%;
 
-
   .days-carousel__days {
-
     justify-items: center;
     align-items: center;
 
@@ -59,7 +54,7 @@
 
   // }
 
-  @media(max-width: 600px) {
+  @media (max-width: 600px) {
     .mat-fab {
       height: 40px;
       width: 40px;
@@ -71,6 +66,4 @@
       }
     }
   }
-
-
 }

@@ -1,10 +1,10 @@
 <mat-tab-group [headerPosition]="mediaObserver.isActive('lt-sm') ? 'below' : 'above'" mat-stretch-tabs
-  [color]="'accent'" dynamicHeight>
+  [disablePagination]="true" [color]="'accent'" dynamicHeight>
 
   <!-- <mat-tab [active]=""> -->
   <mat-tab id="training-program">
     <ng-template mat-tab-label>
-      <p>Training program</p>
+      <span>{{'TRAINING_PROGRAM.TAB_PROGRAMS' | translate}}</span>
     </ng-template>
 
     <div class="training-program__tab p-2 pb-5" fxLayout="row wrap" fxLayoutGap="0.5rem" fxLayoutAlign="space-between"
@@ -21,7 +21,7 @@
 
   <mat-tab id="training-block" [disabled]="!programSelected">
     <ng-template mat-tab-label>
-      <p>Training block</p>
+      <span>{{'TRAINING_PROGRAM.TAB_BLOCKS' | translate}}</span>
     </ng-template>
 
     <div class="training-program__tab p-2 pb-5" fxLayout="row wrap" fxLayoutGap="0.5rem" fxLayoutAlign="space-between"
@@ -38,7 +38,7 @@
 
   <mat-tab id="training-days" [disabled]="!blockSelected">
     <ng-template mat-tab-label>
-      <p>Training block day</p>
+      <span>{{'TRAINING_PROGRAM.TAB_TRAININGS' | translate}}</span>
     </ng-template>
 
     <div class="training-program__tab p-2 pb-5" fxLayout="row wrap" fxLayoutGap="0.5rem" fxLayoutAlign="space-between"
@@ -55,7 +55,7 @@
 
   <mat-tab id="exercises" [disabled]="!trainingSelected">
     <ng-template mat-tab-label>
-      <p>Training exercises</p>
+      <span>{{'TRAINING_PROGRAM.TAB_EXERCISES' | translate}}</span>
     </ng-template>
 
     <div class="training-program__tab p-2 pb-5" fxLayout="row wrap" fxLayoutGap="0.5rem" fxLayoutAlign="space-between"
