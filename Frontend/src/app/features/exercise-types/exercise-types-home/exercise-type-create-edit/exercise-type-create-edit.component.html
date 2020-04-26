@@ -12,10 +12,6 @@
         <input matInput formControlName="name" placeholder="{{ 'SHARED.NAME' | translate }}">
         <mat-error *ngIf="name?.invalid"></mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <input matInput formControlName="code" placeholder="{{ 'EXERCISE_TYPES.CODE_OPTIONAL' | translate }}">
-        <mat-error *ngIf="code?.invalid"></mat-error>
-      </mat-form-field>
 
       <!--CHECKBOXES-->
       <div class="checkboxes-wrapper" fxLayout="row" fxLayoutAlign="space-evenly">

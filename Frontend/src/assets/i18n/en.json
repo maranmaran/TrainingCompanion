@@ -182,7 +182,7 @@
     "MEASURE_TIME": "Measure time",
     "NO_PROPS": "No properties added from this group.",
     "ADD_TAG": "Add tag",
-    "CODE_OPTIONAL": "Code (Optional)"
+    "CODE": "Code (Optional)"
   },
   "TAGS": {
     "TYPE": "Type",

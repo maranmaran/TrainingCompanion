@@ -69,10 +69,6 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
         Validators.minLength(1),
         Validators.maxLength(50)
       ]),
-      code: new FormControl(this.entity.code, [
-        Validators.minLength(1),
-        Validators.maxLength(50)
-      ]),
       active: new FormControl(this.entity.active),
       requiresWeight: new FormControl(this.entity.requiresWeight),
       requiresBodyweight: new FormControl(this.entity.requiresBodyweight),
@@ -84,9 +80,6 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
 
   get name(): AbstractControl {
     return this.form.get("name");
-  }
-  get code(): AbstractControl {
-    return this.form.get("code");
   }
   get active(): AbstractControl {
     return this.form.get("active");
@@ -185,7 +178,6 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     this.entity.name = this.name.value;
-    this.entity.code = this.code.value;
     this.entity.active = this.active.value;
     this.entity.requiresBodyweight = this.requiresBodyweight.value;
     this.entity.requiresReps = this.requiresReps.value;
