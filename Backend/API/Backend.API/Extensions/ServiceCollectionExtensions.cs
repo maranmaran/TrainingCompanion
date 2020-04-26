@@ -17,7 +17,9 @@ using Backend.Persistance;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +37,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using CompressionLevel = System.IO.Compression.CompressionLevel;
 using Mappings = Backend.Business.Reports.Mappings;
 
 namespace Backend.API.Extensions
@@ -152,6 +155,20 @@ namespace Backend.API.Extensions
                         }
                     };
                 });
+        }
+
+        /// <summary>
+        /// Configures response compression
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureResponseCompression(this IServiceCollection services)
+        {
+            services.AddResponseCompression();
+
+            services.Configure<BrotliCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Optimal;
+            });
         }
 
         /// <summary>

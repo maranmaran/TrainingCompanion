@@ -39,6 +39,7 @@ namespace Backend.API
             services.ConfigureCors();
             services.ConfigureMvc();
             services.ConfigureSwagger();
+            services.ConfigureResponseCompression();
 
             // third party libraries
             services.ConfigureAutomapper();
@@ -74,6 +75,9 @@ namespace Backend.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // ==== Response compression ====
+            app.UseResponseCompression();
 
             // ===== Middleware to serve generated Swagger as a JSON endpoint and serve swagger-ui =====
             app.UseSwagger();
