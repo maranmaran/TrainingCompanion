@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
+using Backend.Domain.Enum;
 using Backend.Library.AmazonS3.Interfaces;
+using Backend.Library.MediaCompression.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,13 +19,15 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IS3Service _s3Service;
+        private readonly IMediaCompressionService _compressionService;
 
         public UpdateTrainingProgramRequestHandler(IApplicationDbContext context,
-            IMapper mapper, IS3Service s3Service)
+            IMapper mapper, IS3Service s3Service, IMediaCompressionService compressionService)
         {
             _context = context;
             _mapper = mapper;
             _s3Service = s3Service;
+            _compressionService = compressionService;
         }
 
 
@@ -57,12 +61,18 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
                 return entity;
             }
 
+            // TODO... outsource this logic somewhere to share...
+            // TODO These media stuff goes on with user avatars, training media, exercise media, chat media, training program media
             if (request.Image != entity.ImageFtpFilePath && request.Image.Contains("data:image/jpeg;base64,"))
             {
                 entity.ImageFtpFilePath = GetS3Key(entity.CreatorId);
 
+                var file = new MemoryStream(Convert.FromBase64String(request.Image.Replace("data:image/jpeg;base64,", string.Empty)));
+
+                var compressedFile = await _compressionService.Compress(MediaType.Image, file);
+
                 //TODO: Delete previous image...
-                await _s3Service.WriteToS3(entity.ImageFtpFilePath, new MemoryStream(Convert.FromBase64String(request.Image.Replace("data:image/jpeg;base64,", string.Empty))));
+                await _s3Service.WriteToS3(entity.ImageFtpFilePath, compressedFile);
 
                 entity.ImageUrl = await _s3Service.GetPresignedUrlAsync(entity.ImageFtpFilePath);
             }

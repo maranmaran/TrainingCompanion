@@ -3,8 +3,9 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain.Enum;
 using Backend.Library.AmazonS3.Interfaces;
-using Backend.Library.ImageProcessing.Interfaces;
+using Backend.Library.MediaCompression.Interfaces;
 
 namespace Backend.Business.Media.MediaRequests.UploadChatMedia
 {
@@ -12,9 +13,9 @@ namespace Backend.Business.Media.MediaRequests.UploadChatMedia
     {
 
         private readonly IS3Service _s3Service;
-        private readonly IImageProcessingService _imageProcessing;
+        private readonly IMediaCompressionService _imageProcessing;
 
-        public UploadChatMediaRequestHandler(IS3Service s3, IImageProcessingService imageProcessing)
+        public UploadChatMediaRequestHandler(IS3Service s3, IMediaCompressionService imageProcessing)
         {
             _s3Service = s3;
             _imageProcessing = imageProcessing;
@@ -24,7 +25,7 @@ namespace Backend.Business.Media.MediaRequests.UploadChatMedia
         {
             try
             {
-                var compressedImage = await _imageProcessing.Compress(request.Data);
+                var compressedImage = await _imageProcessing.Compress(MediaType.Image, request.Data);
                 await _s3Service.WriteToS3(request.Key, compressedImage);
 
                 return await _s3Service.GetPresignedUrlAsync(request.Key);

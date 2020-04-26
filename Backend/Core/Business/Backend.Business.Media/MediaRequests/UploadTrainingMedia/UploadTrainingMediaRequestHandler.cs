@@ -4,7 +4,7 @@ using Backend.Domain.Entities.Media;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
 using Backend.Library.AmazonS3.Interfaces;
-using Backend.Library.ImageProcessing.Interfaces;
+using Backend.Library.MediaCompression.Interfaces;
 using MediatR;
 using System;
 using System.Text;
@@ -21,9 +21,9 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
     {
         private readonly IApplicationDbContext _context;
         private readonly IS3Service _s3AccessService;
-        private readonly IImageProcessingService _imageProcessing;
+        private readonly IMediaCompressionService _imageProcessing;
 
-        public UploadTrainingMediaRequestHandler(IS3Service s3AccessService, IApplicationDbContext context, IImageProcessingService imageProcessing)
+        public UploadTrainingMediaRequestHandler(IS3Service s3AccessService, IApplicationDbContext context, IMediaCompressionService imageProcessing)
         {
             _s3AccessService = s3AccessService;
             _context = context;
@@ -41,7 +41,7 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
 
                 // compress - TODO: Do this for videos also.. make compression service
                 if (request.Type == MediaType.Image)
-                    file = await _imageProcessing.Compress(request.File.OpenReadStream());
+                    file = await _imageProcessing.Compress(MediaType.Image, request.File.OpenReadStream());
 
                 await _s3AccessService.WriteToS3(filename, file);
                 var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(filename);

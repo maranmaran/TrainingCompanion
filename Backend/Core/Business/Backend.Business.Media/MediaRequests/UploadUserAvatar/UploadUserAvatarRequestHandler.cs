@@ -2,6 +2,8 @@
 using Backend.Domain.Entities.Media;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
+using Backend.Library.AmazonS3.Interfaces;
+using Backend.Library.MediaCompression.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,8 +11,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Library.AmazonS3.Interfaces;
-using Backend.Library.ImageProcessing.Interfaces;
 
 namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
 {
@@ -19,9 +19,9 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
 
         private readonly IApplicationDbContext _context;
         private readonly IS3Service _s3;
-        private readonly IImageProcessingService _imageProcessing;
+        private readonly IMediaCompressionService _imageProcessing;
 
-        public UploadUserAvatarRequestHandler(IS3Service s3, IApplicationDbContext context, IImageProcessingService imageProcessing)
+        public UploadUserAvatarRequestHandler(IS3Service s3, IApplicationDbContext context, IMediaCompressionService imageProcessing)
         {
             _s3 = s3;
             _context = context;
@@ -36,7 +36,7 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
                 var key = GetS3Key(request);
 
                 var byteArr = Convert.FromBase64String(request.Base64.Replace("data:image/jpeg;base64,", string.Empty));
-                var compressedImage = await _imageProcessing.Compress(new MemoryStream(byteArr));
+                var compressedImage = await _imageProcessing.Compress(MediaType.Image, new MemoryStream(byteArr));
 
                 await _s3.WriteToS3(key, compressedImage);
                 var presignedUrl = await _s3.GetPresignedUrlAsync(key);

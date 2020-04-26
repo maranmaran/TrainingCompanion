@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
+using Backend.Domain.Enum;
 using Backend.Library.AmazonS3.Interfaces;
-using Backend.Library.Logging.Interfaces;
+using Backend.Library.MediaCompression.Interfaces;
 using MediatR;
 using System;
 using System.IO;
@@ -17,20 +18,17 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IS3Service _s3Service;
-        private readonly IMediator _mediator;
-        private readonly ILoggingService _logger;
+        private readonly IMediaCompressionService _compressionService;
 
         public CreateTrainingProgramRequestHandler(IApplicationDbContext context,
             IMapper mapper,
-            IMediator mediator,
-            ILoggingService logger,
-            IS3Service s3Service)
+            IS3Service s3Service,
+            IMediaCompressionService compressionService)
         {
             _context = context;
             _mapper = mapper;
-            _mediator = mediator;
-            _logger = logger;
             _s3Service = s3Service;
+            _compressionService = compressionService;
         }
 
 
@@ -65,7 +63,12 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
             if (request.Image != entity.ImageFtpFilePath && request.Image.Contains("data:image/jpeg;base64,"))
             {
                 entity.ImageFtpFilePath = GetS3Key(request);
-                await _s3Service.WriteToS3(entity.ImageFtpFilePath, new MemoryStream(Convert.FromBase64String(request.Image.Replace("data:image/jpeg;base64,", string.Empty))));
+
+                var file = new MemoryStream(Convert.FromBase64String(request.Image.Replace("data:image/jpeg;base64,", string.Empty)));
+
+                var compressedFile = await _compressionService.Compress(MediaType.Image, file);
+
+                await _s3Service.WriteToS3(entity.ImageFtpFilePath, compressedFile);
 
                 entity.ImageUrl = await _s3Service.GetPresignedUrlAsync(entity.ImageFtpFilePath);
             }

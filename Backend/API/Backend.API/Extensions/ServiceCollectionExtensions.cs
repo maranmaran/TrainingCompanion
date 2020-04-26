@@ -10,7 +10,6 @@ using Backend.Infrastructure.Providers;
 using Backend.Library.AmazonS3.Extensions;
 using Backend.Library.AmazonS3.Interfaces;
 using Backend.Library.Email.Extensions;
-using Backend.Library.ImageProcessing.Extensions;
 using Backend.Library.Logging.Extensions;
 using Backend.Library.Payment.Extensions;
 using Backend.Persistance;
@@ -37,6 +36,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Library.MediaCompression.Extensions;
 using CompressionLevel = System.IO.Compression.CompressionLevel;
 using Mappings = Backend.Business.Reports.Mappings;
 
@@ -332,7 +332,7 @@ namespace Backend.API.Extensions
             services.ConfigurePaymentServices();
             services.ConfigureS3Services();
             services.ConfigureLoggingService();
-            services.ConfigureImageProcessingServices();
+            services.ConfigureMediaCompressionService();
             services.ConfigureHttpContextAccessor();
             services.ConfigureDashboardServices();
             services.ConfigureTrainingProgramServices();
