@@ -1,11 +1,12 @@
-import { MediaObserver } from '@angular/flex-layout';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { selectedTrainingId } from 'src/ngrx/training-log/training.selectors';
-import { selectedTrainingBlockDayId } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
+import { selectedTrainingBlockDay, selectedTrainingBlockDayId } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
 import { selectedTrainingProgramId } from 'src/ngrx/training-program/training-program/training-program.selectors';
+import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { clearTrainingState } from './../../../../ngrx/training-log/training.actions';
 import { selectedExerciseId } from './../../../../ngrx/training-log/training.selectors';
@@ -21,6 +22,8 @@ export class TrainingProgramHomeComponent implements OnInit, OnDestroy {
 
   private _subs = new SubSink();
 
+  blockDay: Observable<TrainingBlockDay>;
+
   programSelected: boolean
   blockSelected: boolean
   blockDaySelected: boolean
@@ -33,6 +36,8 @@ export class TrainingProgramHomeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.blockDay = this.store.select(selectedTrainingBlockDay);
+
     this._subs.add(
       combineLatest(
         this.store.select(selectedTrainingProgramId),

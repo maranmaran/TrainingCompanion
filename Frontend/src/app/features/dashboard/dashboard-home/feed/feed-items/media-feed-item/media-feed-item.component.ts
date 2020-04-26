@@ -26,14 +26,14 @@ export class MediaFeedItemComponent implements OnInit {
     this.message = this.translateService.instant('DASHBOARD.FEED.MEDIA_MESSAGE', params);
   }
 
-  enlargeImage() {
+  enlarge() {
     this.dialog.open(MediaDialogComponent, {
       height: 'auto',
       width: 'auto',
       maxWidth: '58rem',
       maxHeight: '40rem',
       autoFocus: false,
-      data: { type: this.activity.entity.Type, sourceUrl: this.activity.entity.DownloadUrl },
+      data: { type: this.activity.entity.type, sourceUrl: this.activity.entity.downloadUrl },
       panelClass: 'media-dialog-container'
     });
   }

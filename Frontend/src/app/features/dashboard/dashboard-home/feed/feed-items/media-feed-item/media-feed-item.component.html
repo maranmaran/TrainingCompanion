@@ -1,8 +1,22 @@
 <div class="media-feed-item__container" fxLayout="column" fxLayoutGap="0.5rem">
 
   <div class="media-feed-item__content" [innerHtml]="message"></div>
-  <img class="media-feed-item__image" fxFlexAlign="center" src="{{activity.entity.DownloadUrl}}" (click)="enlargeImage()"/>
+
+  <ng-container [ngSwitch]="activity.entity.type">
+    <ng-container *ngSwitchCase="'Image'">
+
+      <img class="media-feed-item__image" fxFlexAlign="center" src="{{activity.entity.downloadUrl}}"
+        (click)="enlarge()" />
+
+    </ng-container>
+    <ng-container *ngSwitchCase="'Video'">
+
+      <video class="media-feed-item__video" fxFlexAlign="center" (click)="enlarge()">
+        <source src="{{activity.entity.downloadUrl}}" type="video/mp4">
+        {{'SHARED.VIDEO_NOT_SUPPORTED' | translate}}
+       </video>
+
+    </ng-container>
+  </ng-container>
 
 </div>
-
-

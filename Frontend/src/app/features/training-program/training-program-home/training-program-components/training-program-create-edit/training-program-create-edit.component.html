@@ -33,13 +33,12 @@
 
 
 <ng-template #uploadInput let-trainingProgram="trainingProgram">
-    <div class="upload-input">
+    <div class="upload-input" (click)="uploadInput.click()">
 
-        <img *ngIf="trainingProgram.imageUrl; else fallbackImage" class="mat-elevation-z5" (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+        <img *ngIf="trainingProgram.imageUrl; else fallbackImage" class="program-image img-fluid mat-elevation-z5" src="{{trainingProgram.imageUrl}}" />
         <ng-template #fallbackImage >
-          <div class="image-icon  mat-elevation-z5" (click)="uploadInput.click()">
-            <i class="fas fa-image"></i>
-          </div>
+          <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid mat-elevation-z5"
+          src="{{placeholderImagePath}}" />
         </ng-template>
 
         <mat-chip-list class="upload-chip">

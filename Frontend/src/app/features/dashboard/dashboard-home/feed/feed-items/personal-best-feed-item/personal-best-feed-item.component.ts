@@ -22,7 +22,7 @@ export class PersonalBestFeedItemComponent implements OnInit {
   ngOnInit(): void {
     const params = {
       username: this.activity.userName,
-      value: transformWeight(this.activity.entity.Value, this.unitSystem)
+      value: transformWeight(this.activity.entity.value, this.unitSystem)
     }
 
     this.message = this.translateService.instant('DASHBOARD.FEED.PERSONAL_BEST_MESSAGE', params);

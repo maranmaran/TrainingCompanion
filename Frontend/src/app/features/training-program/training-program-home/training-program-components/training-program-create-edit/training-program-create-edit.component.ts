@@ -7,18 +7,23 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { getPlaceholderImagePath } from 'src/business/utils/utils';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingProgramCreated, trainingProgramUpdated } from 'src/ngrx/training-program/training-program/training-program.actions';
-import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
+import { activeTheme, isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { UpdateTrainingProgramRequest } from 'src/server-models/cqrs/training-program/update-training-program.request';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
+import { SubSink } from 'subsink';
 import { CreateTrainingProgramRequest } from '../../../../../../server-models/cqrs/training-program/create-training-program.request';
 
 @Component({
   selector: 'app-training-program-create-edit',
   templateUrl: './training-program-create-edit.component.html',
-  styleUrls: ['./training-program-create-edit.component.scss']
+  styleUrls: [
+    './training-program-create-edit.component.scss',
+    './../training-program-details/training-program-details.component.scss'
+  ]
 })
 export class TrainingProgramCreateEditComponent implements OnInit {
 
@@ -35,8 +40,10 @@ export class TrainingProgramCreateEditComponent implements OnInit {
   form: FormGroup;
   private _userId: string;
   trainingProgram: TrainingProgram;
+  placeholderImagePath: string;
 
   isMobile: Observable<boolean>;
+  subs = new SubSink();
 
   ngOnInit() {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
@@ -44,6 +51,10 @@ export class TrainingProgramCreateEditComponent implements OnInit {
     this.trainingProgram.creatorId = this._userId;
 
     this.isMobile = this.store.select(isMobile);
+
+    this.subs.add(
+      this.store.select(activeTheme).subscribe(theme => this.placeholderImagePath = getPlaceholderImagePath(theme))
+    )
 
     this.createForm();
   }

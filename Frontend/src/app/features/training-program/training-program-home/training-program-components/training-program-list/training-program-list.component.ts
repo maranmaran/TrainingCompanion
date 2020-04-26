@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { filter, take, tap, delay } from 'rxjs/operators';
+import { delay, filter, take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
 import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
@@ -10,9 +10,11 @@ import { TrainingProgramService } from 'src/business/services/feature-services/t
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { getPlaceholderImagePath } from 'src/business/utils/utils';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTrainingProgram, trainingProgramDeleted } from 'src/ngrx/training-program/training-program/training-program.actions';
 import { trainingPrograms } from 'src/ngrx/training-program/training-program/training-program.selectors';
+import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingProgramCreateEditComponent } from '../training-program-create-edit/training-program-create-edit.component';
@@ -26,6 +28,8 @@ export class TrainingProgramListComponent implements OnInit {
 
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_PROGRAM.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
+
+  placeholderImagePath: string;
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
@@ -47,6 +51,8 @@ export class TrainingProgramListComponent implements OnInit {
     this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
     this.subs.add(
+      this.store.select(activeTheme).subscribe(theme => this.placeholderImagePath = getPlaceholderImagePath(theme)),
+
       // get data for table datasource
       this.store.select(trainingPrograms).pipe(delay(0))
         .subscribe((trainingPrograms: TrainingProgram[]) => this.tableDatasource.updateDatasource([...trainingPrograms]))
@@ -88,7 +94,7 @@ export class TrainingProgramListComponent implements OnInit {
           if (item.imageUrl) {
             return `<img class="table-img" src="${item.imageUrl}"/>`
           } else {
-            return `<i class="placeholder-img fas fa-image"></i>`
+            return `<img class="table-img" src="${this.placeholderImagePath}"/>`
           }
         },
       }),

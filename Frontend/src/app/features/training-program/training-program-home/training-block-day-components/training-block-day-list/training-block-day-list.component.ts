@@ -93,6 +93,7 @@ export class TrainingBlockDayListComponent implements OnInit {
   }
 
   onNextPage() {
+    console.log('next')
     if(this.hasMoreData) {
 
       this.pagingModel.page += 1;
@@ -101,6 +102,7 @@ export class TrainingBlockDayListComponent implements OnInit {
   }
 
   onPreviousPage() {
+    console.log('previous')
     if(this.pagingModel.page == 0) return;
 
     this.pagingModel.page -= 1;

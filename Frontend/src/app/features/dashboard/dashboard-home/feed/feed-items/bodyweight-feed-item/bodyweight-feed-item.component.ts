@@ -21,7 +21,7 @@ export class BodyweightFeedItemComponent implements OnInit {
   ngOnInit(): void {
     const params = {
       username: this.activity.userName,
-      value: transformWeight(this.activity.entity.Value, this.unitSystem)
+      value: transformWeight(this.activity.entity.value, this.unitSystem)
     }
 
     this.message = this.translateService.instant('DASHBOARD.FEED.BODYWEIGHT_MESSAGE', params);

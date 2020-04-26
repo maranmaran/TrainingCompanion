@@ -78,9 +78,10 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
     }
   }),
   on(DashboardActions.pushActivity, (state: DashboardState, payload: { activity: Activity }) => {
+    let extendedActivity = Object.assign({}, payload.activity, { entity: JSON.parse(payload.activity.jsonEntity) });
     return {
       ...state,
-      activities: [payload.activity, ...state.activities]
+      activities: [extendedActivity, ...state.activities]
     }
   }),
   on(DashboardActions.addTrackItem, (state: DashboardState, payload: { item: TrackItem, idx: number }) => {

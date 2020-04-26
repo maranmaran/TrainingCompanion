@@ -1,14 +1,15 @@
 ﻿using Backend.Common.Extensions;
 using Backend.Domain;
 using Backend.Domain.Entities.Media;
+using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
+using Backend.Library.AmazonS3.Interfaces;
+using Backend.Library.ImageProcessing.Interfaces;
 using MediatR;
 using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Library.AmazonS3.Interfaces;
-using Backend.Library.ImageProcessing.Interfaces;
 
 namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
 {
@@ -36,8 +37,13 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
                 // save to s3
                 var filename = GetFilename(request);
 
-                var compressedImage = await _imageProcessing.Compress(request.File.OpenReadStream());
-                await _s3AccessService.WriteToS3(filename, compressedImage);
+                var file = request.File.OpenReadStream();
+
+                // compress - TODO: Do this for videos also.. make compression service
+                if (request.Type == MediaType.Image)
+                    file = await _imageProcessing.Compress(request.File.OpenReadStream());
+
+                await _s3AccessService.WriteToS3(filename, file);
                 var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(filename);
 
                 // create db object and map to it
