@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Exercises.ExerciseTypeRequests.Update
 {
@@ -28,19 +28,23 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.Update
             try
             {
                 var entityToUpdate = _context.ExerciseTypes.Include(x => x.Properties).First(x => x.Id == request.ExerciseType.Id);
+                var user = await _context.Coaches.Include(x => x.Athletes).FirstOrDefaultAsync(x => x.Id == entityToUpdate.ApplicationUserId, cancellationToken);
 
-                // delete property relations
-                foreach (var prop in entityToUpdate.Properties)
+                Update(entityToUpdate, request.ExerciseType);
+
+                // athlete needs to have the same record
+                if (user != null)
                 {
-                    if (request.ExerciseType.Properties.All(x => x.Id != prop.Id))
+                    foreach (var athlete in user.Athletes)
                     {
-                        _context.Entry(prop).State = EntityState.Deleted;
+                        var athleteExerciseType = await _context.ExerciseTypes
+                            .FirstOrDefaultAsync(x => x.Code == entityToUpdate.Code &&
+                                                      x.ApplicationUserId == athlete.Id, cancellationToken);
+
+                        Update(athleteExerciseType, request.ExerciseType);
                     }
                 }
 
-                _mapper.Map(request.ExerciseType, entityToUpdate);
-
-                _context.ExerciseTypes.Update(entityToUpdate);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return request.ExerciseType;
@@ -48,6 +52,32 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.Update
             catch (Exception e)
             {
                 throw new CreateFailureException(nameof(ExerciseType), e);
+            }
+        }
+
+        public void Update(ExerciseType existing, ExerciseType modified)
+        {
+            var userId = existing.ApplicationUserId;
+            var id = existing.Id;
+
+            ClearTagRelations(existing, modified);
+            var entityToUpdate = _mapper.Map(modified, existing);
+
+            entityToUpdate.ApplicationUserId = userId;
+            entityToUpdate.Id = id;
+
+            _context.ExerciseTypes.Update(entityToUpdate);
+        }
+
+        public void ClearTagRelations(ExerciseType exerciseType, ExerciseType updatedExerciseType)
+        {
+            // delete property relations
+            foreach (var prop in exerciseType.Properties)
+            {
+                if (updatedExerciseType.Properties.All(x => x.Id != prop.Id))
+                {
+                    _context.Entry(prop).State = EntityState.Deleted;
+                }
             }
         }
     }

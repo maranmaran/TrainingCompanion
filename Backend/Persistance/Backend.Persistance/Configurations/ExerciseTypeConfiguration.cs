@@ -26,7 +26,6 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.RequiresTime).HasDefaultValue(false);
 
             builder.HasIndex(x => x.ApplicationUserId);
-            builder.HasIndex(x => x.Code).IsUnique();
 
             builder
                 .HasMany(x => x.Properties)
