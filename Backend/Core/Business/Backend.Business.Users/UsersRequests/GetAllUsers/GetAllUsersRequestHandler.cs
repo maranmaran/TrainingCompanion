@@ -4,6 +4,7 @@ using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
+using Backend.Library.AmazonS3.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Library.AmazonS3.Interfaces;
 
 namespace Backend.Business.Users.UsersRequests.GetAllUsers
 {

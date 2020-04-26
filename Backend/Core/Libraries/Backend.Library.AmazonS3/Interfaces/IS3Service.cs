@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Backend.Library.AmazonS3.Interfaces
@@ -32,5 +33,11 @@ namespace Backend.Library.AmazonS3.Interfaces
         /// Refreshes presigned url if it's expired. Else it returns the same one that was given as input
         /// </summary>
         Task<string> RenewPresignedUrl(string url, string filename);
+
+        /// <summary>
+        /// Gets S3 key depending on entity
+        /// </summary>
+        /// <returns></returns>
+        string GetS3Key(string entityType, Guid userId, string filename = null);
     }
 }

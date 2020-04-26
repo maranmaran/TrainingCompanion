@@ -1,14 +1,15 @@
 ﻿using Backend.Business.Chat.Models;
 using Backend.Business.Media.MediaRequests.UploadChatMedia;
 using Backend.Common.Extensions;
+using Backend.Domain.Entities.Chat;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
+using Backend.Library.AmazonS3.Interfaces;
 using MediatR;
 using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Library.AmazonS3.Interfaces;
 
 namespace Backend.Business.Chat.ChatRequests.UploadChatFile
 {
@@ -63,7 +64,7 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
                     MessageType.File;
 
             // construct s3 filename
-            var filename = new StringBuilder($"{request.UserId}/{Guid.NewGuid()}");
+            var filename = new StringBuilder($"{Guid.NewGuid()}");
             switch (type)
             {
                 case MessageType.Image:
@@ -78,7 +79,9 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
                     break;
             }
 
-            return (type, $"chat/{filename}");
+            var key = _s3Service.GetS3Key(nameof(ChatMessage), Guid.Parse(request.UserId), filename.ToString());
+
+            return (type, key);
         }
     }
 }

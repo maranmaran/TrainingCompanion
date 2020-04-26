@@ -8,7 +8,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -65,7 +64,7 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
             // TODO These media stuff goes on with user avatars, training media, exercise media, chat media, training program media
             if (request.Image != entity.ImageFtpFilePath && request.Image.Contains("data:image/jpeg;base64,"))
             {
-                entity.ImageFtpFilePath = GetS3Key(entity.CreatorId);
+                entity.ImageFtpFilePath = _s3Service.GetS3Key(nameof(TrainingProgram), entity.CreatorId);
 
                 var file = new MemoryStream(Convert.FromBase64String(request.Image.Replace("data:image/jpeg;base64,", string.Empty)));
 
@@ -80,14 +79,5 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
             return entity;
         }
 
-        public string GetS3Key(Guid creatorId)
-        {
-            var builder = new StringBuilder();
-
-            if (creatorId != Guid.Empty)
-                builder.Append($"training-program/{creatorId}/{Guid.NewGuid()}");
-
-            return builder.ToString();
-        }
     }
 }

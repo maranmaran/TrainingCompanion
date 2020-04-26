@@ -21,13 +21,13 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
     {
         private readonly IApplicationDbContext _context;
         private readonly IS3Service _s3AccessService;
-        private readonly IMediaCompressionService _imageProcessing;
+        private readonly IMediaCompressionService _compressionService;
 
-        public UploadTrainingMediaRequestHandler(IS3Service s3AccessService, IApplicationDbContext context, IMediaCompressionService imageProcessing)
+        public UploadTrainingMediaRequestHandler(IS3Service s3AccessService, IApplicationDbContext context, IMediaCompressionService compressionService)
         {
             _s3AccessService = s3AccessService;
             _context = context;
-            _imageProcessing = imageProcessing;
+            _compressionService = compressionService;
         }
 
         public async Task<MediaFile> Handle(UploadTrainingMedia request, CancellationToken cancellationToken)
@@ -41,7 +41,7 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
 
                 // compress - TODO: Do this for videos also.. make compression service
                 if (request.Type == MediaType.Image)
-                    file = await _imageProcessing.Compress(MediaType.Image, request.File.OpenReadStream());
+                    file = await _compressionService.Compress(MediaType.Image, request.File.OpenReadStream());
 
                 await _s3AccessService.WriteToS3(filename, file);
                 var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(filename);

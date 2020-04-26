@@ -7,7 +7,6 @@ using Backend.Library.MediaCompression.Interfaces;
 using MediatR;
 using System;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -62,7 +61,7 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
 
             if (request.Image != entity.ImageFtpFilePath && request.Image.Contains("data:image/jpeg;base64,"))
             {
-                entity.ImageFtpFilePath = GetS3Key(request);
+                entity.ImageFtpFilePath = _s3Service.GetS3Key(nameof(TrainingProgram), request.CreatorId);
 
                 var file = new MemoryStream(Convert.FromBase64String(request.Image.Replace("data:image/jpeg;base64,", string.Empty)));
 
@@ -76,14 +75,6 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
             return entity;
         }
 
-        public string GetS3Key(CreateTrainingProgramRequest request)
-        {
-            var builder = new StringBuilder();
 
-            if (request.CreatorId != Guid.Empty)
-                builder.Append($"training-program/{request.CreatorId}/{Guid.NewGuid()}");
-
-            return builder.ToString();
-        }
     }
 }
