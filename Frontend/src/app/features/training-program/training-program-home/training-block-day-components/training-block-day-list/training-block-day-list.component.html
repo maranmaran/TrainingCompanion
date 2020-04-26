@@ -30,23 +30,22 @@
     <!-- </div> -->
   </div>
 
-  <div class="days-carousel__actions mt-3" fxLayout="row">
+  <div class="days-carousel__actions mt-3" fxLayout="row" fxLayoutAlign="center center">
 
-    <span fxFlexAlign="center" fxLayout="row">
-      <div class="p-2"><button mat-fab class='carousel-left' (click)="onPreviousPage()" [color]="'primary'"
-          [disabled]="pagingModel.page == 0"><i class="fas fa-chevron-left fa-1-2x"></i></button></div>
+    <span fxFlex="2 0" fxLayoutAlign="end" fxLayout="row" fxLayoutGap="0.5rem">
+      <button mat-fab class='carousel-left' (click)="onPreviousPage()" [color]="'primary'"
+        [disabled]="pagingModel.page == 0"><i class="fas fa-chevron-left fa-1-2x"></i></button>
 
-      <div class="p-2"><button mat-fab class='carousel-right' (click)="onNextPage()" [color]="'primary'"
-          [disabled]="!hasMoreData"><i class="fas fa-chevron-right fa-1-2x"></i></button></div>
+      <button mat-fab class='carousel-right' (click)="onNextPage()" [color]="'primary'" [disabled]="!hasMoreData"><i
+          class="fas fa-chevron-right fa-1-2x"></i></button>
     </span>
 
-    <span fxFlexAlign="flex-end" fxLayout="row">
-      <div class="p-2"><button mat-fab class='carousel-right' (click)="onDeleteSingle()" [color]="'primary'"
-          [disabled]="!(selectedDay | async)"><i class="fas fa-trash fa-1-2x"></i></button></div>
+    <span fxFlex="0 2" fxLayoutAlign="end" fxLayout="row" fxLayoutGap="0.5rem">
+      <button mat-fab class='carousel-right' (click)="onDeleteSingle()" [color]="'primary'"
+        [disabled]="!(selectedDay | async)"><i class="fas fa-trash fa-1-2x"></i></button>
 
-      <div class="p-2"><button mat-fab class='carousel-right' (click)="onAdd()" [color]="'primary'">
-          <i class="fas fa-plus fa-1-2x"></i></button>
-      </div>
+      <button mat-fab class='carousel-right' (click)="onAdd()" [color]="'primary'">
+        <i class="fas fa-plus fa-1-2x"></i></button>
     </span>
 
   </div>

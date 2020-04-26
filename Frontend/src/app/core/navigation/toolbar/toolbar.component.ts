@@ -143,15 +143,18 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     return;
   }
 
-  onOpenSettings(section: string = 'General') {
-    this.UIService.openDialogFromComponent(SettingsComponent, {
+  onOpenSettings(section: string) {
+    let dialogRef = this.UIService.openDialogFromComponent(SettingsComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '58rem',
       autoFocus: false,
       data: { title: 'SETTINGS.SETTINGS_LABEL', section },
-      panelClass: ['settings-dialog-container']
+      panelClass: ['settings-dialog-container'],
+      closeOnNavigation: true
     });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe(_ => console.log(_));
   }
 
   onLogout() {
