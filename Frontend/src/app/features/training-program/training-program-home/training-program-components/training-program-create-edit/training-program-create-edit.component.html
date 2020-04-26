@@ -1,0 +1,53 @@
+<h2> {{data.title | translate}} </h2>
+
+<mat-divider class="dialog-form-divider"></mat-divider>
+
+<div class="form" fxLayout="column" fxLayoutGap="1rem">
+    <form [formGroup]="form">
+
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="space-evenly center"
+        fxLayout.lt-sm="column">
+
+          <mat-form-field style="max-width: 400px">
+            <input matInput type="text" formControlName="name"
+            placeholder="{{'TRAINING_PROGRAM.NAME_LABEL' | translate}}">
+          </mat-form-field>
+
+          <ng-container *ngTemplateOutlet="uploadInput; context: { trainingProgram: trainingProgram }"></ng-container>
+        </div>
+
+        <mat-form-field>
+            <textarea rows="8" matInput formControlName="description"
+                placeholder="{{'TRAINING_PROGRAM.DESCRIPTION_LABEL' | translate}}">
+            </textarea>
+        </mat-form-field>
+
+    </form>
+</div>
+
+<div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate}}</button>
+    <button mat-stroked-button color="accent" (click)="onSubmit()"
+        [disabled]="!form.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
+</div>
+
+
+<ng-template #uploadInput let-trainingProgram="trainingProgram">
+    <div class="upload-input">
+
+        <img *ngIf="trainingProgram.imageUrl; else fallbackImage" class="mat-elevation-z5" (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+        <ng-template #fallbackImage >
+          <div class="image-icon  mat-elevation-z5" (click)="uploadInput.click()">
+            <i class="fas fa-image"></i>
+          </div>
+        </ng-template>
+
+        <mat-chip-list class="upload-chip">
+            <mat-chip color="primary" selected (click)="uploadInput.click()">
+                {{ 'TRAINING_PROGRAM.CHANGE_IMAGE' | translate }}
+            </mat-chip>
+        </mat-chip-list>
+
+        <input fxHide="true" #uploadInput type="file" (change)="fileChangeEvent($event.target.files)" accept="image/*">
+    </div>
+</ng-template>

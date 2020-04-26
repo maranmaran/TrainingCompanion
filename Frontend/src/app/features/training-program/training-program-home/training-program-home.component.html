@@ -1,0 +1,69 @@
+<mat-tab-group [headerPosition]="mediaObserver.isActive('lt-sm') ? 'below' : 'above'" mat-stretch-tabs
+  [disablePagination]="true" [color]="'accent'" dynamicHeight>
+
+  <!-- <mat-tab [active]=""> -->
+  <mat-tab id="training-program">
+    <ng-template mat-tab-label>
+      <span>{{'TRAINING_PROGRAM.TAB_PROGRAMS' | translate}}</span>
+    </ng-template>
+
+    <div class="training-program__tab p-2 pb-5" fxLayout="row wrap" fxLayoutGap="0.5rem" fxLayout.lt-md="column">
+
+      <app-training-program-list fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto">
+      </app-training-program-list>
+      <app-training-program-details *ngIf="programSelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto">
+      </app-training-program-details>
+
+    </div>
+
+  </mat-tab>
+
+  <mat-tab id="training-block" [disabled]="!programSelected">
+    <ng-template mat-tab-label>
+      <span>{{'TRAINING_PROGRAM.TAB_BLOCKS' | translate}}</span>
+    </ng-template>
+
+    <div class="training-program__tab p-2 pb-5" fxLayout="row wrap" fxLayoutGap="0.5rem" fxLayout.lt-md="column">
+
+      <app-training-block-list *ngIf="programSelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto">
+      </app-training-block-list>
+      <app-training-block-details *ngIf="blockSelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto">
+      </app-training-block-details>
+
+    </div>
+
+  </mat-tab>
+
+  <mat-tab id="training-days" [disabled]="!blockSelected">
+    <ng-template mat-tab-label>
+      <span>{{'TRAINING_PROGRAM.TAB_TRAININGS' | translate}}</span>
+    </ng-template>
+
+    <div class="training-program__tab p-2 pb-5" fxLayout="row wrap" fxLayoutGap="0.5rem" fxLayout.lt-md="column">
+
+      <app-training-block-day-list *ngIf="blockSelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto">
+      </app-training-block-day-list>
+      <app-training-list *ngIf="blockDaySelected" [partOfTrainingProgram]="true" fxFlex="0 0 calc(50% - 0.5rem)"
+        fxFlex.lt-md="0 0 auto">
+      </app-training-list>
+    </div>
+
+  </mat-tab>
+
+  <mat-tab id="exercises" [disabled]="!trainingSelected">
+    <ng-template mat-tab-label>
+      <span>{{'TRAINING_PROGRAM.TAB_EXERCISES' | translate}}</span>
+    </ng-template>
+
+    <div class="training-program__tab p-2 pb-5" fxLayout="row wrap" fxLayoutGap="0.5rem" fxLayout.lt-md="column">
+
+      <app-exercise-list *ngIf="trainingSelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto">
+      </app-exercise-list>
+      <app-set-list *ngIf="exerciseSelected" fxFlex="0 0 calc(50% - 0.5rem)" fxFlex.lt-md="0 0 auto">
+      </app-set-list>
+
+    </div>
+
+  </mat-tab>
+
+</mat-tab-group>

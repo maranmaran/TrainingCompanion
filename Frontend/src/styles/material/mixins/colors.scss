@@ -40,19 +40,18 @@
   //===========BASIC THEME COLORS=======================
   //====================================================
   $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-
   $primary-default: mat-color($primary, default);
-  $accent-default: mat-color($accent, default);
-  $warn-default: mat-color($warn, default);
-
   $primary-lighter: mat-color($primary, lighter);
-  $accent-lighter: mat-color($accent, lighter);
-  $warn-lighter: mat-color($warn, lighter);
-
   $primary-darker: mat-color($primary, darker);
+
+  $accent: map-get($theme, accent);
+  $accent-default: mat-color($accent, default);
+  $accent-lighter: mat-color($accent, lighter);
   $accent-darker: mat-color($accent, darker);
+
+  $warn: map-get($theme, warn);
+  $warn-default: mat-color($warn, default);
+  $warn-lighter: mat-color($warn, lighter);
   $warn-darker: mat-color($warn, darker);
 
   //====================================================

@@ -2,6 +2,7 @@
 using Backend.Business.Authorization;
 using Backend.Business.Authorization.Extensions;
 using Backend.Business.Dashboard.Extensions;
+using Backend.Business.TrainingPrograms.Extensions;
 using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Extensions;
@@ -196,6 +197,7 @@ namespace Backend.API.Extensions
                 Assembly.GetAssembly(typeof(Business.Users.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Exercises.Mappings)),
                 Assembly.GetAssembly(typeof(Business.Dashboard.Mappings)),
+                Assembly.GetAssembly(typeof(Business.TrainingPrograms.Mappings)),
             };
 
             services.AddMediatR(assemblies.ToArray());
@@ -247,6 +249,7 @@ namespace Backend.API.Extensions
                     c.AddProfile<Business.Users.Mappings>();
                     c.AddProfile<Business.Exercises.Mappings>();
                     c.AddProfile<Business.Dashboard.Mappings>();
+                    c.AddProfile<Business.TrainingPrograms.Mappings>();
                 });
 
                 return config.CreateMapper();
@@ -315,6 +318,7 @@ namespace Backend.API.Extensions
             services.ConfigureImageProcessingServices();
             services.ConfigureHttpContextAccessor();
             services.ConfigureDashboardServices();
+            services.ConfigureTrainingProgramServices();
         }
 
 

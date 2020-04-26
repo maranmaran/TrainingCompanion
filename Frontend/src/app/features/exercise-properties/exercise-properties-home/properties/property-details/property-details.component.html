@@ -4,6 +4,9 @@
 
         <span>{{property.value}}</span>
 
+        <button class="mr-1" mat-stroked-button color="accent" (click)="onSetActive(!property.active)">
+            {{ (property.active ? 'SHARED.DEACTIVATE' : 'SHARED.ACTIVATE') | translate}}
+        </button>
     </h1>
 
     <mat-divider></mat-divider>

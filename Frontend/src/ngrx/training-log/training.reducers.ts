@@ -33,6 +33,11 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     return adapterTraining.addMany(payload.entities, state);
   }),
 
+  // GET ALL - but replace state
+  on(TrainingActions.trainingsFetchedReplaceState, (state: TrainingState, payload: { entities: Training[] }) => {
+    return adapterTraining.addAll(payload.entities, state);
+  }),
+
   // SET SELECTED
   on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: { entity: Training }) => {
     return {
@@ -50,6 +55,7 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
   on(TrainingActions.clearTrainingState, (state: TrainingState) => {
     return undefined;
   }),
+
 
   // REORDER
   on(TrainingActions.reorderExercises, (state: TrainingState, payload: { trainingId:string, previousItem: string, currentItem: string }) => {
@@ -89,8 +95,8 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
   }),
 );
 
-export const getSelectedTrainingId = (state: TrainingState) => state.selectedTrainingId;
-export const getSelectedExerciseId = (state: TrainingState) => state.selectedExerciseId;
+export const getSelectedTrainingId = (state: TrainingState) => state?.selectedTrainingId;
+export const getSelectedExerciseId = (state: TrainingState) => state?.selectedExerciseId;
 
 // get the selectors
 export const {

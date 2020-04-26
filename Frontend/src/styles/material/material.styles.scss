@@ -1,6 +1,10 @@
 // core theme
 @import "./application-content.theme.scss";
 
+.mat-tab-label-active{
+  opacity: 1 !important;
+}
+
 .multiline {
   white-space: pre-line;
 }

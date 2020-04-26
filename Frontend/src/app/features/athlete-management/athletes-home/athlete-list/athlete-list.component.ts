@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
+import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { TableAction, TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
 import { UserService } from 'src/business/services/feature-services/user.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -58,7 +59,8 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   getTableConfig() {
     const tableConfig = new TableConfig({
       filterFunction: (data: ApplicationUser, filter: string) => data.fullName.toLocaleLowerCase().indexOf(filter) !== -1,
-      cellActions: [TableAction.update]
+      cellActions: [TableAction.update, TableAction.delete],
+      selectionEnabled: false
     });
 
     return tableConfig;
@@ -78,6 +80,16 @@ export class AthleteListComponent implements OnInit, OnDestroy {
         title: 'ATHLETE_MANAGEMENT.FULL_NAME',
         sort: true,
         displayFn: (item: ApplicationUser) => item.fullName,
+      }),
+      new CustomColumn({
+        definition: 'active',
+        title: '',
+        displayOnMobile: false,
+        headerClass: 'active-header',
+        cellClass: 'active-cell',
+        useComponent: true,
+        component: ActiveFlagComponent,
+        componentInputs: (item: ApplicationUser) => { return { active: item.active } },
       }),
     ]
   }
@@ -126,6 +138,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
 
   onDeleteSingle(athlete: ApplicationUser) {
 
+    //TODO i18n
     this.deleteDialogConfig.message =
       `<p>Are you sure you wish to delete user ${athlete.firstName} ${athlete.lastName} ?</p>
      <p>All data will be lost if you delete this user.</p>`;
@@ -146,19 +159,19 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       })
   }
 
-  onDeleteSelection(athletes: ApplicationUser[]) {
+  // onDeleteSelection(athletes: ApplicationUser[]) {
 
-    this.deleteDialogConfig.message =
-      `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
-     <p>All data will be lost if you delete these users.</p>`;
+  //   this.deleteDialogConfig.message =
+  //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
+  //    <p>All data will be lost if you delete these users.</p>`;
 
-    this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
-      console.log('delete');
-      console.log(athletes);
-    }
+  //   this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
+  //     console.log('delete');
+  //     console.log(athletes);
+  //   }
 
-    this.deleteDialogConfig.actionParams = [athletes];
+  //   this.deleteDialogConfig.actionParams = [athletes];
 
-    this.uiService.openConfirmDialog(this.deleteDialogConfig)
-  }
+  //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
+  // }
 }

@@ -8,6 +8,7 @@ using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Entities.System;
 using Backend.Domain.Entities.TrainingLog;
+using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Entities.User.Dashboard;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,13 @@ namespace Backend.Persistance
         public DbSet<Bodyweight> Bodyweights { get; set; }
         public DbSet<PersonalBest> PBs { get; set; }
         public DbSet<AuditRecord> Audits { get; set; }
+
+        #region Program maker
+        public DbSet<TrainingProgram> TrainingPrograms { get; set; }
+        public DbSet<TrainingBlock> TrainingBlocks { get; set; }
+        public DbSet<TrainingBlockDay> TrainingBlockDays { get; set; }
+
+        #endregion
 
         #region Exercise type + Properties
 

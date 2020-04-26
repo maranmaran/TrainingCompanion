@@ -7,6 +7,9 @@
   .theme-material-table {
 
     mat-table {
+
+      // min-height: 302px; // height of 5 rows
+
       .mat-column-select {
         max-width: -webkit-fit-content;
         padding: 0 20px;

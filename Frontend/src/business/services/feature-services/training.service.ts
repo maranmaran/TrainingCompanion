@@ -1,35 +1,42 @@
+import { ComponentType } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 import { catchError } from 'rxjs/operators';
+import { UIService } from 'src/business/services/shared/ui.service';
+import { CRUD } from 'src/business/shared/crud.enum';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { MediaType } from 'src/server-models/enums/media-type.enum';
 import { CrudService } from '../crud.service';
-import { Injectable } from "@angular/core";
 
 @Injectable()
 export class TrainingService extends CrudService<Training> {
 
   constructor(
     private httpDI: HttpClient,
+    private UIService: UIService,
+    private translateService: TranslateService
   ) {
     super(httpDI, 'Training');
   }
 
-  public getAllByMonth(userId: string, month: number, year: number) {
+  getAllByMonth(userId: string, month: number, year: number) {
     return this.http.get<Training[]>(this.url + 'GetAllByMonth/' + userId + '/' + month + '/' + year)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  public getAllByWeek(userId: string, weekStart: Date, weekEnd: Date) {
+  getAllByWeek(userId: string, weekStart: Date, weekEnd: Date) {
     return this.http.get<Training[]>(this.url + 'GetAllByWeek/' + userId + '/' + weekStart.toUTCString() + '/' + weekEnd.toUTCString())
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  public uploadMedia(userId: string, trainingId: string, file: File, extension: string, type: MediaType) {
+  uploadMedia(userId: string, trainingId: string, file: File, extension: string, type: MediaType) {
 
     const formData: FormData = new FormData();
     formData.append('userId', userId);
@@ -41,6 +48,26 @@ export class TrainingService extends CrudService<Training> {
     return this.http
       .post<MediaFile>('Media/UploadTrainingMedia/', formData)
       .pipe(catchError(this.handleError));
+  }
+
+
+  onAdd(createEditComponent: ComponentType<any>, partOfTrainingProgram = false, day: moment.Moment = moment(new Date())) {
+
+    const dialogRef = this.UIService.openDialogFromComponent(createEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '18rem',
+      autoFocus: false,
+      data: {
+        title: this.translateService.instant('TRAINING_LOG.ADD_TRAINING_TITLE', { date: day.utc().format("DD, MMM") }),
+        action: CRUD.Create,
+        day,
+        timeOnly: true,
+        partOfTrainingProgram },
+      panelClass: []
+    });
+
+    return dialogRef;
   }
 
 }

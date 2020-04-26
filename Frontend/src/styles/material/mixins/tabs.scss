@@ -1,0 +1,18 @@
+@import "~@angular/material/theming";
+
+@mixin tabs-theme($theme) {
+    $accent: map-get($theme, accent);
+    $accent-default: mat-color($accent, default);
+    $accent-lighter: mat-color($accent, lighter);
+    $accent-darker: mat-color($accent, darker);
+
+    /* Styles for tab labels */
+    .mat-tab-label {
+        color: $accent-lighter;
+    }
+
+    /* Styles for the active tab label */
+    .mat-tab-label.mat-tab-label-active {
+        color: $accent-default;
+    }
+}

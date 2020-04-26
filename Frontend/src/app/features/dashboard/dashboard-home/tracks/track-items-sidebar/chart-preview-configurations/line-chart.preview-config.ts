@@ -1,7 +1,5 @@
-import { ChartConfiguration } from 'chart.js';
-import { MyChartConfiguration, backgroundColors, fontColor, colorHelpers } from 'src/app/shared/charts/chart.helpers';
 import { Guid } from 'guid-typescript';
-import { UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
+import { backgroundColors, colorHelpers, fontColor, MyChartConfiguration } from 'src/app/shared/charts/chart.helpers';
 import { Theme } from 'src/business/shared/theme.enum';
 
 export function getLineChartPreviewConfig(theme: Theme): MyChartConfiguration {
@@ -45,7 +43,7 @@ export function getLineChartPreviewConfig(theme: Theme): MyChartConfiguration {
                 xAxes: [
                     {
                         gridLines: {
-                            display: true,
+                            display: false,
                             color: colorHelpers(fontColor(theme)).alpha(0.15).rgbString()
                         },
                         // gridLines: { display: false, drawBorder: true },
@@ -56,7 +54,7 @@ export function getLineChartPreviewConfig(theme: Theme): MyChartConfiguration {
                 yAxes: [
                     {
                         gridLines: {
-                            display: true,
+                            display: false,
                             color: colorHelpers(fontColor(theme)).alpha(0.15).rgbString()
                         },
                         // gridLines: { display: false, drawBorder: true },

@@ -1,0 +1,43 @@
+<div class="details-container mat-elevation-z3" *ngIf="(trainingProgram$ | async) as trainingProgram">
+
+  <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
+
+    <span>{{trainingProgram.name}}</span>
+
+    <button class="mr-1" mat-stroked-button color="accent" (click)="onAssign(trainingProgram)">
+      {{ 'TRAINING_PROGRAM.ASSIGN' | translate}}
+    </button>
+  </h1>
+
+  <mat-divider></mat-divider>
+
+
+  <div class="details-body" fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
+
+    <div class="details">
+
+      <img *ngIf="trainingProgram.imageUrl" class="program-image img-fluid float-left mat-elevation-z5"
+        (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+
+      <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid float-left mat-elevation-z5"
+        src="{{placeholderImagePath}}" />
+
+      <p *ngIf="trainingProgram.description && trainingProgram.description.length > 940">
+        {{ trainingProgram.description.slice(0, 940) + ' ' }}
+        <a *ngIf="trainingProgram.description?.length > 940">Show all</a>
+      </p>
+
+      <p *ngIf="trainingProgram.description && trainingProgram.description.length < 940">
+        {{ trainingProgram.description }}
+      </p>
+
+      <i *ngIf="!trainingProgram.description || trainingProgram.description == ''">
+        {{ 'TRAINING_PROGRAM.NO_DESCRIPTION' | translate }}
+      </i>
+
+    </div>
+
+  </div>
+
+  <div class="details-footer" *ngIf="!trainingProgram.description">
+  </div>

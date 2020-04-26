@@ -86,6 +86,7 @@ namespace Backend.Business.Users.UsersRequests.CreateUser
             // send mail to complete registration
             try
             {
+                athlete.Coach = coach;
                 await _mediator.Send(new SendRegistrationEmailRequest(athlete));
             }
             catch (Exception e)

@@ -1,0 +1,15 @@
+.image-header,
+.image-cell {
+  max-width: 3rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-img,
+.placeholder-img {
+  height: 30px;
+  max-width: 100%;
+  font-size: 25px !important;
+  border-radius: 23%;
+}

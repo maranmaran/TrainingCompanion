@@ -3,13 +3,16 @@
 
   <!--FILTER-->
   <mat-form-field *ngIf="config.filterEnabled">
-    <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)" placeholder="{{ 'SHARED.FILTER' | translate }}">
+    <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)"
+      placeholder="{{ 'SHARED.FILTER' | translate }}">
   </mat-form-field>
 
   <!--TABLE-->
-  <mat-table class="mat-elevation-z1" [dataSource]="datasource"
-    matSort [matSortActive]="config.defaultSort" [matSortDirection]="config.defaultSortDirection" (matSortChange)="config.pagingOptions.serverSidePaging && onSortChange($event)"
-    cdkDropList [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop" (cdkDropListDropped)="onListDrop($event)">
+  <mat-table class="mat-elevation-z1" [dataSource]="datasource" matSort [matSortActive]="config.defaultSort"
+    [matSortDirection]="config.defaultSortDirection"
+    (matSortChange)="config.pagingOptions.serverSidePaging && onSortChange($event)" cdkDropList
+    [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop"
+    (cdkDropListDropped)="onListDrop($event)">
 
     <!-- SELECTION ( CHECKBOXES ) COLUMN -->
     <ng-container matColumnDef="select" *ngIf="config.selectionEnabled">
@@ -34,7 +37,8 @@
       </ng-container>
 
       <ng-container *ngIf="!col.sort">
-        <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef matTooltip="{{col.tooltip}}"> {{ col.title | translate }}
+        <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef matTooltip="{{col.tooltip}}">
+          {{ col.title | translate }}
         </mat-header-cell>
       </ng-container>
 
@@ -52,7 +56,8 @@
       <mat-header-cell *matHeaderCellDef>
 
         <!--Header actions menu button-->
-        <button matTooltip="Actions" *ngIf="config.headerActions.length > 1 && isMoreThanOneSelected; else singleHeaderAction" mat-icon-button
+        <button matTooltip="Actions"
+          *ngIf="config.headerActions.length > 1 && isMoreThanOneSelected; else singleHeaderAction" mat-icon-button
           color="accent" [matMenuTriggerFor]="headerMenu">
           <i class="fa fa-ellipsis-v"></i>
         </button>
@@ -85,15 +90,15 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-    <mat-row cdkDrag [cdkDragData]="row" highlightOnHover [class.selected-row]="selection.isSelected(row.id)"
-      *matRowDef="let row; columns: displayColumns;" (click)="onSelect(row)">
+    <mat-row *matRowDef="let row; columns: displayColumns;" cdkDrag [cdkDragData]="row" highlightOnHover
+      [ngClass]="{'selected-row': selection.isSelected(row.id) }" (click)="onSelect(row)">
     </mat-row>
 
   </mat-table>
 
   <!-- NO DATA -->
   <div class="no-records" *ngIf="datasourceEmpty">
-    <span>No records</span>
+    <span>{{'TABLE.NO_DATA' | translate}}</span>
   </div>
 
   <!-- PAGINATOR -->
@@ -128,8 +133,8 @@
       <i class="fas fa-times"></i>
     </button>
     <!--DISABLE MANY ACTION-->
-    <button *ngIf="action == 'disableMany' && isMoreThanOneSelected" matTooltip="Disable selected items" mat-icon-button color="accent"
-      (click)="disableManyEvent.emit(selection.selected)" (click)="$event.stopPropagation()">
+    <button *ngIf="action == 'disableMany' && isMoreThanOneSelected" matTooltip="Disable selected items" mat-icon-button
+      color="accent" (click)="disableManyEvent.emit(selection.selected)" (click)="$event.stopPropagation()">
       <i class="fas fa-times"></i>
     </button>
     <!--DELETE ONE-->
@@ -138,8 +143,8 @@
       <i class="fas fa-trash"></i>
     </button>
     <!--DELETE MANY ACTION-->
-    <button *ngIf="action == 'deleteMany' && isMoreThanOneSelected" matTooltip="Delete selected items" mat-icon-button color="accent"
-      (click)="deleteManyEvent.emit(selection.selected)" (click)="$event.stopPropagation()">
+    <button *ngIf="action == 'deleteMany' && isMoreThanOneSelected" matTooltip="Delete selected items" mat-icon-button
+      color="accent" (click)="deleteManyEvent.emit(selection.selected)" (click)="$event.stopPropagation()">
       <i class="fas fa-trash"></i>
     </button>
     <!-- to keep all rows aligned in table -->

@@ -22,7 +22,12 @@
     "FROM": "From",
     "TO": "To",
     "SEARCH": "Search",
-    "VIDEO_NOT_SUPPORTED": "Your browser does not support this video tag"
+    "VIDEO_NOT_SUPPORTED": "Your browser does not support this video tag",
+    "ACTIVATE": "Activate",
+    "DEACTIVATE": "Deactivate"
+  },
+  "TABLE": {
+    "NO_DATA": "No records"
   },
   "NOTIFICATIONS": {
     "BODYWEIGHT_MESSAGE": "logged a new bodyweight value of {{value}}",
@@ -42,7 +47,10 @@
     "PROFILE_LABEL": "Profile"
   },
   "DASHBOARD": {
+    "COULD_NOT_RENDER": "Could not render chart",
+    "SAVE_DASHBOARD": "Save customization",
     "REMOVE_TRACK_ITEM": "Remove chart from track",
+    "MOVE_TRACK_ITEM": "Reposition track item",
     "FEED": {
       "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",
       "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> logged a new bodyweight value of {{value}}.",
@@ -83,12 +91,47 @@
     "UPDATE_TITLE": "Update bodyweight",
     "WEIGHT": "Weight"
   },
+  "TRAINING_PROGRAM": {
+    "TAB_PROGRAMS": "Programs",
+    "TAB_BLOCKS": "Blocks",
+    "TAB_TRAININGS": "Trainings",
+    "TAB_EXERCISES": "Exercises",
+    "BLOCK_COUNT": "Total blocks",
+    "NO_DESCRIPTION": "No description",
+    "ASSIGN": "Assign program",
+    "DESCRIPTION_LABEL": "Description",
+    "CHANGE_IMAGE": "Upload",
+    "NAME_LABEL": "Training program",
+    "DELETE_TITLE": "Delete training program",
+    "DELETE_DIALOG": "<p>Are you sure you wish to delete training program {{trainingProgram}}?</p>",
+    "ADD_TITLE": "Add training program",
+    "UPDATE_TITLE": "Update training program"
+  },
+  "TRAINING_BLOCK": {
+    "DURATION_IN_DAYS": "Duration (in days)",
+    "DESCRIPTION_LABEL": "Description",
+    "NAME_LABEL": "Training block",
+    "DELETE_TITLE": "Delete training block",
+    "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{trainingBlock}}?</p>/n<p>All data for that training block will be lost.</p>",
+    "ADD_TITLE": "Add training block",
+    "UPDATE_TITLE": "Update training block"
+  },
+  "TRAINING_BLOCK_DAY": {
+    "DAYS_HEADER": "Training block days",
+    "DAY_LABEL": "Day",
+    "HAS_TRAINING": "Has trainings",
+    "NAME_LABEL": "Training block",
+    "DELETE_TITLE": "Delete training block day",
+    "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{name}}?</p>/n<p>Data for all trainings on that day will be lost.</p>",
+    "ADD_TITLE": "Add training block day"
+  },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Import",
     "LAST_IMPORT": "Last import",
     "SAMPLE_SHEETS": "Sample sheets"
   },
   "TRAINING_LOG": {
+    "TRAINING_DELETE_DIALOG": "<p>Are you sure you wish to delete training on {{dateTrained}} ?</p>\n<p>All data will be lost if you delete this training.</p>",
     "CALENDAR_LABEL": "Calendar",
     "WEEK_LABEL": "Week",
     "LIST_LABEL": "List",
@@ -213,7 +256,8 @@
     "EXERCISES": "Exercises",
     "TRAINING_LOG": "Training log",
     "EXPORT_IMPORT": "Export / Import",
-    "BODYWEIGHT": "Bodyweight"
+    "BODYWEIGHT": "Bodyweight",
+    "TRAINING_PROGRAM": "Training programs"
   },
   "PAGINATOR": {
     "ITEMS_PER_PAGE_LABEL": "Items per page",
@@ -231,8 +275,6 @@
     "PASSWORD": "Password"
   },
   "ATHLETE_MANAGEMENT": {
-    "ACTIVATE": "Activate",
-    "DEACTIVATE": "Deactivate",
     "JOINED_ON": "Joined on",
     "ACC_STATUS": "Account status",
     "REGISTER": "Register",

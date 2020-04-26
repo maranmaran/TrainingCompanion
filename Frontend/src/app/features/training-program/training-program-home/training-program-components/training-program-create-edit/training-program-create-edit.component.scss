@@ -1,0 +1,41 @@
+.upload-input {
+    img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+    }
+
+    .image-icon {
+      font-size: 140px;
+      padding: 30px;
+      border-radius: 50%;
+    }
+
+    .upload-chip {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        z-index: 100;
+        bottom: 2.5rem;
+        visibility: hidden;
+    }
+
+    .upload-chip:hover {
+        visibility: visible;
+    }
+
+    img:hover {
+        // opacity: 0.1;
+
+        + .upload-chip {
+            visibility: visible;
+        }
+    }
+    .image-icon:hover {
+        // opacity: 0.1;
+
+        + .upload-chip {
+            visibility: visible;
+        }
+    }
+}

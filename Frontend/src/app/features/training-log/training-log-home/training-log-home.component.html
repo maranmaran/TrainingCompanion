@@ -1,19 +1,42 @@
-<mat-tab-group mat-stretch-tabs #group1 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab1 ? 'none' : 'inherit'"
-    (selectedIndexChange)="changeTab1($event, true, true)" [selectedIndex]="selectedTab1" dynamicHeight="false">
-    <mat-tab>
-        <ng-template mat-tab-label>
-            <i class="fas fa-arrow-circle-left"></i>
-        </ng-template>
-    </mat-tab>
-    <mat-tab label="{{'TRAINING_LOG.TRAINING_LABEL' | translate}}"></mat-tab>
-    <mat-tab label="{{'TRAINING_LOG.EXERCISE_LABEL' | translate}}" [disabled]="!selectedExercise ? true : false"></mat-tab>
+<!--TODO..disable LEFT and RIGHT keyboard because calendar uses that...We can use up and down for changing tabs here-->
+<mat-tab-group mat-stretch-tabs #group1 animationDuration="0ms" mat-align-tabs="center"
+  [style.display]="hideTab1 ? 'none' : 'inherit'" (selectedIndexChange)="changeTab1($event, true, true)"
+  [selectedIndex]="selectedTab1" dynamicHeight="false" [color]="'accent'">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-arrow-circle-left"></i>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <label> {{'TRAINING_LOG.TRAINING_LABEL' | translate}} </label>
+    </ng-template>
+  </mat-tab>
+  <mat-tab [disabled]="!selectedExercise ? true : false">
+    <ng-template mat-tab-label>
+      <label> {{'TRAINING_LOG.EXERCISE_LABEL' | translate}} </label>
+    </ng-template>
+  </mat-tab>
 </mat-tab-group>
 
-<mat-tab-group mat-stretch-tabs #group2 animationDuration="0ms" mat-align-tabs="center" [style.display]="hideTab2 ? 'none' : 'inherit'"
-    (selectedIndexChange)="changeTab2($event)" [selectedIndex]="selectedTab2" dynamicHeight="false">
-    <mat-tab label="{{'TRAINING_LOG.CALENDAR_LABEL' | translate}}"></mat-tab>
-    <mat-tab label="{{'TRAINING_LOG.WEEK_LABEL' | translate}}"></mat-tab>
-    <mat-tab label="{{'TRAINING_LOG.LIST_LABEL' | translate}}"></mat-tab>
+<mat-tab-group mat-stretch-tabs #group2 animationDuration="0ms" mat-align-tabs="center"
+  [style.display]="hideTab2 ? 'none' : 'inherit'" (selectedIndexChange)="changeTab2($event)"
+  [selectedIndex]="selectedTab2" dynamicHeight="false" [color]="'accent'">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <label> {{'TRAINING_LOG.CALENDAR_LABEL' | translate}} </label>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <label> {{'TRAINING_LOG.WEEK_LABEL' | translate}} </label>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <label> {{'TRAINING_LOG.LIST_LABEL' | translate}} </label>
+    </ng-template>
+  </mat-tab>
 </mat-tab-group>
 
 <!-- TABS STATE CAN BE KEPT IN NGRX -->

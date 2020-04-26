@@ -1,0 +1,53 @@
+<!-- <app-material-table [columns]="tableColumns" [datasource]="tableDatasource" [config]="tableConfig"
+    (selectEvent)="onSelect($event)" (addEvent)="onAdd()" (updateEvent)="onUpdate($event)"
+    (deleteEvent)="onDeleteSingle($event)"></app-material-table> -->
+<!-- <ngu-carousel #carousel [inputs]="carouselTile" (carouselLoad)="carouselTileLoad($event)" [dataSource]="carouselTileItems">
+
+  <ngu-tile *nguCarouselDef="let item;">
+    <button mat-fab>{{ item + 1 }}</button>
+  </ngu-tile>
+
+  <button NguCarouselPrev class='leftRs'>&lt;</button>
+  <button NguCarouselNext class='rightRs'>&gt;</button>
+
+</ngu-carousel> -->
+
+<h1 class="mt-3 mb-3"><b>{{'TRAINING_BLOCK_DAY.DAYS_HEADER' | translate}}:</b></h1>
+
+<div class="days-carousel" fxLayout="column">
+
+
+  <!-- <div class="days-carousel__days" fxLayout="row wrap" fxLayoutAlign="start"> -->
+  <div class="days-carousel__days" gdGap="0.5rem" gdColumns="repeat(7, 1fr)" gdRows="repeat(4, 1fr)">
+    <!-- <div class="text-center days_carousel_day" > -->
+    <button mat-fab (click)="onSelect(item)" class="text-center" *ngFor="let item of tableDatasource.data" [ngClass]="{
+          'selected-day': (selectedDay | async)?.id == item.id,
+          'rest-day': item.restDay,
+          'training-day': !item.restDay
+        }">
+      {{ item.order }}
+    </button>
+    <!-- </div> -->
+  </div>
+
+  <div class="days-carousel__actions mt-3" fxLayout="row" fxLayoutAlign="center center">
+
+    <span fxFlex="2 0" fxLayoutAlign="end" fxLayout="row" fxLayoutGap="0.5rem">
+      <button mat-fab class='carousel-left' (click)="onPreviousPage()" [color]="'primary'"
+        [disabled]="pagingModel.page == 0"><i class="fas fa-chevron-left fa-1-2x"></i></button>
+
+      <button mat-fab class='carousel-right' (click)="onNextPage()" [color]="'primary'" [disabled]="!hasMoreData"><i
+          class="fas fa-chevron-right fa-1-2x"></i></button>
+    </span>
+
+    <span fxFlex="0 2" fxLayoutAlign="end" fxLayout="row" fxLayoutGap="0.5rem">
+      <button mat-fab class='carousel-right' (click)="onDeleteSingle()" [color]="'primary'"
+        [disabled]="!(selectedDay | async)"><i class="fas fa-trash fa-1-2x"></i></button>
+
+      <button mat-fab class='carousel-right' (click)="onAdd()" [color]="'primary'">
+        <i class="fas fa-plus fa-1-2x"></i></button>
+    </span>
+
+  </div>
+
+</div>

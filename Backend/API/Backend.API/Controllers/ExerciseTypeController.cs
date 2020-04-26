@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.Exercises.ExerciseTypeRequests.GetPaged;
 
 namespace Backend.API.Controllers
 {
@@ -32,6 +33,12 @@ namespace Backend.API.Controllers
             //));
 
             return Ok(await Mediator.Send(request, cancellationToken));
+        }
+
+        [HttpGet("{exerciseTypeId}")]
+        public async Task<IActionResult> Get(Guid exerciseTypeId, CancellationToken cancellationToken = default)
+        {
+            return Ok(await Mediator.Send(new GetExerciseTypeRequest(exerciseTypeId), cancellationToken));
         }
 
 

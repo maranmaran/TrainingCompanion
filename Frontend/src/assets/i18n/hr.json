@@ -22,7 +22,12 @@
     "FROM": "Od",
     "TO": "Do",
     "SEARCH": "Traži",
-    "VIDEO_NOT_SUPPORTED": "Vaš preglednik ne podržava ovaj tip snimke"
+    "VIDEO_NOT_SUPPORTED": "Vaš preglednik ne podržava ovaj tip snimke",
+    "ACTIVATE": "Aktiviraj",
+    "DEACTIVATE": "Deaktiviraj"
+  },
+  "TABLE": {
+    "NO_DATA": "Nema podataka"
   },
   "NOTIFICATIONS": {
     "BODYWEIGHT_MESSAGE": "je dodao/la novi zapis tjelesne težine od {{value}}",
@@ -42,7 +47,10 @@
     "PROFILE_LABEL": "Profil"
   },
   "DASHBOARD": {
+    "COULD_NOT_RENDER": "Graf se nije uspio pokazati",
+    "SAVE_DASHBOARD": "Spremi promjene",
     "REMOVE_TRACK_ITEM": "Izbriši graf iz trake",
+    "MOVE_TRACK_ITEM": "Repozicioniraj graf",
     "FEED": {
       "MEDIA_MESSAGE": "<b>{{username}}</b> je dodao/la novu multimedijsku datoteku.",
       "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> je dodao/la novi zapis tjelesne težine od {{value}}.",
@@ -83,12 +91,47 @@
     "UPDATE_TITLE": "Uredi težinu",
     "WEIGHT": "Težina"
   },
+  "TRAINING_PROGRAM": {
+    "TAB_PROGRAMS": "Programi",
+    "TAB_BLOCKS": "Ciklusi",
+    "TAB_TRAININGS": "Treninzi",
+    "TAB_EXERCISES": "Vježbe",
+    "BLOCK_COUNT": "Broj ciklusa",
+    "NO_DESCRIPTION": "Nema opisa",
+    "ASSIGN": "Dodijeli program",
+    "DESCRIPTION_LABEL": "Opis",
+    "CHANGE_IMAGE": "Dodaj",
+    "NAME_LABEL": "Trening program",
+    "DELETE_TITLE": "Obriši trening program",
+    "DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening program {{trainingProgram}}?</p>",
+    "ADD_TITLE": "Dodaj trening program",
+    "UPDATE_TITLE": "Uredi trening program"
+  },
+  "TRAINING_BLOCK": {
+    "DURATION_IN_DAYS": "Trajanje ciklusa (dani)",
+    "DESCRIPTION_LABEL": "Opis",
+    "NAME_LABEL": "Trening ciklus",
+    "DELETE_TITLE": "Obriši trening ciklus",
+    "DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening ciklus {{trainingBlock}}?</p>/n<p>Svi podaci za taj ciklus će biti izgubljeni</p>",
+    "ADD_TITLE": "Dodaj trening ciklus",
+    "UPDATE_TITLE": "Uredi trening ciklus"
+  },
+  "TRAINING_BLOCK_DAY": {
+    "DAYS_HEADER": "Dani u ciklusu",
+    "DAY_LABEL": "Dan",
+    "HAS_TRAINING": "Ima treninge",
+    "NAME_LABEL": "Dan u ciklusu",
+    "DELETE_TITLE": "Izbriši dan trening ciklusa",
+    "DELETE_DIALOG": "<p>Jeste li sigurni da zelite obrisati {{name}}?</p>/n<p>Svi podaci za treninge taj dan će biti izgubljeni</p>",
+    "ADD_TITLE": "Add training block day"
+  },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Uvoz podataka",
     "LAST_IMPORT": "Zadnji uvoz podataka",
     "SAMPLE_SHEETS": "Primjeri dokumenata za uvoz"
   },
   "TRAINING_LOG": {
+    "TRAINING_DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening na dan {{dateTrained}} ?</p>\n<p>Svi podaci će biti izgubljeni ako obrišete ovaj trening.</p>",
     "CALENDAR_LABEL": "Kalendar",
     "WEEK_LABEL": "Tjedan",
     "LIST_LABEL": "Lista",
@@ -213,7 +256,8 @@
     "EXERCISES": "Popis vježbi",
     "TRAINING_LOG": "Dnevnik treninga",
     "EXPORT_IMPORT": "Uvoz / izvoz podataka",
-    "BODYWEIGHT": "Tjelesna težina"
+    "BODYWEIGHT": "Tjelesna težina",
+    "TRAINING_PROGRAM": "Programi treninga"
   },
   "PAGINATOR": {
     "ITEMS_PER_PAGE_LABEL": "Broj redaka",
@@ -231,8 +275,6 @@
     "PASSWORD": "Lozinka"
   },
   "ATHLETE_MANAGEMENT": {
-    "ACTIVATE": "Aktiviraj",
-    "DEACTIVATE": "Deaktiviraj",
     "JOINED_ON": "Datum dolaska",
     "ACC_STATUS": "Status računa",
     "REGISTER": "Registriraj",

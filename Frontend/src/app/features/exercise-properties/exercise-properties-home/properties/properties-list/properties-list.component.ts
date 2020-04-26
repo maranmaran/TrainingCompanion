@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
-import { TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
+import { TableAction, TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
@@ -72,7 +72,8 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       enableDragAndDrop: true,
       pagingOptions: new TablePagingOptions({
         pageSizeOptions: [5]
-      })
+      }),
+      cellActions: [TableAction.update, TableAction.delete]
     });
 
     this.store.select(selectedTagGroup)

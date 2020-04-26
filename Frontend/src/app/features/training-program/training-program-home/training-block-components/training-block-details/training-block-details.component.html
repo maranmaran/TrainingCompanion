@@ -1,0 +1,45 @@
+<div class="details-container mat-elevation-z3" *ngIf="(trainingBlock$ | async) as trainingBlock">
+
+  <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
+
+      <span>{{trainingBlock.name}} </span>
+
+  </h1>
+
+  <mat-divider></mat-divider>
+
+
+  <div class="details-body" fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
+
+      <div class="details" gdAreas="left-label left-value" gdColumns="max-content auto">
+
+          <div gdArea="left-label">
+              <div class="detail">
+                  <mat-label class="label">{{ 'TRAINING_BLOCK.NAME_LABEL' | translate}}:</mat-label>
+              </div>
+              <div class="detail">
+                  <mat-label class="label">{{ 'TRAINING_BLOCK.DURATION_IN_DAYS' | translate}}:</mat-label>
+              </div>
+              <div class="detail">
+                  <mat-label class="label">{{ 'TRAINING_BLOCK.DESCRIPTION_LABEL' | translate}}:</mat-label>
+              </div>
+          </div>
+
+          <div gdArea="left-value">
+              <div class="detail">
+                  <span class="label-value">{{trainingBlock.name}}</span>
+              </div>
+              <div class="detail">
+                  <span class="label-value">{{trainingBlock.durationInDays}}</span>
+              </div>
+              <div class="detail">
+                  <span class="label-value">{{trainingBlock.description}}</span>
+              </div>
+          </div>
+
+      </div>
+
+  </div>
+
+  <div class="details-footer">
+  </div>

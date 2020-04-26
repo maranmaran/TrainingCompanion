@@ -1,0 +1,69 @@
+@import "~@angular/material/theming";
+
+@function getColor($color) {
+  @if (lightness($color) > 90) {
+    @return darken($color, 40%);
+  }
+
+  @if (lightness($color) > 80) {
+    @return darken($color, 25%);
+  }
+
+  @return darken($color, 15%);
+}
+
+@mixin carousel-theme($theme) {
+  $background-palette: map-get($theme, background);
+  $selected-button-disabled: map-get($background-palette, selected-disabled-button);
+
+  $primary: map-get($theme, primary);
+  $primary-default: mat-color($primary, default);
+
+  $accent: map-get($theme, accent);
+  $accent-default: mat-color($accent, default);
+
+  $foreground-palette: map-get($theme, foreground);
+  $button-disabled: map-get($foreground-palette, disabled-button);
+
+  // .days_carousel_day {
+  //   align-self: center;
+  //   flex: 1 1 calc(14%);
+  //   box-sizing: border-box;
+  //   max-width: 14%;
+
+  .days-carousel__days {
+    justify-items: center;
+    align-items: center;
+
+    .training-day {
+      background: $primary-default;
+
+      &.selected-day {
+        background: getColor($primary-default) !important;
+      }
+    }
+
+    .rest-day {
+      background: $selected-button-disabled;
+
+      &.selected-day {
+        background: getColor($selected-button-disabled) !important;
+      }
+    }
+  }
+
+  // }
+
+  @media (max-width: 600px) {
+    .mat-fab {
+      height: 40px;
+      width: 40px;
+      line-height: 16px;
+
+      .mat-button-wrapper {
+        padding: 0;
+        line-height: 0;
+      }
+    }
+  }
+}

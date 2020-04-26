@@ -8,7 +8,7 @@ import { ChartConfiguration } from 'chart.js';
 import { Guid } from 'guid-typescript';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { ConnectableObservable, Observable } from 'rxjs';
+import { ConnectableObservable, forkJoin, Observable, of } from 'rxjs';
 import { combineLatest } from 'rxjs/internal/observable/combineLatest';
 import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, skip, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
@@ -75,7 +75,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.params = JSON.parse(this.jsonParams);
+    this.params = JSON.parse(this.jsonParams) ?? { dateFrom: new Date(), dateTo: new Date(), exerciseType: null};
 
     this._initializer$ = this.getCardInitializer();
 
@@ -84,7 +84,19 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     this.store.select(trackEditMode).pipe(take(1)).subscribe(editMode => this._trackEditMode = editMode);
 
     // get first exercise types page and initialize form
-    this.getExerciseTypes().pipe(take(1)).subscribe((types: PagedList<ExerciseType>) => {
+    // also refresh exerciseType from jsonParams because it may be outdated (this could be expensive)
+    forkJoin(
+      this.getExerciseTypes().pipe(take(1)),
+      this.getExerciseType(this.params?.exerciseType?.id).pipe(take(1))
+    ).subscribe(([types, type]) => {
+
+      if (types instanceof Error) return;
+      if (type instanceof Error) return;
+
+      types = types as PagedList<ExerciseType>;
+      type = type as ExerciseType;
+      this.params.exerciseType = type;
+
       if (!types || types.list.length == 0) {
         this.error = true;
         this.details = 'You have no exercises. Please add or import some.';
@@ -175,6 +187,12 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     );
   }
 
+  getExerciseType(typeId: string) {
+    if (!typeId) return of(null);
+
+    return this.exerciseTypeService.getOne(typeId);
+  }
+
   get dateFrom(): AbstractControl { return this.form.get('dateFrom'); }
   get dateTo(): AbstractControl { return this.form.get('dateTo'); }
   get exerciseType(): AbstractControl { return this.form.get('exerciseType'); }
@@ -232,7 +250,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     let params = {
       dateFrom: this.dateFrom.value,
       dateTo: this.dateTo.value,
-      exerciseType: this.exerciseType.value
+      exerciseType: { id: this.exerciseType.value.id }
     };
 
     let jsonParams = JSON.stringify(params);
