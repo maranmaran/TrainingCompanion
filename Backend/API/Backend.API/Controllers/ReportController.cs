@@ -29,7 +29,7 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}/{dateFrom}/{dateTo}")]
         public async Task<IActionResult> GetBodyweightReport(Guid userId, DateTime dateFrom, DateTime dateTo, CancellationToken cancellationToken = default)
         {
-            var key = $"Report/BodyweightMetrics{userId}";
+            var key = $"Report/BodyweightMetrics{userId}{dateFrom}{dateTo}";
             AddCacheKey(key);
 
             return Ok(await Cache.GetOrAddAsync(
@@ -43,7 +43,7 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}/{exerciseTypeId}/{dateFrom}/{dateTo}")]
         public async Task<IActionResult> GetDashboardVolumeReport(Guid userId, Guid exerciseTypeId, DateTime dateFrom, DateTime dateTo, CancellationToken cancellationToken = default)
         {
-            var key = $"Report/GetDashboardVolumeReport{userId}{exerciseTypeId}";
+            var key = $"Report/GetDashboardVolumeReport{userId}{exerciseTypeId}{dateFrom}{dateTo}";
             AddCacheKey(key);
 
             return Ok(await Cache.GetOrAddAsync(
@@ -57,7 +57,7 @@ namespace Backend.API.Controllers
         [HttpGet("{userId}/{exerciseTypeId}/{dateFrom}/{dateTo}")]
         public async Task<IActionResult> GetDashboardMaxReport(Guid userId, Guid exerciseTypeId, DateTime dateFrom, DateTime dateTo, CancellationToken cancellationToken = default)
         {
-            var key = $"Report/GetDashboardMaxReport{userId}{exerciseTypeId}";
+            var key = $"Report/GetDashboardMaxReport{userId}{exerciseTypeId}{dateFrom}{dateTo}";
             AddCacheKey(key);
 
             return Ok(await Cache.GetOrAddAsync(
