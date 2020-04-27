@@ -1,18 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { TrainingProgramUserService } from 'src/business/services/feature-services/training-program-user.service';
 import { getPlaceholderImagePath } from 'src/business/utils/utils';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
+import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { SubSink } from 'subsink';
 import { UserService } from './../../../../../../business/services/feature-services/user.service';
 import { UIService } from './../../../../../../business/services/shared/ui.service';
+import { currentUser } from './../../../../../../ngrx/auth/auth.selectors';
 import { selectedTrainingProgram } from './../../../../../../ngrx/training-program/training-program/training-program.selectors';
 import { TrainingProgramAssignComponent } from './../training-program-assign/training-program-assign.component';
 
@@ -30,10 +33,13 @@ export class TrainingProgramDetailsComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private trainingProgramUserService: TrainingProgramUserService,
     private UIService: UIService,
-    private userService: UserService
+    private userService: UserService,
+    public mediaObserver: MediaObserver
   ) { }
 
   subs = new SubSink();
+
+  showAll = false;
 
   ngOnInit() {
     this.trainingProgram$ = this.store.select(selectedTrainingProgram);
@@ -43,18 +49,23 @@ export class TrainingProgramDetailsComponent implements OnInit, OnDestroy {
     )
   }
 
-
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
 
-
   onAssign(trainingProgram: TrainingProgram) {
-    this.store.select(currentUserId)
+    combineLatest(
+      this.store.select(currentUser),
+      this.store.select(currentUserId)
+        .pipe(
+          take(1),
+          switchMap(id => this.userService.getAll(AccountType.Athlete, id).pipe(take(1))),
+      ))
       .pipe(
         take(1),
-        switchMap(id => this.userService.getAll(AccountType.Athlete, id).pipe(take(1)))
-      ).subscribe((users: ApplicationUser[]) => this.openAssignDialog(trainingProgram, users));
+        map(([currentUser, users]: [CurrentUser, ApplicationUser[]]) => [ currentUser as unknown as ApplicationUser, ...users ])
+      )
+      .subscribe(users => this.openAssignDialog(trainingProgram, users))
   }
 
   openAssignDialog(trainingProgram: TrainingProgram, users: ApplicationUser[]) {
@@ -70,6 +81,10 @@ export class TrainingProgramDetailsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .pipe(take(1))
       .subscribe(_ => { })
+  }
+
+  trackByProgramUserId(index, programUser) {
+    return programUser.id;
   }
 
 

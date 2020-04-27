@@ -8,6 +8,6 @@ namespace Backend.Business.TrainingPrograms.Interfaces
 {
     public interface ITrainingProgramAssignService
     {
-        Task Assign(TrainingProgram trainingProgram, ApplicationUser user, DateTime startDate, CancellationToken cancellationToken = default);
+        Task<TrainingProgramUser> Assign(TrainingProgram trainingProgram, ApplicationUser user, DateTime startDate, CancellationToken cancellationToken = default);
     }
 }

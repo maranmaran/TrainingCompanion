@@ -25,15 +25,18 @@ namespace Backend.Business.TrainingPrograms.Services
             _logger = logger;
         }
 
-        public async Task Assign(TrainingProgram trainingProgram, ApplicationUser user, DateTime startDate, CancellationToken cancellationToken = default)
+        public async Task<TrainingProgramUser> Assign(TrainingProgram trainingProgram, ApplicationUser user, DateTime startDate, CancellationToken cancellationToken = default)
         {
             try
             {
 
-                await AssignTrainingProgramToUser(trainingProgram.Id, user.Id, startDate);
+                var programUser = await AssignTrainingProgramToUser(trainingProgram.Id, user.Id, startDate);
                 await ImportTrainingDataToCalendar(trainingProgram, user, startDate);
 
                 await _context.SaveChangesAsync(cancellationToken);
+
+                await _context.Entry(programUser).Reference(x => x.User).LoadAsync(cancellationToken);
+                return programUser;
             }
             catch (Exception e)
             {
@@ -41,7 +44,7 @@ namespace Backend.Business.TrainingPrograms.Services
             }
         }
 
-        private async Task AssignTrainingProgramToUser(Guid trainingProgramId, Guid userId, DateTime startDate)
+        private async Task<TrainingProgramUser> AssignTrainingProgramToUser(Guid trainingProgramId, Guid userId, DateTime startDate)
         {
             var trainingProgramUser = new TrainingProgramUser()
             {
@@ -51,6 +54,8 @@ namespace Backend.Business.TrainingPrograms.Services
             };
 
             await _context.TrainingProgramUsers.AddAsync(trainingProgramUser);
+
+            return trainingProgramUser;
         }
 
         private async Task ImportTrainingDataToCalendar(TrainingProgram trainingProgram, ApplicationUser user, DateTime startDate)

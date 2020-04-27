@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingPrograms.ProgramUserRequests.Create
 {
-    public class CreateTrainingProgramUserRequestHandler : IRequestHandler<CreateTrainingProgramUserRequest, Unit>
+    public class CreateTrainingProgramUserRequestHandler : IRequestHandler<CreateTrainingProgramUserRequest, TrainingProgramUser>
     {
         private readonly IApplicationDbContext _context;
         private readonly ITrainingProgramAssignService _assignService;
@@ -25,16 +25,16 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.Create
         }
 
 
-        public async Task<Unit> Handle(CreateTrainingProgramUserRequest request, CancellationToken cancellationToken)
+        public async Task<TrainingProgramUser> Handle(CreateTrainingProgramUserRequest request, CancellationToken cancellationToken)
         {
             try
             {
                 var program = await GetProgram(request.ProgramId, cancellationToken);
                 var user = await GetUser(request.UserId, cancellationToken);
 
-                await _assignService.Assign(program, user, request.StartDate, cancellationToken);
+                var programUser = await _assignService.Assign(program, user, request.StartDate, cancellationToken);
 
-                return Unit.Value;
+                return programUser;
             }
             catch (Exception e)
             {

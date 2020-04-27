@@ -5,35 +5,45 @@
     <span>{{trainingProgram.name}}</span>
 
     <button class="mr-1" mat-stroked-button color="accent" (click)="onAssign(trainingProgram)">
-      {{ 'TRAINING_PROGRAM.ASSIGN' | translate}}
+      {{ (mediaObserver.isActive('lt-sm') ? 'TRAINING_PROGRAM.ASSIGN_BTN_LABEL' : 'TRAINING_PROGRAM.ASSIGN') | translate}}
     </button>
   </h1>
 
   <mat-divider></mat-divider>
 
-
   <div class="details-body" fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
 
     <div class="details">
 
-      <img *ngIf="trainingProgram.imageUrl" class="program-image img-fluid float-left mat-elevation-z5"
-        (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+      <!--IMAGE-->
+      <span id="program_image">
+        <img *ngIf="trainingProgram.imageUrl" class="program-image img-fluid float-left mat-elevation-z5"
+          (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
 
-      <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid float-left mat-elevation-z5"
-        src="{{placeholderImagePath}}" />
+        <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid float-left mat-elevation-z5"
+          src="{{placeholderImagePath}}" />
+      </span>
 
-      <p *ngIf="trainingProgram.description && trainingProgram.description.length > 940">
-        {{ trainingProgram.description.slice(0, 940) + ' ' }}
-        <a *ngIf="trainingProgram.description?.length > 940">Show all</a>
-      </p>
 
-      <p *ngIf="trainingProgram.description && trainingProgram.description.length < 940">
-        {{ trainingProgram.description }}
-      </p>
+      <!--DESCRIPTION-->
+      <ng-container *ngIf="trainingProgram.description; else noDescription"
+        [ngSwitch]="trainingProgram.description.length > 940 && !showAll">
+        <p *ngSwitchCase="true">
+          {{ trainingProgram.description.slice(0, 940) + ' ' }}
+          <a *ngIf="trainingProgram.description?.length > 940"
+            (click)="showAll = true">{{ 'TRAINING_PROGRAM.SHOW_ALL' | translate }}</a>
+        </p>
+        <p *ngSwitchCase="false">
+          {{ trainingProgram.description }}
+          <a *ngIf="trainingProgram.description.length > 940"
+            (click)="showAll = false">{{ 'TRAINING_PROGRAM.SHOW_LESS' | translate }}</a>
+        </p>
+      </ng-container>
 
-      <i *ngIf="!trainingProgram.description || trainingProgram.description == ''">
-        {{ 'TRAINING_PROGRAM.NO_DESCRIPTION' | translate }}
-      </i>
+      <!--USERS..TEMP-->
+      <div *ngFor="let programUser of trainingProgram.users; trackBy: trackByProgramUserId">
+        {{ programUser.user.fullName }}
+      </div>
 
     </div>
 

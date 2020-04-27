@@ -1,9 +1,10 @@
 
-import * as TrainingProgramActions from './training-program.actions';
-import { ActionReducer, createReducer, Action, on } from '@ngrx/store';
-import { TrainingProgramState, trainingProgramInitialState, adapterTrainingProgram } from './training-program.state';
-import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { Update } from '@ngrx/entity';
+import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
+import * as _ from 'lodash';
+import { TrainingProgram, TrainingProgramUser } from 'src/server-models/entities/training-program.model';
+import * as TrainingProgramActions from './training-program.actions';
+import { adapterTrainingProgram, trainingProgramInitialState, TrainingProgramState } from './training-program.state';
 
 export const trainingProgramReducer: ActionReducer<TrainingProgramState, Action> = createReducer(
     trainingProgramInitialState,
@@ -12,6 +13,18 @@ export const trainingProgramReducer: ActionReducer<TrainingProgramState, Action>
     // CREATE
     on(TrainingProgramActions.trainingProgramCreated, (state: TrainingProgramState, payload: { entity: TrainingProgram }) => {
         return adapterTrainingProgram.addOne(payload.entity, state);
+    }),
+    on(TrainingProgramActions.trainingProgramUserCreated, (state: TrainingProgramState, payload: { entity: TrainingProgramUser }) => {
+
+      let trainingProgram =  _.cloneDeep(state.entities[payload.entity.trainingProgramId]);
+      trainingProgram.users.push(payload.entity);
+
+      var updateTrainingProgram: Update<TrainingProgram> = {
+        id: trainingProgram.id,
+        changes: trainingProgram
+      };
+
+      return adapterTrainingProgram.updateOne(updateTrainingProgram, state);
     }),
 
     // UPDATE

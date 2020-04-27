@@ -7,12 +7,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { trainingProgramUserCreated } from 'src/ngrx/training-program/training-program/training-program.actions';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { TrainingProgramCreateEditComponent } from '../training-program-create-edit/training-program-create-edit.component';
 import { TrainingProgramUserService } from './../../../../../../business/services/feature-services/training-program-user.service';
 import { UserService } from './../../../../../../business/services/feature-services/user.service';
 import { CreateTrainingProgramUserRequest } from './../../../../../../server-models/cqrs/training-program/create-training-program-user.request';
+import { TrainingProgramUser } from './../../../../../../server-models/entities/training-program.model';
 
 @Component({
   selector: 'app-training-program-assign',
@@ -63,10 +65,8 @@ export class TrainingProgramAssignComponent implements OnInit {
 
       // call api
       this.trainingProgramUserService.create(this.request).pipe(take(1))
-      .subscribe(_ => {
-        // let store know.. who got assigned to which program
-        // to put it in details list..
-
+      .subscribe((programUser: TrainingProgramUser) => {
+        this.store.dispatch(trainingProgramUserCreated({ entity: programUser }));
         this.onClose();
       });
     }
