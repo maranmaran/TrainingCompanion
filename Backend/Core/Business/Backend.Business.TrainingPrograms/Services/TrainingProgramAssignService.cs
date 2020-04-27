@@ -1,5 +1,6 @@
 ﻿using Backend.Business.TrainingPrograms.Interfaces;
 using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Domain.Entities.User;
@@ -28,6 +29,7 @@ namespace Backend.Business.TrainingPrograms.Services
         {
             try
             {
+
                 await AssignTrainingProgramToUser(trainingProgram.Id, user.Id, startDate);
                 await ImportTrainingDataToCalendar(trainingProgram, user, startDate);
 
@@ -35,7 +37,7 @@ namespace Backend.Business.TrainingPrograms.Services
             }
             catch (Exception e)
             {
-                throw new Exception($"Failed to assign training program {trainingProgram.Id} to user {user.Id}");
+                throw new Exception($"Failed to assign training program {trainingProgram.Id} to user {user.Id}", e);
             }
         }
 
@@ -97,18 +99,9 @@ namespace Backend.Business.TrainingPrograms.Services
 
         private async Task<Exercise> AddExercise(Exercise exercise, ApplicationUser user)
         {
-            // handle exercise type
-            // exercise type certainly exists 
-            var exerciseType = await _context.ExerciseTypes
-                .Include(x => x.Properties)
-                .ThenInclude(x => x.Tag)
-                .ThenInclude(x => x.TagGroup)
-                .SingleAsync(x => x.Code == exercise.ExerciseType.Code && x.ApplicationUserId == user.Id);
-            _context.Entry(exerciseType).State = EntityState.Unchanged;
-
             var newExercise = new Exercise
             {
-                ExerciseType = exerciseType,
+                ExerciseType = await GetExerciseType(exercise.ExerciseType.Code, user),
                 Order = _context.ExerciseTypes.Count(x => x.ApplicationUserId == user.Id) + 1,
                 Sets = new List<Set>()
             };
@@ -118,10 +111,25 @@ namespace Backend.Business.TrainingPrograms.Services
                 newExercise.Sets.Add(AddSet(set));
             }
 
-
             return newExercise;
         }
 
+        private async Task<ExerciseType> GetExerciseType(string exerciseTypeCode, ApplicationUser user)
+        {
+            // if athlete.. they share exercise types with coaches.. otherwise use normal id
+            var userId = (await _context.Athletes.FirstOrDefaultAsync(x => x.Id == user.Id))?.CoachId ?? user.Id;
+
+            // handle exercise type
+            // exercise type certainly exists 
+            var exerciseType = await _context.ExerciseTypes
+                .Include(x => x.Properties)
+                .ThenInclude(x => x.Tag)
+                .ThenInclude(x => x.TagGroup)
+                .FirstOrDefaultAsync(x => x.Code == exerciseTypeCode && x.ApplicationUserId == userId);
+            _context.Entry(exerciseType).State = EntityState.Unchanged;
+
+            return exerciseType;
+        }
         private Set AddSet(Set set)
         {
             set.Id = Guid.Empty;
