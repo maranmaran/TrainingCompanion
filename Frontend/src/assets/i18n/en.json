@@ -92,6 +92,8 @@
     "WEIGHT": "Weight"
   },
   "TRAINING_PROGRAM": {
+    "ATHLETE": "Athlete",
+    "ASSIGN_BTN_LABEL": "Assign",
     "TAB_PROGRAMS": "Programs",
     "TAB_BLOCKS": "Blocks",
     "TAB_TRAININGS": "Trainings",

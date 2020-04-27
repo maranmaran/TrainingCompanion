@@ -37,6 +37,7 @@ namespace Backend.Domain
 
 
         #region Program maker
+        DbSet<TrainingProgramUser> TrainingProgramUsers { get; set; }
 
         DbSet<TrainingProgram> TrainingPrograms { get; set; }
         DbSet<TrainingBlock> TrainingBlocks { get; set; }

@@ -1,0 +1,34 @@
+<h2> {{data.title | translate}} </h2>
+
+<mat-divider class="dialog-form-divider"></mat-divider>
+
+<div class="form" fxLayout="column" fxLayoutGap="1rem">
+  <form [formGroup]="form">
+
+    <!--DROPDOWN...select user-->
+    <mat-form-field>
+      <input matInput placeholder="{{'TRAINING_PROGRAM.ATHLETE' | translate }}" [matAutocomplete]="auto"
+        [formControl]="user">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let user of data.users" [value]="user">
+          {{ user?.fullName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{'SHARED.DATE' | translate}}</mat-label>
+      <input matInput [matDatepicker]="datepicker" [formControl]="startDate">
+
+      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+      <mat-datepicker [touchUi]="mediaObserver.isActive('lt-sm')" #datepicker></mat-datepicker>
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+  <button mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate}}</button>
+  <button mat-stroked-button color="accent" (click)="onSubmit()"
+    [disabled]="!form.valid">{{ 'TRAINING_PROGRAM.ASSIGN_BTN_LABEL' | translate }}</button>
+</div>

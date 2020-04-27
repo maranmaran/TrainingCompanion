@@ -28,6 +28,7 @@ import { TrainingProgramDetailsComponent } from './training-program-home/trainin
 import { TrainingProgramListComponent } from './training-program-home/training-program-components/training-program-list/training-program-list.component';
 import { TrainingProgramHomeComponent } from './training-program-home/training-program-home.component';
 import { TrainingProgramRoutingModule } from './training-program-routing.module';
+import { TrainingProgramAssignComponent } from './training-program-home/training-program-components/training-program-assign/training-program-assign.component';
 
 @NgModule({
     imports: [
@@ -55,6 +56,7 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
 
         TrainingBlockDayListComponent,
         TrainingBlockDayCreateEditComponent,
+        TrainingProgramAssignComponent,
     ],
     exports: [
     ],

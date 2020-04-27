@@ -92,6 +92,8 @@
     "WEIGHT": "Težina"
   },
   "TRAINING_PROGRAM": {
+    "ATHLETE": "Klijent",
+    "ASSIGN_BTN_LABEL": "Dodijeli",
     "TAB_PROGRAMS": "Programi",
     "TAB_BLOCKS": "Ciklusi",
     "TAB_TRAININGS": "Treninzi",
