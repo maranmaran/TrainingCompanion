@@ -29,6 +29,8 @@ export class TrainingProgramDetailsComponent implements OnInit, OnDestroy {
   trainingProgram$: Observable<TrainingProgram>;
   placeholderImagePath: string;
 
+  step = 0;
+
   constructor(
     private store: Store<AppState>,
     private trainingProgramUserService: TrainingProgramUserService,

@@ -1,53 +1,97 @@
-<div class="details-container mat-elevation-z3" *ngIf="(trainingProgram$ | async) as trainingProgram">
+  <mat-accordion  *ngIf="(trainingProgram$ | async) as trainingProgram" class="training-program-headers-align">
 
-  <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
+    <!-- PROGRAM DETAILS -->
+    <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0" hideToggle>
 
-    <span>{{trainingProgram.name}}</span>
+      <mat-expansion-panel-header>
 
-    <button class="mr-1" mat-stroked-button color="accent" (click)="onAssign(trainingProgram)">
-      {{ (mediaObserver.isActive('lt-sm') ? 'TRAINING_PROGRAM.ASSIGN_BTN_LABEL' : 'TRAINING_PROGRAM.ASSIGN') | translate}}
-    </button>
-  </h1>
+        <mat-panel-title>
+          Training program details
+        </mat-panel-title>
 
-  <mat-divider></mat-divider>
+        <mat-panel-description>
+          {{trainingProgram.name}}
+          <button class="mr-1" mat-stroked-button color="accent" (click)="onAssign(trainingProgram)">
+            {{ (mediaObserver.isActive('lt-sm') ? 'TRAINING_PROGRAM.ASSIGN_BTN_LABEL' : 'TRAINING_PROGRAM.ASSIGN') | translate}}
+          </button>
+        </mat-panel-description>
 
-  <div class="details-body" fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
+      </mat-expansion-panel-header>
 
-    <div class="details">
+      <div class="details-body" fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
 
-      <!--IMAGE-->
-      <span id="program_image">
-        <img *ngIf="trainingProgram.imageUrl" class="program-image img-fluid float-left mat-elevation-z5"
-          (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+        <div class="details">
 
-        <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid float-left mat-elevation-z5"
-          src="{{placeholderImagePath}}" />
-      </span>
+          <!--IMAGE-->
+          <span id="program_image">
+            <img *ngIf="trainingProgram.imageUrl" class="program-image img-fluid float-left mat-elevation-z5"
+              (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+
+            <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid float-left mat-elevation-z5"
+              src="{{placeholderImagePath}}" />
+          </span>
 
 
-      <!--DESCRIPTION-->
-      <ng-container *ngIf="trainingProgram.description; else noDescription"
-        [ngSwitch]="trainingProgram.description.length > 940 && !showAll">
-        <p *ngSwitchCase="true">
-          {{ trainingProgram.description.slice(0, 940) + ' ' }}
-          <a *ngIf="trainingProgram.description?.length > 940"
-            (click)="showAll = true">{{ 'TRAINING_PROGRAM.SHOW_ALL' | translate }}</a>
-        </p>
-        <p *ngSwitchCase="false">
-          {{ trainingProgram.description }}
-          <a *ngIf="trainingProgram.description.length > 940"
-            (click)="showAll = false">{{ 'TRAINING_PROGRAM.SHOW_LESS' | translate }}</a>
-        </p>
-      </ng-container>
+          <!--DESCRIPTION-->
+          <ng-container *ngIf="trainingProgram.description; else noDescription"
+            [ngSwitch]="trainingProgram.description.length > 940 && !showAll">
+            <p *ngSwitchCase="true">
+              {{ trainingProgram.description.slice(0, 940) + ' ' }}
+              <a *ngIf="trainingProgram.description?.length > 940"
+                (click)="showAll = true">{{ 'TRAINING_PROGRAM.SHOW_ALL' | translate }}</a>
+            </p>
+            <p *ngSwitchCase="false">
+              {{ trainingProgram.description }}
+              <a *ngIf="trainingProgram.description.length > 940"
+                (click)="showAll = false">{{ 'TRAINING_PROGRAM.SHOW_LESS' | translate }}</a>
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+    </mat-expansion-panel>
+
+    <!-- ASSIGNED USERS -->
+    <mat-expansion-panel [expanded]="step === 1" (opened)="step = 1" hideToggle>
+
+      <mat-expansion-panel-header>
+
+        <mat-panel-title>
+          Assigned users
+        </mat-panel-title>
+
+        <mat-panel-description>
+          All users which have this program assigned at the moment
+          <i class="fas fa-home"></i>
+        </mat-panel-description>
+
+      </mat-expansion-panel-header>
 
       <!--USERS..TEMP-->
       <div *ngFor="let programUser of trainingProgram.users; trackBy: trackByProgramUserId">
         {{ programUser.user.fullName }}
       </div>
 
-    </div>
+    </mat-expansion-panel>
 
-  </div>
+    <!-- METRICS  -->
+    <mat-expansion-panel [expanded]="step === 2" (opened)="step = 2" hideToggle>
 
-  <div class="details-footer" *ngIf="!trainingProgram.description">
-  </div>
+      <mat-expansion-panel-header>
+
+        <mat-panel-title>
+          Metrics
+        </mat-panel-title>
+
+        <mat-panel-description>
+          Metric data about training program
+          <i class="fas fa-home"></i>
+        </mat-panel-description>
+
+      </mat-expansion-panel-header>
+
+      Insert graphs here
+
+    </mat-expansion-panel>
+
+  </mat-accordion>
