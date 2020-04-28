@@ -62,10 +62,6 @@ export class TrainingBlockCreateEditComponent implements OnInit {
     });
   }
 
-  fileChangeEvent(event) {
-    console.log(event);
-  }
-
   onSubmit() {
     if (!this.form.valid)
       return;
@@ -85,6 +81,7 @@ export class TrainingBlockCreateEditComponent implements OnInit {
     const request = new CreateTrainingBlockRequest({
       trainingProgramId: this._programId,
       name: this.name.value,
+      order: this.data.trainingBlock.order,
       description: this.description.value,
       durationInDays: this.durationInDays.value
     })

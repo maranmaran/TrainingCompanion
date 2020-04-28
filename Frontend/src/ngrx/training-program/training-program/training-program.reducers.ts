@@ -1,10 +1,11 @@
-
 import { Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
-import { TrainingProgram, TrainingProgramUser } from 'src/server-models/entities/training-program.model';
+import { TrainingProgram } from 'src/server-models/entities/training-program.model';
+import { TrainingProgramUser } from './../../../server-models/entities/training-program.model';
 import * as TrainingProgramActions from './training-program.actions';
 import { adapterTrainingProgram, trainingProgramInitialState, TrainingProgramState } from './training-program.state';
+
 
 export const trainingProgramReducer: ActionReducer<TrainingProgramState, Action> = createReducer(
     trainingProgramInitialState,
@@ -35,6 +36,20 @@ export const trainingProgramReducer: ActionReducer<TrainingProgramState, Action>
     // DELETE
     on(TrainingProgramActions.trainingProgramDeleted, (state: TrainingProgramState, payload: { id: string }) => {
         return adapterTrainingProgram.removeOne(payload.id, state);
+    }),
+
+    on(TrainingProgramActions.trainingProgramUserDeleted, (state: TrainingProgramState, payload: { entity: TrainingProgramUser }) => {
+
+      let trainingProgram = _.cloneDeep(state.entities[payload.entity.trainingProgramId]) as TrainingProgram;
+      let index = trainingProgram.users.findIndex(x => x.id == payload.entity.id);
+      trainingProgram.users.splice(index, 1);
+
+      var updateTrainingProgram: Update<TrainingProgram> = {
+        id: trainingProgram.id,
+        changes: trainingProgram
+      };
+
+      return adapterTrainingProgram.updateOne(updateTrainingProgram, state);
     }),
 
     // GET ALL

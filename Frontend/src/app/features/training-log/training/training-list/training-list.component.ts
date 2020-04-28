@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
@@ -24,7 +24,7 @@ import { TrainingCreateEditComponent } from '../training-create-edit/training-cr
   templateUrl: './training-list.component.html',
   styleUrls: ['./training-list.component.scss']
 })
-export class TrainingListComponent implements OnInit {
+export class TrainingListComponent implements OnInit, OnDestroy {
 
   @Input() partOfTrainingProgram = false;
 
@@ -102,7 +102,7 @@ export class TrainingListComponent implements OnInit {
         definition: 'dateTrained',
         title: 'TRAINING_LOG.TRAINING_DATE',
         sort: true,
-        displayFn: (item: Training) => moment(item.dateTrained).format('L'),
+        displayFn: (item: Training) => moment(item.dateTrained).format('L, LT'),
       }),
     ]
   }

@@ -18,6 +18,7 @@ export class CreateTrainingBlockRequest {
 
   trainingProgramId: string;
   name: string;
+  order: number;
   description: string;
   durationInDays: number;
 }

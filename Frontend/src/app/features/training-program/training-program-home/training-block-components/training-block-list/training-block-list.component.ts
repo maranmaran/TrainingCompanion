@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, switchMap, take } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTrainingBlock, trainingBlockDeleted, reorderTrainingBlock } from 'src/ngrx/training-program/training-block/training-block.actions';
+import { reorderTrainingBlock, setSelectedTrainingBlock, trainingBlockDeleted } from 'src/ngrx/training-program/training-block/training-block.actions';
 import { trainingBlocks } from 'src/ngrx/training-program/training-block/training-block.selectors';
 import { TrainingBlock } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
@@ -24,7 +24,7 @@ import { selectedTrainingProgramId } from './../../../../../../ngrx/training-pro
   templateUrl: './training-block-list.component.html',
   styleUrls: ['./training-block-list.component.scss']
 })
-export class TrainingBlockListComponent implements OnInit {
+export class TrainingBlockListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_BLOCK.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
@@ -80,8 +80,9 @@ export class TrainingBlockListComponent implements OnInit {
         serverSidePaging: false
       },
       selectionEnabled: false,
-      defaultSort: 'name',
-      defaultSortDirection: 'desc'
+      enableDragAndDrop: true,
+      defaultSort: 'order',
+      defaultSortDirection: 'asc'
     });
 
     return tableConfig;
@@ -89,6 +90,15 @@ export class TrainingBlockListComponent implements OnInit {
 
   getTableColumns() {
     return [
+      new CustomColumn({
+        definition: 'order',
+        title: '#',
+        sort: true,
+        sortFn: (item: TrainingBlock) => item.order,
+        headerClass: 'order-header',
+        cellClass: 'order-cell',
+        displayFn: (item: TrainingBlock) => `${item.order + 1}.`,
+      }),
       new CustomColumn({
         headerClass: 'trainingBlock-header',
         cellClass: 'trainingBlock-cell',
@@ -123,7 +133,7 @@ export class TrainingBlockListComponent implements OnInit {
       width: '98%',
       maxWidth: '60rem',
       autoFocus: true,
-      data: { title: 'TRAINING_BLOCK.ADD_TITLE', action: CRUD.Create, trainingBlock: new TrainingBlock() },
+      data: { title: 'TRAINING_BLOCK.ADD_TITLE', action: CRUD.Create, trainingBlock: new TrainingBlock({ order: this.tableDatasource.data.length }) },
       panelClass: []
     })
 

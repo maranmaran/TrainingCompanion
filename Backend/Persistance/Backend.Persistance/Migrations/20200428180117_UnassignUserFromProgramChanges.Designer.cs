@@ -5,14 +5,16 @@ using Backend.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200428180117_UnassignUserFromProgramChanges")]
+    partial class UnassignUserFromProgramChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -530,8 +532,6 @@ namespace Backend.Persistance.Migrations
 
                     b.HasIndex("TrainingBlockDayId");
 
-                    b.HasIndex("TrainingProgramId");
-
                     b.ToTable("Trainings");
                 });
 
@@ -1013,15 +1013,9 @@ namespace Backend.Persistance.Migrations
                         .WithMany("Trainings")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("Backend.Domain.Entities.TrainingProgramMaker.TrainingBlockDay", "TrainingBlockDay")
+                    b.HasOne("Backend.Domain.Entities.TrainingProgramMaker.TrainingBlockDay", null)
                         .WithMany("Trainings")
-                        .HasForeignKey("TrainingBlockDayId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Backend.Domain.Entities.TrainingProgramMaker.TrainingProgram", "TrainingProgram")
-                        .WithMany("Trainings")
-                        .HasForeignKey("TrainingProgramId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("TrainingBlockDayId");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.TrainingProgramMaker.TrainingBlock", b =>

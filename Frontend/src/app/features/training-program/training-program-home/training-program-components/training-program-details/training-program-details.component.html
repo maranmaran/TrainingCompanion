@@ -41,7 +41,7 @@
     </mat-expansion-panel-header>
 
     <ng-template matExpansionPanelContent>
-      <app-assigned-athletes [trainingProgram]="trainingProgram" [programUsers]="trainingProgram.users"></app-assigned-athletes>
+      <app-assigned-athletes></app-assigned-athletes>
     </ng-template>
 
   </mat-expansion-panel>
@@ -52,12 +52,12 @@
     <mat-expansion-panel-header [ngClass]="{'no-pointer-events': step === 2}">
 
       <mat-panel-title>
-        {{'TRAINING_PROGRAM.METRICS.TITLE' | translate}}
+        <span class="foreground-accent">{{'TRAINING_PROGRAM.METRICS.TITLE' | translate}}</span>
       </mat-panel-title>
 
       <mat-panel-description>
         {{'TRAINING_PROGRAM.METRICS.DESCRIPTION' | translate}}
-        <i class="fas fa-chart-pie"></i>
+        <i class="fas fa-chart-pie foreground-accent"></i>
       </mat-panel-description>
 
     </mat-expansion-panel-header>

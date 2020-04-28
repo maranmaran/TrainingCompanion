@@ -30,15 +30,20 @@ export class TrainingProgramUser {
 }
 
 export class TrainingBlock {
-    id: string;
-    order: number;
-    name: string;
-    description: string;
-    durationInDays: number;
-    days: TrainingBlockDay[]
 
-    trainingProgramId: string;
-    trainingProgram: TrainingProgram;
+  constructor(data: Partial<TrainingBlock>) {
+    Object.assign(this, data);
+  }
+
+  id: string;
+  order: number;
+  name: string;
+  description: string;
+  durationInDays: number;
+  days: TrainingBlockDay[]
+
+  trainingProgramId: string;
+  trainingProgram: TrainingProgram;
 }
 
 export class TrainingBlockDay {

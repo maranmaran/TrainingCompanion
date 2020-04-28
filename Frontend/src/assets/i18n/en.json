@@ -66,7 +66,7 @@
   "CHAT": {
     "FULLSCREEN": {
       "TYPE_MESSAGE_LABEL": "Type a message",
-      "PRESS_ENTER_SEND": "Press enter to send\nPress shift + enter to add new line"
+      "PRESS_ENTER_SEND": "Press enter to sendPress shift + enter to add new line"
     },
     "SMALL": {
       "TITLE_LABEL": "Friends",
@@ -86,7 +86,7 @@
     "BODYWEIGHT_LABEL": "Bodyweight",
     "DELETE_TITLE": "Delete bodyweight record",
     "DELETE_DIALOG": "<p>Are you sure you wish to delete bodyweight record of {{bodyweight}} on {{date}}?</p>",
-    "DELETE_SELECTION_DIALOG": "<p>Are you sure you wish to delete all ({{length}}) selected bodyweights ?</p>\n<p>All data will be lost if you delete these bodyweights.</p>",
+    "DELETE_SELECTION_DIALOG": "<p>Are you sure you wish to delete all ({{length}}) selected bodyweights ?</p><p>All data will be lost if you delete these bodyweights.</p>",
     "ADD_TITLE": "Add bodyweight",
     "UPDATE_TITLE": "Update bodyweight",
     "WEIGHT": "Weight"
@@ -96,7 +96,7 @@
       "TITLE": "{{name}} details",
       "DESCRIPTION": "Basic training program details",
       "UNASSIGN_TITLE": "Unassign athlete",
-      "UNASSIGN_DIALOG": "Are you sure you wish to unassign {{name}} from {{programName}}.\nIf you unassign athlete from this training program all non-completed future trainings will be deleted.\nData from completed trainings will be kept.",
+      "UNASSIGN_DIALOG": "<p>Are you sure you wish to unassign <b>{{name}}</b> from <b>{{programName}}</b>?</p><p>If you unassign athlete from this training program all non-completed future trainings will be deleted.</p><p>Data from completed trainings will be kept.</p>",
       "UNASSIGN_BTN_LABEL": "Unassign",
       "STARTED_ON": "Program start date"
     },
@@ -151,7 +151,7 @@
     "SAMPLE_SHEETS": "Sample sheets"
   },
   "TRAINING_LOG": {
-    "TRAINING_DELETE_DIALOG": "<p>Are you sure you wish to delete training on {{dateTrained}} ?</p>\n<p>All data will be lost if you delete this training.</p>",
+    "TRAINING_DELETE_DIALOG": "<p>Are you sure you wish to delete training on {{dateTrained}} ?</p><p>All data will be lost if you delete this training.</p>",
     "CALENDAR_LABEL": "Calendar",
     "WEEK_LABEL": "Week",
     "LIST_LABEL": "List",
@@ -178,8 +178,8 @@
     "SET_UPDATE_TITLE": "Update sets",
     "EXERCISE_DELETE_TITLE": "Delete exercise",
     "EXERCISE_ADD_TITLE": "Add exercise",
-    "EXERCISE_DELETE_DIALOG": "<p>Are you sure you wish to delete {{name}} ?</p>\n<p>All data will be lost if you delete this exercise.</p>",
-    "EXERCISE_DELETE_SELECTION_DIALOG": "<p>Are you sure you wish to delete all ({{length}}) selected exercises ?</p>\n<p>All data will be lost if you delete these exercises.</p>",
+    "EXERCISE_DELETE_DIALOG": "<p>Are you sure you wish to delete {{name}} ?</p><p>All data will be lost if you delete this exercise.</p>",
+    "EXERCISE_DELETE_SELECTION_DIALOG": "<p>Are you sure you wish to delete all ({{length}}) selected exercises ?</p><p>All data will be lost if you delete these exercises.</p>",
     "EXERCISE_VOLUME": "Exercise volume",
     "PROJECTED_MAX": "Projected max",
     "EXERCISE_MEDIA": "Exercise media",
@@ -208,8 +208,8 @@
     "TYPE": "Type",
     "ADD_TYPE": "Add exercise property type",
     "UPDATE_TYPE": "Update exercise property type",
-    "DELETE_TYPE": "<p>Are you sure you wish to delete type {{type}} ?</p>\n<p>All data will be lost if you delete this type.</p>",
-    "DELETE_TYPE_SELECTION": "<p>Are you sure you wish to delete all ({{length}}) selected types ?</p>\n<p>All data will be lost if you delete these types.</p>`;",
+    "DELETE_TYPE": "<p>Are you sure you wish to delete type {{type}} ?</p><p>All data will be lost if you delete this type.</p>",
+    "DELETE_TYPE_SELECTION": "<p>Are you sure you wish to delete all ({{length}}) selected types ?</p><p>All data will be lost if you delete these types.</p>`;",
     "DELETE_TYPE_TITLE": "Delete exercise property type",
     "TAG": "Tag",
     "EXERCISE_PROPERTY_TYPE": "Exercise property type",

@@ -77,37 +77,48 @@ namespace Backend.Business.TrainingPrograms.Services
                 // add these trainings
                 foreach (var training in day.Trainings)
                 {
-                    await AddTraining(training, user, currentDate);
+                    await AddTraining(trainingProgram.Id, day.Id, training, user, currentDate);
                 }
             }
         }
 
-        private async Task AddTraining(Training training, ApplicationUser user, DateTime date)
+        private async Task AddTraining(Guid programId, Guid dayId, Training training, ApplicationUser user, DateTime date)
         {
+            var dateTrained = new DateTime(
+                date.Year,
+                date.Month,
+                date.Day,
+                training.DateTrained.Hour,
+                training.DateTrained.Minute,
+                date.Date.Second, DateTimeKind.Utc);
+
             var newTraining = new Training
             {
                 NoteRead = false,
                 Note = training.Note,
                 ApplicationUserId = user.Id,
-                DateTrained = date,
-                Exercises = new List<Exercise>()
+                DateTrained = dateTrained,
+                Exercises = new List<Exercise>(),
+                TrainingProgramId = programId
             };
 
 
+            var order = 0;
             foreach (var exercise in training.Exercises)
             {
-                newTraining.Exercises.Add(await AddExercise(exercise, user));
+                newTraining.Exercises.Add(await AddExercise(order, exercise, user));
+                order++;
             }
 
             await _context.Trainings.AddAsync(newTraining);
         }
 
-        private async Task<Exercise> AddExercise(Exercise exercise, ApplicationUser user)
+        private async Task<Exercise> AddExercise(int order, Exercise exercise, ApplicationUser user)
         {
             var newExercise = new Exercise
             {
-                ExerciseType = await GetExerciseType(exercise.ExerciseType.Code, user),
-                Order = _context.ExerciseTypes.Count(x => x.ApplicationUserId == user.Id) + 1,
+                ExerciseTypeId = (await GetExerciseType(exercise.ExerciseType.Code, user)).Id,
+                Order = order,
                 Sets = new List<Set>()
             };
 
@@ -130,8 +141,9 @@ namespace Backend.Business.TrainingPrograms.Services
                 .Include(x => x.Properties)
                 .ThenInclude(x => x.Tag)
                 .ThenInclude(x => x.TagGroup)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Code == exerciseTypeCode && x.ApplicationUserId == userId);
-            _context.Entry(exerciseType).State = EntityState.Unchanged;
+            //_context.Entry(exerciseType).State = EntityState.Unchanged;
 
             return exerciseType;
         }

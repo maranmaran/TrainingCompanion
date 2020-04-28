@@ -4,7 +4,6 @@ using System;
 
 namespace Backend.Business.TrainingPrograms.ProgramUserRequests.Create
 {
-
     public class CreateTrainingProgramUserRequest : IRequest<TrainingProgramUser>
     {
         public Guid UserId { get; set; }

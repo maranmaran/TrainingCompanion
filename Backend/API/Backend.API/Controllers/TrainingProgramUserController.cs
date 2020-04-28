@@ -1,4 +1,5 @@
 ﻿using Backend.Business.TrainingPrograms.ProgramUserRequests.Create;
+using Backend.Business.TrainingPrograms.ProgramUserRequests.Delete;
 using Backend.Business.TrainingPrograms.ProgramUserRequests.GetAll;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,5 +23,10 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
+        {
+            return Ok(await Mediator.Send(new DeleteTrainingProgramUserRequest(id), cancellationToken));
+        }
     }
 }

@@ -27,6 +27,11 @@ export const trainingProgramDeleted = createAction(
   props<{ id: string }>()
 );
 
+export const trainingProgramUserDeleted = createAction(
+  "[TrainingProgramUser] Deleted",
+  props<{ entity: TrainingProgramUser }>()
+);
+
 export const setSelectedTrainingProgram = createAction(
   "[TrainingProgram] Set selected trainingProgram",
   props<{ entity: TrainingProgram }>()

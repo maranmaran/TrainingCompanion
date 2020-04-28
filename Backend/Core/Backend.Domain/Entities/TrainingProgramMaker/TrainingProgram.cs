@@ -1,6 +1,7 @@
 ﻿using Backend.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
+using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.Domain.Entities.TrainingProgramMaker
 {
@@ -22,5 +23,8 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
 
         // is assigned to multiple...
         public virtual ICollection<TrainingProgramUser> Users { get; set; }
+
+        // has a lot of
+        public virtual ICollection<Training> Trainings { get; set; }
     }
 }

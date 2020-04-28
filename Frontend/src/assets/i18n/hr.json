@@ -66,7 +66,7 @@
   "CHAT": {
     "FULLSCREEN": {
       "TYPE_MESSAGE_LABEL": "Napiši poruku",
-      "PRESS_ENTER_SEND": "Stisni enter za poslati\nStisni shift + enter za dodati novi redak poruke"
+      "PRESS_ENTER_SEND": "Stisni enter za poslatiStisni shift + enter za dodati novi redak poruke"
     },
     "SMALL": {
       "TITLE_LABEL": "Prijatelji",
@@ -86,7 +86,7 @@
     "BODYWEIGHT_LABEL": "Tjelesna težina",
     "DELETE_TITLE": "Izbriši tjelesnu težinu",
     "DELETE_DIALOG": "<p>Jeste li sigurni da želite izbrisati ovaj zapis težine {{bodyweight}} na datum {{date}}?</p>",
-    "DELETE_SELECTION_DIALOG": "<p>Jeste li sigurni da želite izbrisati svih({{length}}) označenih težina ?</p>\n<p>Svi podaci će biti izgubljeni ako nastavite.</p>",
+    "DELETE_SELECTION_DIALOG": "<p>Jeste li sigurni da želite izbrisati svih({{length}}) označenih težina ?</p><p>Svi podaci će biti izgubljeni ako nastavite.</p>",
     "ADD_TITLE": "Dodaj težinu",
     "UPDATE_TITLE": "Uredi težinu",
     "WEIGHT": "Težina"
@@ -96,7 +96,7 @@
       "TITLE": "{{name}} detalji",
       "DESCRIPTION": "Osnovni detalji o programu treninga",
       "UNASSIGN_TITLE": "Zaustavi trening program",
-      "UNASSIGN_DIALOG": "Jeste li sigurni da želite zaustaviti program {{programName}} za klijenta {{name}}.\nAko zaustavite program samo budućni treninzi koji nisu odrađeni će biti obrisani.\nPodaci za treninge koji su do sada odrađeni će biti zadržani.",
+      "UNASSIGN_DIALOG": "<p>Jeste li sigurni da želite zaustaviti program <b>{{programName}}</b> za klijenta <b>{{name}}</b>.</p><p>Ako zaustavite program samo budućni treninzi koji nisu odrađeni će biti obrisani.</p><p>Podaci za treninge koji su do sada odrađeni će biti zadržani.</p>",
       "UNASSIGN_BTN_LABEL": "Zaustavi",
       "STARTED_ON": "Datum početka programa"
     },
@@ -151,7 +151,7 @@
     "SAMPLE_SHEETS": "Primjeri dokumenata za uvoz"
   },
   "TRAINING_LOG": {
-    "TRAINING_DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening na dan {{dateTrained}} ?</p>\n<p>Svi podaci će biti izgubljeni ako obrišete ovaj trening.</p>",
+    "TRAINING_DELETE_DIALOG": "<p>Jeste li sigurni da želite obrisati trening na dan {{dateTrained}} ?</p><p>Svi podaci će biti izgubljeni ako obrišete ovaj trening.</p>",
     "CALENDAR_LABEL": "Kalendar",
     "WEEK_LABEL": "Tjedan",
     "LIST_LABEL": "Lista",
@@ -178,8 +178,8 @@
     "SET_UPDATE_TITLE": "Uredi set",
     "EXERCISE_DELETE_TITLE": "Obriši vježbu",
     "EXERCISE_ADD_TITLE": "Dodaj vježbu",
-    "EXERCISE_DELETE_DIALOG": "<p>Jeste li sigurni da želite izbrisati {{name}} ?</p>\n<p>Svi podaci će biti izgubljeni ako izbrišete ovu vježbu.</p>",
-    "EXERCISE_DELETE_SELECTION_DIALOG": "<p>Jeste li sigurni da želite izbrisati svih ({{length}}) označenih vježbi ?</p>\n<p>Svi podaci će biti izgubljeni ako izbrišete ove vježbe.</p>",
+    "EXERCISE_DELETE_DIALOG": "<p>Jeste li sigurni da želite izbrisati {{name}} ?</p><p>Svi podaci će biti izgubljeni ako izbrišete ovu vježbu.</p>",
+    "EXERCISE_DELETE_SELECTION_DIALOG": "<p>Jeste li sigurni da želite izbrisati svih ({{length}}) označenih vježbi ?</p><p>Svi podaci će biti izgubljeni ako izbrišete ove vježbe.</p>",
     "EXERCISE_VOLUME": "Volumen vježbe",
     "PROJECTED_MAX": "Izračunati maksimum",
     "EXERCISE_MEDIA": "Multimedija",
@@ -208,8 +208,8 @@
     "TYPE": "Tip",
     "ADD_TYPE": "Dodaj oznaku vježbe",
     "UPDATE_TYPE": "Uredi  oznaku vježbe",
-    "DELETE_TYPE": "<p>Jeste li sigurni da želite izbrisati oznaku {{type}} ?</p>\n<p>Svi podaci će biti izgubljeni ako obrišete ovu oznaku.</p>",
-    "DELETE_TYPE_SELECTION": "<p>Jeste li sigurni da želite izbrisati svih ({{length}}) oznaka ?</p>\n<p>Svi podaci će biti izgubljeni ako obrišete ove oznake.</p>`;",
+    "DELETE_TYPE": "<p>Jeste li sigurni da želite izbrisati oznaku {{type}} ?</p><p>Svi podaci će biti izgubljeni ako obrišete ovu oznaku.</p>",
+    "DELETE_TYPE_SELECTION": "<p>Jeste li sigurni da želite izbrisati svih ({{length}}) oznaka ?</p><p>Svi podaci će biti izgubljeni ako obrišete ove oznake.</p>`;",
     "DELETE_TYPE_TITLE": "Obriši oznaku",
     "TAG": "Oznaka",
     "EXERCISE_PROPERTY_TYPE": "Naziv oznake za vježbu",

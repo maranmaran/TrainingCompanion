@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -27,7 +27,7 @@ import { selectedTrainingBlockId } from './../../../../../../ngrx/training-progr
   templateUrl: './training-block-day-list.component.html',
   styleUrls: ['./training-block-day-list.component.scss']
 })
-export class TrainingBlockDayListComponent implements OnInit {
+export class TrainingBlockDayListComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_BLOCK_DAY.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });

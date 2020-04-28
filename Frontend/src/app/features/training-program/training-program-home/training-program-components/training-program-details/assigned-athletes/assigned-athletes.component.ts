@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
@@ -11,6 +11,8 @@ import { TrainingProgramUserService } from 'src/business/services/feature-servic
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { trainingProgramUserDeleted } from 'src/ngrx/training-program/training-program/training-program.actions';
+import { selectedTrainingProgram } from 'src/ngrx/training-program/training-program/training-program.selectors';
 import { SubSink } from 'subsink';
 import { TrainingProgram, TrainingProgramUser } from './../../../../../../../server-models/entities/training-program.model';
 
@@ -19,7 +21,7 @@ import { TrainingProgram, TrainingProgramUser } from './../../../../../../../ser
   templateUrl: './assigned-athletes.component.html',
   styleUrls: ['./assigned-athletes.component.scss']
 })
-export class AssignedAthletesComponent implements OnInit {
+export class AssignedAthletesComponent implements OnInit, OnDestroy {
 
   private subs = new SubSink();
 
@@ -46,9 +48,12 @@ export class AssignedAthletesComponent implements OnInit {
     this.tableConfig = this.getTableConfig();
     this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
-    this.tableDatasource.updateDatasource([...this.programUsers]);
-
     this.subs.add(
+      this.store.select(selectedTrainingProgram).subscribe(program => {
+        this.trainingProgram = program;
+        this.programUsers = program?.users;
+        this.tableDatasource.updateDatasource([...this.programUsers]);
+      })
     )
 
   }
@@ -102,8 +107,6 @@ export class AssignedAthletesComponent implements OnInit {
     ]
   }
 
-  // onSelect = (trainingProgramUser: TrainingProgramUser) => this.store.dispatch(setSelectedTrainingProgramUser({ entity: trainingProgramUser }));
-
   onDeleteSingle(trainingProgramUser: TrainingProgramUser) {
 
     const deleteDialogConfig = new ConfirmDialogConfig({
@@ -131,7 +134,7 @@ export class AssignedAthletesComponent implements OnInit {
     this.trainingProgramUserService.delete(trainingProgramUser.id)
       .subscribe(
         _ => {
-          // this.store.dispatch(trainingProgramUserDeleted({ id: trainingProgram.id }))
+          this.store.dispatch(trainingProgramUserDeleted({ entity: trainingProgramUser }))
         },
         err => console.log(err)
       )
