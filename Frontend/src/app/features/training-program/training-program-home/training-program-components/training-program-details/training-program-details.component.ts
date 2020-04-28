@@ -88,8 +88,4 @@ export class TrainingProgramDetailsComponent implements OnInit, OnDestroy {
       .subscribe(_ => { })
   }
 
-  trackByProgramUserId(index, programUser) {
-    return programUser.id;
-  }
-
 }

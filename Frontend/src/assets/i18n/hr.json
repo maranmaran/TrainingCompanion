@@ -94,7 +94,11 @@
   "TRAINING_PROGRAM": {
     "DETAILS": {
       "TITLE": "{{name}} detalji",
-      "DESCRIPTION": "Osnovni detalji o programu treninga"
+      "DESCRIPTION": "Osnovni detalji o programu treninga",
+      "UNASSIGN_TITLE": "Zaustavi trening program",
+      "UNASSIGN_DIALOG": "Jeste li sigurni da želite zaustaviti program {{programName}} za klijenta {{name}}.\nAko zaustavite program samo budućni treninzi koji nisu odrađeni će biti obrisani.\nPodaci za treninge koji su do sada odrađeni će biti zadržani.",
+      "UNASSIGN_BTN_LABEL": "Zaustavi",
+      "STARTED_ON": "Datum početka programa"
     },
     "USERS": {
       "TITLE": "Dodjeljeni klijenti",

@@ -94,7 +94,11 @@
   "TRAINING_PROGRAM": {
     "DETAILS": {
       "TITLE": "{{name}} details",
-      "DESCRIPTION": "Basic training program details"
+      "DESCRIPTION": "Basic training program details",
+      "UNASSIGN_TITLE": "Unassign athlete",
+      "UNASSIGN_DIALOG": "Are you sure you wish to unassign {{name}} from {{programName}}.\nIf you unassign athlete from this training program all non-completed future trainings will be deleted.\nData from completed trainings will be kept.",
+      "UNASSIGN_BTN_LABEL": "Unassign",
+      "STARTED_ON": "Program start date"
     },
     "USERS": {
       "TITLE": "Assigned athletes",

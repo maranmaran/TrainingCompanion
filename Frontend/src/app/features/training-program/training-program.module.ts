@@ -23,12 +23,15 @@ import { TrainingBlockDetailsComponent } from './training-program-home/training-
 import { TrainingBlockListComponent } from './training-program-home/training-block-components/training-block-list/training-block-list.component';
 import { TrainingBlockDayCreateEditComponent } from './training-program-home/training-block-day-components/training-block-day-create-edit/training-block-day-create-edit.component';
 import { TrainingBlockDayListComponent } from './training-program-home/training-block-day-components/training-block-day-list/training-block-day-list.component';
+import { TrainingProgramAssignComponent } from './training-program-home/training-program-components/training-program-assign/training-program-assign.component';
 import { TrainingProgramCreateEditComponent } from './training-program-home/training-program-components/training-program-create-edit/training-program-create-edit.component';
+import { AssignedAthletesComponent } from './training-program-home/training-program-components/training-program-details/assigned-athletes/assigned-athletes.component';
+import { BasicDetailsComponent } from './training-program-home/training-program-components/training-program-details/basic-details/basic-details.component';
+import { ProgramMetricsComponent } from './training-program-home/training-program-components/training-program-details/program-metrics/program-metrics.component';
 import { TrainingProgramDetailsComponent } from './training-program-home/training-program-components/training-program-details/training-program-details.component';
 import { TrainingProgramListComponent } from './training-program-home/training-program-components/training-program-list/training-program-list.component';
 import { TrainingProgramHomeComponent } from './training-program-home/training-program-home.component';
 import { TrainingProgramRoutingModule } from './training-program-routing.module';
-import { TrainingProgramAssignComponent } from './training-program-home/training-program-components/training-program-assign/training-program-assign.component';
 
 @NgModule({
     imports: [
@@ -57,6 +60,10 @@ import { TrainingProgramAssignComponent } from './training-program-home/training
         TrainingBlockDayListComponent,
         TrainingBlockDayCreateEditComponent,
         TrainingProgramAssignComponent,
+
+        BasicDetailsComponent,
+        AssignedAthletesComponent,
+        ProgramMetricsComponent,
     ],
     exports: [
     ],

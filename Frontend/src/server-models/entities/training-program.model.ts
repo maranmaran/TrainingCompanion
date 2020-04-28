@@ -16,6 +16,7 @@ export class TrainingProgram {
 }
 
 export class TrainingProgramUser {
+
     id: string;
     startedOn: Date;
     endedOn: Date;

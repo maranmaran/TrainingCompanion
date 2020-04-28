@@ -22,7 +22,7 @@ import { CreateTrainingProgramRequest } from '../../../../../../server-models/cq
   templateUrl: './training-program-create-edit.component.html',
   styleUrls: [
     './training-program-create-edit.component.scss',
-    './../training-program-details/training-program-details.component.scss'
+    './../training-program-details/basic-details/basic-details.component.scss'
   ]
 })
 export class TrainingProgramCreateEditComponent implements OnInit {
