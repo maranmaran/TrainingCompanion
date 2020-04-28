@@ -163,3 +163,11 @@ button {
 .round {
   border-radius: 50%;
 }
+
+.no-pointer-events {
+  pointer-events: none;
+}
+
+.pointer-events {
+  pointer-events: auto;
+}

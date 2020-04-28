@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { TrainingProgramUserService } from 'src/business/services/feature-services/training-program-user.service';
@@ -36,7 +37,8 @@ export class TrainingProgramDetailsComponent implements OnInit, OnDestroy {
     private trainingProgramUserService: TrainingProgramUserService,
     private UIService: UIService,
     private userService: UserService,
-    public mediaObserver: MediaObserver
+    public mediaObserver: MediaObserver,
+    public translateService: TranslateService
   ) { }
 
   subs = new SubSink();
@@ -55,7 +57,8 @@ export class TrainingProgramDetailsComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  onAssign(trainingProgram: TrainingProgram) {
+  onAssign(event: Event, trainingProgram: TrainingProgram) {
+    event.stopPropagation();
     combineLatest(
       this.store.select(currentUser),
       this.store.select(currentUserId)
@@ -88,6 +91,5 @@ export class TrainingProgramDetailsComponent implements OnInit, OnDestroy {
   trackByProgramUserId(index, programUser) {
     return programUser.id;
   }
-
 
 }

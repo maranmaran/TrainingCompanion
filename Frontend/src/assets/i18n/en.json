@@ -92,6 +92,18 @@
     "WEIGHT": "Weight"
   },
   "TRAINING_PROGRAM": {
+    "DETAILS": {
+      "TITLE": "{{name}} details",
+      "DESCRIPTION": "Basic training program details"
+    },
+    "USERS": {
+      "TITLE": "Assigned athletes",
+      "DESCRIPTION": "All athletes which have this program assigned at the moment"
+    },
+    "METRICS": {
+      "TITLE": "Metrics",
+      "DESCRIPTION": "Training program metric data"
+    },
     "SHOW_LESS": "Show less",
     "SHOW_ALL": "Show all",
     "ATHLETE": "Athlete",

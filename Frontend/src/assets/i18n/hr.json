@@ -92,6 +92,18 @@
     "WEIGHT": "Težina"
   },
   "TRAINING_PROGRAM": {
+    "DETAILS": {
+      "TITLE": "{{name}} detalji",
+      "DESCRIPTION": "Osnovni detalji o programu treninga"
+    },
+    "USERS": {
+      "TITLE": "Dodjeljeni klijenti",
+      "DESCRIPTION": "Svi klijenti koji koriste trening program trenutno"
+    },
+    "METRICS": {
+      "TITLE": "Podaci",
+      "DESCRIPTION": "Volumen, intenzitet itd"
+    },
     "SHOW_LESS": "Prikaži manje",
     "SHOW_ALL": "Prikaži sve",
     "ATHLETE": "Klijent",
