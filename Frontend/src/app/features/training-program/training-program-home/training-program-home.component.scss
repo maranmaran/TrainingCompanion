@@ -1,5 +1,7 @@
 .training-program__tab {
-    height: calc(100vh - 105px);
+    // height: calc(100vh - 105px);
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100 - 105px);
     overflow-y: auto;
 }
 

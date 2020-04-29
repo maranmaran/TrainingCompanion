@@ -4,8 +4,6 @@
 
     mat-chip {
         cursor: pointer;
-
-
     }
 
     .exercise-type-preview-container{
@@ -13,8 +11,6 @@
         padding-top: 5px;
         padding-bottom: 5px;
     }
-
-
 
     .property-chip {
         margin: unset !important;
@@ -48,10 +44,6 @@
     }
 
     @media(max-width: 599px) {
-        .property-chip {
-            font-size: 9px;
-            padding: 6px 6px !important;
-        }
 
         mat-option {
             padding: 6px 16px !important;

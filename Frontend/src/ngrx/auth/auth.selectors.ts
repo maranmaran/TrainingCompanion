@@ -22,11 +22,11 @@ export const userSetting = createSelector(
 );
 export const unitSystem = createSelector(
     currentUser,
-    (currentUser: CurrentUser) => currentUser.userSetting.unitSystem
+    (currentUser: CurrentUser) => currentUser?.userSetting?.unitSystem
 );
 export const exertionSystem = createSelector(
     currentUser,
-    (currentUser: CurrentUser) => currentUser.userSetting.rpeSystem
+    (currentUser: CurrentUser) => currentUser?.userSetting?.rpeSystem
 );
 
 export const isLoggedIn = createSelector(
