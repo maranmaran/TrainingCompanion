@@ -1,5 +1,5 @@
-import { Theme } from 'src/business/shared/theme.enum';
 import * as _ from "lodash";
+import { Theme } from 'src/business/shared/theme.enum';
 
 export function flatten(array) {
   return array.reduce(function (flat, toFlatten) {
@@ -101,4 +101,8 @@ export function getPlaceholderImagePath(theme: Theme) {
     return "/assets/images/image-placeholder-light-theme.png";
 
   return "/assets/images/image-placeholder-dark-theme.png";
+}
+
+export function round(number: number, decimal: number) {
+  return Math.round(number * Math.pow(10, decimal)) / Math.pow(10, decimal);
 }

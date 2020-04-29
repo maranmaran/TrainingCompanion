@@ -34,69 +34,11 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initDeviceMotion();
     this.store.dispatch(setDashboardActive({ active: true }));
     this.UIService.addOrUpdateSidenav(UISidenav.DashboardComponents, this.sidenav);
   }
 
-  // TODO: PUT ALL THIS IN SENSOR SERVICE
-  //#region
-
-  sensorTest = true;
-  accData = [0, 0, 0];
-  rotationData = [0, 0, 0]
-
-  initDeviceMotion() {
-    if (window.DeviceMotionEvent) {
-      // DeviceMotionEvent.requestPermission().then(
-      //   response => {
-      //     if (response == 'granted')
-      //       window.addEventListener('devicemotion', e => this.motionHandler(e));
-      //   }
-      // )
-      this.motionHandlerFn = this.motionHandler.bind(this);
-      window.addEventListener('devicemotion', this.motionHandlerFn);
-    }
-  }
-
-  motionHandlerFn: any;
-  motionHandler(event) {
-    console.log(event);
-    this.collectMinMaxY(event.acceleration.y);
-    this.accData = [event.acceleration.x, event.acceleration.y, event.acceleration.z]
-    this.rotationData = [event.rotationRate.alpha, event.rotationRate.beta, event.rotationRate.gamma]
-  }
-
-  recordedMinMaxes = [];
-  minY = 0;
-  maxY = 0;
-  collectMinMaxY(yAcc) {
-    if(yAcc < this.minY)
-      this.minY = yAcc;
-    if(yAcc > this.maxY) {
-      this.maxY = yAcc;
-    }
-  }
-
-  recordMinMax() {
-    let val1 = Math.round(this.minY * 100) / 100;
-    let val2 = Math.round(this.maxY * 100) / 100;
-    let val3 = Math.round((val2 - val1) * 100) / 100;
-
-    this.recordedMinMaxes.push([val1, val2, val3]);
-    this.minY = 0;
-    this.maxY = 0;
-  }
-  clear() {
-    this.recordedMinMaxes = [];
-    this.minY = 0;
-    this.maxY = 0;
-  }
-  //#endregion
-
   ngOnDestroy(): void {
-    console.log('destroy');
-    window.removeEventListener('devicemotion', this.motionHandlerFn);
     this.store.dispatch(setDashboardActive({ active: false }));
   }
 

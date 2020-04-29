@@ -64,6 +64,11 @@
       <i class="fas fa-newspaper accent-foreground"></i>
       <span class="label">{{ 'MAIN_SIDEBAR.TRAINING_PROGRAM' | translate}}</span>
     </a>
+
+    <a *ngIf="(isCoach$ | async)" mat-list-item routerLink="/app/velocity" (click)="onRoute()">
+      <i class="fas fa-tachometer-alt accent-foreground"></i>
+      <span class="label" matBadge="B" matBadgeColor="warn">Velocity</span>
+    </a>
     <!--
     <mat-expansion-panel>
       <mat-expansion-panel-header>

@@ -6,6 +6,14 @@
     $accent-lighter: mat-color($accent, lighter);
     $accent-darker: mat-color($accent, darker);
 
+
+    .full-viewport-mobile {
+      // height: calc(100vh - 105px);
+      height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+      height: calc(var(--vh, 1vh) * 100 - 105px);
+      overflow-y: auto;
+    }
+
     /* Styles for tab labels */
     .mat-tab-label {
         color: $accent-lighter;

@@ -1,0 +1,44 @@
+<!-- <app-actions fxHide.lt-sm></app-actions> -->
+<div id="min-max-acc" *ngIf="(minMax$ | async) as minMax">
+  <h3>Min-Mmax Acceleration over Y-axis</h3>
+
+  <p>Current min: {{ minMax.min }} m/s2</p>
+  <p>Current max: {{ minMax.max }} m/s2</p>
+  <p>Current total: {{ minMax.total }} m/s2</p>
+
+  <span fxLayout="row" fxLayoutGap="1rem">
+    <button mat-stroked-button color="accent" (click)="onAccelerationSnapshot(minMax)">
+      Add record
+    </button>
+    <button mat-stroked-button color="accent" (click)="onAccelerationReset()">
+      Clear
+    </button>
+  </span>
+
+  <table *ngIf="accelerationSnapshotData && accelerationSnapshotData.length > 0">
+    <th>Min</th>
+    <th>Max</th>
+    <th>Total</th>
+    <tr *ngFor="let snapshot of accelerationSnapshotData">
+      <td>{{ snapshot.min }} m/s2</td>
+      <td>{{ snapshot.max }} m/s2</td>
+      <td>{{ snapshot.total }} m/s2</td>
+    </tr>
+  </table>
+</div>
+<mat-divider class="mb-2 mb-2"></mat-divider>
+<div id="acc" *ngIf="(acceleration$ | async) as acceleration">
+  <h3>Acceleration: </h3>
+
+  <p>X: {{ acceleration.X }} m/s2</p>
+  <p>Y: {{ acceleration.Y }} m/s2</p>
+  <p>Z: {{ acceleration.Z }} m/s2</p>
+</div>
+<mat-divider class="mb-2 mb-2"></mat-divider>
+<div id="rotation" *ngIf="(rotation$ | async) as rotation">
+  <h3>Rotation: </h3>
+
+  <p>Alpha: {{ rotation.alpha }}</p>
+  <p>Beta: {{ rotation.beta }}</p>
+  <p>Gamma: {{ rotation.gamma }}</p>
+</div>
