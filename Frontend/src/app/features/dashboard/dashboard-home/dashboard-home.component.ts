@@ -79,7 +79,11 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   }
 
   recordMinMax() {
-    this.recordedMinMaxes.push([this.minY, this.maxY]);
+    let val1 = Math.round(this.minY * 100) / 100;
+    let val2 = Math.round(this.maxY * 100) / 100;
+    let val3 = Math.round((val2 - val1) * 100) / 100;
+
+    this.recordedMinMaxes.push([val1, val2, val3]);
     this.minY = 0;
     this.maxY = 0;
   }

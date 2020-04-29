@@ -25,9 +25,11 @@
       <table>
         <th>Min</th>
         <th>Max</th>
+        <th>Total</th>
         <tr *ngFor="let minmax of recordedMinMaxes">
           <td>{{ minmax[0] }} m/s2</td>
           <td>{{ minmax[1] }} m/s2</td>
+          <td>{{ minmax[2] }} m/s2</td>
         </tr>
       </table>
       <mat-divider></mat-divider>
