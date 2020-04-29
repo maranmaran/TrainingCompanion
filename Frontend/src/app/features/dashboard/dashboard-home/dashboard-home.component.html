@@ -12,8 +12,25 @@
     <!-- <app-actions fxHide.lt-sm></app-actions> -->
     <span *ngIf="sensorTest">
       <h1>MinMax Acceleration Y-axis</h1>
-      <p>Max: {{ maxY }} m/s2</p>
-      <p>Min: {{ minY }} m/s2</p>
+      <p>Current max: {{ maxY }} m/s2</p>
+      <p>Current min: {{ minY }} m/s2</p>
+      <span fxLayout="row" fxLayoutGap="1rem">
+        <button mat-stroked-button color="accent" (click)="recordMinMax()">
+          Add record
+        </button>
+        <button mat-stroked-button color="accent" (click)="clear()">
+          Clear
+        </button>
+      </span>
+      <table>
+        <th>Min</th>
+        <th>Max</th>
+        <tr *ngFor="let minmax of recordedMinMaxes">
+          <td>{{ minmax[0] }} m/s2</td>
+          <td>{{ minmax[1] }} m/s2</td>
+        </tr>
+      </table>
+      <mat-divider></mat-divider>
       <h1>Acceleration: </h1>
       <p>X: {{ accData[0] }} m/s2</p>
       <p>Y: {{ accData[1] }} m/s2</p>
@@ -34,7 +51,8 @@
       </div>
 
       <!--Mobile-->
-      <mat-tab-group *ngIf="mediaObserver.isActive('lt-sm')" headerPosition="below" dynamicHeight mat-stretch-tabs [color]="'accent'">
+      <mat-tab-group *ngIf="mediaObserver.isActive('lt-sm')" headerPosition="below" dynamicHeight mat-stretch-tabs
+        [color]="'accent'">
 
         <mat-tab>
           <ng-template mat-tab-label>

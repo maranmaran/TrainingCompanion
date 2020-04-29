@@ -67,6 +67,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     this.rotationData = [event.rotationRate.alpha, event.rotationRate.beta, event.rotationRate.gamma]
   }
 
+  recordedMinMaxes = [];
   minY = 0;
   maxY = 0;
   collectMinMaxY(yAcc) {
@@ -75,6 +76,17 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
     if(yAcc > this.maxY) {
       this.maxY = yAcc;
     }
+  }
+
+  recordMinMax() {
+    this.recordedMinMaxes.push([this.minY, this.maxY]);
+    this.minY = 0;
+    this.maxY = 0;
+  }
+  clear() {
+    this.recordedMinMaxes = [];
+    this.minY = 0;
+    this.maxY = 0;
   }
   //#endregion
 
