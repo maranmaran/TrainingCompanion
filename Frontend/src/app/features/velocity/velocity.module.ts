@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { DeviceMotionService } from './services/device-motion.service';
 import { VelocityRoutingModule } from './velocity.routing-module';
 
 @NgModule({
@@ -13,7 +12,6 @@ import { VelocityRoutingModule } from './velocity.routing-module';
     exports: [
     ],
     providers: [
-      DeviceMotionService,
     ],
     entryComponents: [
     ]

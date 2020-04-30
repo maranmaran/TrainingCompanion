@@ -1,177 +1,75 @@
-import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { round } from 'src/business/utils/utils';
-
-
-export class DeviceRotationRecord {
-  alpha: number;
-  beta: number;
-  gamma: number;
-
-  constructor(alpha, beta, gamma) {
-    this.alpha = alpha;
-    this.beta = beta;
-    this.gamma = gamma;
-  }
-}
 
 export class DeviceAccelerationRecord {
   X: number;
   Y: number;
   Z: number;
+  timestamp?: number
 
-  constructor(x, y, z) {
+  constructor(x, y, z, timestamp = null) {
     this.X = x;
     this.Y = y;
     this.Z = z;
+    this.timestamp = timestamp
   }
 }
 
-export class MinMaxVerticalAccelerationCalculator {
+export class VelocityCalculator {
 
-  private _dataSubscription: Subscription;
-  snapshotData: { min: number, max: number, total: number}[] = [];
+  velocityData: { v, a, t }[] = [];
 
-  constructor(data: Observable<DeviceAccelerationRecord>) {
-    this.reset();
-
-    this._dataSubscription = data.subscribe(data => {
-      if(data.Y < this._min)
-        this._min = data.Y;
-
-      if(data.Y > this._max)
-        this._max = data.Y;
-    });
+  constructor() {
+    this.velocityData.push({ v: 0, a: 0, t: 0})
   }
 
-  private _min: number;
-  private _max: number;
-  private get _total() {
-    return this._max - this._min
+  calculate(acceleration) {
+
+    const a = acceleration.Y;
+    const v0 = this.velocityData[this.velocityData.length - 1].v;
+    const t1 = this.velocityData[this.velocityData.length - 1].t;
+    const t2 = acceleration.timestamp;
+
+    const v = this.getVelocity(v0, t1, t2, a);
+    this.velocityData.push({ v, a, t: t2 });
+
+    console.log({ v, a, t2 });
   }
 
-  public get result() {
-    return { min: round(this._min, 2), max: round(this._max, 2), total: round(this._total, 2)};
+  getVelocity(v0, t1, t2, a) {
+    return v0 + Math.abs(a) * Math.abs(t2 - t1);
   }
 
-  snapshot(result) {
-    this.snapshotData.push(result);
-  }
-
-  reset() {
-    this._min = 0;
-    this._max = 0;
-  }
-
-  destroy() {
-    this._dataSubscription.unsubscribe();
-  }
-}
-
-export class DeviceAccelerationData {
-
-  stream = new ReplaySubject<DeviceAccelerationRecord>(10);
-
-  clear = () => {
-  }
-
-  update = (x, y, z) => {
-    this.stream.next(new DeviceAccelerationRecord(x, y, z));
-  }
-
-}
-
-export class DeviceRotationData {
-
-  stream = new ReplaySubject<DeviceRotationRecord>(10);
-
-  clear = () => {
-  }
-
-  update = (alpha, beta, gamma) => {
-    this.stream.next(new DeviceRotationRecord(alpha, beta, gamma));
-  }
 }
 
 export class DeviceAccelerationManager {
 
-  private _data = new DeviceAccelerationData();
-  private _minMax$ = new Subject<{min: number, max: number; total: number}>();
+  private _stream = new Subject<DeviceAccelerationRecord>();
 
-  private calculator = new MinMaxVerticalAccelerationCalculator(this.data$);
+  private calculator = new VelocityCalculator();
 
-  onAccelerationChange(x, y, z) {
-    this._data.update(x, y, z);
-    this._minMax$.next(this.calculator.result);
+  onAccelerationChange(x, y, z, timestamp) {
+    var acceleration = new DeviceAccelerationRecord(x, y, z, timestamp);
+    this._stream.next(acceleration);
+    this.calculator.calculate(acceleration);
   }
 
-  recordCalculator(result) {
-    this.calculator.snapshot(result);
+  public get realtimeData$() {
+    return this._stream.asObservable();
   }
 
-  resetCalculator() {
-    this.calculator.reset();
-  }
-
-  public get data$() {
-    return this._data.stream.asObservable();
-  }
-
-  public get minMax$() {
-    return this._minMax$.asObservable();
-  }
-
-  public get snapshotData() {
-    return this.calculator.snapshotData;
-  }
-
-  destroy() {
-    this.calculator.destroy();
-  }
-
-}
-
-export class DeviceRotationManager {
-
-  private _data = new DeviceRotationData();
-
-  onRotationChange(alpha, beta, gamma) {
-    this._data.update(alpha, beta, gamma);
-  }
-
-  public get data$() {
-    return this._data.stream.asObservable();
-  }
-
-  destroy() {
-
-  }
 }
 
 export class DeviceMotionService {
 
-  accelerationManager: DeviceAccelerationManager;
-  rotationManager: DeviceRotationManager;
+  accelerationManager = new DeviceAccelerationManager();
 
-  constructor() {
-    this._motionHandlerFn = this.motionHandler.bind(this);
-
-    this.accelerationManager = new DeviceAccelerationManager();
-    this.rotationManager = new DeviceRotationManager();
+  motionHandler(event) {
+    console.log(event);
+    this.accelerationManager.onAccelerationChange(
+      round(event.acceleration.x, 2),
+      round(event.acceleration.y, 2),
+      round(event.acceleration.z, 2),
+      round(event.timeStamp / 1000, 2))
   }
-
-  private _motionHandlerFn: any;
-  public getMotionHandlerFn() {
-    return this._motionHandlerFn;
-  }
-
-  private motionHandler(event) {
-    this.accelerationManager.onAccelerationChange(event.acceleration.x, event.acceleration.y, event.acceleration.z)
-    this.rotationManager.onRotationChange(event.rotationRate.alpha, event.rotationRate.beta, event.rotationRate.gamma)
-  }
-
-  public destroy() {
-    this.accelerationManager.destroy();
-    this.rotationManager.destroy();
-  }
-
 }

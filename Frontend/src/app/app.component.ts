@@ -70,7 +70,6 @@ export class AppComponent implements OnInit, OnDestroy {
   handleViewportHeightOnMobileDevices() {
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-    console.log(vh);
   }
 
   ngOnDestroy(): void {
