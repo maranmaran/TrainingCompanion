@@ -30,18 +30,18 @@ export class VelocityHomeComponent implements OnInit, OnDestroy {
       window.addEventListener('devicemotion', this.deviceMotionService.getMotionHandlerFn());
     }
 
-    this.acceleration$ = this.deviceMotionService.acceleration$;
-    this.rotation$ = this.deviceMotionService.rotation$;
-    this.minMax$ = this.deviceMotionService.minMax$;
-    this.accelerationSnapshotData = this.deviceMotionService.accelerationSnapshotData;
+    this.acceleration$ = this.deviceMotionService.accelerationManager.data$;
+    this.rotation$ = this.deviceMotionService.rotationManager.data$;
+    this.minMax$ = this.deviceMotionService.accelerationManager.minMax$;
+    this.accelerationSnapshotData = this.deviceMotionService.accelerationManager.snapshotData;
   }
 
   onAccelerationSnapshot(result) {
-    this.deviceMotionService.accelerationSnapshot(result);
+    this.deviceMotionService.accelerationManager.recordCalculator(result);
   }
 
   onAccelerationReset() {
-    this.deviceMotionService.accelerationReset();
+    this.deviceMotionService.accelerationManager.resetCalculator();
   }
 
   ngOnDestroy() {

@@ -149,53 +149,29 @@ export class DeviceRotationManager {
 
 export class DeviceMotionService {
 
-  private _motionHandlerFn: any;
-  private _accelerationManager: DeviceAccelerationManager;
-  private _rotationManager: DeviceRotationManager;
+  accelerationManager: DeviceAccelerationManager;
+  rotationManager: DeviceRotationManager;
 
   constructor() {
     this._motionHandlerFn = this.motionHandler.bind(this);
 
-    this._accelerationManager = new DeviceAccelerationManager();
-    this._rotationManager = new DeviceRotationManager();
+    this.accelerationManager = new DeviceAccelerationManager();
+    this.rotationManager = new DeviceRotationManager();
   }
 
+  private _motionHandlerFn: any;
   public getMotionHandlerFn() {
     return this._motionHandlerFn;
   }
 
   private motionHandler(event) {
-    this._accelerationManager.onAccelerationChange(event.acceleration.x, event.acceleration.y, event.acceleration.z)
-    this._rotationManager.onRotationChange(event.rotationRate.alpha, event.rotationRate.beta, event.rotationRate.gamma)
-  }
-
-  accelerationSnapshot(result) {
-    this._accelerationManager.recordCalculator(result);
-  }
-
-  accelerationReset() {
-    this._accelerationManager.resetCalculator();
-  }
-
-  public get acceleration$() {
-    return this._accelerationManager.data$;
-  }
-
-  public get minMax$() {
-    return this._accelerationManager.minMax$;
-  }
-
-  public get accelerationSnapshotData() {
-    return this._accelerationManager.snapshotData;
-  }
-
-  public get rotation$() {
-    return this._rotationManager.data$;
+    this.accelerationManager.onAccelerationChange(event.acceleration.x, event.acceleration.y, event.acceleration.z)
+    this.rotationManager.onRotationChange(event.rotationRate.alpha, event.rotationRate.beta, event.rotationRate.gamma)
   }
 
   public destroy() {
-    this._accelerationManager.destroy();
-    this._rotationManager.destroy();
+    this.accelerationManager.destroy();
+    this.rotationManager.destroy();
   }
 
 }
