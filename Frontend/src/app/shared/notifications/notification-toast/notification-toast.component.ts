@@ -61,7 +61,7 @@ export class NotificationToastComponent extends Toast {
 
   // constructor is only necessary when not using AoT
   constructor(
-    toastrService: ToastrService,
+    public toastrService: ToastrService,
     public toastPackage: ToastPackage,
     private notificationService: NotificationSignalrService,
     private store: Store<AppState>

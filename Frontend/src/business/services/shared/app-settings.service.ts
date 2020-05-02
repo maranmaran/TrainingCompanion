@@ -1,10 +1,17 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken, Inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { NotificationToastComponent } from 'src/app/shared/notifications/notification-toast/notification-toast.component';
+import { ComponentType } from '@angular/cdk/portal';
+
+export const NOTIFICATION_TOAST_TOKEN: InjectionToken<ComponentType<any>> =
+  new InjectionToken<ComponentType<any>>('NOTIFICATION_TOAST_TOKEN');
 
 @Injectable({ providedIn: 'root' })
 export class AppSettingsService {
+
+  constructor(
+    @Inject(NOTIFICATION_TOAST_TOKEN) private toastNotificationComponent: ComponentType<any>
+  ) { }
 
   /**
    * Returns the base URL for the API.
@@ -62,7 +69,7 @@ export class AppSettingsService {
       disableTimeOut: false,
       positionClass: 'toast-bottom-right',
       preventDuplicates: false,
-      toastComponent: NotificationToastComponent // added custom toast!
+      toastComponent: this.toastNotificationComponent // added custom toast!
     };
   }
 

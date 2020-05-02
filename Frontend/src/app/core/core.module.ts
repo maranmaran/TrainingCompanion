@@ -1,3 +1,4 @@
+import { NotificationToastComponent } from 'src/app/shared/notifications/notification-toast/notification-toast.component';
 import { CommonModule } from '@angular/common';
 import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -18,7 +19,7 @@ import { HttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.facto
 import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.guard';
 import { ErrorInterceptor } from 'src/business/interceptors/error.interceptor';
 import { HttpInterceptor } from 'src/business/interceptors/http.interceptor';
-import { APP_SETTINGS_PROVIDER } from 'src/business/services/shared/app-settings.service';
+import { APP_SETTINGS_PROVIDER, NOTIFICATION_TOAST_TOKEN } from 'src/business/services/shared/app-settings.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { environment } from 'src/environments/environment';
 import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
@@ -28,7 +29,6 @@ import { ConfirmDialogComponent } from '../shared/dialogs/confirm-dialog/confirm
 import { ErrorSnackbarComponent } from '../shared/dialogs/error-snackbar/error-snackbar.component';
 import { MessageDialogComponent } from '../shared/dialogs/message-dialog/message-dialog.component';
 import { ExportImportServicesModule } from '../shared/export-import-services.module';
-import { NotificationToastComponent } from '../shared/notifications/notification-toast/notification-toast.component';
 import { SharedModule } from '../shared/shared.module';
 import { SignalrHubsModule } from '../shared/signalr-hubs.module';
 import { ChatResolver } from './../../business/resolvers/chat.resolver';
@@ -118,7 +118,8 @@ import { SettingsComponent } from './settings/settings.component';
         {
             provide: MatPaginatorIntl, deps: [TranslateService],
             useFactory: (translateService: TranslateService) => new PaginatorTranslateFactory(translateService).getPaginatorIntl()
-        }
+        },
+        { provide: NOTIFICATION_TOAST_TOKEN, useClass: NotificationToastComponent }
         // { provide: MAT_HAMMER_OPTIONS, useClass: CustomHammerJsConfig }
         // { provide: APP_INITIALIZER, useFactory: initApplication, multi: true, deps: [Store, Actions] }
     ],
