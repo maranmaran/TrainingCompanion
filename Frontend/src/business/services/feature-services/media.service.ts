@@ -3,17 +3,16 @@ import { catchError } from 'rxjs/operators';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { MediaType } from '../../../server-models/enums/media-type.enum';
 import { BaseService } from '../base.service';
+import { Injectable } from '@angular/core';
 
-
-
-
+@Injectable()
 export class MediaService extends BaseService {
 
-    constructor(
-      private httpDI: HttpClient
-    ) {
-      super(httpDI, 'Media');
-    }
+  constructor(
+    private httpDI: HttpClient
+  ) {
+    super(httpDI, 'Media');
+  }
 
 
   public getUserMediaByType(userId: string, type: MediaType) {

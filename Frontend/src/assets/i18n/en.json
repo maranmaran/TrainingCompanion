@@ -93,6 +93,10 @@
     "WEIGHT": "Weight"
   },
   "TRAINING_PROGRAM": {
+    "ASSIGNED_SUCCESS": "<b>{{program}}</b> successfully assigned to <b>{{athlete}}</b>.",
+    "ASSIGNED_SUCCESS_TITLE": "Assignment successful",
+    "ASSIGNED_FAIL": "Something went wrong, <b>{{program}}</b> has not been assigned.",
+    "ASSIGNED_FAIL_TITLE": "Assignment failed",
     "DETAILS": {
       "TITLE": "{{name}} details",
       "DESCRIPTION": "Basic training program details",

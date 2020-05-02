@@ -73,22 +73,16 @@ import { SettingsComponent } from './settings/settings.component';
             routerState: RouterState.Minimal,
             serializer: CustomSerializer
         }),
-        ToastrModule.forRoot({
-          timeOut: 2000,
-          disableTimeOut : false,
-          positionClass: 'toast-bottom-right',
-          preventDuplicates: false,
-          toastComponent: NotificationToastComponent // added custom toast!
-        }), // ToastrModule added,
+        ToastrModule.forRoot(), // ToastrModule added,
         SignalrHubsModule.forRoot(),
         ExportImportServicesModule.forRoot(),
         TranslateModule.forRoot({
-          isolate: false,
-          loader: {
-              provide: TranslateLoader,
-              useFactory: HttpLoaderFactory,
-              deps: [HttpBackend]
-          }
+            isolate: false,
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpBackend]
+            }
         })
     ],
     declarations: [
@@ -122,8 +116,8 @@ import { SettingsComponent } from './settings/settings.component';
         { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         {
-          provide: MatPaginatorIntl, deps: [TranslateService],
-          useFactory: (translateService: TranslateService) => new PaginatorTranslateFactory(translateService).getPaginatorIntl()
+            provide: MatPaginatorIntl, deps: [TranslateService],
+            useFactory: (translateService: TranslateService) => new PaginatorTranslateFactory(translateService).getPaginatorIntl()
         }
         // { provide: MAT_HAMMER_OPTIONS, useClass: CustomHammerJsConfig }
         // { provide: APP_INITIALIZER, useFactory: initApplication, multi: true, deps: [Store, Actions] }

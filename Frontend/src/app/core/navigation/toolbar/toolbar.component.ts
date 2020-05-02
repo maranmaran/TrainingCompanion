@@ -86,7 +86,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
           this.notifications = [notification, ...this.notifications];
           !notification.read && this.unreadNotificationCounter++;
 
-          // do stuff... Display some toastr or something for new notifications while user is logged in
         }),
     );
 

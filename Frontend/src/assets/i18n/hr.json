@@ -93,6 +93,10 @@
     "WEIGHT": "Težina"
   },
   "TRAINING_PROGRAM": {
+    "ASSIGNED_SUCCESS": "<b>{{program}}</b> je uspješno dodjeljen klijentu <b>{{athlete}}</b>.",
+    "ASSIGNED_SUCCESS_TITLE": "Dodjeljivanje programa je prošlo uspješno",
+    "ASSIGNED_FAIL": "<b>{{program}}</b> nije bio dodjeljen.",
+    "ASSIGNED_FAIL_TITLE": "Neuspjesno dodjeljivanje programa",
     "DETAILS": {
       "TITLE": "{{name}} detalji",
       "DESCRIPTION": "Osnovni detalji o programu treninga",

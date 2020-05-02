@@ -1,6 +1,6 @@
 ﻿using Audit.Core;
 using Audit.EntityFramework;
-using Backend.Business.Dashboard;
+using Backend.Business.Dashboard.Services;
 using Backend.Business.Notifications;
 using Backend.Domain;
 using Backend.Domain.Entities.Auditing;
@@ -15,7 +15,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using Backend.Business.Dashboard.Services;
 using Configuration = Audit.Core.Configuration;
 
 namespace Backend.Persistance

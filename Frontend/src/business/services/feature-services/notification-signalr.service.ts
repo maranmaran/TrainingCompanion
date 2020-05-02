@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from './notification.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
@@ -22,10 +24,11 @@ export class NotificationSignalrService implements OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private store: Store<AppState>,
+    private translate: TranslateService,
     private http: HttpClient,
     private appSettingsService: AppSettingsService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private notificationService: NotificationService
   ) {
     // subscribe to logout
     this.subs.add(
@@ -44,15 +47,15 @@ export class NotificationSignalrService implements OnDestroy {
 
     this.hubConnection.serverTimeoutInMilliseconds = 100000; // 100 sec
     this.hubConnection.start()
-    .then(() => this.initializeListeners())
-    .catch(err => console.log(`Error while starting SignalR connection: ${err}`));
+      .then(() => this.initializeListeners())
+      .catch(err => console.log(`Error while starting SignalR connection: ${err}`));
   }
 
   initializeListeners() {
     this.hubConnection.on('SendNotification', (notification: PushNotification) => {
       notification = this.doWork(notification);
       this.notifications$.next(notification);
-      this.toastService.show(JSON.stringify(notification), 'Notification')
+      this.toastService.show(JSON.stringify(notification), this.translate.instant('SHARED.NOTIFICATION'), this.notificationService.systemNotificationToastConfig)
     });
   }
 
