@@ -100,12 +100,12 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   @HostListener('swiperight', ['$event']) onSwipeRight = () => {
     if (!this.uiService.isSidenavOpened(UISidenav.App, true))
-      this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Open)
+      this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle)
   }
 
   @HostListener('swipeleft', ['$event']) onSwipeLeft = () => {
     if (this.uiService.isSidenavOpened(UISidenav.App, true))
-      this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Close)
+      this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle)
   }
 
 
