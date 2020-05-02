@@ -66,7 +66,11 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.store.select(exerciseTypes)
         .subscribe((state: { entities: ExerciseType[], totalItems: number, pagingModel: PagingModel }) => {
-          this.exerciseTypes = state.entities;
+
+          const start = state.pagingModel.page * state.pagingModel.pageSize;
+          const end = (state.pagingModel.page + 1) * state.pagingModel.pageSize;
+          this.exerciseTypes = state.entities.slice(start, end);
+
           this.tableDatasource.updateDatasource([...state.entities]);
           this.tableDatasource.setPagingModel(Object.assign({}, state.pagingModel));
           this.tableDatasource.setTotalLength(state.totalItems);

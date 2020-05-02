@@ -41,7 +41,7 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
             .pipe(
                 take(1),
                 map(state => state.entities),
-                concatMap((exerciseTypes: ExerciseType[]) => {
+                concatMap((exerciseTypes) => {
 
                 if (isEmpty(exerciseTypes)) {
                     return this.updateState(userId);

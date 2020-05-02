@@ -25,6 +25,7 @@ import { ExerciseTypeService } from './../../../../../../../business/services/fe
 import { currentUserId } from './../../../../../../../ngrx/auth/auth.selectors';
 import { trackItemUpdated } from './../../../../../../../ngrx/dashboard/dashboard.actions';
 import { trackEditMode } from './../../../../../../../ngrx/dashboard/dashboard.selectors';
+import { exerciseTypes } from './../../../../../../../ngrx/exercise-type/exercise-type.selectors';
 import { ExerciseType } from './../../../../../../../server-models/entities/exercise-type.model';
 import { UnitSystem } from './../../../../../../../server-models/enums/unit-system.enum';
 import { PagingModel } from './../../../../../../shared/material-table/table-models/paging.model';
@@ -41,11 +42,11 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
   @Input() cardId: string;
   @Input() jsonParams: string;
+  @Input() exerciseTypes: ExerciseType[];
   params: { dateFrom: Date, dateTo: Date, exerciseType: ExerciseType }
 
   // template relevant things
   form: FormGroup;
-  exerciseTypes: ExerciseType[];
   cardBootstrapped = false;
   error = false;
   details: string;
@@ -86,24 +87,24 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     // get first exercise types page and initialize form
     // also refresh exerciseType from jsonParams because it may be outdated (this could be expensive)
     forkJoin(
-      this.getExerciseTypes().pipe(take(1)),
+      this.store.select(exerciseTypes).pipe(take(1)),
+      // this.getExerciseTypes().pipe(take(1)),
       this.getExerciseType(this.params?.exerciseType?.id).pipe(take(1))
     ).subscribe(([types, type]) => {
 
       if (types instanceof Error) return;
       if (type instanceof Error) return;
 
-      types = types as PagedList<ExerciseType>;
       type = type as ExerciseType;
       this.params.exerciseType = type;
 
-      if (!types || types.list.length == 0) {
+      if (!types || types.entities.length == 0) {
         this.error = true;
         this.details = 'You have no exercises. Please add or import some.';
         return;
       }
 
-      this.createForm(types.list);
+      this.createForm(types.entities);
       (this._initializer$ as ConnectableObservable<any>).connect() // now we can fetch card data
       this.cardBootstrapped = true;
     },
@@ -179,12 +180,6 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     const settings = { theme: this._theme, unitSystem: this._unitSystem, mobile: this.isMobile };
 
     this.config = [GetVolumeCardChartConfig(settings, data, labels)];
-  }
-
-  getExerciseTypes() {
-    return this.store.select(currentUserId).pipe(
-      switchMap(id => this.exerciseTypeService.getPaged(id, this._pagingModel))
-    );
   }
 
   getExerciseType(typeId: string) {
