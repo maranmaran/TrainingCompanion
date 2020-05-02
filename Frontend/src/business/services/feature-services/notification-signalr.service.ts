@@ -1,3 +1,4 @@
+import { AppSettingsService } from './../shared/app-settings.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
 import { HttpClient } from '@angular/common/http';
@@ -10,7 +11,6 @@ import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { PushNotification } from 'src/server-models/entities/push-notification.model';
 import { SubSink } from 'subsink';
-import { AppSettingsService } from '../shared/app-settings.service';
 import { NotificationType } from './../../../server-models/enums/notification-type.enum';
 import { AuthService } from './auth.service';
 
@@ -28,7 +28,7 @@ export class NotificationSignalrService implements OnDestroy {
     private http: HttpClient,
     private appSettingsService: AppSettingsService,
     private toastService: ToastrService,
-    private notificationService: NotificationService
+    private appSettings: AppSettingsService
   ) {
     // subscribe to logout
     this.subs.add(
@@ -55,7 +55,7 @@ export class NotificationSignalrService implements OnDestroy {
     this.hubConnection.on('SendNotification', (notification: PushNotification) => {
       notification = this.doWork(notification);
       this.notifications$.next(notification);
-      this.toastService.show(JSON.stringify(notification), this.translate.instant('SHARED.NOTIFICATION'), this.notificationService.systemNotificationToastConfig)
+      this.toastService.show(JSON.stringify(notification), this.translate.instant('SHARED.NOTIFICATION'), this.appSettings.systemNotificationToastConfig)
     });
   }
 

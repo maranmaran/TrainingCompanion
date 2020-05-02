@@ -8,24 +8,4 @@ export class NotificationService implements OnInit {
     throw new Error("Method not implemented.");
   }
 
-  get systemNotificationToastConfig() {
-    return {
-      timeOut: 2000,
-      disableTimeOut: false,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: false,
-      toastComponent: NotificationToastComponent // added custom toast!
-    };
-  }
-
-  get defaultNotificationConfig() {
-    return {
-      timeOut: 2000,
-      disableTimeOut: false,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: false,
-      enableHtml: true
-    }
-  }
-
 }

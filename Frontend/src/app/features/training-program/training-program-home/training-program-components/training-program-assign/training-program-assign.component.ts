@@ -1,3 +1,4 @@
+import { AppSettingsService } from './../../../../../../business/services/shared/app-settings.service';
 import { NotificationService } from './../../../../../../business/services/feature-services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, Inject, OnInit } from '@angular/core';
@@ -32,7 +33,7 @@ export class TrainingProgramAssignComponent implements OnInit {
 
   constructor(
     private toastrService: ToastrService,
-    private notificationService: NotificationService,
+    private appSettings: AppSettingsService,
     public mediaObserver: MediaObserver,
     private translate: TranslateService,
     private trainingProgramUserService: TrainingProgramUserService,
@@ -87,7 +88,7 @@ export class TrainingProgramAssignComponent implements OnInit {
         { program: program.name, athlete: user.fullName }
       ),
       this.translate.instant('TRAINING_PROGRAM.ASSIGNED_SUCCESS_TITLE'),
-      this.notificationService.defaultNotificationConfig
+      this.appSettings.defaultNotificationConfig
     );
   }
 
@@ -98,7 +99,7 @@ export class TrainingProgramAssignComponent implements OnInit {
         { program: program.name }
       ),
       this.translate.instant('TRAINING_PROGRAM.ASSIGNED_FAIL_TITLE'),
-      this.notificationService.defaultNotificationConfig
+      this.appSettings.defaultNotificationConfig
     );
   }
 

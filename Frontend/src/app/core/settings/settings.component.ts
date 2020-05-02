@@ -66,7 +66,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public openTab = (tab: 'General' | 'Account' | 'Billing') => {
     this.activeTab = tab;
 
-    this.uiService.isSidenavOpened(UISidenav.Settings)
+    (this.uiService.isSidenavOpened(UISidenav.Settings) as Observable<boolean>)
       .pipe(take(1))
       .subscribe(isOpened => {
         isOpened && this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle)
