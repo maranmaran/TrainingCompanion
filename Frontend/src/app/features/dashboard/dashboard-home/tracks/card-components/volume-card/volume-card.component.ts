@@ -4,6 +4,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import { Guid } from 'guid-typescript';
 import * as _ from 'lodash';
@@ -72,7 +73,8 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     private exerciseTypeService: ExerciseTypeService,
     private actions$: Actions,
     private reportService: ReportService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private translationService: TranslateService
   ) { }
 
   ngOnInit() {
@@ -100,7 +102,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
 
       if (!types || types.entities.length == 0) {
         this.error = true;
-        this.details = 'You have no exercises. Please add or import some.';
+        this.details = this.translationService.instant('DASHBOARD.MISSING_EXERCISES');
         return;
       }
 

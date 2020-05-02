@@ -48,6 +48,7 @@
   },
   "DASHBOARD": {
     "COULD_NOT_RENDER": "Could not render chart",
+    "MISSING_EXERCISES": "You have no exercises. Please add or import some.",
     "SAVE_DASHBOARD": "Save customization",
     "REMOVE_TRACK_ITEM": "Remove chart from track",
     "MOVE_TRACK_ITEM": "Reposition track item",
