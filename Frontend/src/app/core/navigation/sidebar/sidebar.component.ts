@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit {
     this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Close);
   }
 
-  public onRoute(route) {
+  public onRoute(route: string) {
     this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
     setTimeout(_ => this.router.navigate([route]), 400);
   }
