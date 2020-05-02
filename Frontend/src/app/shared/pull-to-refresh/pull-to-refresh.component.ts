@@ -17,9 +17,6 @@ export class PullToRefreshComponent implements OnInit, OnDestroy {
 
   subs = new SubSink();
 
-  constructor() {
-  }
-
   ngOnInit() {
     this.subs.add(
       this.drag$.subscribe()
