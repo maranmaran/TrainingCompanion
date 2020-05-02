@@ -34,6 +34,7 @@ import { SignalrHubsModule } from '../shared/signalr-hubs.module';
 import { ChatResolver } from './../../business/resolvers/chat.resolver';
 import { CoreEffects } from './../../ngrx/global-setup.ngrx';
 import { ChatModule } from './../features/chat/chat.module';
+import { PullToRefreshComponent } from './../shared/pull-to-refresh/pull-to-refresh.component';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { CoreRoutingModule } from './core-routing.module';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
@@ -104,7 +105,8 @@ import { SettingsComponent } from './settings/settings.component';
         StripeCheckoutComponent,
         AccountComponent,
         GeneralComponent,
-        NotificationToastComponent
+        NotificationToastComponent,
+        PullToRefreshComponent
     ],
     exports: [
         CommonModule,

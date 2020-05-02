@@ -1,0 +1,7 @@
+<div style="position: absolute; top: 0; left: calc(50% - 20px)">
+  <div [style.transform]="positionTranslate3d$ | async">
+    <mat-progress-spinner *ngIf="!spinner" [diameter]="40" [color]="'accent'" [mode]="'indeterminate'">
+    </mat-progress-spinner>
+    <ng-content id="spinner"></ng-content>
+  </div>
+</div>
