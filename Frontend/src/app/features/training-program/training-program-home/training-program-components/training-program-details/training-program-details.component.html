@@ -9,8 +9,8 @@
         {{ translateService.instant('TRAINING_PROGRAM.DETAILS.TITLE', {name: trainingProgram.name}) }}
       </mat-panel-title>
 
-      <mat-panel-description>
-        {{'TRAINING_PROGRAM.DETAILS.DESCRIPTION' | translate}}
+      <mat-panel-description [ngClass]="{'mobile-expansion-panel': mediaObserver.isActive('lt-sm')}">
+        <span *ngIf="mediaObserver.isActive('gt-xs')">{{'TRAINING_PROGRAM.DETAILS.DESCRIPTION' | translate}}</span>
         <button class="mr-1 pointer-events" mat-stroked-button color="accent" (click)="onAssign($event, trainingProgram)">
           {{ (mediaObserver.isActive('lt-sm') ? 'TRAINING_PROGRAM.ASSIGN_BTN_LABEL' : 'TRAINING_PROGRAM.ASSIGN') | translate}}
         </button>
@@ -33,7 +33,7 @@
         {{'TRAINING_PROGRAM.USERS.TITLE' | translate}}
       </mat-panel-title>
 
-      <mat-panel-description>
+      <mat-panel-description *ngIf="mediaObserver.isActive('gt-xs')">
         {{'TRAINING_PROGRAM.USERS.DESCRIPTION' | translate}}
         <i class="fas fa-users"></i>
       </mat-panel-description>
@@ -55,7 +55,7 @@
         <span class="foreground-accent">{{'TRAINING_PROGRAM.METRICS.TITLE' | translate}}</span>
       </mat-panel-title>
 
-      <mat-panel-description>
+      <mat-panel-description *ngIf="mediaObserver.isActive('gt-xs')">
         {{'TRAINING_PROGRAM.METRICS.DESCRIPTION' | translate}}
         <i class="fas fa-chart-pie foreground-accent"></i>
       </mat-panel-description>

@@ -41,6 +41,9 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subsink.unsubscribe();
+
+    // TODO: figure out how not to clear..
+    //slows down routing because of resolvers and uses a lot of data
     this.store.dispatch(clearTrainingState());
   }
 

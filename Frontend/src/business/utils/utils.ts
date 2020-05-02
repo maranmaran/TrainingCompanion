@@ -98,9 +98,9 @@ export function isNullOrWhitespace(str: string): boolean {
 
 export function getPlaceholderImagePath(theme: Theme) {
   if (theme == Theme.Light)
-    return "/assets/images/image-placeholder-light-theme.png";
+    return "/assets/images/compressed/image-placeholder-light-theme.png";
 
-  return "/assets/images/image-placeholder-dark-theme.png";
+  return "/assets/images/compressed/image-placeholder-dark-theme.png";
 }
 
 export function round(number: number, decimal: number) {
