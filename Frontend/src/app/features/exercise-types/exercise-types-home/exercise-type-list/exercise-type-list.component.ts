@@ -67,11 +67,9 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       this.store.select(exerciseTypes)
         .subscribe((state: { entities: ExerciseType[], totalItems: number, pagingModel: PagingModel }) => {
 
-          const start = state.pagingModel.page * state.pagingModel.pageSize;
-          const end = (state.pagingModel.page + 1) * state.pagingModel.pageSize;
-          this.exerciseTypes = state.entities.slice(start, end);
+          this.exerciseTypes = state.entities.slice(0, state.pagingModel.pageSize);
 
-          this.tableDatasource.updateDatasource([...state.entities]);
+          this.tableDatasource.updateDatasource([...this.exerciseTypes]);
           this.tableDatasource.setPagingModel(Object.assign({}, state.pagingModel));
           this.tableDatasource.setTotalLength(state.totalItems);
         }));
@@ -88,7 +86,8 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       pagingOptions: new TablePagingOptions({
         serverSidePaging: true
       }),
-      cellActions: [TableAction.update, TableAction.delete]
+      cellActions: [TableAction.update, TableAction.delete],
+      selectionEnabled: false
     });
 
     return tableConfig;
