@@ -1,7 +1,7 @@
 // core theme
 @import "./application-content.theme.scss";
 
-.mat-tab-label-active{
+.mat-tab-label-active {
   opacity: 1 !important;
 }
 
@@ -45,7 +45,8 @@
   display: block !important;
 }
 
-.mat-toolbar-row, .mat-toolbar-single-row {
+.mat-toolbar-row,
+.mat-toolbar-single-row {
   height: 56px !important; //constant height
 }
 
@@ -76,3 +77,19 @@ mat-form-field {
   line-height: 20px !important;
 }
 
+// toolbar view-as feature
+#view-as {
+  max-width: 100%;
+  .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+    font-size: 15px !important;
+  }
+}
+@media (max-width: 600px) {
+  #view-as {
+    max-width: 135px;
+    .mat-form-field-wrapper {
+      font-size: 10px !important;
+    }
+  }
+}

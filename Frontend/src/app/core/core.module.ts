@@ -48,6 +48,7 @@ import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stri
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
+import { ViewAsComponent } from './view-as/view-as.component';
 
 @NgModule({
     imports: [
@@ -100,6 +101,7 @@ import { NotificationSignalrService } from 'src/business/services/feature-servic
         AccountComponent,
         GeneralComponent,
         NotificationToastComponent,
+        ViewAsComponent,
         // PullToRefreshComponent
     ],
     exports: [

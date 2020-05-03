@@ -1,3 +1,4 @@
+import { ApplicationUser } from './../../server-models/entities/application-user.model';
 import { createAction, props } from '@ngrx/store';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
@@ -25,7 +26,7 @@ export const logout = createAction(
     '[Auth API] Logout'
 )
 export const logoutClearState = createAction(
-  '[Auth API] Clear state - logout'
+    '[Auth API] Clear state - logout'
 )
 //#endregion
 
@@ -51,8 +52,8 @@ export const updateUserSetting = createAction(
 )
 
 export const settingsUpdated = createAction(
-  '[User API] User settings - UPDATED',
-  props<UserSetting>()
+    '[User API] User settings - UPDATED',
+    props<UserSetting>()
 )
 
 export const addSubscription = createAction(
@@ -64,5 +65,9 @@ export const cancelSubscription = createAction(
     '[Billing API] Cancel subscription'
 )
 
-//#endregion
+export const setViewAs = createAction(
+    '[View as] Set',
+    props<{ entity: ApplicationUser }>()
+)
 
+//#endregion
