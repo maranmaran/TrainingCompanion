@@ -73,6 +73,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.TrainingPr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Library.MediaCompression", "Core\Libraries\Backend.Library.MediaCompression\Backend.Library.MediaCompression.csproj", "{CD6AF00E-41AF-48FC-B7B9-88547EA0A080}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{42EFE94E-133B-4835-BDFB-296338205179}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		DockerFile = DockerFile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -210,6 +216,7 @@ Global
 		{9D421D6E-D08F-4094-A0BE-5DDEF363B22D} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 		{3079EA3E-EB70-4EF9-9408-5AEB25A98316} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 		{CD6AF00E-41AF-48FC-B7B9-88547EA0A080} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
+		{42EFE94E-133B-4835-BDFB-296338205179} = {54BC2835-0638-4EC2-A88E-C0E7A0DA8604}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DD0AB68-A97C-455D-82B6-014536CC5B59}
