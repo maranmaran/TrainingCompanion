@@ -86,3 +86,8 @@ export const loginError = createSelector(
     selectAuthState,
     (state: AuthState) => state.loginError
 );
+
+export const viewAs = createSelector(
+    selectAuthState,
+    (state: AuthState) => state.viewAs
+)

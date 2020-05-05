@@ -5,15 +5,14 @@
 <div class="form" fxLayout="column" fxLayoutGap="1rem">
     <form [formGroup]="form">
 
-        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="space-evenly center"
-        fxLayout.lt-sm="column">
+        <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="space-evenly center" fxLayout.lt-sm="column">
 
-          <mat-form-field style="max-width: 400px">
-            <input matInput type="text" formControlName="name"
-            placeholder="{{'TRAINING_PROGRAM.NAME_LABEL' | translate}}">
-          </mat-form-field>
+            <mat-form-field style="max-width: 400px">
+                <input matInput type="text" formControlName="name"
+                    placeholder="{{'TRAINING_PROGRAM.NAME_LABEL' | translate}}">
+            </mat-form-field>
 
-          <ng-container *ngTemplateOutlet="uploadInput; context: { trainingProgram: trainingProgram }"></ng-container>
+            <ng-container *ngTemplateOutlet="uploadInput; context: { trainingProgram: trainingProgram }"></ng-container>
         </div>
 
         <mat-form-field>
@@ -35,10 +34,11 @@
 <ng-template #uploadInput let-trainingProgram="trainingProgram">
     <div class="upload-input" (click)="uploadInput.click()">
 
-        <img *ngIf="trainingProgram.imageUrl; else fallbackImage" class="program-image img-fluid mat-elevation-z5" src="{{trainingProgram.imageUrl}}" />
-        <ng-template #fallbackImage >
-          <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid mat-elevation-z5"
-          src="{{placeholderImagePath}}" />
+        <img *ngIf="trainingProgram.imageUrl; else fallbackImage" class="program-image img-fluid mat-elevation-z5"
+            src="{{trainingProgram.imageUrl}}" />
+        <ng-template #fallbackImage>
+            <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid mat-elevation-z5"
+                src="{{placeholderImagePath}}" />
         </ng-template>
 
         <mat-chip-list class="upload-chip">
