@@ -1,5 +1,6 @@
 <div class="card-chart-container h-100" fxLayout="column" fxLayoutGap.lt-md="1rem" *ngIf="cardBootstrapped">
 
+  <!--ACTIONS AND INPUTS-->
   <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem" fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
 
     <mat-form-field fxFlexOrder.lt-md="2" fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
@@ -44,6 +45,7 @@
     </app-exercise-type-chip-list>
   </div>
 
+  <!--CHART-->
   <app-chart [configuration]="config"></app-chart>
 </div>
 

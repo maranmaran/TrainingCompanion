@@ -56,7 +56,6 @@ export class TracksComponent implements OnInit {
   }
 
   removeTrackItem(trackItem: TrackItem, idx: number) {
-    console.log(trackItem);
     this.store.dispatch(removeTrackItem({ item: trackItem, idx }))
   }
 

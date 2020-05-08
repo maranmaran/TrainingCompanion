@@ -6,10 +6,10 @@ export const environment = {
   name: 'development',
   production: false,
   showStackTrace: true,
-  apiUrl: 'https://localhost:5001/api/',
-  notificationHubUrl: 'https://localhost:5001/api/notifications-hub',
-  feedHubUrl: 'https://localhost:5001/api/feed-hub',
-  chatHubUrl: 'https://localhost:5001/api/chat-hub',
+  apiUrl: 'https://localhost:44304/api/',
+  notificationHubUrl: 'https://localhost:44304/api/notifications-hub',
+  feedHubUrl: 'https://localhost:44304/api/feed-hub',
+  chatHubUrl: 'https://localhost:44304/api/chat-hub',
   stripePublishableKey: 'pk_test_zScuAdL8ZCULuob3sbgWfnzw',
 };
 

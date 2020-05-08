@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectableObservable, forkJoin, Observable, of } from 'rxjs';
 import { combineLatest } from 'rxjs/internal/observable/combineLatest';
-import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, skip, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, skip, startWith, switchMap, take, tap, concatMap, shareReplay } from 'rxjs/operators';
 import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { Theme } from 'src/business/shared/theme.enum';
@@ -35,7 +35,6 @@ import { GetVolumeCardChartConfig } from './volume-card-chart.config';
 @Component({
   selector: 'app-volume-card',
   templateUrl: './volume-card.component.html',
-  styleUrls: ['./volume-card.component.scss'],
   providers: [ExerciseTypeService, ReportService,
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] }]
 })
@@ -62,7 +61,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   _unitSystem: UnitSystem;
   _trackEditMode: boolean;
 
-  _initializer$: Observable<any>; // kickstart listener for init
+  _uiChange$: Observable<any>; // kickstart listener for init
   _metricsData: ChartData<number, Date>; // actual data
   _pagingModel = new PagingModel();
 
@@ -78,21 +77,58 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.params = JSON.parse(this.jsonParams) ?? { dateFrom: new Date(), dateTo: new Date(), exerciseType: null};
-
-    this._initializer$ = this.getCardInitializer();
 
     // get props
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this._userId = id);
     this.store.select(trackEditMode).pipe(take(1)).subscribe(editMode => this._trackEditMode = editMode);
 
+    // parse saved json params from user specific dashboard
+    this.initParams();
+
+    // get initializer which will be kicked off and will fetch data once everything is set up
+    this._uiChange$ = this.onUIChange();
+
+    // listen to changes from initializer abd prepare data accordingly
+    this._subs.add(
+      this._uiChange$.subscribe(val => this.prepareData(val)),
+      // this.dashboardService.saveTrackItemParams.subscribe(_ => this.saveParams())
+    )
+
+    // bootstrap component and kickstart everything
+    this.onInit();
+  }
+
+  ngOnDestroy(): void {
+    if (this.cardId != Guid.EMPTY && !this._trackEditMode && this.cardBootstrapped && this.form.valid)
+      this.saveParams();
+
+    this._subs.unsubscribe();
+  }
+
+  /**
+   * Construct params from stringified json params.. 
+   * or init new if component is new
+   */
+  initParams() {
+    this.params = JSON.parse(this.jsonParams) ?? {
+      dateFrom: new Date(),
+      dateTo: new Date(),
+      exerciseType: null
+    };
+  }
+
+  /**
+   * Initial entry point of component
+   * Fetch data for it to operate
+   * Bootstrap component and kick start it with hooking on to uiChanges
+   */
+  onInit() {
     // get first exercise types page and initialize form
     // also refresh exerciseType from jsonParams because it may be outdated (this could be expensive)
     forkJoin(
       this.store.select(exerciseTypes).pipe(take(1)),
-      // this.getExerciseTypes().pipe(take(1)),
       this.getExerciseType(this.params?.exerciseType?.id).pipe(take(1))
-    ).subscribe(([types, type]) => {
+    ).pipe(take(1)).subscribe(([types, type]) => {
 
       if (types instanceof Error) return;
       if (type instanceof Error) return;
@@ -107,27 +143,21 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
       }
 
       this.createForm(types.entities);
-      (this._initializer$ as ConnectableObservable<any>).connect() // now we can fetch card data
+      (this._uiChange$ as ConnectableObservable<any>).connect() // now we can fetch card data
       this.cardBootstrapped = true;
     },
       _ => this.error = true
     );
-
-    // listen to changes from initializer abd prepare data accordingly
-    this._subs.add(
-      this._initializer$.subscribe(val => this.prepareData(val)),
-      // this.dashboardService.saveTrackItemParams.subscribe(_ => this.saveParams())
-    )
   }
 
-  ngOnDestroy(): void {
-    if (this.cardId != Guid.EMPTY && !this._trackEditMode && this.cardBootstrapped && this.form.valid)
-      this.saveParams();
-
-    this._subs.unsubscribe();
-  }
-
-  getCardInitializer() {
+  /**
+   * UI Change for things char configuration uses
+   * Theme colors 
+   * unit system values (fetch new data for this)
+   * User id (who's data)
+   * Mobile version or non mobile version
+   */
+  onUIChange() {
     return combineLatest(
       this.store.select(activeTheme),
       // listening to this action because first we need unit
@@ -135,11 +165,11 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
       this.actions$.pipe(ofType(settingsUpdated), map(val => val.unitSystem), startWith(UnitSystem.Metric)),
       this.store.select(currentUserId),
       this.store.select(isMobile)
-    )
-      .pipe(
-        distinctUntilChanged((a, b) => JSON.stringify(a) == JSON.stringify(b)),
-        publish()
-      );
+    ).pipe(
+      // distinctUntilChanged((a, b) => a[1] == b[1]), // we fetch new data only for updated unit system
+      shareReplay(),
+      publish(),
+    );
   }
 
   /** Determines how data should be prepared for component
@@ -147,6 +177,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
    * or update existing chart configurations only
    */
   prepareData([theme, unitSystem, userId, mobile]) {
+
     this._theme = theme;
     this._unitSystem = unitSystem;
     this._userId = userId;
@@ -195,7 +226,6 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   get exerciseType(): AbstractControl { return this.form.get('exerciseType'); }
 
   createForm(types: ExerciseType[]) {
-    this.exerciseTypes = types;
     this.form = new FormGroup({
       exerciseType: new FormControl(this.params?.exerciseType ?? types[0], Validators.required),
       dateFrom: new FormControl(this.params?.dateFrom ? new Date(this.params?.dateFrom) : moment(new Date()).subtract(1, 'month').toDate(), Validators.required),
@@ -206,6 +236,12 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     this.initListeners();
   }
 
+  /**
+   * Listeners for form changes
+   * Every time something changes we fetch new data
+   * Also we listen for autocomplete typing and fetch found 
+   * exercises to display to user
+   */
   initListeners() {
     this._subs.add(
       // changes on inputs to fetch chart data if inputs change
@@ -235,14 +271,21 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Validates form and retrieves it's data if it's valid
+   */
   validateAndGetFormData() {
     if (!this.form.valid) return null;
 
     return (this.exerciseType.value.id, this.dateFrom.value, this.dateTo.value)
   }
 
+  // display for exercise type input
   displayFunction = (exerciseType: ExerciseType) => exerciseType ? exerciseType.name : null;
 
+  /**
+   * Saves current parameter configuration so user can have it's dashboard persistent
+   */
   saveParams() {
     let params = {
       dateFrom: this.dateFrom.value,
