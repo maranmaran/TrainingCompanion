@@ -5,17 +5,11 @@
   padding: 15px !important;
   width: 300px;
   border-radius: 3px 3px 3px 3px;
-  color: #FFFFFF;
+  color: #ffffff;
   pointer-events: all;
   cursor: pointer;
 }
-.btn-pink {
-  -webkit-backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-}
-
 app-notification-type-icon {
   display: flex;
   align-items: center;
 }
-

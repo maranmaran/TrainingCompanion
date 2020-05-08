@@ -69,6 +69,7 @@ export class AppSettingsService {
       disableTimeOut: false,
       positionClass: 'toast-bottom-right',
       preventDuplicates: false,
+      toastClass: 'toast-notification',
       toastComponent: this.toastNotificationComponent // added custom toast!
     };
   }
@@ -79,7 +80,8 @@ export class AppSettingsService {
       disableTimeOut: false,
       positionClass: 'toast-bottom-right',
       preventDuplicates: false,
-      enableHtml: true
+      enableHtml: true,
+      toastClass: 'toast-default'
     }
   }
 

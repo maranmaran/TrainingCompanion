@@ -1,3 +1,4 @@
+import { SortDirection } from '@angular/material/sort';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -86,8 +87,8 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       pagingOptions: new TablePagingOptions({
         serverSidePaging: true
       }),
-      cellActions: [TableAction.update, TableAction.delete],
-      selectionEnabled: false
+      cellActions: [TableAction.update, TableAction.disable],
+      selectionEnabled: false,
     });
 
     return tableConfig;
@@ -216,8 +217,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     let type = Object.assign({}, exerciseType);
     type.active = false;
 
-    const request = new UpdateExerciseTypeRequest();
-    request.exerciseType = type;
+    const request = new UpdateExerciseTypeRequest({ exerciseType: type });
 
     this.exerciseTypeService.update<UpdateExerciseTypeRequest, ExerciseType>(request).pipe(take(1))
       .subscribe(

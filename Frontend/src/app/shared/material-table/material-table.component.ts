@@ -3,7 +3,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort, Sort, MatSortable } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import _ from "lodash";
@@ -71,7 +71,6 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   ) { }
 
   ngOnInit() {
-
     this.pageSize = this.config.pagingOptions.pageSize;
     this.pageSizeOptions = this.config.pagingOptions.pageSizeOptions;
 
@@ -86,11 +85,30 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    // assign paginator and sort components to datasource only if we'r not using server side paging
+    // assign paginator and sort components to datasource
+    // only if we'r not using server side paging
     if (!this.config.pagingOptions.serverSidePaging) {
+
+      // paginator
       this.datasource.paginator = this.paginator;
-      this.datasource.sort = this.sort;
-      this.datasource.sortingDataAccessor = this.customSortDataAccessor.bind(this)
+
+      // sort
+      this.datasource.sort = this.sort
+      this.datasource.sort.active = this.config.defaultSort;
+      this.datasource.sort.direction = this.config.defaultSortDirection;
+      this.datasource.sortingDataAccessor = this.customSortDataAccessor.bind(this);
+
+      // do default sort
+      setTimeout(() => {
+        this.datasource.sort.sort({
+          id: this.config.defaultSort,
+          start: this.config.defaultSortDirection,
+          disableClear: false
+        });
+      });
+      // this.datasource.sort.active = this.config.defaultSort;
+      // this.datasource.sort.direction = this.config.defaultSortDirection;
+      // this.datasource.sort.sortChange.emit(); // trigger first default sort
     } else {
       setTimeout(() => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()));
     }

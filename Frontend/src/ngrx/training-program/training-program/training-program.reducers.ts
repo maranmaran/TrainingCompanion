@@ -1,3 +1,4 @@
+import { userSetting } from './../../auth/auth.selectors';
 import { Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
@@ -8,62 +9,66 @@ import { adapterTrainingProgram, trainingProgramInitialState, TrainingProgramSta
 
 
 export const trainingProgramReducer: ActionReducer<TrainingProgramState, Action> = createReducer(
-    trainingProgramInitialState,
+  trainingProgramInitialState,
 
 
-    // CREATE
-    on(TrainingProgramActions.trainingProgramCreated, (state: TrainingProgramState, payload: { entity: TrainingProgram }) => {
-        return adapterTrainingProgram.addOne(payload.entity, state);
-    }),
-    on(TrainingProgramActions.trainingProgramUserCreated, (state: TrainingProgramState, payload: { entity: TrainingProgramUser }) => {
+  // CREATE
+  on(TrainingProgramActions.trainingProgramCreated, (state: TrainingProgramState, payload: { entity: TrainingProgram }) => {
+    return adapterTrainingProgram.addOne(payload.entity, state);
+  }),
+  on(TrainingProgramActions.trainingProgramUserCreated, (state: TrainingProgramState, payload: { entity: TrainingProgramUser }) => {
 
-      let trainingProgram =  _.cloneDeep(state.entities[payload.entity.trainingProgramId]);
-      trainingProgram.users.push(payload.entity);
+    let trainingProgram = _.cloneDeep(state.entities[payload.entity.trainingProgramId]);
 
-      var updateTrainingProgram: Update<TrainingProgram> = {
-        id: trainingProgram.id,
-        changes: trainingProgram
-      };
+    if (!trainingProgram.users)
+      trainingProgram.users = [];
 
-      return adapterTrainingProgram.updateOne(updateTrainingProgram, state);
-    }),
+    trainingProgram.users.push(payload.entity);
 
-    // UPDATE
-    on(TrainingProgramActions.trainingProgramUpdated, (state: TrainingProgramState, payload: { entity: Update<TrainingProgram> }) => {
-        return adapterTrainingProgram.updateOne(payload.entity, state);
-    }),
+    var updateTrainingProgram: Update<TrainingProgram> = {
+      id: trainingProgram.id,
+      changes: trainingProgram
+    };
 
-    // DELETE
-    on(TrainingProgramActions.trainingProgramDeleted, (state: TrainingProgramState, payload: { id: string }) => {
-        return adapterTrainingProgram.removeOne(payload.id, state);
-    }),
+    return adapterTrainingProgram.updateOne(updateTrainingProgram, state);
+  }),
 
-    on(TrainingProgramActions.trainingProgramUserDeleted, (state: TrainingProgramState, payload: { entity: TrainingProgramUser }) => {
+  // UPDATE
+  on(TrainingProgramActions.trainingProgramUpdated, (state: TrainingProgramState, payload: { entity: Update<TrainingProgram> }) => {
+    return adapterTrainingProgram.updateOne(payload.entity, state);
+  }),
 
-      let trainingProgram = _.cloneDeep(state.entities[payload.entity.trainingProgramId]) as TrainingProgram;
-      let index = trainingProgram.users.findIndex(x => x.id == payload.entity.id);
-      trainingProgram.users.splice(index, 1);
+  // DELETE
+  on(TrainingProgramActions.trainingProgramDeleted, (state: TrainingProgramState, payload: { id: string }) => {
+    return adapterTrainingProgram.removeOne(payload.id, state);
+  }),
 
-      var updateTrainingProgram: Update<TrainingProgram> = {
-        id: trainingProgram.id,
-        changes: trainingProgram
-      };
+  on(TrainingProgramActions.trainingProgramUserDeleted, (state: TrainingProgramState, payload: { entity: TrainingProgramUser }) => {
 
-      return adapterTrainingProgram.updateOne(updateTrainingProgram, state);
-    }),
+    let trainingProgram = _.cloneDeep(state.entities[payload.entity.trainingProgramId]) as TrainingProgram;
+    let index = trainingProgram.users.findIndex(x => x.id == payload.entity.id);
+    trainingProgram.users.splice(index, 1);
 
-    // GET ALL
-    on(TrainingProgramActions.trainingProgramFetched, (state: TrainingProgramState, payload: { entities: TrainingProgram[] }) => {
-        return adapterTrainingProgram.addMany(payload.entities, state);
-    }),
+    var updateTrainingProgram: Update<TrainingProgram> = {
+      id: trainingProgram.id,
+      changes: trainingProgram
+    };
 
-    // SET SELECTED
-    on(TrainingProgramActions.setSelectedTrainingProgram, (state: TrainingProgramState, payload: { entity: TrainingProgram }) => {
-        return {
-            ...state,
-            selectedTrainingProgramId: payload.entity ? payload.entity.id : null,
-        };
-    }),
+    return adapterTrainingProgram.updateOne(updateTrainingProgram, state);
+  }),
+
+  // GET ALL
+  on(TrainingProgramActions.trainingProgramFetched, (state: TrainingProgramState, payload: { entities: TrainingProgram[] }) => {
+    return adapterTrainingProgram.addMany(payload.entities, state);
+  }),
+
+  // SET SELECTED
+  on(TrainingProgramActions.setSelectedTrainingProgram, (state: TrainingProgramState, payload: { entity: TrainingProgram }) => {
+    return {
+      ...state,
+      selectedTrainingProgramId: payload.entity ? payload.entity.id : null,
+    };
+  }),
 
 );
 
@@ -71,8 +76,8 @@ export const getSelectedTrainingProgramId = (state: TrainingProgramState) => sta
 
 // get the selectors
 export const {
-    selectIds,
-    selectEntities,
-    selectAll,
-    selectTotal,
+  selectIds,
+  selectEntities,
+  selectAll,
+  selectTotal,
 } = adapterTrainingProgram.getSelectors();

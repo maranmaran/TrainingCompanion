@@ -43,12 +43,12 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
                 map(state => state.entities),
                 concatMap((exerciseTypes) => {
 
-                if (isEmpty(exerciseTypes)) {
-                    return this.updateState(userId);
-                }
+                    if (isEmpty(exerciseTypes)) {
+                        return this.updateState(userId);
+                    }
 
-                return of(exerciseTypes);
-            }));
+                    return of(exerciseTypes);
+                }));
     }
 
     private updateState(userId: string) {
@@ -58,11 +58,11 @@ export class ExerciseTypesResolver implements Resolve<Observable<ExerciseType[] 
         defaultPagingModel.sortDirection = 'asc';
 
         return this.exerciseTypeService.getPaged(userId, defaultPagingModel)
-        .pipe(
-            take(1),
-            map(((pagedListModel: PagedList<ExerciseType>) => {
-                this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list, totalItems: pagedListModel.totalItems, pagingModel: defaultPagingModel }));
-            }))
-        );
+            .pipe(
+                take(1),
+                map(((pagedListModel: PagedList<ExerciseType>) => {
+                    this.store.dispatch(exerciseTypesFetched({ entities: pagedListModel.list, totalItems: pagedListModel.totalItems, pagingModel: defaultPagingModel }));
+                }))
+            );
     }
 }

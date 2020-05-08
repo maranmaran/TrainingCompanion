@@ -82,7 +82,7 @@ export class TrainingProgramAssignComponent implements OnInit {
   }
 
   toastSuccess(user, program) {
-    this.toastrService.show(
+    this.toastrService.success(
       this.translate.instant(
         'TRAINING_PROGRAM.ASSIGNED_SUCCESS',
         { program: program.name, athlete: user.fullName }
@@ -93,7 +93,7 @@ export class TrainingProgramAssignComponent implements OnInit {
   }
 
   toastFail(program) {
-    this.toastrService.show(
+    this.toastrService.error(
       this.translate.instant(
         'TRAINING_PROGRAM.ASSIGNED_FAIL',
         { program: program.name }

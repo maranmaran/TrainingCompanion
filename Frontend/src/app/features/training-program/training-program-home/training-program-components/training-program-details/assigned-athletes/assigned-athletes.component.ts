@@ -51,7 +51,7 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.store.select(selectedTrainingProgram).subscribe(program => {
         this.trainingProgram = program;
-        this.programUsers = program?.users;
+        this.programUsers = program?.users ?? [];
         this.tableDatasource.updateDatasource([...this.programUsers]);
       })
     )
@@ -66,8 +66,8 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
 
     const tableConfig = new TableConfig({
       filterFunction: (data: TrainingProgramUser, filter: string) => data.user.fullName.trim().toLocaleLowerCase().indexOf(filter) !== -1 ||
-                                                                 data.user.firstName.trim().toLocaleLowerCase().indexOf(filter) !== -1 ||
-                                                                 data.user.lastName.trim().toLocaleLowerCase().indexOf(filter) !== -1,
+        data.user.firstName.trim().toLocaleLowerCase().indexOf(filter) !== -1 ||
+        data.user.lastName.trim().toLocaleLowerCase().indexOf(filter) !== -1,
       cellActions: [TableAction.delete],
       headerActions: [],
       pagingOptions: {
@@ -76,8 +76,8 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
         serverSidePaging: false
       },
       selectionEnabled: false,
-      defaultSort: 'fullName',
-      defaultSortDirection: 'desc'
+      defaultSort: 'date',
+      defaultSortDirection: 'asc'
     });
 
     return tableConfig;
@@ -96,12 +96,14 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
         definition: 'fullName',
         title: 'ATHLETE_MANAGEMENT.FULL_NAME',
         sort: true,
+        sortFn: (item: TrainingProgramUser) => item.user.fullName,
         displayFn: (item: TrainingProgramUser) => item.user.fullName,
       }),
       new CustomColumn({
         definition: 'date',
         title: 'TRAINING_PROGRAM.DETAILS.STARTED_ON',
         sort: true,
+        sortFn: (item: TrainingProgramUser) => item.startedOn,
         displayFn: (item: TrainingProgramUser) => moment(item.startedOn).format('D, MMM'),
       }),
     ]
@@ -115,10 +117,10 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
     });
 
     deleteDialogConfig.message = this.translateService
-                                  .instant('TRAINING_PROGRAM.DETAILS.UNASSIGN_DIALOG', {
-                                    name: trainingProgramUser.user.fullName,
-                                    programName: this.trainingProgram.name
-                                  })
+      .instant('TRAINING_PROGRAM.DETAILS.UNASSIGN_DIALOG', {
+        name: trainingProgramUser.user.fullName,
+        programName: this.trainingProgram.name
+      })
 
     var dialogRef = this.uiService.openConfirmDialog(deleteDialogConfig);
 

@@ -1,4 +1,5 @@
 @import "~@angular/material/theming";
+@import "~ngx-toastr/toastr";
 
 @mixin notifications-menu-theme($theme) {
   $primary: mat-color(map-get($theme, primary));
@@ -10,7 +11,9 @@
   $border-color: map-get($background-palette, focused-button);
   $color: map-get($background-palette, foreground);
 
-  .toast-container .ngx-toastr {
+  $toast-color: mat-color(map-get($theme, primary), darker);
+
+  .toast-notification .toast-container .ngx-toastr {
     background: darken($primary, 25%);
     // background: darken($background-color, 10%);
     color: $color !important;
@@ -26,6 +29,26 @@
       /* background-color: rgba(0,0,0,0.1); */
       opacity: 1;
     }
+  }
+
+  .toast-default {
+    @extend .ngx-toastr;
+    background-color: $toast-color;
+    border-radius: 15px;
+    // // background: darken($background-color, 10%);
+    // color: $color !important;
+
+    // border-radius: 15px;
+    // border: 0.5px solid $border-color;
+
+    // box-shadow: none;
+
+    // &:hover {
+    //   box-shadow: 0 0 12px $border-color;
+    //   cursor: pointer;
+    //   /* background-color: rgba(0,0,0,0.1); */
+    //   opacity: 1;
+    // }
   }
 
   .notifications-menu-container {
@@ -58,7 +81,6 @@
       width: 100%;
 
       .virtual-scroll-item {
-
         height: 75px;
         width: 100%;
 

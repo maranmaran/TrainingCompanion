@@ -10,7 +10,11 @@ export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = cre
 
   // CREATE
   on(ExerciseTypeActions.exerciseTypeCreated, (state: ExerciseTypeState, payload: { entity: ExerciseType }) => {
-    return adapterExerciseType.addOne(payload.entity, state);
+
+    return adapterExerciseType.addOne(payload.entity, {
+      ...state,
+      totalItems: state.totalItems + 1
+    });
   }),
 
   // UPDATE
@@ -25,7 +29,10 @@ export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = cre
 
   // DELETE
   on(ExerciseTypeActions.exerciseTypeDeleted, (state: ExerciseTypeState, payload: { id: string }) => {
-    return adapterExerciseType.removeOne(payload.id, state);
+    return adapterExerciseType.removeOne(payload.id, {
+      ...state,
+      totalItems: state.totalItems - 1
+    });
   }),
 
   // GET ALL PAGED
