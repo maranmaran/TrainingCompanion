@@ -1,0 +1,13 @@
+# stage 1
+FROM node:alpine AS build-env
+WORKDIR /app
+
+COPY ./Frontend .
+RUN npm install && npm run build
+
+EXPOSE 80
+EXPOSE 443
+
+# stage 2
+FROM nginx:alpine
+COPY --from=build-env /app/dist/ .
