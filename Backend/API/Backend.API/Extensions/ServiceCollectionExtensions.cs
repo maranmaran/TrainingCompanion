@@ -11,6 +11,7 @@ using Backend.Library.AmazonS3.Extensions;
 using Backend.Library.AmazonS3.Interfaces;
 using Backend.Library.Email.Extensions;
 using Backend.Library.Logging.Extensions;
+using Backend.Library.MediaCompression.Extensions;
 using Backend.Library.Payment.Extensions;
 using Backend.Persistance;
 using FluentValidation.AspNetCore;
@@ -36,7 +37,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Backend.Library.MediaCompression.Extensions;
 using CompressionLevel = System.IO.Compression.CompressionLevel;
 using Mappings = Backend.Business.Reports.Mappings;
 
@@ -48,13 +48,13 @@ namespace Backend.API.Extensions
         /// CORS policies
         /// </summary>
         /// <param name="services"></param>
-        public static void ConfigureCors(this IServiceCollection services)
+        public static void ConfigureCors(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddCors(opt =>
             {
                 opt.AddPolicy("AllowAllCorsPolicy",
                     builder => builder
-                        .WithOrigins("https://localhost:4200", "http://localhost:4200")
+                        .WithOrigins(configuration.GetSection("CORSAllowedOrigins").Get<string[]>())
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()

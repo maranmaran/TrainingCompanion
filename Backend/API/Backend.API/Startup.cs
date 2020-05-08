@@ -41,7 +41,7 @@ namespace Backend.API
             // application configuration CORS, Auth, Swagger, MVC, DB
             services.ConfigureDatabase(Configuration.GetConnectionString("DefaultConnection"));
             services.ConfigureJwtAuth(Configuration);
-            services.ConfigureCors();
+            services.ConfigureCors(Configuration);
             services.ConfigureMvc();
             services.ConfigureSwagger();
             services.ConfigureResponseCompression();
