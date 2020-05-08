@@ -3,10 +3,6 @@ https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-aspnetcore-3
 as per docs https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-3.1
 
 
-Docker:
-docker build -t aspnetapp .
-docker run -d -p 8080:80 --name myapp aspnetapp
-
 Errors:
 
 1)
@@ -18,3 +14,27 @@ Errors:
 
 3) 
 	Wrong behaviour: CSS Autofill is appearing on login page..
+
+
+
+
+DOCKER:
+
+Requirements 
+	docker-compose.yml file
+	Dockerfile
+
+#Make certificate
+dotnet dev-certs https --clean
+dotnet dev-certs https -ep ./certificate/https/trainingcompanion.pfx -p #GornjaSoba34a
+dotnet dev-certs https --trust
+
+
+#Run docker compose
+docker-compose down #Down and previous setup
+docker-compose up --build -d #Build and run
+docker-compose ps #check status 
+docker-compose logs -f api #logs
+
+#Get IP address of container
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
