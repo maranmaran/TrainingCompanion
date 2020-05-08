@@ -7,7 +7,7 @@ import { NotificationSignalrService } from 'src/business/services/feature-servic
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
 import { logout } from 'src/ngrx/auth/auth.actions';
-import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { currentUser, unitSystem } from 'src/ngrx/auth/auth.selectors';
 import { totalUnreadChatMessages } from 'src/ngrx/chat/chat.selectors';
 import { setTrackEditMode } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -18,6 +18,7 @@ import { UIService } from './../../../../business/services/shared/ui.service';
 import { dashboardActive } from './../../../../ngrx/dashboard/dashboard.selectors';
 import { PushNotification } from './../../../../server-models/entities/push-notification.model';
 import { AccountType } from './../../../../server-models/enums/account-type.enum';
+import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 
 @Component({
   selector: 'app-toolbar',
@@ -34,6 +35,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   ) { }
 
   subSink = new SubSink();
+
+  unitSystem$: Observable<UnitSystem>;
 
   // chat
   unreadChatMessages: Observable<number>
@@ -56,6 +59,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   dashboardActive$: Observable<boolean>;
 
+
+
   ngOnInit(): void {
 
     // set observable for main progress bar
@@ -63,6 +68,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.dashboardActive$ = this.store.select(dashboardActive);
 
     this.unreadChatMessages = this.store.select(totalUnreadChatMessages);
+
+    this.unitSystem$ = this.store.select(unitSystem);
 
     // subscribe to notifications
     // only new ones.. in real time

@@ -30,7 +30,8 @@
             ],
             "styles": [
               "src/styles/styles.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/placeholder-loading/src/scss/placeholder-loading.scss"
             ],
             "scripts": [],
             "es5BrowserSupport": true

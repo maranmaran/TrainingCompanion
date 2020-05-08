@@ -6,7 +6,7 @@ import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 
 @Component({
   selector: 'app-bodyweight-notification-body',
-  template: '<p>{{message}}</p>',
+  template: `<p><b *ngIf="showSender">{{notification.sender.fullName}}</b>{{message}}</p>`,
 })
 export class BodyweightNotificationBodyComponent implements OnInit {
 
@@ -14,12 +14,15 @@ export class BodyweightNotificationBodyComponent implements OnInit {
   @Input() unitSystem: UnitSystem;
 
   message: string;
+  showSender: boolean;
 
   constructor(
     private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.showSender = !this.notification.systemNotification;
+
     const params = {
       value: transformWeight(this.notification.entity.Value, this.unitSystem)
     }

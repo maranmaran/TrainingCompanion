@@ -5,19 +5,22 @@ import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 
 @Component({
   selector: 'app-training-notification-body',
-  template: '<p>{{message}}</p>',
+  template: `<p><b *ngIf="showSender">{{notification.sender.fullName}}</b>{{message}}</p>`,
 })
 export class TrainingNotificationBodyComponent implements OnInit {
   @Input() notification: PushNotification;
   @Input() unitSystem: UnitSystem;
 
   message: string;
+  showSender: boolean;
 
   constructor(
     private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.showSender = !this.notification.systemNotification;
+
     this.message = this.translateService.instant('NOTIFICATIONS.TRAINING_MESSAGE');
   }
 

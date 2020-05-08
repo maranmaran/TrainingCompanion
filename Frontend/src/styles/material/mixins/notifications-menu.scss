@@ -13,12 +13,14 @@
 
   $toast-color: mat-color(map-get($theme, primary), darker);
 
-  .toast-notification .toast-container .ngx-toastr {
+  .toast-notification {
+    @extend .ngx-toastr;
+
     background: darken($primary, 25%);
     // background: darken($background-color, 10%);
     color: $color !important;
 
-    border-radius: 15px;
+    border-radius: 15px !important;
     border: 0.5px solid $border-color;
 
     box-shadow: none;
@@ -33,8 +35,8 @@
 
   .toast-default {
     @extend .ngx-toastr;
-    background-color: $toast-color;
-    border-radius: 15px;
+    background-color: darken($primary, 25%);
+    border-radius: 15px !important;
     // // background: darken($background-color, 10%);
     // color: $color !important;
 

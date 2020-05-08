@@ -5,7 +5,7 @@ import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 
 @Component({
   selector: 'app-import-notification-body',
-  template: '<p>{{message}}</p>',
+  template: `<p><b *ngIf="showSender">{{notification.sender.fullName}}</b>{{message}}</p>`,
 })
 export class ImportNotificationBodyComponent implements OnInit {
 
@@ -13,13 +13,16 @@ export class ImportNotificationBodyComponent implements OnInit {
   @Input() unitSystem: UnitSystem;
 
   message: string;
+  showSender: boolean;
 
   constructor(
     private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
-    if(this.notification.entity.Success) {
+    this.showSender = !this.notification.systemNotification;
+
+    if (this.notification.entity.Success) {
       this.message = this.translateService.instant('NOTIFICATIONS.IMPORT_MESSAGE_SUCCESS');
     } else {
       this.message = this.translateService.instant('NOTIFICATIONS.IMPORT_MESSAGE_FAILURE');

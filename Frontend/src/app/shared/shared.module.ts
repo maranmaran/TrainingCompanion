@@ -46,6 +46,7 @@ import { MediaNotificationBodyComponent } from './notifications/notification-ite
 import { NoteNotificationBodyComponent } from './notifications/notification-item/body-templates/note-notification-body.component';
 import { PersonalBestNotificationBodyComponent } from './notifications/notification-item/body-templates/personal-best-notification-body.component';
 import { TrainingNotificationBodyComponent } from './notifications/notification-item/body-templates/training-notification-body.component';
+import { RepeatPipe } from 'src/business/pipes/repeat.pipe';
 
 @NgModule({
     imports: [
@@ -67,17 +68,17 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         ]),
         AvatarModule,
         ImageCropperModule,
-         // lazy loaded modules import of translate module
+        // lazy loaded modules import of translate module
         // https://github.com/ngx-translate/core#1-import-the-translatemodule
         TranslateModule.forChild({
             isolate: false,
             extend: true,
             loader: {
-              provide: TranslateLoader,
-              useFactory: HttpLoaderFactory,
-              deps: [HttpBackend]
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpBackend]
             }
-          })
+        })
     ],
     declarations: [
         MediaDialogComponent,
@@ -116,7 +117,8 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         TrainingNotificationBodyComponent,
         NoteNotificationBodyComponent,
         PersonalBestNotificationBodyComponent,
-        ImportNotificationBodyComponent
+        ImportNotificationBodyComponent,
+        RepeatPipe
     ],
     exports: [
         CommonModule,
@@ -169,7 +171,8 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         TrainingNotificationBodyComponent,
         NoteNotificationBodyComponent,
         PersonalBestNotificationBodyComponent,
-        ImportNotificationBodyComponent
+        ImportNotificationBodyComponent,
+        RepeatPipe
     ],
     providers: [
     ],

@@ -1,28 +1,53 @@
-<cdk-virtual-scroll-viewport itemSize="50" class="feed-viewport">
-  <div *cdkVirtualFor="let activity of (activities | async)" class="feed-item-container" fxLayout="column"
-    fxLayoutAlign="center center">
-    <!--WHOLE FEED ITEM-->
-    <div class="feed-item mat-elevation-z3" fxLayout="row" fxLayoutGap="1rem">
+<ng-container *ngIf="(activities | async)?.length > 0; else placeholders">
+  <cdk-virtual-scroll-viewport itemSize="50" class="feed-viewport">
+    <div *cdkVirtualFor="let activity of activities" class="feed-item-container" fxLayout="column"
+      fxLayoutAlign="center center">
+      <!--WHOLE FEED ITEM-->
+      <div class="feed-item mat-elevation-z3" fxLayout="row" fxLayoutGap="1rem">
 
-      <!--AVATAR-->
-      <img class="feed-user-avatar" [src]="activity.userAvatar"/>
+        <!--AVATAR-->
+        <img class="feed-user-avatar" [src]="activity.userAvatar" />
 
-      <!--BODY-->
-      <div class="feed-item-content" fxFlex="1 1 auto" fxLayout="column">
-        <!--DYNAMIC BODY-->
-        <ng-container [ngSwitch]="activity.type">
-          <app-media-feed-item *ngSwitchCase="activityType.MediaFile" [activity]="activity"></app-media-feed-item>
-          <app-training-feed-item *ngSwitchCase="activityType.Training" [activity]="activity"></app-training-feed-item>
-          <app-personal-best-feed-item *ngSwitchCase="activityType.PersonalBest" [activity]="activity" [unitSystem]="(unitSystem | async)"></app-personal-best-feed-item>
-          <app-bodyweight-feed-item *ngSwitchCase="activityType.Bodyweight" [activity]="activity" [unitSystem]="(unitSystem | async)"></app-bodyweight-feed-item>
-          <div class="feed-item" *ngSwitchDefault>
-            <b>{{ activity.userName + ' ' }}</b> <span [innerHtml]="activity.message | sanitizeHtml"></span>
-          </div>
-        </ng-container>
+        <!--BODY-->
+        <div class="feed-item-content" fxFlex="1 1 auto" fxLayout="column">
+          <!--DYNAMIC BODY-->
+          <ng-container [ngSwitch]="activity.type">
+            <app-media-feed-item *ngSwitchCase="activityType.MediaFile" [activity]="activity"></app-media-feed-item>
+            <app-training-feed-item *ngSwitchCase="activityType.Training" [activity]="activity">
+            </app-training-feed-item>
+            <app-personal-best-feed-item *ngSwitchCase="activityType.PersonalBest" [activity]="activity"
+              [unitSystem]="(unitSystem | async)"></app-personal-best-feed-item>
+            <app-bodyweight-feed-item *ngSwitchCase="activityType.Bodyweight" [activity]="activity"
+              [unitSystem]="(unitSystem | async)"></app-bodyweight-feed-item>
+            <div class="feed-item" *ngSwitchDefault>
+              <b>{{ activity.userName + ' ' }}</b> <span [innerHtml]="activity.message | sanitizeHtml"></span>
+            </div>
+          </ng-container>
 
-        <!--DATE FOOTER-->
-        <div class="feed-item__footer" fxFlexAlign="end"> {{ activity.date | date: 'mediumDate'}} </div>
+          <!--DATE FOOTER-->
+          <div class="feed-item__footer" fxFlexAlign="end"> {{ activity.date | date: 'mediumDate'}} </div>
+        </div>
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</ng-container>
+
+<ng-template #placeholders>
+  <div class="h-100" style="overflow-y: auto;">
+    <div *ngFor="let n of 10 | repeat" class="ph-item" style="border-radius: 15%; ">
+      <div class="ph-col-2">
+        <div class="ph-avatar"></div>
+      </div>
+      <div>
+        <div class="ph-row">
+          <div class="ph-col-10"></div>
+          <div class="ph-col-8"></div>
+          <div class="ph-col-2 empty"></div>
+          <div class="ph-col-8 empty"></div>
+          <div class="ph-col-8 empty"></div>
+          <div class="ph-col-2"></div>
+        </div>
       </div>
     </div>
   </div>
-</cdk-virtual-scroll-viewport>
+</ng-template>

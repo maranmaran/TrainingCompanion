@@ -223,8 +223,7 @@ export class ExerciseTypeCreateEditComponent implements OnInit, AfterViewInit {
 
   updateType() {
 
-    const request = new UpdateExerciseTypeRequest();
-    request.exerciseType = this.entity;
+    const request = new UpdateExerciseTypeRequest({ exerciseType: this.entity });
 
     this.typeService.update<UpdateExerciseTypeRequest, ExerciseType>(request).pipe(take(1))
       .subscribe(
