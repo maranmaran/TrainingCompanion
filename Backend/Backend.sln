@@ -70,7 +70,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{42EFE94E-133B-4835-BDFB-296338205179}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
-		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
 		entrypoint.sh = entrypoint.sh
 	EndProjectSection
