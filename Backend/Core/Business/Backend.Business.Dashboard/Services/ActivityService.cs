@@ -46,7 +46,7 @@ namespace Backend.Business.Dashboard.Services
 
         private async Task<TrainingDeserializeResult> DeserializeTraining(AuditRecord audit)
         {
-            return audit.GetData<TrainingDeserializeResult>().Entity;
+            return await Task.FromResult(audit.GetData<TrainingDeserializeResult>().Entity);
         }
 
         private async Task<MediaFileDeserializeResult> DeserializeMediaFile(AuditRecord audit)
@@ -64,12 +64,12 @@ namespace Backend.Business.Dashboard.Services
 
         private async Task<BodyweightDeserializeResult> DeserializeBodyweight(AuditRecord audit)
         {
-            return audit.GetData<BodyweightDeserializeResult>().Entity;
+            return await Task.FromResult(audit.GetData<BodyweightDeserializeResult>().Entity);
         }
 
         private async Task<PersonalBestDeserializeResult> DeserializePersonalBest(AuditRecord audit)
         {
-            return audit.GetData<PersonalBestDeserializeResult>().Entity;
+            return await Task.FromResult(audit.GetData<PersonalBestDeserializeResult>().Entity);
         }
 
     }

@@ -25,22 +25,21 @@ namespace Backend.Library.MediaCompression
 
         internal async Task<Stream> CompressImage(Stream stream, int quality = 10)
         {
-            using (var image = Image.Load(stream))
+            using var image = Image.Load(stream);
+            var encoder = new JpegEncoder()
             {
-                var encoder = new JpegEncoder()
-                {
-                    Quality = quality,
-                };
+                Quality = quality,
+            };
 
-                var result = new MemoryStream();
-                image.SaveAsJpeg(result, encoder);
+            var result = new MemoryStream();
+            image.SaveAsJpeg(result, encoder);
 
-                result.Seek(0, SeekOrigin.Begin);
-                return result;
-            }
+            result.Seek(0, SeekOrigin.Begin);
+
+            return await Task.FromResult(result);
         }
 
-        internal async Task<Stream> CompressVideo(Stream stream)
+        internal Task<Stream> CompressVideo(Stream stream)
         {
             throw new NotImplementedException();
         }

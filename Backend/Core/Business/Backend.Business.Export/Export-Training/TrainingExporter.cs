@@ -3,7 +3,6 @@ using Backend.Common;
 using Backend.Common.Extensions;
 using Backend.Domain.Entities.User;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
@@ -135,8 +134,10 @@ namespace Backend.Business.Export
             table.HeaderRowCellStyle = styles.HeaderStyle.Name;
 
             table.ShowTotal = true;
-            table.Columns[Columns.IndexOf("Volume")].TotalsRowLabel = "Total Volume";
-            table.Columns[Index: Columns.IndexOf("Volume")].TotalsRowFunction = RowFunctions.Sum;
+
+            var index = Columns.ToList().IndexOf("Volume");
+            table.Columns[index].TotalsRowLabel = "Total Volume";
+            table.Columns[index].TotalsRowFunction = RowFunctions.Sum;
         }
 
 

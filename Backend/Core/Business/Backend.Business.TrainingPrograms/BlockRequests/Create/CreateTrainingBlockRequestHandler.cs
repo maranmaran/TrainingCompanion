@@ -59,7 +59,7 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Create
             }
             entity.Days = days;
 
-            return entity;
+            return await Task.FromResult(entity);
         }
     }
 }
