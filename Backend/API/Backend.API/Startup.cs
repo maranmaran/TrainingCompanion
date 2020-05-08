@@ -65,6 +65,10 @@ namespace Backend.API
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+
+            // ===== Require HTTPS =====
+            app.UseHttpsRedirection();
+
             // https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-3.0&tabs=visual-studio
             app.UseRouting();
 
@@ -96,8 +100,10 @@ namespace Backend.API
             // ===== Payment api configuration - Stripe.com =====
             StripeConfiguration.ApiKey = Configuration["StripeSettings:SecretKey"];
 
-            // ===== Authentication  =====
+            // ===== Global error handling middleware with logging =====
             app.UseMiddleware<GlobalExceptionMiddleware>();
+
+            // ===== Authentication  =====
             app.UseMiddleware<JwtToAuthHeaderMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -112,9 +118,8 @@ namespace Backend.API
                 endpoints.MapHub<ChatHub>("/api/chat-hub");
             });
 
-            // ===== Global error handling middleware with logging =====
-            app.UseHttpsRedirection();
 
+            // =====  AUDITING ON DATABASE =====
             app.ApplicationServices.ConfigureAuditEfCore();
         }
     }
