@@ -47,10 +47,10 @@ export class TracksComponent implements OnInit {
   ngOnInit(): void {
     this.editMode = this.store.select(trackEditMode);
 
-    // TODO: use resolver for this
-    this.store.select(currentUserId).pipe(take(1)).subscribe(id => {
-      this.dashboardService.getUserTracks(id);
-    });
+    // // TODO: use resolver for this
+    // this.store.select(currentUserId).pipe(take(1)).subscribe(id => {
+    //   this.dashboardService.getUserTracks(id);
+    // });
 
     this.tracks = this.store.select(tracks);
   }

@@ -223,7 +223,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
       this.store.select(currentUserId),
       this.store.select(isMobile)
     ).pipe(
-      distinctUntilChanged((a, b) => a[1] == b[1]), // we fetch new data only for updated unit system
+      distinctUntilChanged((a, b) => JSON.stringify(a) == JSON.stringify(b)), // we fetch new data only for updated unit system
       shareReplay(),
       publish(),
     );

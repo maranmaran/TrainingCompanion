@@ -20,6 +20,7 @@ import { TrackItemsSidebarComponent } from './dashboard-home/tracks/track-items-
 import { TracksComponent } from './dashboard-home/tracks/tracks.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardOutletDirective } from './directives/dashboard-outlet.directive';
+import { TracksResolver } from 'src/business/resolvers/dashboard-tracks.resolver';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { DashboardOutletDirective } from './directives/dashboard-outlet.directiv
     providers: [
         FeedResolver,
         ExerciseTypesResolver,
-        ExerciseTypeService
+        ExerciseTypeService,
+        TracksResolver
     ],
     entryComponents: [
     ]
