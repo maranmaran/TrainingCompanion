@@ -3,6 +3,7 @@
   <!--ACTIONS AND INPUTS-->
   <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem" fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
 
+    <!-- EXERCISE TYPE AUTOCOMPLETE -->
     <mat-form-field fxFlexOrder.lt-md="2" fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
       <input matInput placeholder="{{'DASHBOARD.CARDS.VOLUME_CARD.EXERCISE_TYPE' | translate}}" [matAutocomplete]="auto"
         [formControl]="exerciseType">
@@ -18,7 +19,21 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <span fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxLayout="row" fxLayoutGap="0.25rem">
+    <!-- FIXED DATE SPANS (1 week, 1 month, 3 month, 5 month)-->
+    <mat-form-field *ngIf="useFixedDateSpans" fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxFlex.lt-md="100%">
+      <mat-select [formControl]="dateSpan">
+        <mat-select-trigger>
+          {{ dateSpan.value?.label }}
+        </mat-select-trigger>
+        <mat-option *ngFor="let dateSpan of dateSpans" [value]="dateSpan">
+          {{ dateSpan.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- CONFIGURABLE DATE FROM AND DATE TO INTERVALS -->
+    <span *ngIf="!useFixedDateSpans" fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxLayout="row"
+      fxLayoutGap="0.25rem">
       <mat-form-field fxFlex="calc(50% - 0.25rem)">
 
         <mat-label>{{'SHARED.FROM' | translate}}: </mat-label>
