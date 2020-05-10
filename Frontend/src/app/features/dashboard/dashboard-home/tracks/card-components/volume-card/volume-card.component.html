@@ -19,40 +19,42 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <!-- FIXED DATE SPANS (1 week, 1 month, 3 month, 5 month)-->
-    <mat-form-field *ngIf="useFixedDateSpans" fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxFlex.lt-md="100%">
-      <mat-select [formControl]="dateSpan">
-        <mat-select-trigger>
-          {{ dateSpan.value?.label }}
-        </mat-select-trigger>
-        <mat-option *ngFor="let dateSpan of dateSpans" [value]="dateSpan">
-          {{ dateSpan.label }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxFlex.lt-md="100%" fxLayoutGap="0.25rem">
 
-    <!-- CONFIGURABLE DATE FROM AND DATE TO INTERVALS -->
-    <span *ngIf="!useFixedDateSpans" fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxLayout="row"
-      fxLayoutGap="0.25rem">
-      <mat-form-field fxFlex="calc(50% - 0.25rem)">
-
-        <mat-label>{{'SHARED.FROM' | translate}}: </mat-label>
-        <input matInput [matDatepicker]="datepicker1" formControlName="dateFrom">
-
-        <mat-datepicker-toggle matSuffix [for]="datepicker1">
-        </mat-datepicker-toggle>
-        <mat-datepicker [touchUi]="isMobile" #datepicker1></mat-datepicker>
+      <!-- FIXED DATE SPANS (1 week, 1 month, 3 month, 5 month)-->
+      <mat-form-field *ngIf="useFixedDateSpans; else nonFixedIntervals">
+        <mat-select [formControl]="dateSpan">
+          <mat-select-trigger>
+            {{ dateSpan.value?.label }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let dateSpan of dateSpans" [value]="dateSpan">
+            {{ dateSpan.label }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
-      <mat-form-field fxFlex="calc(50% - 0.25rem)">
-        <mat-label>{{'SHARED.TO' | translate}}: </mat-label>
-        <input matInput [matDatepicker]="datepicker2" formControlName="dateTo">
+      <!-- CONFIGURABLE DATE FROM AND DATE TO INTERVALS -->
+      <ng-template #nonFixedIntervals>
+        <mat-form-field fxFlex="calc(50% - 0.25rem)">
 
-        <mat-datepicker-toggle matSuffix [for]="datepicker2">
-        </mat-datepicker-toggle>
-        <mat-datepicker [touchUi]="isMobile" #datepicker2></mat-datepicker>
-      </mat-form-field>
-    </span>
+          <mat-label>{{'SHARED.FROM' | translate}}: </mat-label>
+          <input matInput [matDatepicker]="datepicker1" formControlName="dateFrom">
+
+          <mat-datepicker-toggle matSuffix [for]="datepicker1">
+          </mat-datepicker-toggle>
+          <mat-datepicker [touchUi]="isMobile" #datepicker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="calc(50% - 0.25rem)">
+          <mat-label>{{'SHARED.TO' | translate}}: </mat-label>
+          <input matInput [matDatepicker]="datepicker2" formControlName="dateTo">
+
+          <mat-datepicker-toggle matSuffix [for]="datepicker2">
+          </mat-datepicker-toggle>
+          <mat-datepicker [touchUi]="isMobile" #datepicker2></mat-datepicker>
+        </mat-form-field>
+      </ng-template>
+    </div>
 
   </form>
   <div id="tags" *ngIf="exerciseType && exerciseType.value">
