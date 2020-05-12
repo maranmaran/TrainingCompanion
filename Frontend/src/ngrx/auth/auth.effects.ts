@@ -1,3 +1,4 @@
+import { setSelectedTraining } from './../training-log/training.actions';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -25,7 +26,7 @@ export class AuthEffects {
     private store: Store<AppState>,
     private authService: AuthService,
     private userService: UserService
-  ) {}
+  ) { }
 
   login$ = createEffect(
     () =>
@@ -60,7 +61,7 @@ export class AuthEffects {
         tap(
           (response: { currentUser: CurrentUser; navigationSuccess: boolean; }) => {
             if (response.navigationSuccess) {
-              this.store.dispatch(setLanguage({language: response.currentUser.userSetting.language }))
+              this.store.dispatch(setLanguage({ language: response.currentUser.userSetting.language }))
               this.store.dispatch(switchTheme({ theme: response.currentUser.userSetting.theme }));
               this.store.dispatch(enableErrorDialogs());
             }
@@ -79,7 +80,7 @@ export class AuthEffects {
           localStorage.removeItem('id');
           this.cookieService.delete('jwt');
           this.router.navigate(['/auth/login']).then(
-            _ =>  {
+            _ => {
               this.store.dispatch(AuthActions.logoutClearState())
             }
           );
@@ -101,13 +102,22 @@ export class AuthEffects {
     { dispatch: false }
   );
 
+  viewAsSet$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.setViewAs),
+        tap(_ => this.store.dispatch(setSelectedTraining({ entity: null })))
+      ),
+    { dispatch: false }
+  );
+
   updateCurrentUser$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.updateCurrentUser),
         tap((currentUser: CurrentUser) => {
           this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }));
-          this.store.dispatch(setLanguage({language: currentUser.userSetting.language }))
+          this.store.dispatch(setLanguage({ language: currentUser.userSetting.language }))
           this.store.dispatch(switchTheme({ theme: currentUser.userSetting.theme }));
         })
       ),

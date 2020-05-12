@@ -99,7 +99,8 @@ namespace Backend.Business.TrainingPrograms.Services
                 ApplicationUserId = user.Id,
                 DateTrained = dateTrained,
                 Exercises = new List<Exercise>(),
-                TrainingProgramId = programId
+                TrainingProgramId = programId,
+                TrainingBlockDayId = dayId
             };
 
 

@@ -1,7 +1,8 @@
+import { Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -23,6 +24,7 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private trainingService: TrainingService,
+    private router: Router
   ) { }
 
 
@@ -36,7 +38,16 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
 
     this.subs.add(
       this.store.select(selectedTraining)
-      .subscribe(training => this.training = training)
+        .pipe(tap(training => {
+          // if we didnt' get training go back to log..
+          // this can be case for view as
+          // coach has trigger view-as and this selected training is now null because we clear it.. go back to log
+          // and fetch only trainings from athlete we are viewing now
+          if (!training) {
+            this.router.navigate(['/app/training-log']);
+          }
+        }))
+        .subscribe(training => this.training = training)
     );
 
   }
@@ -80,7 +91,7 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
             }
           };
 
-          this.store.dispatch(trainingUpdated({entity: trainingUpdate}));
+          this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
         },
         err => console.log(err)
       );

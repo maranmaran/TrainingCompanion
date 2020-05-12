@@ -1,12 +1,18 @@
-<h3 class="title"><b>{{ training.dateTrained | date:'dd MMM' }},  {{ training.dateTrained | applyTimezone}} ({{ training.dateTrained | date: 'dd/MM/yy'}})</b></h3>
-
-
 <div class="container main-screen">
+
+  <div fxHide fxShow.xs>
+    <ng-container *ngTemplateOutlet="header, context: { training: training }"></ng-container>
+  </div>
 
   <div class="section-one" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="0.5rem" fxLayout.lt-md="column"
     fxLayoutAlign.lt-md="start" fxLayoutGap.lt-md="1rem">
-    <div class="training-details-container details-container" fxFlex="1 1 calc(50% - 0.5rem)" fxFlex.lt-md="0 1 auto"
-      fxFlexOrder.xs="2" fxLayout="column" fxLayoutGap="1rem">
+
+    <div id="training-col-left" class="training-details-container details-container" fxFlex="1 1 calc(50% - 0.5rem)"
+      fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="2" fxLayout="column" fxLayoutGap="1rem">
+
+      <div fxShow fxHide.xs>
+        <ng-container *ngTemplateOutlet="header, context: { training: training }"></ng-container>
+      </div>
 
       <app-training-details-data></app-training-details-data>
 
@@ -21,15 +27,30 @@
 
       </mat-accordion>
 
-
     </div>
 
-    <app-exercise-list fxFlex="1 1 calc(50% - 0.5rem)" fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="1"></app-exercise-list>
+    <app-exercise-list id="training-col-right" fxFlex="1 1 calc(50% - 0.5rem)" fxFlex.lt-md="0 1 auto"
+      fxFlexOrder.xs="1"></app-exercise-list>
 
   </div>
 
   <div class="mb-5">
-    <app-training-metrics *ngIf="training.exercises && training.exercises.length > 0" class="mt-3"></app-training-metrics>
+    <app-training-metrics *ngIf="training.exercises && training.exercises.length > 0" class="mt-3">
+    </app-training-metrics>
   </div>
 
 </div>
+
+<ng-template #header let-training="training">
+  <div class="training-header" fxLayout="column" fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-between">
+    <h3 *ngIf="training.trainingProgram" class="title bold">
+      {{ training.trainingProgram?.name }} ({{'TRAINING_BLOCK_DAY.DAY_LABEL' | translate }}
+      {{ training.trainingBlockDay?.order }})
+    </h3>
+
+    <h3 class="title" [ngClass]="{'smaller': training.trainingProgram, 'bold': !training.trainingProgram }">
+      {{ training.dateTrained | date:'dd MMM' }}, {{ training.dateTrained | applyTimezone}}
+      <!-- ({{ training.dateTrained | date: 'dd/MM/yy'}}) -->
+    </h3>
+  </div>
+</ng-template>

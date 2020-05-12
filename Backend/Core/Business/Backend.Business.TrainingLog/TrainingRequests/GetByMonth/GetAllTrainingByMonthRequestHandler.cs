@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Backend.Domain;
+using Backend.Infrastructure.Exceptions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain;
-using Backend.Infrastructure.Exceptions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.GetByMonth
 {
@@ -24,6 +24,9 @@ namespace Backend.Business.TrainingLog.TrainingRequests.GetByMonth
             try
             {
                 var trainings = await _context.Trainings
+                    
+                    .Include(x => x.TrainingProgram)
+                    .Include(x => x.TrainingBlockDay)
 
                     .Include(x => x.Media)
 

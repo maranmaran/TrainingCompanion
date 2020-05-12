@@ -61,12 +61,13 @@ export class TypesListComponent implements OnInit, OnDestroy {
 
   getTableConfig() {
     const tableConfig = new TableConfig({
-      filterFunction:  (data: TagGroup, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1,
+      filterFunction: (data: TagGroup, filter: string) => data.type.toLocaleLowerCase().indexOf(filter) !== -1,
       enableDragAndDrop: true,
       pagingOptions: new TablePagingOptions({
         pageSizeOptions: [5]
       }),
-      cellActions: [TableAction.update, TableAction.delete]
+      cellActions: [TableAction.update, TableAction.delete],
+      selectionEnabled: false
     });
 
     this.store.select(tagGroupCount).pipe(take(1)).subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)
@@ -128,23 +129,23 @@ export class TypesListComponent implements OnInit, OnDestroy {
       this.store.select(tagGroupCount).pipe(take(1)),
       this.store.select(currentUserId).pipe(take(1))
     )
-    .pipe(map(([count, userId]) => {
+      .pipe(map(([count, userId]) => {
         const newTagGroup = new TagGroup();
         newTagGroup.order = count;
         newTagGroup.applicationUserId = userId;
         return newTagGroup;
-    })).subscribe(group => {
-      const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
-        height: 'auto',
-        width: '98%',
-        maxWidth: '20rem',
-        autoFocus: false,
-        data: { title: 'TAGS.ADD_TYPE', action: CRUD.Create, tagGroup: group},
-        panelClass: []
-      })
+      })).subscribe(group => {
+        const dialogRef = this.uiService.openDialogFromComponent(TypesCreateEditComponent, {
+          height: 'auto',
+          width: '98%',
+          maxWidth: '20rem',
+          autoFocus: false,
+          data: { title: 'TAGS.ADD_TYPE', action: CRUD.Create, tagGroup: group },
+          panelClass: []
+        })
 
-      dialogRef.afterClosed().pipe(take(1)).subscribe((tagGroup: TagGroup) => this.postCreateUpdate(tagGroup));
-    });
+        dialogRef.afterClosed().pipe(take(1)).subscribe((tagGroup: TagGroup) => this.postCreateUpdate(tagGroup));
+      });
   }
 
   onUpdate(tagGroup: TagGroup) {
