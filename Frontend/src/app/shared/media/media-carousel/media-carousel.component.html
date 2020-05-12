@@ -1,3 +1,7 @@
+<button class="float-right pointer mb-1" mat-icon-button color="'accent'" (click)="onClose()">
+    <i class="fas fa-times"></i>
+</button>
+
 <ngu-carousel #carousel [inputs]="carouselConfig" [dataSource]="carouselItems">
     <div *nguCarouselDef="let data;" class="item">
 
@@ -27,17 +31,17 @@
 
         </ng-container>
 
-        <button fxHide #prevBtn NguCarouselPrev class="leftRs" mat-fab [color]="'primary'"><i
+        <button fxHide #prevBtn NguCarouselPrev class="leftRs" mat-fab [color]="'accent"><i
                 class="fas fa-chevron-left fa-1-2x"></i></button>
 
-        <button fxHide #nextBtn NguCarouselNext class="rightRs" mat-fab [color]="'primary'"><i
+        <button fxHide #nextBtn NguCarouselNext class="rightRs" mat-fab [color]="'accent'"><i
                 class="fas fa-chevron-right fa-1-2x"></i></button>
 
     </div>
 </ngu-carousel>
 
 <div class="actions_footer" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-    <button class="leftRs" mat-fab [color]="'primary'" (click)="previous()"><i
+    <button class="leftRs" mat-fab [color]="'accent'" (click)="previous()"><i
             class="fas fa-chevron-left fa-1-2x"></i></button>
 
     <ul class="myPoint" NguCarouselPoint>
@@ -45,6 +49,6 @@
             (click)="carousel.moveTo(j)"></li>
     </ul>
 
-    <button NguCarouselNext class="rightRs" mat-fab [color]="'primary'" (click)="next()"><i
+    <button NguCarouselNext class="rightRs" mat-fab [color]="'accent'" (click)="next()"><i
             class=" fas fa-chevron-right fa-1-2x"></i></button>
 </div>

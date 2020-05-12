@@ -31,6 +31,11 @@
   //   box-sizing: border-box;
   //   max-width: 14%;
 
+  .media-carousel-container {
+    display: flex;
+    flex-direction: column;
+  }
+
   .days-carousel__days {
     justify-items: center;
     align-items: center;

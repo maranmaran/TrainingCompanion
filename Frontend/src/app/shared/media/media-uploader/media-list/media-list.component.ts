@@ -32,7 +32,7 @@ export class MediaListComponent implements OnInit {
       maxHeight: '40rem',
       autoFocus: false,
       data: { media: this.mediaList, selectedMedia: media, index },
-      panelClass: 'media-dialog-container'
+      panelClass: 'media-carousel-container'
     });
   }
 
