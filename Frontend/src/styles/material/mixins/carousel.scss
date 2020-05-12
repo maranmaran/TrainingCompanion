@@ -52,6 +52,15 @@
     }
   }
 
+  .leftRs,
+  .rightRs {
+    &.mat-fab {
+      .mat-button-wrapper {
+        padding: 0;
+      }
+    }
+  }
+
   // }
 
   @media (max-width: 600px) {

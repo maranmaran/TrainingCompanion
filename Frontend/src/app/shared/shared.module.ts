@@ -1,3 +1,4 @@
+import { MediaCarouselComponent } from './media/media-carousel/media-carousel.component';
 import { CommonModule } from '@angular/common';
 import { HttpBackend } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -47,6 +48,7 @@ import { NoteNotificationBodyComponent } from './notifications/notification-item
 import { PersonalBestNotificationBodyComponent } from './notifications/notification-item/body-templates/personal-best-notification-body.component';
 import { TrainingNotificationBodyComponent } from './notifications/notification-item/body-templates/training-notification-body.component';
 import { RepeatPipe } from 'src/business/pipes/repeat.pipe';
+import { NguCarouselModule } from '@ngu/carousel';
 
 @NgModule({
     imports: [
@@ -78,7 +80,8 @@ import { RepeatPipe } from 'src/business/pipes/repeat.pipe';
                 useFactory: HttpLoaderFactory,
                 deps: [HttpBackend]
             }
-        })
+        }),
+        NguCarouselModule
     ],
     declarations: [
         MediaDialogComponent,
@@ -118,7 +121,8 @@ import { RepeatPipe } from 'src/business/pipes/repeat.pipe';
         NoteNotificationBodyComponent,
         PersonalBestNotificationBodyComponent,
         ImportNotificationBodyComponent,
-        RepeatPipe
+        RepeatPipe,
+        MediaCarouselComponent
     ],
     exports: [
         CommonModule,
@@ -172,7 +176,8 @@ import { RepeatPipe } from 'src/business/pipes/repeat.pipe';
         NoteNotificationBodyComponent,
         PersonalBestNotificationBodyComponent,
         ImportNotificationBodyComponent,
-        RepeatPipe
+        RepeatPipe,
+        MediaCarouselComponent
     ],
     providers: [
     ],

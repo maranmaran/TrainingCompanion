@@ -1,20 +1,20 @@
-<div fxLayout="row wrap" fxLayoutAlign="flex-start space-evenly" >
+<div fxLayout="row wrap" fxLayoutAlign="flex-start space-evenly">
 
-  <ng-container *ngFor="let media of mediaList">
+  <ng-container *ngFor="let media of mediaList; let i = index">
 
     <div *ngIf="media.type === 'Image'" class="image-container" fxLayout="row" fxLayoutAlign="center center"
-       fxFlexAlign="center" (click)="enlargeImage(media)" fxFlex="1 1 25%">
+      fxFlexAlign="center" (click)="enlargeCarousel(media, i)" fxFlex="1 1 25%">
 
       <img class="img-fluid" src="{{ media.downloadUrl }}" appMaterialElevation raisedElevation="16" />
 
-      </div>
+    </div>
 
     <div *ngIf="media.type === 'Video'" class="video-container" fxLayout="row" fxLayoutAlign="center center"
-       fxFlexAlign="center" (click)="enlargeVideo(media)">
+      fxFlexAlign="center" (click)="enlargeCarousel(media, i)">
 
       <video appMaterialElevation raisedElevation="16">
         <source src="{{media.downloadUrl}}" type="video/mp4">
-{{'SHARED.VIDEO_NOT_SUPPORTED' | translate}}      </video>
+        {{'SHARED.VIDEO_NOT_SUPPORTED' | translate}} </video>
 
     </div>
 
@@ -22,7 +22,8 @@
 
 
   <span class="input-wrapper" fxFlex="1 1 25%">
-    <ng-content id="upload-input"></ng-content> <!--located inside parent-->
+    <ng-content id="upload-input"></ng-content>
+    <!--located inside parent-->
   </span>
 
 </div>

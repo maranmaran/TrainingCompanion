@@ -1,3 +1,4 @@
+import { MediaCarouselComponent } from './../../media-carousel/media-carousel.component';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
@@ -23,6 +24,18 @@ export class MediaListComponent implements OnInit {
     // console.log(this.uploadInput);
   }
 
+  enlargeCarousel(media: MediaFile, index: number) {
+    this.dialog.open(MediaCarouselComponent, {
+      height: 'auto',
+      width: 'auto',
+      maxWidth: '58rem',
+      maxHeight: '40rem',
+      autoFocus: false,
+      data: { media: this.mediaList, selectedMedia: media, index },
+      panelClass: 'media-dialog-container'
+    });
+  }
+
   enlargeVideo(video: MediaFile) {
     this.dialog.open(MediaDialogComponent, {
       height: 'auto',
@@ -45,6 +58,6 @@ export class MediaListComponent implements OnInit {
       data: { type: image.type, sourceUrl: image.downloadUrl },
       panelClass: 'media-dialog-container'
     });
-}
+  }
 
 }
