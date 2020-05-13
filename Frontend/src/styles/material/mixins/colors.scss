@@ -156,4 +156,8 @@
   .theme-text-foreground-reversed {
     color: $theme-text-reversed;
   }
+
+  .accent-border {
+    border-color: $accent-default !important;
+  }
 }

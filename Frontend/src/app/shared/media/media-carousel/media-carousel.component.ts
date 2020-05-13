@@ -31,7 +31,7 @@ export class MediaCarouselComponent implements OnInit, AfterViewInit {
   @ViewChild('prevBtn', { read: ElementRef }) prevBtn: ElementRef;
   @ViewChild('nextBtn', { read: ElementRef }) nextBtn: ElementRef;
   @HostListener('document:keydown.ArrowRight', ['$event']) keyRight = () => this.next();
-  @HostListener('document:keydown.Space', ['$event']) keySpace = () => this.previous();
+  @HostListener('document:keydown.ArrowLeft', ['$event']) keyLeft = () => this.previous();
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -56,11 +56,11 @@ export class MediaCarouselComponent implements OnInit, AfterViewInit {
     this.dialogRef.close();
   }
 
-  previous() {
+  previous(event = null) {
     this.prevBtn.nativeElement.click();
   }
 
-  next() {
+  next(event = null) {
     this.nextBtn.nativeElement.click();
   }
 }

@@ -1,16 +1,16 @@
 .item {
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     box-sizing: border-box;
-    margin-top: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .tile {
-    background-color: #ccc;
-    background-size: cover !important;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    // background-color: #ccc;
+    // background-size: cover !important;
+    // box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,11 +50,17 @@
     transition: 0.4s;
 }
 .myPoint li.active {
-    background: #6b6b6b;
     transform: scale(1.2);
 }
 
 img,
 video {
     max-height: 33rem;
+}
+
+@media (max-width: 600px) {
+    img,
+    video {
+        max-height: 26rem;
+    }
 }
