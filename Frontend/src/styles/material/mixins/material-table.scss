@@ -4,10 +4,13 @@
   $background-palette: map-get($theme, background);
   $highlight: map-get($background-palette, hover);
 
+  .highlighted-row {
+    background-color: rgba($highlight, 0.1) !important;
+    cursor: pointer;
+  }
+
   .theme-material-table {
-
     mat-table {
-
       // min-height: 302px; // height of 5 rows
 
       .mat-column-select {

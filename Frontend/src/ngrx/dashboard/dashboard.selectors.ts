@@ -22,6 +22,10 @@ export const activities = createSelector(
   selectDashboardState,
   (dashboardState: DashboardState) => dashboardState.activities
 )
+export const userActivities = createSelector(
+  selectDashboardState,
+  (dashboardState: DashboardState) => dashboardState.userActivities
+)
 export const dashboardActive = createSelector(
   selectDashboardState,
   (dashboardState: DashboardState) => dashboardState?.dashboardActive

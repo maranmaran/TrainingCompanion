@@ -1,3 +1,4 @@
+import { UserActivitiesContainer } from './../../app/features/dashboard/models/activity.model';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -13,11 +14,11 @@ import { isEmpty } from '../utils/utils';
 import { bodyweightFetched } from './../../ngrx/bodyweight/bodyweight.actions';
 import { Activity } from 'src/app/features/dashboard/models/activity.model';
 import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
-import { activities } from 'src/ngrx/dashboard/dashboard.selectors';
-import { activitiesFetched } from 'src/ngrx/dashboard/dashboard.actions';
+import { activities, userActivities } from 'src/ngrx/dashboard/dashboard.selectors';
+import { activitiesFetched, groupedActivitiesFetched } from 'src/ngrx/dashboard/dashboard.actions';
 
 @Injectable()
-export class FeedResolver implements Resolve<Observable<Activity[] | void>> {
+export class FeedResolver implements Resolve<Observable<UserActivitiesContainer[] | void>> {
 
   constructor(
     private dashboardService: DashboardService,
@@ -39,25 +40,26 @@ export class FeedResolver implements Resolve<Observable<Activity[] | void>> {
   private getState(userId: string) {
 
     return this.store
-      .select(activities)
+      .select(userActivities)
       .pipe(
         take(1),
-        concatMap((activities: Activity[]) => {
+        concatMap((userActivities: UserActivitiesContainer[]) => {
 
-          if (isEmpty(activities)) {
+          if (isEmpty(userActivities)) {
             return this.updateState(userId);
           }
 
-          return of(activities);
+          return of(userActivities);
         }));
   }
 
   private updateState(userId: string) {
 
-    return this.dashboardService.getFeed(userId)
-    .pipe(
+    // return this.dashboardService.getFeed(userId)
+    return this.dashboardService.getFeedGroupedByUser(userId)
+      .pipe(
         take(1),
-        map((entities: Activity[]) => this.store.dispatch(activitiesFetched({activities: entities})))
-    )
+        map((entities: UserActivitiesContainer[]) => this.store.dispatch(groupedActivitiesFetched({ userActivities: entities })))
+      )
   }
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Activity } from 'src/app/features/dashboard/models/activity.model';
+import { Activity, BasicActivityInfo, BasicUserInfo } from 'src/app/features/dashboard/models/activity.model';
 
 @Component({
   selector: 'app-training-feed-item',
@@ -8,7 +8,8 @@ import { Activity } from 'src/app/features/dashboard/models/activity.model';
 })
 export class TrainingFeedItemComponent implements OnInit {
 
-  @Input() activity: Activity;
+  @Input() activity: BasicActivityInfo;
+  @Input() user: BasicUserInfo;
   message: string;
 
   constructor(
@@ -17,7 +18,7 @@ export class TrainingFeedItemComponent implements OnInit {
 
   ngOnInit(): void {
     const params = {
-      username: this.activity.userName,
+      username: this.user.userName,
     };
 
     this.message = this.translateService.instant('DASHBOARD.FEED.TRAINING_MESSAGE', params);

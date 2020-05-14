@@ -19,5 +19,6 @@ namespace Backend.Domain.Entities.Auditing
         public string Action { get; set; }
         public Guid UserId { get; set; }
         public DateTime Date { get; set; }
+        public bool Seen { get; set; }
     }
 }

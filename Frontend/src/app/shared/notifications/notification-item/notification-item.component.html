@@ -6,6 +6,7 @@
     <app-notification-type-icon name="image" *ngIf="model.systemNotification" [notificationType]="model.type"
       [entity]="model.entity"></app-notification-type-icon>
   </div>
+
   <div class="notification-body-container" fxLayout="column" fxFlex="1 1 100%">
     <div id="payload" fxFlex="0 0 70%" fxLayout="row" fxLayoutGap="4px">
       <ng-container [ngSwitch]="model.type">

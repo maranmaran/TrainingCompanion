@@ -1,3 +1,4 @@
+import { UserActivitiesContainer } from './../models/activity.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Store } from '@ngrx/store';
@@ -28,6 +29,16 @@ export class DashboardService extends BaseService {
 
   getFeed(userId: string) {
     return this.http.get<Activity[]>(this.url + 'GetFeed/' + userId)
+      .pipe(catchError(this.handleError));
+  }
+
+  getFeedGroupedByUser(userId: string) {
+    return this.http.get<UserActivitiesContainer[]>(this.url + 'GetFeedGroupedByUser/' + userId)
+      .pipe(catchError(this.handleError));
+  }
+
+  activitySeen(activityId: string) {
+    return this.http.get(this.url + 'ActivitySeen/' + activityId)
       .pipe(catchError(this.handleError));
   }
 

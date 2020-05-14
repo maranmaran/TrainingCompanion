@@ -1,3 +1,4 @@
+import { UserActivitiesContainer } from './../../app/features/dashboard/models/activity.model';
 import { Activity } from 'src/app/features/dashboard/models/activity.model';
 import { Track } from 'src/server-models/entities/track.model';
 
@@ -7,6 +8,7 @@ export interface DashboardState {
   tracks: Track[],
   activities: Activity[],
   dashboardActive: boolean;
+  userActivities: UserActivitiesContainer[]
 }
 
 export const initialDashboardState: DashboardState = {
@@ -15,4 +17,5 @@ export const initialDashboardState: DashboardState = {
   tracks: [],
   activities: [],
   dashboardActive: false,
+  userActivities: []
 };

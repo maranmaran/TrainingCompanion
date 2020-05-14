@@ -1,7 +1,7 @@
 <div class="container" fxLayout="column" fxLayoutAlign="center center">
 
   <div id="login-header">
-    <img class="img-fluid" src="../../../../assets/images/compressed/logo-transparent.png">
+    <img class="img-fluid" src="./../../../../assets/images/compressed/logo-transparent.png">
   </div>
 
   <div id="login-form">
@@ -14,10 +14,11 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input #passwordInput matInput formControlName="password" autocomplete="current-password"
-               class="form-control" id="password" placeholder="{{ 'AUTHORIZATION.PASSWORD' | translate }}">
+        <input #passwordInput matInput formControlName="password" autocomplete="current-password" class="form-control"
+          id="password" placeholder="{{ 'AUTHORIZATION.PASSWORD' | translate }}">
 
-        <button type="button" mat-icon-button matSuffix showHidePassword [passwordInput]="passwordInput" [passwordIcon]="passwordIcon">
+        <button type="button" mat-icon-button matSuffix showHidePassword [passwordInput]="passwordInput"
+          [passwordIcon]="passwordIcon">
           <i #passwordIcon class="fas"></i>
         </button>
       </mat-form-field>

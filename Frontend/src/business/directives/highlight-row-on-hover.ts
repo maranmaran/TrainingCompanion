@@ -1,7 +1,7 @@
-import { Directive, ElementRef, HostListener, Input, Renderer2, OnChanges, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer2, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 
 @Directive({
-  selector: '[highlightOnHover]'
+  selector: '[highlightOnHover]',
 })
 export class HighlightRowOnHover {
 
@@ -18,7 +18,7 @@ export class HighlightRowOnHover {
   onMouseEnter() {
     this.setHighlightBackground();
   }
-  
+
   setHighlightBackground() {
     // add highlight class
     this.renderer.addClass(this.element.nativeElement, this.highlightClass);
