@@ -37,8 +37,8 @@ export class DashboardService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
-  activitySeen(activityId: string) {
-    return this.http.get(this.url + 'ActivitySeen/' + activityId)
+  activitySeen(userId: string, activityId: string) {
+    return this.http.get(this.url + 'ActivitySeen/' + userId + '/' + activityId)
       .pipe(catchError(this.handleError));
   }
 

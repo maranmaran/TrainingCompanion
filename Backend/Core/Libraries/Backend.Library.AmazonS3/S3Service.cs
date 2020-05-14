@@ -140,7 +140,7 @@ namespace Backend.Library.AmazonS3
 
             Thread.CurrentThread.CurrentCulture = enCulture;
 
-            var dt = DateTime.Now.AddDays(7); // get date
+            var dt = DateTime.UtcNow.AddDays(7); // get date
             Thread.CurrentThread.CurrentCulture = oldCulture; // return culture
 
             return dt; // return date

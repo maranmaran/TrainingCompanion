@@ -14,6 +14,7 @@ import { PushNotification } from 'src/server-models/entities/push-notification.m
 import { SubSink } from 'subsink';
 import { NotificationType } from './../../../server-models/enums/notification-type.enum';
 import { AuthService } from './auth.service';
+import { not } from '@angular/compiler/src/output/output_ast';
 
 
 @Injectable()
@@ -63,6 +64,7 @@ export class NotificationSignalrService implements OnDestroy {
 
   // do some specific work based on the received notification type
   doWork(notification: PushNotification) {
+    console.log(notification);
     notification.entity = JSON.parse(notification.jsonEntity);
     // switch(notification.type) {
     // }

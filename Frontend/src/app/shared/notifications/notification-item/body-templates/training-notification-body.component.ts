@@ -2,12 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PushNotification } from 'src/server-models/entities/push-notification.model';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { BasicUserInfo } from 'src/app/features/dashboard/models/activity.model';
 
 @Component({
   selector: 'app-training-notification-body',
-  template: `<p><b *ngIf="showSender">{{notification.sender.fullName}}</b>{{message}}</p>`,
+  template: `<span *ngIf="showSender" [innerHtml]="message"></span>`,
 })
 export class TrainingNotificationBodyComponent implements OnInit {
+
   @Input() notification: PushNotification;
   @Input() unitSystem: UnitSystem;
 
@@ -21,7 +23,11 @@ export class TrainingNotificationBodyComponent implements OnInit {
   ngOnInit(): void {
     this.showSender = !this.notification.systemNotification;
 
-    this.message = this.translateService.instant('NOTIFICATIONS.TRAINING_MESSAGE');
+    const params = {
+      username: this.notification.sender.fullName,
+    };
+
+    this.message = this.translateService.instant('NOTIFICATIONS.TRAINING_MESSAGE', params);
   }
 
 }

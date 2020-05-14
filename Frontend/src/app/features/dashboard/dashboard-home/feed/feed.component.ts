@@ -41,7 +41,7 @@ export class FeedComponent implements OnInit {
     if (activity.seen) return; // if already seen ok
 
     // if not seen.. mark it as seen now
-    this.dashboardService.activitySeen(activity.id)
+    this.dashboardService.activitySeen(userId, activity.id)
       .pipe(take(1))
       .subscribe(
         _ => {

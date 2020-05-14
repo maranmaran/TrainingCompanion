@@ -2,10 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PushNotification } from 'src/server-models/entities/push-notification.model';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { BasicUserInfo } from 'src/app/features/dashboard/models/activity.model';
 
 @Component({
   selector: 'app-import-notification-body',
-  template: `<p><b *ngIf="showSender">{{notification.sender.fullName}}</b>{{message}}</p>`,
+  template: `<span *ngIf="showSender" [innerHtml]="message"></span>`,
 })
 export class ImportNotificationBodyComponent implements OnInit {
 

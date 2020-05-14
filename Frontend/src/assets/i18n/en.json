@@ -30,10 +30,10 @@
     "NO_DATA": "No records"
   },
   "NOTIFICATIONS": {
-    "BODYWEIGHT_MESSAGE": "logged a new bodyweight value of {{value}}",
-    "MEDIA_MESSAGE": "added new media file",
-    "TRAINING_MESSAGE": "logged new training",
-    "PERSONAL_BEST_MESSAGE": "hit a new PR of {{value}}",
+    "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",
+    "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> logged a new bodyweight value of {{value}}.",
+    "TRAINING_MESSAGE": "<b>{{username}}</b> logged new training.",
+    "PERSONAL_BEST_MESSAGE": "<b>{{username}}</b> hit a new PB of {{value}}!",
     "IMPORT_MESSAGE_SUCCESS": "Import finished successfully",
     "IMPORT_MESSAGE_FAILURE": "Import failed",
     "NOTE_MESSAGE": "added new note",

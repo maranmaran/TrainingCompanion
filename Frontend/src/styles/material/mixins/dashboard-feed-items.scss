@@ -98,3 +98,11 @@
     }
   }
 }
+
+@media (max-width: 1700px) {
+  .feed-user-panels-container {
+    .mat-expansion-panel-body {
+      padding: 0px 3px 3px;
+    }
+  }
+}

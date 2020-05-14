@@ -98,30 +98,42 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
     }
   }),
   on(DashboardActions.pushActivity, (state: DashboardState, payload: { activity: Activity }) => {
-    let extendedActivity = Object.assign({}, payload.activity, { entity: JSON.parse(payload.activity.activityInfo.jsonEntity) });
-    return {
-      ...state,
-      activities: [extendedActivity, ...state.activities]
-    }
-  }),
-  on(DashboardActions.pushActivity, (state: DashboardState, payload: { activity: Activity }) => {
+    let activityInfo = _.cloneDeep(payload.activity.activityInfo);
+    let userInfo = _.cloneDeep(payload.activity.userInfo);
 
-    let entity = JSON.parse(payload.activity.activityInfo.jsonEntity);
+    // parse json entity
+    let entity = JSON.parse(activityInfo.jsonEntity);
+    activityInfo.entity = entity;
 
-    let newActivity = new Activity();
-    newActivity.userInfo = Object.assign(new BasicUserInfo(), payload.activity.userInfo);
-    newActivity.activityInfo = Object.assign(new BasicActivityInfo(), payload.activity.activityInfo, entity);
+    // create new activity // deprecated since we are now grouping activities
+    // let newActivity = new Activity();
+    // newActivity.userInfo = Object.assign(new BasicUserInfo(), payload.activity.userInfo);
+    // newActivity.activityInfo = Object.assign(new BasicActivityInfo(), payload.activity.activityInfo, { entity });
 
+    // get user activity groups if none exists create new else find and map
     var clonedUserActivities = _.cloneDeep(state.userActivities);
+    if (clonedUserActivities.length == 0) {
+      let newUserActivityContainer = new UserActivitiesContainer();
+      newUserActivityContainer.userId = userInfo.userId;
+      newUserActivityContainer.userName = userInfo.userName;
+      newUserActivityContainer.userAvatar = userInfo.userAvatar;
+      newUserActivityContainer.activities = [activityInfo];
+      newUserActivityContainer.unseenActivities = 1;
 
-    let userId = payload.activity.userInfo.userId;
-    let userActivitiesIdx = clonedUserActivities.findIndex(x => x.userId == userId)
-    let activities = [newActivity.activityInfo, ...clonedUserActivities[userActivitiesIdx].activities]
-    clonedUserActivities[userActivitiesIdx].activities = activities;
+      clonedUserActivities = [newUserActivityContainer]
+    } else {
+      let userId = userInfo.userId;
+      let userActivitiesIdx = clonedUserActivities.findIndex(x => x.userId == userId)
+
+      let activities = [activityInfo, ...clonedUserActivities[userActivitiesIdx].activities]
+      clonedUserActivities[userActivitiesIdx].activities = activities;
+      clonedUserActivities[userActivitiesIdx].unseenActivities += 1;
+    }
+
 
     return {
       ...state,
-      activities: [newActivity, ...state.activities],
+      // activities: [newActivity, ...state.activities], // we are using new grouping of activities.. these are deprecated for now (14.05.2020) // need to be removed from code
       userActivities: [...clonedUserActivities]
     }
   }),

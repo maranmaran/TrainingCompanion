@@ -10,7 +10,6 @@ import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 })
 export class PersonalBestFeedItemComponent implements OnInit {
 
-
   @Input() activity: BasicActivityInfo;
   @Input() user: BasicUserInfo;
   @Input() unitSystem: UnitSystem;

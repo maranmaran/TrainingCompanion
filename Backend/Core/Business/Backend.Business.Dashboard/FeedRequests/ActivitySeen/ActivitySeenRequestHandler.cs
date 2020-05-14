@@ -20,7 +20,7 @@ namespace Backend.Business.Dashboard.FeedRequests.ActivitySeen
         {
             try
             {
-                var activity = await _context.Audits.FirstOrDefaultAsync(x => x.Id == request.ActivityId, cancellationToken);
+                var activity = await _context.Audits.FirstOrDefaultAsync(x => x.UserId == request.UserId && x.Id == request.ActivityId, cancellationToken);
                 if (activity == null) return Unit.Value;
 
                 activity.Seen = true;

@@ -108,11 +108,11 @@ namespace Backend.Persistance
             audit.UserId = userId;
             audit.Data = entry.ToJson();
             audit.EntityType = entry.EntityType.Name;
-            audit.Date = DateTime.Now;
+            audit.Date = DateTime.UtcNow;
             audit.PrimaryKey = entry.PrimaryKey.First().Value.ToString();
             audit.Table = entry.Table;
             audit.Action = entry.Action;
-            audit.Date = DateTime.Now;
+            audit.Date = DateTime.UtcNow;
         }
     }
 }
