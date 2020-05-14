@@ -44,7 +44,7 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                 if (user.AccountType == AccountType.Coach)
                 {
                     athletes.AddRange((await _context.Athletes
-                            .Where(x => x.CoachId == request.UserId)
+                            .Where(x => x.CoachId == request.UserId && x.Active)
                             .Select(x => new { x.Id, x.FullName, x.Avatar })
                             .ToListAsync(cancellationToken)
                         ).Select(x => (x.Id, x.FullName, x.Avatar))
