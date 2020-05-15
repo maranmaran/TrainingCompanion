@@ -56,7 +56,7 @@ export class TrainingListComponent implements OnInit, OnDestroy {
       this.store.select(trainings).subscribe((trainings: Training[]) => this.tableDatasource.updateDatasource([...trainings]))
     )
 
-    if(this.partOfTrainingProgram) {
+    if (this.partOfTrainingProgram) {
       this.subs.add(this.getTrainingsFromProgram());
     }
 
@@ -66,7 +66,7 @@ export class TrainingListComponent implements OnInit, OnDestroy {
     return this.store.select(blockDayTrainings)
       .subscribe((trainings: Training[]) => {
         this.onSelect(null);
-        this.store.dispatch(trainingsFetchedReplaceState({entities: trainings}));
+        this.store.dispatch(trainingsFetchedReplaceState({ entities: trainings }));
         // this.tableDatasource.updateDatasource([...trainings])
       });
   }
@@ -110,21 +110,20 @@ export class TrainingListComponent implements OnInit, OnDestroy {
   onSelect = (training: Training) => this.store.dispatch(setSelectedTraining({ entity: training }));
 
   onAdd() {
-
     this.trainingService.onAdd(TrainingCreateEditComponent, this.partOfTrainingProgram)
-    .afterClosed()
-    .pipe(take(1))
-    .subscribe((training: Training) => {
-      if (!training) return;
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((training: Training) => {
+        if (!training) return;
 
-      this.table.onSelect(training, true);
-      this.onSelect(training);
-    });
+        this.table.onSelect(training, true);
+        this.onSelect(training);
+      });
   }
 
   onDeleteSingle(training: Training) {
 
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.DELETE_DIALOG', {dateTrained: moment(training.dateTrained).format('L')});
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.DELETE_DIALOG', { dateTrained: moment(training.dateTrained).format('L') });
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 

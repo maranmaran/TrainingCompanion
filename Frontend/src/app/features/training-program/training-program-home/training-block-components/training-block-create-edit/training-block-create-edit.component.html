@@ -6,8 +6,7 @@
   <form [formGroup]="form">
 
     <mat-form-field>
-      <input matInput type="text" formControlName="name"
-        placeholder="{{'TRAINING_BLOCK.NAME_LABEL' | translate}}">
+      <input matInput type="text" formControlName="name" placeholder="{{'TRAINING_BLOCK.NAME_LABEL' | translate}}">
     </mat-form-field>
 
     <mat-form-field *ngIf="data.action == crud.Create">
@@ -15,11 +14,11 @@
         placeholder="{{'TRAINING_BLOCK.DURATION_IN_DAYS' | translate}}">
     </mat-form-field>
 
-    <mat-form-field>
+    <!-- <mat-form-field>
       <textarea rows="5" matInput formControlName="description"
         placeholder="{{'TRAINING_BLOCK.DESCRIPTION_LABEL' | translate}}">
             </textarea>
-    </mat-form-field>
+    </mat-form-field> -->
 
   </form>
 </div>

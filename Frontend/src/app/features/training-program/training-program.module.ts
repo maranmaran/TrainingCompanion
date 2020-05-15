@@ -32,6 +32,9 @@ import { TrainingProgramDetailsComponent } from './training-program-home/trainin
 import { TrainingProgramListComponent } from './training-program-home/training-program-components/training-program-list/training-program-list.component';
 import { TrainingProgramHomeComponent } from './training-program-home/training-program-home.component';
 import { TrainingProgramRoutingModule } from './training-program-routing.module';
+import { WorkoutFillerComponent } from './training-program-home/workout-filler/workout-filler.component';
+import { BlockDayComponent } from './training-program-home/workout-filler/block-day/block-day.component';
+import { BlockTrainingComponent } from './training-program-home/workout-filler/block-day/block-training/block-training.component';
 
 @NgModule({
     imports: [
@@ -64,6 +67,9 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
         BasicDetailsComponent,
         AssignedAthletesComponent,
         ProgramMetricsComponent,
+        WorkoutFillerComponent,
+        BlockDayComponent,
+        BlockTrainingComponent,
     ],
     exports: [
     ],

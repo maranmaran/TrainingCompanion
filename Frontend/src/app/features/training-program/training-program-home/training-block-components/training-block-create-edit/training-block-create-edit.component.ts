@@ -51,13 +51,13 @@ export class TrainingBlockCreateEditComponent implements OnInit {
   }
 
   get name(): AbstractControl { return this.form.get('name'); }
-  get description(): AbstractControl { return this.form.get('description'); }
+  // get description(): AbstractControl { return this.form.get('description'); }
   get durationInDays(): AbstractControl { return this.form.get('durationInDays'); }
 
   createForm() {
     this.form = new FormGroup({
       name: new FormControl(this.trainingBlock.name, Validators.required),
-      description: new FormControl(this.trainingBlock.description),
+      // description: new FormControl(this.trainingBlock.description),
       durationInDays: new FormControl(this.trainingBlock.durationInDays, Validators.required),
     });
   }
@@ -82,7 +82,7 @@ export class TrainingBlockCreateEditComponent implements OnInit {
       trainingProgramId: this._programId,
       name: this.name.value,
       order: this.data.trainingBlock.order,
-      description: this.description.value,
+      // description: this.description.value,
       durationInDays: this.durationInDays.value
     })
 
@@ -100,7 +100,7 @@ export class TrainingBlockCreateEditComponent implements OnInit {
     const request = new UpdateTrainingBlockRequest({
       id: this.trainingBlock.id,
       name: this.name.value,
-      description: this.description.value,
+      // description: this.description.value,
     })
 
     this.trainingBlockService.update(request).pipe(take(1))

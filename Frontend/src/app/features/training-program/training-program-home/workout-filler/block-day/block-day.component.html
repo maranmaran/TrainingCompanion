@@ -1,0 +1,32 @@
+<mat-expansion-panel class="block-day-panel" [hideToggle]="true" [expanded]="!isRestDay">
+
+    <!-- [ngClass]="{'disabled-background pointer-events-none': isRestDay}" -->
+    <mat-expansion-panel-header class="block-day-header" (click)="dayModeToggle.toggle();">
+        <mat-panel-title>
+            <mat-panel-title>
+                {{ dayLabel }}
+            </mat-panel-title>
+
+            <mat-panel-description fxLayoutAlign="end center">
+                <button *ngIf="dayModeToggle.checked" class="mr-3" matTooltip="Add training" mat-icon-button
+                    color="accent" (click)="$event.stopPropagation(); onAdd()"><i class="fas fa-plus"></i>
+                </button>
+
+                <mat-slide-toggle fxFlex="0 0 auto" labelPosition="before" class="pointer-events-none" #dayModeToggle
+                    [color]="'accent'" [checked]="isRestDay == false"
+                    (change)="day.restDay = $event.checked; isRestDay = !$event.checked">
+                    {{ dayModeToggle.checked ? 'Training day' : 'Rest day' }}
+                </mat-slide-toggle>
+
+            </mat-panel-description>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+        <mat-accordion id="trainings-accordion">
+            <app-block-training *ngFor="let training of day.trainings" [training]="training">
+            </app-block-training>
+        </mat-accordion>
+    </ng-template>
+
+</mat-expansion-panel>

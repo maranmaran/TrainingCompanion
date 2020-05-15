@@ -142,6 +142,10 @@
     background: rgba($theme-hover, 0.3);
     // background: rgba(93,93,93,1);
   }
+  .disabled-background {
+    background: rgba($theme-hover, 0.1);
+    // background: rgba(93,93,93,1);
+  }
   .theme-dialog-background {
     background: $theme-dialog;
   }

@@ -82,7 +82,7 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
       selectionEnabled: false,
       enableDragAndDrop: true,
       defaultSort: 'order',
-      defaultSortDirection: 'asc'
+      defaultSortDirection: 'desc'
     });
 
     return tableConfig;
@@ -131,7 +131,7 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
     const dialogRef = this.uiService.openDialogFromComponent(TrainingBlockCreateEditComponent, {
       height: 'auto',
       width: '98%',
-      maxWidth: '60rem',
+      maxWidth: '20rem',
       autoFocus: true,
       data: { title: 'TRAINING_BLOCK.ADD_TITLE', action: CRUD.Create, trainingBlock: new TrainingBlock({ order: this.tableDatasource.data.length }) },
       panelClass: []
@@ -152,7 +152,7 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
     const dialogRef = this.uiService.openDialogFromComponent(TrainingBlockCreateEditComponent, {
       height: 'auto',
       width: '98%',
-      maxWidth: '60rem',
+      maxWidth: '20rem',
       autoFocus: true,
       data: { title: 'TRAINING_BLOCK.UPDATE_TITLE', action: CRUD.Update, trainingBlock: Object.assign({}, trainingBlock) },
       panelClass: []

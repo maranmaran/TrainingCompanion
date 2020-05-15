@@ -14,6 +14,6 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
         public virtual TrainingBlock TrainingBlock { get; set; }
 
         // if it's not rest day.. then it most certainly has...
-        public virtual ICollection<Training> Trainings { get; set; }
+        public virtual ICollection<Training> Trainings { get; set; } = new HashSet<Training>();
     }
 }

@@ -1,0 +1,17 @@
+<div class="workout-filler-container" fxLayout="row wrap" fxLayoutGap="1rem">
+
+    <!--Weeks horizontally-->
+    <div *ngFor="let week of weeks; let weekNum = index" fxFlex.lt-md="calc(100% - 1rem)"
+        fxFlex.gt-sm="calc(50% - 1rem)" fxFlex.gt-md="calc(33% - 1rem)" fxFlex.gt-lg="calc(25% - 1rem)">
+        <div class="filler-week" class="mb-3">
+            <h2><b class="mb-1">Week {{ weekNum + 1 }}:</b></h2>
+
+            <!--Days vertically -->
+            <!-- [displayMode]="'flat'" -->
+            <mat-accordion multi="true" class="program-headers-align">
+                <app-block-day [day]="day" *ngFor="let day of week; trackBy: dayId"></app-block-day>
+            </mat-accordion>
+        </div>
+    </div>
+
+</div>

@@ -143,7 +143,7 @@
   },
   "TRAINING_BLOCK_DAY": {
     "DAYS_HEADER": "Training block days",
-    "DAY_LABEL": "Day",
+    "DAY_LABEL": "Day {{number}}",
     "HAS_TRAINING": "Has trainings",
     "NAME_LABEL": "Training block",
     "DELETE_TITLE": "Delete training block day",

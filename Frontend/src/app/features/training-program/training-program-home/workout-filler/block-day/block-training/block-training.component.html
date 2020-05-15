@@ -1,0 +1,24 @@
+<mat-expansion-panel class="block-training-panel" [hideToggle]="false" [expanded]="true">
+
+    <mat-expansion-panel-header class="block-training-header">
+        <mat-panel-title>
+            <mat-panel-title>
+                {{ training.dateTrained | applyTimezone }}
+            </mat-panel-title>
+            <mat-panel-description class="no-pointer-events" fxLayoutAlign="end">
+                <button class="mr-1 pointer-events" mat-stroked-button color="accent"
+                    (click)="$event.stopPropagation(); onAdd(training)">
+                    Add exercise
+                </button>
+            </mat-panel-description>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+        <span class="pointer-events">
+            <i>List of exercises</i>
+            <!-- <app-block-training *ngFor="let training of day.trainings" [training]="training"></app-block-training> -->
+        </span>
+    </ng-template>
+
+</mat-expansion-panel>
