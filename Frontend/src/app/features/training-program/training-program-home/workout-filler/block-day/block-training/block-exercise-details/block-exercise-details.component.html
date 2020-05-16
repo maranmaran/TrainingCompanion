@@ -1,0 +1,80 @@
+<!-- <table class="block-exercise-details">
+    <th class="text-left">Exercise</th>
+    <th *ngIf="exerciseType.requiresWeight || exerciseType.requiresBodyweight">
+        Weight</th>
+    <th *ngIf="exerciseType.requiresReps">Reps</th>
+    <th *ngIf="exerciseType.requiresTime">Time</th>
+    <th *ngIf="settings.useRpeSystem">{{ rpeLabel | translate }}</th>
+
+    <tr *ngFor="let set of exercise.sets; let i = index">
+        <td class="text-left">
+            <div *ngIf="i == 0" (mouseenter)="previewId = i" (mouseleave)="previewId = null">{{ exerciseType.name }}
+            </div>
+
+            <ng-container *ngTemplateOutlet="exercise_tags; context: { id: i, tags: exerciseType.properties }">
+            </ng-container>
+
+        </td>
+        <td *ngIf="exerciseType.requiresWeight || exerciseType.requiresBodyweight">
+            {{ set.weight | transformWeight: settings.unitSystem }}</td>
+        <td *ngIf="exerciseType.requiresReps">{{set.reps}}</td>
+        <td *ngIf="exerciseType.requiresTime">{{set.time}}</td>
+        <td *ngIf="settings.useRpeSystem">{{ set.rpe | transformRpe: settings.rpeSystem }}</td>
+    </tr>
+</table> -->
+
+
+<mat-table [dataSource]="exercise.sets" class="block-exercise-table">
+
+    <!-- Name column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Exercise </mat-header-cell>
+        <mat-cell *matCellDef="let element; let i = index">
+
+            <div *ngIf="i == 0" (mouseenter)="previewId = i" (mouseleave)="previewId = null">
+                <b>{{ exerciseType.name }}</b>
+
+                <ng-container *ngTemplateOutlet="exercise_tags; context: { id: i, tags: exerciseType.properties }">
+                </ng-container>
+            </div>
+
+
+        </mat-cell>
+    </ng-container>
+
+    <!-- Weight column -->
+    <ng-container matColumnDef="weight">
+        <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.weight | transformWeight: settings.unitSystem }} </mat-cell>
+    </ng-container>
+
+    <!-- Reps column -->
+    <ng-container matColumnDef="reps">
+        <mat-header-cell *matHeaderCellDef> Reps </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.reps }} </mat-cell>
+    </ng-container>
+
+    <!-- Time Column -->
+    <ng-container matColumnDef="time">
+        <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.time }} </mat-cell>
+    </ng-container>
+
+    <!-- RPE Column -->
+    <ng-container matColumnDef="rpe">
+        <mat-header-cell *matHeaderCellDef> {{ rpeLabel | translate }} </mat-header-cell>
+        <mat-cell *matCellDef="let element;"> {{ element.rpe | transformRpe: settings.rpeSystem }} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row class="position-relative" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<ng-template #exercise_tags let-id="id" let-tags="tags">
+
+    <div class="preview-container theme-background mat-elevation-z5" *ngIf="previewId == id && tags?.length > 0">
+        <app-exercise-type-chip-list class="m-1" [propertyList]="tags"></app-exercise-type-chip-list>
+    </div>
+
+
+</ng-template>

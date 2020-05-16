@@ -1,7 +1,13 @@
 import { Time } from '@angular/common';
 import { Guid } from 'guid-typescript';
+import { Exercise } from './exercise.model';
 
 export class Set {
+
+    constructor() {
+
+    }
+
     id: string = Guid.EMPTY;
     weight: number;
     reps: number;

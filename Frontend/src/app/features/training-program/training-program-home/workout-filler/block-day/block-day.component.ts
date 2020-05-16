@@ -1,3 +1,4 @@
+import { initialDashboardState } from './../../../../../../ngrx/dashboard/dashboard.state';
 import { TrainingService } from './../../../../../../business/services/feature-services/training.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
@@ -31,7 +32,7 @@ export class BlockDayComponent implements OnInit {
   }
 
   onAdd() {
-    this.trainingService.onAdd(TrainingCreateEditComponent, true)
+    this.trainingService.onAdd(TrainingCreateEditComponent, this.day.id)
       .afterClosed()
       .pipe(take(1))
       .subscribe((training: Training) => {
@@ -42,10 +43,5 @@ export class BlockDayComponent implements OnInit {
         //this.store.dispatch(trainingAddedToBlockDay({training: training, blockDay: day}));
       });
   }
-
-  onChange() {
-    console.log('change');
-  }
-
 
 }

@@ -35,6 +35,8 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
 import { WorkoutFillerComponent } from './training-program-home/workout-filler/workout-filler.component';
 import { BlockDayComponent } from './training-program-home/workout-filler/block-day/block-day.component';
 import { BlockTrainingComponent } from './training-program-home/workout-filler/block-day/block-training/block-training.component';
+import { BlockExerciseCreateEditComponent } from './training-program-home/workout-filler/block-day/block-training/block-exercise-create-edit/block-exercise-create-edit.component';
+import { BlockExerciseDetailsComponent } from './training-program-home/workout-filler/block-day/block-training/block-exercise-details/block-exercise-details.component';
 
 @NgModule({
     imports: [
@@ -70,6 +72,8 @@ import { BlockTrainingComponent } from './training-program-home/workout-filler/b
         WorkoutFillerComponent,
         BlockDayComponent,
         BlockTrainingComponent,
+        BlockExerciseCreateEditComponent,
+        BlockExerciseDetailsComponent,
     ],
     exports: [
     ],

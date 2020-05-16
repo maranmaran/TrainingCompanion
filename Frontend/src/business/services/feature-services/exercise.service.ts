@@ -30,5 +30,18 @@ export class ExerciseService extends CrudService<Exercise> {
       .pipe(catchError(this.handleError));
   }
 
-}
+  public createWithSets(exercise: Exercise) {
+    return this.http.post<Exercise>(`${this.url}CreateFull/`, exercise)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
+  public updateWithSets(exercise: Exercise) {
+    return this.http.put<Exercise>(`${this.url}UpdateFull/`, exercise)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+}

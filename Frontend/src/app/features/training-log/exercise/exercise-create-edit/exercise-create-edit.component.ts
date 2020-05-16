@@ -21,6 +21,7 @@ import { Training } from 'src/server-models/entities/training.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
 import { ExerciseType } from './../../../../../server-models/entities/exercise-type.model';
+import { isExerciseTypeValidator } from 'src/app/features/training-program/training-program-home/workout-filler/block-day/block-training/block-exercise-create-edit/block-exercise-create-edit.component';
 
 @Component({
   selector: 'app-exercise-create-edit',
@@ -62,7 +63,7 @@ export class ExerciseCreateEditComponent implements OnInit {
 
   createForm() {
     this.form = new FormGroup({
-      exerciseType: new FormControl(this.exercise.exerciseType, [Validators.required]),
+      exerciseType: new FormControl(this.exercise.exerciseType, [Validators.required, isExerciseTypeValidator]),
       setsCount: new FormControl(this.exercise.sets ? this.exercise.sets.length : 0, [Validators.required, Validators.min(0), Validators.max(30)]),
     });
 

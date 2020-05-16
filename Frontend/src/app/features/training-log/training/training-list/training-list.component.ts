@@ -55,21 +55,8 @@ export class TrainingListComponent implements OnInit, OnDestroy {
       this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
       this.store.select(trainings).subscribe((trainings: Training[]) => this.tableDatasource.updateDatasource([...trainings]))
     )
-
-    if (this.partOfTrainingProgram) {
-      this.subs.add(this.getTrainingsFromProgram());
-    }
-
   }
 
-  getTrainingsFromProgram() {
-    return this.store.select(blockDayTrainings)
-      .subscribe((trainings: Training[]) => {
-        this.onSelect(null);
-        this.store.dispatch(trainingsFetchedReplaceState({ entities: trainings }));
-        // this.tableDatasource.updateDatasource([...trainings])
-      });
-  }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
@@ -110,7 +97,7 @@ export class TrainingListComponent implements OnInit, OnDestroy {
   onSelect = (training: Training) => this.store.dispatch(setSelectedTraining({ entity: training }));
 
   onAdd() {
-    this.trainingService.onAdd(TrainingCreateEditComponent, this.partOfTrainingProgram)
+    this.trainingService.onAdd(TrainingCreateEditComponent, null)
       .afterClosed()
       .pipe(take(1))
       .subscribe((training: Training) => {

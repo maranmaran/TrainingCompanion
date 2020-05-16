@@ -23,6 +23,14 @@
         }
     }
 
+    #set-actions {
+        .mat-icon-button {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+        }
+    }
+
     @media (max-width: 1700px) {
     }
 }

@@ -40,7 +40,6 @@ export class SetCreateEditComponent implements OnInit {
   // get formControls() { return (<FormArray>this.form.get('sets')).controls; }
   sets: Set[] = [];
 
-  coachId: string;
   settings: UserSetting;
   exerciseType: ExerciseType;
   exerciseId: string;
@@ -48,7 +47,6 @@ export class SetCreateEditComponent implements OnInit {
   ngOnInit() {
     this.sets = [...this.data.sets];
     this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.settings = settings);
-    this.store.select(currentUser).pipe(take(1)).subscribe(user => this.coachId = user.id);
     this.store.select(selectedExercise).pipe(take(1)).subscribe(exercise => {
       this.exerciseId = exercise.id;
       this.exerciseType = exercise.exerciseType

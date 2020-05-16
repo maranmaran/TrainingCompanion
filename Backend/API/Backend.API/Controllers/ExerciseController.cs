@@ -1,4 +1,5 @@
 ﻿using Backend.Business.TrainingLog.ExerciseRequests.Create;
+using Backend.Business.TrainingLog.ExerciseRequests.CreateFull;
 using Backend.Business.TrainingLog.ExerciseRequests.Delete;
 using Backend.Business.TrainingLog.ExerciseRequests.Get;
 using Backend.Business.TrainingLog.ExerciseRequests.GetAll;
@@ -34,10 +35,28 @@ namespace Backend.API.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> CreateFull([FromBody] Exercise exercise, CancellationToken cancellationToken = default)
+        {
+            RemoveCacheKeys($"Report/TrainingMetrics{exercise.TrainingId}");
+            return Ok(await Mediator.Send(new CreateFullExerciseRequest(exercise), cancellationToken));
+        }
+
+
         [HttpPut]
         public async Task<IActionResult> UpdateMany([FromBody] IEnumerable<Exercise> data, CancellationToken cancellationToken = default)
         {
             return Ok(await Mediator.Send(new UpdateManyExercisesRequest(data), cancellationToken));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateFull([FromBody] Exercise exercise, CancellationToken cancellationToken = default)
+        {
+            //RemoveCacheKeys($"Report/TrainingMetrics{request.TrainingId}");
+            //return Ok(await Mediator.Send(request, cancellationToken));
+            //return Ok(await Mediator.Send(new UpdateFullExerciseRequest(exercise), cancellationToken));
+            return Ok();
         }
 
         [HttpDelete("{id}")]

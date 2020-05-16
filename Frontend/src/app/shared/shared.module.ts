@@ -18,7 +18,7 @@ import { VolumeCardComponent } from '../features/dashboard/dashboard-home/tracks
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
-import { TransformWeightPipe } from './../../business/pipes/transform-weight.pipe';
+import { TransformWeightPipe, TransformRpePipe } from './../../business/pipes/transform-weight.pipe';
 import { TrainingMonthViewDayComponent } from './../features/training-log/training/training-month/training-month-view-day/training-month-view-day.component';
 import { NotificationItemComponent } from './/notifications/notification-item/notification-item.component';
 import { NotificationTypeIconComponent } from './/notifications/notification-item/notification-type-icon/notification-type-icon.component';
@@ -112,6 +112,7 @@ import { NguCarouselModule } from '@ngu/carousel';
         ApplyTimezonePipe,
         ButtonSizeDirective,
         TransformWeightPipe,
+        TransformRpePipe,
         ImageCropperComponent,
         VolumeCardComponent,
         MaxCardComponent,
@@ -168,6 +169,7 @@ import { NguCarouselModule } from '@ngu/carousel';
         ApplyTimezonePipe,
         ButtonSizeDirective,
         TransformWeightPipe,
+        TransformRpePipe,
         ImageCropperModule,
         ImageCropperComponent,
         MediaNotificationBodyComponent,

@@ -33,12 +33,11 @@ export class TrainingCreateEditComponent implements OnInit {
       action: CRUD,
       day: moment.Moment,
       timeOnly: boolean,
-      partOfTrainingProgram: boolean
+      programDayId?: string
     }) { }
 
   form: FormGroup;
   private _userId: string;
-  private _blockDay: string;
 
   private dateTimeObj = {
     date: this.data.day.toDate(),
@@ -47,8 +46,6 @@ export class TrainingCreateEditComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
-
-    this.store.select(selectedTrainingBlockDayId).pipe(take(1)).subscribe(blockDay => this._blockDay = blockDay as string);
     this.createForm();
   }
 
@@ -68,13 +65,13 @@ export class TrainingCreateEditComponent implements OnInit {
 
     const request = new CreateTrainingRequest();
 
-    if(this.data.partOfTrainingProgram) {
-      request.trainingBlockDayId = this._blockDay;
+    if (this.data.programDayId) {
+      request.trainingBlockDayId = this.data.programDayId;
     } else {
       request.applicationUserId = this._userId;
     }
 
-    request.dateTrained = moment(moment(this.date.value).format('L')  + ' ' + this.time.value, 'L HH:mm').toDate();
+    request.dateTrained = moment(moment(this.date.value).format('L') + ' ' + this.time.value, 'L HH:mm').toDate();
 
     this.createEntity(request);
   }

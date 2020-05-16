@@ -1,4 +1,4 @@
-<mat-expansion-panel class="block-training-panel" [hideToggle]="false" [expanded]="true">
+<mat-expansion-panel class="block-training-panel" [hideToggle]="false" [expanded]="false">
 
     <mat-expansion-panel-header class="block-training-header">
         <mat-panel-title>
@@ -15,10 +15,13 @@
     </mat-expansion-panel-header>
 
     <ng-template matExpansionPanelContent>
-        <span class="pointer-events">
-            <i>List of exercises</i>
-            <!-- <app-block-training *ngFor="let training of day.trainings" [training]="training"></app-block-training> -->
-        </span>
+        <div class="mb-3 pointer-events">
+            <ng-container *ngFor="let exercise of training.exercises">
+                <mat-divider></mat-divider>
+                <app-block-exercise-details [exercise]="exercise">
+                </app-block-exercise-details>
+            </ng-container>
+        </div>
     </ng-template>
 
 </mat-expansion-panel>

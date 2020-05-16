@@ -51,7 +51,7 @@ export class TrainingService extends CrudService<Training> {
   }
 
 
-  onAdd(createEditComponent: ComponentType<any>, partOfTrainingProgram = false, day: moment.Moment = moment(new Date())) {
+  onAdd(createEditComponent: ComponentType<any>, programDayId: string = null, day: moment.Moment = moment(new Date())) {
 
     const dialogRef = this.UIService.openDialogFromComponent(createEditComponent, {
       height: 'auto',
@@ -63,7 +63,8 @@ export class TrainingService extends CrudService<Training> {
         action: CRUD.Create,
         day,
         timeOnly: true,
-        partOfTrainingProgram },
+        programDayId
+      },
       panelClass: []
     });
 
@@ -71,4 +72,3 @@ export class TrainingService extends CrudService<Training> {
   }
 
 }
-

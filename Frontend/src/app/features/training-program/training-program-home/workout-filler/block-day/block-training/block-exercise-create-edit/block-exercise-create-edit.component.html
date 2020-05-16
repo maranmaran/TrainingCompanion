@@ -1,0 +1,152 @@
+<h2> {{data.titleExercise | translate}} </h2>
+
+<mat-divider class="dialog-form-divider"></mat-divider>
+
+<ng-container *ngTemplateOutlet="exercise_create_edit; context: {}"></ng-container>
+<ng-container *ngTemplateOutlet="sets_create_edit; context: {}"></ng-container>
+
+<div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate }}</button>
+    <button mat-stroked-button color="accent" (click)="onSubmit()"
+        [disabled]="!exerciseForm.valid && !areSetsValid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
+</div>
+
+
+<ng-template #exercise_create_edit>
+    <div class="form" fxLayout="column">
+        <form [formGroup]="exerciseForm">
+
+            <mat-form-field>
+                <input matInput placeholder="{{'TRAINING_LOG.EXERCISE_TYPE_LABEL' | translate }}"
+                    [matAutocomplete]="auto" [formControl]="exerciseTypeSearchInput">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction"
+                    (optionSelected)="onExerciseTypeSelected($event)">
+                    <mat-option *ngIf="isLoading">
+                        <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
+                    </mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let type of data.exerciseTypes.list" [value]="type">
+                            <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
+                        </mat-option>
+                    </ng-container>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <app-exercise-type-chip-list id="tags" class="mb-3" *ngIf="selectedExerciseType.value"
+                [propertyList]="selectedExerciseType.value.properties">
+            </app-exercise-type-chip-list>
+
+        </form>
+    </div>
+</ng-template>
+<ng-template #sets_create_edit>
+    <ng-container *ngIf="selectedExerciseType.value && selectedExerciseType.valid">
+
+        <mat-divider class="dialog-form-divider">
+        </mat-divider>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <h2> {{data.titleSets | translate }} </h2>
+            <button mat-icon-button color="accent" (click)="addGroup()">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+
+        <mat-divider class="dialog-form-divider"></mat-divider>
+
+        <div mat-dialog-content *ngIf="setFormGroups.length > 0 && settings">
+
+            <div class="form" fxLayout="column" fxLayoutGap="1.5rem">
+                <form *ngFor="let set of setFormGroups; let i = index" [formGroup]="set">
+                    <div id="control-row" fxLayout="row" fxLayoutGap="10px">
+
+                        <label id="set-number" fxFlexAlign="center" class="pb-3">{{i + 1}}.</label>
+
+                        <ng-container *ngIf="exerciseType.requiresBodyweight">
+                            <mat-form-field>
+                                <input matInput type="number" formControlName="weight"
+                                    placeholder="{{'TRAINING_LOG.SET_BODYWEIGHT' | translate}}">
+                            </mat-form-field>
+                        </ng-container>
+
+                        <ng-container *ngIf="exerciseType.requiresWeight">
+                            <mat-form-field>
+                                <input matInput type="number" formControlName="weight"
+                                    placeholder="{{'TRAINING_LOG.SET_WEIGHT' | translate}}">
+                            </mat-form-field>
+                        </ng-container>
+
+                        <ng-container *ngIf="exerciseType.requiresReps">
+                            <mat-form-field>
+                                <input matInput type="number" formControlName="reps"
+                                    placeholder="{{'TRAINING_LOG.SET_REPS' | translate}}">
+                            </mat-form-field>
+                        </ng-container>
+
+                        <ng-container *ngIf="exerciseType.requiresTime">
+                            <mat-form-field>
+                                <input matInput type="number" formControlName="time"
+                                    placeholder="{{'TRAINING_LOG.SET_TIME' | translate}}">
+                            </mat-form-field>
+                        </ng-container>
+
+                        <ng-container *ngIf="settings.useRpeSystem">
+                            <mat-form-field *ngIf="settings.rpeSystem == 'Rpe'; else rir">
+                                <mat-label>{{'TRAINING_LOG.SET_RPE' | translate}}</mat-label>
+                                <mat-select formControlName="rpe">
+                                    <mat-option value="5">5</mat-option>
+                                    <mat-option value="5.5">5.5</mat-option>
+                                    <mat-option value="6">6</mat-option>
+                                    <mat-option value="6.5">6.5</mat-option>
+                                    <mat-option value="7">7</mat-option>
+                                    <mat-option value="7.5">7.5</mat-option>
+                                    <mat-option value="8">8</mat-option>
+                                    <mat-option value="8.5">8.5</mat-option>
+                                    <mat-option value="9">9</mat-option>
+                                    <mat-option value="9.5">9.5</mat-option>
+                                    <mat-option value="10">10</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-divider [vertical]="true"></mat-divider>
+                        </ng-container>
+
+                        <ng-template #rir>
+                            <mat-form-field>
+                                <mat-label>{{'TRAINING_LOG.SET_RIR' | translate}}</mat-label>
+                                <mat-select formControlName="rir">
+                                    <mat-option value="0">0</mat-option>
+                                    <mat-option value="0.5">0.5</mat-option>
+                                    <mat-option value="1">1</mat-option>
+                                    <mat-option value="1.5">1.5</mat-option>
+                                    <mat-option value="2">2</mat-option>
+                                    <mat-option value="2.5">2.5</mat-option>
+                                    <mat-option value="3">3</mat-option>
+                                    <mat-option value="3.5">3.5</mat-option>
+                                    <mat-option value="4">4</mat-option>
+                                    <mat-option value="4.5">4.5</mat-option>
+                                    <mat-option value="5">5</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-divider [vertical]="true"></mat-divider>
+                        </ng-template>
+
+                        <div id="set-actions" fxFlexLayout="column">
+                            <button id="delete-set-{{i}}" mat-icon-button
+                                matTooltip="{{'TRAINING_LOG.REMOVE_SET' | translate}}" [matTooltipPosition]="'right'"
+                                color="accent" (click)="removeGroup(i)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+
+                            <button id="copy-down-{{i}}" mat-icon-button color="accent"
+                                matTooltip="{{'TRAINING_LOG.COPY_DOWN' | translate}}" [matTooltipPosition]="'right'"
+                                (click)="copyDown(i)">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>
