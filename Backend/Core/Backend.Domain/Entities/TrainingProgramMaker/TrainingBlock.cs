@@ -13,8 +13,15 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
         public Guid TrainingProgramId { get; set; }
         public virtual TrainingProgram TrainingProgram { get; set; }
 
+        public BlockDurationType DurationType { get; set; }
+        public int Duration { get; set; }
 
-        public int DurationInDays { get; set; }
         public virtual ICollection<TrainingBlockDay> Days { get; set; } = new HashSet<TrainingBlockDay>();
+    }
+
+    public enum BlockDurationType
+    {
+        Weeks,
+        Days
     }
 }

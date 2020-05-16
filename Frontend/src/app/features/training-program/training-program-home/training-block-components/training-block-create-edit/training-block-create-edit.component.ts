@@ -10,7 +10,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingBlockCreated, trainingBlockUpdated } from 'src/ngrx/training-program/training-block/training-block.actions';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { CreateTrainingBlockRequest } from 'src/server-models/cqrs/training-program/create-training-program.request';
-import { TrainingBlock } from 'src/server-models/entities/training-program.model';
+import { BlockDurationType, TrainingBlock } from 'src/server-models/entities/training-program.model';
 import { UpdateTrainingBlockRequest } from '../../../../../../server-models/cqrs/training-program/update-training-program.request';
 import { CRUD } from './../../../../../../business/shared/crud.enum';
 import { selectedTrainingProgramId } from './../../../../../../ngrx/training-program/training-program/training-program.selectors';
@@ -43,6 +43,7 @@ export class TrainingBlockCreateEditComponent implements OnInit {
   ngOnInit() {
     this.store.select(selectedTrainingProgramId).pipe(take(1)).subscribe(programId => this._programId = programId as string);
     this.trainingBlock = this.data.trainingBlock;
+    console.log(this.trainingBlock);
     this.trainingBlock.trainingProgramId = this._programId;
 
     this.isMobile = this.store.select(isMobile);
@@ -52,13 +53,13 @@ export class TrainingBlockCreateEditComponent implements OnInit {
 
   get name(): AbstractControl { return this.form.get('name'); }
   // get description(): AbstractControl { return this.form.get('description'); }
-  get durationInDays(): AbstractControl { return this.form.get('durationInDays'); }
+  get duration(): AbstractControl { return this.form.get('duration'); }
 
   createForm() {
     this.form = new FormGroup({
       name: new FormControl(this.trainingBlock.name, Validators.required),
       // description: new FormControl(this.trainingBlock.description),
-      durationInDays: new FormControl(this.trainingBlock.durationInDays, Validators.required),
+      duration: new FormControl(this.trainingBlock.duration, Validators.required),
     });
   }
 
@@ -81,9 +82,9 @@ export class TrainingBlockCreateEditComponent implements OnInit {
     const request = new CreateTrainingBlockRequest({
       trainingProgramId: this._programId,
       name: this.name.value,
-      order: this.data.trainingBlock.order,
-      // description: this.description.value,
-      durationInDays: this.durationInDays.value
+      order: this.trainingBlock.order,
+      durationType: this.trainingBlock.durationType,
+      duration: this.trainingBlock.durationType == BlockDurationType.Weeks ? this.duration.value * 7 : this.duration.value
     })
 
     this.trainingBlockService.create(request).pipe(take(1))

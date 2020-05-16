@@ -1,16 +1,16 @@
-import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import { Observable, pipe } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
+import { activitySeen } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { Activity } from '../../models/activity.model';
-import { activities, userActivities } from './../../../../../ngrx/dashboard/dashboard.selectors';
-import { ActivityType, UserActivitiesContainer, BasicActivityInfo } from './../../models/activity.model';
-import { activitySeen } from 'src/ngrx/dashboard/dashboard.actions';
+import { userActivities } from './../../../../../ngrx/dashboard/dashboard.selectors';
+import { ActivityType, BasicActivityInfo, UserActivitiesContainer } from './../../models/activity.model';
 
 @Component({
   selector: 'app-feed',

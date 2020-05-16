@@ -1,20 +1,15 @@
-import { NotificationToastComponent } from 'src/app/shared/notifications/notification-toast/notification-toast.component';
-import { AppSettingsService } from './../shared/app-settings.service';
-import { TranslateService } from '@ngx-translate/core';
-import { NotificationService } from './notification.service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy, InjectionToken } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { Store } from '@ngrx/store';
-import { ToastrService, ComponentType } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { PushNotification } from 'src/server-models/entities/push-notification.model';
 import { SubSink } from 'subsink';
 import { NotificationType } from './../../../server-models/enums/notification-type.enum';
+import { AppSettingsService } from './../shared/app-settings.service';
 import { AuthService } from './auth.service';
-import { not } from '@angular/compiler/src/output/output_ast';
 
 
 @Injectable()
@@ -71,7 +66,6 @@ export class NotificationSignalrService implements OnDestroy {
     return notification;
   }
 
-  // TODO: Add paging...
   getHistory(userId: string, page: number, pageSize: number = 10): Observable<PushNotification[]> {
     // This could be an API call to your web application that would go to the database
     // and retrieve a N amount of history messages between the users.

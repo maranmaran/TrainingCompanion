@@ -7,8 +7,7 @@ export const setTrackEditMode = createAction('[Dashboard] Track edit');
 export const setDashboardUpdated = createAction('[Dashboard] Updated', props<{ updated: boolean }>());
 
 export const tracksFetched = createAction('[Dashboard] Tracks fetched', props<{ tracks: Track[] }>());
-export const activitiesFetched = createAction('[Dashboard] Activities fetched', props<{ activities: Activity[] }>());
-export const groupedActivitiesFetched = createAction('[Dashboard] Grouped activities fetched', props<{ userActivities: UserActivitiesContainer[] }>());
+export const activitiesFetched = createAction('[Dashboard] Grouped activities fetched', props<{ userActivities: UserActivitiesContainer[] }>());
 
 export const pushActivity = createAction('[Dashboard] Push activity', props<{ activity: Activity }>());
 export const activitySeen = createAction('[Dashboard] Activity seen', props<{ userId: string, activityId: string }>());

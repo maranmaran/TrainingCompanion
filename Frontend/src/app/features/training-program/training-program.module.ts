@@ -19,10 +19,7 @@ import { ExerciseModule } from './../training-log/exercise/exercise.module';
 import { SetModule } from './../training-log/set/set.module';
 import { TrainingModule } from './../training-log/training/training.module';
 import { TrainingBlockCreateEditComponent } from './training-program-home/training-block-components/training-block-create-edit/training-block-create-edit.component';
-import { TrainingBlockDetailsComponent } from './training-program-home/training-block-components/training-block-details/training-block-details.component';
 import { TrainingBlockListComponent } from './training-program-home/training-block-components/training-block-list/training-block-list.component';
-import { TrainingBlockDayCreateEditComponent } from './training-program-home/training-block-day-components/training-block-day-create-edit/training-block-day-create-edit.component';
-import { TrainingBlockDayListComponent } from './training-program-home/training-block-day-components/training-block-day-list/training-block-day-list.component';
 import { TrainingProgramAssignComponent } from './training-program-home/training-program-components/training-program-assign/training-program-assign.component';
 import { TrainingProgramCreateEditComponent } from './training-program-home/training-program-components/training-program-create-edit/training-program-create-edit.component';
 import { AssignedAthletesComponent } from './training-program-home/training-program-components/training-program-details/assigned-athletes/assigned-athletes.component';
@@ -31,12 +28,12 @@ import { ProgramMetricsComponent } from './training-program-home/training-progra
 import { TrainingProgramDetailsComponent } from './training-program-home/training-program-components/training-program-details/training-program-details.component';
 import { TrainingProgramListComponent } from './training-program-home/training-program-components/training-program-list/training-program-list.component';
 import { TrainingProgramHomeComponent } from './training-program-home/training-program-home.component';
-import { TrainingProgramRoutingModule } from './training-program-routing.module';
-import { WorkoutFillerComponent } from './training-program-home/workout-filler/workout-filler.component';
 import { BlockDayComponent } from './training-program-home/workout-filler/block-day/block-day.component';
-import { BlockTrainingComponent } from './training-program-home/workout-filler/block-day/block-training/block-training.component';
 import { BlockExerciseCreateEditComponent } from './training-program-home/workout-filler/block-day/block-training/block-exercise-create-edit/block-exercise-create-edit.component';
 import { BlockExerciseDetailsComponent } from './training-program-home/workout-filler/block-day/block-training/block-exercise-details/block-exercise-details.component';
+import { BlockTrainingComponent } from './training-program-home/workout-filler/block-day/block-training/block-training.component';
+import { WorkoutFillerComponent } from './training-program-home/workout-filler/workout-filler.component';
+import { TrainingProgramRoutingModule } from './training-program-routing.module';
 
 @NgModule({
     imports: [
@@ -55,20 +52,16 @@ import { BlockExerciseDetailsComponent } from './training-program-home/workout-f
         TrainingProgramHomeComponent,
 
         TrainingProgramListComponent,
-        TrainingProgramDetailsComponent,
         TrainingProgramCreateEditComponent,
-
-        TrainingBlockDetailsComponent,
-        TrainingBlockListComponent,
-        TrainingBlockCreateEditComponent,
-
-        TrainingBlockDayListComponent,
-        TrainingBlockDayCreateEditComponent,
-        TrainingProgramAssignComponent,
-
+        TrainingProgramDetailsComponent,
         BasicDetailsComponent,
         AssignedAthletesComponent,
         ProgramMetricsComponent,
+        TrainingProgramAssignComponent,
+
+        TrainingBlockListComponent,
+        TrainingBlockCreateEditComponent,
+
         WorkoutFillerComponent,
         BlockDayComponent,
         BlockTrainingComponent,

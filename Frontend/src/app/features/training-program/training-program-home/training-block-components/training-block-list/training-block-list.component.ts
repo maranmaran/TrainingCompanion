@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
 import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
@@ -13,11 +13,9 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { reorderTrainingBlock, setSelectedTrainingBlock, trainingBlockDeleted } from 'src/ngrx/training-program/training-block/training-block.actions';
 import { trainingBlocks } from 'src/ngrx/training-program/training-block/training-block.selectors';
-import { TrainingBlock } from 'src/server-models/entities/training-program.model';
+import { BlockDurationType, TrainingBlock } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingBlockCreateEditComponent } from '../training-block-create-edit/training-block-create-edit.component';
-import { trainingBlockFetched } from './../../../../../../ngrx/training-program/training-block/training-block.actions';
-import { selectedTrainingProgramId } from './../../../../../../ngrx/training-program/training-program/training-program.selectors';
 
 @Component({
   selector: 'app-training-block-list',
@@ -103,9 +101,10 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
         headerClass: 'duration-header',
         cellClass: 'duration-cell',
         definition: 'duration',
-        title: 'TRAINING_BLOCK.DURATION_IN_DAYS',
+        title: 'TRAINING_BLOCK.DURATION',
         sort: false,
-        displayFn: (item: TrainingBlock) => item.durationInDays,
+        displayFn: (item: TrainingBlock) =>
+          this.translateService.instant(item.durationType == BlockDurationType.Weeks ? 'TRAINING_BLOCK.WEEKS' : 'TRAINING_BLOCK.DAYS', { number: item.durationType == BlockDurationType.Weeks ? item.duration / 7 : item.duration }),
       }),
     ]
   }
@@ -125,7 +124,7 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: true,
-      data: { title: 'TRAINING_BLOCK.ADD_TITLE', action: CRUD.Create, trainingBlock: new TrainingBlock({ order: this.tableDatasource.data.length }) },
+      data: { title: 'TRAINING_BLOCK.ADD_TITLE', action: CRUD.Create, trainingBlock: new TrainingBlock({ order: this.tableDatasource.data.length, durationType: BlockDurationType.Weeks }) },
       panelClass: []
     })
 

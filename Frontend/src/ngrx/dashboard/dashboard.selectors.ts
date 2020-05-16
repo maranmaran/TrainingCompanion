@@ -18,10 +18,7 @@ export const tracks = createSelector(
   (dashboardState: DashboardState) => dashboardState.tracks
 )
 
-export const activities = createSelector(
-  selectDashboardState,
-  (dashboardState: DashboardState) => dashboardState.activities
-)
+
 export const userActivities = createSelector(
   selectDashboardState,
   (dashboardState: DashboardState) => dashboardState.userActivities

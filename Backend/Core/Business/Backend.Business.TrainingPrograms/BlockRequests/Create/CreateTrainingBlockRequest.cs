@@ -11,6 +11,7 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Create
         public int Order { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int DurationInDays { get; set; }
+        public BlockDurationType DurationType { get; set; }
+        public int Duration { get; set; }
     }
 }

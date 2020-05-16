@@ -133,7 +133,9 @@
     "UPDATE_TITLE": "Update training program"
   },
   "TRAINING_BLOCK": {
-    "DURATION_IN_DAYS": "Duration (in days)",
+    "DURATION": "Duration",
+    "WEEKS": "{{number}} weeks",
+    "DAYS": "{{ number }} days",
     "DESCRIPTION_LABEL": "Description",
     "NAME_LABEL": "Training block",
     "DELETE_TITLE": "Delete training block",

@@ -1,12 +1,10 @@
-import { userActivities } from './dashboard.selectors';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import * as _ from 'lodash';
 import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from 'src/server-models/entities/track.model';
-import { Activity, UserActivitiesContainer, BasicActivityInfo, BasicUserInfo } from './../../app/features/dashboard/models/activity.model';
+import { Activity, UserActivitiesContainer } from './../../app/features/dashboard/models/activity.model';
 import * as DashboardActions from './dashboard.actions';
 import { DashboardState, initialDashboardState } from './dashboard.state';
-import { act } from '@ngrx/effects';
 
 export const dashboardReducer: ActionReducer<DashboardState, Action> = createReducer(
   initialDashboardState,
@@ -68,18 +66,8 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
       tracks: [...payload.tracks]
     }
   }),
-  on(DashboardActions.activitiesFetched, (state: DashboardState, payload: { activities: Activity[] }) => {
 
-    let extendedActivities = payload.activities.map(activity => {
-      return Object.assign({}, activity, { entity: JSON.parse(activity.activityInfo.jsonEntity) });
-    });
-
-    return {
-      ...state,
-      activities: [...extendedActivities]
-    }
-  }),
-  on(DashboardActions.groupedActivitiesFetched, (state: DashboardState, payload: { userActivities: UserActivitiesContainer[] }) => {
+  on(DashboardActions.activitiesFetched, (state: DashboardState, payload: { userActivities: UserActivitiesContainer[] }) => {
 
     let userActivitiesArr = [];
     payload.userActivities.forEach(ua => {
@@ -97,6 +85,7 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
       userActivities: [...userActivitiesArr]
     }
   }),
+
   on(DashboardActions.pushActivity, (state: DashboardState, payload: { activity: Activity }) => {
     let activityInfo = _.cloneDeep(payload.activity.activityInfo);
     let userInfo = _.cloneDeep(payload.activity.userInfo);
@@ -104,11 +93,6 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
     // parse json entity
     let entity = JSON.parse(activityInfo.jsonEntity);
     activityInfo.entity = entity;
-
-    // create new activity // deprecated since we are now grouping activities
-    // let newActivity = new Activity();
-    // newActivity.userInfo = Object.assign(new BasicUserInfo(), payload.activity.userInfo);
-    // newActivity.activityInfo = Object.assign(new BasicActivityInfo(), payload.activity.activityInfo, { entity });
 
     // get user activity groups if none exists create new else find and map
     var clonedUserActivities = _.cloneDeep(state.userActivities);
@@ -133,10 +117,10 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
 
     return {
       ...state,
-      // activities: [newActivity, ...state.activities], // we are using new grouping of activities.. these are deprecated for now (14.05.2020) // need to be removed from code
       userActivities: [...clonedUserActivities]
     }
   }),
+
   on(DashboardActions.activitySeen, (state: DashboardState, payload: { userId: string, activityId: string }) => {
 
     let userActivitiesIdx = state.userActivities.findIndex(x => x.userId == payload.userId);
@@ -151,6 +135,7 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
       userActivities: state.userActivities.map(x => x.userId == userActivities.userId ? userActivities : x)
     }
   }),
+
   on(DashboardActions.addTrackItem, (state: DashboardState, payload: { item: TrackItem, idx: number }) => {
     let tracks = _.cloneDeep(state.tracks);
     tracks[payload.idx].items.push(payload.item);

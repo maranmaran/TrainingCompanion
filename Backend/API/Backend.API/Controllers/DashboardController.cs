@@ -31,6 +31,7 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 
+        [Obsolete("We are using feed activities group by user see GetFeedGroupedByUser", true)]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetFeed(Guid userId, CancellationToken cancellationToken = default)
         {

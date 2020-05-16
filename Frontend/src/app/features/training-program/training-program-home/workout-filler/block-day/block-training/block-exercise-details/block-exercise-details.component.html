@@ -1,29 +1,3 @@
-<!-- <table class="block-exercise-details">
-    <th class="text-left">Exercise</th>
-    <th *ngIf="exerciseType.requiresWeight || exerciseType.requiresBodyweight">
-        Weight</th>
-    <th *ngIf="exerciseType.requiresReps">Reps</th>
-    <th *ngIf="exerciseType.requiresTime">Time</th>
-    <th *ngIf="settings.useRpeSystem">{{ rpeLabel | translate }}</th>
-
-    <tr *ngFor="let set of exercise.sets; let i = index">
-        <td class="text-left">
-            <div *ngIf="i == 0" (mouseenter)="previewId = i" (mouseleave)="previewId = null">{{ exerciseType.name }}
-            </div>
-
-            <ng-container *ngTemplateOutlet="exercise_tags; context: { id: i, tags: exerciseType.properties }">
-            </ng-container>
-
-        </td>
-        <td *ngIf="exerciseType.requiresWeight || exerciseType.requiresBodyweight">
-            {{ set.weight | transformWeight: settings.unitSystem }}</td>
-        <td *ngIf="exerciseType.requiresReps">{{set.reps}}</td>
-        <td *ngIf="exerciseType.requiresTime">{{set.time}}</td>
-        <td *ngIf="settings.useRpeSystem">{{ set.rpe | transformRpe: settings.rpeSystem }}</td>
-    </tr>
-</table> -->
-
-
 <mat-table [dataSource]="exercise.sets" class="block-exercise-table">
 
     <!-- Name column -->
@@ -78,3 +52,5 @@
 
 
 </ng-template>
+
+<!--TODO i18n -->

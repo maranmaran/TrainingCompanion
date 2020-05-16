@@ -1,4 +1,3 @@
-import { setSelectedTraining } from './../training-log/training.actions';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -14,6 +13,7 @@ import { AuthService } from '../../business/services/feature-services/auth.servi
 import { AppState } from '../global-setup.ngrx';
 import { enableErrorDialogs, setActiveProgressBar, switchTheme } from '../user-interface/ui.actions';
 import { SignInRequest } from './../../server-models/cqrs/authorization/sign-in.request';
+import { setSelectedTraining } from './../training-log/training.actions';
 import { setLanguage } from './../user-interface/ui.actions';
 import * as AuthActions from './auth.actions';
 
@@ -51,6 +51,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
         // TODO: Deprecated
+        // comment on 16.05.2020: what is deprecated ?
         switchMap(
           (currentUser: CurrentUser) => {
             localStorage.setItem('id', currentUser.id);

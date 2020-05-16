@@ -1,3 +1,5 @@
+import { BlockDurationType } from 'src/server-models/entities/training-program.model';
+
 export class CreateTrainingProgramRequest {
 
     constructor(data: Partial<CreateTrainingProgramRequest>) {
@@ -12,13 +14,14 @@ export class CreateTrainingProgramRequest {
 
 export class CreateTrainingBlockRequest {
 
-  constructor(data: Partial<CreateTrainingBlockRequest>) {
-      Object.assign(this, data);
-  }
+    constructor(data: Partial<CreateTrainingBlockRequest>) {
+        Object.assign(this, data);
+    }
 
-  trainingProgramId: string;
-  name: string;
-  order: number;
-  description: string;
-  durationInDays: number;
+    trainingProgramId: string;
+    name: string;
+    order: number;
+    description: string;
+    durationType: BlockDurationType;
+    duration: number;
 }

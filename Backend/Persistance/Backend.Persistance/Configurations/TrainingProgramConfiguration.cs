@@ -1,6 +1,8 @@
 ﻿using Backend.Domain.Entities.TrainingProgramMaker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TrainingProgram = Backend.Domain.Entities.TrainingProgramMaker.TrainingProgram;
+using TrainingProgramUser = Backend.Domain.Entities.TrainingProgramMaker.TrainingProgramUser;
 
 namespace Backend.Persistance.Configurations
 {
@@ -47,6 +49,8 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<TrainingBlock> builder)
         {
+            builder.Property(x => x.DurationType).HasDefaultValue(BlockDurationType.Weeks);
+
             builder
                 .HasOne(x => x.TrainingProgram)
                 .WithMany(x => x.TrainingBlocks)
