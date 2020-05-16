@@ -50,18 +50,10 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
 
     this.subs.add(
 
-      this.onTrainingProgramSelected(), // fetch blocks data
-
       // get data for table datasource
       this.store.select(trainingBlocks).subscribe((trainingBlocks: TrainingBlock[]) => this.tableDatasource.updateDatasource([...trainingBlocks]))
     )
 
-  }
-
-  onTrainingProgramSelected() {
-    return this.store.select(selectedTrainingProgramId)
-      .pipe(filter(id => !!id), switchMap(programId => this.trainingBlockService.getAll(programId as string)))
-      .subscribe((blocks: TrainingBlock[]) => this.store.dispatch(trainingBlockFetched({ entities: blocks })));
   }
 
   ngOnDestroy() {

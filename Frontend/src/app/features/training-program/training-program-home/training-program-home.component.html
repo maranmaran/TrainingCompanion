@@ -1,4 +1,5 @@
-<mat-tab-group [headerPosition]="mediaObserver.isActive('lt-sm') ? 'below' : 'above'" mat-stretch-tabs
+<!-- animationDuration="0ms" -->
+<mat-tab-group #tabs [headerPosition]="mediaObserver.isActive('lt-sm') ? 'below' : 'above'" mat-stretch-tabs
   [disablePagination]="true" [color]="'accent'" dynamicHeight>
 
   <mat-tab id="training-program">

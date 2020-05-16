@@ -30,7 +30,6 @@ export class WorkoutFillerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._subs.add(
-      this.onTrainingBlockSelected(),
       this.onDaysFetched()
     )
   }
@@ -40,12 +39,6 @@ export class WorkoutFillerComponent implements OnInit, OnDestroy {
   }
 
   dayId = (day: TrainingBlockDay) => day.id;
-
-  onTrainingBlockSelected() {
-    return this.store.select(selectedTrainingBlockId)
-      .pipe(filter(id => !!id), switchMap(blockId => this.dayService.getAll(blockId as string)))
-      .subscribe((blocks: TrainingBlockDay[]) => this.store.dispatch(trainingBlockDayFetched({ entities: blocks })));
-  }
 
   onDaysFetched() {
     return this.store.select(trainingBlockDays).subscribe(
