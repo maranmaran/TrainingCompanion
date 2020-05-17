@@ -1,11 +1,10 @@
-import { initialDashboardState } from './../../../../../../ngrx/dashboard/dashboard.state';
-import { TrainingService } from './../../../../../../business/services/feature-services/training.service';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
-import { TrainingCreateEditComponent } from 'src/app/features/training-log/training/training-create-edit/training-create-edit.component';
 import { take } from 'rxjs/operators';
+import { TrainingCreateEditComponent } from 'src/app/features/training-log/training/training-create-edit/training-create-edit.component';
+import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
 import { Training } from 'src/server-models/entities/training.model';
+import { TrainingService } from './../../../../../../business/services/feature-services/training.service';
 
 @Component({
   selector: 'app-block-day',
@@ -18,7 +17,8 @@ export class BlockDayComponent implements OnInit {
   isRestDay: boolean = false;
 
   public get dayLabel(): string {
-    return this.translate.instant('TRAINING_BLOCK_DAY.DAY_LABEL', { number: (this.day.order - 1) % 7 + 1 });
+    // return this.translate.instant('TRAINING_BLOCK_DAY.DAY_LABEL', { number: (this.day.order - 1) % 7 + 1 });
+    return `${(this.day.order - 1) % 7 + 1}.`;
   }
 
   constructor(

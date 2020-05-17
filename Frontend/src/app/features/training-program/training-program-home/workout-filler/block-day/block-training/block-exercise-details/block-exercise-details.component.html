@@ -1,8 +1,8 @@
-<mat-table [dataSource]="exercise.sets" class="block-exercise-table">
+<mat-table [dataSource]="exercise.sets" class="block-exercise-table exericse-drag-placeholder cursor-move">
 
     <!-- Name column -->
     <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> Exercise </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{ exercise.order + 1 }}. exercise </mat-header-cell>
         <mat-cell *matCellDef="let element; let i = index">
 
             <div *ngIf="i == 0" (mouseenter)="previewId = i" (mouseleave)="previewId = null">
@@ -40,7 +40,8 @@
         <mat-cell *matCellDef="let element;"> {{ element.rpe | transformRpe: settings.rpeSystem }} </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns">
+    </mat-header-row>
     <mat-row class="position-relative" *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 

@@ -1,18 +1,17 @@
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
-import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
-import { TranslateService } from '@ngx-translate/core';
-import { BlockExerciseCreateEditComponent } from './block-exercise-create-edit/block-exercise-create-edit.component';
-import { UIService } from 'src/business/services/shared/ui.service';
-import { Component, OnInit, Input } from '@angular/core';
-import { Training } from 'src/server-models/entities/training.model';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { Exercise } from 'src/server-models/entities/exercise.model';
-import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
-import { forkJoin, of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
-import { selectedTraining } from 'src/ngrx/training-log/training.selectors';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
+import { forkJoin, of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { UIService } from 'src/business/services/shared/ui.service';
+import { CRUD } from 'src/business/shared/crud.enum';
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { Training } from 'src/server-models/entities/training.model';
+import { BlockExerciseCreateEditComponent } from './block-exercise-create-edit/block-exercise-create-edit.component';
 
 @Component({
   selector: 'app-block-training',
@@ -22,6 +21,8 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 export class BlockTrainingComponent implements OnInit {
 
   @Input() training: Training;
+  @Input() order: number;
+
   private _userId: string;
 
   constructor(

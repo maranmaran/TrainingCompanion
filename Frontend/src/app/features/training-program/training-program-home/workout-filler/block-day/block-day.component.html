@@ -1,4 +1,5 @@
-<mat-expansion-panel class="block-day-panel" [hideToggle]="true" [expanded]="!isRestDay">
+<mat-expansion-panel class="block-day-panel" [hideToggle]="true" [expanded]="!isRestDay"
+    [ngClass]="{'disabled-background': !dayModeToggle.checked}">
 
     <!-- [ngClass]="{'disabled-background pointer-events-none': isRestDay}" -->
     <mat-expansion-panel-header class="block-day-header" (click)="dayModeToggle.toggle();">
@@ -24,7 +25,8 @@
 
     <ng-template matExpansionPanelContent>
         <mat-accordion id="trainings-accordion">
-            <app-block-training *ngFor="let training of day.trainings" [training]="training">
+            <app-block-training *ngFor="let training of day.trainings; let i = index" [training]="training"
+                [order]="i + 1">
             </app-block-training>
         </mat-accordion>
     </ng-template>
