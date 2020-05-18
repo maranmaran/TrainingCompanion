@@ -1,18 +1,15 @@
-import { MediaObserver } from '@angular/flex-layout';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MediaObserver } from '@angular/flex-layout';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort, MatSortable } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Store } from '@ngrx/store';
 import _ from "lodash";
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, delay } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
 import { CustomColumn } from "./table-models/custom-column.model";
 import { PagingModel } from './table-models/paging.model';
@@ -57,6 +54,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   totalItems: Observable<number>;
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  @ViewChild(MatTable, { static: true, read: ElementRef }) tableNative: ElementRef;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter') filter: ElementRef;
@@ -67,7 +65,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   private subs = new SubSink();
 
   constructor(
-    private mediaObserver: MediaObserver
+    private mediaObserver: MediaObserver,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit() {
@@ -290,4 +289,12 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.pagingChangeEvent.emit(this.pagingModel);
   }
 
+  onDragStarted() {
+    console.log(this.tableNative.nativeElement);
+    this.renderer.addClass(this.tableNative.nativeElement, 'pointer-events-none');
+  }
+
+  onDragEnded() {
+    this.renderer.removeClass(this.tableNative.nativeElement, 'pointer-events-none');
+  }
 }
