@@ -61,7 +61,7 @@ export class TrainingEffects {
       )
     , { dispatch: false });
 
-  reorderedTagGroups$ = createEffect(() =>
+  reorderExercise$ = createEffect(() =>
     this.actions$
       .pipe(
         ofType(TrainingActions.reorderExercises),

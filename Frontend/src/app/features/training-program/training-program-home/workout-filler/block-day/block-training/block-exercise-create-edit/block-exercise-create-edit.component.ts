@@ -1,33 +1,29 @@
-import { initialDashboardState } from './../../../../../../../../ngrx/dashboard/dashboard.state';
-import { HttpErrorResponse } from '@angular/common/http';
-import { subscriptionStatus } from './../../../../../../../../ngrx/auth/auth.selectors';
-import { UserSetting } from 'src/server-models/entities/user-settings.model';
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Guid } from 'guid-typescript';
+import * as _ from 'lodash';
+import { Observable } from 'rxjs';
+import { debounceTime, distinct, filter, finalize, skip, switchMap, take, tap } from 'rxjs/operators';
+import { ExerciseCreateEditComponent } from 'src/app/features/training-log/exercise/exercise-create-edit/exercise-create-edit.component';
+import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ExerciseCreateEditComponent } from 'src/app/features/training-log/exercise/exercise-create-edit/exercise-create-edit.component';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { Exercise } from 'src/server-models/entities/exercise.model';
-import { PagedList } from 'src/server-models/shared/paged-list.model';
-import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
-import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
-import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
-import { SubSink } from 'subsink';
-import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
-import { take, debounceTime, distinct, skip, filter, tap, switchMap, finalize } from 'rxjs/operators';
-import * as _ from 'lodash';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Set } from 'src/server-models/entities/set.model';
-import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
-import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { transformWeightToNumber } from 'src/business/services/shared/unit-system.service';
-import { Guid } from 'guid-typescript';
-import { HttpError } from '@microsoft/signalr';
-import { Observable } from 'rxjs';
+import { CRUD } from 'src/business/shared/crud.enum';
+import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { Set } from 'src/server-models/entities/set.model';
+import { UserSetting } from 'src/server-models/entities/user-settings.model';
+import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
+import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { PagedList } from 'src/server-models/shared/paged-list.model';
+import { SubSink } from 'subsink';
 
 //TODO: This will be duplicated template code from
 // exercise-create-edit
@@ -64,7 +60,7 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   setFormGroups: FormGroup[] = [];
   exercise: Exercise;
 
-  sets: Set[] = [];
+  sets: Set[];
   settings: UserSetting;
   exerciseId: string;
 
@@ -136,11 +132,19 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   //#region Sets form
   createSetForms() {
     this.setFormGroups = [];
+    this.sets = [this.getNewSet()]
     this.sets.forEach(set => {
       this.setFormGroups.push(
         new FormGroup(this.getControls(set))
       )
     });
+  }
+
+  getNewSet() {
+    let set = new Set();
+    set.exerciseId = this.exerciseId;
+
+    return set;
   }
 
   getControls(set: Set): { [key: string]: AbstractControl } {

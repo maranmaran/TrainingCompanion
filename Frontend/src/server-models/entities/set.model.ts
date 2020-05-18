@@ -1,6 +1,5 @@
 import { Time } from '@angular/common';
 import { Guid } from 'guid-typescript';
-import { Exercise } from './exercise.model';
 
 export class Set {
 
@@ -9,8 +8,8 @@ export class Set {
     }
 
     id: string = Guid.EMPTY;
-    weight: number;
-    reps: number;
+    weight: number = 0;
+    reps: number = 0;
     time: Time;
     rpe: number = 8;
     rir: number = 2;

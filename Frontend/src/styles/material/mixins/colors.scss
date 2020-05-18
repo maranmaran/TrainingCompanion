@@ -63,12 +63,25 @@
   $theme-text: map-get($foreground-palette, text);
   $theme-text-reversed: map-get($background-palette, background);
 
+  // status-bar
+  // app-bar
+  // background
+  // hover
+  // card
+  // dialog
+  // disabled-button
+  // raised-button
+  // focused-button
+  // selected-button
+  // selected-disabled-button
+  // disabled-button-toggle
   $theme-dialog: map-get($background-palette, dialog);
   $theme-background: map-get($background-palette, background);
   $theme-hover: map-get($background-palette, hover);
   $theme-app-bar: map-get($background-palette, app-bar);
   $theme-status-bar: map-get($background-palette, status-bar);
   $theme-card: map-get($background-palette, card);
+  $theme-dialog: map-get($background-palette, dialog);
   $theme-disabled-button: map-get($background-palette, disabled-button);
   //====================================================
 
@@ -135,6 +148,18 @@
   }
 
   // THEME BACKGROUNDS
+  .theme-app-bar {
+    background: $theme-app-bar;
+  }
+  .theme-status-bar {
+    background: $theme-status-bar;
+  }
+  .theme-card {
+    background: $theme-card;
+  }
+  .theme-dialog {
+    background: $theme-dialog;
+  }
   .theme-background {
     background: $theme-background;
   }

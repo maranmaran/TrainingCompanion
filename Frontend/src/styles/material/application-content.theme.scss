@@ -28,6 +28,7 @@
 @import "./mixins/tabs.scss";
 @import "./mixins/training-program.scss";
 @import "./mixins/workout-filler.scss";
+@import "./mixins/drag-drop.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -55,6 +56,7 @@
   @include tabs-theme($theme);
   @include training-program-theme($theme);
   @include workout-filler-theme($theme);
+  @include drag-drop-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================
