@@ -40,6 +40,23 @@
         <mat-cell *matCellDef="let element;"> {{ element.rpe | transformRpe: settings.rpeSystem }} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>
+            <!--Cell actions menu button-->
+            <button matTooltip="Exercise actions" mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu"
+                (click)="$event.stopPropagation()">
+                <i class="fa fa-ellipsis-v"></i>
+            </button>
+
+            <mat-menu class="material-table-menu" #cellMenu="matMenu">
+                <ng-container *ngTemplateOutlet="actions"></ng-container>
+            </mat-menu>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element;">
+            <div class="dummy-action" style="height:40px; width: 40px"></div>
+        </mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="displayedColumns">
     </mat-header-row>
     <mat-row class="position-relative" *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -47,7 +64,7 @@
 
 <ng-template #exercise_tags let-id="id" let-tags="tags">
 
-    <div class="preview-container theme-background mat-elevation-z5" *ngIf="previewId == id && tags?.length > 0">
+    <div class="preview-container theme-card mat-elevation-z5" *ngIf="previewId == id && tags?.length > 0">
         <app-exercise-type-chip-list class="m-1" [propertyList]="tags"></app-exercise-type-chip-list>
     </div>
 
@@ -55,3 +72,16 @@
 </ng-template>
 
 <!--TODO i18n -->
+
+<!--ACTION BUTTONS-->
+<ng-template #actions>
+    <button matTooltip="Edit sets" mat-icon-button color="accent" (click)="onUpdateSets()"
+        (click)="$event.stopPropagation()">
+        <i class="fas fa-edit"></i>
+    </button>
+    <!--DELETE ONE-->
+    <button matTooltip="Delete exercise" mat-icon-button color="accent" (click)="onDeleteExercise()"
+        (click)="$event.stopPropagation()">
+        <i class="fas fa-trash"></i>
+    </button>
+</ng-template>

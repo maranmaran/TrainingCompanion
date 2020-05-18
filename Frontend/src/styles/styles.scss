@@ -58,6 +58,10 @@ body {
   }
 }
 
+.transparent {
+  background: transparent;
+}
+
 .main-router-outlet + * {
   overflow-y: auto;
   height: 100%;

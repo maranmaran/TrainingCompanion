@@ -17,8 +17,9 @@
     position: relative !important;
 }
 
-.exericse-drag-placeholder {
-    // background: #ccc;
-    // border: dotted 3px #999;
-    // transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+.mat-column-reps,
+.mat-column-weight,
+.mat-column-time,
+.mat-column-rpe {
+    justify-content: center;
 }

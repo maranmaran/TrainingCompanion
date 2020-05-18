@@ -290,7 +290,6 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   onDragStarted() {
-    console.log(this.tableNative.nativeElement);
     this.renderer.addClass(this.tableNative.nativeElement, 'pointer-events-none');
   }
 

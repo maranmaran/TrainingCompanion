@@ -1,13 +1,12 @@
-import { UserSetting } from 'src/server-models/entities/user-settings.model';
-import { unitSystem, userSetting } from 'src/ngrx/auth/auth.selectors';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from './../../../../../../../../ngrx/global-setup.ngrx';
-import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
-import { Component, OnInit, Input } from '@angular/core';
-import { Exercise } from 'src/server-models/entities/exercise.model';
-import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { take } from 'rxjs/operators';
+import { userSetting } from 'src/ngrx/auth/auth.selectors';
+import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { Exercise } from 'src/server-models/entities/exercise.model';
+import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
+import { AppState } from './../../../../../../../../ngrx/global-setup.ngrx';
 
 @Component({
   selector: 'app-block-exercise-details',
@@ -56,6 +55,8 @@ export class BlockExerciseDetailsComponent implements OnInit {
 
     if (this.settings.useRpeSystem)
       this.displayedColumns.push('rpe')
+
+    this.displayedColumns.push('actions');
   }
 
 }
