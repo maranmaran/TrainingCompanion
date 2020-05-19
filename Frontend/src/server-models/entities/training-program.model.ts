@@ -58,5 +58,6 @@ export class TrainingBlockDay {
   id: string;
   order: number;
   restDay: boolean;
+  modified: boolean;
   trainings: Training[]
 }

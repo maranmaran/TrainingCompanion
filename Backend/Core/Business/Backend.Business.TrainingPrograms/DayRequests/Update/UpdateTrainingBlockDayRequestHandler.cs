@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingPrograms.DayRequests.Update
 {
@@ -26,11 +26,17 @@ namespace Backend.Business.TrainingPrograms.DayRequests.Update
         {
             try
             {
-                var entity = await _context.TrainingBlockDays.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                var entity = await _context.TrainingBlockDays.Include(x => x.Trainings).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-                _mapper.Map(request, entity);
+                if (request.RestDay)
+                {
+                    _context.Trainings.RemoveRange(entity.Trainings);
 
-                _context.TrainingBlockDays.Update(entity);
+                    entity.Trainings = null;
+                    entity.Modified = true;
+                    _context.TrainingBlockDays.Update(entity);
+                }
+
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return entity;

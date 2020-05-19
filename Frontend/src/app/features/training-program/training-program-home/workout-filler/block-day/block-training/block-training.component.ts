@@ -128,7 +128,6 @@ export class BlockTrainingComponent implements OnInit {
       confirmLabel: 'SHARED.DELETE'
     });
 
-    console.log(this.training);
     deleteDialogConfig.message = this.translateService.instant('TRAINING_PROGRAM.DELETE_TRAINING_BODY', { time: applyUserTimezone(this.training.dateTrained).format('HH:mm'), day: this.dayIdx % 7, week: this.weekIdx + 1 });
 
     var dialogRef = this.UIService.openConfirmDialog(deleteDialogConfig);

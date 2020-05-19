@@ -133,7 +133,10 @@
     "ADD_TITLE": "Add training program",
     "UPDATE_TITLE": "Update training program",
     "DELETE_TRAINING_TITLE": "Remove training",
-    "DELETE_TRAINING_BODY": "<p>Are you sure you wish to remove training on <b>week {{week}} day {{day}}</b> at <b>{{time}}</b>?</p><p>All data configured for that training will be lost.</p>"
+    "DELETE_TRAINING_BODY": "<p>Are you sure you wish to remove training on <b>week {{week}} day {{day}}</b> at <b>{{time}}</b>?</p><p>All data configured for that training will be lost.</p>",
+    "MARK_REST_DAY_TITLE": "Mark as rest day",
+    "MARK_REST_DAY_BODY": "<p>Are you sure you wish to mark this <b>week {{week}} day {{day}}</b> as <b>REST</b> day</b>?</p><p>All training data recorded for this day will be lost.</p>",
+    "MARK_REST_DAY_BTN": "Mark"
   },
   "TRAINING_BLOCK": {
     "DURATION": "Duration",

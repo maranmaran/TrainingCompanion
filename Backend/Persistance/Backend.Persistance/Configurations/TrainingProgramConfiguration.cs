@@ -66,6 +66,8 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<TrainingBlockDay> builder)
         {
+            builder.Property(x => x.Modified).HasDefaultValue(false);
+
             builder
                 .HasOne(x => x.TrainingBlock)
                 .WithMany(x => x.Days)
