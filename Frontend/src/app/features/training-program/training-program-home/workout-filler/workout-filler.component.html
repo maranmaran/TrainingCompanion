@@ -8,7 +8,7 @@
         <!--Days vertically -->
         <!-- [displayMode]="'flat'" -->
         <mat-accordion multi="true" class="program-headers-align">
-            <app-block-day [day]="day" *ngFor="let day of week; trackBy: dayId"></app-block-day>
+            <app-block-day [day]="day" [weekIdx]="weekNum" *ngFor="let day of week; trackBy: dayId"></app-block-day>
         </mat-accordion>
     </div>
 

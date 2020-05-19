@@ -75,12 +75,12 @@
 
 <!--ACTION BUTTONS-->
 <ng-template #actions>
-    <button matTooltip="Edit sets" mat-icon-button color="accent" (click)="onUpdateSets()"
+    <button matTooltip="Edit sets" mat-icon-button color="accent" (click)="onUpdateSets(exercise)"
         (click)="$event.stopPropagation()">
         <i class="fas fa-edit"></i>
     </button>
     <!--DELETE ONE-->
-    <button matTooltip="Delete exercise" mat-icon-button color="accent" (click)="onDeleteExercise()"
+    <button matTooltip="Delete exercise" mat-icon-button color="accent" (click)="onDeleteEvent.emit(exercise)"
         (click)="$event.stopPropagation()">
         <i class="fas fa-trash"></i>
     </button>

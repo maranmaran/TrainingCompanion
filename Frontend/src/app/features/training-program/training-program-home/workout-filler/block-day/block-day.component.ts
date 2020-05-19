@@ -14,6 +14,7 @@ import { TrainingService } from './../../../../../../business/services/feature-s
 export class BlockDayComponent implements OnInit {
 
   @Input() day: TrainingBlockDay;
+  @Input() weekIdx: number;
   isRestDay: boolean = false;
 
   public get dayLabel(): string {
@@ -42,6 +43,15 @@ export class BlockDayComponent implements OnInit {
         this.day.trainings.push(training);
         //this.store.dispatch(trainingAddedToBlockDay({training: training, blockDay: day}));
       });
+  }
+
+  onDelete(training: Training) {
+    let idx = this.day.trainings.indexOf(training);
+    this.day.trainings.splice(idx, 1);
+  }
+
+  onCopy(training: Training) {
+    throw new Error("Not implemented");
   }
 
 }

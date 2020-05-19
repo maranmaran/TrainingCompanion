@@ -131,7 +131,9 @@
     "DELETE_TITLE": "Delete training program",
     "DELETE_DIALOG": "<p>Are you sure you wish to delete training program {{trainingProgram}}?</p>",
     "ADD_TITLE": "Add training program",
-    "UPDATE_TITLE": "Update training program"
+    "UPDATE_TITLE": "Update training program",
+    "DELETE_TRAINING_TITLE": "Remove training",
+    "DELETE_TRAINING_BODY": "<p>Are you sure you wish to remove training on <b>week {{week}} day {{day}}</b> at <b>{{time}}</b>?</p><p>All data configured for that training will be lost.</p>"
   },
   "TRAINING_BLOCK": {
     "DURATION": "Duration",
@@ -140,18 +142,9 @@
     "DESCRIPTION_LABEL": "Description",
     "NAME_LABEL": "Training block",
     "DELETE_TITLE": "Delete training block",
-    "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{trainingBlock}}?</p>/n<p>All data for that training block will be lost.</p>",
+    "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{trainingBlock}}?</p><p>All data for that training block will be lost.</p>",
     "ADD_TITLE": "Add training block",
     "UPDATE_TITLE": "Update training block"
-  },
-  "TRAINING_BLOCK_DAY": {
-    "DAYS_HEADER": "Training block days",
-    "DAY_LABEL": "Day {{number}}",
-    "HAS_TRAINING": "Has trainings",
-    "NAME_LABEL": "Training block",
-    "DELETE_TITLE": "Delete training block day",
-    "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{name}}?</p>/n<p>Data for all trainings on that day will be lost.</p>",
-    "ADD_TITLE": "Add training block day"
   },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Import",

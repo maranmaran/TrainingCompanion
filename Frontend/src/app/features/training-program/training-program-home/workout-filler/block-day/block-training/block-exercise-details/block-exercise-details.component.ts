@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
@@ -16,9 +16,11 @@ import { AppState } from './../../../../../../../../ngrx/global-setup.ngrx';
 export class BlockExerciseDetailsComponent implements OnInit {
 
   @Input() exercise: Exercise;
+  @Output("delete") onDeleteEvent = new EventEmitter<Exercise>()
 
   settings: UserSetting;
   previewId?: number;
+
 
   get exerciseType(): ExerciseType {
     return this.exercise.exerciseType;
@@ -57,6 +59,11 @@ export class BlockExerciseDetailsComponent implements OnInit {
       this.displayedColumns.push('rpe')
 
     this.displayedColumns.push('actions');
+  }
+
+  onUpdateSets(exercise: Exercise) {
+    console.log(exercise);
+
   }
 
 }

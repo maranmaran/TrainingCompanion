@@ -13,13 +13,13 @@
                 </button>
 
                 <!--TODO i18n-->
-                <button class="pointer-events" matTooltip="Add exercise" mat-icon-button color="accent"
-                    (click)="$event.stopPropagation(); onAdd(training)"><i class="fas fa-copy"></i>
+                <button class="pointer-events" matTooltip="Copy training" mat-icon-button color="accent"
+                    (click)="$event.stopPropagation(); onCopy(training)"><i class="fas fa-copy"></i>
                 </button>
 
                 <!--TODO i18n-->
-                <button class="pointer-events" matTooltip="Add exercise" mat-icon-button color="accent"
-                    (click)="$event.stopPropagation(); onAdd(training)"><i class="fas fa-trash"></i>
+                <button class="pointer-events" matTooltip="Remove training" mat-icon-button color="accent"
+                    (click)="$event.stopPropagation(); onDelete(training)"><i class="fas fa-trash"></i>
                 </button>
 
             </mat-panel-description>
@@ -32,7 +32,8 @@
             <div class="exercise-item" *ngFor="let exercise of training.exercises" cdkDrag [cdkDragData]="exercise"
                 [cdkDragStartDelay]="300">
                 <mat-divider></mat-divider>
-                <app-block-exercise-details class="h-100 w-100" [exercise]="exercise"> </app-block-exercise-details>
+                <app-block-exercise-details class="h-100 w-100" [exercise]="exercise"
+                    (delete)="onDeleteExercise($event)"> </app-block-exercise-details>
             </div>
         </div>
     </ng-template>
