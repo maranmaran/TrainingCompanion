@@ -67,7 +67,7 @@ namespace Backend.API
 
 
             // ===== Require HTTPS =====
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             // https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-3.0&tabs=visual-studio
             app.UseRouting();

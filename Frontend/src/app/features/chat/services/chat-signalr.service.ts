@@ -4,12 +4,12 @@ import * as signalR from "@microsoft/signalr";
 import { Store } from '@ngrx/store';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { SubSink } from 'subsink';
 import { AuthService } from '../../../../business/services/feature-services/auth.service';
 import { currentUser } from '../../../../ngrx/auth/auth.selectors';
 import { AccountType } from '../../../../server-models/enums/account-type.enum';
+import { AppSettingsService } from './../../../../business/services/shared/app-settings.service';
 import { PagingModel } from './../../../shared/material-table/table-models/paging.model';
 import { IChatParticipant } from './../models/chat-participant.model';
 import { Message } from './../models/message.model';
@@ -23,27 +23,28 @@ export class ChatSignalrService implements OnDestroy {
   hubConnection: signalR.HubConnection;
   subs = new SubSink();
 
-  private messagesSubject = new Subject<({friend: IChatParticipant, message: Message})>()
+  private messagesSubject = new Subject<({ friend: IChatParticipant, message: Message })>()
   messages$ = this.messagesSubject.asObservable();
 
   constructor(
     private authService: AuthService,
     private store: Store<AppState>,
     private http: HttpClient,
+    private appSettings: AppSettingsService
   ) {
     this.subs.add(this.authService.signOutEvent.subscribe(() => this.stopConnection()));
   }
 
   init() {
     this.store.select(currentUser)
-    .pipe(take(1), map(user => ({ userId: user.id, userAccountType: user.accountType }) ))
-    .subscribe(
-      params => {
-        this.params = params;
-        this.initializeConnection()
-      },
-      _ => console.error("Couldn't resolve parameters for signalr chat connection")
-    );
+      .pipe(take(1), map(user => ({ userId: user.id, userAccountType: user.accountType })))
+      .subscribe(
+        params => {
+          this.params = params;
+          this.initializeConnection()
+        },
+        _ => console.error("Couldn't resolve parameters for signalr chat connection")
+      );
   }
 
   stopConnection() {
@@ -59,7 +60,7 @@ export class ChatSignalrService implements OnDestroy {
 
   initializeConnection(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(environment.chatHubUrl)
+      .withUrl(this.appSettings.chatHubUrl)
       .build();
 
     this.hubConnection.serverTimeoutInMilliseconds = 100000; // 100 sec
@@ -73,7 +74,7 @@ export class ChatSignalrService implements OnDestroy {
 
   initializeListeners(): void {
     this.hubConnection.on("messageReceived", (friend: IChatParticipant, message: Message) => {
-      this.messagesSubject.next( { friend, message } );
+      this.messagesSubject.next({ friend, message });
     });
 
     this.hubConnection.on("friendsListChanged", () => {
@@ -100,7 +101,7 @@ export class ChatSignalrService implements OnDestroy {
       receiverId: receiverId
     }
 
-    if(pagingModel) {
+    if (pagingModel) {
       endpoint = 'GetChatHistoryPaged';
       request.page = pagingModel.page;
       request.pageSize = pagingModel.pageSize;

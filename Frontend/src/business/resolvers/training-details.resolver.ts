@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { concatMap, map, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedExercise, setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training.actions';
@@ -11,11 +11,12 @@ import { TrainingService } from '../services/feature-services/training.service';
 import { LocalStorageKeys } from '../shared/localstorage.keys.enum';
 
 @Injectable()
-export class TrainingDetailsResolver implements Resolve<Observable<Training | void>> {
+export class TrainingDetailsResolver implements Resolve<Observable<Training> | Observable<unknown>> {
 
     constructor(
         private trainingService: TrainingService,
-        private store: Store<AppState>
+        private store: Store<AppState>,
+        private router: Router
     ) { }
 
 
@@ -27,6 +28,12 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training | vo
                 concatMap((id: string) => {
                     if (!id) {
                         id = localStorage.getItem(LocalStorageKeys.trainingId);
+
+                        if (!id) {
+                            this.router.navigate(['/app/training-log'])
+                            return of();
+                        }
+
                         return this.getState(id);
                     }
 

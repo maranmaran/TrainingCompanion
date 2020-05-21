@@ -1,23 +1,24 @@
 <div class="carousel-container" fxLayout="column">
+
     <button fxFlexAlign="flex-end" class="float-right pointer mb-1" mat-icon-button color="accent" (click)="onClose()">
         <i class="fas fa-times"></i>
     </button>
 
     <div id="carousel">
         <ngu-carousel #carousel [inputs]="carouselConfig" [dataSource]="carouselItems">
-            <div *nguCarouselDef="let data;" class="item">
+            <div *nguCarouselDef="let data; let i = index" class="item">
 
                 <ng-container [ngSwitch]="data.type">
 
-                    <div mat-dialog-content class="tile pointer-events-none">
+                    <div mat-dialog-content class="tile">
 
                         <ng-container *ngSwitchCase="mediaType.Video">
-                            <video width="100%" height="auto" controls>
+                            <video (playing)="onPlayingVideo($event, i)" width="100%" height="auto" controls>
                                 <source src="{{data.downloadUrl}}" type="video/mp4">
                                 {{'SHARED.VIDEO_NOT_SUPPORTED' | translate}} </video>
                         </ng-container>
                         <ng-container *ngSwitchCase="0">
-                            <video width="100%" height="auto" controls>
+                            <video (playing)="onPlayingVideo($event, i)" width="100%" height="auto" controls>
                                 <source src="{{data.downloadUrl}}" type="video/mp4">
                                 {{'SHARED.VIDEO_NOT_SUPPORTED' | translate}} </video>
                         </ng-container>

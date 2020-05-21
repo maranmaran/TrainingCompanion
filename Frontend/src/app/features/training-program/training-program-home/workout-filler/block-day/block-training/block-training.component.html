@@ -13,6 +13,11 @@
                 </button>
 
                 <!--TODO i18n-->
+                <button class="pointer-events" matTooltip="Edit note" mat-icon-button color="accent"
+                    (click)="$event.stopPropagation(); onEditNote(training)"><i class="fas fa-edit"></i>
+                </button>
+
+                <!--TODO i18n-->
                 <button class="pointer-events" matTooltip="Copy training" mat-icon-button color="accent"
                     (click)="$event.stopPropagation(); onCopy(training)"><i class="fas fa-copy"></i>
                 </button>

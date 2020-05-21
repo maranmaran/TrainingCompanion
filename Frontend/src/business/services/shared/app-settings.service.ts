@@ -1,7 +1,7 @@
-import { HttpHeaders } from '@angular/common/http';
-import { Injectable, InjectionToken, Inject } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { ComponentType } from '@angular/cdk/portal';
+import { HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 export const NOTIFICATION_TOAST_TOKEN: InjectionToken<ComponentType<any>> =
   new InjectionToken<ComponentType<any>>('NOTIFICATION_TOAST_TOKEN');
@@ -17,28 +17,29 @@ export class AppSettingsService {
    * Returns the base URL for the API.
    */
   public get apiUrl(): string {
-    return environment.apiUrl;
+    // return environment.apiUrl;
+    return environment.apiUrlNoSSL;
   }
 
   /**
  * Returns the base URL for the Push notifications hub.
  */
   public get notificationHubUrl(): string {
-    return environment.notificationHubUrl;
+    return environment.notificationHubUrlNoSSL;
   }
 
   /**
 * Returns the base URL for the Push notifications hub.
 */
   public get feedHubUrl(): string {
-    return environment.feedHubUrl;
+    return environment.feedHubUrlNoSSL;
   }
 
   /**
 * Returns the base URL for the Chat hub.
 */
   public get chatHubUrl(): string {
-    return environment.chatHubUrl;
+    return environment.chatHubUrlNoSSL;
   }
 
   /**

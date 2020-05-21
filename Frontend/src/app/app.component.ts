@@ -30,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.translationSetup();
   }
 
+
   ngOnInit(): void {
 
     this.loading$ = getLoadingState(this.store, UIProgressBar.SplashScreen); // loading of splash screen

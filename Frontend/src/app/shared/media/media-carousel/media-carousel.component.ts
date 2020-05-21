@@ -1,9 +1,8 @@
-import { MediaType } from './../../../../server-models/enums/media-type.enum';
-import { Component, OnInit, Input, Inject, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { MediaFile } from 'src/server-models/entities/media-file.model';
-import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatButton } from '@angular/material/button';
+import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
+import { MediaFile } from 'src/server-models/entities/media-file.model';
+import { MediaType } from './../../../../server-models/enums/media-type.enum';
 
 @Component({
   selector: 'app-media-carousel',
@@ -23,7 +22,11 @@ export class MediaCarouselComponent implements OnInit, AfterViewInit {
     load: 1,
     loop: false,
     touch: true,
-    velocity: 0.2
+    velocity: 0.3,
+    point: {
+      visible: true,
+      hideOnSingleSlide: true
+    }
   }
   carouselItems = [];
 
@@ -62,5 +65,14 @@ export class MediaCarouselComponent implements OnInit, AfterViewInit {
 
   next(event = null) {
     this.nextBtn.nativeElement.click();
+  }
+
+  // handle play of video on swipe event
+  onPlayingVideo(event, index) {
+    if (this.carousel.currentSlide != index) {
+      event.target.pause();
+      event.target.currentTime = 0;
+      event.target.load();
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -38,6 +38,8 @@ export class BlockTrainingComponent implements OnInit {
 
   private _userId: string;
   @ViewChild("trainingPanel") panel: MatExpansionPanel;
+  @ViewChild("actions") actions: ElementRef;
+  @ViewChild("actionsBtn", { read: ElementRef }) actionsBtn: ElementRef;
 
   constructor(
     private UIService: UIService,
@@ -45,7 +47,8 @@ export class BlockTrainingComponent implements OnInit {
     private exerciseTypeService: ExerciseTypeService,
     private trainingService: TrainingService,
     private store: Store<AppState>,
-    private exerciseService: ExerciseService
+    private exerciseService: ExerciseService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
@@ -173,6 +176,10 @@ export class BlockTrainingComponent implements OnInit {
             );
         }
       });
+  }
+
+  onEditNote(training: Training) {
+
   }
 
   onCopy(training: Training) {

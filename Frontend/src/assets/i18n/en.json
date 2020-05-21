@@ -139,6 +139,7 @@
     "MARK_REST_DAY_BTN": "Mark"
   },
   "TRAINING_BLOCK": {
+    "DAY_LABEL": "Day",
     "DURATION": "Duration",
     "WEEKS": "{{number}} weeks",
     "DAYS": "{{ number }} days",

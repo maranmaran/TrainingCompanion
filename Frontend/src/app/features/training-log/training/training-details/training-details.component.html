@@ -44,7 +44,7 @@
 <ng-template #header let-training="training">
   <div class="training-header" fxLayout="column" fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-between">
     <h3 *ngIf="training.trainingProgram" class="title bold">
-      {{ training.trainingProgram?.name }} ({{'TRAINING_BLOCK_DAY.DAY_LABEL' | translate }}
+      {{ training.trainingProgram?.name }} ({{'TRAINING_BLOCK.DAY_LABEL' | translate }}
       {{ training.trainingBlockDay?.order }})
     </h3>
 

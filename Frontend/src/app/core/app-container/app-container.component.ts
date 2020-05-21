@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
@@ -60,8 +60,10 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // chat configurations
-    // this.chatConfig = this.chatService.getChatConfiguration(this.theme);
+    // debug for local storage only
+    window.addEventListener("storage", (function (e) {
+      console.debug(e);
+    }).bind(this), false);
 
     // set sidenav
     this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);

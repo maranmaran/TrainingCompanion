@@ -8,7 +8,7 @@ import * as _ from "lodash";
 import { switchMap, take } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { transformWeightToNumber } from 'src/business/services/shared/unit-system.service';
-import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
+import { userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
 import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training.selectors';
@@ -125,7 +125,6 @@ export class SetCreateEditComponent implements OnInit {
     }
 
     if (this.settings.useRpeSystem) {
-      console.log(set);
       if (this.settings.rpeSystem == RpeSystem.Rir) {
         let val = set.rir ? set.rir : 10 - set.rpe;
         controls["rir"] = new FormControl(val.toString(), [Validators.required, Validators.min(0), Validators.max(10)]);
@@ -193,8 +192,6 @@ export class SetCreateEditComponent implements OnInit {
   onSubmit() {
     // are all forms valid
     if (!this.isFormValid) return;
-
-    console.log(this)
 
     let sets = <Set[]>(this.getSets(this.setFormGroups));
 

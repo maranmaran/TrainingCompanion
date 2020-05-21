@@ -59,10 +59,11 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe((training: Training) => {
 
-        if (!this.day.trainings) this.day.trainings = [];
+        if (training) {
+          if (!this.day.trainings) this.day.trainings = [];
 
-        this.day.trainings.push(training);
-        //this.store.dispatch(trainingAddedToBlockDay({training: training, blockDay: day}));
+          this.day.trainings.push(training);
+        }
       });
   }
 
