@@ -14,6 +14,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    img {
+      pointer-events: none;
+    }
 }
 
 .actions_footer {
@@ -55,7 +59,7 @@
 
 img,
 video {
-    max-height: 33rem;
+    max-height: 65vh;
 }
 
 @media (max-width: 600px) {

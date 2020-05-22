@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
@@ -20,6 +21,7 @@ import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { UpdateManySetsRequest } from './../../../../../server-models/cqrs/set/update-many-sets.request';
 import { Exercise } from './../../../../../server-models/entities/exercise.model';
+import { UnitSystemUnitOfMeasurement } from './../../../../../server-models/enums/unit-system.enum';
 
 @Component({
   selector: 'app-set-create-edit',
@@ -44,6 +46,8 @@ export class SetCreateEditComponent implements OnInit {
   exerciseType: ExerciseType;
   exerciseId: string;
 
+  setAttributes = false;
+
   ngOnInit() {
     this.sets = [...this.data.sets];
     this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.settings = settings);
@@ -61,7 +65,29 @@ export class SetCreateEditComponent implements OnInit {
         new FormGroup(this.getControls(set))
       )
     });
+  }
 
+  onSetRpeControl(event: MatSlideToggleChange, index: number) {
+    if (!event.checked) {
+        this.setFormGroups[index].removeControl('rpe');
+        this.setFormGroups[index].removeControl('rir');
+    } else {
+      if(this.settings.rpeSystem == RpeSystem.Rpe) {
+        this.setFormGroups[index].addControl('rpe', new FormControl("5", [Validators.min(0), Validators.max(100)]));
+      } else {
+        this.setFormGroups[index].addControl('rir', new FormControl("5", [Validators.min(0), Validators.max(100)]));
+      }
+    }
+  }
+
+  onUsePercentage(event: MatSlideToggleChange, index: number) {
+    if (event.checked) {
+      this.setFormGroups[index].removeControl('weight');
+      this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
+    } else {
+      this.setFormGroups[index].addControl('weight', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(200)]));
+      this.setFormGroups[index].removeControl('percentage');
+    }
   }
 
   addGroup(set: Set = null) {
@@ -91,9 +117,7 @@ export class SetCreateEditComponent implements OnInit {
       nextGroup = new FormGroup(groupControls);
 
       this.setFormGroups[index + 1] = nextGroup;
-
     } else {
-      // add
       set.id = Guid.createEmpty().toString();
       this.addGroup(set);
     }
@@ -132,7 +156,7 @@ export class SetCreateEditComponent implements OnInit {
 
       if (this.settings.rpeSystem == RpeSystem.Rpe) {
         let val = set.rpe ? set.rpe : 10 - set.rir;
-        controls["rpe"] = new FormControl(val.toString(), [Validators.required, Validators.min(0), Validators.max(10)]);
+        controls["rpe"] = new FormControl(val.toString(), [Validators.min(0), Validators.max(10)]);
       }
     }
 
@@ -164,6 +188,7 @@ export class SetCreateEditComponent implements OnInit {
     set.id = controls["id"].value;
 
     // todo.. add weight attribute to application user
+    // todo.. calculate weight from percentage and one rep max
     if (this.exerciseType.requiresBodyweight)
       set.weight = controls["weight"].value || 0;
 
@@ -178,14 +203,13 @@ export class SetCreateEditComponent implements OnInit {
       set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
 
     if (this.settings.useRpeSystem) {
-
       if (this.settings.rpeSystem == RpeSystem.Rpe)
-        set.rpe = controls["rpe"].value;
-
+        set.rpe = controls["rpe"]?.value;
       if (this.settings.rpeSystem == RpeSystem.Rir)
         set.rir = controls["rir"].value;
     }
 
+    console.log(controls['percentage']?.value);
     return set;
   }
 
@@ -202,9 +226,7 @@ export class SetCreateEditComponent implements OnInit {
     this.setService.updateMany<UpdateManySetsRequest>(request)
       .pipe(
         switchMap(
-          (sets: Set[]) => {
-            return this.store.select(selectedTraining)
-          },
+          (_) => this.store.select(selectedTraining),
           (sets, training) => ({ sets, training })
         ),
         take(1))
@@ -227,6 +249,13 @@ export class SetCreateEditComponent implements OnInit {
         },
         err => console.log(err)
       )
+  }
+
+  get unitSystemUnitofMeasurement() {
+    if (this.settings.unitSystem == UnitSystem.Metric)
+      return UnitSystemUnitOfMeasurement.Metric;
+
+    return UnitSystemUnitOfMeasurement.Imperial;
   }
 
   get isFormValid() {

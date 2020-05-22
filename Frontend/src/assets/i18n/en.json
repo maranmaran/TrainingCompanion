@@ -156,6 +156,7 @@
     "SAMPLE_SHEETS": "Sample sheets"
   },
   "TRAINING_LOG": {
+    "SET_PERCENTAGE": "Percentage",
     "TRAINING_DELETE_DIALOG": "<p>Are you sure you wish to delete training on {{dateTrained}} ?</p><p>All data will be lost if you delete this training.</p>",
     "CALENDAR_LABEL": "Calendar",
     "WEEK_LABEL": "Week",

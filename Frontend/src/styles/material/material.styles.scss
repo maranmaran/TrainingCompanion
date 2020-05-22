@@ -85,6 +85,30 @@ mat-form-field {
     font-size: 15px !important;
   }
 }
+
+.slide-toggle-smaller {
+
+  .mat-slide-toggle-bar {
+    height: 7px !important;
+    width: 28px !important;
+  }
+
+  .mat-slide-toggle-thumb {
+    height: 10px !important;
+    width: 10px !important;
+  }
+
+  .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb-container {
+      transform: translate3d(18px,0,0) !important;
+  }
+
+  .mat-slide-toggle-thumb-container {
+      width: 12px !important;
+      height: 12px !important;
+      top: -2px  !important;
+  }
+}
+
 @media (max-width: 600px) {
   #view-as {
     max-width: 135px;
