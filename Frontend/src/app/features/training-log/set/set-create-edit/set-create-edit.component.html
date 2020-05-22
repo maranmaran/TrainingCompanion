@@ -6,7 +6,7 @@
       <button mat-icon-button color="accent" (click)="addGroup()">
         <i class="fas fa-plus"></i>
       </button>
-      <button mat-icon-button color="accent" (click)="setAttributes = !setAttributes">
+      <button mat-icon-button color="accent" [ngClass]="{'active': setAttributes}" (click)="setAttributes = !setAttributes; setControlsState(!setAttributes)">
         <i class="fas fa-cog"></i>
       </button>
     </div>
@@ -111,12 +111,12 @@
             </ng-template>
 
             <div id="set-actions" fxFlexLayout="column">
-              <button id="delete-set-{{i}}" mat-icon-button matTooltip="{{'TRAINING_LOG.REMOVE_SET' | translate}}"
+              <button id="delete-set-{{i}}" disabled="{{setAttributes}}" mat-icon-button matTooltip="{{'TRAINING_LOG.REMOVE_SET' | translate}}"
                 [matTooltipPosition]="'right'" color="accent" (click)="removeGroup(i)">
                 <i class="fas fa-trash"></i>
               </button>
 
-              <button id="copy-down-{{i}}" mat-icon-button color="accent"
+              <button id="copy-down-{{i}}" disabled="{{setAttributes}}" mat-icon-button color="accent"
                 matTooltip="{{'TRAINING_LOG.COPY_DOWN' | translate}}" [matTooltipPosition]="'right'"
                 (click)="copyDown(i)">
                 <i class="fas fa-chevron-down"></i>

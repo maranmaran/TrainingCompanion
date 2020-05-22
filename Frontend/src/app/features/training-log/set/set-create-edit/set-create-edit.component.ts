@@ -266,4 +266,12 @@ export class SetCreateEditComponent implements OnInit {
     this.dialogRef.close(sets);
   }
 
+  setControlsState(active: boolean) {
+    if(active) {
+      this.setFormGroups.forEach(x => x.enable());
+    } else {
+      this.setFormGroups.forEach(x => x.disable());
+    }
+  }
+
 }
