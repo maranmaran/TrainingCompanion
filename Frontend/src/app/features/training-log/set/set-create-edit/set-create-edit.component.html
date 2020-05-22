@@ -2,9 +2,14 @@
 
   <div fxLayout="row" fxLayoutAlign="space-between">
     <h2> {{data.title | translate }} </h2>
-    <button mat-icon-button color="accent" (click)="addGroup()">
-      <i class="fas fa-plus"></i>
-    </button>
+    <div class="actions">
+        <button mat-icon-button color="accent" (click)="addGroup()">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button mat-icon-button color="accent" (click)="setAttributes = !setAttributes">
+          <i class="fas fa-cog"></i>
+        </button>
+    </div>
   </div>
 
   <mat-divider class="dialog-form-divider"></mat-divider>

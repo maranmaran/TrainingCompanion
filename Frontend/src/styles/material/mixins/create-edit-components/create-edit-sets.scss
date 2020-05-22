@@ -39,6 +39,12 @@
     }
   }
 
+  .set-container {
+    .mat-form-field-wrapper {
+      padding-bottom: 0 !important;
+    }
+  }
+
   /*#endregion RegionName*/
 
 }
