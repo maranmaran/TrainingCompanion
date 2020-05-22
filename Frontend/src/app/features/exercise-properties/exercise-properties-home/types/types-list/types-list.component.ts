@@ -67,7 +67,8 @@ export class TypesListComponent implements OnInit, OnDestroy {
         pageSizeOptions: [5]
       }),
       cellActions: [TableAction.update, TableAction.delete],
-      selectionEnabled: false
+      selectionEnabled: false,
+      filterEnabled: true
     });
 
     this.store.select(tagGroupCount).pipe(take(1)).subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)

@@ -62,7 +62,8 @@ export class AthleteListComponent implements OnInit, OnDestroy {
                                                                  data.firstName.trim().toLocaleLowerCase().indexOf(filter) !== -1 ||
                                                                  data.lastName.trim().toLocaleLowerCase().indexOf(filter) !== -1,
       cellActions: [TableAction.update, TableAction.delete],
-      selectionEnabled: false
+      selectionEnabled: false,
+      filterEnabled: true
     });
 
     return tableConfig;
