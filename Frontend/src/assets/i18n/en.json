@@ -29,6 +29,12 @@
   "TABLE": {
     "NO_DATA": "No records"
   },
+  "PERSONAL_BEST": {
+    "SECTION_TITLE": "Personal bests",
+    "VALUE": "Value",
+    "BODYWEIGHT": "Bodyweight",
+    "DATE_ACHIEVED": "Achieved on"
+  },
   "NOTIFICATIONS": {
     "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",
     "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> logged a new bodyweight value of {{value}}.",

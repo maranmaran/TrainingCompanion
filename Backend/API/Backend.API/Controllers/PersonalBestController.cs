@@ -13,12 +13,11 @@ namespace Backend.API.Controllers
     public class PersonalBestController : BaseController
     {
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetAll(Guid userId, CancellationToken cancellationToken = default)
+        [HttpGet("{exerciseTypeId}")]
+        public async Task<IActionResult> GetAll(Guid exerciseTypeId, int? lowerRepRage, int? upperRepRange, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(new GetAllPersonalBestRequest(userId), cancellationToken));
+            return Ok(await Mediator.Send(new GetAllPersonalBestRequest(exerciseTypeId, lowerRepRage, upperRepRange), cancellationToken));
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] PersonalBest entity, CancellationToken cancellationToken = default)

@@ -11,9 +11,8 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTraining, trainingDeleted, trainingsFetchedReplaceState } from 'src/ngrx/training-log/training.actions';
+import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training.actions';
 import { trainings } from 'src/ngrx/training-log/training.selectors';
-import { blockDayTrainings } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
@@ -74,7 +73,7 @@ export class TrainingListComponent implements OnInit, OnDestroy {
         serverSidePaging: false
       },
       selectionEnabled: false,
-      defaultSort: 'name',
+      defaultSort: 'dateTrained',
       defaultSortDirection: 'desc'
     });
 

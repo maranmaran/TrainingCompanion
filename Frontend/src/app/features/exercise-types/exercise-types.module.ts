@@ -14,6 +14,7 @@ import { ExerciseTypeDetailsComponent } from './exercise-types-home/exercise-typ
 import { ExerciseTypeListComponent } from './exercise-types-home/exercise-type-list/exercise-type-list.component';
 import { ExerciseTypesHomeComponent } from './exercise-types-home/exercise-types-home.component';
 import { ExerciseTypesRoutingModule } from './exercise-types-routing.module';
+import { PersonalBestListComponent } from './exercise-types-home/exercise-type-details/personal-best-list/personal-best-list.component';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { ExerciseTypesRoutingModule } from './exercise-types-routing.module';
         ExerciseTypeListComponent,
         ExerciseTypeDetailsComponent,
         ExerciseTypeCreateEditComponent,
+        PersonalBestListComponent,
     ],
     exports: [
     ],
