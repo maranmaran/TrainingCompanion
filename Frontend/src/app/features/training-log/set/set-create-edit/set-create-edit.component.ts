@@ -77,17 +77,22 @@ export class SetCreateEditComponent implements OnInit {
       } else {
         this.setFormGroups[index].addControl('rir', new FormControl("5", [Validators.min(0), Validators.max(100)]));
       }
+
+      this.setFormGroups[index].disable();
     }
   }
 
   onUsePercentage(event: MatSlideToggleChange, index: number) {
     if (event.checked) {
+      // check for one rep max...
       this.setFormGroups[index].removeControl('weight');
       this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
     } else {
       this.setFormGroups[index].addControl('weight', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(200)]));
       this.setFormGroups[index].removeControl('percentage');
     }
+
+    this.setFormGroups[index].disable();
   }
 
   addGroup(set: Set = null) {
