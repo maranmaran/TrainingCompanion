@@ -12,13 +12,13 @@ import { totalUnreadChatMessages } from 'src/ngrx/chat/chat.selectors';
 import { setTrackEditMode } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
+import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { SubSink } from 'subsink';
 import { SettingsComponent } from '../../settings/settings.component';
 import { UIService } from './../../../../business/services/shared/ui.service';
 import { dashboardActive } from './../../../../ngrx/dashboard/dashboard.selectors';
 import { PushNotification } from './../../../../server-models/entities/push-notification.model';
 import { AccountType } from './../../../../server-models/enums/account-type.enum';
-import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 
 @Component({
   selector: 'app-toolbar',
@@ -150,7 +150,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   onOpenSettings(section: string = null) {
-    let dialogRef = this.UIService.openDialogFromComponent(SettingsComponent, {
+    this.UIService.openDialogFromComponent(SettingsComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '58rem',
@@ -159,8 +159,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       panelClass: ['settings-dialog-container'],
       closeOnNavigation: true
     });
-
-    dialogRef.afterClosed().pipe(take(1)).subscribe(_ => console.log(_));
   }
 
   onLogout() {

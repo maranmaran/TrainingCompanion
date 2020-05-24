@@ -24,7 +24,7 @@
               (change)="onSetRpeControl($event, i)">
               {{ (settings.rpeSystem == 'Rpe' ? 'TRAINING_LOG.SET_RPE' : 'TRAINING_LOG.SET_RIR') | translate}}
             </mat-slide-toggle>
-            <mat-slide-toggle color="accent" class="slide-toggle-smaller" [checked]="settings.onUsePercentage"
+            <mat-slide-toggle color="accent" class="slide-toggle-smaller" [checked]="settings.usePercentages"
               (change)="onUsePercentage($event, i)">
               {{'TRAINING_LOG.SET_PERCENTAGE' | translate}}
             </mat-slide-toggle>

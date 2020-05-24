@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map, take, tap } from 'rxjs/operators';
+import { catchError, concatMap, map, take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { exercisePrsFetched, setSelectedExercise, setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training.actions';
 import { selectedTraining, selectedTrainingId } from 'src/ngrx/training-log/training.selectors';
@@ -59,7 +59,6 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training> | O
 
                         this.prService.get(exercise.exerciseType.id)
                         .pipe(take(1), catchError(_ => []))
-                        .pipe(tap(_ => console.log('training details resolver')))
                         .subscribe(prs => this.store.dispatch(exercisePrsFetched({prs})))
                     }
 

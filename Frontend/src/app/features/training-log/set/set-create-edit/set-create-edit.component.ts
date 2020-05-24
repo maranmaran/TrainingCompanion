@@ -19,10 +19,12 @@ import { Training } from 'src/server-models/entities/training.model';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { UIService } from './../../../../../business/services/shared/ui.service';
 import { UpdateManySetsRequest } from './../../../../../server-models/cqrs/set/update-many-sets.request';
 import { Exercise } from './../../../../../server-models/entities/exercise.model';
 import { PersonalBest } from './../../../../../server-models/entities/personal-best.model';
 import { UnitSystemUnitOfMeasurement } from './../../../../../server-models/enums/unit-system.enum';
+import { ChooseMaxDialogComponent } from './choose-max-dialog/choose-max-dialog.component';
 
 @Component({
   selector: 'app-set-create-edit',
@@ -37,6 +39,7 @@ export class SetCreateEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private setService: SetService,
     private dialogRef: MatDialogRef<SetCreateEditComponent>,
+    private UIService: UIService,
     @Inject(MAT_DIALOG_DATA) public data: { action, title: string, sets: Set[], prs: PersonalBest[] }) { }
 
   setFormGroups: FormGroup[] = [];
@@ -46,6 +49,8 @@ export class SetCreateEditComponent implements OnInit {
   settings: UserSetting;
   exerciseType: ExerciseType;
   exerciseId: string;
+
+  userPR: PersonalBest;
 
   setAttributes = false;
 
@@ -59,7 +64,7 @@ export class SetCreateEditComponent implements OnInit {
 
     setTimeout(_ => {
       if (this.settings.usePercentages)
-        this.checkIfUserCanUsePercentages();
+        this.setUserMax();
 
       this.createForms();
     });
@@ -70,14 +75,36 @@ export class SetCreateEditComponent implements OnInit {
    * But if none of those exist he must manually give us PR or he can't use percentages
    * He should be able to opt out of percentages and use weight for example in case he doesn't know max
    */
-  checkIfUserCanUsePercentages() {
+  setUserMax() {
     let userPR = this.data.prs[0];
     let systemPR = this.data.prs[1];
 
     if (!userPR) {
-      // open dialog...
-      console.log('opening dialog');
+      this.onSetMaxDialog(systemPR);
+    } else {
+      this.userPR = userPR;
     }
+  }
+
+  onSetMaxDialog(systemPR: PersonalBest) {
+
+    const dialogRef = this.UIService.openDialogFromComponent(ChooseMaxDialogComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      disableClose: true,
+      data: {
+        title: 'TRAINING_LOG.SET_UPDATE_TITLE',
+        systemPR
+      },
+      panelClass: 'choose-max-dialog-container',
+    })
+
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe(response => {
+        console.log(response);
+      })
   }
 
   createForms() {
@@ -104,6 +131,11 @@ export class SetCreateEditComponent implements OnInit {
   }
 
   onUsePercentage(event: MatSlideToggleChange, index: number) {
+
+    if (this.userPR == null) {
+      this.setUserMax();
+    }
+
     if (event.checked) {
       // check for one rep max...
       this.setFormGroups[index].removeControl('weight');
@@ -154,24 +186,29 @@ export class SetCreateEditComponent implements OnInit {
 
     controls["id"] = new FormControl(set.id);
 
-    // todo.. add weight attribute to application user
-    if (this.exerciseType.requiresBodyweight)
-      controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(200)]);
-
     if (this.exerciseType.requiresReps)
       controls["reps"] = new FormControl(set.reps, [Validators.required, Validators.min(0), Validators.max(100)]);
 
     if (this.exerciseType.requiresTime)
       controls["time"] = new FormControl(set.time, [Validators.required]);
 
-    if (this.exerciseType.requiresWeight) {
-      let upperLimit = 600;
+    // todo.. add weight attribute to application user
+    if (this.exerciseType.requiresBodyweight)
+      controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(200)]);
 
-      if (this.settings.unitSystem == UnitSystem.Imperial) {
-        upperLimit = 1200;
+    if (this.exerciseType.requiresWeight && !this.exerciseType.requiresBodyweight) {
+      if (!this.settings.usePercentages) {
+        let upperLimit = 600;
+
+        if (this.settings.unitSystem == UnitSystem.Imperial) {
+          upperLimit = 1200;
+        }
+
+        controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(upperLimit)]);
+      } else {
+        // todo calculate percentage from 1 rep max and weight
+        controls["percentage"] = new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]);
       }
-
-      controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(upperLimit)]);
     }
 
     if (this.settings.useRpeSystem) {
@@ -225,8 +262,14 @@ export class SetCreateEditComponent implements OnInit {
       set.time = controls["time"].value || 0;
 
     //handle weight transformations.. everything is system is in metric
-    if (this.exerciseType.requiresWeight)
-      set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
+    if (this.exerciseType.requiresWeight && !this.exerciseType.requiresBodyweight) {
+      if (!this.settings.usePercentages) {
+        set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
+      } else {
+        // get weight from percentage and 1 rep max
+        set.weight = transformWeightToNumber(controls["percentage"].value, this.settings.unitSystem) || 0;
+      }
+    }
 
     if (this.settings.useRpeSystem) {
       if (this.settings.rpeSystem == RpeSystem.Rpe)

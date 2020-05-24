@@ -55,7 +55,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }));
 
     // route to root component path if section is given (means it came from some deeplink)
-    console.log(this.data.section);
     this.data.section && this.router.navigate(['']);
   }
 

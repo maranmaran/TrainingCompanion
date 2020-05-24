@@ -60,11 +60,6 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // debug for local storage only
-    window.addEventListener("storage", (function (e) {
-      console.debug(e);
-    }).bind(this), false);
-
     // set sidenav
     this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);
 
