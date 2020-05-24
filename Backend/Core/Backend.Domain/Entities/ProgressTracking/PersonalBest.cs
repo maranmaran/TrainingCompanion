@@ -17,8 +17,8 @@ namespace Backend.Domain.Entities.ProgressTracking
         public bool SystemCalculated { get; set; }
 
         public double? Bodyweight { get; set; }
-        public double WilksScore { get; set; }
-        public double IpfPoints { get; set; }
+        public double? WilksScore { get; set; }
+        public double? IpfPoints { get; set; }
 
         public Guid ExerciseTypeId { get; set; }
         public virtual ExerciseType ExerciseType { get; set; }

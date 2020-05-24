@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
-import { CrudService } from '../crud.service';
+import { BaseService } from 'src/business/services/base.service';
 import { PersonalBest } from './../../../server-models/entities/personal-best.model';
 
 @Injectable()
-export class PersonalBestService extends CrudService<PersonalBest> {
+export class PersonalBestService extends BaseService {
 
   constructor(
     private httpDI: HttpClient
@@ -20,6 +20,13 @@ export class PersonalBestService extends CrudService<PersonalBest> {
       url += `/${lowerRepRange}/${upperRepRange}`;
 
     return this.http.get<PersonalBest[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  public get(id: string) {
+    return this.http.get<PersonalBest[]>(`${this.url}Get/${id}`)
       .pipe(
         catchError(this.handleError)
       );

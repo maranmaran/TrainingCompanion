@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="PersonalBestRequests\Get\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Backend.Domain\Backend.Domain.csproj" />
     <ProjectReference Include="..\..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
   </ItemGroup>

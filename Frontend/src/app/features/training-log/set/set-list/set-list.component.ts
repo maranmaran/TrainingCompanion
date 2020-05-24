@@ -6,47 +6,47 @@ import { MaterialTableComponent } from 'src/app/shared/material-table/material-t
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
 import { TableAction, TableConfig, TablePagingOptions } from "src/app/shared/material-table/table-models/table-config.model";
 import { TableDatasource } from "src/app/shared/material-table/table-models/table-datasource.model";
-import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { transformWeight } from 'src/business/services/shared/unit-system.service';
-import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
-import { currentUserId, userSetting } from 'src/ngrx/auth/auth.selectors';
+import { userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training.selectors';
+import { exercisePrs, selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
+import { PersonalBestService } from './../../../../../business/services/feature-services/personal-best.service';
+import { PersonalBest } from './../../../../../server-models/entities/personal-best.model';
 
 @Component({
   selector: 'app-set-list',
   templateUrl: './set-list.component.html',
   styleUrls: ['./set-list.component.scss'],
+  providers: [PersonalBestService]
 })
 export class SetListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
-  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_LOG.SET_DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
   tableDatasource: TableDatasource<Set>;
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
-  private userId: string;
   private userSettings: UserSetting;
-  private exerciseType: ExerciseType;
+  private _personalBests: PersonalBest[];
   private sets: Set[];
 
   constructor(
     private uiService: UIService,
-    private trainingService: TrainingService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) { }
 
   ngOnInit() {
+    this.store.select(exercisePrs).pipe(take(1)).subscribe(prs => this._personalBests = prs);
+
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
 
@@ -54,11 +54,9 @@ export class SetListComponent implements OnInit, OnDestroy {
 
       combineLatest(
         this.store.select(userSetting),
-        this.store.select(currentUserId),
         this.store.select(selectedExercise).pipe(map(exercise => exercise?.exerciseType))
-      ).subscribe(([userSetting, userId, exerciseType]) => {
+      ).subscribe(([userSetting, exerciseType]) => {
         this.userSettings = userSetting;
-        this.userId = userId;
 
         if (!!exerciseType)
           this.tableColumns = this.getTableColumns(exerciseType) as CustomColumn[]
@@ -143,37 +141,19 @@ export class SetListComponent implements OnInit, OnDestroy {
     return columns;
   }
 
-  // onSelect = (set: Set) => this.store.dispatch(setSelectedSet({ entity: set }));
-
-  onAdd() {
-
-    // const dialogRef = this.uiService.openDialogFromComponent(SetCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '50rem',
-    //   autoFocus: false,
-    //   data: { action: CRUD.Update, exerciseType: this.exerciseType, sets: this.sets },
-    //   panelClass: []
-    // })
-
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((set: Set) => {
-    //       if (set) {
-    //         this.table.onSelect(set, true);
-    //         this.onSelect(set);
-    //       }
-    //     }
-    //   )
-  }
-
-  onUpdateMany(set: Set) {
+  onUpdateMany() {
 
     const dialogRef = this.uiService.openDialogFromComponent(SetCreateEditComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '50rem',
       autoFocus: false,
-      data: { title: 'TRAINING_LOG.SET_UPDATE_TITLE', action: CRUD.Update, sets: this.sets },
+      data: {
+        title: 'TRAINING_LOG.SET_UPDATE_TITLE',
+        action: CRUD.Update,
+        sets: this.sets,
+        prs: this._personalBests
+      },
       panelClass: 'sets-dialog-container',
     })
 
@@ -183,47 +163,7 @@ export class SetListComponent implements OnInit, OnDestroy {
           this.table.onSelect(set, true);
           // this.onSelect(set);
         }
-      }
-      )
-
+      })
   }
 
-  onDeleteSingle(set: Set) {
-
-    // this.deleteDialogConfig.message =
-    //   `<p>Are you sure you wish to delete type ${set.type} ?</p>
-    //  <p>All data will be lost if you delete this type.</p>`;
-
-    // var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
-
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((result: ConfirmResult) => {
-    //     if(result == ConfirmResult.Confirm) {
-    //       this.userService.delete(athlete.id, AccountType.Athlete)
-    //         .subscribe(
-    //           () => {
-    //             this.store.dispatch(deleteAthlete(athlete))
-    //           },
-    //           err => console.log(err)
-    //         )
-    //     }
-    //   })
-  }
-
-  onDeleteSelection(sets: Set[]) {
-
-    //   this.deleteDialogConfig.message =
-    //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
-    //    <p>All data will be lost if you delete these users.</p>`;
-
-    //   this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
-    //     console.log('delete');
-    //     console.log(athletes);
-    //   }
-
-    //   this.deleteDialogConfig.actionParams = [athletes];
-
-    //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
-    // }
-  }
 }

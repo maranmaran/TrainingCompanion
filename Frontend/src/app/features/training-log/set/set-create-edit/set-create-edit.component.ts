@@ -21,6 +21,7 @@ import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { UpdateManySetsRequest } from './../../../../../server-models/cqrs/set/update-many-sets.request';
 import { Exercise } from './../../../../../server-models/entities/exercise.model';
+import { PersonalBest } from './../../../../../server-models/entities/personal-best.model';
 import { UnitSystemUnitOfMeasurement } from './../../../../../server-models/enums/unit-system.enum';
 
 @Component({
@@ -36,7 +37,7 @@ export class SetCreateEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private setService: SetService,
     private dialogRef: MatDialogRef<SetCreateEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { action, title: string, sets: Set[] }) { }
+    @Inject(MAT_DIALOG_DATA) public data: { action, title: string, sets: Set[], prs: PersonalBest[] }) { }
 
   setFormGroups: FormGroup[] = [];
   // get formControls() { return (<FormArray>this.form.get('sets')).controls; }
@@ -56,7 +57,27 @@ export class SetCreateEditComponent implements OnInit {
       this.exerciseType = exercise.exerciseType
     });
 
-    this.createForms();
+    setTimeout(_ => {
+      if (this.settings.usePercentages)
+        this.checkIfUserCanUsePercentages();
+
+      this.createForms();
+    });
+  }
+
+  /** User can't use percentages if he doesn't have at least one PR defined..
+   * He can either use HIS PR or opt to using projected max from us
+   * But if none of those exist he must manually give us PR or he can't use percentages
+   * He should be able to opt out of percentages and use weight for example in case he doesn't know max
+   */
+  checkIfUserCanUsePercentages() {
+    let userPR = this.data.prs[0];
+    let systemPR = this.data.prs[1];
+
+    if (!userPR) {
+      // open dialog...
+      console.log('opening dialog');
+    }
   }
 
   createForms() {
@@ -69,10 +90,10 @@ export class SetCreateEditComponent implements OnInit {
 
   onSetRpeControl(event: MatSlideToggleChange, index: number) {
     if (!event.checked) {
-        this.setFormGroups[index].removeControl('rpe');
-        this.setFormGroups[index].removeControl('rir');
+      this.setFormGroups[index].removeControl('rpe');
+      this.setFormGroups[index].removeControl('rir');
     } else {
-      if(this.settings.rpeSystem == RpeSystem.Rpe) {
+      if (this.settings.rpeSystem == RpeSystem.Rpe) {
         this.setFormGroups[index].addControl('rpe', new FormControl("5", [Validators.min(0), Validators.max(100)]));
       } else {
         this.setFormGroups[index].addControl('rir', new FormControl("5", [Validators.min(0), Validators.max(100)]));
@@ -272,7 +293,7 @@ export class SetCreateEditComponent implements OnInit {
   }
 
   setControlsState(active: boolean) {
-    if(active) {
+    if (active) {
       this.setFormGroups.forEach(x => x.enable());
     } else {
       this.setFormGroups.forEach(x => x.disable());
