@@ -9,6 +9,7 @@ import { selectedExercise } from 'src/ngrx/training-log/training.selectors';
 import { PersonalBest } from './../../server-models/entities/personal-best.model';
 import { PersonalBestService } from './../services/feature-services/personal-best.service';
 
+// TODO: This triggers 2 times when going from training details to exercise details
 @Injectable()
 export class ExercisePersonalBestResolver implements Resolve<Observable<PersonalBest[]>> {
 
