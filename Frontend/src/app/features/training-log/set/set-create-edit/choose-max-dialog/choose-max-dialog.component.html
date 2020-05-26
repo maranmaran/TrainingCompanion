@@ -1,1 +1,26 @@
-Sorry you don't have max configured...
+<h2> {{ data.title | translate }} </h2>
+
+<mat-divider class="dialog-form-divider"></mat-divider>
+
+<div class="form" fxLayout="column">
+
+    <p>In order to use percentages you need to have 1RM configured for this exercise.</p>
+    <p *ngIf="data.systemPR">
+      We have one projected max recorder from previous data of <b>data.systemPR.value</b>.
+      You are free to use that value or give us another one.
+    </p>
+
+    <mat-form-field>
+      <input matInput type="number" [formControl]="max"
+        placeholder="{{'PERSONAL_BEST.MAX_LABEL' | translate}}">
+      <span matSuffix>{{ unitSystemUnitofMeasurement }}</span>
+    </mat-form-field>
+
+    <p>By cancelling you will be converted from using percentages to regular weight.</p>
+</div>
+
+<div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+  <button mat-button (click)="onClose()">{{ 'SHARED.CLOSE' | translate}}</button>
+  <button mat-stroked-button color="accent" (click)="onSubmit()"
+    [disabled]="!!max && !max.valid">{{ 'SHARED.SAVE' | translate }}</button>
+</div>

@@ -5,14 +5,16 @@ using Backend.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200525200152_PB")]
+    partial class PB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -479,23 +481,11 @@ namespace Backend.Persistance.Migrations
                     b.Property<string>("AverageVelocity")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Distance")
-                        .HasColumnType("float");
-
                     b.Property<Guid>("ExerciseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Intensity")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("MaxUsedForPercentage")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Percentage")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Power")
-                        .HasColumnType("float");
 
                     b.Property<double>("ProjectedMax")
                         .HasColumnType("float");

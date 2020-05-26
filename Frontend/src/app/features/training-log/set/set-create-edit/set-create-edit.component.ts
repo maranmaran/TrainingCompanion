@@ -95,7 +95,7 @@ export class SetCreateEditComponent implements OnInit {
       autoFocus: false,
       disableClose: true,
       data: {
-        title: 'TRAINING_LOG.SET_UPDATE_TITLE',
+        title: 'PERSONAL_BEST.SET_MAX',
         systemPR
       },
       panelClass: 'choose-max-dialog-container',
@@ -132,12 +132,13 @@ export class SetCreateEditComponent implements OnInit {
 
   onUsePercentage(event: MatSlideToggleChange, index: number) {
 
-    if (this.userPR == null) {
-      this.setUserMax();
-    }
 
     if (event.checked) {
       // check for one rep max...
+      if (this.userPR == null) {
+        this.setUserMax();
+      }
+
       this.setFormGroups[index].removeControl('weight');
       this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
     } else {
@@ -207,7 +208,7 @@ export class SetCreateEditComponent implements OnInit {
         controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(upperLimit)]);
       } else {
         // todo calculate percentage from 1 rep max and weight
-        controls["percentage"] = new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]);
+        controls["percentage"] = new FormControl(set.percentage, [Validators.required, Validators.min(0), Validators.max(100)]);
       }
     }
 
@@ -263,11 +264,17 @@ export class SetCreateEditComponent implements OnInit {
 
     //handle weight transformations.. everything is system is in metric
     if (this.exerciseType.requiresWeight && !this.exerciseType.requiresBodyweight) {
-      if (!this.settings.usePercentages) {
+      if (!this.settings.usePercentages && !controls['percentage']) {
         set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
       } else {
         // get weight from percentage and 1 rep max
-        set.weight = transformWeightToNumber(controls["percentage"].value, this.settings.unitSystem) || 0;
+        let percentage = controls["percentage"].value;
+        let calculatedWeight = percentage / 100 * this.userPR.value;
+
+        // don't need to convert unit systems because MAX will come in KGs from system
+        set.percentage = percentage;
+        set.maxUsedForPercentage = this.userPR.value;
+        set.weight = calculatedWeight;
       }
     }
 
@@ -278,7 +285,6 @@ export class SetCreateEditComponent implements OnInit {
         set.rir = controls["rir"].value;
     }
 
-    console.log(controls['percentage']?.value);
     return set;
   }
 

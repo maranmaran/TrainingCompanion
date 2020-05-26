@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Domain.Entities.ProgressTracking;
+﻿using Backend.Domain.Entities.ProgressTracking;
 using MediatR;
+using System;
 
 namespace Backend.Business.ProgressTracking.PersonalBestRequests.Create
 {
@@ -10,11 +10,13 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.Create
         {
             ExerciseTypeId = entity.ExerciseTypeId;
             Value = entity.Value;
-            Date = entity.DateAchieved;
+            DateAchieved = entity.DateAchieved;
+            Reps = entity.Reps ?? 1;
         }
 
+        public double Reps { get; set; }
         public double Value { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime DateAchieved { get; set; }
         public Guid ExerciseTypeId { get; set; }
     }
 }

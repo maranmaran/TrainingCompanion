@@ -1,8 +1,15 @@
 <span id="set-create-edit">
 
-  <div fxLayout="row" fxLayoutAlign="space-between">
-    <h2> {{data.title | translate }} </h2>
-    <div class="actions">
+  <div id="header" fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 id="title" fxFlexAlign="center"> {{data.title | translate }} </h2>
+
+    <div class="actions" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+
+      <div class="usedMax accent-foreground" *ngIf="exerciseType.requiresWeight && userPR?.value"
+        matTooltip="Click to change used max">
+        <b>Used max:</b> {{ userPR.value | transformWeight: settings.unitSystem }}
+      </div>
+
       <button mat-icon-button color="accent" (click)="addGroup()">
         <i class="fas fa-plus"></i>
       </button>
@@ -29,6 +36,7 @@
               {{'TRAINING_LOG.SET_PERCENTAGE' | translate}}
             </mat-slide-toggle>
           </div>
+
           <div id="control-row" fxLayout="row" fxLayoutGap="10px">
 
             <label id="set-number">{{i + 1}}.</label>
@@ -128,7 +136,6 @@
       </form>
     </div>
   </div>
-
 
   <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
     <button mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate}}</button>

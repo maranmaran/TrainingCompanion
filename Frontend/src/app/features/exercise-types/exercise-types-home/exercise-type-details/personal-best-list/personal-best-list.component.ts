@@ -19,7 +19,6 @@ import { UIService } from './../../../../../../business/services/shared/ui.servi
   selector: 'app-personal-best-list',
   templateUrl: './personal-best-list.component.html',
   styleUrls: ['./personal-best-list.component.scss'],
-  providers: [PersonalBestService]
 })
 export class PersonalBestListComponent implements OnInit {
 

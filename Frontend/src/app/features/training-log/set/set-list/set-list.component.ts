@@ -18,14 +18,12 @@ import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
-import { PersonalBestService } from './../../../../../business/services/feature-services/personal-best.service';
 import { PersonalBest } from './../../../../../server-models/entities/personal-best.model';
 
 @Component({
   selector: 'app-set-list',
   templateUrl: './set-list.component.html',
   styleUrls: ['./set-list.component.scss'],
-  providers: [PersonalBestService]
 })
 export class SetListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();

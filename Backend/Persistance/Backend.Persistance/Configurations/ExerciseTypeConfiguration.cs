@@ -39,6 +39,11 @@ namespace Backend.Persistance.Configurations
                 .HasForeignKey(x => x.ExerciseTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder
+                .HasMany(x => x.PBs)
+                .WithOne(x => x.ExerciseType)
+                .HasForeignKey(x => x.ExerciseTypeId);
+
             builder.HasIndex(x => x.ApplicationUserId);
 
             builder.HasIndex(x => new { x.ApplicationUserId, x.Code }).IsUnique();

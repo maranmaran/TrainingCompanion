@@ -30,6 +30,8 @@
     "NO_DATA": "No records"
   },
   "PERSONAL_BEST": {
+    "SET_MAX": "Set 1RM",
+    "MAX_LABEL": "One rep max",
     "SECTION_TITLE": "Personal bests",
     "VALUE": "Value",
     "BODYWEIGHT": "Bodyweight",
