@@ -5,9 +5,14 @@
 
     <div class="actions" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
 
-      <div class="usedMax accent-foreground" *ngIf="exerciseType.requiresWeight && userPR?.value"
-        matTooltip="Click to change used max">
-        <b>Used max:</b> {{ userPR.value | transformWeight: settings.unitSystem }}
+      <div class="used-max" *ngIf="exerciseType.requiresWeight && userMaxControl" matTooltip="Click to change used max">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Used max</mat-label>
+          <input matInput type="number" [formControl]="userMaxControl" placeholder="Used max">
+          <span matSuffix>{{ unitSystemUnitofMeasurement }}</span>
+        </mat-form-field>
+
       </div>
 
       <button mat-icon-button color="accent" (click)="addGroup()">

@@ -18,6 +18,10 @@
   }
 
   #set-create-edit {
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+
     .mat-form-field-infix {
       width: 100% !important;
     }

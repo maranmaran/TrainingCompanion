@@ -50,13 +50,13 @@ export class SetCreateEditComponent implements OnInit {
   exerciseType: ExerciseType;
   exerciseId: string;
 
-  userPR: PersonalBest;
+  userMaxControl: FormControl;
 
   setAttributes = false;
 
   ngOnInit() {
     this.sets = [...this.data.sets];
-    this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.settings = settings);
+    this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.settings = Object.assign(new UserSetting(), settings));
     this.store.select(selectedExercise).pipe(take(1)).subscribe(exercise => {
       this.exerciseId = exercise.id;
       this.exerciseType = exercise.exerciseType
@@ -82,8 +82,15 @@ export class SetCreateEditComponent implements OnInit {
     if (!userPR) {
       this.onSetMaxDialog(systemPR);
     } else {
-      this.userPR = userPR;
+      this.setUserMaxControl(userPR.value);
     }
+  }
+
+  setUserMaxControl(value: number) {
+    value = transformWeightToNumber(value, this.settings.unitSystem);
+    let validators = [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]
+
+    this.userMaxControl = new FormControl(value, validators);
   }
 
   onSetMaxDialog(systemPR: PersonalBest) {
@@ -103,7 +110,12 @@ export class SetCreateEditComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe(response => {
-        console.log(response);
+        if(!response) {
+          this.userMaxControl = null;
+          this.settings.usePercentages = false;
+        } else {
+          this.setUserMaxControl(response.value);
+        }
       })
   }
 
@@ -135,7 +147,7 @@ export class SetCreateEditComponent implements OnInit {
 
     if (event.checked) {
       // check for one rep max...
-      if (this.userPR == null) {
+      if (this.userMaxControl == null) {
         this.setUserMax();
       }
 
@@ -199,13 +211,7 @@ export class SetCreateEditComponent implements OnInit {
 
     if (this.exerciseType.requiresWeight && !this.exerciseType.requiresBodyweight) {
       if (!this.settings.usePercentages) {
-        let upperLimit = 600;
-
-        if (this.settings.unitSystem == UnitSystem.Imperial) {
-          upperLimit = 1200;
-        }
-
-        controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(upperLimit)]);
+        controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]);
       } else {
         // todo calculate percentage from 1 rep max and weight
         controls["percentage"] = new FormControl(set.percentage, [Validators.required, Validators.min(0), Validators.max(100)]);
@@ -269,11 +275,11 @@ export class SetCreateEditComponent implements OnInit {
       } else {
         // get weight from percentage and 1 rep max
         let percentage = controls["percentage"].value;
-        let calculatedWeight = percentage / 100 * this.userPR.value;
+        let calculatedWeight = percentage / 100 * this.userMaxControl.value;
 
         // don't need to convert unit systems because MAX will come in KGs from system
         set.percentage = percentage;
-        set.maxUsedForPercentage = this.userPR.value;
+        set.maxUsedForPercentage = this.userMaxControl.value;
         set.weight = calculatedWeight;
       }
     }
@@ -334,7 +340,28 @@ export class SetCreateEditComponent implements OnInit {
   }
 
   get isFormValid() {
-    return this.setFormGroups.length > 0 && this.setFormGroups.reduce((prev, curr) => prev && curr.valid, true);
+    let valid = false;
+
+    if(this.setFormGroups.length > 0) {
+      valid =  this.setFormGroups.reduce((prev, curr) => prev && curr.valid, true);
+    }
+
+    // uses percentages
+    if(this.userMaxControl) {
+      valid = valid && this.userMaxControl.valid;
+    }
+
+    return valid;
+  }
+
+  get weightUpperLimit() {
+    let upperLimit = 600;
+
+    if (this.settings.unitSystem == UnitSystem.Imperial) {
+      upperLimit = 1200;
+    }
+
+    return upperLimit;
   }
 
   onClose(sets?: Set[]) {
