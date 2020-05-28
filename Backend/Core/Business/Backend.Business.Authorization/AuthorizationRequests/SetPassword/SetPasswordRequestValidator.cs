@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.SetPassword
 {
@@ -6,14 +7,23 @@ namespace Backend.Business.Authorization.AuthorizationRequests.SetPassword
     {
         public SetPasswordRequestValidator()
         {
-            RuleFor(x => x.UserId).NotEmpty();
+            RuleFor(x => x.UserId)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty()
+                .NotEqual(Guid.Empty);
 
             RuleFor(x => x.Password)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty()
                 .MinimumLength(4)
-                .MaximumLength(15)
-                .NotEmpty();
+                .MaximumLength(15);
 
-            RuleFor(x => x.RepeatPassword).Matches(x => x.Password);
+            RuleFor(x => x.Password)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty()
+                .NotEqual(" ")
+                .Equal(x => x.RepeatPassword)
+                .MinimumLength(4);
         }
     }
 }

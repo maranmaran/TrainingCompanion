@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Backend.Domain;
+﻿using Backend.Domain;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Business.Users.UsersRequests.UpdateUser
 {
@@ -13,31 +13,40 @@ namespace Backend.Business.Users.UsersRequests.UpdateUser
             _context = context;
 
             RuleFor(x => x.Username)
-                .MaximumLength(15)
+                .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
-                .Must((request, username) => UniqueUsername(request))
+                .MaximumLength(15)
+                .Must(UniqueUsername)
                 .WithMessage("Username must be unique"); ;
 
             RuleFor(x => x.Email)
-                .EmailAddress()
+                .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
-                .Must((request, email) => UniqueEmail(request))
+                .EmailAddress()
+                .Must(UniqueEmail)
                 .WithMessage("Email must be unique");
 
-            RuleFor(x => x.FirstName).MaximumLength(15).NotEmpty();
-            RuleFor(x => x.LastName).MaximumLength(15);
+            RuleFor(x => x.FirstName)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty()
+                .MaximumLength(15);
+
+            RuleFor(x => x.LastName)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty()
+                .MaximumLength(15);
         }
 
-        private bool UniqueUsername(UpdateUserRequest request)
+        private bool UniqueUsername(UpdateUserRequest request, string username)
         {
-            var user = _context.Users.Single(x => x.Id == request.Id);
-            return !_context.Users.Any(x => x.Username == user.Username && x.Id != user.Id);
+            var user = _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+            return user == null; // no user with that username
         }
 
-        private bool UniqueEmail(UpdateUserRequest request)
+        private bool UniqueEmail(UpdateUserRequest request, string email)
         {
-            var user = _context.Users.Single(x => x.Id == request.Id);
-            return !_context.Users.Any(x => x.Email == user.Email && x.Id != user.Id);
+            var user = _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+            return user == null; // no user with that email
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using Backend.Business.Authorization.Utils;
+﻿using Backend.Business.Authorization.Utils;
 using Backend.Domain;
-using Backend.Domain.Enum;
 using Backend.Library.Payment.Enums;
 using Backend.Library.Payment.Interfaces;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.SignIn
 {
@@ -19,50 +17,45 @@ namespace Backend.Business.Authorization.AuthorizationRequests.SignIn
             _context = context;
             _paymentService = paymentService;
 
-            RuleFor(x => x)
-                .Must(UserExists).WithMessage($"ApplicationUser does not exist")
-                .Must(UserActive).WithMessage("This user is inactive")
-                .Must(CoachHasPaidSubscriptionIfUserIsAthlete).WithMessage("Coach did not renew his subscription");
-
-            RuleFor(x => x.Username).MaximumLength(15).NotEmpty();
+            RuleFor(x => x.Username)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty()
+                .MaximumLength(15);
 
             RuleFor(x => x.Password)
-                .MinimumLength(4)
-                .MaximumLength(15)
+                .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
-                .Must((request, password) => PasswordMatches(request))
-                .WithMessage("Wrong password");
+                .MinimumLength(4)
+                .MaximumLength(15);
+
+            RuleFor(x => x)
+                .Must(BeValidUser).WithMessage($"User validation failed");
         }
 
-        private bool UserExists(SignInRequest request)
+        private bool BeValidUser(SignInRequest request)
         {
-            return _context.Users.Any(x => x.Username == request.Username);
-        }
+            var user = _context.Users.FirstOrDefault(x => x.Username == request.Username);
 
-        private bool UserActive(SignInRequest request)
-        {
-            return _context.Users.Where(x => x.Username == request.Username).Select(x => x.Active).Single();
-        }
+            // user must exist
+            if (user == null)
+                return false;
 
-        private bool PasswordMatches(SignInRequest request)
-        {
-            var passwordHash = _context.Users.Where(x => x.Username == request.Username).Select(x => x.PasswordHash).Single();
+            // user must be active
+            if (user.Active == false)
+                return false;
 
-            return passwordHash == PasswordHasher.GetPasswordHash(request.Password);
-        }
+            // user password and request password must match
+            var requestPasswordHash = PasswordHasher.GetPasswordHash(request.Password);
+            if (user.PasswordHash != requestPasswordHash)
+                return false;
 
-        private bool CoachHasPaidSubscriptionIfUserIsAthlete(SignInRequest request)
-        {
-            var user = _context.Users.Single(x => x.Username == request.Username);
+            // user must have active payment or be in trial
+            var paymentInfo = _paymentService.GetCustomerSubscriptionStatus(user.CustomerId).Result;
+            if (!(paymentInfo == SubscriptionStatus.Active || paymentInfo == SubscriptionStatus.Trialing))
+                return false;
 
-            if (user.AccountType != AccountType.Athlete) return true;
-
-            var athlete = _context.Athletes.Include(x => x.Coach).Single(x => x.Id == user.Id);
-
-            var coachPaymentInfo =
-                _paymentService.GetCustomerSubscriptionStatus(athlete.Coach.CustomerId).Result;
-
-            return coachPaymentInfo == SubscriptionStatus.Active || coachPaymentInfo == SubscriptionStatus.Trialing;
+            // everything is valid
+            return true;
         }
     }
 }

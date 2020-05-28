@@ -3,7 +3,6 @@ using Backend.Business.Authorization;
 using Backend.Business.Authorization.Extensions;
 using Backend.Business.Dashboard.Extensions;
 using Backend.Business.TrainingPrograms.Extensions;
-using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Extensions;
 using Backend.Infrastructure.Providers;
@@ -71,7 +70,23 @@ namespace Backend.API.Extensions
         {
             services
                 .AddControllers()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblies(new[]
+                {
+                    Assembly.GetAssembly(typeof(Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Billing.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Authorization.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Media.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Chat.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Export.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Import.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Notifications.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.ProgressTracking.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.TrainingLog.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Users.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Exercises.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Dashboard.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.TrainingPrograms.Mappings)),
+                }))
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
