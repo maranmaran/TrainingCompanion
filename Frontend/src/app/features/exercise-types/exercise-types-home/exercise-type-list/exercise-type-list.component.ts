@@ -1,4 +1,3 @@
-import { SortDirection } from '@angular/material/sort';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -89,6 +88,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       }),
       cellActions: [TableAction.update, TableAction.disable],
       selectionEnabled: false,
+      filterEnabled: true
     });
 
     return tableConfig;

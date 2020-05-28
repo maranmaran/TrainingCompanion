@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.TrainingLog.Code;
+﻿using Backend.Business.TrainingLog.Code;
 using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
+using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
 {
@@ -35,10 +36,7 @@ namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
 
                 var sets = await _context.Sets.Where(x => x.ExerciseId == request.ExerciseId).AsNoTracking().ToListAsync(cancellationToken);
 
-                var rpeSystem = type.ApplicationUser.UserSetting.RpeSystem;
-                var unitSystem = type.ApplicationUser.UserSetting.UnitSystem;
-
-                TransformSets(request.Sets, type, rpeSystem, unitSystem);
+                TransformSets(request.Sets, type, type.ApplicationUser.UserSetting);
 
                 var setsToRemove = sets.Where(x => request.Sets.All(y => y.Id != x.Id));
                 var setsToAdd = request.Sets.Where(x => x.Id == Guid.Empty);
@@ -58,28 +56,28 @@ namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
             }
         }
 
-        private void TransformSets(IEnumerable<Domain.Entities.TrainingLog.Set> sets, ExerciseType type, RpeSystem rpeSystem, UnitSystem unitSystem)
+        private void TransformSets(IEnumerable<Domain.Entities.TrainingLog.Set> sets, ExerciseType type, UserSetting settings)
         {
             foreach (var set in sets)
             {
-                set.Weight = set.Weight.ToMetricSystem(unitSystem); // make sure everything going in from weight is METRIC!
+                if (type.RequiresWeight && !type.RequiresBodyweight)
+                {
+                    set.Weight = set.Weight.ToMetricSystem(settings.UnitSystem); // make sure everything going in from weight is METRIC!
+                }
 
                 // update additional properties
                 if (type.RequiresReps && type.RequiresSets)
                 {
+
                     if (type.RequiresWeight)
                     {
                         set.Volume = set.Reps * set.Weight;
                     }
-                    else if (type.RequiresBodyweight)
-                    {
-                        // bw
-                    }
                 }
 
-                if (type.RequiresReps && type.RequiresSets && (type.RequiresWeight || type.RequiresBodyweight))
+                if (settings.UseRpeSystem && type.RequiresReps && type.RequiresSets && (type.RequiresWeight || type.RequiresBodyweight))
                 {
-                    set.ProjectedMax = RpeRepsTable.CalculateLiftMax(set.Reps, rpeSystem == RpeSystem.Rpe ? set.Rpe : 10 - set.Rir, set.Weight);
+                    set.ProjectedMax = RpeRepsTable.CalculateLiftMax(set.Reps, settings.RpeSystem == RpeSystem.Rpe ? set.Rpe : 10 - set.Rir, set.Weight);
                 }
             }
         }

@@ -1,20 +1,19 @@
-import { exerciseTypeUpdated } from './../../../../../ngrx/exercise-type/exercise-type.actions';
-import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.selectors';
-import { Observable } from 'rxjs/internal/Observable';
-import { take, switchMap, map } from 'rxjs/operators';
-import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
-import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/update-exercise-type.request';
 import { Update } from '@ngrx/entity';
-import { athleteUpdated } from 'src/ngrx/athletes/athlete.actions';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/internal/Observable';
+import { map, switchMap, take } from 'rxjs/operators';
+import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
+import { selectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/update-exercise-type.request';
+import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
+import { exerciseTypeUpdated } from './../../../../../ngrx/exercise-type/exercise-type.actions';
 
 @Component({
   selector: 'app-exercise-type-details',
   templateUrl: './exercise-type-details.component.html',
-  styleUrls: ['./exercise-type-details.component.scss']
+  styleUrls: ['./exercise-type-details.component.scss'],
 })
 export class ExerciseTypeDetailsComponent implements OnInit {
 
@@ -22,7 +21,7 @@ export class ExerciseTypeDetailsComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private exerciseTypeService: ExerciseTypeService
+    private exerciseTypeService: ExerciseTypeService,
   ) { }
 
   ngOnInit() {

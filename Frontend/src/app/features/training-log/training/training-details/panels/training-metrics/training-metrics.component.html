@@ -1,20 +1,29 @@
-<div class="charts-container" fxLayout="row wrap" fxLayoutAlign="space-between" fxLayoutGap="1rem"
-  fxLayout.lt-md="column" fxLayoutAlign.lt-md="center" fxLayoutGap.lt-md="1rem">
+<!--------- MEDIA ---------->
+<mat-expansion-panel class="media-panel">
+  <mat-expansion-panel-header>
+    {{'TRAINING_LOG.METRICS_SECTION' | translate}}
+  </mat-expansion-panel-header>
 
-  <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
-    <app-chart [configuration]="totalVolumeChart"></app-chart>
-  </div>
+  <ng-template matExpansionPanelContent>
+    <div class="charts-container" fxLayout="column" fxLayoutAlign="center">
 
-  <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
-    <app-chart [configuration]="volumeSplitChart"></app-chart>
-  </div>
+      <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
+        <app-chart [configuration]="totalVolumeChart"></app-chart>
+      </div>
 
-  <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
-    <app-chart [configuration]="numberOfLiftsChart"></app-chart>
-  </div>
+      <mat-divider class="mt-2 mb-2"></mat-divider>
 
-  <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
-    <app-chart [configuration]="numberOfLiftsChart"></app-chart>
-  </div>
+      <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
+        <app-chart [configuration]="volumeSplitChart"></app-chart>
+      </div>
 
-</div>
+      <mat-divider class="mt-2 mb-2"></mat-divider>
+
+      <div class="chart-wrapper" fxFlex="1 1 calc(50% - 1rem)" fxLayout="column" fxLayoutAlign="center center">
+        <app-chart [configuration]="numberOfLiftsChart"></app-chart>
+      </div>
+
+    </div>
+  </ng-template>
+
+</mat-expansion-panel>

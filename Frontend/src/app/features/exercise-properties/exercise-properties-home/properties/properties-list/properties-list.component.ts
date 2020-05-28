@@ -74,7 +74,8 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
         pageSizeOptions: [5]
       }),
       cellActions: [TableAction.update, TableAction.delete],
-      selectionEnabled: false
+      selectionEnabled: false,
+      filterEnabled: true
     });
 
     this.store.select(selectedTagGroup)

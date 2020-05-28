@@ -5,14 +5,16 @@ using Backend.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200523151914_PrReps")]
+    partial class PrReps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -383,22 +385,16 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double?>("Bodyweight")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("float")
-                        .HasDefaultValue(null);
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("DateAchieved")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getutcdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ExerciseTypeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double?>("IpfPoints")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("float")
-                        .HasDefaultValue(null);
+                    b.Property<double>("IpfPoints")
+                        .HasColumnType("float");
 
                     b.Property<double?>("Reps")
                         .HasColumnType("float");
@@ -409,10 +405,8 @@ namespace Backend.Persistance.Migrations
                     b.Property<double>("Value")
                         .HasColumnType("float");
 
-                    b.Property<double?>("WilksScore")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("float")
-                        .HasDefaultValue(null);
+                    b.Property<double>("WilksScore")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -479,23 +473,11 @@ namespace Backend.Persistance.Migrations
                     b.Property<string>("AverageVelocity")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Distance")
-                        .HasColumnType("float");
-
                     b.Property<Guid>("ExerciseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Intensity")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("MaxUsedForPercentage")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Percentage")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Power")
-                        .HasColumnType("float");
 
                     b.Property<double>("ProjectedMax")
                         .HasColumnType("float");

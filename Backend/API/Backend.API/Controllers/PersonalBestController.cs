@@ -1,5 +1,6 @@
 ﻿using Backend.Business.ProgressTracking.PersonalBestRequests.Create;
 using Backend.Business.ProgressTracking.PersonalBestRequests.Delete;
+using Backend.Business.ProgressTracking.PersonalBestRequests.Get;
 using Backend.Business.ProgressTracking.PersonalBestRequests.GetAll;
 using Backend.Business.ProgressTracking.PersonalBestRequests.Update;
 using Backend.Domain.Entities.ProgressTracking;
@@ -13,12 +14,17 @@ namespace Backend.API.Controllers
     public class PersonalBestController : BaseController
     {
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetAll(Guid userId, CancellationToken cancellationToken = default)
+        [HttpGet("{exerciseTypeId}")]
+        public async Task<IActionResult> GetAll(Guid exerciseTypeId, int? lowerRepRage, int? upperRepRange, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(new GetAllPersonalBestRequest(userId), cancellationToken));
+            return Ok(await Mediator.Send(new GetAllPersonalBestRequest(exerciseTypeId, lowerRepRage, upperRepRange), cancellationToken));
         }
 
+        [HttpGet("{exerciseTypeId}")]
+        public async Task<IActionResult> Get(Guid exerciseTypeId, CancellationToken cancellationToken = default)
+        {
+            return Ok(await Mediator.Send(new GetPersonalBestRequest() { ExerciseTypeId = exerciseTypeId }, cancellationToken));
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] PersonalBest entity, CancellationToken cancellationToken = default)

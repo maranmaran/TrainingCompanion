@@ -1,6 +1,6 @@
 export class TableConfig {
 
-  filterEnabled = true;
+  filterEnabled = false;
   selectionEnabled = true;
   enableDragAndDrop = false;
   actionsEnabled = true;

@@ -5,7 +5,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import * as _ from "lodash";
 import { Observable } from 'rxjs';
-import { take, skip, filter, map, tap } from 'rxjs/operators';
+import { map, skip, take } from 'rxjs/operators';
 import { Country } from 'src/business/shared/models/country.model';
 import { SupportedLanguages } from 'src/business/shared/supported-languages.enum';
 import { Theme } from 'src/business/shared/theme.enum';
@@ -109,13 +109,11 @@ export class GeneralComponent implements OnInit {
 
   public onUseRpeSystemChecked(event: MatCheckboxChange) {
     this.userSetting.useRpeSystem = event.checked;
-    this.userSetting.usePercentages = !event.checked;
     this.store.dispatch(updateUserSetting(this.userSetting));
   }
 
   public onUsePercentagesChecked(event: MatCheckboxChange) {
     this.userSetting.usePercentages = event.checked;
-    this.userSetting.useRpeSystem = !event.checked;
     this.store.dispatch(updateUserSetting(this.userSetting));
   }
 

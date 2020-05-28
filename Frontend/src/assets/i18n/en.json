@@ -29,6 +29,14 @@
   "TABLE": {
     "NO_DATA": "No records"
   },
+  "PERSONAL_BEST": {
+    "SET_MAX": "Set 1RM",
+    "MAX_LABEL": "One rep max",
+    "SECTION_TITLE": "Personal bests",
+    "VALUE": "Value",
+    "BODYWEIGHT": "Bodyweight",
+    "DATE_ACHIEVED": "Achieved on"
+  },
   "NOTIFICATIONS": {
     "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",
     "BODYWEIGHT_MESSAGE": "<b>{{username}}</b> logged a new bodyweight value of {{value}}.",
@@ -156,6 +164,8 @@
     "SAMPLE_SHEETS": "Sample sheets"
   },
   "TRAINING_LOG": {
+    "METRICS_SECTION": "Metrics",
+    "SET_PERCENTAGE": "Percentage",
     "TRAINING_DELETE_DIALOG": "<p>Are you sure you wish to delete training on {{dateTrained}} ?</p><p>All data will be lost if you delete this training.</p>",
     "CALENDAR_LABEL": "Calendar",
     "WEEK_LABEL": "Week",
