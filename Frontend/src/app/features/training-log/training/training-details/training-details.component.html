@@ -16,7 +16,7 @@
 
       <app-training-details-data></app-training-details-data>
 
-      <mat-accordion class="training-accordion" [multi]="false" [displayMode]="'flat'">
+      <mat-accordion class="training-accordion" [multi]="false">
 
         <app-training-note [note]="training.note" [coachNote]="training.coachNote" [noteRead]="training.noteRead"
           (saveNoteEvent)="saveNote($event)"></app-training-note>

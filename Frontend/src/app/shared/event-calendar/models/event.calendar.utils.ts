@@ -13,7 +13,7 @@ export function getMonthViewModel(today: moment.Moment): CalendarMonth {
 
     eventCalendar.weeks.push(
       new CalendarWeek(
-        Array(7).fill(0).map( () => date.add(1, 'day').clone().utc() )
+        Array(7).fill(0).map(() => date.add(1, 'day').clone())
       )
     )
   }
@@ -29,7 +29,7 @@ export function getWeekViewModel(today: moment.Moment): CalendarWeek {
   let days = [];
   const date = startDay.clone(); // this is +1 because of sundays
   while (!isEqual(date, endDay)) {
-    days.push(date.add(1, 'day').clone().utc());
+    days.push(date.add(1, 'day').clone());
   }
 
   return new CalendarWeek(days);
@@ -37,13 +37,13 @@ export function getWeekViewModel(today: moment.Moment): CalendarWeek {
 
 export function populateMonthViewModel(model: CalendarMonth, events: CalendarEvent[]) {
 
-  if(!events) return model;
+  if (!events) return model;
 
   model.weeks.forEach(calWeek => populateWeekViewModel(calWeek, events));
 }
 
 export function populateWeekViewModel(model: CalendarWeek, events: CalendarEvent[]) {
-  if(!events) return model;
+  if (!events) return model;
 
   model.days.forEach((calDay, i) => {
     let calEvents = events.filter(x => isEqual(x.day, calDay.day));
@@ -51,11 +51,11 @@ export function populateWeekViewModel(model: CalendarWeek, events: CalendarEvent
   });
 }
 
-export const getStartDayOfMonth = (date: moment.Moment) => date.clone().startOf('month').startOf('week').utc();
-export const getEndDayOfMonth = (date: moment.Moment) => date.clone().endOf('month').endOf('week').utc();
+export const getStartDayOfMonth = (date: moment.Moment) => date.clone().startOf('month').startOf('week');
+export const getEndDayOfMonth = (date: moment.Moment) => date.clone().endOf('month').endOf('week');
 
-export const getStartDayOfWeek = (date: moment.Moment) => date.clone().startOf('week').utc();
-export const getEndDayOfWeek = (date: moment.Moment) => date.clone().endOf('week').utc();
+export const getStartDayOfWeek = (date: moment.Moment) => date.clone().startOf('week');
+export const getEndDayOfWeek = (date: moment.Moment) => date.clone().endOf('week');
 
 export const isBefore = (date: moment.Moment, dateToCompareTo: moment.Moment) => dateToCompareTo.isBefore(date, 'date');
 export const isEqual = (date: moment.Moment, dateToCompareTo: moment.Moment) => dateToCompareTo.isSame(date, 'date');
