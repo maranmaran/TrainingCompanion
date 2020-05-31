@@ -1,12 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
 import * as _ from "lodash";
-import { switchMap, take } from 'rxjs/operators';
+import { noop } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { transformWeightToNumber } from 'src/business/services/shared/unit-system.service';
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
@@ -36,7 +37,6 @@ export class SetCreateEditComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private formBuilder: FormBuilder,
     private setService: SetService,
     private dialogRef: MatDialogRef<SetCreateEditComponent>,
     private UIService: UIService,
@@ -52,6 +52,7 @@ export class SetCreateEditComponent implements OnInit {
 
   userMaxControl: FormControl;
 
+
   setAttributes = false;
 
   ngOnInit() {
@@ -64,59 +65,10 @@ export class SetCreateEditComponent implements OnInit {
 
     setTimeout(_ => {
       if (this.settings.usePercentages)
-        this.setUserMax();
+        this.setUserMax().subscribe(noop);
 
       this.createForms();
     });
-  }
-
-  /** User can't use percentages if he doesn't have at least one PR defined..
-   * He can either use HIS PR or opt to using projected max from us
-   * But if none of those exist he must manually give us PR or he can't use percentages
-   * He should be able to opt out of percentages and use weight for example in case he doesn't know max
-   */
-  setUserMax() {
-    let userPR = this.data.prs[0];
-    let systemPR = this.data.prs[1];
-
-    if (!userPR) {
-      this.onSetMaxDialog(systemPR);
-    } else {
-      this.setUserMaxControl(userPR.value);
-    }
-  }
-
-  setUserMaxControl(value: number) {
-    value = transformWeightToNumber(value, this.settings.unitSystem);
-    let validators = [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]
-
-    this.userMaxControl = new FormControl(value, validators);
-  }
-
-  onSetMaxDialog(systemPR: PersonalBest) {
-
-    const dialogRef = this.UIService.openDialogFromComponent(ChooseMaxDialogComponent, {
-      height: 'auto',
-      width: '98%',
-      maxWidth: '20rem',
-      autoFocus: false,
-      disableClose: true,
-      data: {
-        title: 'PERSONAL_BEST.SET_MAX',
-        systemPR
-      },
-      panelClass: 'choose-max-dialog-container',
-    })
-
-    dialogRef.afterClosed().pipe(take(1))
-      .subscribe(response => {
-        if(!response) {
-          this.userMaxControl = null;
-          this.settings.usePercentages = false;
-        } else {
-          this.setUserMaxControl(response.value);
-        }
-      })
   }
 
   createForms() {
@@ -144,22 +96,99 @@ export class SetCreateEditComponent implements OnInit {
 
   onUsePercentage(event: MatSlideToggleChange, index: number) {
 
-
     if (event.checked) {
-      // check for one rep max...
-      if (this.userMaxControl == null) {
-        this.setUserMax();
+
+      let setPercentageControl = (response) => {
+        if (response) {
+          this.setFormGroups[index].removeControl('weight');
+          this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
+          this.setFormGroups[index].disable();
+        } else {
+          event.source.checked = false;
+        }
       }
 
-      this.setFormGroups[index].removeControl('weight');
-      this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
+      // check for one rep max...
+      if (this.userMaxControl == null) {
+        this.setUserMax().subscribe(setPercentageControl);
+      } else {
+        setPercentageControl(true);
+      }
+
     } else {
       this.setFormGroups[index].addControl('weight', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(200)]));
       this.setFormGroups[index].removeControl('percentage');
+      this.setFormGroups[index].disable();
+
+      if (!this.checkForPercentageControls()) {
+        this.userMaxControl = null;
+      }
     }
 
-    this.setFormGroups[index].disable();
   }
+
+  checkForPercentageControls() {
+    let result = false;
+    this.setFormGroups.forEach(group => {
+      result = !!group['percentage']
+    });
+
+    return result;
+  }
+
+  //#region USER MAX
+
+  /** User can't use percentages if he doesn't have at least one PR defined..
+   * He can either use HIS PR or opt to using projected max from us
+   * But if none of those exist he must manually give us PR or he can't use percentages
+   * He should be able to opt out of percentages and use weight for example in case he doesn't know max
+   */
+  setUserMax() {
+    let userPR = this.data.prs[0];
+    let systemPR = this.data.prs[1];
+
+    if (!userPR) {
+      return this.onSetMaxDialog(systemPR);
+    } else {
+      this.setUserMaxControl(userPR.value);
+    }
+  }
+
+  setUserMaxControl(value: number) {
+    value = transformWeightToNumber(value, this.settings.unitSystem);
+    let validators = [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]
+
+    this.userMaxControl = new FormControl(value, validators);
+  }
+
+  onSetMaxDialog(systemPR: PersonalBest) {
+
+    const dialogRef = this.UIService.openDialogFromComponent(ChooseMaxDialogComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      disableClose: true,
+      data: {
+        title: 'PERSONAL_BEST.SET_MAX',
+        systemPR
+      },
+      panelClass: 'choose-max-dialog-container',
+    })
+
+    return dialogRef.afterClosed().pipe(
+      take(1),
+      tap(response => {
+        if (!response) {
+          this.userMaxControl = null;
+          this.settings.usePercentages = false;
+        } else {
+          this.setUserMaxControl(response.value);
+        }
+      }))
+
+  }
+  //#endregion
 
   addGroup(set: Set = null) {
 
@@ -342,12 +371,12 @@ export class SetCreateEditComponent implements OnInit {
   get isFormValid() {
     let valid = false;
 
-    if(this.setFormGroups.length > 0) {
-      valid =  this.setFormGroups.reduce((prev, curr) => prev && curr.valid, true);
+    if (this.setFormGroups.length > 0) {
+      valid = this.setFormGroups.reduce((prev, curr) => prev && curr.valid, true);
     }
 
     // uses percentages
-    if(this.userMaxControl) {
+    if (this.userMaxControl) {
       valid = valid && this.userMaxControl.valid;
     }
 

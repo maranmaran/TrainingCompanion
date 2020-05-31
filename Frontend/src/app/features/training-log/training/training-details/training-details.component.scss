@@ -29,7 +29,15 @@
   }
 }
 
+#training-col-right {
+  margin-top: 1rem;
+}
+
 @media (max-width: 600px) {
+  #training-col-right {
+    margin-top: 0rem;
+  }
+
   .label-value {
     margin-left: 0.5rem !important;
   }
