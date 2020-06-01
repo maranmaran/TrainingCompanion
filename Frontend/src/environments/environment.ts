@@ -1,34 +1,19 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
-  name: 'development',
+  name: 'environmentName', // 
   production: false,
   showStackTrace: true,
 
-  apiUrl: 'https://localhost:44304/api/',
-  apiUrlNoSSL: 'http://localhost:44302/api/',
+  apiUrl: 'backendURL/api/',
+  apiUrlNoSSL: 'backendURL/api/',
 
-  notificationHubUrl: 'https://localhost:44304/api/notifications-hub',
-  notificationHubUrlNoSSL: 'http://localhost:44302/api/notifications-hub',
+  notificationHubUrl: 'backendURL/api/notifications-hub',
+  notificationHubUrlNoSSL: 'backendURL/api/notifications-hub',
 
-  feedHubUrl: 'https://localhost:44304/api/feed-hub',
-  feedHubUrlNoSSL: 'http://localhost:44302/api/feed-hub',
+  feedHubUrl: 'backendURL/api/feed-hub',
+  feedHubUrlNoSSL: 'backendURL/api/feed-hub',
 
-  chatHubUrl: 'https://localhost:44304/api/chat-hub',
-  chatHubUrlNoSSL: 'http://localhost:44302/api/chat-hub',
+  chatHubUrl: 'backendURL/api/chat-hub',
+  chatHubUrlNoSSL: 'backendURL/api/chat-hub',
 
-  stripePublishableKey: 'pk_test_zScuAdL8ZCULuob3sbgWfnzw',
+  stripePublishableKey: 'stripePublishableKey' // TODO remove from client 
 };
-
-
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
