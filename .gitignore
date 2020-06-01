@@ -8,6 +8,8 @@
 **/appsettings.Release.json
 **/environment.prod.ts
 **/environment.dev.ts
+**/server.key
+**/server.crt
 
 # User-specific files
 *.rsuser
