@@ -50,7 +50,7 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Create
         public async Task<TrainingBlock> ScaffoldTrainingDays(TrainingBlock entity)
         {
             var days = new List<TrainingBlockDay>();
-            for (var i = 0; i < entity.DurationInDays; i++)
+            for (var i = 0; i < entity.Duration; i++)
             {
                 days.Add(new TrainingBlockDay()
                 {
@@ -59,7 +59,7 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Create
             }
             entity.Days = days;
 
-            return entity;
+            return await Task.FromResult(entity);
         }
     }
 }

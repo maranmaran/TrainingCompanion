@@ -1,5 +1,5 @@
 <!--CONTAINER-->
-<span class="theme-material-table">
+<div class="theme-material-table">
 
   <!--FILTER-->
   <mat-form-field *ngIf="config.filterEnabled">
@@ -8,8 +8,7 @@
   </mat-form-field>
 
   <!--TABLE-->
-  <mat-table class="mat-elevation-z1" [dataSource]="datasource" matSort [matSortActive]="config.defaultSort"
-    [matSortDirection]="config.defaultSortDirection"
+  <mat-table class="mat-elevation-z1" [dataSource]="datasource" matSort
     (matSortChange)="config.pagingOptions.serverSidePaging && onSortChange($event)" cdkDropList
     [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop"
     (cdkDropListDropped)="onListDrop($event)">
@@ -90,8 +89,10 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayColumns;" cdkDrag [cdkDragData]="row" highlightOnHover
-      [ngClass]="{'selected-row': selection.isSelected(row.id) }" (click)="onSelect(row)">
+    <mat-row id="table-row" *matRowDef="let row; columns: displayColumns;" cdkDrag [cdkDragData]="row"
+      [cdkDragStartDelay]="300" (cdkDragStarted)="onDragStarted($event)" (cdkDragEnded)="onDragEnded($event)"
+      highlightOnHover class="theme-dialog" [ngClass]="{'selected-row': selection.isSelected(row.id) }"
+      (click)="onSelect(row)">
     </mat-row>
 
   </mat-table>
@@ -107,7 +108,7 @@
     [length]="(totalItems | async)" [pageSizeOptions]="pageSizeOptions">
   </mat-paginator>
 
-</span>
+</div>
 
 <!--ACTION BUTTONS-->
 <ng-template #actions let-actions="actions" let-row="row">

@@ -23,8 +23,9 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                     const serverError = error.error as ErrorDetails;
 
-                    if (serverError.status) {
-                        this.store.dispatch(httpErrorOccured(serverError.message))
+                    //Ignore Unauthorized because we will be redirected to login
+                    if (error?.status != 401) {
+                        this.store.dispatch(httpErrorOccured(serverError?.message))
                     }
 
                     return throwError(error);

@@ -13,6 +13,7 @@ import { TableDatasource } from "src/app/shared/material-table/table-models/tabl
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { UIService } from 'src/business/services/shared/ui.service';
+import { transformWeight } from 'src/business/services/shared/unit-system.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
@@ -23,6 +24,8 @@ import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
 import { selectedTraining, selectedTrainingExercises, selectedTrainingId } from '../../../../../ngrx/training-log/training.selectors';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
+import { unitSystem } from './../../../../../ngrx/auth/auth.selectors';
+import { UnitSystem } from './../../../../../server-models/enums/unit-system.enum';
 
 @Component({
   selector: 'app-exercise-list',
@@ -40,6 +43,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
   private userId: string;
+  private unitSystem: UnitSystem;
 
   constructor(
     private uiService: UIService,
@@ -55,6 +59,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     this.tableColumns = this.getTableColumns() as CustomColumn[];
 
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
+    this.store.select(unitSystem).pipe(take(1)).subscribe(system => this.unitSystem = system);
 
     this.subs.add(
       this.store.select(selectedTrainingExercises)
@@ -105,9 +110,26 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
         useComponent: true,
         component: ExerciseTypePreviewComponent,
         componentInputs: (item: Exercise) => ({ exerciseType: item.exerciseType }),
+      }),
+      new CustomColumn({
+        definition: 'sets',
+        title: 'TRAINING_LOG.SETS_LABEL',
+        sort: true,
+        sortFn: (item: Exercise) => item.sets?.length,
+        displayFn: (item: Exercise) => item.sets?.length,
+      }),
+      //TODO: Changes for watts, distance, time etc
+      new CustomColumn({
+        definition: 'max',
+        title: 'TRAINING_LOG.PROJECTED_MAX',
+        sort: true,
+        sortFn: (item: Exercise) => item.sets.map(x => x.projectedMax).reduce(this.reduceProjectedMax, 0),
+        displayFn: (item: Exercise) => transformWeight(item.sets.map(x => x.projectedMax).reduce(this.reduceProjectedMax, 0), this.unitSystem),
       })
     ];
   }
+
+  reduceProjectedMax = (prev, cur) => cur >= prev ? cur : prev;
 
   onReorder(payload: { previous: Exercise, current: Exercise }) {
     this.store.select(selectedTrainingId)

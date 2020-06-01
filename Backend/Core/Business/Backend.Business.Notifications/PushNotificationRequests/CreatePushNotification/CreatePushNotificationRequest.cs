@@ -1,7 +1,7 @@
-﻿using System;
-using Backend.Domain.Entities.Notification;
+﻿using Backend.Domain.Entities.Notification;
 using Backend.Domain.Enum;
 using MediatR;
+using System;
 
 namespace Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification
 {
@@ -12,6 +12,7 @@ namespace Backend.Business.Notifications.PushNotificationRequests.CreatePushNoti
         public Guid? SenderId { get; set; }
         public Guid ReceiverId { get; set; }
         public bool SystemNotification => !this.SenderId.HasValue;
+        public string JsonEntity { get; set; }
 
         public CreatePushNotificationRequest()
         {

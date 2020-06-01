@@ -1,5 +1,5 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
+using System;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.ChangePassword
 {
@@ -7,9 +7,23 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ChangePassword
     {
         public ChangePasswordRequestValidator()
         {
-            RuleFor(x => x.Id).NotEmpty().NotEqual(Guid.Empty);
-            RuleFor(x => x.Password).Equal(x => x.ConfirmPassword).NotEmpty();
-            RuleFor(x => x.ConfirmPassword).NotEmpty();
+            RuleFor(x => x.Id)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty()
+                .NotEqual(Guid.Empty);
+
+            RuleFor(x => x.Password)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty()
+                .MinimumLength(4)
+                .MaximumLength(15);
+
+            RuleFor(x => x.Password)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty()
+                .NotEqual(" ")
+                .Equal(x => x.ConfirmPassword)
+                .MinimumLength(4);
         }
     }
 }

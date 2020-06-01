@@ -1,5 +1,5 @@
 <div id="general-settings-container" fxLayout="row" fxLayoutAlign="space-evenly" fxLayout.lt-sm="column"
-  fxLayoutAlign.lt-sm="space-around  ">
+  fxLayoutAlign.lt-sm="space-around" fxLayoutGap.lt-sm="1rem">
   <div id="left-column" fxLayout="column" fxLayoutGap="1rem" fxFlex="0 0 50%" fxFlex.lt-sm="0 1 auto">
 
     <!--Language-->
@@ -48,8 +48,8 @@
         {{ userSetting.rpeSystem }}
       </mat-slide-toggle>
       <mat-checkbox (change)="onUseRpeSystemChecked($event)"
-        [checked]="userSetting.useRpeSystem && !userSetting.usePercentages">
-        {{ userSetting.useRpeSystem ? '' : 'Turn on' }}
+        [checked]="userSetting.useRpeSystem">
+        {{ userSetting.useRpeSystem ? 'Off' : 'On' }}
       </mat-checkbox>
 
     </div>
@@ -57,8 +57,7 @@
     <!--PERCENTAGE system-->
     <div fxLayout="row" fxLayoutGap="1rem">
       <label>{{ 'SETTINGS.GENERAL.PERCENTAGE_SYSTEM' | translate }}: </label>
-      <mat-checkbox (change)="onUsePercentagesChecked($event)"
-        [checked]="userSetting.usePercentages && !userSetting.useRpeSystem">
+      <mat-checkbox (change)="onUsePercentagesChecked($event)" [checked]="userSetting.usePercentages">
       </mat-checkbox>
     </div>
 

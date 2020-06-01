@@ -7,11 +7,12 @@ import { NotificationSignalrService } from 'src/business/services/feature-servic
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
 import { logout } from 'src/ngrx/auth/auth.actions';
-import { currentUser } from 'src/ngrx/auth/auth.selectors';
+import { currentUser, unitSystem } from 'src/ngrx/auth/auth.selectors';
 import { totalUnreadChatMessages } from 'src/ngrx/chat/chat.selectors';
 import { setTrackEditMode } from 'src/ngrx/dashboard/dashboard.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
+import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { SubSink } from 'subsink';
 import { SettingsComponent } from '../../settings/settings.component';
 import { UIService } from './../../../../business/services/shared/ui.service';
@@ -35,6 +36,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   subSink = new SubSink();
 
+  unitSystem$: Observable<UnitSystem>;
+
   // chat
   unreadChatMessages: Observable<number>
 
@@ -56,6 +59,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   dashboardActive$: Observable<boolean>;
 
+
+
   ngOnInit(): void {
 
     // set observable for main progress bar
@@ -63,6 +68,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.dashboardActive$ = this.store.select(dashboardActive);
 
     this.unreadChatMessages = this.store.select(totalUnreadChatMessages);
+
+    this.unitSystem$ = this.store.select(unitSystem);
 
     // subscribe to notifications
     // only new ones.. in real time
@@ -86,7 +93,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
           this.notifications = [notification, ...this.notifications];
           !notification.read && this.unreadNotificationCounter++;
 
-          // do stuff... Display some toastr or something for new notifications while user is logged in
         }),
     );
 
@@ -143,8 +149,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     return;
   }
 
-  onOpenSettings(section: string) {
-    let dialogRef = this.UIService.openDialogFromComponent(SettingsComponent, {
+  onOpenSettings(section: string = null) {
+    this.UIService.openDialogFromComponent(SettingsComponent, {
       height: 'auto',
       width: '98%',
       maxWidth: '58rem',
@@ -153,8 +159,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       panelClass: ['settings-dialog-container'],
       closeOnNavigation: true
     });
-
-    dialogRef.afterClosed().pipe(take(1)).subscribe(_ => console.log(_));
   }
 
   onLogout() {

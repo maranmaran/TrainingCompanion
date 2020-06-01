@@ -5,25 +5,21 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { PushNotification } from 'src/server-models/entities/push-notification.model';
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notification-item',
   templateUrl: './notification-item.component.html',
   styleUrls: ['./notification-item.component.scss']
 })
-export class NotificationItemComponent implements OnInit {
+export class NotificationItemComponent {
 
   @Input() model: PushNotification;
-  unitSystem: UnitSystem;
+  @Input() unitSystem: UnitSystem;
   notificationType = NotificationType;
 
   constructor(
-    private store: Store<AppState>
   ) { }
-
-  ngOnInit() {
-    this.store.select(unitSystem).subscribe(system => this.unitSystem = system);
-  }
 
 
 }

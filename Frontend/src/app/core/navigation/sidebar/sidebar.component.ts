@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -18,7 +19,8 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private uiService: UIService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -30,7 +32,8 @@ export class SidebarComponent implements OnInit {
     this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Close);
   }
 
-  public onRoute() {
+  public onRoute(route: string) {
     this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
+    setTimeout(_ => this.router.navigate([route]), 400);
   }
 }

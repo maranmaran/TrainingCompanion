@@ -1,0 +1,8 @@
+<h3 class="pl-2 pr-2"><b>{{'PERSONAL_BEST.SECTION_TITLE' | translate}}:</b></h3>
+<app-material-table *ngIf="bootstrap"
+    [columns]="tableColumns"
+    [datasource]="tableDatasource"
+    [config]="tableConfig"
+    (addEvent)="onAdd()"
+    (deleteEvent)="onDeleteSingle($event)"
+></app-material-table>

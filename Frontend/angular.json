@@ -30,12 +30,21 @@
             ],
             "styles": [
               "src/styles/styles.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/placeholder-loading/src/scss/placeholder-loading.scss"
             ],
             "scripts": [],
             "es5BrowserSupport": true
           },
           "configurations": {
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -71,10 +80,13 @@
           "options": {
             "sslKey": "src/environments/https/server.key",
             "sslCert": "src/environments/https/server.crt",
-            "ssl": true,
+            "ssl": false,
             "browserTarget": "Frontend:build"
           },
           "configurations": {
+            "dev": {
+              "browserTarget": "Frontend:build:dev"
+            },
             "production": {
               "browserTarget": "Frontend:build:production"
             }

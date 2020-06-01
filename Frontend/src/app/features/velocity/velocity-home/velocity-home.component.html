@@ -1,0 +1,47 @@
+<app-actions fxHide.lt-sm></app-actions>
+<div id="min-max-acc" *ngIf="(minMaxRealtime$ | async) as minMax">
+  <h3>Min-Mmax Acceleration over Y-axis</h3>
+
+  <p>Time recorded: {{ minMax.timestamp }} s</p>
+  <p>Min: {{ minMax.min }} m/s2</p>
+  <p>Max: {{ minMax.max }} m/s2</p>
+  <p>Sum: {{ minMax.total }} m/s2</p>
+
+  <span fxLayout="row" fxLayoutGap="1rem">
+    <button mat-stroked-button color="accent" (click)="onAccelerationSnapshot(minMax)">
+      Snapshot
+    </button>
+    <button mat-stroked-button color="accent" (click)="onAccelerationReset()">
+      Reset
+    </button>
+  </span>
+
+  <ng-container *ngIf="accelerationSnapshotData && accelerationSnapshotData.length > 0">
+    <table>
+      <th>Snapshot time</th>
+      <th>Min</th>
+      <th>Max</th>
+      <th>Total</th>
+      <tr *ngFor="let snapshot of accelerationSnapshotData">
+        <td>{{ snapshot.timestamp }} s</td>
+        <td>{{ snapshot.min }} m/s2</td>
+        <td>{{ snapshot.max }} m/s2</td>
+        <td>{{ snapshot.total }} m/s2</td>
+      </tr>
+    </table>
+
+    <button mat-stroked-button color="accent" (click)="onClearAccelerationSnapshots()">
+      Clear
+    </button>
+  </ng-container>
+
+</div>
+<mat-divider class="mb-2 mb-2"></mat-divider>
+<div id="acc" *ngIf="(acceleration$ | async) as acceleration">
+  <h3>Acceleration: </h3>
+
+  <p>X: {{ acceleration.X }} m/s2</p>
+  <p>Y: {{ acceleration.Y }} m/s2</p>
+  <p>Z: {{ acceleration.Z }} m/s2</p>
+  <p>Time since start: {{ acceleration.timestamp }} s</p>
+</div>

@@ -29,6 +29,8 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.GetAll
             {
                 var entities = await _context.TrainingPrograms
                     .Include(x => x.TrainingBlocks)
+                    .Include(x => x.Users)
+                    .ThenInclude(x => x.User)
                     .Where(x => x.CreatorId == request.CreatorId)
                     .ToListAsync(cancellationToken);
 

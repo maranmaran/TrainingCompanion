@@ -9,6 +9,12 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
 
     public class GetUserFeedRequest : IRequest<IEnumerable<Activity>>
     {
+        public GetUserFeedRequest(Guid userId, PaginationModel paginationModel = null)
+        {
+            UserId = userId;
+            PaginationModel = paginationModel;
+        }
+
         public Guid UserId { get; set; }
         public PaginationModel PaginationModel { get; set; }
     }

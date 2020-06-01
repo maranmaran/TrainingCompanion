@@ -1,34 +1,38 @@
-<div
-class="notification-container"
-fxLayout="row"
-fxLayoutGap="15px"
-[ngClass]="{'unread': !notification.read}"
-(click)="readNotification()">
+<div class="notification-container" fxLayout="row" fxLayoutGap="15px" [ngClass]="{'unread': !notification.read}"
+  (click)="readNotification()">
 
   <div id="image-wrapper" fxFlex="0 0 auto" fxLayoutAlign="center">
-    <img class="notification_avatar" *ngIf="!notification.systemNotification" [src]="notification.sender.avatar"/>
-    <app-notification-type-icon name="image" *ngIf="notification.systemNotification" [notificationType]="notification.type" [entity]="notification.entity"></app-notification-type-icon>
+    <img class="notification_avatar" *ngIf="!notification.systemNotification" [src]="notification.sender.avatar" />
+    <app-notification-type-icon name="image" *ngIf="notification.systemNotification"
+      [notificationType]="notification.type" [entity]="notification.entity"></app-notification-type-icon>
   </div>
   <div class="notification-body-container" fxLayout="column" fxFlex="1 1 100%">
     <div id="payload" fxFlex="0 0 70%" fxLayout="row" fxLayoutGap="4px">
-      <b *ngIf="!notification.systemNotification">{{notification.sender.fullName}}</b>
       <ng-container [ngSwitch]="notification.type">
-        <app-bodyweight-notification-body *ngSwitchCase="notificationType.BodyweightAdded" [notification]="notification" [unitSystem]="unitSystem"></app-bodyweight-notification-body>
-        <app-media-notification-body *ngSwitchCase="notificationType.MediaAdded"  [notification]="notification"></app-media-notification-body>
-        <app-training-notification-body *ngSwitchCase="notificationType.TrainingCreated" [notification]="notification"></app-training-notification-body>
-        <app-personal-best-notification-body *ngSwitchCase="notificationType.PersonalBestAdded" [notification]="notification"  [unitSystem]="unitSystem"></app-personal-best-notification-body>
-        <app-note-notification-body *ngSwitchCase="notificationType.NoteAdded" [notification]="notification"></app-note-notification-body>
-        <app-import-notification-body *ngSwitchCase="notificationType.ImportFinished" [notification]="notification"></app-import-notification-body>
+        <app-bodyweight-notification-body *ngSwitchCase="notificationType.BodyweightAdded" [notification]="notification"
+          [unitSystem]="unitSystem$ | async"></app-bodyweight-notification-body>
+        <app-media-notification-body *ngSwitchCase="notificationType.MediaAdded" [notification]="notification">
+        </app-media-notification-body>
+        <app-training-notification-body *ngSwitchCase="notificationType.TrainingCreated" [notification]="notification">
+        </app-training-notification-body>
+        <app-personal-best-notification-body *ngSwitchCase="notificationType.PersonalBestAdded"
+          [notification]="notification" [unitSystem]="unitSystem$ | async"></app-personal-best-notification-body>
+        <app-note-notification-body *ngSwitchCase="notificationType.NoteAdded" [notification]="notification">
+        </app-note-notification-body>
+        <app-import-notification-body *ngSwitchCase="notificationType.ImportFinished" [notification]="notification">
+        </app-import-notification-body>
         <span *ngSwitchCaseDefault>{{ notification.payload }}</span>
       </ng-container>
     </div>
     <div id="metadata" fxFlex="0 0 30%" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
 
       <ng-container [ngSwitch]="notification.type">
-        <i *ngSwitchCase="'TrainingCreated'" class="fas fa-dumbbell"></i>
-        <i *ngSwitchCase="'NoteAdded'" class="fas fa-envelope-open-text"></i>
-        <i *ngSwitchCase="'MediaAdded'" class="fas fa-photo-video"></i>
-        <i *ngSwitchCase="'ImportFinished'" class="fas fa-cloud-upload-alt"></i>
+        <i *ngSwitchCase="notificationType.TrainingCreated" class="fas fa-dumbbell"></i>
+        <i *ngSwitchCase="notificationType.NoteAdded" class="fas fa-envelope-open-text"></i>
+        <i *ngSwitchCase="notificationType.MediaAdded" class="fas fa-photo-video"></i>
+        <i *ngSwitchCase="notificationType.ImportFinished" class="fas fa-cloud-upload-alt"></i>
+        <i *ngSwitchCase="notificationType.BodyweightAdded" class="fas fa-weight"></i>
+        <i *ngSwitchCase="notificationType.PersonalBestAdded" class="fas fa-trophy"></i>
       </ng-container>
 
       <span id="date">{{ notification.sentAt | date:'medium' }}</span>

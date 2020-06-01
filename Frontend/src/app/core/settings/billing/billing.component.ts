@@ -73,7 +73,7 @@ export class BillingComponent implements OnInit, OnDestroy {
 
     // open setup
     const dialogRef = this.dialog.open(StripeCheckoutComponent, {
-      height: 'auto',
+      height: '36.3rem',
       width: '25rem',
       maxWidth: '100%',
       autoFocus: false,

@@ -10,19 +10,41 @@
 
 .main-screen {
   padding-top: 0rem;
-  margin-top: -2rem;
 }
 
-.title {
-  padding: 0.5rem;
+.training-header {
+  margin-bottom: 1rem;
+
+  .title {
+    padding: 0;
+    margin-bottom: 0;
+
+    &.smaller {
+      font-size: small;
+    }
+
+    &.bold {
+      font-weight: bold;
+    }
+  }
+}
+
+#training-col-right {
+  margin-top: 1rem;
 }
 
 @media (max-width: 600px) {
+  #training-col-right {
+    margin-top: 0rem;
+  }
+
   .label-value {
     margin-left: 0.5rem !important;
   }
-  .title {
-    margin: 0px !important;
+
+  .training-header {
+    margin-bottom: 0.5rem;
+    padding-top: 0.5rem;
   }
 
   .main-screen {

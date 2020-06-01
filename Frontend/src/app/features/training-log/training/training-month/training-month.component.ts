@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { BehaviorSubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { take, concatMap, switchMap, filter, map } from 'rxjs/operators';
 import { CalendarConfig } from 'src/app/shared/event-calendar/models/calendar.config';
 import { CalendarEvent } from 'src/app/shared/event-calendar/models/event-calendar.models';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { currentUserId, viewAs } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training.actions';
 import { trainings } from 'src/ngrx/training-log/training.selectors';
@@ -28,30 +28,37 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
   private userId: string;
   private subsink = new SubSink();
   calendarConfig: CalendarConfig;
+  private _currentDate: Date = new Date();
 
   constructor(
-    private UIService: UIService,
     private trainingService: TrainingService,
     private store: Store<AppState>,
-    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
     setTimeout(() => this.store.dispatch(setSelectedTraining(null))); // undo selected training for certain
-
     this.calendarConfig = this.getConfig();
 
-    // current user id for request
-    this.store.select(currentUserId).pipe(take(1)).subscribe(id => this.userId = id);
-
-    // INIT - (fetch for today)
-    setTimeout(() => {
-      this.onMonthChange(moment(new Date()));
-    });
-
     // subscribe to changes
-    this.subsink.add(this.store.select(trainings)
-    .subscribe((trainings: Training[]) => this.inputData.next(this.parseTrainingsForCalendar(trainings))));
+    this.subsink.add(
+
+      combineLatest(
+        this.store.select(currentUserId),
+        this.store.select(viewAs).pipe(map(user => user?.id))
+      ).pipe(
+        map(([userId, viewAsId]) => viewAsId ? viewAsId : userId)
+      ).subscribe(id => {
+        this.userId = id;
+
+        // INIT - (fetch for today)
+        setTimeout(() => {
+          this.onMonthChange(moment(this._currentDate));
+        });
+      }),
+
+      this.store.select(trainings)
+        .subscribe((trainings: Training[]) => this.inputData.next(this.parseTrainingsForCalendar(trainings)))
+    );
   }
 
   getConfig(): CalendarConfig {
@@ -61,8 +68,8 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
     config.component = TrainingMonthViewDayComponent;
     config.componentInputs = (calendarEventModel: CalendarEvent) => {
       return {
-         training: calendarEventModel.event
-        }
+        training: calendarEventModel.event
+      }
     }
 
     return config;
@@ -73,8 +80,11 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
   }
 
   // GET BY MONTH
-  // TODO: Fetch only if you need to.. (Something has been updated.. no need to refetch data that you already loaded)
+  // TODO: Fetch only if you need to.. 
+  // (Something has been updated.. 
+  // no need to refetch data that you already loaded)
   onMonthChange(date: moment.Moment) {
+    this._currentDate = date.toDate();
 
     const month = date.month() + 1; // because it starts from 0
     const year = date.year();
@@ -107,10 +117,10 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
   }
 
   onAddEvent(day: moment.Moment = moment(new Date())) {
-    this.trainingService.onAdd(TrainingCreateEditComponent, false, day)
-    .afterClosed()
-    .pipe(take(1))
-    .subscribe(_ => {});;
+    this.trainingService.onAdd(TrainingCreateEditComponent, null, day)
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(_ => { });;
   }
 
   onOpenEvent(trainingEvent: CalendarEvent) {

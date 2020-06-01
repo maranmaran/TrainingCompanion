@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
 using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
-using Backend.Common;
 using Backend.Domain;
 using Backend.Domain.Deserializators;
 using Backend.Domain.Entities.Auditing;
@@ -50,10 +50,6 @@ namespace Backend.Business.Notifications
                 var receiverId = athlete.CoachId.Value;
                 var notification = await GetNotification(audit, athlete);
 
-                var notificationToSave = _mapper.Map<Notification>(notification);
-                await _context.Notifications.AddAsync(notificationToSave);
-                await _context.SaveChangesAsync();
-
                 await _mediator.Publish(new NotifyUserNotification(notification, receiverId));
             }
             catch (Exception e)
@@ -67,27 +63,18 @@ namespace Backend.Business.Notifications
         {
             try
             {
-                var avatar = athlete.Avatar;
-                if (!GenericAvatarConstructor.IsGenericAvatar(avatar) &&
-                    _s3Service.CheckIfPresignedUrlIsExpired(avatar))
-                    avatar = await _s3Service.GetPresignedUrlAsync(avatar);
-
-                var notification = new Notification()
+                var request = new CreatePushNotificationRequest()
                 {
                     Payload = GetPayload(audit, athlete.UserSetting),
+                    // ReSharper disable once PossibleInvalidOperationException
+                    // this is already checked before method call
+                    ReceiverId = athlete.CoachId.Value,
                     SenderId = athlete.Id,
-                    SenderAvatar = avatar,
-                    SystemNotification = false,
-                    ReceiverId = athlete.CoachId,
-                    SentAt = DateTime.Now,
                     Type = NotificationHelper.GetNotificationType(audit.EntityType),
-                    Sender = athlete,
-                    Receiver = athlete.Coach,
-                    Read = false,
                     JsonEntity = await _activityService.GetEntityAsJson(audit)
                 };
 
-                return notification;
+                return await _mediator.Send(request);
             }
             catch (Exception e)
             {
@@ -95,6 +82,9 @@ namespace Backend.Business.Notifications
             }
         }
 
+        // Possibly Deprecated
+        // TODO see if this is needed... we use i18n so proabably not 
+        // 14.05.2020
         internal string GetPayload(AuditRecord audit, UserSetting settings)
         {
             switch (audit.EntityType)

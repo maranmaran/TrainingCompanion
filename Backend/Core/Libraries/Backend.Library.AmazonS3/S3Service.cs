@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Transfer;
+using Backend.Domain.Entities.Chat;
+using Backend.Domain.Entities.TrainingProgramMaker;
+using Backend.Domain.Entities.User;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon.S3;
-using Amazon.S3.Model;
-using Amazon.S3.Transfer;
 
 namespace Backend.Library.AmazonS3
 {
@@ -115,10 +118,20 @@ namespace Backend.Library.AmazonS3
             return url;
         }
 
-        /// <summary>
-        /// Gets default presigned url expiration date
-        /// </summary>
-        /// <returns></returns>
+        public string GetS3Key(string entityType, Guid userId, string filename = null)
+        {
+            if (string.IsNullOrWhiteSpace(filename))
+                filename = Guid.NewGuid().ToString();
+
+            return entityType switch
+            {
+                nameof(TrainingProgram) => $"media/{userId}/training-program/{filename}",
+                nameof(ApplicationUser.Avatar) => $"media/{userId}/avatar/{filename}",
+                nameof(ChatMessage) => $"media/chat/{userId}/{filename}",
+                _ => throw new ArgumentException($"Entity {entityType} not recognized. Can't construct s3 key")
+            };
+        }
+
         private DateTime GetExpirationDate()
         {
             // set culture
@@ -127,7 +140,7 @@ namespace Backend.Library.AmazonS3
 
             Thread.CurrentThread.CurrentCulture = enCulture;
 
-            var dt = DateTime.Now.AddDays(7); // get date
+            var dt = DateTime.UtcNow.AddDays(7); // get date
             Thread.CurrentThread.CurrentCulture = oldCulture; // return culture
 
             return dt; // return date

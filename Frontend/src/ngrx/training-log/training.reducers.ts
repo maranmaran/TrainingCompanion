@@ -1,6 +1,7 @@
 import { Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { Exercise } from 'src/server-models/entities/exercise.model';
+import { PersonalBest } from 'src/server-models/entities/personal-best.model';
 import { Training } from 'src/server-models/entities/training.model';
 import * as TrainingActions from './training.actions';
 import { adapterTraining, trainingInitialState, TrainingState } from './training.state';
@@ -56,6 +57,12 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     return undefined;
   }),
 
+  on(TrainingActions.exercisePrsFetched, (state: TrainingState, payload: { prs: PersonalBest[] }) => {
+    return {
+      ...state,
+      exercisePrs: [...payload.prs]
+    };
+  }),
 
   // REORDER
   on(TrainingActions.reorderExercises, (state: TrainingState, payload: { trainingId:string, previousItem: string, currentItem: string }) => {

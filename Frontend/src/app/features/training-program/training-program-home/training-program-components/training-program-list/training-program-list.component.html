@@ -1,3 +1,30 @@
-<app-material-table [columns]="tableColumns" [datasource]="tableDatasource" [config]="tableConfig"
-    (selectEvent)="onSelect($event)" (addEvent)="onAdd()" (updateEvent)="onUpdate($event)"
-    (deleteEvent)="onDeleteSingle($event)"></app-material-table>
+<h2><b>Training programs</b></h2>
+<button class="mr-1 pointer-events" mat-stroked-button color="accent" (click)="onAdd()">
+    Add
+</button>
+
+<div class="program-panels-container">
+    <!-- [displayMode]="'flat'" -->
+    <mat-accordion [multi]="false" class="program-headers-align">
+
+        <mat-expansion-panel class="program-panel" *ngFor="let program of (programs | async);  trackBy: programId"
+            (opened)="onSelect(program)" [expanded]="selectedProgram?.id== program.id"
+            (closed)="onClose(program.id, selectedProgram?.id)">
+
+            <mat-expansion-panel-header class="program-header">
+                <mat-panel-title>
+                    <img *ngIf="program.imageUrl" class="table-img" src="{{program.imageUrl}}" />
+                    <img *ngIf="!program.imageUrl" class="table-img" src="{{placeholderImagePath}}" />
+
+                    <span class="ml-3">{{ program.name }}</span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ng-template matExpansionPanelContent>
+                <app-training-program-details></app-training-program-details>
+            </ng-template>
+
+        </mat-expansion-panel>
+
+    </mat-accordion>
+</div>

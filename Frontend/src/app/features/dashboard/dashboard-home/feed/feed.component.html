@@ -1,28 +1,89 @@
-<cdk-virtual-scroll-viewport itemSize="50" class="feed-viewport">
-  <div *cdkVirtualFor="let activity of (activities | async)" class="feed-item-container" fxLayout="column"
-    fxLayoutAlign="center center">
-    <!--WHOLE FEED ITEM-->
-    <div class="feed-item mat-elevation-z3" fxLayout="row" fxLayoutGap="1rem">
+<h2 class="feed-activities-title" fxHide.lt-sm>User activities:</h2>
 
-      <!--AVATAR-->
-      <img class="feed-user-avatar" [src]="activity.userAvatar"/>
+<div class="feed-user-panels-container">
+  <mat-accordion [multi]="false" [displayMode]="'flat'" class="user-activities-headers-align">
+    <mat-expansion-panel class="user-activities-panel"
+      *ngFor="let user of (userActivities | async);  trackBy: trackUserId">
 
-      <!--BODY-->
-      <div class="feed-item-content" fxFlex="1 1 auto" fxLayout="column">
-        <!--DYNAMIC BODY-->
-        <ng-container [ngSwitch]="activity.type">
-          <app-media-feed-item *ngSwitchCase="activityType.MediaFile" [activity]="activity"></app-media-feed-item>
-          <app-training-feed-item *ngSwitchCase="activityType.Training" [activity]="activity"></app-training-feed-item>
-          <app-personal-best-feed-item *ngSwitchCase="activityType.PersonalBest" [activity]="activity" [unitSystem]="(unitSystem | async)"></app-personal-best-feed-item>
-          <app-bodyweight-feed-item *ngSwitchCase="activityType.Bodyweight" [activity]="activity" [unitSystem]="(unitSystem | async)"></app-bodyweight-feed-item>
-          <div class="feed-item" *ngSwitchDefault>
-            <b>{{ activity.userName + ' ' }}</b> <span [innerHtml]="activity.message | sanitizeHtml"></span>
+      <mat-expansion-panel-header class="user-activities-header">
+        <mat-panel-title>
+          <img class="feed-user-avatar" [src]="user.userAvatar" />
+          <span class="ml-3" [matBadgeHidden]="user.unseenActivities == 0" matBadgeSize="small"
+            matBadge="{{user.unseenActivities}}" matBadgePosition="after"
+            matBadgeColor="warn">{{ user.userName }}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <!-- <cdk-virtual-scroll-viewport itemSize="50" class="feed-viewport"> -->
+      <!-- <div *cdkVirtualFor="let activity of user.activities" class="feed-item-container" fxLayout="column" -->
+      <div class="feed-viewport">
+        <div *ngFor="let activity of user.activities; trackBy: trackActivityId" class="feed-item-container"
+          fxLayout="column" fxLayoutAlign="center center">
+          <!--WHOLE FEED ITEM-->
+          <div (mouseenter)="markSeen(user.userId, activity)" class="feed-item mat-elevation-z3"
+            [ngClass]="{'unread': !activity.seen}" fxLayout="row" fxLayoutGap="1rem">
+
+            <!--AVATAR-->
+            <img class="feed-user-avatar" [src]="user.userAvatar" />
+
+            <!--BODY-->
+            <div class="feed-item-content" fxFlex="1 1 auto" fxLayout="column">
+              <!--DYNAMIC BODY-->
+              <ng-container [ngSwitch]="activity.type">
+                <app-media-feed-item *ngSwitchCase="activityType.MediaFile" [user]="user" [activity]="activity">
+                </app-media-feed-item>
+
+                <app-training-feed-item *ngSwitchCase="activityType.Training" [user]="user" [activity]="activity">
+                </app-training-feed-item>
+
+                <app-personal-best-feed-item *ngSwitchCase="activityType.PersonalBest" [user]="user"
+                  [activity]="activity" [unitSystem]="(unitSystem | async)"></app-personal-best-feed-item>
+
+                <app-bodyweight-feed-item *ngSwitchCase="activityType.Bodyweight" [user]="user" [activity]="activity"
+                  [unitSystem]="(unitSystem | async)"></app-bodyweight-feed-item>
+
+                <div class="feed-item" *ngSwitchDefault>
+                  <b>{{ user.userName + ' ' }}</b> <span [innerHtml]="activity.message | sanitizeHtml"></span>
+                </div>
+              </ng-container>
+
+              <!--DATE FOOTER-->
+              <div class="feed-item__footer" fxFlexAlign="end"> {{ activity.date | date: 'mediumDate'}} </div>
+            </div>
           </div>
-        </ng-container>
+        </div>
+      </div>
+      <!-- </cdk-virtual-scroll-viewport> -->
+    </mat-expansion-panel>
 
-        <!--DATE FOOTER-->
-        <div class="feed-item__footer" fxFlexAlign="end"> {{ activity.date | date: 'mediumDate'}} </div>
+  </mat-accordion>
+</div>
+
+<!-- <ng-container *ngIf="(userActivities | async)?.length > 0">
+  <div class="h-100" *ngFor="let user of (userActivities | async)">
+
+
+
+  </div>
+</ng-container> -->
+
+<!-- 
+<ng-template #placeholders>
+  <div class="h-100" style="overflow-y: auto;">
+    <div *ngFor="let n of 10 | repeat" class="ph-item" style="border-radius: 15%; ">
+      <div class="ph-col-2">
+        <div class="ph-avatar"></div>
+      </div>
+      <div>
+        <div class="ph-row">
+          <div class="ph-col-10"></div>
+          <div class="ph-col-8"></div>
+          <div class="ph-col-2 empty"></div>
+          <div class="ph-col-8 empty"></div>
+          <div class="ph-col-8 empty"></div>
+          <div class="ph-col-2"></div>
+        </div>
       </div>
     </div>
   </div>
-</cdk-virtual-scroll-viewport>
+</ng-template> -->

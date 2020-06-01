@@ -1,0 +1,40 @@
+For IIS you must install .net hosting bundle 
+https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-aspnetcore-3.1.3-windows-hosting-bundle-installer
+as per docs https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-3.1
+
+
+Errors:
+
+1)
+	Error: Windows API call SHGetKnownFolderPath returned error code: 5. Windows system error message is: Access is denied.
+	Solution: https://stackoverflow.com/questions/38441894/sql-wont-connect-after-deploying
+
+2) 
+	Wrong behaviour: SignalR in general
+
+3) 
+	Wrong behaviour: CSS Autofill is appearing on login page..
+
+
+
+
+DOCKER:
+
+Requirements 
+	docker-compose.yml file
+	Dockerfile
+
+#Make certificate
+dotnet dev-certs https --clean
+dotnet dev-certs https -ep ./certificate/https/trainingcompanion.pfx -p #GornjaSoba34a
+dotnet dev-certs https --trust
+
+
+#Run docker compose
+docker-compose down #Down and previous setup
+docker-compose up --build -d #Build and run
+docker-compose ps #check status 
+docker-compose logs -f api #logs
+
+#Get IP address of container
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id

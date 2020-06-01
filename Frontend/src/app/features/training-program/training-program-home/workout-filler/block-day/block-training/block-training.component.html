@@ -1,0 +1,48 @@
+<mat-expansion-panel #trainingPanel class="block-training-panel" [hideToggle]="false" [expanded]="false">
+
+    <mat-expansion-panel-header class="block-training-header">
+        <mat-panel-title>
+            <mat-panel-title>
+                <b>{{ 'Training ' + order }} - {{ training.dateTrained | applyTimezone }}</b>
+            </mat-panel-title>
+            <mat-panel-description class="no-pointer-events" fxLayoutAlign="end">
+
+                <!--TODO i18n-->
+                <button class="pointer-events" matTooltip="Add exercise" mat-icon-button color="accent"
+                    (click)="$event.stopPropagation(); onAdd(training)"><i class="fas fa-plus"></i>
+                </button>
+
+                <!--TODO i18n-->
+                <button class="pointer-events" matTooltip="Edit note" mat-icon-button color="accent"
+                    (click)="$event.stopPropagation(); onEditNote(training)"><i class="fas fa-edit"></i>
+                </button>
+
+                <!--TODO i18n-->
+                <button class="pointer-events" matTooltip="Copy training" mat-icon-button color="accent"
+                    (click)="$event.stopPropagation(); onCopy(training)"><i class="fas fa-copy"></i>
+                </button>
+
+                <!--TODO i18n-->
+                <button class="pointer-events" matTooltip="Remove training" mat-icon-button color="accent"
+                    (click)="$event.stopPropagation(); onDelete(training)"><i class="fas fa-trash"></i>
+                </button>
+
+            </mat-panel-description>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+        <div class="mb-3 pointer-events exercise-list" cdkDropList [cdkDropListData]="training.exercises"
+            (cdkDropListDropped)="onReorderExercise($event)">
+            <div class="exercise-item" *ngFor="let exercise of training.exercises" cdkDrag [cdkDragData]="exercise"
+                [cdkDragStartDelay]="300">
+                <mat-divider></mat-divider>
+                <app-block-exercise-details class="h-100 w-100" [exercise]="exercise"
+                    (delete)="onDeleteExercise($event)"> </app-block-exercise-details>
+            </div>
+        </div>
+    </ng-template>
+
+</mat-expansion-panel>
+
+<!--TODO i18n -->

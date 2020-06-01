@@ -55,7 +55,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }));
 
     // route to root component path if section is given (means it came from some deeplink)
-    console.log(this.data.section);
     this.data.section && this.router.navigate(['']);
   }
 
@@ -66,7 +65,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public openTab = (tab: 'General' | 'Account' | 'Billing') => {
     this.activeTab = tab;
 
-    this.uiService.isSidenavOpened(UISidenav.Settings)
+    (this.uiService.isSidenavOpened(UISidenav.Settings) as Observable<boolean>)
       .pipe(take(1))
       .subscribe(isOpened => {
         isOpened && this.uiService.doSidenavAction(UISidenav.Settings, UISidenavAction.Toggle)

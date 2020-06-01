@@ -17,9 +17,14 @@ namespace Backend.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
             HostingEnvironment = env;
         }
 
@@ -36,9 +41,10 @@ namespace Backend.API
             // application configuration CORS, Auth, Swagger, MVC, DB
             services.ConfigureDatabase(Configuration.GetConnectionString("DefaultConnection"));
             services.ConfigureJwtAuth(Configuration);
-            services.ConfigureCors();
+            services.ConfigureCors(Configuration);
             services.ConfigureMvc();
             services.ConfigureSwagger();
+            services.ConfigureResponseCompression();
 
             // third party libraries
             services.ConfigureAutomapper();
@@ -59,6 +65,10 @@ namespace Backend.API
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+
+            // ===== Require HTTPS =====
+            //app.UseHttpsRedirection();
+
             // https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-3.0&tabs=visual-studio
             app.UseRouting();
 
@@ -75,6 +85,9 @@ namespace Backend.API
                 app.UseHsts();
             }
 
+            // ==== Response compression ====
+            app.UseResponseCompression();
+
             // ===== Middleware to serve generated Swagger as a JSON endpoint and serve swagger-ui =====
             app.UseSwagger();
             app.UseSwaggerUI(setup =>
@@ -87,8 +100,10 @@ namespace Backend.API
             // ===== Payment api configuration - Stripe.com =====
             StripeConfiguration.ApiKey = Configuration["StripeSettings:SecretKey"];
 
-            // ===== Authentication  =====
+            // ===== Global error handling middleware with logging =====
             app.UseMiddleware<GlobalExceptionMiddleware>();
+
+            // ===== Authentication  =====
             app.UseMiddleware<JwtToAuthHeaderMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -103,9 +118,8 @@ namespace Backend.API
                 endpoints.MapHub<ChatHub>("/api/chat-hub");
             });
 
-            // ===== Global error handling middleware with logging =====
-            app.UseHttpsRedirection();
 
+            // =====  AUDITING ON DATABASE =====
             app.ApplicationServices.ConfigureAuditEfCore();
         }
     }

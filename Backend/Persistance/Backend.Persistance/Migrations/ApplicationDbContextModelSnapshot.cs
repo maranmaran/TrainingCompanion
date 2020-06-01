@@ -16,7 +16,7 @@ namespace Backend.Persistance.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -33,13 +33,20 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("EntityType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PrimaryKey")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Seen")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Table")
                         .HasColumnType("nvarchar(max)");
@@ -151,10 +158,6 @@ namespace Backend.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasFilter("[Code] IS NOT NULL");
 
                     b.HasIndex("ApplicationUserId", "Code")
                         .IsUnique()
@@ -380,22 +383,36 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double?>("Bodyweight")
-                        .HasColumnType("float");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(null);
 
                     b.Property<DateTime>("DateAchieved")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<Guid>("ExerciseTypeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("IpfPoints")
+                    b.Property<double?>("IpfPoints")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(null);
+
+                    b.Property<double?>("Reps")
                         .HasColumnType("float");
+
+                    b.Property<bool>("SystemCalculated")
+                        .HasColumnType("bit");
 
                     b.Property<double>("Value")
                         .HasColumnType("float");
 
-                    b.Property<double>("WilksScore")
-                        .HasColumnType("float");
+                    b.Property<double?>("WilksScore")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(null);
 
                     b.HasKey("Id");
 
@@ -462,11 +479,23 @@ namespace Backend.Persistance.Migrations
                     b.Property<string>("AverageVelocity")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Distance")
+                        .HasColumnType("float");
+
                     b.Property<Guid>("ExerciseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Intensity")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("MaxUsedForPercentage")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Percentage")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Power")
+                        .HasColumnType("float");
 
                     b.Property<double>("ProjectedMax")
                         .HasColumnType("float");
@@ -525,11 +554,16 @@ namespace Backend.Persistance.Migrations
                     b.Property<Guid?>("TrainingBlockDayId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("TrainingProgramId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("TrainingBlockDayId");
+
+                    b.HasIndex("TrainingProgramId");
 
                     b.ToTable("Trainings");
                 });
@@ -543,8 +577,13 @@ namespace Backend.Persistance.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DurationInDays")
+                    b.Property<int>("Duration")
                         .HasColumnType("int");
+
+                    b.Property<int>("DurationType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -567,6 +606,11 @@ namespace Backend.Persistance.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Modified")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("Order")
                         .HasColumnType("int");
@@ -635,7 +679,7 @@ namespace Backend.Persistance.Migrations
 
                     b.HasIndex("TrainingProgramId");
 
-                    b.ToTable("TrainingProgramUser");
+                    b.ToTable("TrainingProgramUsers");
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.User.ApplicationUser", b =>
@@ -1016,6 +1060,11 @@ namespace Backend.Persistance.Migrations
                         .WithMany("Trainings")
                         .HasForeignKey("TrainingBlockDayId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Backend.Domain.Entities.TrainingProgramMaker.TrainingProgram", "TrainingProgram")
+                        .WithMany("Trainings")
+                        .HasForeignKey("TrainingProgramId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Backend.Domain.Entities.TrainingProgramMaker.TrainingBlock", b =>

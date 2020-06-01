@@ -31,6 +31,12 @@
   //   box-sizing: border-box;
   //   max-width: 14%;
 
+  .media-carousel-container {
+    .mat-dialog-container {
+      padding: 0;
+    }
+  }
+
   .days-carousel__days {
     justify-items: center;
     align-items: center;
@@ -48,6 +54,15 @@
 
       &.selected-day {
         background: getColor($selected-button-disabled) !important;
+      }
+    }
+  }
+
+  .leftRs,
+  .rightRs {
+    &.mat-fab {
+      .mat-button-wrapper {
+        padding: 0;
       }
     }
   }

@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { filter, take, tap, delay } from 'rxjs/operators';
-import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
-import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
-import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
-import { TableDatasource } from 'src/app/shared/material-table/table-models/table-datasource.model';
+import { delay, filter, take, map } from 'rxjs/operators';
 import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { getPlaceholderImagePath } from 'src/business/utils/utils';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTrainingProgram, trainingProgramDeleted } from 'src/ngrx/training-program/training-program/training-program.actions';
-import { trainingPrograms } from 'src/ngrx/training-program/training-program/training-program.selectors';
+import { trainingPrograms, selectedTrainingProgram } from 'src/ngrx/training-program/training-program/training-program.selectors';
+import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingProgramCreateEditComponent } from '../training-program-create-edit/training-program-create-edit.component';
+import { Observable } from 'rxjs/internal/Observable';
+import { ReturnStatement } from '@angular/compiler';
 
 @Component({
   selector: 'app-training-program-list',
@@ -27,10 +27,10 @@ export class TrainingProgramListComponent implements OnInit {
   private subs = new SubSink();
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_PROGRAM.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
-  tableConfig: TableConfig;
-  tableColumns: CustomColumn[];
-  tableDatasource: TableDatasource<TrainingProgram>;
-  @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
+  placeholderImagePath: string;
+
+  programs: Observable<TrainingProgram[]>;
+  selectedProgram: TrainingProgram;
 
   constructor(
     private uiService: UIService,
@@ -41,15 +41,12 @@ export class TrainingProgramListComponent implements OnInit {
 
   ngOnInit() {
 
-    // table config
-    this.tableDatasource = new TableDatasource([]);
-    this.tableConfig = this.getTableConfig();
-    this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
+    this.programs = this.store.select(trainingPrograms)
 
+    // table config
     this.subs.add(
-      // get data for table datasource
-      this.store.select(trainingPrograms).pipe(delay(0))
-        .subscribe((trainingPrograms: TrainingProgram[]) => this.tableDatasource.updateDatasource([...trainingPrograms]))
+      this.store.select(activeTheme).subscribe(theme => this.placeholderImagePath = getPlaceholderImagePath(theme)),
+      this.store.select(selectedTrainingProgram).subscribe(program => this.selectedProgram = program)
     )
 
   }
@@ -58,60 +55,18 @@ export class TrainingProgramListComponent implements OnInit {
     this.subs.unsubscribe();
   }
 
-  getTableConfig() {
+  programId = (program: TrainingProgram) => program.id;
 
-    const tableConfig = new TableConfig({
-      filterFunction: (data: TrainingProgram, filter: string) => data.name.trim().toLocaleLowerCase().indexOf(filter) !== -1,
-      cellActions: [TableAction.update, TableAction.delete],
-      headerActions: [TableAction.create, TableAction.deleteMany],
-      pagingOptions: {
-        pageSizeOptions: [5, 10, 15],
-        pageSize: 5,
-        serverSidePaging: false
-      },
-      selectionEnabled: false,
-      defaultSort: 'name',
-      defaultSortDirection: 'desc'
-    });
 
-    return tableConfig;
+  onSelect(program: TrainingProgram) {
+    this.store.dispatch(setSelectedTrainingProgram({ entity: program }))
   }
 
-  getTableColumns() {
-    return [
-      new CustomColumn({
-        headerClass: 'image-header',
-        cellClass: 'image-cell',
-        definition: 'image',
-        title: '',
-        displayFn: (item: TrainingProgram) => {
-          if (item.imageUrl) {
-            return `<img class="table-img" src="${item.imageUrl}"/>`
-          } else {
-            return `<i class="placeholder-img fas fa-image"></i>`
-          }
-        },
-      }),
-      new CustomColumn({
-        headerClass: 'trainingProgram-header',
-        cellClass: 'trainingProgram-cell',
-        definition: 'name',
-        title: 'TRAINING_PROGRAM.NAME_LABEL',
-        sort: false,
-        displayFn: (item: TrainingProgram) => item.name,
-      }),
-      new CustomColumn({
-        headerClass: 'trainingBlockCount-header',
-        cellClass: 'trainingBlockCount-cell',
-        definition: 'blockCount',
-        title: 'TRAINING_PROGRAM.BLOCK_COUNT',
-        sort: false,
-        displayFn: (item: TrainingProgram) => item.trainingBlocks?.length,
-      }),
-    ]
-  }
+  onClose(programId: string, selectedProgramId: string) {
+    if (programId != selectedProgramId) return;
 
-  onSelect = (trainingProgram: TrainingProgram) => this.store.dispatch(setSelectedTrainingProgram({ entity: trainingProgram }));
+    this.store.dispatch(setSelectedTrainingProgram({ entity: null }))
+  }
 
   onAdd() {
 
@@ -128,11 +83,6 @@ export class TrainingProgramListComponent implements OnInit {
       .pipe(take(1))
       .subscribe((trainingProgram: TrainingProgram) => {
         console.log('here');
-        if (!trainingProgram) return;
-
-        console.log(trainingProgram)
-        this.table.onSelect(trainingProgram, true);
-        this.onSelect(trainingProgram);
       })
   }
 
@@ -147,7 +97,11 @@ export class TrainingProgramListComponent implements OnInit {
       panelClass: []
     })
 
-    dialogRef.afterClosed().pipe(take(1), filter(program => !!program)).subscribe((trainingProgram: TrainingProgram) => (this.table.onSelect(trainingProgram, true), this.onSelect(trainingProgram)))
+    dialogRef.afterClosed()
+      .pipe(take(1))
+      .subscribe((trainingProgram: TrainingProgram) => {
+        console.log('here');
+      })
   }
 
   onDeleteSingle(trainingProgram: TrainingProgram) {

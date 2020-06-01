@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Activity } from 'src/app/features/dashboard/models/activity.model';
+import { Activity, BasicActivityInfo, BasicUserInfo } from 'src/app/features/dashboard/models/activity.model';
 import { transformWeight } from 'src/business/services/shared/unit-system.service';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 
@@ -10,8 +10,8 @@ import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 })
 export class PersonalBestFeedItemComponent implements OnInit {
 
-
-  @Input() activity: Activity;
+  @Input() activity: BasicActivityInfo;
+  @Input() user: BasicUserInfo;
   @Input() unitSystem: UnitSystem;
   message: string;
 
@@ -21,8 +21,8 @@ export class PersonalBestFeedItemComponent implements OnInit {
 
   ngOnInit(): void {
     const params = {
-      username: this.activity.userName,
-      value: transformWeight(this.activity.entity.Value, this.unitSystem)
+      username: this.user.userName,
+      value: transformWeight(this.activity.entity.value, this.unitSystem)
     }
 
     this.message = this.translateService.instant('DASHBOARD.FEED.PERSONAL_BEST_MESSAGE', params);

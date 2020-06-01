@@ -1,6 +1,8 @@
 ﻿using Backend.Business.Dashboard.DashboardRequests.GetMainDashboard;
 using Backend.Business.Dashboard.DashboardRequests.SaveMainDashboard;
 using Backend.Business.Dashboard.DashboardRequests.UpdateTrackItem;
+using Backend.Business.Dashboard.FeedRequests.ActivitySeen;
+using Backend.Business.Dashboard.FeedRequests.GetGroupedUserFeed;
 using Backend.Business.Dashboard.FeedRequests.GetUserFeed;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,12 +31,30 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 
+        [Obsolete("We are using feed activities group by user see GetFeedGroupedByUser", true)]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetFeed(Guid userId, CancellationToken cancellationToken = default)
         {
             //return Ok(await Cache.GetOrAddAsync($"GetFeed{userId}", entry => Mediator.Send(new GetUserFeedRequest() { UserId = userId }, cancellationToken)));
 
-            return Ok(await Mediator.Send(new GetUserFeedRequest() { UserId = userId }, cancellationToken));
+            return Ok(await Mediator.Send(new GetUserFeedRequest(userId), cancellationToken));
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetFeedGroupedByUser(Guid userId, CancellationToken cancellationToken = default)
+        {
+            //return Ok(await Cache.GetOrAddAsync($"GetFeed{userId}", entry => Mediator.Send(new GetUserFeedRequest() { UserId = userId }, cancellationToken)));
+
+            return Ok(await Mediator.Send(new GetGroupedUserFeedRequest(userId), cancellationToken));
+        }
+
+
+        [HttpGet("{userId}/{activityId}")]
+        public async Task<IActionResult> ActivitySeen(Guid userId, Guid activityId, CancellationToken cancellationToken = default)
+        {
+            //return Ok(await Cache.GetOrAddAsync($"GetFeed{userId}", entry => Mediator.Send(new GetUserFeedRequest() { UserId = userId }, cancellationToken)));
+
+            return Ok(await Mediator.Send(new ActivitySeenRequest(userId, activityId), cancellationToken));
         }
     }
 }

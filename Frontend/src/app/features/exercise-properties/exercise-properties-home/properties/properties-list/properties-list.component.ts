@@ -73,7 +73,9 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       pagingOptions: new TablePagingOptions({
         pageSizeOptions: [5]
       }),
-      cellActions: [TableAction.update, TableAction.delete]
+      cellActions: [TableAction.update, TableAction.delete],
+      selectionEnabled: false,
+      filterEnabled: true
     });
 
     this.store.select(selectedTagGroup)
@@ -130,7 +132,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: this.translateService.instant('TAGS.ADD_PROPERTY', { groupName: this.tagGroupName}), action: CRUD.Create, tag: Object.assign(new Tag(), { order: this.tagsCount }) },
+      data: { title: this.translateService.instant('TAGS.ADD_PROPERTY', { groupName: this.tagGroupName }), action: CRUD.Create, tag: Object.assign(new Tag(), { order: this.tagsCount }) },
       panelClass: []
     })
 
@@ -150,7 +152,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: this.translateService.instant('TAGS.UPDATE_PROPERTY', { groupName: this.tagGroupName}), action: CRUD.Update, tag: tag },
+      data: { title: this.translateService.instant('TAGS.UPDATE_PROPERTY', { groupName: this.tagGroupName }), action: CRUD.Update, tag: tag },
       panelClass: []
     })
 

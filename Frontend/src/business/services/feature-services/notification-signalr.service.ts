@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { PushNotification } from 'src/server-models/entities/push-notification.model';
 import { SubSink } from 'subsink';
-import { AppSettingsService } from '../shared/app-settings.service';
 import { NotificationType } from './../../../server-models/enums/notification-type.enum';
+import { AppSettingsService } from './../shared/app-settings.service';
 import { AuthService } from './auth.service';
+
 
 @Injectable()
 export class NotificationSignalrService implements OnDestroy {
@@ -22,10 +22,10 @@ export class NotificationSignalrService implements OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private store: Store<AppState>,
+    private translate: TranslateService,
     private http: HttpClient,
     private appSettingsService: AppSettingsService,
-    private toastService: ToastrService
+    public toastService: ToastrService,
   ) {
     // subscribe to logout
     this.subs.add(
@@ -44,27 +44,28 @@ export class NotificationSignalrService implements OnDestroy {
 
     this.hubConnection.serverTimeoutInMilliseconds = 100000; // 100 sec
     this.hubConnection.start()
-    .then(() => this.initializeListeners())
-    .catch(err => console.log(`Error while starting SignalR connection: ${err}`));
+      .then(() => this.initializeListeners())
+      .catch(err => console.log(`Error while starting SignalR connection: ${err}`));
   }
 
   initializeListeners() {
     this.hubConnection.on('SendNotification', (notification: PushNotification) => {
       notification = this.doWork(notification);
       this.notifications$.next(notification);
-      this.toastService.show(JSON.stringify(notification), 'Notification')
+
+      this.toastService.show(JSON.stringify(notification), this.translate.instant('SHARED.NOTIFICATION'), this.appSettingsService.systemNotificationToastConfig)
     });
   }
 
   // do some specific work based on the received notification type
   doWork(notification: PushNotification) {
+    console.log(notification);
     notification.entity = JSON.parse(notification.jsonEntity);
     // switch(notification.type) {
     // }
     return notification;
   }
 
-  // TODO: Add paging...
   getHistory(userId: string, page: number, pageSize: number = 10): Observable<PushNotification[]> {
     // This could be an API call to your web application that would go to the database
     // and retrieve a N amount of history messages between the users.

@@ -13,19 +13,5 @@ export class DashboardEffects {
         private dashboardService: DashboardService
     ) { }
 
-    // dashboardParamsUpdated$ = createEffect(() =>
-    // this.actions$
-    //     .pipe(
-    //         ofType(DashboardActions.updateTrackItem),
-    //         switchMap(action => this.dashboardService.updateTrackItem(action.trackItem.id, action.trackItem.jsonParams)
-    //         .pipe(
-    //           take(1),
-    //           tap(_ => console.log(_)),
-    //           map((trackItem: TrackItem) => this.store.dispatch(DashboardActions.trackItemUpdated( { trackItem} )))
-    //         )
-    //       )
-    //     )
-    // , { dispatch: false });
-
 
 }

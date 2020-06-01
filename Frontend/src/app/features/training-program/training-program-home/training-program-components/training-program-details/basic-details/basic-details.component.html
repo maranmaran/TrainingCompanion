@@ -1,0 +1,35 @@
+<div class="details-body" fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
+
+  <div class="details">
+
+    <!--IMAGE-->
+    <span id="program_image">
+      <img *ngIf="trainingProgram.imageUrl" class="program-image img-fluid float-left mat-elevation-z5"
+        (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+
+      <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid float-left mat-elevation-z5"
+        src="{{placeholderImagePath}}" />
+    </span>
+
+
+    <!--DESCRIPTION-->
+    <ng-container *ngIf="trainingProgram.description; else noDescription"
+      [ngSwitch]="trainingProgram.description.length > 940 && !showAll">
+      <p *ngSwitchCase="true">
+        {{ trainingProgram.description.slice(0, 940) + ' ' }}
+        <a *ngIf="trainingProgram.description?.length > 940" class="pointer"
+          (click)="showAll = true">{{ 'TRAINING_PROGRAM.SHOW_ALL' | translate }}</a>
+      </p>
+      <p *ngSwitchCase="false">
+        {{ trainingProgram.description }}
+        <a *ngIf="trainingProgram.description.length > 940" class="pointer"
+          (click)="showAll = false">{{ 'TRAINING_PROGRAM.SHOW_LESS' | translate }}</a>
+      </p>
+    </ng-container>
+
+    <ng-template #noDescription>
+      <i>{{'TRAINING_PROGRAM.NO_DESCRIPTION' | translate}}</i>
+    </ng-template>
+
+  </div>
+</div>

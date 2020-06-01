@@ -1,0 +1,87 @@
+<mat-table [dataSource]="exercise.sets" class="block-exercise-table exericse-drag-placeholder cursor-move">
+
+    <!-- Name column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> {{ exercise.order + 1 }}. exercise </mat-header-cell>
+        <mat-cell *matCellDef="let element; let i = index">
+
+            <div *ngIf="i == 0" (mouseenter)="previewId = i" (mouseleave)="previewId = null">
+                <b>{{ exerciseType.name }}</b>
+
+                <ng-container *ngTemplateOutlet="exercise_tags; context: { id: i, tags: exerciseType.properties }">
+                </ng-container>
+            </div>
+
+
+        </mat-cell>
+    </ng-container>
+
+    <!-- Weight column -->
+    <ng-container matColumnDef="weight">
+        <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.weight | transformWeight: settings.unitSystem }} </mat-cell>
+    </ng-container>
+
+    <!-- Reps column -->
+    <ng-container matColumnDef="reps">
+        <mat-header-cell *matHeaderCellDef> Reps </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.reps }} </mat-cell>
+    </ng-container>
+
+    <!-- Time Column -->
+    <ng-container matColumnDef="time">
+        <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.time }} </mat-cell>
+    </ng-container>
+
+    <!-- RPE Column -->
+    <ng-container matColumnDef="rpe">
+        <mat-header-cell *matHeaderCellDef> {{ rpeLabel | translate }} </mat-header-cell>
+        <mat-cell *matCellDef="let element;"> {{ element.rpe | transformRpe: settings.rpeSystem }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>
+            <!--Cell actions menu button-->
+            <button matTooltip="Exercise actions" mat-icon-button color="accent" [matMenuTriggerFor]="cellMenu"
+                (click)="$event.stopPropagation()">
+                <i class="fa fa-ellipsis-v"></i>
+            </button>
+
+            <mat-menu class="material-table-menu" #cellMenu="matMenu">
+                <ng-container *ngTemplateOutlet="actions"></ng-container>
+            </mat-menu>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element;">
+            <div class="dummy-action" style="height:40px; width: 40px"></div>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns">
+    </mat-header-row>
+    <mat-row class="position-relative" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<ng-template #exercise_tags let-id="id" let-tags="tags">
+
+    <div class="preview-container theme-card mat-elevation-z5" *ngIf="previewId == id && tags?.length > 0">
+        <app-exercise-type-chip-list class="m-1" [propertyList]="tags"></app-exercise-type-chip-list>
+    </div>
+
+
+</ng-template>
+
+<!--TODO i18n -->
+
+<!--ACTION BUTTONS-->
+<ng-template #actions>
+    <button matTooltip="Edit sets" mat-icon-button color="accent" (click)="onUpdateSets(exercise)"
+        (click)="$event.stopPropagation()">
+        <i class="fas fa-edit"></i>
+    </button>
+    <!--DELETE ONE-->
+    <button matTooltip="Delete exercise" mat-icon-button color="accent" (click)="onDeleteEvent.emit(exercise)"
+        (click)="$event.stopPropagation()">
+        <i class="fas fa-trash"></i>
+    </button>
+</ng-template>

@@ -1,0 +1,26 @@
+.actions-hidden {
+    display: none;
+    animation: collapseToRight;
+}
+
+.actions-expanded {
+    animation: expandToLeft;
+}
+
+@keyframes collapseToRight {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes expandToLeft {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}

@@ -1,19 +1,16 @@
-.program-image {
-  height: 150px;
-  margin: 30px;
-  margin-top: 0;
-  border-radius: 13%;
+.training-program-headers-align .mat-expansion-panel-header-title,
+.training-program-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+  align-items: center;
 }
 
-.details {
-  padding-right: 5px;
+.training-program-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
 }
 
-@media (max-width: 600px) {
-  .program-image {
-    height: 70px;
-    margin: 19px;
-    margin-bottom: 0;
-    margin-top: 0;
-  }
+.training-program-headers-align .mat-expansion-panel-header-description.mobile-expansion-panel {
+  flex-grow: 0 !important;
+  justify-content: flex-end;
+  margin-right: 0 !important;
 }

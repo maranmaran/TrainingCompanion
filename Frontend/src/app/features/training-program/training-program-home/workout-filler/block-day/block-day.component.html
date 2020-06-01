@@ -1,0 +1,35 @@
+<mat-expansion-panel class="block-day-panel" [hideToggle]="true" [expanded]="slideToggle.checked"
+    [ngClass]="{'disabled-background': !slideToggle.checked}">
+
+    <mat-expansion-panel-header class="block-day-header" (click)="slideToggle.toggle();">
+        <mat-panel-title>
+            <mat-panel-title>
+                {{ dayLabel }}
+            </mat-panel-title>
+
+            <mat-panel-description fxLayoutAlign="end center">
+                <button *ngIf="slideToggle.checked" class="mr-3" matTooltip="Add training" mat-icon-button
+                    color="accent" (click)="$event.stopPropagation(); onAdd()"><i class="fas fa-plus"></i>
+                </button>
+
+                <mat-slide-toggle #slideToggle fxFlex="0 0 auto" labelPosition="before" [color]="'accent'"
+                    (change)="onChange($event)">
+                    {{ slideToggle.checked ? 'Training day' : 'Rest day' }}
+                </mat-slide-toggle>
+
+            </mat-panel-description>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+        <mat-accordion id="trainings-accordion">
+            <app-block-training *ngFor="let training of day.trainings; let i = index" [training]="training"
+                [order]="i + 1" [dayIdx]="day.order" [weekIdx]="weekIdx" (delete)="onDelete($event)"
+                (copy)="onCopy($event)">
+            </app-block-training>
+        </mat-accordion>
+    </ng-template>
+
+</mat-expansion-panel>
+
+<!--TODO i18n -->

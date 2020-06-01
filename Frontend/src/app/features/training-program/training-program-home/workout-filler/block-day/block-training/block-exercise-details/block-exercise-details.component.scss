@@ -1,0 +1,25 @@
+.block-exercise-table {
+    .preview-container {
+        width: max-content;
+        position: absolute;
+
+        border-radius: 15px;
+        color: white;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.mat-column-reps,
+.mat-column-weight,
+.mat-column-time,
+.mat-column-rpe {
+    justify-content: center;
+}

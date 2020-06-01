@@ -1,9 +1,7 @@
 ﻿using Backend.Domain;
 using Backend.Library.Logging.Interfaces;
 using Backend.Library.Payment.Configuration;
-using Backend.Persistance;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -33,8 +31,8 @@ namespace Backend.API
                     var stripeSettings = services.GetService<StripeSettings>();
                     StripeConfiguration.ConfigureProducts(stripeSettings).Wait();
 
-                    var context = (ApplicationDbContext)contextInterface;
-                    context.Database.Migrate();
+                    //var context = (ApplicationDbContext)contextInterface;
+                    //context.Database.Migrate(); //// comment if you don't want seed values in migrations
                     //DatabaseInitializer.Initialize(context, stripeConfiguration, passwordHasher);//<---Do your seeding here
 
                     loggingService.LogInfo("Application started. Database successfully migrated and seeded").Wait();

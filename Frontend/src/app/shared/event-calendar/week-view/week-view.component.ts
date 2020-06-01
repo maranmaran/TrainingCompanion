@@ -86,6 +86,6 @@ export class CalendarWeekViewComponent implements OnInit {
 
   belongsToThisWeek = belongsToThisWeek;
   isSunday = (date: moment.Moment) => moment(date).weekday() == 0;
-  isToday = (date: moment.Moment) => moment(date).isSame(new Date(), 'day');
+  isToday = (date: moment.Moment) => (console.log('today', date), moment(date).isSame(new Date(), 'day'));
 
 }

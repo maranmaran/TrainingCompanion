@@ -25,20 +25,21 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.Create
         {
             try
             {
-                var exerciseType = _mapper.Map<ExerciseType>(request);
+                var entityToCreate = _mapper.Map<ExerciseType>(request);
 
-                _context.ExerciseTypes.Add(exerciseType);
+                await _context.ExerciseTypes.AddAsync(entityToCreate, cancellationToken);
+
                 await _context.SaveChangesAsync(cancellationToken);
 
                 // load tags for display
-                foreach (var prop in exerciseType.Properties)
+                foreach (var prop in entityToCreate.Properties)
                 {
                     // tag must be loaded.. so we can access parent tag group
                     await _context.Entry(prop).Reference(x => x.Tag).LoadAsync(cancellationToken);
                     await _context.Entry(prop.Tag).Reference(x => x.TagGroup).LoadAsync(cancellationToken);
                 }
 
-                return exerciseType;
+                return entityToCreate;
             }
             catch (Exception e)
             {

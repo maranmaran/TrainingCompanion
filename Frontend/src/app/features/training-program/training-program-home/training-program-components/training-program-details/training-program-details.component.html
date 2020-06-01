@@ -1,43 +1,69 @@
-<div class="details-container mat-elevation-z3" *ngIf="(trainingProgram$ | async) as trainingProgram">
+<mat-accordion *ngIf="(trainingProgram$ | async) as trainingProgram" class="training-program-headers-align">
 
-  <h1 class="details-header" fxLayout="row" fxLayoutAlign="space-between">
+  <!-- PROGRAM DETAILS -->
+  <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0" hideToggle>
 
-    <span>{{trainingProgram.name}}</span>
+    <mat-expansion-panel-header [ngClass]="{'no-pointer-events': step === 0}">
 
-    <button class="mr-1" mat-stroked-button color="accent" (click)="onAssign(trainingProgram)">
-      {{ 'TRAINING_PROGRAM.ASSIGN' | translate}}
-    </button>
-  </h1>
+      <mat-panel-title>
+        {{ translateService.instant('TRAINING_PROGRAM.DETAILS.TITLE', {name: trainingProgram.name}) }}
+      </mat-panel-title>
 
-  <mat-divider></mat-divider>
+      <mat-panel-description [ngClass]="{'mobile-expansion-panel': mediaObserver.isActive('lt-sm')}">
+        <span *ngIf="mediaObserver.isActive('gt-xs')">{{'TRAINING_PROGRAM.DETAILS.DESCRIPTION' | translate}}</span>
+        <button class="mr-1 pointer-events" mat-stroked-button color="accent" (click)="onAssign($event, trainingProgram)">
+          {{ (mediaObserver.isActive('lt-sm') ? 'TRAINING_PROGRAM.ASSIGN_BTN_LABEL' : 'TRAINING_PROGRAM.ASSIGN') | translate}}
+        </button>
+      </mat-panel-description>
 
+    </mat-expansion-panel-header>
 
-  <div class="details-body" fxLayout="row" fxLayoutGap="1rem" fxLayout.lt-sm="column">
+    <ng-template matExpansionPanelContent>
+      <app-basic-details [trainingProgram]="trainingProgram"></app-basic-details>
+    </ng-template>
 
-    <div class="details">
+  </mat-expansion-panel>
 
-      <img *ngIf="trainingProgram.imageUrl" class="program-image img-fluid float-left mat-elevation-z5"
-        (click)="uploadInput.click()" src="{{trainingProgram.imageUrl}}" />
+  <!-- ASSIGNED USERS -->
+  <mat-expansion-panel [expanded]="step === 1" (opened)="step = 1" hideToggle>
 
-      <img *ngIf="!trainingProgram.imageUrl" class="program-image placeholder img-fluid float-left mat-elevation-z5"
-        src="{{placeholderImagePath}}" />
+    <mat-expansion-panel-header [ngClass]="{'no-pointer-events': step === 1}">
 
-      <p *ngIf="trainingProgram.description && trainingProgram.description.length > 940">
-        {{ trainingProgram.description.slice(0, 940) + ' ' }}
-        <a *ngIf="trainingProgram.description?.length > 940">Show all</a>
-      </p>
+      <mat-panel-title>
+        {{'TRAINING_PROGRAM.USERS.TITLE' | translate}}
+      </mat-panel-title>
 
-      <p *ngIf="trainingProgram.description && trainingProgram.description.length < 940">
-        {{ trainingProgram.description }}
-      </p>
+      <mat-panel-description *ngIf="mediaObserver.isActive('gt-xs')">
+        {{'TRAINING_PROGRAM.USERS.DESCRIPTION' | translate}}
+        <i class="fas fa-users"></i>
+      </mat-panel-description>
 
-      <i *ngIf="!trainingProgram.description || trainingProgram.description == ''">
-        {{ 'TRAINING_PROGRAM.NO_DESCRIPTION' | translate }}
-      </i>
+    </mat-expansion-panel-header>
 
-    </div>
+    <ng-template matExpansionPanelContent>
+      <app-assigned-athletes></app-assigned-athletes>
+    </ng-template>
 
-  </div>
+  </mat-expansion-panel>
 
-  <div class="details-footer" *ngIf="!trainingProgram.description">
-  </div>
+  <!-- METRICS  -->
+  <mat-expansion-panel [expanded]="step === 2" (opened)="step = 2" hideToggle>
+
+    <mat-expansion-panel-header [ngClass]="{'no-pointer-events': step === 2}">
+
+      <mat-panel-title>
+        <span class="foreground-accent">{{'TRAINING_PROGRAM.METRICS.TITLE' | translate}}</span>
+      </mat-panel-title>
+
+      <mat-panel-description *ngIf="mediaObserver.isActive('gt-xs')">
+        {{'TRAINING_PROGRAM.METRICS.DESCRIPTION' | translate}}
+        <i class="fas fa-chart-pie foreground-accent"></i>
+      </mat-panel-description>
+
+    </mat-expansion-panel-header>
+
+    Insert graphs here
+
+  </mat-expansion-panel>
+
+</mat-accordion>

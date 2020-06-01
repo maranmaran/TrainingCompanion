@@ -1,14 +1,7 @@
 .upload-input {
-    img {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-    }
 
-    .image-icon {
-      font-size: 140px;
-      padding: 30px;
-      border-radius: 50%;
+    img {
+      cursor: pointer;
     }
 
     .upload-chip {
@@ -16,7 +9,7 @@
         justify-content: center;
         position: relative;
         z-index: 100;
-        bottom: 2.5rem;
+        bottom: 2rem;
         visibility: hidden;
     }
 
@@ -39,3 +32,5 @@
         }
     }
 }
+
+

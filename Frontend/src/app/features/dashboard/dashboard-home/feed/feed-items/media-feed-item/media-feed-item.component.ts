@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Activity } from 'src/app/features/dashboard/models/activity.model';
+import { Activity, BasicActivityInfo, BasicUserInfo } from 'src/app/features/dashboard/models/activity.model';
 import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
 
 @Component({
@@ -10,7 +10,8 @@ import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-
 })
 export class MediaFeedItemComponent implements OnInit {
 
-  @Input() activity: Activity;
+  @Input() activity: BasicActivityInfo;
+  @Input() user: BasicUserInfo;
   message: string;
 
   constructor(
@@ -20,20 +21,20 @@ export class MediaFeedItemComponent implements OnInit {
 
   ngOnInit(): void {
     const params = {
-      username: this.activity.userName,
+      username: this.user.userName,
     }
 
     this.message = this.translateService.instant('DASHBOARD.FEED.MEDIA_MESSAGE', params);
   }
 
-  enlargeImage() {
+  enlarge() {
     this.dialog.open(MediaDialogComponent, {
       height: 'auto',
       width: 'auto',
       maxWidth: '58rem',
       maxHeight: '40rem',
       autoFocus: false,
-      data: { type: this.activity.entity.Type, sourceUrl: this.activity.entity.DownloadUrl },
+      data: { type: this.activity.entity.type, sourceUrl: this.activity.entity.downloadUrl },
       panelClass: 'media-dialog-container'
     });
   }

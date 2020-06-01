@@ -13,6 +13,13 @@
 
     <div class="details-body" fxLayout="column" fxLayoutGap="0.5rem">
 
+        <!-- <div class="detail" fxLayout="row" fxLayoutGap="0.5rem">
+            <mat-label class="label">{{'SHARED.CODE' | translate }}:</mat-label>
+            <span class="label-value">
+                <span class="label-value">{{type.code}}</span>
+            </span>
+        </div> -->
+
         <div fxLayout="row" fxLayoutGap="4rem" fxLayout.lt-sm="row">
 
             <div fxLayout="row" fxLayoutGap="0.5rem">
@@ -87,8 +94,7 @@
 
         </div>
 
-
-        <div class="detail">
+        <div class="detail" *ngIf="type.properties?.length > 0">
             <mat-label class="label">{{ 'EXERCISE_TYPES.PROPS' | translate }}:</mat-label>
             <span class="label-value" style="display: inline-flex">
                 <app-exercise-type-chip-list [propertyList]="type.properties" [showInactiveGroups]="true"
@@ -97,7 +103,10 @@
         </div>
     </div>
 
-    <div class="details-footer">
+    <mat-divider class="mt-2 mb-2"></mat-divider>
+
+    <div class="personal-best-section">
+      <app-personal-best-list></app-personal-best-list>
     </div>
 
 </div>

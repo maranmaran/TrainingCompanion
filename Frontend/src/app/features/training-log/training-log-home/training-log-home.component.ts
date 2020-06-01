@@ -1,3 +1,4 @@
+import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from "@angular/router";
@@ -8,6 +9,8 @@ import { selectedExercise, selectedTraining } from "src/ngrx/training-log/traini
 import { Exercise } from "src/server-models/entities/exercise.model";
 import { Training } from "src/server-models/entities/training.model";
 import { SubSink } from "subsink";
+import { viewAs, currentUser } from 'src/ngrx/auth/auth.selectors';
+import { filter, mergeMap, concatMap } from 'rxjs/operators';
 
 @Component({
   selector: "app-training-log-home",
@@ -22,7 +25,10 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   selectedTraining: Training;
   selectedExercise: Exercise;
 
-  constructor(private router: Router, private store: Store<AppState>) { }
+  constructor(
+    private router: Router,
+    private store: Store<AppState>,
+  ) { }
 
   ngOnInit() {
     this.subsink.add(
@@ -41,6 +47,9 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subsink.unsubscribe();
+
+    // TODO: figure out how not to clear..
+    //slows down routing because of resolvers and uses a lot of data
     this.store.dispatch(clearTrainingState());
   }
 

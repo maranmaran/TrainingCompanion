@@ -1,0 +1,36 @@
+@import "~@angular/material/theming";
+
+@mixin workout-filler-theme($theme) {
+    .block-day-panel {
+        .mat-expansion-panel-body {
+            padding: 0;
+        }
+
+        .block-day-header {
+            margin-right: 0;
+            padding-right: 0;
+
+            .mat-expansion-panel-header-description {
+                margin-right: 0;
+                padding-right: 0;
+            }
+        }
+    }
+
+    .block-training-panel {
+        .mat-expansion-panel-body {
+            padding: 0.2rem;
+        }
+    }
+
+    #set-actions {
+        .mat-icon-button {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+        }
+    }
+
+    @media (max-width: 1700px) {
+    }
+}

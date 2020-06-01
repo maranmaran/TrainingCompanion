@@ -1,0 +1,70 @@
+.item {
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tile {
+    // background-color: #ccc;
+    // background-size: cover !important;
+    // box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      pointer-events: none;
+    }
+}
+
+.actions_footer {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.leftRs {
+    width: 50px;
+    height: 50px;
+}
+
+.rightRs {
+    width: 50px;
+    height: 50px;
+}
+
+.myPoint {
+    list-style-type: none;
+    text-align: center;
+    padding: 12px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: auto;
+    box-sizing: border-box;
+}
+.myPoint li {
+    display: inline-block;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.55);
+    padding: 4px;
+    margin: 0 3px;
+    transition-timing-function: cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    transition: 0.4s;
+}
+.myPoint li.active {
+    transform: scale(1.2);
+}
+
+img,
+video {
+    max-height: 65vh;
+}
+
+@media (max-width: 600px) {
+    img,
+    video {
+        max-height: 26rem;
+    }
+}

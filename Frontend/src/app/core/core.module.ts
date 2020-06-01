@@ -1,34 +1,34 @@
+import { NotificationToastComponent } from 'src/app/shared/notifications/notification-toast/notification-toast.component';
 import { CommonModule } from '@angular/common';
 import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, forwardRef } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxStripeModule } from 'ngx-stripe';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule, ToastrService, ToastPackage } from 'ngx-toastr';
 import { PaginatorTranslateFactory } from 'src/assets/i18n/paginator-translate.factory';
 import { HttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
 import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.guard';
 import { ErrorInterceptor } from 'src/business/interceptors/error.interceptor';
 import { HttpInterceptor } from 'src/business/interceptors/http.interceptor';
-import { APP_SETTINGS_PROVIDER } from 'src/business/services/shared/app-settings.service';
+import { APP_SETTINGS_PROVIDER, NOTIFICATION_TOAST_TOKEN } from 'src/business/services/shared/app-settings.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { environment } from 'src/environments/environment';
 import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
-import { metaReducers, reducers } from 'src/ngrx/global-setup.ngrx';
+import { metaReducers, reducers, AppState } from 'src/ngrx/global-setup.ngrx';
 import { MaterialModule } from '../shared/angular-material.module';
 import { ConfirmDialogComponent } from '../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorSnackbarComponent } from '../shared/dialogs/error-snackbar/error-snackbar.component';
 import { MessageDialogComponent } from '../shared/dialogs/message-dialog/message-dialog.component';
 import { ExportImportServicesModule } from '../shared/export-import-services.module';
-import { NotificationToastComponent } from '../shared/notifications/notification-toast/notification-toast.component';
 import { SharedModule } from '../shared/shared.module';
 import { SignalrHubsModule } from '../shared/signalr-hubs.module';
 import { ChatResolver } from './../../business/resolvers/chat.resolver';
@@ -47,6 +47,8 @@ import { PlansComponent } from './settings/billing/plans/plans.component';
 import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stripe-checkout.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
+import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
+import { ViewAsComponent } from './view-as/view-as.component';
 
 @NgModule({
     imports: [
@@ -73,22 +75,16 @@ import { SettingsComponent } from './settings/settings.component';
             routerState: RouterState.Minimal,
             serializer: CustomSerializer
         }),
-        ToastrModule.forRoot({
-          timeOut: 2000,
-          disableTimeOut : false,
-          positionClass: 'toast-bottom-right',
-          preventDuplicates: false,
-          toastComponent: NotificationToastComponent // added custom toast!
-        }), // ToastrModule added,
+        ToastrModule.forRoot(), // ToastrModule added,
         SignalrHubsModule.forRoot(),
         ExportImportServicesModule.forRoot(),
         TranslateModule.forRoot({
-          isolate: false,
-          loader: {
-              provide: TranslateLoader,
-              useFactory: HttpLoaderFactory,
-              deps: [HttpBackend]
-          }
+            isolate: false,
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpBackend]
+            }
         })
     ],
     declarations: [
@@ -104,7 +100,9 @@ import { SettingsComponent } from './settings/settings.component';
         StripeCheckoutComponent,
         AccountComponent,
         GeneralComponent,
-        NotificationToastComponent
+        NotificationToastComponent,
+        ViewAsComponent,
+        // PullToRefreshComponent
     ],
     exports: [
         CommonModule,
@@ -121,9 +119,10 @@ import { SettingsComponent } from './settings/settings.component';
         { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         {
-          provide: MatPaginatorIntl, deps: [TranslateService],
-          useFactory: (translateService: TranslateService) => new PaginatorTranslateFactory(translateService).getPaginatorIntl()
-        }
+            provide: MatPaginatorIntl, deps: [TranslateService],
+            useFactory: (translateService: TranslateService) => new PaginatorTranslateFactory(translateService).getPaginatorIntl()
+        },
+        { provide: NOTIFICATION_TOAST_TOKEN, useFactory: forwardRef(() => NotificationToastComponent) }
         // { provide: MAT_HAMMER_OPTIONS, useClass: CustomHammerJsConfig }
         // { provide: APP_INITIALIZER, useFactory: initApplication, multi: true, deps: [Store, Actions] }
     ],

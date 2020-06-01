@@ -3,10 +3,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { transformWeight } from 'src/business/services/shared/unit-system.service';
 import { PushNotification } from 'src/server-models/entities/push-notification.model';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { BasicUserInfo } from 'src/app/features/dashboard/models/activity.model';
 
 @Component({
   selector: 'app-bodyweight-notification-body',
-  template: '<p>{{message}}</p>',
+  template: `<span *ngIf="showSender" [innerHtml]="message"></span>`,
 })
 export class BodyweightNotificationBodyComponent implements OnInit {
 
@@ -14,14 +15,18 @@ export class BodyweightNotificationBodyComponent implements OnInit {
   @Input() unitSystem: UnitSystem;
 
   message: string;
+  showSender: boolean;
 
   constructor(
     private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.showSender = !this.notification.systemNotification;
+
     const params = {
-      value: transformWeight(this.notification.entity.Value, this.unitSystem)
+      username: this.notification.sender.fullName,
+      value: transformWeight(this.notification.entity.value, this.unitSystem)
     }
 
     this.message = this.translateService.instant('NOTIFICATIONS.BODYWEIGHT_MESSAGE', params);

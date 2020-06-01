@@ -3,21 +3,22 @@ using Backend.Business.Authorization;
 using Backend.Business.Authorization.Extensions;
 using Backend.Business.Dashboard.Extensions;
 using Backend.Business.TrainingPrograms.Extensions;
-using Backend.Business.Users.UsersRequests.CreateUser;
 using Backend.Domain;
 using Backend.Domain.Extensions;
 using Backend.Infrastructure.Providers;
 using Backend.Library.AmazonS3.Extensions;
 using Backend.Library.AmazonS3.Interfaces;
 using Backend.Library.Email.Extensions;
-using Backend.Library.ImageProcessing.Extensions;
 using Backend.Library.Logging.Extensions;
+using Backend.Library.MediaCompression.Extensions;
 using Backend.Library.Payment.Extensions;
 using Backend.Persistance;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +36,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using CompressionLevel = System.IO.Compression.CompressionLevel;
 using Mappings = Backend.Business.Reports.Mappings;
 
 namespace Backend.API.Extensions
@@ -45,13 +47,13 @@ namespace Backend.API.Extensions
         /// CORS policies
         /// </summary>
         /// <param name="services"></param>
-        public static void ConfigureCors(this IServiceCollection services)
+        public static void ConfigureCors(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddCors(opt =>
             {
                 opt.AddPolicy("AllowAllCorsPolicy",
                     builder => builder
-                        .WithOrigins("https://localhost:4200", "http://localhost:4200")
+                        .WithOrigins(configuration.GetSection("CORSAllowedOrigins").Get<string[]>())
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()
@@ -68,7 +70,23 @@ namespace Backend.API.Extensions
         {
             services
                 .AddControllers()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblies(new[]
+                {
+                    Assembly.GetAssembly(typeof(Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Billing.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Authorization.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Media.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Chat.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Export.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Import.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Notifications.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.ProgressTracking.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.TrainingLog.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Users.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Exercises.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.Dashboard.Mappings)),
+                    Assembly.GetAssembly(typeof(Business.TrainingPrograms.Mappings)),
+                }))
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
@@ -152,6 +170,20 @@ namespace Backend.API.Extensions
                         }
                     };
                 });
+        }
+
+        /// <summary>
+        /// Configures response compression
+        /// </summary>
+        /// <param name="services"></param>
+        public static void ConfigureResponseCompression(this IServiceCollection services)
+        {
+            services.AddResponseCompression();
+
+            services.Configure<BrotliCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Optimal;
+            });
         }
 
         /// <summary>
@@ -315,7 +347,7 @@ namespace Backend.API.Extensions
             services.ConfigurePaymentServices();
             services.ConfigureS3Services();
             services.ConfigureLoggingService();
-            services.ConfigureImageProcessingServices();
+            services.ConfigureMediaCompressionService();
             services.ConfigureHttpContextAccessor();
             services.ConfigureDashboardServices();
             services.ConfigureTrainingProgramServices();

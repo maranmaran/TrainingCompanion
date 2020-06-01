@@ -128,9 +128,9 @@ export class UIService {
 
         var sidenav = this.sidenavs.item(name);
 
-        if(!sidenav){
-          console.warn('Sidenav isn\'t registered ');
-          return;
+        if (!sidenav) {
+            console.warn('Sidenav isn\'t registered ');
+            return;
         }
 
         switch (actionType) {
@@ -156,9 +156,13 @@ export class UIService {
         }
     }
 
-    public isSidenavOpened(name: string): Observable<boolean> {
+    public isSidenavOpened(name: string, nonObservable = false): Observable<boolean> | boolean {
+        if (nonObservable)
+            return this.sidenavs.item(name).opened;
+
         return of(this.sidenavs.item(name).opened);
     }
+
 
     // #endregion
 

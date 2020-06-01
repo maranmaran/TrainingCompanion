@@ -4,7 +4,11 @@ import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FeedResolver } from 'src/business/resolvers/feed.resolver';
 import { DashboardEffects } from 'src/ngrx/dashboard/dashboard.effects';
+import { ExerciseTypesResolver } from './../../../business/resolvers/exercise-types.resolver';
+import { ExerciseTypeService } from './../../../business/services/feature-services/exercise-type.service';
 import { dashboardReducer } from './../../../ngrx/dashboard/dashboard.reducers';
+import { ExerciseTypeEffects } from './../../../ngrx/exercise-type/exercise-type.effects';
+import { exerciseTypeReducer } from './../../../ngrx/exercise-type/exercise-type.reducers';
 import { ActionsComponent } from './dashboard-home/actions/actions.component';
 import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
 import { BodyweightFeedItemComponent } from './dashboard-home/feed/feed-items/bodyweight-feed-item/bodyweight-feed-item.component';
@@ -16,6 +20,7 @@ import { TrackItemsSidebarComponent } from './dashboard-home/tracks/track-items-
 import { TracksComponent } from './dashboard-home/tracks/tracks.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardOutletDirective } from './directives/dashboard-outlet.directive';
+import { TracksResolver } from 'src/business/resolvers/dashboard-tracks.resolver';
 
 
 @NgModule({
@@ -23,7 +28,8 @@ import { DashboardOutletDirective } from './directives/dashboard-outlet.directiv
         SharedModule,
         DashboardRoutingModule,
         StoreModule.forFeature('dashboard', dashboardReducer),
-        EffectsModule.forFeature([DashboardEffects]),
+        StoreModule.forFeature('exerciseType', exerciseTypeReducer),
+        EffectsModule.forFeature([DashboardEffects, ExerciseTypeEffects]),
     ],
     declarations: [
         DashboardHomeComponent,
@@ -40,7 +46,10 @@ import { DashboardOutletDirective } from './directives/dashboard-outlet.directiv
     exports: [
     ],
     providers: [
-        FeedResolver
+        FeedResolver,
+        ExerciseTypesResolver,
+        ExerciseTypeService,
+        TracksResolver
     ],
     entryComponents: [
     ]

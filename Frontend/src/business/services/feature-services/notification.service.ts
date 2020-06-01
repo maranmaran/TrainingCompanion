@@ -1,5 +1,6 @@
-import { OnInit } from '@angular/core';
+import { OnInit, Injectable } from '@angular/core';
 
+@Injectable({ providedIn: 'root' })
 export class NotificationService implements OnInit {
 
   ngOnInit(): void {

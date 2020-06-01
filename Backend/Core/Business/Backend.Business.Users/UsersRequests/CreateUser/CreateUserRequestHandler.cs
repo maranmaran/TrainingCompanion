@@ -1,17 +1,18 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Business.Authorization.AuthorizationRequests.SendRegistrationEmail;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using Backend.Domain.Extensions;
 using Backend.Domain.Factories;
-using Backend.Library.Payment.Configuration;
 using Backend.Infrastructure.Exceptions;
+using Backend.Library.Logging.Interfaces;
+using Backend.Library.Payment.Configuration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Users.UsersRequests.CreateUser
 {
@@ -20,15 +21,17 @@ namespace Backend.Business.Users.UsersRequests.CreateUser
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
+        private readonly ILoggingService _loggingService;
 
         public CreateUserRequestHandler(
             IMediator mediator,
             IMapper mapper,
-            IApplicationDbContext context)
+            IApplicationDbContext context, ILoggingService loggingService)
         {
             _mediator = mediator;
             _mapper = mapper;
             _context = context;
+            _loggingService = loggingService;
         }
 
         public async Task<ApplicationUser> Handle(CreateUserRequest request, CancellationToken cancellationToken)
@@ -92,6 +95,7 @@ namespace Backend.Business.Users.UsersRequests.CreateUser
             catch (Exception e)
             {
                 // log
+                await _loggingService.LogInfo(e, "Mail not sent");
             }
 
             // return data

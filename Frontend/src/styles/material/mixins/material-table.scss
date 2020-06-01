@@ -4,23 +4,27 @@
   $background-palette: map-get($theme, background);
   $highlight: map-get($background-palette, hover);
 
-  .theme-material-table {
+  .highlighted-row:not(.cdk-drag-preview) {
+    background-color: rgba($highlight, 0.1) !important;
+    cursor: pointer;
+  }
 
-    mat-table {
+  mat-row,
+  mat-header-row {
+    // min-height: 302px; // height of 5 rows
 
-      // min-height: 302px; // height of 5 rows
-
-      .mat-column-select {
-        max-width: -webkit-fit-content;
-        padding: 0 20px;
-      }
-
-      .mat-column-actions {
-        max-width: -webkit-fit-content;
-      }
+    .mat-column-select {
+      max-width: -webkit-fit-content;
+      padding: 0 20px;
     }
 
-    .highlighted-row {
+    .mat-column-actions {
+      max-width: -webkit-fit-content;
+    }
+  }
+
+  .theme-material-table {
+    .highlighted-row:not(.cdk-drag-preview) {
       background-color: rgba($highlight, 0.1) !important;
     }
     .selected-row {
@@ -42,30 +46,6 @@
       padding: 1rem 0px;
       text-align: center;
       font-style: italic;
-    }
-
-    // DRAG AND DROP
-    .cdk-drag-preview {
-      display: flex;
-
-      flex-direction: row;
-      cursor: grab;
-      border-radius: 4px;
-      box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-        0 3px 14px 2px rgba(0, 0, 0, 0.12);
-    }
-
-    .cdk-drag-placeholder {
-      opacity: 1;
-      width: 100%;
-    }
-
-    .cdk-drag-animating {
-      transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-    }
-
-    .cdk-drop-list-dragging .mat-row:not(.cdk-drag-placeholder) {
-      transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
     }
   }
 

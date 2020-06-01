@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +9,7 @@ import { FeedSignalrService } from 'src/business/services/feature-services/feed-
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { Theme } from 'src/business/shared/theme.enum';
-import { UISidenav } from 'src/business/shared/ui-sidenavs.enum';
+import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
 import { isAthlete } from 'src/ngrx/auth/auth.selectors';
 import { isFullScreenChatActive } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -60,27 +60,24 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // chat configurations
-    // this.chatConfig = this.chatService.getChatConfiguration(this.theme);
-
     // set sidenav
     this.uiService.addOrUpdateSidenav(UISidenav.App, this.sidenav);
 
     // chat theme subscription
     this.subs.add(
       this.store.select(activeTheme)
-      .subscribe((theme: Theme) => {
-        this.theme = ChatTheme[theme]
-        // this.chatConfig.theme = ChatTheme[theme];
-      }),
+        .subscribe((theme: Theme) => {
+          this.theme = ChatTheme[theme]
+          // this.chatConfig.theme = ChatTheme[theme];
+        }),
       this.store.select(isAthlete)
-      .subscribe(isAthlete => this.isAthlete = isAthlete),
+        .subscribe(isAthlete => this.isAthlete = isAthlete),
       this.store.select(isFullScreenChatActive)
-      .subscribe(isFullScreenChatActive => this.fullScreenChatActive = isFullScreenChatActive),
+        .subscribe(isFullScreenChatActive => this.fullScreenChatActive = isFullScreenChatActive),
     );
 
     // if routing to settings -> open dialog with specific section from route data
-    if(this.section) {
+    if (this.section) {
       this.toolbar.onOpenSettings(this.section);
     }
   }
@@ -93,8 +90,19 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   //   return this.mediaObserver.isActive('lt-sm') && this.isAthlete;
   // }
 
-  get showSmallChat() : boolean {
+  get showSmallChat(): boolean {
     return !this.fullScreenChatActive && !this.mediaObserver.isActive('lt-md')
+  }
+
+
+  @HostListener('swiperight', ['$event']) onSwipeRight = () => {
+    if (!this.uiService.isSidenavOpened(UISidenav.App, true))
+      this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle)
+  }
+
+  @HostListener('swipeleft', ['$event']) onSwipeLeft = () => {
+    if (this.uiService.isSidenavOpened(UISidenav.App, true))
+      this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle)
   }
 
 

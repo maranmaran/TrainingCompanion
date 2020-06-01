@@ -50,17 +50,23 @@ namespace Backend.Business.Dashboard.Services
                 avatar = await _s3Service.GetPresignedUrlAsync(avatar);
             }
 
-            var activity = new Activity()
+            var userInfo = new BasicUserInfo
             {
-                Date = audit.Date,
-                Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                 UserId = audit.UserId,
-                UserName = user.FullName,
                 UserAvatar = avatar,
-                JsonEntity = await _activityService.GetEntityAsJson(audit)
+                UserName = user.FullName,
             };
 
-            return activity;
+            var activityInfo = new BasicActivityInfo()
+            {
+                Id = audit.Id,
+                Date = audit.Date,
+                Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
+                JsonEntity = await _activityService.GetEntityAsJson(audit),
+                Seen = audit.Seen
+            };
+
+            return new Activity(userInfo, activityInfo);
         }
     }
 }

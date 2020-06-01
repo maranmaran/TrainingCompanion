@@ -26,7 +26,6 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.RequiresTime).HasDefaultValue(false);
 
             builder.HasIndex(x => x.ApplicationUserId);
-            builder.HasIndex(x => x.Code).IsUnique();
 
             builder
                 .HasMany(x => x.Properties)
@@ -39,6 +38,11 @@ namespace Backend.Persistance.Configurations
                 .WithOne(x => x.ExerciseType)
                 .HasForeignKey(x => x.ExerciseTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasMany(x => x.PBs)
+                .WithOne(x => x.ExerciseType)
+                .HasForeignKey(x => x.ExerciseTypeId);
 
             builder.HasIndex(x => x.ApplicationUserId);
 

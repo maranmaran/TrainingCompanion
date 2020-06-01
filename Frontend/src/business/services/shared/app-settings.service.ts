@@ -1,36 +1,45 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { environment } from 'src/environments/environment';
+
+export const NOTIFICATION_TOAST_TOKEN: InjectionToken<ComponentType<any>> =
+  new InjectionToken<ComponentType<any>>('NOTIFICATION_TOAST_TOKEN');
 
 @Injectable({ providedIn: 'root' })
 export class AppSettingsService {
+
+  constructor(
+    @Inject(NOTIFICATION_TOAST_TOKEN) private toastNotificationComponent: ComponentType<any>
+  ) { }
 
   /**
    * Returns the base URL for the API.
    */
   public get apiUrl(): string {
-    return environment.apiUrl;
+    // return environment.apiUrl;
+    return environment.apiUrlNoSSL;
   }
 
   /**
  * Returns the base URL for the Push notifications hub.
  */
   public get notificationHubUrl(): string {
-    return environment.notificationHubUrl;
+    return environment.notificationHubUrlNoSSL;
   }
 
   /**
 * Returns the base URL for the Push notifications hub.
 */
   public get feedHubUrl(): string {
-    return environment.feedHubUrl;
+    return environment.feedHubUrlNoSSL;
   }
 
   /**
 * Returns the base URL for the Chat hub.
 */
   public get chatHubUrl(): string {
-    return environment.chatHubUrl;
+    return environment.chatHubUrlNoSSL;
   }
 
   /**
@@ -53,6 +62,28 @@ export class AppSettingsService {
    */
   public get showStackTrace(): boolean {
     return environment.showStackTrace;
+  }
+
+  public get systemNotificationToastConfig() {
+    return {
+      timeOut: 2000,
+      disableTimeOut: false,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: false,
+      toastClass: 'toast-notification',
+      toastComponent: this.toastNotificationComponent // added custom toast!
+    };
+  }
+
+  public get defaultNotificationConfig() {
+    return {
+      timeOut: 2000,
+      disableTimeOut: false,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: false,
+      enableHtml: true,
+      toastClass: 'toast-default'
+    }
   }
 
 }

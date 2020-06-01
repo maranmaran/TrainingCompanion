@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
@@ -11,9 +11,8 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { setSelectedTraining, trainingDeleted, trainingsFetchedReplaceState } from 'src/ngrx/training-log/training.actions';
+import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training.actions';
 import { trainings } from 'src/ngrx/training-log/training.selectors';
-import { blockDayTrainings } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
@@ -24,7 +23,7 @@ import { TrainingCreateEditComponent } from '../training-create-edit/training-cr
   templateUrl: './training-list.component.html',
   styleUrls: ['./training-list.component.scss']
 })
-export class TrainingListComponent implements OnInit {
+export class TrainingListComponent implements OnInit, OnDestroy {
 
   @Input() partOfTrainingProgram = false;
 
@@ -55,21 +54,8 @@ export class TrainingListComponent implements OnInit {
       this.store.select(isMobile).subscribe(mobile => this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10),
       this.store.select(trainings).subscribe((trainings: Training[]) => this.tableDatasource.updateDatasource([...trainings]))
     )
-
-    if(this.partOfTrainingProgram) {
-      this.subs.add(this.getTrainingsFromProgram());
-    }
-
   }
 
-  getTrainingsFromProgram() {
-    return this.store.select(blockDayTrainings)
-      .subscribe((trainings: Training[]) => {
-        this.onSelect(null);
-        this.store.dispatch(trainingsFetchedReplaceState({entities: trainings}));
-        // this.tableDatasource.updateDatasource([...trainings])
-      });
-  }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
@@ -87,7 +73,7 @@ export class TrainingListComponent implements OnInit {
         serverSidePaging: false
       },
       selectionEnabled: false,
-      defaultSort: 'name',
+      defaultSort: 'dateTrained',
       defaultSortDirection: 'desc'
     });
 
@@ -102,7 +88,7 @@ export class TrainingListComponent implements OnInit {
         definition: 'dateTrained',
         title: 'TRAINING_LOG.TRAINING_DATE',
         sort: true,
-        displayFn: (item: Training) => moment(item.dateTrained).format('L'),
+        displayFn: (item: Training) => moment(item.dateTrained).format('L, LT'),
       }),
     ]
   }
@@ -110,21 +96,20 @@ export class TrainingListComponent implements OnInit {
   onSelect = (training: Training) => this.store.dispatch(setSelectedTraining({ entity: training }));
 
   onAdd() {
+    this.trainingService.onAdd(TrainingCreateEditComponent, null)
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((training: Training) => {
+        if (!training) return;
 
-    this.trainingService.onAdd(TrainingCreateEditComponent, this.partOfTrainingProgram)
-    .afterClosed()
-    .pipe(take(1))
-    .subscribe((training: Training) => {
-      if (!training) return;
-
-      this.table.onSelect(training, true);
-      this.onSelect(training);
-    });
+        this.table.onSelect(training, true);
+        this.onSelect(training);
+      });
   }
 
   onDeleteSingle(training: Training) {
 
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.DELETE_DIALOG', {dateTrained: moment(training.dateTrained).format('L')});
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.DELETE_DIALOG', { dateTrained: moment(training.dateTrained).format('L') });
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 

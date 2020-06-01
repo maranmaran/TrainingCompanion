@@ -9,41 +9,40 @@
 
   <mat-sidenav-content id="dashboard-sidenav-content">
 
-    <!-- <app-actions fxHide.lt-sm></app-actions> -->
+      <!--Desktop-->
+      <div *ngIf="!mediaObserver.isActive('lt-sm')" class="main-dashboard-container" fxLayout="row">
+        <app-feed fxFlex="1 1 30" fxFlex.lt-md="1 1 50"></app-feed>
+        <app-tracks fxFlex="1 1 70" fxFlex.lt-md="1 1 50" (drop)="drop($event)" (dragEnter)="dragEnter($event)"
+          (dragEnd)="dragEnd()"></app-tracks>
+      </div>
 
-    <!--Desktop-->
-    <div *ngIf="!mediaObserver.isActive('lt-sm')" class="main-dashboard-container" fxLayout="row">
-      <app-feed fxFlex="1 1 30" fxFlex.lt-md="1 1 50"></app-feed>
-      <app-tracks fxFlex="1 1 70" fxFlex.lt-md="1 1 50" (drop)="drop($event)" (dragEnter)="dragEnter($event)"
-        (dragEnd)="dragEnd()"></app-tracks>
-    </div>
+      <!--Mobile-->
+      <mat-tab-group *ngIf="mediaObserver.isActive('lt-sm')" headerPosition="below" dynamicHeight mat-stretch-tabs
+        [color]="'accent'">
 
-    <!--Mobile-->
-    <mat-tab-group *ngIf="mediaObserver.isActive('lt-sm')" headerPosition="below" dynamicHeight mat-stretch-tabs [color]="'accent'">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <button mat-icon-button color="accent" [disableRipple]="true">
+              <i class="fas fa-home fa-1-5x"></i>
+            </button>
+          </ng-template>
+          <div class="full-viewport-mobile">
+            <app-feed></app-feed>
+          </div>
+        </mat-tab>
 
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <button mat-icon-button color="accent" [disableRipple]="true">
-            <i class="fas fa-home fa-1-5x"></i>
-          </button>
-        </ng-template>
-        <div style="height: calc(100vh - 105px)">
-          <app-feed></app-feed>
-        </div>
-      </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <button mat-icon-button color="accent" [disableRipple]="true">
+              <i class="fas fa-chart-pie fa-1-5x"></i>
+            </button>
+          </ng-template>
+          <div class="full-viewport-mobile">
+            <app-tracks (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()"></app-tracks>
+          </div>
+        </mat-tab>
 
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <button mat-icon-button color="accent" [disableRipple]="true">
-            <i class="fas fa-chart-pie fa-1-5x"></i>
-          </button>
-        </ng-template>
-        <div style="height: calc(100vh - 105px); overflow-y: auto">
-          <app-tracks (drop)="drop($event)" (dragEnter)="dragEnter($event)" (dragEnd)="dragEnd()"></app-tracks>
-        </div>
-      </mat-tab>
-
-    </mat-tab-group>
+      </mat-tab-group>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

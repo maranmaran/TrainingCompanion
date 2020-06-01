@@ -1,6 +1,6 @@
 ﻿using Audit.Core;
 using Audit.EntityFramework;
-using Backend.Business.Dashboard;
+using Backend.Business.Dashboard.Services;
 using Backend.Business.Notifications;
 using Backend.Domain;
 using Backend.Domain.Entities.Auditing;
@@ -15,7 +15,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using Backend.Business.Dashboard.Services;
 using Configuration = Audit.Core.Configuration;
 
 namespace Backend.Persistance
@@ -109,11 +108,11 @@ namespace Backend.Persistance
             audit.UserId = userId;
             audit.Data = entry.ToJson();
             audit.EntityType = entry.EntityType.Name;
-            audit.Date = DateTime.Now;
+            audit.Date = DateTime.UtcNow;
             audit.PrimaryKey = entry.PrimaryKey.First().Value.ToString();
             audit.Table = entry.Table;
             audit.Action = entry.Action;
-            audit.Date = DateTime.Now;
+            audit.Date = DateTime.UtcNow;
         }
     }
 }

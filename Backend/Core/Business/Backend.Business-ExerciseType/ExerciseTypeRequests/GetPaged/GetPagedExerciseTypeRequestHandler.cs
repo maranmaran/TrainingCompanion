@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Common;
+﻿using Backend.Common;
 using Backend.Common.Extensions;
 using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Exercises.ExerciseTypeRequests.GetPaged
 {
@@ -27,12 +27,18 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.GetPaged
             {
                 var paginationModel = request.PaginationModel;
 
+                var userId = request.UserId;
+
+                var user = await _context.Athletes.FirstOrDefaultAsync(x => x.Id == userId, cancellationToken);
+                if (user?.CoachId != null)
+                    userId = user.CoachId.Value;
+
                 // get all items
                 var exerciseTypes = _context.ExerciseTypes
                     .Include(x => x.Properties)
                     .ThenInclude(x => x.Tag)
                     .ThenInclude(x => x.TagGroup)
-                    .Where(x => x.ApplicationUserId == request.UserId);
+                    .Where(x => x.ApplicationUserId == userId);
 
                 // filter
                 if (!string.IsNullOrWhiteSpace(paginationModel.FilterQuery))

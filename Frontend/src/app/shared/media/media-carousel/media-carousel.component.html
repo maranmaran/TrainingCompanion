@@ -1,0 +1,59 @@
+<div class="carousel-container" fxLayout="column">
+
+    <button fxFlexAlign="flex-end" class="float-right pointer mb-1" mat-icon-button color="accent" (click)="onClose()">
+        <i class="fas fa-times"></i>
+    </button>
+
+    <div id="carousel">
+        <ngu-carousel #carousel [inputs]="carouselConfig" [dataSource]="carouselItems">
+            <div *nguCarouselDef="let data; let i = index" class="item">
+
+                <ng-container [ngSwitch]="data.type">
+
+                    <div mat-dialog-content class="tile">
+
+                        <ng-container *ngSwitchCase="mediaType.Video">
+                            <video (playing)="onPlayingVideo($event, i)" width="100%" height="auto" controls>
+                                <source src="{{data.downloadUrl}}" type="video/mp4">
+                                {{'SHARED.VIDEO_NOT_SUPPORTED' | translate}} </video>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="0">
+                            <video (playing)="onPlayingVideo($event, i)" width="100%" height="auto" controls>
+                                <source src="{{data.downloadUrl}}" type="video/mp4">
+                                {{'SHARED.VIDEO_NOT_SUPPORTED' | translate}} </video>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="mediaType.Image">
+                            <img class="img-fluid" src="{{data.downloadUrl}}">
+                        </ng-container>
+                        <ng-container *ngSwitchCase="1">
+                            <img class="img-fluid" src="{{data.downloadUrl}}">
+                        </ng-container>
+
+                    </div>
+
+                </ng-container>
+
+                <button fxHide #prevBtn NguCarouselPrev class="leftRs" mat-fab color="accent"><i
+                        class="fas fa-chevron-left fa-1-2x"></i></button>
+
+                <button fxHide #nextBtn NguCarouselNext class="rightRs" mat-fab color="accent"><i
+                        class="fas fa-chevron-right fa-1-2x"></i></button>
+
+            </div>
+        </ngu-carousel>
+
+        <div class="actions_footer" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+            <button fxHide.xs class="leftRs" mat-fab color="accent" (click)="previous()"><i
+                    class="fas fa-chevron-left fa-1-2x"></i></button>
+
+            <ul class="myPoint" NguCarouselPoint>
+                <li *ngFor="let point of carousel.pointNumbers; let j = index" (click)="carousel.moveTo(j)"
+                    class="accent-border" [ngClass]="{'accent-background active': j == carousel.activePoint }"></li>
+            </ul>
+
+            <button fxHide.xs NguCarouselNext class="rightRs" mat-fab color="accent" (click)="next()"><i
+                    class=" fas fa-chevron-right fa-1-2x"></i></button>
+        </div>
+    </div>
+</div>

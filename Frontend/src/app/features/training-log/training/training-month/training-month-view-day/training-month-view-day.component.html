@@ -1,16 +1,17 @@
 <div id="training-calendar-day-container" class="h-100 w-100" fxLayout="row" fxLayoutAlign="space-evenly center">
-  <div class="training-label primary-background primary-background-darker-hover"
-    fxLayout="row" fxLayoutAlign="space-between center"
-    fxLayoutAlign.xs="center center"
-
+  <div class="training-label primary-background primary-background-darker-hover" fxLayout="row"
+    fxLayoutAlign="space-between center" fxLayoutAlign.xs="center center"
     [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
-    [matTooltipPosition]="'above'"
+    [matTooltipPosition]="'above'" (mouseenter)="showPreview = true" (mouseleave)="showPreview = false"
+    (press)="onPress()" (click)="onClick()">
 
-    (mouseenter)="showPreview = true"
-    (mouseleave)="showPreview = false"
 
-    (press)="onPress()"
-    (click)="onClick()">
+    <!--
+      Check this out on mat tooltip if you are having some problems with touch gestures
+      @Input('matTooltipTouchGestures')
+      touchGestures: TooltipTouchGestures
+    -->
+
 
     <!--SUMMARY PREVIEW - TODO put in component or ng-template -->
     <div fxHide.xs class="preview-container theme-tooltip-background mat-elevation-z16"
@@ -19,7 +20,7 @@
       <mat-divider></mat-divider>
       <div class="exercise-preview-container" fxLayout="column">
         <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
-            <label>{{i + 1}}. {{exercise.exerciseType.name}}</label>
+          <label>{{i + 1}}. {{exercise.exerciseType.name}}</label>
         </ng-container>
       </div>
     </div>
@@ -30,15 +31,15 @@
     <label style="cursor: pointer;"> {{ training.dateTrained | applyTimezone }} </label>
     <div id="actions" fxHide.xs fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="5px">
 
-      <button mat-icon-button color="accent" button-size size="20px"
-      (click)="onCopy()" (click)="$event.stopPropagation()"
-      matTooltip="'{{'TRAINING_LOG.COPY_LABEL' | translate}}'" [matTooltipPosition]="'right'">
+      <button mat-icon-button color="accent" button-size size="20px" (click)="onCopy()"
+        (click)="$event.stopPropagation()" matTooltip="{{'TRAINING_LOG.COPY_LABEL' | translate}}"
+        [matTooltipPosition]="'right'">
         <i class="fas fa-copy accent-foreground"></i>
       </button>
 
-      <button mat-icon-button color="accent" button-size size="20px"
-      (click)="onDelete()" (click)="$event.stopPropagation()"
-      matTooltip="{{'TRAINING_LOG.DELETE_LABEL' | translate}}" [matTooltipPosition]="'right'">
+      <button mat-icon-button color="accent" button-size size="20px" (click)="onDelete()"
+        (click)="$event.stopPropagation()" matTooltip="{{'TRAINING_LOG.DELETE_LABEL' | translate}}"
+        [matTooltipPosition]="'right'">
         <i class="fas fa-trash accent-foreground"></i>
       </button>
 

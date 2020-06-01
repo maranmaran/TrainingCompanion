@@ -13,6 +13,7 @@ import { AuthService } from '../../business/services/feature-services/auth.servi
 import { AppState } from '../global-setup.ngrx';
 import { enableErrorDialogs, setActiveProgressBar, switchTheme } from '../user-interface/ui.actions';
 import { SignInRequest } from './../../server-models/cqrs/authorization/sign-in.request';
+import { setSelectedTraining } from './../training-log/training.actions';
 import { setLanguage } from './../user-interface/ui.actions';
 import * as AuthActions from './auth.actions';
 
@@ -25,7 +26,7 @@ export class AuthEffects {
     private store: Store<AppState>,
     private authService: AuthService,
     private userService: UserService
-  ) {}
+  ) { }
 
   login$ = createEffect(
     () =>
@@ -50,6 +51,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
         // TODO: Deprecated
+        // comment on 16.05.2020: what is deprecated ?
         switchMap(
           (currentUser: CurrentUser) => {
             localStorage.setItem('id', currentUser.id);
@@ -60,7 +62,7 @@ export class AuthEffects {
         tap(
           (response: { currentUser: CurrentUser; navigationSuccess: boolean; }) => {
             if (response.navigationSuccess) {
-              this.store.dispatch(setLanguage({language: response.currentUser.userSetting.language }))
+              this.store.dispatch(setLanguage({ language: response.currentUser.userSetting.language }))
               this.store.dispatch(switchTheme({ theme: response.currentUser.userSetting.theme }));
               this.store.dispatch(enableErrorDialogs());
             }
@@ -79,7 +81,7 @@ export class AuthEffects {
           localStorage.removeItem('id');
           this.cookieService.delete('jwt');
           this.router.navigate(['/auth/login']).then(
-            _ =>  {
+            _ => {
               this.store.dispatch(AuthActions.logoutClearState())
             }
           );
@@ -101,13 +103,22 @@ export class AuthEffects {
     { dispatch: false }
   );
 
+  viewAsSet$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.setViewAs),
+        tap(_ => this.store.dispatch(setSelectedTraining({ entity: null })))
+      ),
+    { dispatch: false }
+  );
+
   updateCurrentUser$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.updateCurrentUser),
         tap((currentUser: CurrentUser) => {
           this.store.dispatch(setActiveProgressBar({ progressBar: UIProgressBar.MainAppScreen }));
-          this.store.dispatch(setLanguage({language: currentUser.userSetting.language }))
+          this.store.dispatch(setLanguage({ language: currentUser.userSetting.language }))
           this.store.dispatch(switchTheme({ theme: currentUser.userSetting.theme }));
         })
       ),

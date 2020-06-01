@@ -1,10 +1,15 @@
 import { Update } from "@ngrx/entity";
 import { createAction, props } from "@ngrx/store";
-import { TrainingProgram } from "src/server-models/entities/training-program.model";
+import { TrainingProgram, TrainingProgramUser } from "src/server-models/entities/training-program.model";
 
 export const trainingProgramCreated = createAction(
   "[TrainingProgram] Created",
   props<{ entity: TrainingProgram }>()
+);
+
+export const trainingProgramUserCreated = createAction(
+  "[TrainingProgramUser] Created",
+  props<{ entity: TrainingProgramUser }>()
 );
 
 export const trainingProgramFetched = createAction(
@@ -20,6 +25,11 @@ export const trainingProgramUpdated = createAction(
 export const trainingProgramDeleted = createAction(
   "[TrainingProgram] Deleted",
   props<{ id: string }>()
+);
+
+export const trainingProgramUserDeleted = createAction(
+  "[TrainingProgramUser] Deleted",
+  props<{ entity: TrainingProgramUser }>()
 );
 
 export const setSelectedTrainingProgram = createAction(

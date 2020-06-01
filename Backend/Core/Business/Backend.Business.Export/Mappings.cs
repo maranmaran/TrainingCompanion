@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain.Entities.TrainingLog;
-using Microsoft.EntityFrameworkCore.Internal;
+using System.Linq;
 
 namespace Backend.Business.Export
 {
@@ -15,9 +14,9 @@ namespace Backend.Business.Export
             CreateMap<Exercise, ExportExerciseDto>()
                 .ForMember(x => x.Exercise, y => y.MapFrom(x => x.ExerciseType.Name))
                 .ForMember(x => x.ExerciseTags, y => y.MapFrom(z =>
-                    z.ExerciseType.Properties
+                    string.Join(",", z.ExerciseType.Properties
                         .OrderBy(j => j.Tag.TagGroup.Order)
-                        .Select(x => x.Tag.Value).Join(" ")
+                        .Select(x => x.Tag.Value))
                 ));
 
             CreateMap<Set, ExportSetDto>();

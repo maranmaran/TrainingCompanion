@@ -5,6 +5,7 @@
   $accent: mat-color(map-get($theme, accent));
   $warn: mat-color(map-get($theme, warn));
 
+  $accent-light: mat-color(map-get($theme, accent), 100);
   /*#region Sets - Create Edit*/
 
   .sets-dialog-container .mat-dialog-container {
@@ -17,6 +18,10 @@
   }
 
   #set-create-edit {
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+
     .mat-form-field-infix {
       width: 100% !important;
     }
@@ -31,11 +36,22 @@
     }
 
     .mat-icon-button {
-      width: 20px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      &.active {
+        background-color: $accent-light;
+      }
     }
 
     .mat-dialog-content {
       max-height: 57vh;
+    }
+  }
+
+  .set-container {
+    .mat-form-field-wrapper {
+      padding-bottom: 0 !important;
     }
   }
 

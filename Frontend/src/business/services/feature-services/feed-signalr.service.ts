@@ -48,7 +48,8 @@ export class FeedSignalrService implements OnDestroy {
 
   initializeListeners() {
     this.hubConnection.on('PushFeedActivity', (activity: Activity) => {
-      this.store.dispatch(pushActivity({activity}));
+      console.log(activity);
+      this.store.dispatch(pushActivity({ activity }));
     });
   }
 

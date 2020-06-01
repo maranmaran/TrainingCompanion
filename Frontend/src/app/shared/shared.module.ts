@@ -1,3 +1,4 @@
+import { MediaCarouselComponent } from './media/media-carousel/media-carousel.component';
 import { CommonModule } from '@angular/common';
 import { HttpBackend } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -17,7 +18,7 @@ import { VolumeCardComponent } from '../features/dashboard/dashboard-home/tracks
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
-import { TransformWeightPipe } from './../../business/pipes/transform-weight.pipe';
+import { TransformWeightPipe, TransformRpePipe } from './../../business/pipes/transform-weight.pipe';
 import { TrainingMonthViewDayComponent } from './../features/training-log/training/training-month/training-month-view-day/training-month-view-day.component';
 import { NotificationItemComponent } from './/notifications/notification-item/notification-item.component';
 import { NotificationTypeIconComponent } from './/notifications/notification-item/notification-type-icon/notification-type-icon.component';
@@ -46,6 +47,8 @@ import { MediaNotificationBodyComponent } from './notifications/notification-ite
 import { NoteNotificationBodyComponent } from './notifications/notification-item/body-templates/note-notification-body.component';
 import { PersonalBestNotificationBodyComponent } from './notifications/notification-item/body-templates/personal-best-notification-body.component';
 import { TrainingNotificationBodyComponent } from './notifications/notification-item/body-templates/training-notification-body.component';
+import { RepeatPipe } from 'src/business/pipes/repeat.pipe';
+import { NguCarouselModule } from '@ngu/carousel';
 
 @NgModule({
     imports: [
@@ -67,17 +70,18 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         ]),
         AvatarModule,
         ImageCropperModule,
-         // lazy loaded modules import of translate module
+        // lazy loaded modules import of translate module
         // https://github.com/ngx-translate/core#1-import-the-translatemodule
         TranslateModule.forChild({
             isolate: false,
             extend: true,
             loader: {
-              provide: TranslateLoader,
-              useFactory: HttpLoaderFactory,
-              deps: [HttpBackend]
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpBackend]
             }
-          })
+        }),
+        NguCarouselModule
     ],
     declarations: [
         MediaDialogComponent,
@@ -108,6 +112,7 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         ApplyTimezonePipe,
         ButtonSizeDirective,
         TransformWeightPipe,
+        TransformRpePipe,
         ImageCropperComponent,
         VolumeCardComponent,
         MaxCardComponent,
@@ -116,7 +121,9 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         TrainingNotificationBodyComponent,
         NoteNotificationBodyComponent,
         PersonalBestNotificationBodyComponent,
-        ImportNotificationBodyComponent
+        ImportNotificationBodyComponent,
+        RepeatPipe,
+        MediaCarouselComponent
     ],
     exports: [
         CommonModule,
@@ -162,6 +169,7 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         ApplyTimezonePipe,
         ButtonSizeDirective,
         TransformWeightPipe,
+        TransformRpePipe,
         ImageCropperModule,
         ImageCropperComponent,
         MediaNotificationBodyComponent,
@@ -169,7 +177,9 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         TrainingNotificationBodyComponent,
         NoteNotificationBodyComponent,
         PersonalBestNotificationBodyComponent,
-        ImportNotificationBodyComponent
+        ImportNotificationBodyComponent,
+        RepeatPipe,
+        MediaCarouselComponent
     ],
     providers: [
     ],

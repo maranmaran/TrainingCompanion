@@ -1,6 +1,7 @@
 @import "./bootstrap/bootstrap.styles.scss";
 @import "./material/material.styles.scss";
 @import "./mobile.scss";
+@import "./material//custom/placeholder-loading.scss";
 
 html,
 body {
@@ -57,6 +58,10 @@ body {
   }
 }
 
+.transparent {
+  background: transparent;
+}
+
 .main-router-outlet + * {
   overflow-y: auto;
   height: 100%;
@@ -76,6 +81,10 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.cursor-move {
+  cursor: move;
 }
 
 i {
@@ -163,3 +172,12 @@ button {
 .round {
   border-radius: 50%;
 }
+
+.no-pointer-events {
+  pointer-events: none;
+}
+
+.pointer-events {
+  pointer-events: auto;
+}
+

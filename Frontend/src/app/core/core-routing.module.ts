@@ -26,6 +26,7 @@ const routes: Routes = [
                     { path: 'personal-best', loadChildren: () => import('src/app/features/personal-best/personal-best.module').then(mod => mod.PersonalBestModule) },
                     { path: 'chat', loadChildren: () => import('src/app/features/chat/chat.module').then(mod => mod.ChatModule) },
                     { path: 'training-program', loadChildren: () => import('src/app/features/training-program/training-program.module').then(mod => mod.TrainingProgramModule) },
+                    { path: 'velocity', loadChildren: () => import('src/app/features/velocity/velocity.module').then(mod => mod.VelocityModule) },
                 ]
             },
             {

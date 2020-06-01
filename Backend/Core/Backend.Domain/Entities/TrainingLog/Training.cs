@@ -18,6 +18,10 @@ namespace Backend.Domain.Entities.TrainingLog
         public Guid? ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
+
+        // Training program and exact block day to which the training belongs
+        public virtual Guid? TrainingProgramId { get; set; }
+        public virtual TrainingProgram TrainingProgram { get; set; }
         public virtual Guid? TrainingBlockDayId { get; set; }
         public virtual TrainingBlockDay TrainingBlockDay { get; set; }
 

@@ -6,20 +6,24 @@
   <form [formGroup]="form">
 
     <mat-form-field>
-      <input matInput type="text" formControlName="name"
-        placeholder="{{'TRAINING_BLOCK.NAME_LABEL' | translate}}">
+      <input matInput type="text" formControlName="name" placeholder="{{'TRAINING_BLOCK.NAME_LABEL' | translate}}">
     </mat-form-field>
 
-    <mat-form-field *ngIf="data.action == crud.Create">
-      <input matInput type="number" formControlName="durationInDays"
-        placeholder="{{'TRAINING_BLOCK.DURATION_IN_DAYS' | translate}}">
-    </mat-form-field>
+    <div *ngIf="data.action == crud.Create" fxLayout="row" fxLayoutGap="1rem">
 
-    <mat-form-field>
-      <textarea rows="5" matInput formControlName="description"
-        placeholder="{{'TRAINING_BLOCK.DESCRIPTION_LABEL' | translate}}">
-            </textarea>
-    </mat-form-field>
+      <mat-form-field>
+        <input matInput type="number" formControlName="duration"
+          placeholder="{{ 'TRAINING_BLOCK.DURATION' | translate}}">
+      </mat-form-field>
+
+      <!--TODO i18n -->
+      <mat-slide-toggle fxFlexAlign="center" #dayWeekToggle labelPosition="after" [color]="'accent'"
+        [checked]="trainingBlock.durationType == 'Weeks'"
+        (change)="$event.checked ? trainingBlock.durationType = 'Weeks' : trainingBlock.durationType = 'Days'">
+        {{ dayWeekToggle.checked ? 'Weeks' : 'Days' }}
+      </mat-slide-toggle>
+
+    </div>
 
   </form>
 </div>

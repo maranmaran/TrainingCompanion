@@ -1,3 +1,4 @@
+import { UserActivitiesContainer } from './../models/activity.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Store } from '@ngrx/store';
@@ -31,30 +32,28 @@ export class DashboardService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
+  getFeedGroupedByUser(userId: string) {
+    return this.http.get<UserActivitiesContainer[]>(this.url + 'GetFeedGroupedByUser/' + userId)
+      .pipe(catchError(this.handleError));
+  }
+
+  activitySeen(userId: string, activityId: string) {
+    return this.http.get(this.url + 'ActivitySeen/' + userId + '/' + activityId)
+      .pipe(catchError(this.handleError));
+  }
+
   getUserTracks(userId: string) {
-    this.http
+    return this.http
       .get<Track[]>(this.url + 'GetMainDashboard/' + userId)
       .pipe(
         catchError(this.handleError)
-      ).subscribe(
-        (tracks: Track[]) => {
-
-          if (tracks.length > 2)
-            throw new Error('You cannot have more than 2 tracks for Main dashboard');
-
-          if (tracks.length == 0)
-            tracks = this.getDefaultTracksState();
-
-          this.store.dispatch(tracksFetched({tracks}));
-        },
-        err => console.log(err)
-      );
+      )
   }
 
   updateTrackItem(trackItemId: string, jsonParams: string) {
     return this.http
-    .put<TrackItem>(this.url + 'UpdateTrackItem/', { trackItemId, jsonParams })
-    .pipe(catchError(this.handleError))
+      .put<TrackItem>(this.url + 'UpdateTrackItem/', { trackItemId, jsonParams })
+      .pipe(catchError(this.handleError))
   }
 
   saveMainDashboard(userId: string, tracks: Track[]) {
@@ -65,16 +64,16 @@ export class DashboardService extends BaseService {
       .pipe(catchError(this.handleError))
       .subscribe(
         (tracks: Track[]) => {
-          this.store.dispatch(setDashboardUpdated({updated: false}));
-          this.store.dispatch(tracksFetched({tracks}));
+          this.store.dispatch(setDashboardUpdated({ updated: false }));
+          this.store.dispatch(tracksFetched({ tracks }));
         },
         err => console.log(err),
-        () => this.store.dispatch(setDashboardUpdated({updated: false}))
+        () => this.store.dispatch(setDashboardUpdated({ updated: false }))
       );
   }
 
-  private getDefaultTracksState(): Track[] {
-    return  [
+  get defaultTracksState(): Track[] {
+    return [
       {
         id: Guid.create().toString(),
         items: []

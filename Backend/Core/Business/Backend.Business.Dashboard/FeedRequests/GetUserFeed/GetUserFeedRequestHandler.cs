@@ -44,7 +44,7 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                 if (user.AccountType == AccountType.Coach)
                 {
                     athletes.AddRange((await _context.Athletes
-                            .Where(x => x.CoachId == request.UserId)
+                            .Where(x => x.CoachId == request.UserId && x.Active)
                             .Select(x => new { x.Id, x.FullName, x.Avatar })
                             .ToListAsync(cancellationToken)
                         ).Select(x => (x.Id, x.FullName, x.Avatar))
@@ -78,20 +78,26 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                 if (!GenericAvatarConstructor.IsGenericAvatar(user.avatar) && _s3Service.CheckIfPresignedUrlIsExpired(user.avatar))
                     user.avatar = await _s3Service.GetPresignedUrlAsync(user.avatar);
 
-                var activity = new Activity()
+                var userInfo = new BasicUserInfo
                 {
-                    Date = audit.Date,
-                    Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
                     UserId = audit.UserId,
                     UserName = user.name.Trim(),
                     UserAvatar = user.avatar,
-                    JsonEntity = await _activityService.GetEntityAsJson(audit)
                 };
 
-                activities.Add(activity);
+                var activityInfo = new BasicActivityInfo()
+                {
+                    Id = audit.Id,
+                    Date = audit.Date,
+                    Type = (ActivityType)Enum.Parse(typeof(ActivityType), audit.EntityType, true),
+                    JsonEntity = await _activityService.GetEntityAsJson(audit),
+                    Seen = audit.Seen
+                };
+
+                activities.Add(new Activity(userInfo, activityInfo));
             }
 
-            return activities.OrderByDescending(x => x.Date); // newest activity is first
+            return activities.OrderByDescending(x => x.ActivityInfo.Date); // newest activity is first
         }
     }
 }

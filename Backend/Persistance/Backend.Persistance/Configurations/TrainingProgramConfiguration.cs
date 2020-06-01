@@ -1,6 +1,8 @@
 ﻿using Backend.Domain.Entities.TrainingProgramMaker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TrainingProgram = Backend.Domain.Entities.TrainingProgramMaker.TrainingProgram;
+using TrainingProgramUser = Backend.Domain.Entities.TrainingProgramMaker.TrainingProgramUser;
 
 namespace Backend.Persistance.Configurations
 {
@@ -17,6 +19,11 @@ namespace Backend.Persistance.Configurations
                 .HasMany(x => x.TrainingBlocks)
                 .WithOne(x => x.TrainingProgram)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.Trainings)
+                .WithOne(x => x.TrainingProgram)
+                .HasForeignKey(x => x.TrainingProgramId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
     public class TrainingProgramUserConfiguration : IEntityTypeConfiguration<TrainingProgramUser>
@@ -42,6 +49,8 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<TrainingBlock> builder)
         {
+            builder.Property(x => x.DurationType).HasDefaultValue(BlockDurationType.Weeks);
+
             builder
                 .HasOne(x => x.TrainingProgram)
                 .WithMany(x => x.TrainingBlocks)
@@ -57,6 +66,8 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<TrainingBlockDay> builder)
         {
+            builder.Property(x => x.Modified).HasDefaultValue(false);
+
             builder
                 .HasOne(x => x.TrainingBlock)
                 .WithMany(x => x.Days)
