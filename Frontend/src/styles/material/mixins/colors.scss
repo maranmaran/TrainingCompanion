@@ -75,6 +75,7 @@
   // selected-button
   // selected-disabled-button
   // disabled-button-toggle
+  $theme-disabled: map-get($foreground-palette, disabled);
   $theme-dialog: map-get($background-palette, dialog);
   $theme-background: map-get($background-palette, background);
   $theme-hover: map-get($background-palette, hover);
@@ -168,7 +169,7 @@
     // background: rgba(93,93,93,1);
   }
   .disabled-background {
-    background: rgba($theme-hover, 0.1);
+    background: rgba($theme-disabled, 0.2) !important;
     // background: rgba(93,93,93,1);
   }
   .theme-dialog-background {

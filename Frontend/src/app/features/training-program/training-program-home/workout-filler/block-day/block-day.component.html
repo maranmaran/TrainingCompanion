@@ -1,19 +1,22 @@
 <mat-expansion-panel class="block-day-panel" [hideToggle]="true" [expanded]="slideToggle.checked"
     [ngClass]="{'disabled-background': !slideToggle.checked}">
 
-    <mat-expansion-panel-header class="block-day-header" (click)="slideToggle.toggle();">
+    <mat-expansion-panel-header class="block-day-header" [ngClass]="{'pointer-events-none': !slideToggle.checked}">
         <mat-panel-title>
             <mat-panel-title>
                 {{ dayLabel }}
             </mat-panel-title>
 
             <mat-panel-description fxLayoutAlign="end center">
-                <button *ngIf="slideToggle.checked" class="mr-3" matTooltip="Add training" mat-icon-button
-                    color="accent" (click)="$event.stopPropagation(); onAdd()"><i class="fas fa-plus"></i>
+
+                <button *ngIf="slideToggle.checked" class="mr-3 pointer-events" matTooltip="Add training"
+                    mat-icon-button color="accent" (click)="$event.stopPropagation(); onAdd()"><i
+                        class="fas fa-plus"></i>
                 </button>
 
-                <mat-slide-toggle #slideToggle fxFlex="0 0 auto" labelPosition="before" [color]="'accent'"
-                    (change)="onChange($event)">
+                <mat-slide-toggle #slideToggle class="pointer-events" fxFlex="0 0 auto" labelPosition="before"
+                    [color]="'accent'" (change)="onChange($event)"
+                    (click)="$event.stopPropagation(); slideToggle.toggle()">
                     {{ slideToggle.checked ? 'Training day' : 'Rest day' }}
                 </mat-slide-toggle>
 
