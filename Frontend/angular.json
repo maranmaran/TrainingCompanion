@@ -85,7 +85,7 @@
           },
           "configurations": {
             "dev": {
-              "browserTarget": "OnlineMenuFrontend:build:dev"
+              "browserTarget": "Frontend:build:dev"
             },
             "production": {
               "browserTarget": "Frontend:build:production"
