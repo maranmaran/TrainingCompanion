@@ -36,7 +36,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   constructor(
     private uiService: UIService,
     private userService: UserService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) { }
 
   ngOnInit() {
@@ -59,11 +59,11 @@ export class AthleteListComponent implements OnInit, OnDestroy {
   getTableConfig() {
     const tableConfig = new TableConfig({
       filterFunction: (data: ApplicationUser, filter: string) => data.fullName.trim().toLocaleLowerCase().indexOf(filter) !== -1 ||
-                                                                 data.firstName.trim().toLocaleLowerCase().indexOf(filter) !== -1 ||
-                                                                 data.lastName.trim().toLocaleLowerCase().indexOf(filter) !== -1,
+        data.firstName.trim().toLocaleLowerCase().indexOf(filter) !== -1 ||
+        data.lastName.trim().toLocaleLowerCase().indexOf(filter) !== -1,
       cellActions: [TableAction.update, TableAction.delete],
       selectionEnabled: false,
-      filterEnabled: true
+      filterEnabled: true,
     });
 
     return tableConfig;

@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
@@ -26,6 +27,13 @@ import { PagingModel } from './table-models/paging.model';
     './../../features/training-program/training-program-home/training-program-components/training-program-list/training-program-list.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -61,6 +69,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   private applyFilterEvent = new Subject<string>();
 
   private pagingModel: PagingModel;
+
+  expandedRow: any | null;
 
   private subs = new SubSink();
 
@@ -230,6 +240,11 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
 
   onSelect(entity: any, keepSelected: boolean = false) {
+
+    // expandable rows logic
+    if (this.config.usesExpandableRows) {
+      this.expandedRow = this.expandedRow === entity ? null : entity;
+    }
 
     var selectedTemp = this.selection.isSelected(entity.id);
     this.selection.clear();

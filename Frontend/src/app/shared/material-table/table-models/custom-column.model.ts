@@ -14,7 +14,7 @@ export class CustomColumn {
 
   useComponent: boolean = false;
   component: any;
-  componentInputs: any;
+  componentInputs: Function = () => { };
 
   // why ? - Object initialization similar to c#.. because of default values
 

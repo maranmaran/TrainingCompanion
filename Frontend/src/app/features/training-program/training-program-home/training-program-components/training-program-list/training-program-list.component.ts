@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { delay, filter, take, map } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
+import { take } from 'rxjs/operators';
 import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
@@ -9,13 +10,11 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { getPlaceholderImagePath } from 'src/business/utils/utils';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTrainingProgram, trainingProgramDeleted } from 'src/ngrx/training-program/training-program/training-program.actions';
-import { trainingPrograms, selectedTrainingProgram } from 'src/ngrx/training-program/training-program/training-program.selectors';
+import { selectedTrainingProgram, trainingPrograms } from 'src/ngrx/training-program/training-program/training-program.selectors';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingProgramCreateEditComponent } from '../training-program-create-edit/training-program-create-edit.component';
-import { Observable } from 'rxjs/internal/Observable';
-import { ReturnStatement } from '@angular/compiler';
 
 @Component({
   selector: 'app-training-program-list',
@@ -56,7 +55,6 @@ export class TrainingProgramListComponent implements OnInit {
   }
 
   programId = (program: TrainingProgram) => program.id;
-
 
   onSelect(program: TrainingProgram) {
     this.store.dispatch(setSelectedTrainingProgram({ entity: program }))

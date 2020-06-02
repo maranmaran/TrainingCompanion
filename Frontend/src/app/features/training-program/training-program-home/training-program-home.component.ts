@@ -1,22 +1,20 @@
-import { TrainingBlockService } from 'src/business/services/feature-services/training-block.service';
-import { TrainingBlockDayService } from 'src/business/services/feature-services/training-block-day.service';
-import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
+import { MatTabGroup } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
-import { combineLatest, Observable, iif } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { TrainingBlockDayService } from 'src/business/services/feature-services/training-block-day.service';
+import { TrainingBlockService } from 'src/business/services/feature-services/training-block.service';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedTrainingId } from 'src/ngrx/training-log/training.selectors';
-import { selectedTrainingBlockDay, selectedTrainingBlockDayId } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
+import { trainingBlockDayFetched } from 'src/ngrx/training-program/training-block-day/training-block-day.actions';
+import { selectedTrainingBlockDay } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
+import { trainingBlockFetched } from 'src/ngrx/training-program/training-block/training-block.actions';
 import { selectedTrainingProgramId } from 'src/ngrx/training-program/training-program/training-program.selectors';
-import { TrainingBlockDay, TrainingBlock } from 'src/server-models/entities/training-program.model';
+import { TrainingBlock, TrainingBlockDay } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { clearTrainingState } from './../../../../ngrx/training-log/training.actions';
-import { selectedExerciseId } from './../../../../ngrx/training-log/training.selectors';
 import { selectedTrainingBlockId } from './../../../../ngrx/training-program/training-block/training-block.selectors';
-import { MatTabGroup } from '@angular/material/tabs';
-import { filter, switchMap, take, distinct, tap } from 'rxjs/operators';
-import { trainingBlockDayFetched } from 'src/ngrx/training-program/training-block-day/training-block-day.actions';
-import { trainingBlockFetched } from 'src/ngrx/training-program/training-block/training-block.actions';
 
 @Component({
   selector: 'app-training-program-home',

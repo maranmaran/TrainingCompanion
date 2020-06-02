@@ -11,7 +11,7 @@
   <mat-table class="mat-elevation-z1" [dataSource]="datasource" matSort
     (matSortChange)="config.pagingOptions.serverSidePaging && onSortChange($event)" cdkDropList
     [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop"
-    (cdkDropListDropped)="onListDrop($event)">
+    (cdkDropListDropped)="onListDrop($event)" [multiTemplateDataRows]="config.usesExpandableRows">
 
     <!-- SELECTION ( CHECKBOXES ) COLUMN -->
     <ng-container matColumnDef="select" *ngIf="config.selectionEnabled">
@@ -88,12 +88,28 @@
       </mat-cell>
     </ng-container>
 
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container *ngIf="config.usesExpandableRows" matColumnDef="expandedDetail">
+      <mat-cell *matCellDef="let detail" [attr.colspan]="displayColumns.length">
+        <ndc-dynamic [ndcDynamicComponent]="config.expandableRowComponent"
+          [ndcDynamicInputs]="config.expandableRowComponentInputs(row)"></ndc-dynamic>
+      </mat-cell>
+    </ng-container>
+
+    <!--HEADER AND ROW-->
     <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
     <mat-row id="table-row" *matRowDef="let row; columns: displayColumns;" cdkDrag [cdkDragData]="row"
       [cdkDragStartDelay]="300" (cdkDragStarted)="onDragStarted($event)" (cdkDragEnded)="onDragEnded($event)"
-      highlightOnHover class="theme-dialog" [ngClass]="{'selected-row': selection.isSelected(row.id) }"
-      (click)="onSelect(row)">
+      highlightOnHover class="theme-dialog element-row" [ngClass]="{'selected-row': selection.isSelected(row.id)}"
+      (click)="onSelect(row);">
     </mat-row>
+
+    <!--EXPANDABLE ROW-->
+    <ng-container *ngIf="config.usesExpandableRows">
+      <mat-row *matRowDef="let row; columns: ['expandedDetail']"
+        [@detailExpand]="row == expandedRow ? 'expanded' : 'collapsed'" class="expandable-row">
+      </mat-row>
+    </ng-container>
 
   </mat-table>
 

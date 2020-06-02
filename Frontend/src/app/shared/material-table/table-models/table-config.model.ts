@@ -1,8 +1,10 @@
+
 export class TableConfig {
 
   filterEnabled = false;
   selectionEnabled = true;
   enableDragAndDrop = false;
+  enableExpandableRows = false;
   actionsEnabled = true;
 
   pagingOptions = new TablePagingOptions();
@@ -14,6 +16,15 @@ export class TableConfig {
   defaultSortDirection: 'asc' | 'desc';
 
   filterFunction: (data: any, filter: string) => boolean;
+
+  // ndc dynamic component
+  expandableRowComponent: any;
+  expandableRowComponentInputs: Function = () => { };
+
+  public get usesExpandableRows(): boolean {
+    return !!this.enableExpandableRows && !!this.expandableRowComponent;
+  }
+
 
   public constructor(init?: Partial<TableConfig>) {
     Object.assign(this, init);
