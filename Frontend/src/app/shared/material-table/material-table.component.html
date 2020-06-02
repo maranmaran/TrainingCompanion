@@ -92,7 +92,8 @@
     <ng-container *ngIf="config.usesExpandableRows" matColumnDef="expandedDetail">
       <mat-cell *matCellDef="let detail" [attr.colspan]="displayColumns.length">
         <ndc-dynamic [ndcDynamicComponent]="config.expandableRowComponent"
-          [ndcDynamicInputs]="config.expandableRowComponentInputs(row)"></ndc-dynamic>
+          [ndcDynamicInputs]="config.expandableRowComponentInputs(row)"
+          [ndcDynamicAttributes]="config.expandableRowComponentAttributes"></ndc-dynamic>
       </mat-cell>
     </ng-container>
 

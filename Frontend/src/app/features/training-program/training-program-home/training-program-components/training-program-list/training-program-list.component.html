@@ -1,10 +1,9 @@
-<h2><b>Training programs</b></h2>
+<!-- <h2><b>Training programs</b></h2>
 <button class="mr-1 pointer-events" mat-stroked-button color="accent" (click)="onAdd()">
     Add
 </button>
 
 <div class="program-panels-container">
-    <!-- [displayMode]="'flat'" -->
     <mat-accordion [multi]="false" class="program-headers-align">
 
         <mat-expansion-panel class="program-panel" *ngFor="let program of (programs | async);  trackBy: programId"
@@ -24,9 +23,12 @@
                 <app-training-program-details></app-training-program-details>
             </ng-template>
 
-            <!-- <app-training-program-details></app-training-program-details> -->
-
         </mat-expansion-panel>
 
     </mat-accordion>
-</div>
+</div> -->
+
+
+<app-material-table [columns]="tableColumns" [datasource]="tableDatasource" [config]="tableConfig"
+    (selectEvent)="onSelect($event)" (addEvent)="onAdd()" (updateEvent)="onUpdate($event)"
+    (deleteEvent)="onDeleteSingle($event)"></app-material-table>

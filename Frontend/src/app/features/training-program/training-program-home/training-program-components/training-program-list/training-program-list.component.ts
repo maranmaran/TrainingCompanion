@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/internal/Observable';
 import { take } from 'rxjs/operators';
+import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
+import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
+import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
+import { TableDatasource } from 'src/app/shared/material-table/table-models/table-datasource.model';
 import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
@@ -15,6 +18,7 @@ import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingProgramCreateEditComponent } from '../training-program-create-edit/training-program-create-edit.component';
+import { TrainingProgramDetailsComponent } from './../training-program-details/training-program-details.component';
 
 @Component({
   selector: 'app-training-program-list',
@@ -24,12 +28,14 @@ import { TrainingProgramCreateEditComponent } from '../training-program-create-e
 export class TrainingProgramListComponent implements OnInit {
 
   private subs = new SubSink();
-  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_PROGRAM.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
   placeholderImagePath: string;
-
-  programs: Observable<TrainingProgram[]>;
   selectedProgram: TrainingProgram;
+
+  tableConfig: TableConfig;
+  tableColumns: CustomColumn[];
+  tableDatasource: TableDatasource<TrainingProgram>;
+  @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
   constructor(
     private uiService: UIService,
@@ -40,12 +46,17 @@ export class TrainingProgramListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.programs = this.store.select(trainingPrograms)
+    this.tableDatasource = new TableDatasource([]);
+    this.tableConfig = this.getTableConfig();
+    this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
     // table config
     this.subs.add(
       this.store.select(activeTheme).subscribe(theme => this.placeholderImagePath = getPlaceholderImagePath(theme)),
-      this.store.select(selectedTrainingProgram).subscribe(program => this.selectedProgram = program)
+      this.store.select(selectedTrainingProgram).subscribe(program => this.selectedProgram = program),
+      this.store.select(trainingPrograms).subscribe((programs: TrainingProgram[]) => {
+        this.tableDatasource.updateDatasource(programs);
+      }),
     )
 
   }
@@ -56,14 +67,43 @@ export class TrainingProgramListComponent implements OnInit {
 
   programId = (program: TrainingProgram) => program.id;
 
-  onSelect(program: TrainingProgram) {
-    this.store.dispatch(setSelectedTrainingProgram({ entity: program }))
+  getTableConfig() {
+
+    const tableConfig = new TableConfig({
+      filterFunction: (data: TrainingProgram, filter: string) => data.name.trim().toLocaleLowerCase().indexOf(filter) !== -1,
+      cellActions: [TableAction.update, TableAction.delete],
+      headerActions: [TableAction.create, TableAction.deleteMany],
+      pagingOptions: {
+        pageSizeOptions: [5, 10, 15],
+        pageSize: 5,
+        serverSidePaging: false
+      },
+      selectionEnabled: false,
+      defaultSort: 'name',
+      defaultSortDirection: 'desc',
+      enableExpandableRows: true,
+      expandableRowComponent: TrainingProgramDetailsComponent,
+      expandableRowComponentAttributes: { class: 'training-program-details-expanded-row mat-elevation-z6' }
+    });
+
+    return tableConfig;
   }
 
-  onClose(programId: string, selectedProgramId: string) {
-    if (programId != selectedProgramId) return;
+  getTableColumns() {
+    return [
+      new CustomColumn({
+        headerClass: 'trainingProgram-header',
+        cellClass: 'trainingProgram-cell',
+        definition: 'name',
+        title: 'TRAINING_PROGRAM.PROGRAMS_COLUMN',
+        sort: true,
+        displayFn: (item: TrainingProgram) => item.name,
+      }),
+    ]
+  }
 
-    this.store.dispatch(setSelectedTrainingProgram({ entity: null }))
+  onSelect(program: TrainingProgram) {
+    this.store.dispatch(setSelectedTrainingProgram({ entity: program }))
   }
 
   onAdd() {
@@ -104,9 +144,11 @@ export class TrainingProgramListComponent implements OnInit {
 
   onDeleteSingle(trainingProgram: TrainingProgram) {
 
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_PROGRAM.DELETE_DIALOG', { trainingProgram: trainingProgram.name })
+    let deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_PROGRAM.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
-    var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
+    deleteDialogConfig.message = this.translateService.instant('TRAINING_PROGRAM.DELETE_DIALOG', { trainingProgram: trainingProgram.name })
+
+    var dialogRef = this.uiService.openConfirmDialog(deleteDialogConfig);
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((result: ConfirmResult) => {

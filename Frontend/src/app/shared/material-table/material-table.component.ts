@@ -42,6 +42,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   @Input() config: TableConfig;
 
   @Output() selectEvent = new EventEmitter<any>();
+  @Output() expandEvent = new EventEmitter<any>();
+  @Output() collapseEvent = new EventEmitter<any>();
   @Output() dropEvent = new EventEmitter<any>();
 
   @Output() addEvent = new EventEmitter<any>();
@@ -241,10 +243,10 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   onSelect(entity: any, keepSelected: boolean = false) {
 
-    // expandable rows logic
     if (this.config.usesExpandableRows) {
-      this.expandedRow = this.expandedRow === entity ? null : entity;
+      this.handleExpandableRow(entity);
     }
+
 
     var selectedTemp = this.selection.isSelected(entity.id);
     this.selection.clear();
@@ -264,6 +266,15 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
     // new selection
     this.selectEvent.emit(entity);
+  }
+
+  handleExpandableRow(row: any) {
+    this.expandedRow = this.expandedRow === row ? null : row;
+    if (this.expandedRow) {
+      this.expandEvent.emit();
+    } else {
+      this.collapseEvent.emit();
+    }
   }
 
   onListDrop(event: CdkDragDrop<any[]>) {

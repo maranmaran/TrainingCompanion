@@ -18,8 +18,9 @@ export class TableConfig {
   filterFunction: (data: any, filter: string) => boolean;
 
   // ndc dynamic component
-  expandableRowComponent: any;
-  expandableRowComponentInputs: Function = () => { };
+  expandableRowComponent: any; // component reference
+  expandableRowComponentInputs: Function = () => { }; // component inputs
+  expandableRowComponentAttributes: any = {}; // attributes
 
   public get usesExpandableRows(): boolean {
     return !!this.enableExpandableRows && !!this.expandableRowComponent;
