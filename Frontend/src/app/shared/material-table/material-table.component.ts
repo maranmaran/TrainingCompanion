@@ -29,10 +29,11 @@ import { PagingModel } from './table-models/paging.model';
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
+      state('collapsed, void', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*', visibility: 'visible' })),
+      transition('expanded <=> collapsed', animate('0ms')),
+      transition('expanded <=> void', animate('0ms'))
+    ])
   ],
 })
 export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -72,7 +73,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private pagingModel: PagingModel;
 
-  expandedRow: any | null;
+  expandedRow: any;
 
   private subs = new SubSink();
 
@@ -82,8 +83,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   ) { }
 
   ngOnInit() {
-    this.pageSize = this.config.pagingOptions.pageSize;
-    this.pageSizeOptions = this.config.pagingOptions.pageSizeOptions;
+
+    this.handlePaging();
 
     this.subs.add(
       // filter event
@@ -96,37 +97,47 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    // assign paginator and sort components to datasource
-    // only if we'r not using server side paging
-    if (!this.config.pagingOptions.serverSidePaging) {
-
-      // paginator
-      this.datasource.paginator = this.paginator;
-
-      // sort
-      this.datasource.sort = this.sort
-      this.datasource.sort.active = this.config.defaultSort;
-      this.datasource.sort.direction = this.config.defaultSortDirection;
-      this.datasource.sortingDataAccessor = this.customSortDataAccessor.bind(this);
-
-      // do default sort
-      setTimeout(() => {
-        this.datasource.sort.sort({
-          id: this.config.defaultSort,
-          start: this.config.defaultSortDirection,
-          disableClear: false
-        });
-      });
-      // this.datasource.sort.active = this.config.defaultSort;
-      // this.datasource.sort.direction = this.config.defaultSortDirection;
-      // this.datasource.sort.sortChange.emit(); // trigger first default sort
-    } else {
-      setTimeout(() => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()));
-    }
   }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  handlePaging() {
+
+    this.pageSize = this.config.pagingOptions.pageSize;
+    this.pageSizeOptions = this.config.pagingOptions.pageSizeOptions;
+
+    // assign paginator and sort components to datasource
+    // only if we'r not using server side paging
+    if (this.config.pagingOptions.serverSidePaging) {
+      this.handleServerSidePaging();
+    }
+
+    this.handleDefaultPaging();
+  }
+
+  handleDefaultPaging() {
+
+    // paginator
+    this.datasource.paginator = this.paginator;
+
+    // sort
+    this.datasource.sort = this.sort
+    this.datasource.sort.active = this.config.defaultSort;
+    this.datasource.sort.direction = this.config.defaultSortDirection;
+    this.datasource.sortingDataAccessor = this.customSortDataAccessor.bind(this);
+
+    // do default sort
+    this.datasource.sort.sort({
+      id: this.config.defaultSort,
+      start: this.config.defaultSortDirection,
+      disableClear: false
+    });
+  }
+
+  handleServerSidePaging() {
+    setTimeout(() => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()));
   }
 
   onFilterEvent() {

@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
-import { TableAction, TableConfig } from 'src/app/shared/material-table/table-models/table-config.model';
+import { TableAction, TableConfig, TablePagingOptions } from 'src/app/shared/material-table/table-models/table-config.model';
 import { TableDatasource } from 'src/app/shared/material-table/table-models/table-datasource.model';
 import { TrainingProgramService } from 'src/business/services/feature-services/training-program.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -70,20 +70,21 @@ export class TrainingProgramListComponent implements OnInit {
   getTableConfig() {
 
     const tableConfig = new TableConfig({
+      filterEnabled: true,
       filterFunction: (data: TrainingProgram, filter: string) => data.name.trim().toLocaleLowerCase().indexOf(filter) !== -1,
       cellActions: [TableAction.update, TableAction.delete],
       headerActions: [TableAction.create, TableAction.deleteMany],
-      pagingOptions: {
+      pagingOptions: new TablePagingOptions({
         pageSizeOptions: [5, 10, 15],
         pageSize: 5,
         serverSidePaging: false
-      },
-      selectionEnabled: false,
+      }),
       defaultSort: 'name',
       defaultSortDirection: 'desc',
       enableExpandableRows: true,
       expandableRowComponent: TrainingProgramDetailsComponent,
-      expandableRowComponentAttributes: { class: 'training-program-details-expanded-row mat-elevation-z6' }
+      expandableRowComponentAttributes: { class: 'training-program-details-expanded-row mat-elevation-z6' },
+      // expandableRowComponentInputs: (trainingProgram) => ({ trainingProgram: trainingProgram })
     });
 
     return tableConfig;
@@ -97,6 +98,7 @@ export class TrainingProgramListComponent implements OnInit {
         definition: 'name',
         title: 'TRAINING_PROGRAM.PROGRAMS_COLUMN',
         sort: true,
+        sortFn: (item: TrainingProgram) => item.name,
         displayFn: (item: TrainingProgram) => item.name,
       }),
     ]

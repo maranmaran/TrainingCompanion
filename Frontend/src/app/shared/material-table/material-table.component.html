@@ -91,9 +91,15 @@
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container *ngIf="config.usesExpandableRows" matColumnDef="expandedDetail">
       <mat-cell *matCellDef="let detail" [attr.colspan]="displayColumns.length">
-        <ndc-dynamic [ndcDynamicComponent]="config.expandableRowComponent"
-          [ndcDynamicInputs]="config.expandableRowComponentInputs(row)"
-          [ndcDynamicAttributes]="config.expandableRowComponentAttributes"></ndc-dynamic>
+
+        <!-- <mat-progress-spinner [color]="'accent'" [mode]="'indeterminate'" [value]="30"></mat-progress-spinner> -->
+
+        <ng-container>
+          <ndc-dynamic [ndcDynamicComponent]="config.expandableRowComponent"
+            [ndcDynamicInputs]="config.expandableRowComponentInputs(detail)"
+            [ndcDynamicAttributes]="config.expandableRowComponentAttributes"></ndc-dynamic>
+        </ng-container>
+
       </mat-cell>
     </ng-container>
 

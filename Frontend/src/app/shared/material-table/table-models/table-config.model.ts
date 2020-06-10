@@ -2,7 +2,7 @@
 export class TableConfig {
 
   filterEnabled = false;
-  selectionEnabled = true;
+  selectionEnabled = false;
   enableDragAndDrop = false;
   enableExpandableRows = false;
   actionsEnabled = true;
@@ -23,7 +23,7 @@ export class TableConfig {
   expandableRowComponentAttributes: any = {}; // attributes
 
   public get usesExpandableRows(): boolean {
-    return !!this.enableExpandableRows && !!this.expandableRowComponent;
+    return this.enableExpandableRows && this.expandableRowComponent;
   }
 
 
