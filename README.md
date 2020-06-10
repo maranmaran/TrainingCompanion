@@ -6,3 +6,6 @@ Fully featured responsive web application to help coaches track and manage athle
 (Croatia)
 
 V2 of application is in development with more expressive and intuitive UI, features like training program creator, chat, real-time feed, in-app notification and mail system, billing, dynamic real-time self-design dashboard, more robust and granular approach to exercises which adapts them to all kinds of sports. 
+
+This readme will be updated soon to more comprehensive documentation and demo
+
