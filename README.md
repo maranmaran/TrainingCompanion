@@ -9,3 +9,5 @@ V2 of application is in development with more expressive and intuitive UI, featu
 
 This readme will be updated soon to more comprehensive documentation and demo
 
+For now you can see Kanban board here -> https://github.com/maranmaran/TrainingCompanion/projects/1
+
