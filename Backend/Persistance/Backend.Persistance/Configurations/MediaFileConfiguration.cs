@@ -1,11 +1,17 @@
-﻿using Backend.Domain.Enum;
+﻿using Backend.Domain.Entities.Media;
+using Backend.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
-using Backend.Domain.Entities.Media;
 
 namespace Backend.Persistance.Configurations
 {
+    /// <summary>
+    /// Media file configuration
+    /// Required to have app user
+    /// Training and exercise are not required but configured Restrict for on delete because
+    /// MSSQL has limitation on multiple FK's with Cascade
+    /// </summary>
     public class MediaFileConfiguration
     {
         public void Configure(EntityTypeBuilder<MediaFile> builder)
@@ -22,12 +28,24 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasOne(x => x.ApplicationUser)
                 .WithMany(x => x.MediaFiles)
-                .HasForeignKey(x => x.ApplicationUserId);
+                .HasForeignKey(x => x.ApplicationUserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasOne(x => x.Training)
                 .WithMany(x => x.Media)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasForeignKey(x => x.TrainingId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne(x => x.Exercise)
+                .WithMany(x => x.Media)
+                .HasForeignKey(x => x.ExerciseId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             builder.HasIndex(x => x.ApplicationUserId);
 

@@ -13,7 +13,7 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasMany(x => x.Users)
                 .WithOne(x => x.TrainingProgram)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasMany(x => x.TrainingBlocks)
@@ -23,7 +23,7 @@ namespace Backend.Persistance.Configurations
             builder.HasMany(x => x.Trainings)
                 .WithOne(x => x.TrainingProgram)
                 .HasForeignKey(x => x.TrainingProgramId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
     public class TrainingProgramUserConfiguration : IEntityTypeConfiguration<TrainingProgramUser>

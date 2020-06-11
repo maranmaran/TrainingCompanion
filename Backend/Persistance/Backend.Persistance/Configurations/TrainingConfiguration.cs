@@ -25,19 +25,20 @@ namespace Backend.Persistance.Configurations
 
             builder
                 .HasMany(x => x.Media)
-                .WithOne(x => x.Training);
-            // maybe that has one has many config ?
+                .WithOne(x => x.Training)
+                .HasForeignKey(x => x.TrainingId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.TrainingProgram)
                 .WithMany(x => x.Trainings)
                 .HasForeignKey(x => x.TrainingProgramId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder
                 .HasOne(x => x.TrainingBlockDay)
                 .WithMany(x => x.Trainings)
-                .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired(false);
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(x => x.ApplicationUserId);
 
