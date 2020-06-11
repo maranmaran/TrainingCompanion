@@ -43,7 +43,7 @@ export class AccountComponent implements OnInit {
         this.currentUser = { ...user };
 
         // for better resolution
-        if(this.currentUser.avatar.indexOf('ui-avatars') !== -1)
+        if (this.currentUser.avatar.indexOf('ui-avatars') !== -1)
           this.currentUser.avatar += '&size=300px'
 
         this.createForm(this.currentUser);
@@ -68,7 +68,9 @@ export class AccountComponent implements OnInit {
     if (!this.email.valid) return;
 
     // hit change password api
+    console.error("Call to backend not implemented.")
   }
+
 
   onSubmit() {
     if (validateForm(this.accountForm, this.UIService)) {
@@ -120,11 +122,11 @@ export class AccountComponent implements OnInit {
       .subscribe((imageCroppedEvent: ImageCroppedEvent) => {
 
         this.usersService.uploadAvatar(this.currentUser.id, imageCroppedEvent.base64).pipe(take(1))
-        .subscribe((presignedUrl: string) => {
-          console.log(presignedUrl);
-          this.currentUser.avatar = presignedUrl;
-          this.store.dispatch(updateCurrentUser(this.currentUser));
-        });
+          .subscribe((presignedUrl: string) => {
+            console.log(presignedUrl);
+            this.currentUser.avatar = presignedUrl;
+            this.store.dispatch(updateCurrentUser(this.currentUser));
+          });
       });
   }
 

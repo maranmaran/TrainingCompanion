@@ -1,34 +1,46 @@
 <div class="container" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign.xs="center center">
 
-  <div fxFlex.gt-xs="0 1 50%" fxFlex.lt-sm="0 1 100%" fxFlexOrder.lt-sm="2" fxFlexOrder.gt-xs="1" fxFlexAlign="center" fxLayout="column" fxLayoutAlign="center center">
+  <div fxFlex.gt-xs="0 1 50%" fxFlex.lt-sm="0 1 100%" fxFlexOrder.lt-sm="2" fxFlexOrder.gt-xs="1" fxFlexAlign="center"
+    fxLayout="column" fxLayoutAlign="center center">
     <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" autocomplete="off">
 
       <mat-form-field>
-        <input matInput formControlName="username" [readonly]="editUsername" placeholder="{{ 'SHARED.USERNAME' | translate }}">
+        <input matInput formControlName="username" [readonly]="editUsername"
+          placeholder="{{ 'SHARED.USERNAME' | translate }}">
         <mat-error *ngIf="username.invalid">{{ getErrorMessage }}</mat-error>
-        <i matSuffix class="fas fa-pen" *ngIf="editUsername" (click)="editUsername = !editUsername"></i>
-        <i matSuffix class="fas fa-save" (click)="onSubmit()" *ngIf="!editUsername && username.valid"></i>
+        <button mat-icon-button matSuffix *ngIf="editUsername" (click)="editUsername = !editUsername">
+          <i class="fas fa-pen"></i>
+        </button>
+        <button mat-icon-button matSuffix (click)="onSubmit()" *ngIf="!editUsername && username.valid">
+          <i class="fas fa-save"></i>
+        </button>
       </mat-form-field>
 
       <mat-form-field>
         <input matInput formControlName="email" [readonly]="editMail" placeholder="{{ 'SHARED.EMAIL' | translate }}">
         <mat-error *ngIf="email.invalid">{{ getErrorMessage }}</mat-error>
-        <i matSuffix class="fas fa-pen" (click)="editMail = !editMail" *ngIf="editMail"></i>
-        <i matSuffix class="fas fa-save" (click)="onSubmit()" *ngIf="!editMail && email.valid"></i>
+        <button matSuffix mat-icon-button *ngIf="editMail" (click)="editMail = !editMail">
+          <i class="fas fa-pen"></i>
+        </button>
+        <button matSuffix mat-icon-button *ngIf="!editMail && email.valid" (click)="onSubmit()">
+          <i class="fas fa-save"></i>
+        </button>
       </mat-form-field>
 
-      <button mat-stroked-button color="accent">{{ 'SETTINGS.ACCOUNT.CHANGE_PASSWORD' | translate }}</button>
-
+      <button mat-stroked-button type="button" color="accent"
+        (click)="changePassword()">{{ 'SETTINGS.ACCOUNT.CHANGE_PASSWORD' | translate }}</button>
     </form>
   </div>
 
-  <div class="avatar-section" fxFlex.gt-xs="0 1 50%" fxFlex.lt-sm="0 1 100%" fxFlexOrder.lt-sm="1" fxFlexOrder.gt-xs="2" fxFlexAlign="center" fxLayout="column" fxLayoutAlign="center center">
+  <div class="avatar-section" fxFlex.gt-xs="0 1 50%" fxFlex.lt-sm="0 1 100%" fxFlexOrder.lt-sm="1" fxFlexOrder.gt-xs="2"
+    fxFlexAlign="center" fxLayout="column" fxLayoutAlign="center center">
 
-    <img (click)="uploadInput.click()" class="img-fluid avatar-img" src="{{ currentUser.avatar }}" />
-
+    <img matTooltip="{{ 'SETTINGS.ACCOUNT.CHANGE_AVATAR' | translate }}" (click)="uploadInput.click()"
+      class="img-fluid avatar-img pointer" src="{{ currentUser.avatar }}" />
+    <!-- 
     <mat-chip-list class="upload-chip">
-      <mat-chip color="primary" selected (click)="uploadInput.click()">{{ 'SETTINGS.ACCOUNT.CHANGE_AVATAR' | translate }}</mat-chip>
-    </mat-chip-list>
+      <mat-chip color="primary" selected >{{ 'SETTINGS.ACCOUNT.CHANGE_AVATAR' | translate }}</mat-chip>
+    </mat-chip-list> -->
 
     <input fxHide="true" #uploadInput type="file" (change)="fileChangeEvent($event)" accept="image/*">
   </div>

@@ -8,7 +8,8 @@
   </mat-form-field>
 
   <!--TABLE-->
-  <mat-table class="mat-elevation-z1" [dataSource]="datasource" matSort
+  <mat-table class="mat-elevation-z1" [dataSource]="datasource" matSort [matSortActive]="config.defaultSort"
+    [matSortDirection]="config.defaultSortDirection"
     (matSortChange)="config.pagingOptions.serverSidePaging && onSortChange($event)" cdkDropList
     [cdkDropListData]="datasource.data" [cdkDropListDisabled]="!config.enableDragAndDrop"
     (cdkDropListDropped)="onListDrop($event)" [multiTemplateDataRows]="config.usesExpandableRows">
@@ -91,9 +92,15 @@
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container *ngIf="config.usesExpandableRows" matColumnDef="expandedDetail">
       <mat-cell *matCellDef="let detail" [attr.colspan]="displayColumns.length">
-        <ndc-dynamic [ndcDynamicComponent]="config.expandableRowComponent"
-          [ndcDynamicInputs]="config.expandableRowComponentInputs(row)"
-          [ndcDynamicAttributes]="config.expandableRowComponentAttributes"></ndc-dynamic>
+
+        <!-- <mat-progress-spinner [color]="'accent'" [mode]="'indeterminate'" [value]="30"></mat-progress-spinner> -->
+
+        <ng-container>
+          <ndc-dynamic [ndcDynamicComponent]="config.expandableRowComponent"
+            [ndcDynamicInputs]="config.expandableRowComponentInputs(detail)"
+            [ndcDynamicAttributes]="config.expandableRowComponentAttributes"></ndc-dynamic>
+        </ng-container>
+
       </mat-cell>
     </ng-container>
 
