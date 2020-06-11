@@ -88,7 +88,9 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       }),
       cellActions: [TableAction.update, TableAction.disable],
       selectionEnabled: false,
-      filterEnabled: true
+      filterEnabled: true,
+      defaultSort: 'name',
+      defaultSortDirection: 'asc'
     });
 
     return tableConfig;
@@ -100,6 +102,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
         definition: 'name',
         title: 'SHARED.NAME',
         sort: true,
+        sortFn: (item: ExerciseType) => item.name,
         useComponent: true,
         component: ExerciseTypePreviewComponent,
         componentInputs: (item: ExerciseType) => {

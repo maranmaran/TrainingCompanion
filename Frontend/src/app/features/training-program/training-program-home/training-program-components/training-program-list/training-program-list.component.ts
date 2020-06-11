@@ -80,7 +80,7 @@ export class TrainingProgramListComponent implements OnInit {
         serverSidePaging: false
       }),
       defaultSort: 'name',
-      defaultSortDirection: 'desc',
+      defaultSortDirection: 'asc',
       enableExpandableRows: true,
       expandableRowComponent: TrainingProgramDetailsComponent,
       expandableRowComponentAttributes: { class: 'training-program-details-expanded-row mat-elevation-z6' },

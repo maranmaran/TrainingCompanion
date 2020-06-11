@@ -91,8 +91,6 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
       this.onFilterEvent(),
       // do work on viewport change (mobile, tablet, desktop)
       this.onViewportChange(),
-      // setup paging
-      this.onDatasourcePagingChange()
     );
   }
 
@@ -103,20 +101,37 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.subs.unsubscribe();
   }
 
+  /**
+   * Sets up pagination and sorting for table
+   * Depends on serverSidePaging flag it may have two different
+   * implementations
+   */
   handlePaging() {
 
+    // set pageSize and options 
     this.pageSize = this.config.pagingOptions.pageSize;
     this.pageSizeOptions = this.config.pagingOptions.pageSizeOptions;
 
-    // assign paginator and sort components to datasource
-    // only if we'r not using server side paging
+    // if we'r using server side paging we don't care about
+    // how datasource manages paginator and sort internally..
+    // we do it on backend and maintain our custom page model inside
+    // our custom TableDatasource implementation of MatTableDatasource
     if (this.config.pagingOptions.serverSidePaging) {
-      this.handleServerSidePaging();
+      // setup paging model and variables
+      return this.subs.add(
+        this.onDatasourcePagingChange()
+      );
     }
 
-    this.handleDefaultPaging();
+    // only if we'r not using server side paging
+    // assign paginator and sort components to datasource
+    return this.handleDefaultPaging();
   }
 
+  /**
+   * Lets datasource take care of paging and sorting internally
+   * With sorting implementing custom accessor given through config
+   */
   handleDefaultPaging() {
 
     // paginator
@@ -124,20 +139,23 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
     // sort
     this.datasource.sort = this.sort
-    this.datasource.sort.active = this.config.defaultSort;
-    this.datasource.sort.direction = this.config.defaultSortDirection;
     this.datasource.sortingDataAccessor = this.customSortDataAccessor.bind(this);
+    // this.datasource.sort.active = this.config.defaultSort;
+    // this.datasource.sort.direction = this.config.defaultSortDirection;
 
-    // do default sort
-    this.datasource.sort.sort({
-      id: this.config.defaultSort,
-      start: this.config.defaultSortDirection,
-      disableClear: false
-    });
+    // // do default sort
+    // setTimeout(_ => this.datasource.sort.sort({
+    //   id: this.config.defaultSort,
+    //   start: this.config.defaultSortDirection,
+    //   disableClear: false
+    // }));
   }
 
+  /**
+   * We handle everything serverside
+   */
   handleServerSidePaging() {
-    setTimeout(() => this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength()));
+    this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength());
   }
 
   onFilterEvent() {
@@ -190,6 +208,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   setTablePagingVariables(model: PagingModel, totalItems: Observable<number>) {
+
     this.totalItems = totalItems;
     this.paginator.pageIndex = model.page;
     this.sort.active = model.sortBy;
@@ -198,6 +217,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     if (this.filter) {
       this.filter.nativeElement.value = model.filterQuery ? model.filterQuery : '';
     }
+
   }
 
   applyFilter(filterValue: string) {

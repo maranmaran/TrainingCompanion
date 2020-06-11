@@ -82,12 +82,12 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       pagingOptions: new TablePagingOptions({
         pageSizeOptions: [5]
       }),
-      selectionEnabled: false
+      selectionEnabled: false,
     });
 
     this.store.select(selectedTrainingExercises)
-    .pipe(take(1), map(x => x?.length))
-    .subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)
+      .pipe(take(1), map(x => x?.length))
+      .subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)
 
     return tableConfig;
   }
@@ -139,7 +139,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
           let currentItem = payload.current.id;
           this.store.dispatch(reorderExercises({ trainingId, previousItem, currentItem }));
         })
-      ).subscribe(_ => {})
+      ).subscribe(_ => { })
   }
 
   onSelect = (exercise: Exercise) => {
@@ -159,28 +159,28 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       }))
     ).subscribe(([exerciseTypes, exercise]) => {
 
-        const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
-          height: 'auto',
-          width: '98%',
-          maxWidth: '50rem',
-          autoFocus: false,
-          data: { title: 'TRAINING_LOG.EXERCISE_ADD_TITLE', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
-          panelClass: []
-        });
-
-        dialogRef.afterClosed().pipe(take(1))
-          .subscribe((exercise: Exercise) => {
-            if (exercise) {
-              this.table.onSelect(exercise, true);
-              // this.onSelect(exercise);
-            }
-          });
+      const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
+        height: 'auto',
+        width: '98%',
+        maxWidth: '50rem',
+        autoFocus: false,
+        data: { title: 'TRAINING_LOG.EXERCISE_ADD_TITLE', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
+        panelClass: []
       });
+
+      dialogRef.afterClosed().pipe(take(1))
+        .subscribe((exercise: Exercise) => {
+          if (exercise) {
+            this.table.onSelect(exercise, true);
+            // this.onSelect(exercise);
+          }
+        });
+    });
   }
 
   onDeleteSingle(exercise: Exercise) {
 
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.EXERCISE_DELETE_DIALOG', { name: exercise.exerciseType.name});
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.EXERCISE_DELETE_DIALOG', { name: exercise.exerciseType.name });
 
     const dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
@@ -216,7 +216,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
 
   onDeleteSelection(exercises: Exercise[]) {
 
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.EXERCISE_DELETE_DIALOG', { length: exercises.length});
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.EXERCISE_DELETE_DIALOG', { length: exercises.length });
 
     // tslint:disable-next-line: no-shadowed-variable
     this.deleteDialogConfig.action = (exercises: Exercise[]) => {
