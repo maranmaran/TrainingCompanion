@@ -12,17 +12,19 @@ namespace Backend.Domain.Entities.TrainingLog
 
         public DateTime DateTrained { get; set; }
         public string Note { get; set; }
-
         public bool NoteRead { get; set; }
+
+        public string TrainingProgramName { get; set; }
+        public int? TrainingProgramDay { get; set; }
 
         public Guid? ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-
         // Training program and exact block day to which the training belongs
-        public virtual Guid? TrainingProgramId { get; set; }
+        public Guid? TrainingProgramId { get; set; }
         public virtual TrainingProgram TrainingProgram { get; set; }
-        public virtual Guid? TrainingBlockDayId { get; set; }
+
+        public Guid? TrainingBlockDayId { get; set; }
         public virtual TrainingBlockDay TrainingBlockDay { get; set; }
 
 

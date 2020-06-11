@@ -77,12 +77,12 @@ namespace Backend.Business.TrainingPrograms.Services
                 // add these trainings
                 foreach (var training in day.Trainings)
                 {
-                    await AddTraining(trainingProgram.Id, day.Id, training, user, currentDate);
+                    await AddTraining(trainingProgram, day, training, user, currentDate);
                 }
             }
         }
 
-        private async Task AddTraining(Guid programId, Guid dayId, Training training, ApplicationUser user, DateTime date)
+        private async Task AddTraining(TrainingProgram program, TrainingBlockDay day, Training training, ApplicationUser user, DateTime date)
         {
             var dateTrained = new DateTime(
                 date.Year,
@@ -99,8 +99,9 @@ namespace Backend.Business.TrainingPrograms.Services
                 ApplicationUserId = user.Id,
                 DateTrained = dateTrained,
                 Exercises = new List<Exercise>(),
-                TrainingProgramId = programId,
-                TrainingBlockDayId = dayId
+                TrainingProgramId = program.Id,
+                TrainingProgramName = program.Name,
+                TrainingProgramDay = day.Order
             };
 
 

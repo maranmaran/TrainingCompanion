@@ -1,7 +1,7 @@
-import { MediaFile } from './media-file.model';
 import { ApplicationUser } from './application-user.model';
 import { Exercise } from './exercise.model';
-import { TrainingProgram, TrainingBlockDay } from './training-program.model';
+import { MediaFile } from './media-file.model';
+import { TrainingBlockDay, TrainingProgram } from './training-program.model';
 
 export class Training {
     id: string;
@@ -9,10 +9,14 @@ export class Training {
     note: string;
     coachNote: string;
     noteRead: boolean;
-    applicationUserId: string;
-    applicationUser: ApplicationUser;
+    trainingProgramName: string;
+    trainingProgramDay?: number;
+
     exercises: Exercise[];
     media: MediaFile[];
+
+    applicationUserId: string;
+    applicationUser: ApplicationUser;
 
     trainingProgramId: string;
     trainingProgram: TrainingProgram;
