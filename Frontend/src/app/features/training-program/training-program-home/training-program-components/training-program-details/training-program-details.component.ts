@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
@@ -24,6 +24,7 @@ import { TrainingProgramAssignComponent } from './../training-program-assign/tra
 export class TrainingProgramDetailsComponent implements OnInit {
 
   trainingProgram$: Observable<TrainingProgram>;
+
   step = 0;
 
   constructor(
@@ -31,12 +32,13 @@ export class TrainingProgramDetailsComponent implements OnInit {
     private UIService: UIService,
     private userService: UserService,
     public mediaObserver: MediaObserver,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    private cd: ChangeDetectorRef
   ) { }
 
 
   ngOnInit() {
-    this.trainingProgram$ = this.store.select(selectedTrainingProgram);
+    this.trainingProgram$ = this.store.select(selectedTrainingProgram).pipe(tap(_ => this.step = 0));
   }
 
   onAssign(event: Event, trainingProgram: TrainingProgram) {

@@ -103,7 +103,7 @@
   "TRAINING_PROGRAM": {
     "PROGRAMS_COLUMN": "Training programs",
     "PROGRAM_BUILDER": "Planner",
-    "ASSIGNED_SUCCESS": "<b>{{program}}</b> successfully assigned to <b>{{athlete}}</b>.",
+    "ASSIGNED_SUCCESS": "<b>{{program}}</b> successfully assigned to <b>{{athlete}}</b>",
     "ASSIGNED_SUCCESS_TITLE": "Assignment successful",
     "ASSIGNED_FAIL": "Something went wrong, <b>{{program}}</b> has not been assigned.",
     "ASSIGNED_FAIL_TITLE": "Assignment failed",

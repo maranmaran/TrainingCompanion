@@ -1,4 +1,4 @@
-<h2 class="feed-activities-title" fxHide.lt-sm>User activities:</h2>
+<h2 class="feed-activities-title" fxHide.lt-sm *ngIf="(userActivities | async)?.length > 0">User activities:</h2>
 
 <div class="feed-user-panels-container">
   <mat-accordion [multi]="false" [displayMode]="'flat'" class="user-activities-headers-align">

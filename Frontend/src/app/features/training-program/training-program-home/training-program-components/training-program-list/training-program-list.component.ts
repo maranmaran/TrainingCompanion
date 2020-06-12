@@ -122,7 +122,7 @@ export class TrainingProgramListComponent implements OnInit {
     dialogRef.afterClosed()
       .pipe(take(1))
       .subscribe((trainingProgram: TrainingProgram) => {
-        console.log('here');
+        console.log('added');
       })
   }
 
@@ -140,7 +140,7 @@ export class TrainingProgramListComponent implements OnInit {
     dialogRef.afterClosed()
       .pipe(take(1))
       .subscribe((trainingProgram: TrainingProgram) => {
-        console.log('here');
+        console.log('updated');
       })
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/internal/Observable';
 import { filter, take } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
@@ -13,9 +14,10 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { reorderTrainingBlock, setSelectedTrainingBlock, trainingBlockDeleted } from 'src/ngrx/training-program/training-block/training-block.actions';
 import { trainingBlocks } from 'src/ngrx/training-program/training-block/training-block.selectors';
-import { BlockDurationType, TrainingBlock } from 'src/server-models/entities/training-program.model';
+import { BlockDurationType, TrainingBlock, TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { SubSink } from 'subsink';
 import { TrainingBlockCreateEditComponent } from '../training-block-create-edit/training-block-create-edit.component';
+import { selectedTrainingProgram } from './../../../../../../ngrx/training-program/training-program/training-program.selectors';
 
 @Component({
   selector: 'app-training-block-list',
@@ -24,8 +26,9 @@ import { TrainingBlockCreateEditComponent } from '../training-block-create-edit/
 })
 export class TrainingBlockListComponent implements OnInit, OnDestroy {
 
+  selectedTrainingProgram: Observable<TrainingProgram>;
+
   private subs = new SubSink();
-  private deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_BLOCK.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
@@ -41,13 +44,14 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.selectedTrainingProgram = this.store.select(selectedTrainingProgram);
+
     // table config
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
     this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
     this.subs.add(
-
       // get data for table datasource
       this.store.select(trainingBlocks).subscribe((trainingBlocks: TrainingBlock[]) => this.tableDatasource.updateDatasource([...trainingBlocks]))
     )
@@ -154,9 +158,11 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
 
   onDeleteSingle(trainingBlock: TrainingBlock) {
 
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_BLOCK.DELETE_DIALOG', { trainingBlock: trainingBlock.name })
+    let deleteDialogConfig = new ConfirmDialogConfig({ title: 'TRAINING_BLOCK.DELETE_TITLE', confirmLabel: 'SHARED.DELETE' });
 
-    var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
+    deleteDialogConfig.message = this.translateService.instant('TRAINING_BLOCK.DELETE_DIALOG', { trainingBlock: trainingBlock.name })
+
+    var dialogRef = this.uiService.openConfirmDialog(deleteDialogConfig);
 
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((result: ConfirmResult) => {

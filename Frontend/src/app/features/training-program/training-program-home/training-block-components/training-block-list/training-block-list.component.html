@@ -1,3 +1,7 @@
-<app-material-table [columns]="tableColumns" [datasource]="tableDatasource" [config]="tableConfig"
-    (selectEvent)="onSelect($event)" (addEvent)="onAdd()" (updateEvent)="onUpdate($event)"
-    (deleteEvent)="onDeleteSingle($event)" (dropEvent)="onReorder($event)"></app-material-table>
+<!--i18n-->
+<div *ngIf="selectedTrainingProgram | async">
+    <h2><b>{{ (selectedTrainingProgram | async).name + ' blocks' }}</b></h2>
+    <app-material-table [columns]="tableColumns" [datasource]="tableDatasource" [config]="tableConfig"
+        (selectEvent)="onSelect($event)" (addEvent)="onAdd()" (updateEvent)="onUpdate($event)"
+        (deleteEvent)="onDeleteSingle($event)" (dropEvent)="onReorder($event)"></app-material-table>
+</div>

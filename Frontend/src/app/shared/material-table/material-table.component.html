@@ -93,13 +93,9 @@
     <ng-container *ngIf="config.usesExpandableRows" matColumnDef="expandedDetail">
       <mat-cell *matCellDef="let detail" [attr.colspan]="displayColumns.length">
 
-        <!-- <mat-progress-spinner [color]="'accent'" [mode]="'indeterminate'" [value]="30"></mat-progress-spinner> -->
-
-        <ng-container>
-          <ndc-dynamic [ndcDynamicComponent]="config.expandableRowComponent"
-            [ndcDynamicInputs]="config.expandableRowComponentInputs(detail)"
-            [ndcDynamicAttributes]="config.expandableRowComponentAttributes"></ndc-dynamic>
-        </ng-container>
+        <ndc-dynamic [ndcDynamicComponent]="config.expandableRowComponent"
+          [ndcDynamicInputs]="config.expandableRowComponentInputs(detail)"
+          [ndcDynamicAttributes]="config.expandableRowComponentAttributes"></ndc-dynamic>
 
       </mat-cell>
     </ng-container>
@@ -115,7 +111,7 @@
     <!--EXPANDABLE ROW-->
     <ng-container *ngIf="config.usesExpandableRows">
       <mat-row *matRowDef="let row; columns: ['expandedDetail']"
-        [@detailExpand]="row == expandedRow ? 'expanded' : 'collapsed'" class="expandable-row">
+        [@detailExpand]="row?.id == expandedRow?.id ? 'expanded' : 'collapsed'" class="expandable-row">
       </mat-row>
     </ng-container>
 

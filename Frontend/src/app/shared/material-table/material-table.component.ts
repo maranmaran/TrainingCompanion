@@ -31,8 +31,8 @@ import { PagingModel } from './table-models/paging.model';
     trigger('detailExpand', [
       state('collapsed, void', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
       state('expanded', style({ height: '*', visibility: 'visible' })),
-      transition('expanded <=> collapsed', animate('0ms')),
-      transition('expanded <=> void', animate('0ms'))
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
   ],
 })
@@ -274,38 +274,38 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   onSelect(entity: any, keepSelected: boolean = false) {
 
-    if (this.config.usesExpandableRows) {
-      this.handleExpandableRow(entity);
+    setTimeout(_ => {
+      if (this.config.usesExpandableRows) {
+        this.handleExpandableRow(entity);
+      }
+    })
+
+    if (!entity) {
+      this.selection.clear();
+      return this.selectEvent.emit(null);
     }
 
-
-    var selectedTemp = this.selection.isSelected(entity.id);
+    var isSelected = this.selection.isSelected(entity.id);
     this.selection.clear();
 
-    if (!selectedTemp || keepSelected) { // if it wasn't selected
-      this.selection.toggle(entity.id); // toggle
-    } else { // else don't
-      this.selectEvent.emit(null);
-      return;
+    if (isSelected && !keepSelected) { // if it wasn't selected
+      return this.selectEvent.emit(null);
     }
 
-    // // if multiple or none selected - remove details
-    // if (this.selection.selected.length > 1 || this.selection.isEmpty()) {
-    //   this.selectEvent.emit(null);
-    //   return;
-    // }
-
     // new selection
+    this.selection.toggle(entity.id); // toggle
     this.selectEvent.emit(entity);
   }
 
   handleExpandableRow(row: any) {
-    this.expandedRow = this.expandedRow === row ? null : row;
+
+    this.expandedRow = this.expandedRow?.id == row?.id ? null : row;
+
     if (this.expandedRow) {
-      this.expandEvent.emit();
-    } else {
-      this.collapseEvent.emit();
+      return this.expandEvent.emit();
     }
+
+    return this.collapseEvent.emit();
   }
 
   onListDrop(event: CdkDragDrop<any[]>) {
