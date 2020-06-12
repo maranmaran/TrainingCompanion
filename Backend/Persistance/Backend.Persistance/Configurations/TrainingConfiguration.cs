@@ -38,7 +38,7 @@ namespace Backend.Persistance.Configurations
                 .HasOne(x => x.TrainingBlockDay)
                 .WithMany(x => x.Trainings)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(x => x.ApplicationUserId);
 

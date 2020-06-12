@@ -23,35 +23,49 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Delete
         {
             try
             {
-                var entity = await _context
-                    .TrainingPrograms
-                    .Include(x => x.Users)
-                    .Include(x => x.TrainingBlocks)
-                    .ThenInclude(x => x.Days)
-                    .ThenInclude(x => x.Trainings)
-                    .ThenInclude(x => x.Exercises)
-                    .ThenInclude(x => x.Sets)
-                    .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
+                var programUsers = await _context.TrainingProgramUsers
+                    .Where(x => x.TrainingProgramId == request.Id).ToListAsync(cancellationToken);
                 // unassign users
-                if (entity.Users.IsNullOrEmpty() == false)
+                if (programUsers.IsNullOrEmpty() == false)
                 {
-                    foreach (var programUser in entity.Users)
+                    foreach (var programUser in programUsers)
                     {
-                        var futureTrainings = _context.Trainings.Where(x =>
+                        var futureTrainings = await _context.Trainings
+                                                                            .Include(x => x.Media)
+                                                                            .Include(x => x.Exercises)
+                                                                            .ThenInclude(x => x.Media)
+                        .Where(x =>
                             x.TrainingProgramId == programUser.TrainingProgramId &&
                             x.ApplicationUserId == programUser.ApplicationUserId &&
-                            x.DateTrained >= DateTime.UtcNow);
+                            x.DateTrained >= DateTime.UtcNow)
+                        .ToListAsync(cancellationToken);
+
+                        // take care of all media
+                        var exerciseMediaToDelete = futureTrainings.SelectMany(x => x.Exercises).SelectMany(x => x.Media);
+                        var trainingMediaToDelete = futureTrainings.SelectMany(x => x.Media);
+
+                        _context.MediaFiles.RemoveRange(exerciseMediaToDelete);
+                        _context.MediaFiles.RemoveRange(trainingMediaToDelete);
+
+                        _context.Trainings.RemoveRange(futureTrainings);
 
                         // delete future trainings and connection
                         _context.TrainingProgramUsers.Remove(programUser);
-                        _context.Trainings.RemoveRange(futureTrainings);
+
                     }
                 }
 
-                // remove all trainings from all days which are only part of training program (not assigned)
-                //var trainingsToDelete = entity.TrainingBlocks.SelectMany(x => x.Days).SelectMany(x => x.Trainings);
-                //_context.Trainings.RemoveRange(trainingsToDelete);
+                var entity = await _context
+                    .TrainingPrograms
+                    .Include(x => x.TrainingBlocks)
+                    .ThenInclude(x => x.Days)
+                    .ThenInclude(x => x.Trainings)
+                    .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                // remove all trainings from all days which are only part of training program(not assigned)
+                var trainingsToDelete = entity.TrainingBlocks.SelectMany(x => x.Days).SelectMany(x => x.Trainings);
+                _context.Trainings.RemoveRange(trainingsToDelete);
 
                 // remove training program
                 _context.TrainingPrograms.Remove(entity);

@@ -44,12 +44,17 @@ namespace Backend.Business.TrainingLog.ExerciseRequests.Delete
 
         private async Task<Exercise> DeleteExercise(Guid exerciseId, CancellationToken cancellationToken = default)
         {
-            var exercise = await _context.Exercises.FirstOrDefaultAsync(x => x.Id == exerciseId, cancellationToken);
+            var exercise = await _context.Exercises
+                .Include(x => x.Media)
+                .FirstOrDefaultAsync(x => x.Id == exerciseId, cancellationToken);
+
             if (exercise == null)
             {
                 await _logger.LogError($"Could not find exericse {exerciseId}");
                 throw new NotFoundException(nameof(Exercise), exerciseId);
             }
+
+            _context.MediaFiles.RemoveRange(exercise.Media);
             _context.Exercises.Remove(exercise);
 
             return exercise;

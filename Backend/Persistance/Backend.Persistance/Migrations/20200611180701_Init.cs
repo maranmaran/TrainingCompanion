@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace Backend.Persistance.Migrations
 {
@@ -18,7 +18,8 @@ namespace Backend.Persistance.Migrations
                     PrimaryKey = table.Column<string>(nullable: true),
                     Action = table.Column<string>(nullable: true),
                     UserId = table.Column<Guid>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false)
+                    Date = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
+                    Seen = table.Column<bool>(nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -77,8 +78,10 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Theme = table.Column<string>(nullable: false, defaultValue: "Light"),
                     UnitSystem = table.Column<string>(nullable: false, defaultValue: "Metric"),
+                    UsePercentages = table.Column<bool>(nullable: false, defaultValue: false),
                     UseRpeSystem = table.Column<bool>(nullable: false, defaultValue: true),
                     RpeSystem = table.Column<string>(nullable: false, defaultValue: "Rpe"),
+                    Language = table.Column<string>(maxLength: 2, nullable: true, defaultValue: "en"),
                     MainDashboardId = table.Column<Guid>(nullable: true),
                     ApplicationUserId = table.Column<Guid>(nullable: false)
                 },
@@ -100,8 +103,8 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Code = table.Column<string>(nullable: true),
                     Component = table.Column<string>(nullable: true),
-                    TrackId = table.Column<Guid>(nullable: false),
-                    ParamsId = table.Column<Guid>(nullable: true)
+                    JsonParams = table.Column<string>(nullable: true),
+                    TrackId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -169,25 +172,6 @@ namespace Backend.Persistance.Migrations
                         name: "FK_Users_Users_CoachId",
                         column: x => x.CoachId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TrackItemParams",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    JsonParams = table.Column<string>(nullable: true),
-                    TrackItemId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TrackItemParams", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TrackItemParams_TrackItems_TrackItemId",
-                        column: x => x.TrackItemId,
-                        principalTable: "TrackItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -272,12 +256,14 @@ namespace Backend.Persistance.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     Subtype = table.Column<string>(nullable: true),
+                    JsonEntity = table.Column<string>(nullable: true),
                     Payload = table.Column<string>(nullable: true),
                     SentAt = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     Read = table.Column<bool>(nullable: false, defaultValue: false),
                     RedirectUrl = table.Column<string>(nullable: true),
                     SystemNotification = table.Column<bool>(nullable: false),
                     SenderId = table.Column<Guid>(nullable: true),
+                    SenderAvatar = table.Column<string>(nullable: true),
                     ReceiverId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -321,21 +307,22 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Trainings",
+                name: "TrainingPrograms",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    DateTrained = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
-                    Note = table.Column<string>(nullable: true),
-                    NoteRead = table.Column<bool>(nullable: false, defaultValue: false),
-                    ApplicationUserId = table.Column<Guid>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    ImageFtpFilePath = table.Column<string>(nullable: true),
+                    CreatorId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trainings", x => x.Id);
+                    table.PrimaryKey("PK_TrainingPrograms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Trainings_Users_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_TrainingPrograms_Users_CreatorId",
+                        column: x => x.CreatorId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -347,10 +334,12 @@ namespace Backend.Persistance.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Value = table.Column<double>(nullable: false),
-                    DateAchieved = table.Column<DateTime>(nullable: false),
+                    Reps = table.Column<double>(nullable: true),
+                    DateAchieved = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
+                    SystemCalculated = table.Column<bool>(nullable: false),
                     Bodyweight = table.Column<double>(nullable: true),
-                    WilksScore = table.Column<double>(nullable: false),
-                    IpfPoints = table.Column<double>(nullable: false),
+                    WilksScore = table.Column<double>(nullable: true),
+                    IpfPoints = table.Column<double>(nullable: true),
                     ExerciseTypeId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -386,29 +375,53 @@ namespace Backend.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exercises",
+                name: "TrainingBlocks",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    ExerciseTypeId = table.Column<Guid>(nullable: false),
                     Order = table.Column<int>(nullable: false),
-                    TrainingId = table.Column<Guid>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    TrainingProgramId = table.Column<Guid>(nullable: false),
+                    DurationType = table.Column<int>(nullable: false, defaultValue: 0),
+                    Duration = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercises", x => x.Id);
+                    table.PrimaryKey("PK_TrainingBlocks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Exercises_ExerciseTypes_ExerciseTypeId",
-                        column: x => x.ExerciseTypeId,
-                        principalTable: "ExerciseTypes",
+                        name: "FK_TrainingBlocks_TrainingPrograms_TrainingProgramId",
+                        column: x => x.TrainingProgramId,
+                        principalTable: "TrainingPrograms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TrainingProgramUsers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    StartedOn = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
+                    EndedOn = table.Column<DateTime>(nullable: true),
+                    TrainingProgramId = table.Column<Guid>(nullable: false),
+                    ApplicationUserId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrainingProgramUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TrainingProgramUsers_Users_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Exercises_Trainings_TrainingId",
-                        column: x => x.TrainingId,
-                        principalTable: "Trainings",
+                        name: "FK_TrainingProgramUsers_TrainingPrograms_TrainingProgramId",
+                        column: x => x.TrainingProgramId,
+                        principalTable: "TrainingPrograms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -433,6 +446,89 @@ namespace Backend.Persistance.Migrations
                         name: "FK_ExerciseTypeTags_Tags_TagId",
                         column: x => x.TagId,
                         principalTable: "Tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TrainingBlockDays",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Order = table.Column<int>(nullable: false),
+                    Modified = table.Column<bool>(nullable: false, defaultValue: false),
+                    TrainingBlockId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrainingBlockDays", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TrainingBlockDays_TrainingBlocks_TrainingBlockId",
+                        column: x => x.TrainingBlockId,
+                        principalTable: "TrainingBlocks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trainings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    DateTrained = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
+                    Note = table.Column<string>(nullable: true),
+                    NoteRead = table.Column<bool>(nullable: false, defaultValue: false),
+                    TrainingProgramName = table.Column<string>(nullable: true),
+                    TrainingProgramDay = table.Column<int>(nullable: true),
+                    ApplicationUserId = table.Column<Guid>(nullable: true),
+                    TrainingProgramId = table.Column<Guid>(nullable: true),
+                    TrainingBlockDayId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trainings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Trainings_Users_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Trainings_TrainingBlockDays_TrainingBlockDayId",
+                        column: x => x.TrainingBlockDayId,
+                        principalTable: "TrainingBlockDays",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Trainings_TrainingPrograms_TrainingProgramId",
+                        column: x => x.TrainingProgramId,
+                        principalTable: "TrainingPrograms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Exercises",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ExerciseTypeId = table.Column<Guid>(nullable: false),
+                    Order = table.Column<int>(nullable: false),
+                    TrainingId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exercises", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Exercises_ExerciseTypes_ExerciseTypeId",
+                        column: x => x.ExerciseTypeId,
+                        principalTable: "ExerciseTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Exercises_Trainings_TrainingId",
+                        column: x => x.TrainingId,
+                        principalTable: "Trainings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -481,14 +577,18 @@ namespace Backend.Persistance.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Weight = table.Column<double>(nullable: false),
-                    Reps = table.Column<double>(nullable: false),
-                    Time = table.Column<TimeSpan>(nullable: false),
                     Rpe = table.Column<double>(nullable: false, defaultValue: 8.0),
                     Rir = table.Column<double>(nullable: false, defaultValue: 2.0),
+                    Reps = table.Column<double>(nullable: false),
+                    Percentage = table.Column<double>(nullable: false),
+                    MaxUsedForPercentage = table.Column<double>(nullable: false),
+                    Time = table.Column<TimeSpan>(nullable: false),
+                    Distance = table.Column<double>(nullable: false),
+                    Power = table.Column<double>(nullable: false),
                     Intensity = table.Column<string>(nullable: true),
                     Volume = table.Column<double>(nullable: false),
-                    AverageVelocity = table.Column<string>(nullable: true),
                     ProjectedMax = table.Column<double>(nullable: false),
+                    AverageVelocity = table.Column<string>(nullable: true),
                     ExerciseId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -543,9 +643,9 @@ namespace Backend.Persistance.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseTypes_Code",
+                name: "IX_ExerciseTypes_ApplicationUserId_Code",
                 table: "ExerciseTypes",
-                column: "Code",
+                columns: new[] { "ApplicationUserId", "Code" },
                 unique: true,
                 filter: "[Code] IS NOT NULL");
 
@@ -610,13 +710,6 @@ namespace Backend.Persistance.Migrations
                 column: "TagGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrackItemParams_TrackItemId",
-                table: "TrackItemParams",
-                column: "TrackItemId",
-                unique: true,
-                filter: "[TrackItemId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TrackItems_TrackId",
                 table: "TrackItems",
                 column: "TrackId");
@@ -627,9 +720,44 @@ namespace Backend.Persistance.Migrations
                 column: "DashboardId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TrainingBlockDays_TrainingBlockId",
+                table: "TrainingBlockDays",
+                column: "TrainingBlockId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainingBlocks_TrainingProgramId",
+                table: "TrainingBlocks",
+                column: "TrainingProgramId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainingPrograms_CreatorId",
+                table: "TrainingPrograms",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainingProgramUsers_ApplicationUserId",
+                table: "TrainingProgramUsers",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainingProgramUsers_TrainingProgramId",
+                table: "TrainingProgramUsers",
+                column: "TrainingProgramId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Trainings_ApplicationUserId",
                 table: "Trainings",
                 column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trainings_TrainingBlockDayId",
+                table: "Trainings",
+                column: "TrainingBlockDayId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trainings_TrainingProgramId",
+                table: "Trainings",
+                column: "TrainingProgramId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserSettingId",
@@ -688,7 +816,10 @@ namespace Backend.Persistance.Migrations
                 name: "SystemLog");
 
             migrationBuilder.DropTable(
-                name: "TrackItemParams");
+                name: "TrackItems");
+
+            migrationBuilder.DropTable(
+                name: "TrainingProgramUsers");
 
             migrationBuilder.DropTable(
                 name: "Tags");
@@ -697,7 +828,7 @@ namespace Backend.Persistance.Migrations
                 name: "Exercises");
 
             migrationBuilder.DropTable(
-                name: "TrackItems");
+                name: "Tracks");
 
             migrationBuilder.DropTable(
                 name: "TagGroups");
@@ -709,7 +840,13 @@ namespace Backend.Persistance.Migrations
                 name: "Trainings");
 
             migrationBuilder.DropTable(
-                name: "Tracks");
+                name: "TrainingBlockDays");
+
+            migrationBuilder.DropTable(
+                name: "TrainingBlocks");
+
+            migrationBuilder.DropTable(
+                name: "TrainingPrograms");
 
             migrationBuilder.DropTable(
                 name: "Users");

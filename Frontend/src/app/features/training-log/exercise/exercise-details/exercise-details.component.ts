@@ -45,7 +45,7 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
         .subscribe(exercise => {
           this.exercise = exercise;
         })
-      );
+    );
   }
 
   ngOnDestroy() {
@@ -63,7 +63,7 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
   }
 
   onFileUploaded(fileToUpload: File) {
-    this.exerciseService.uploadMedia(this.userId, this.exercise.trainingId, this.exercise.id, fileToUpload, 'jpg', getMediaType(fileToUpload))
+    this.exerciseService.uploadMedia(this.userId, this.exercise.id, fileToUpload, 'jpg', getMediaType(fileToUpload))
       .pipe(take(1))
       .subscribe(
         (media: MediaFile) => {

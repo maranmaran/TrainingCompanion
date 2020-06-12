@@ -76,7 +76,7 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasMany(x => x.Trainings)
                 .WithOne(x => x.TrainingBlockDay)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 

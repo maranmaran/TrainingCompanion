@@ -36,7 +36,6 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadExerciseMedia(
               [FromForm] Guid userId,
-              [FromForm] Guid trainingId,
               [FromForm] Guid exerciseId,
               [FromForm] IFormFile file,
               [FromForm] string extension,
@@ -45,7 +44,6 @@ namespace Backend.API.Controllers
         {
             return Ok(await Mediator.Send(new UploadTrainingMedia(userId, file, extension, type)
             {
-                TrainingId = trainingId,
                 ExerciseId = exerciseId
             }, cancellationToken));
         }
