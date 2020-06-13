@@ -11,10 +11,11 @@ import { TrainingProgramUserService } from 'src/business/services/feature-servic
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { trainingProgramUserDeleted } from 'src/ngrx/training-program/training-program/training-program.actions';
+import { trainingProgramUserDeleted } from 'src/ngrx/training-program/training-program-user/training-program-user.actions';
+import { trainingProgramUsers } from 'src/ngrx/training-program/training-program-user/training-program-user.selectors';
 import { selectedTrainingProgram } from 'src/ngrx/training-program/training-program/training-program.selectors';
 import { SubSink } from 'subsink';
-import { TrainingProgram, TrainingProgramUser } from './../../../../../../../server-models/entities/training-program.model';
+import { TrainingProgramUser } from './../../../../../../../server-models/entities/training-program.model';
 
 @Component({
   selector: 'app-assigned-athletes',
@@ -29,8 +30,8 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
   tableColumns: CustomColumn[];
   @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
 
-  @Input() trainingProgram: TrainingProgram;
-  @Input() programUsers: TrainingProgramUser[];
+  @Input() trainingProgramName: string;
+  @Input() programUsers$: TrainingProgramUser[];
 
   tableDatasource: TableDatasource<TrainingProgramUser>;
 
@@ -49,10 +50,11 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
     this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
     this.subs.add(
+      this.store.select(trainingProgramUsers).subscribe(users => {
+        this.tableDatasource.updateDatasource([...users]);
+      }),
       this.store.select(selectedTrainingProgram).subscribe(program => {
-        this.trainingProgram = program;
-        this.programUsers = program?.users ?? [];
-        this.tableDatasource.updateDatasource([...this.programUsers]);
+        this.trainingProgramName = program.name;
       })
     )
 
@@ -119,7 +121,7 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
     deleteDialogConfig.message = this.translateService
       .instant('TRAINING_PROGRAM.DETAILS.UNASSIGN_DIALOG', {
         name: trainingProgramUser.user.fullName,
-        programName: this.trainingProgram.name
+        programName: this.trainingProgramName
       })
 
     var dialogRef = this.uiService.openConfirmDialog(deleteDialogConfig);
@@ -136,7 +138,7 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
     this.trainingProgramUserService.delete(trainingProgramUser.id)
       .subscribe(
         _ => {
-          this.store.dispatch(trainingProgramUserDeleted({ entity: trainingProgramUser }))
+          this.store.dispatch(trainingProgramUserDeleted({ id: trainingProgramUser.id as string }))
         },
         err => console.log(err)
       )

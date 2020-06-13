@@ -1,6 +1,3 @@
-import { AppSettingsService } from './../../../../../../business/services/shared/app-settings.service';
-import { NotificationService } from './../../../../../../business/services/feature-services/notification.service';
-import { TranslateService } from '@ngx-translate/core';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,17 +5,19 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { trainingProgramUserCreated } from 'src/ngrx/training-program/training-program/training-program.actions';
+import { trainingProgramUserCreated } from 'src/ngrx/training-program/training-program-user/training-program-user.actions';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
 import { TrainingProgramCreateEditComponent } from '../training-program-create-edit/training-program-create-edit.component';
+import { NotificationService } from './../../../../../../business/services/feature-services/notification.service';
 import { TrainingProgramUserService } from './../../../../../../business/services/feature-services/training-program-user.service';
-import { UserService } from './../../../../../../business/services/feature-services/user.service';
+import { AppSettingsService } from './../../../../../../business/services/shared/app-settings.service';
 import { CreateTrainingProgramUserRequest } from './../../../../../../server-models/cqrs/training-program/create-training-program-user.request';
 import { TrainingProgramUser } from './../../../../../../server-models/entities/training-program.model';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-training-program-assign',

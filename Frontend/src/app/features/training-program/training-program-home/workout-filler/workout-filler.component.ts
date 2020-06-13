@@ -1,15 +1,11 @@
-import { trainingBlockDays } from './../../../../../ngrx/training-program/training-block-day/training-block-day.selectors';
-import { TrainingBlockDayService } from './../../../../../business/services/feature-services/training-block-day.service';
-import { selectedTrainingBlock, selectedTrainingBlockId } from './../../../../../ngrx/training-program/training-block/training-block.selectors';
-import { SubSink } from 'subsink';
-import { AppState } from './../../../../../ngrx/global-setup.ngrx';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { TrainingBlock, TrainingBlockDay } from './../../../../../server-models/entities/training-program.model';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { of } from 'rxjs';
-import { take, toArray, filter, switchMap } from 'rxjs/operators';
-import { trainingBlockDayFetched } from 'src/ngrx/training-program/training-block-day/training-block-day.actions';
 import * as _ from 'lodash';
+import { SubSink } from 'subsink';
+import { TrainingBlockDayService } from './../../../../../business/services/feature-services/training-block-day.service';
+import { AppState } from './../../../../../ngrx/global-setup.ngrx';
+import { trainingBlockDays } from './../../../../../ngrx/training-program/training-block-day/training-block-day.selectors';
+import { TrainingBlockDay } from './../../../../../server-models/entities/training-program.model';
 
 @Component({
   selector: 'app-workout-filler',
@@ -50,11 +46,11 @@ export class WorkoutFillerComponent implements OnInit, OnDestroy {
 
         let weeks = [];
         let current = 0;
-        do {
+        while (current < days.length) {
           let week = days.slice(current, current + 7);
           weeks.push(week);
           current += 7;
-        } while (current <= days.length)
+        }
 
         this.weeks = weeks;
       }

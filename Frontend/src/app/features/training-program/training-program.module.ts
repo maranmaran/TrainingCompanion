@@ -15,6 +15,8 @@ import { TrainingBlockDayEffects } from './../../../ngrx/training-program/traini
 import { trainingBlockDayReducer } from './../../../ngrx/training-program/training-block-day/training-block-day.reducers';
 import { TrainingBlockEffects } from './../../../ngrx/training-program/training-block/training-block.effects';
 import { trainingBlockReducer } from './../../../ngrx/training-program/training-block/training-block.reducers';
+import { TrainingProgramUserEffects } from './../../../ngrx/training-program/training-program-user/training-program-user.effects';
+import { trainingProgramUserReducer } from './../../../ngrx/training-program/training-program-user/training-program-user.reducers';
 import { ExerciseModule } from './../training-log/exercise/exercise.module';
 import { SetModule } from './../training-log/set/set.module';
 import { TrainingModule } from './../training-log/training/training.module';
@@ -42,7 +44,8 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
         StoreModule.forFeature('trainingPrograms', trainingProgramReducer),
         StoreModule.forFeature('trainingBlocks', trainingBlockReducer),
         StoreModule.forFeature('trainingBlockDays', trainingBlockDayReducer),
-        EffectsModule.forFeature([TrainingProgramEffects, TrainingBlockEffects, TrainingBlockDayEffects]),
+        StoreModule.forFeature('trainingProgramUsers', trainingProgramUserReducer),
+        EffectsModule.forFeature([TrainingProgramEffects, TrainingBlockEffects, TrainingBlockDayEffects, TrainingProgramUserEffects]),
         FormsModule,
         TrainingModule,
         ExerciseModule,

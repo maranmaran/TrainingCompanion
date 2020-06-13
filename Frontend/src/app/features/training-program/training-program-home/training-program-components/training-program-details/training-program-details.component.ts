@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -33,7 +33,6 @@ export class TrainingProgramDetailsComponent implements OnInit {
     private userService: UserService,
     public mediaObserver: MediaObserver,
     public translateService: TranslateService,
-    private cd: ChangeDetectorRef
   ) { }
 
 
