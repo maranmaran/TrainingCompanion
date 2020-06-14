@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Domain.Entities.User;
+using Backend.Infrastructure.Exceptions;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.SignIn
 {
@@ -33,7 +35,10 @@ namespace Backend.Business.Authorization.AuthorizationRequests.SignIn
         {
             try
             {
-                var user = await _context.Users.SingleAsync(x => x.Username == request.Username, cancellationToken);
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == request.Username, cancellationToken);
+                
+                if (user == null)
+                    throw new NotFoundException(nameof(ApplicationUser), $"Username: {request.Username} Password: {request.Password}");
 
                 var token = _jwtGenerator.GenerateToken(user.Id);
 

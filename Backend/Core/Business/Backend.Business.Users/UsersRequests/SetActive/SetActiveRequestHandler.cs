@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Backend.Domain;
+using Backend.Domain.Entities.User;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +22,11 @@ namespace Backend.Business.Users.UsersRequests.SetActive
         {
             try
             {
-                var user = await _context.Users.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                if (user == null)
+                    throw new NotFoundException(nameof(ApplicationUser), request.Id);
+
                 user.Active = request.Value;
 
                 _context.Users.Update(user);

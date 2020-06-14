@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using Backend.Domain;
+﻿using Backend.Domain;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Backend.Business.Exercises.TagRequests.Update
 {
@@ -22,10 +21,18 @@ namespace Backend.Business.Exercises.TagRequests.Update
 
         private bool BeUniqueType(UpdateTagRequest request)
         {
-            var tag = _context.Tags
-                .Single(x => x.Id == request.Id);
+            var tag = _context.Tags.FirstOrDefault(x => x.Id == request.Id);
 
-            return _context.TagGroups.Include(x => x.Tags).Single(x => x.Id == tag.TagGroupId).Tags.All(x => x.Value != request.Value);
+            if (tag == null)
+                return false;
+
+            // find all tags except the one that's updating.. that belong to his parent (tag group)
+            var allOtherTags = _context.Tags.Where(x => x.TagGroupId == tag.TagGroupId && x.Id != tag.Id);
+
+            // same value tag must be null in order for updating tag to bear unique value
+            var sameValueTag = allOtherTags.FirstOrDefault(x => x.Value == tag.Value);
+
+            return sameValueTag == null;
         }
     }
 }

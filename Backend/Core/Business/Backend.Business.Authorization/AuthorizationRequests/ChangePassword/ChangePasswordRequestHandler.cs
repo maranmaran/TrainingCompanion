@@ -1,10 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.Authorization.Utils;
+﻿using Backend.Business.Authorization.Utils;
 using Backend.Domain;
+using Backend.Domain.Entities.User;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.ChangePassword
 {
@@ -21,12 +23,12 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ChangePassword
         {
             try
             {
-                var user = await _context.Users.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                if (user == null)
+                    throw new NotFoundException(nameof(ApplicationUser), request.Id);
 
                 user.PasswordHash = PasswordHasher.GetPasswordHash(request.Password);
-
-                if (!user.Active)
-                    user.Active = true;
 
                 _context.Users.Update(user);
                 await _context.SaveChangesAsync(cancellationToken);

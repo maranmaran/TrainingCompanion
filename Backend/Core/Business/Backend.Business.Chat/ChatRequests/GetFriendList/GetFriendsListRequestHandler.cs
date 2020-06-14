@@ -36,8 +36,6 @@ namespace Backend.Business.Chat.ChatRequests.GetFriendList
             try
             {
                 var friendList = new List<ParticipantResponseViewModel>();
-                var admin = await _context.Users.SingleOrDefaultAsync(x => x.AccountType == AccountType.Admin,
-                    cancellationToken); // admin is available to all
 
                 switch (request.AccountType)
                 {
@@ -52,23 +50,35 @@ namespace Backend.Business.Chat.ChatRequests.GetFriendList
                     case AccountType.Coach:
 
                         // only athletes are reachable to coach
-                        var coachFriends = (await _context.Coaches.Include(x => x.Athletes).SingleAsync(x => x.Id == request.UserId, cancellationToken)).Athletes;
+                        var coachFriends = (await _context.Coaches.Include(x => x.Athletes).FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken))?.Athletes;
 
-                        friendList.AddRange(_mapper.Map<HashSet<ParticipantResponseViewModel>>(coachFriends));
-                        friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
+                        if (coachFriends != null)
+                        {
+                            friendList.AddRange(_mapper.Map<HashSet<ParticipantResponseViewModel>>(coachFriends));
+                        }
                         break;
 
                     case AccountType.Athlete:
 
                         // only coach is reachable to athlete
-                        var athleteFriend = (ApplicationUser)(await _context.Athletes.Include(x => x.Coach).SingleAsync(x => x.Id == request.UserId, cancellationToken)).Coach;
+                        var athleteFriend = (ApplicationUser)(await _context.Athletes.Include(x => x.Coach).FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken))?.Coach;
 
-                        friendList.Add(_mapper.Map<ParticipantResponseViewModel>(athleteFriend));
-                        friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
+                        if (athleteFriend != null)
+                        {
+                            friendList.Add(_mapper.Map<ParticipantResponseViewModel>(athleteFriend));
+                        }
+
                         break;
 
                     default:
                         throw new InvalidEnumArgumentException();
+                }
+
+                // admin is available to all
+                var admin = await _context.Users.FirstOrDefaultAsync(x => x.AccountType == AccountType.Admin, cancellationToken);
+                if (admin != null)
+                {
+                    friendList.Add(_mapper.Map<ParticipantResponseViewModel>(admin));
                 }
 
                 GetUnreadMessages(request.UserId, friendList);

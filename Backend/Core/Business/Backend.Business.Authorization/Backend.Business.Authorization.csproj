@@ -19,18 +19,4 @@
     <ProjectReference Include="..\Backend.Business.Notifications\Backend.Business.Notifications.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Assets\EmailTemplates\Registration\Coach\" />
-    <Folder Include="Assets\EmailTemplates\Registration\SoloAthlete\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Assets\EmailTemplates\Images\logo.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\EmailTemplates\Registration\Athlete\NewAthleteRegisterTemplate.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

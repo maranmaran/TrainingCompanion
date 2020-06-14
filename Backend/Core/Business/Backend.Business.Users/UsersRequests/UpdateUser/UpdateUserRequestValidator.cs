@@ -1,6 +1,6 @@
 ﻿using Backend.Domain;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Backend.Business.Users.UsersRequests.UpdateUser
 {
@@ -39,13 +39,13 @@ namespace Backend.Business.Users.UsersRequests.UpdateUser
 
         private bool UniqueUsername(UpdateUserRequest request, string username)
         {
-            var user = _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var user = _context.Users.FirstOrDefault(x => x.Id != request.Id && x.Username == username);
             return user == null; // no user with that username
         }
 
         private bool UniqueEmail(UpdateUserRequest request, string email)
         {
-            var user = _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var user = _context.Users.FirstOrDefault(x => x.Id != request.Id && x.Email == email);
             return user == null; // no user with that email
         }
     }

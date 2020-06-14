@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.ChangePassword
 {
@@ -9,14 +8,12 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ChangePassword
         {
             RuleFor(x => x.Id)
                 .Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty()
-                .NotEqual(Guid.Empty);
+                .NotEmpty();
 
             RuleFor(x => x.Password)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
-                .MinimumLength(4)
-                .MaximumLength(15);
+                .MinimumLength(4);
 
             RuleFor(x => x.Password)
                 .Cascade(CascadeMode.StopOnFirstFailure)

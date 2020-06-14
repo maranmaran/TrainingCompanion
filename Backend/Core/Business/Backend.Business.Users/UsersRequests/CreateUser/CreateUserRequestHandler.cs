@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Backend.Business.Authorization.AuthorizationRequests.SendRegistrationEmail;
+using Backend.Business.Email.Requests.RegistrationEmail;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
@@ -70,7 +70,7 @@ namespace Backend.Business.Users.UsersRequests.CreateUser
             await _context.SaveChangesAsync();
 
             // send mail to complete registration
-            await _mediator.Send(new SendRegistrationEmailRequest(coach));
+            await _mediator.Send(new RegistrationEmailRequest(coach));
 
             return _mapper.Map<ApplicationUser>(coach);
         }
@@ -78,7 +78,10 @@ namespace Backend.Business.Users.UsersRequests.CreateUser
         private async Task<ApplicationUser> CreateAthlete(CreateUserRequest request)
         {
             var athlete = _mapper.Map<CreateUserRequest, Athlete>(request);
-            var coach = await _context.Coaches.SingleAsync(x => x.Id == request.CoachId);
+            var coach = await _context.Coaches.FirstOrDefaultAsync(x => x.Id == request.CoachId);
+
+            if (coach == null)
+                throw new NotFoundException(nameof(Coach), request.CoachId);
 
             // map exercise type properties from coach to athlete
             athlete = ExerciseTagGroupsFactory.ApplyProperties<Athlete>(coach, athlete);
@@ -90,7 +93,7 @@ namespace Backend.Business.Users.UsersRequests.CreateUser
             try
             {
                 athlete.Coach = coach;
-                await _mediator.Send(new SendRegistrationEmailRequest(athlete));
+                await _mediator.Send(new RegistrationEmailRequest(athlete));
             }
             catch (Exception e)
             {
@@ -111,7 +114,7 @@ namespace Backend.Business.Users.UsersRequests.CreateUser
             await _context.SaveChangesAsync();
 
             // send mail to complete registration
-            await _mediator.Send(new SendRegistrationEmailRequest(soloAthlete));
+            await _mediator.Send(new RegistrationEmailRequest(soloAthlete));
 
             // return data
             return _mapper.Map<ApplicationUser>(soloAthlete);

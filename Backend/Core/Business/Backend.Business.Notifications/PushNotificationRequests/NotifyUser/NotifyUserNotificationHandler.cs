@@ -1,20 +1,14 @@
-﻿using Backend.Business.Notifications.Extensions;
+﻿using Backend.Business.Email.Requests.NotificationEmail;
 using Backend.Business.Notifications.Interfaces;
 using Backend.Domain;
 using Backend.Domain.Entities.Notification;
 using Backend.Domain.Entities.User;
-using Backend.Library.Email.Interfaces;
-using Backend.Library.Email.Models;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using MimeKit;
-using MimeKit.Utils;
 using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,14 +17,14 @@ namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
     public class NotifyUserNotificationHandler : INotificationHandler<NotifyUserNotification>
     {
         private readonly IHubContext<PushNotificationHub, IPushNotificationHub> _hubContext;
-        private readonly IEmailService _emailService;
+        private readonly IMediator _mediator;
         private readonly ILoggingService _loggingService;
         private readonly IApplicationDbContext _context;
 
-        public NotifyUserNotificationHandler(IHubContext<PushNotificationHub, IPushNotificationHub> hubContext, IEmailService emailService, ILoggingService loggingService, IApplicationDbContext context)
+        public NotifyUserNotificationHandler(IHubContext<PushNotificationHub, IPushNotificationHub> hubContext, IMediator mediator, ILoggingService loggingService, IApplicationDbContext context)
         {
             _hubContext = hubContext;
-            _emailService = emailService;
+            _mediator = mediator;
             _loggingService = loggingService;
             _context = context;
         }
@@ -69,43 +63,13 @@ namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
                 // send mail
                 if (notificationSetting.ReceiveMail)
                 {
-                    var message = GetNotificationEmailTemplate(notification);
-                    await _emailService.SendEmailAsync(message, cancellationToken);
+                    await _mediator.Send(new NotificationEmailRequest(notification), cancellationToken);
                 }
             }
             catch (Exception e)
             {
                 await _loggingService.LogError(e, $"Could not send mail to receiver: {notification.ReceiverId}");
             }
-        }
-
-        private EmailMessage GetNotificationEmailTemplate(Notification notification)
-        {
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                       $"/Assets/EmailTemplates/Notification/NotificationTemplate.html";
-            var logoPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                           "/Assets/EmailTemplates/Images/logo.jpg";
-
-            var bodyBuilder = new BodyBuilder();
-
-            var logoImage = bodyBuilder.LinkedResources.Add(logoPath);
-            logoImage.ContentId = MimeUtils.GenerateMessageId();
-
-            var templateBody = File.ReadAllText(path);
-
-            templateBody = templateBody.Replace("{{type}}", notification.Type.GetNotificationTypeTranslation());
-            templateBody = templateBody.Replace("{{senderName}}", notification.Sender.FullName);
-            templateBody = templateBody.Replace("{{date}}", notification.SentAt.ToString("dd/MM/yyyy"));
-
-            bodyBuilder.HtmlBody = templateBody;
-
-            return new EmailMessage()
-            {
-                To = notification.Receiver.Email,
-                From = notification.Sender.Email,
-                Title = $"[NOTIFICATION] {notification.Sender.FullName} {notification.Type.GetNotificationTypeTranslation()}",
-                Body = bodyBuilder.ToMessageBody()
-            };
         }
 
     }

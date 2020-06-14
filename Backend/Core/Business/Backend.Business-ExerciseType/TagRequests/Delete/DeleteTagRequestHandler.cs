@@ -23,7 +23,10 @@ namespace Backend.Business.Exercises.TagRequests.Delete
             try
             {
                 var tag =
-                    await _context.Tags.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                    await _context.Tags.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                if (tag == null)
+                    throw new NotFoundException(nameof(Tag), request.Id);
 
                 _context.Tags.Remove(tag);
 

@@ -54,7 +54,10 @@ namespace Backend.Business.Users.UsersRequests.DeleteUser
 
         private async Task DeleteCoach(DeleteUserRequest request, CancellationToken cancellationToken = default)
         {
-            var coach = await _context.Coaches.SingleAsync(u => u.Id == request.Id, cancellationToken);
+            var coach = await _context.Coaches.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
+
+            if (coach == null)
+                throw new NotFoundException(nameof(Coach), request.Id);
 
             _context.Coaches.Remove(coach);
 
@@ -67,12 +70,13 @@ namespace Backend.Business.Users.UsersRequests.DeleteUser
             var athlete = await _context
                 .Athletes
                 .Include(x => x.Coach)
-                .SingleAsync(x => x.Id == request.Id, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            //var coach = athlete.Coach;
 
-            //// remove athlete from coach, then remove athlete completely
-            //coach.Athletes.Remove(athlete);
+            if (athlete == null)
+                throw new NotFoundException(nameof(Athlete), request.Id);
+
+            // remove athlete from coach, then remove athlete completely
             _context.Athletes.Remove(athlete);
 
             await _context.SaveChangesAsync(cancellationToken);
@@ -83,7 +87,10 @@ namespace Backend.Business.Users.UsersRequests.DeleteUser
             // get athlete and it's coach
             var soloAthlete = await _context
                 .SoloAthletes
-                .SingleAsync(x => x.Id == request.Id, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+            if (soloAthlete == null)
+                throw new NotFoundException(nameof(SoloAthlete), request.Id);
 
             _context.SoloAthletes.Remove(soloAthlete);
 

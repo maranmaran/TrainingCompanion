@@ -22,7 +22,10 @@ namespace Backend.Business.Exercises.TagGroupRequests.Delete
         {
             try
             {
-                var entity = await _context.TagGroups.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                var entity = await _context.TagGroups.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                if (entity == null)
+                    throw new NotFoundException(nameof(Tag), request.Id);
 
                 _context.TagGroups.Remove(entity);
 

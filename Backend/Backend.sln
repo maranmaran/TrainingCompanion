@@ -80,6 +80,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{B1224C5E-0
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Email", "Core\Business\Backend.Business.Email\Backend.Business.Email.csproj", "{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -182,6 +184,10 @@ Global
 		{CD6AF00E-41AF-48FC-B7B9-88547EA0A080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD6AF00E-41AF-48FC-B7B9-88547EA0A080}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD6AF00E-41AF-48FC-B7B9-88547EA0A080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -219,6 +225,7 @@ Global
 		{CD6AF00E-41AF-48FC-B7B9-88547EA0A080} = {7722B9C8-10A4-4C08-890F-884DC8FCC36C}
 		{9F8A209D-1974-456E-AFFC-1B47A80D1550} = {54BC2835-0638-4EC2-A88E-C0E7A0DA8604}
 		{B1224C5E-0EAF-48C0-9C7C-18515A66219E} = {54BC2835-0638-4EC2-A88E-C0E7A0DA8604}
+		{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A} = {5A27F089-CD3E-4B48-99AB-056EA4A80F47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DD0AB68-A97C-455D-82B6-014536CC5B59}

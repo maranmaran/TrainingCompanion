@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.Chat;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Chat.ChatRequests.ReadMessages
 {
@@ -26,10 +26,10 @@ namespace Backend.Business.Chat.ChatRequests.ReadMessages
                 foreach (var message in request.Messages)
                 {
                     var chatMessageToUpdate = await _context.ChatMessages
-                        .SingleOrDefaultAsync(
+                        .FirstOrDefaultAsync(
                             x => String.Equals(x.SenderId.ToString(), message.FromId, StringComparison.CurrentCultureIgnoreCase)
                                 && String.Equals(x.ReceiverId.Value.ToString(), message.ToId, StringComparison.CurrentCultureIgnoreCase)
-                                && x.SentAt.ToUniversalTime() == message.DateSent.Value.ToUniversalTime());
+                                && x.SentAt.ToUniversalTime() == message.DateSent.Value.ToUniversalTime(), cancellationToken: cancellationToken);
 
                     if (chatMessageToUpdate != null)
                     {

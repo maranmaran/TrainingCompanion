@@ -26,7 +26,10 @@ namespace Backend.Business.Exercises.TagRequests.Update
         {
             try
             {
-                var propertyToUpdate = await _context.Tags.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                var propertyToUpdate = await _context.Tags.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                if (propertyToUpdate == null)
+                    throw new NotFoundException(nameof(Tag), request.Id);
 
                 _mapper.Map(request, propertyToUpdate);
 

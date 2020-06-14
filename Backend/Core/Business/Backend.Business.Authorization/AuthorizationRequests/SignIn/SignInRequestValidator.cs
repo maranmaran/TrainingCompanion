@@ -19,17 +19,15 @@ namespace Backend.Business.Authorization.AuthorizationRequests.SignIn
 
             RuleFor(x => x.Username)
                 .Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty()
-                .MaximumLength(15);
+                .NotEmpty();
 
             RuleFor(x => x.Password)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty()
-                .MinimumLength(4)
-                .MaximumLength(15);
+                .MinimumLength(4);
 
             RuleFor(x => x)
-                .Must(BeValidUser).WithMessage($"User validation failed");
+                .Must(BeValidUser).WithMessage($"VALIDATION.USER_NOT_VALID");
         }
 
         private bool BeValidUser(SignInRequest request)

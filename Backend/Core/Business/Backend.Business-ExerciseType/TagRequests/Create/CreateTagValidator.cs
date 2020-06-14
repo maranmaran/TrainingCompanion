@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using Backend.Domain;
+﻿using Backend.Domain;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Backend.Business.Exercises.TagRequests.Create
 {
@@ -22,7 +22,14 @@ namespace Backend.Business.Exercises.TagRequests.Create
 
         private bool BeUniqueType(CreateTagRequest request)
         {
-            return _context.TagGroups.Include(x => x.Tags).Single(x => x.Id == request.TagGroupId).Tags.All(x => x.Value != request.Value);
+            var tagGroup = _context.TagGroups.Include(x => x.Tags).FirstOrDefault(x => x.Id == request.TagGroupId);
+
+            if (tagGroup == null)
+                return false;
+
+            var sameValueTag = tagGroup.Tags.FirstOrDefault(x => x.Value == request.Value);
+
+            return sameValueTag == null; // Same value must not exist in order for tag to be unique
         }
     }
 }

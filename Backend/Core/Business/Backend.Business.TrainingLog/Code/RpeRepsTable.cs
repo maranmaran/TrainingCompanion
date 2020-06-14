@@ -24,7 +24,7 @@ namespace Backend.Business.TrainingLog.Code
 
             if (rpe >= 6 && reps <= 10)
             {
-                var key = PercentageTable.Keys.SingleOrDefault(x => x.Reps.Equals(reps) && x.Rpe.Equals(rpe));
+                var key = PercentageTable.Keys.FirstOrDefault(x => x.Reps.Equals(reps) && x.Rpe.Equals(rpe));
 
                 if (key != null)
                 {

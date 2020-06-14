@@ -1,10 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
+using Backend.Domain.Entities.TrainingLog;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingLog.SetRequests.Delete
 {
@@ -22,7 +23,10 @@ namespace Backend.Business.TrainingLog.SetRequests.Delete
             try
             {
                 var set =
-                    await _context.Sets.SingleAsync(x => x.Id == request.Id, cancellationToken);
+                    await _context.Sets.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                if (set == null)
+                    throw new NotFoundException(nameof(Set), request.Id);
 
                 _context.Sets.Remove(set);
 

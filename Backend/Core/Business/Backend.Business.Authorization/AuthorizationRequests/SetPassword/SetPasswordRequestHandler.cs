@@ -5,6 +5,8 @@ using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
 using Backend.Business.Authorization.AuthorizationRequests.SignIn;
 using Backend.Business.Authorization.Utils;
 using Backend.Domain;
+using Backend.Domain.Entities.User;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +27,11 @@ namespace Backend.Business.Authorization.AuthorizationRequests.SetPassword
         {
             try
             {
-                var user = await _context.Users.SingleAsync(x => x.Id == request.UserId, cancellationToken);
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
+
+                if (user == null)
+                    throw new NotFoundException(nameof(ApplicationUser), request.UserId);
+
                 user.PasswordHash = PasswordHasher.GetPasswordHash(request.Password);
 
                 _context.Users.Update(user);

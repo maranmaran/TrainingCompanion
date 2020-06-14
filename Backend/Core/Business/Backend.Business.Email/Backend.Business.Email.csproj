@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Assets\EmailTemplates\Registration\Coach\**" />
+    <Compile Remove="Assets\EmailTemplates\Registration\SoloAthlete\**" />
+    <EmbeddedResource Remove="Assets\EmailTemplates\Registration\Coach\**" />
+    <EmbeddedResource Remove="Assets\EmailTemplates\Registration\SoloAthlete\**" />
+    <None Remove="Assets\EmailTemplates\Registration\Coach\**" />
+    <None Remove="Assets\EmailTemplates\Registration\SoloAthlete\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Libraries\Backend.Library.Email\Backend.Library.Email.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\EmailTemplates\Images\logo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\EmailTemplates\Registration\AthleteRegistrationTemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

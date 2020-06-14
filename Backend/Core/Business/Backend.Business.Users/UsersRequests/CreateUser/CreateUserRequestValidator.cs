@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using Backend.Domain;
+﻿using Backend.Domain;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Backend.Business.Users.UsersRequests.CreateUser
 {
@@ -40,13 +39,13 @@ namespace Backend.Business.Users.UsersRequests.CreateUser
 
         private bool UniqueUsername(CreateUserRequest request, string username)
         {
-            var user = _context.Users.FirstOrDefaultAsync(x => x.Username == request.Username);
+            var user = _context.Users.FirstOrDefault(x => x.Username == request.Username);
             return user == null; // no user with that username
         }
 
         private bool UniqueEmail(CreateUserRequest request, string email)
         {
-            var user = _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
+            var user = _context.Users.FirstOrDefault(x => x.Email == request.Email);
             return user == null; // no user with that email
         }
     }
