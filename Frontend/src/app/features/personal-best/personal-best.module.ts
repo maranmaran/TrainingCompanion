@@ -8,7 +8,9 @@ import { PersonalBestsResolver } from './../../../business/resolvers/personal-be
 import { PersonalBestService } from './../../../business/services/feature-services/personal-best.service';
 import { PersonalBestEffects } from './../../../ngrx/personal-best/personal-best.effects';
 import { personalBestReducer } from './../../../ngrx/personal-best/personal-best.reducers';
+import { PersonalBestCreateEditComponent } from './personal-best-home/personal-best-create-edit/personal-best-create-edit.component';
 import { PersonalBestHomeComponent } from './personal-best-home/personal-best-home.component';
+import { PersonalBestListComponent } from './personal-best-home/personal-best-list/personal-best-list.component';
 import { PersonalBestRoutingModule } from './personal-best-routing.module';
 
 @NgModule({
@@ -21,8 +23,12 @@ import { PersonalBestRoutingModule } from './personal-best-routing.module';
     ],
     declarations: [
         PersonalBestHomeComponent,
+        PersonalBestListComponent,
+        PersonalBestCreateEditComponent,
     ],
     exports: [
+      PersonalBestListComponent,
+      PersonalBestCreateEditComponent,
     ],
     providers: [
         // UIService,

@@ -10,9 +10,9 @@ import { TagGroupService } from 'src/business/services/feature-services/tag-grou
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ExerciseTypeEffects } from 'src/ngrx/exercise-type/exercise-type.effects';
 import { exerciseTypeReducer } from 'src/ngrx/exercise-type/exercise-type.reducers';
+import { PersonalBestModule } from './../personal-best/personal-best.module';
 import { ExerciseTypeCreateEditComponent } from './exercise-types-home/exercise-type-create-edit/exercise-type-create-edit.component';
 import { ExerciseTypeDetailsComponent } from './exercise-types-home/exercise-type-details/exercise-type-details.component';
-import { PersonalBestListComponent } from './exercise-types-home/exercise-type-details/personal-best-list/personal-best-list.component';
 import { ExerciseTypeListComponent } from './exercise-types-home/exercise-type-list/exercise-type-list.component';
 import { ExerciseTypesHomeComponent } from './exercise-types-home/exercise-types-home.component';
 import { ExerciseTypesRoutingModule } from './exercise-types-routing.module';
@@ -23,14 +23,14 @@ import { ExerciseTypesRoutingModule } from './exercise-types-routing.module';
         ExerciseTypesRoutingModule,
         StoreModule.forFeature('exerciseType', exerciseTypeReducer),
         EffectsModule.forFeature([ExerciseTypeEffects]),
-        FormsModule
+        FormsModule,
+        PersonalBestModule
     ],
     declarations: [
         ExerciseTypesHomeComponent,
         ExerciseTypeListComponent,
         ExerciseTypeDetailsComponent,
         ExerciseTypeCreateEditComponent,
-        PersonalBestListComponent,
     ],
     exports: [
     ],

@@ -2,18 +2,20 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
 import { TableAction, TableConfig, TablePagingOptions } from 'src/app/shared/material-table/table-models/table-config.model';
 import { TableDatasource } from 'src/app/shared/material-table/table-models/table-datasource.model';
+import { CRUD } from 'src/business/shared/crud.enum';
 import { selectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { PersonalBest } from 'src/server-models/entities/personal-best.model';
 import { SubSink } from 'subsink';
-import { PersonalBestService } from './../../../../../../business/services/feature-services/personal-best.service';
-import { UIService } from './../../../../../../business/services/shared/ui.service';
+import { PersonalBestService } from '../../../../../business/services/feature-services/personal-best.service';
+import { UIService } from '../../../../../business/services/shared/ui.service';
+import { PersonalBestCreateEditComponent } from './../personal-best-create-edit/personal-best-create-edit.component';
 
 @Component({
   selector: 'app-personal-best-list',
@@ -22,7 +24,7 @@ import { UIService } from './../../../../../../business/services/shared/ui.servi
 })
 export class PersonalBestListComponent implements OnInit {
 
-  bootstrap: boolean = false;
+  bootstrap = false;
 
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
@@ -51,7 +53,7 @@ export class PersonalBestListComponent implements OnInit {
 
   fetchPRs() {
     return this.store.select(selectedExerciseType).pipe(
-      tap(_ => {
+      tap(type => {
         this.bootstrap = false;
         this.tableDatasource.updateDatasource([]);
       }),
@@ -61,8 +63,6 @@ export class PersonalBestListComponent implements OnInit {
     ).subscribe((prs: PersonalBest[]) => {
       this.tableColumns = this.getTableColumns() as CustomColumn[];
       this.tableDatasource.updateDatasource([...prs]);
-
-      console.log(this.tableDatasource.data);
 
       setTimeout(_ => this.bootstrap = true)
     });
@@ -157,22 +157,24 @@ export class PersonalBestListComponent implements OnInit {
   }
 
   onAdd() {
-    // const dialogRef = this.UIService.openDialogFromComponent(ExerciseCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '50rem',
-    //   autoFocus: false,
-    //   data: { title: 'TRAINING_LOG.EXERCISE_ADD_TITLE', action: CRUD.Create },
-    //   panelClass: []
-    // });
+    let personalBest = new PersonalBest();
+    personalBest.exerciseTypeId = this.exerciseType.id;
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((exercise: Exercise) => {
-    //     if (exercise) {
-    //       this.table.onSelect(exercise, true);
-    //       // this.onSelect(exercise);
-    //     }
-    //   });
+    const dialogRef = this.UIService.openDialogFromComponent(PersonalBestCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      data: { title: 'PERSONAL_BEST.ADD_TITLE', action: CRUD.Create, personalBest },
+      panelClass: []
+    });
+
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((pb: PersonalBest) => {
+        if (pb) {
+          this.table.onSelect(pb, true);
+        }
+      });
   }
 
   onDeleteSingle(pr: PersonalBest) {
