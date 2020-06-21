@@ -62,6 +62,11 @@ export const isSubscribed = createSelector(
     }
 );
 
+export const latestBodyweight = createSelector(
+  currentUser,
+  user => user?.latestBodyweight
+)
+
 export const isTrialing = createSelector(
     trialDaysRemaining,
     (daysRemaining: number) => daysRemaining > 0 ? true : false

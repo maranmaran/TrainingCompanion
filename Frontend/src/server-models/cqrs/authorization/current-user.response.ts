@@ -5,6 +5,7 @@ import { StripeList } from 'src/server-models/stripe/stripe-list.model';
 import { UserSetting } from '../../../server-models/entities/user-settings.model';
 import { Plan } from '../../../server-models/stripe/plan.model';
 import { Subscription } from '../../../server-models/stripe/subscription.model';
+import { Bodyweight } from './../../entities/bodyweight.model';
 
 export interface CurrentUser {
     id: string;
@@ -26,6 +27,8 @@ export interface CurrentUser {
     userSetting: UserSetting;
 
     splashDialogDate: string;
+
+    latestBodyweight: Bodyweight;
 
     subscriptionStatus: SubscriptionStatus;
     subscriptionInfo: Subscription;

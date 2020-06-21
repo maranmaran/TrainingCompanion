@@ -1,14 +1,13 @@
-import { ApplicationUser } from './../../server-models/entities/application-user.model';
 import { createReducer, on } from '@ngrx/store';
 import { Action, ActionReducer } from '@ngrx/store/src/models';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
+import { Bodyweight } from 'src/server-models/entities/bodyweight.model';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { SubscriptionStatus } from 'src/server-models/enums/subscription-status.enum';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
+import { ApplicationUser } from './../../server-models/entities/application-user.model';
 import * as AuthActions from './auth.actions';
 import { AuthState, initialAuthState } from './auth.state';
-import * as _ from 'lodash';
-import { AccountType } from 'src/server-models/enums/account-type.enum';
 
 export const authReducer: ActionReducer<AuthState, Action> = createReducer(
     initialAuthState,
@@ -55,6 +54,16 @@ export const authReducer: ActionReducer<AuthState, Action> = createReducer(
                 ...state.currentUser,
                 subscriptionInfo: subscriptionInfo,
                 subscriptionStatus: SubscriptionStatus[subscriptionInfo.status]
+            }
+        };
+    }),
+
+    on(AuthActions.setLatestBodyweight, (state: AuthState, payload: {bodyweight: Bodyweight}) => {
+        return {
+            ...state,
+            currentUser: {
+              ...state.currentUser,
+              latestBodyweight: payload.bodyweight
             }
         };
     }),

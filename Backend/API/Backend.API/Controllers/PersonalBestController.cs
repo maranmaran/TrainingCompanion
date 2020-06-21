@@ -3,7 +3,6 @@ using Backend.Business.ProgressTracking.PersonalBestRequests.Delete;
 using Backend.Business.ProgressTracking.PersonalBestRequests.Get;
 using Backend.Business.ProgressTracking.PersonalBestRequests.GetAll;
 using Backend.Business.ProgressTracking.PersonalBestRequests.Update;
-using Backend.Domain.Entities.ProgressTracking;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
@@ -27,15 +26,15 @@ namespace Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] PersonalBest entity, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create([FromBody] CreatePersonalBestRequest request, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(new CreatePersonalBestRequest(entity), cancellationToken));
+            return Ok(await Mediator.Send(request, cancellationToken));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] PersonalBest entity, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Update([FromBody] UpdatePersonalBestRequest request, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(new UpdatePersonalBestRequest(entity), cancellationToken));
+            return Ok(await Mediator.Send(request, cancellationToken));
         }
 
         [HttpDelete("{id}")]

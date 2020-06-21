@@ -29,7 +29,7 @@ export class PersonalBestListComponent implements OnInit {
   tableConfig: TableConfig;
   tableColumns: CustomColumn[];
   tableDatasource: TableDatasource<PersonalBest>;
-  @ViewChild(MaterialTableComponent, { static: true }) table: MaterialTableComponent;
+  @ViewChild(MaterialTableComponent, { static: false }) table: MaterialTableComponent;
 
   exerciseType: ExerciseType;
 
@@ -173,6 +173,7 @@ export class PersonalBestListComponent implements OnInit {
       .subscribe((pb: PersonalBest) => {
         if (pb) {
           this.table.onSelect(pb, true);
+          this.tableDatasource.addElement(pb);
         }
       });
   }

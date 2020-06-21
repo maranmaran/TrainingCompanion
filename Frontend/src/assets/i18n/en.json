@@ -30,6 +30,7 @@
     "NO_DATA": "No records"
   },
   "PERSONAL_BEST": {
+    "BODYWEIGHT": "Bodyweight",
     "WEIGHT": "Weight",
     "REPS": "Reps",
     "ADD_TITLE": "New personal best",

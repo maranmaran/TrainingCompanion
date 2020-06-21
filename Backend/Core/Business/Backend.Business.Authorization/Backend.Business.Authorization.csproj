@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
     <ProjectReference Include="..\Backend.Business.Billing\Backend.Business.Billing.csproj" />
     <ProjectReference Include="..\Backend.Business.Notifications\Backend.Business.Notifications.csproj" />
+    <ProjectReference Include="..\Backend.Business.ProgressTracking\Backend.Business.ProgressTracking.csproj" />
   </ItemGroup>
 
 </Project>

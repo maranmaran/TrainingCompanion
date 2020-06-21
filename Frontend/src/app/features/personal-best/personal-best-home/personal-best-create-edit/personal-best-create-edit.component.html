@@ -26,6 +26,11 @@
 
       </div>
 
+      <mat-form-field>
+        <input matInput type="number" min="0" formControlName="bodyweight" placeholder="{{'PERSONAL_BEST.BODYWEIGHT' | translate}}">
+        <span matSuffix>{{ unitSystem | showUnitSystemLabel }}</span>
+      </mat-form-field>
+
       <!--
       <mat-form-field>
         <input matInput type="number" min="0" formControlName="time" placeholder="{{'PERSONAL_BEST.TIME' | translate}}">

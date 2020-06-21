@@ -11,8 +11,10 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { personalBestCreated, personalBestUpdated } from 'src/ngrx/personal-best/personal-best.actions';
 import { PersonalBest } from 'src/server-models/entities/personal-best.model';
+import { latestBodyweight, unitSystem } from './../../../../../ngrx/auth/auth.selectors';
 import { selectedExerciseType } from './../../../../../ngrx/exercise-type/exercise-type.selectors';
 import { ExerciseType } from './../../../../../server-models/entities/exercise-type.model';
+import { UnitSystem } from './../../../../../server-models/enums/unit-system.enum';
 
 @Component({
   selector: 'app-personal-best-create-edit',
@@ -35,6 +37,7 @@ export class PersonalBestCreateEditComponent implements OnInit {
   form: FormGroup;
   personalBest: PersonalBest;
 
+  public unitSystem: UnitSystem;
   private _latestBodyweight: number = 0;
   private _exerciseType: ExerciseType;
   isMobile: Observable<boolean>;
@@ -43,7 +46,10 @@ export class PersonalBestCreateEditComponent implements OnInit {
     this.personalBest = this.data.personalBest;
 
     this.getExerciseType();
-    // this.getLatestBodyweight();
+    this.getLatestBodyweight();
+    this.getUnitSystem();
+
+    setTimeout(_ => console.log(this._latestBodyweight));
 
     this.createForm();
   }
@@ -55,7 +61,15 @@ export class PersonalBestCreateEditComponent implements OnInit {
   }
 
   getLatestBodyweight() {
-    throw Error("Not implemented");
+    this.store.select(latestBodyweight)
+    .pipe(take(1))
+    .subscribe(bw => this._latestBodyweight = bw.value)
+  }
+
+  getUnitSystem() {
+    this.store.select(unitSystem)
+    .pipe(take(1))
+    .subscribe(system => this.unitSystem = system);
   }
 
   get dateAchieved(): AbstractControl { return this.form.get('dateAchieved'); }
@@ -87,6 +101,7 @@ export class PersonalBestCreateEditComponent implements OnInit {
       return;
     }
 
+    this.personalBest.bodyweight = this._latestBodyweight;
     this.personalBest.dateAchieved = new Date(this.dateAchieved.value);
     this.personalBest.value = this.value?.value;
     this.personalBest.reps = this.reps?.value;

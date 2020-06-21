@@ -1,9 +1,10 @@
-import { ApplicationUser } from './../../server-models/entities/application-user.model';
 import { createAction, props } from '@ngrx/store';
 import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.response';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { Subscription } from 'src/server-models/stripe/subscription.model';
+import { ApplicationUser } from './../../server-models/entities/application-user.model';
+import { Bodyweight } from './../../server-models/entities/bodyweight.model';
 
 //#region Login actions
 
@@ -41,6 +42,11 @@ export const updateCurrentUser = createAction(
     props<CurrentUser>()
 )
 
+export const setLatestBodyweight = createAction(
+  '[Current user] Set latest bodyweight',
+  props<{bodyweight: Bodyweight}>()
+)
+
 //#endregion
 
 //#region Current user modifier actions
@@ -69,5 +75,6 @@ export const setViewAs = createAction(
     '[View as] Set',
     props<{ entity: ApplicationUser }>()
 )
+
 
 //#endregion
