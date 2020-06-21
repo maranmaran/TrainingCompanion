@@ -10,6 +10,8 @@ import { PersonalBestService } from 'src/business/services/feature-services/pers
 import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { personalBestCreated, personalBestUpdated } from 'src/ngrx/personal-best/personal-best.actions';
+import { CreatePersonalBestRequest } from 'src/server-models/cqrs/personal-best/create-personal-best.request';
+import { UpdatePersonalBestRequest } from 'src/server-models/cqrs/personal-best/update-personal-best.request';
 import { PersonalBest } from 'src/server-models/entities/personal-best.model';
 import { latestBodyweight, unitSystem } from './../../../../../ngrx/auth/auth.selectors';
 import { selectedExerciseType } from './../../../../../ngrx/exercise-type/exercise-type.selectors';
@@ -121,7 +123,18 @@ export class PersonalBestCreateEditComponent implements OnInit {
   }
 
   createEntity() {
-    this.personalBestService.create(this.personalBest).pipe(take(1))
+
+    const request = new CreatePersonalBestRequest({
+      reps: this.personalBest.reps,
+      value: this.personalBest.value,
+      dateAchieved: this.personalBest.dateAchieved,
+      unitSystem: this.unitSystem,
+      exerciseTypeId: this.personalBest.exerciseTypeId,
+      bodyweight: this.personalBest.bodyweight
+    });
+
+    this.personalBestService.create<CreatePersonalBestRequest>(request)
+    .pipe(take(1))
       .subscribe(
         (personalBest: PersonalBest) => {
           this.store.dispatch(personalBestCreated({ entity: personalBest }));
@@ -132,8 +145,20 @@ export class PersonalBestCreateEditComponent implements OnInit {
   }
 
   updateEntity() {
-    this.personalBestService.update(this.personalBest).pipe(take(1))
-      .subscribe(
+
+    const request = new UpdatePersonalBestRequest({
+      id: this.personalBest.id,
+      reps: this.personalBest.reps,
+      value: this.personalBest.value,
+      dateAchieved: this.personalBest.dateAchieved,
+      unitSystem: this.unitSystem,
+      exerciseTypeId: this.personalBest.exerciseTypeId,
+      bodyweight: this.personalBest.bodyweight
+    });
+
+    this.personalBestService.update<CreatePersonalBestRequest>(request)
+    .pipe(take(1))
+    .subscribe(
         () => {
 
           const updateStatement: Update<PersonalBest> = {

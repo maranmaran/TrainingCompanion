@@ -7,14 +7,17 @@ import { MaterialTableComponent } from 'src/app/shared/material-table/material-t
 import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-column.model';
 import { TableAction, TableConfig, TablePagingOptions } from 'src/app/shared/material-table/table-models/table-config.model';
 import { TableDatasource } from 'src/app/shared/material-table/table-models/table-datasource.model';
+import { transformWeight } from 'src/business/services/shared/unit-system.service';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { selectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { PersonalBest } from 'src/server-models/entities/personal-best.model';
+import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { SubSink } from 'subsink';
 import { PersonalBestService } from '../../../../../business/services/feature-services/personal-best.service';
 import { UIService } from '../../../../../business/services/shared/ui.service';
+import { unitSystem } from './../../../../../ngrx/auth/auth.selectors';
 import { PersonalBestCreateEditComponent } from './../personal-best-create-edit/personal-best-create-edit.component';
 
 @Component({
@@ -33,6 +36,7 @@ export class PersonalBestListComponent implements OnInit {
 
   exerciseType: ExerciseType;
 
+  unitSystem: UnitSystem;
   private _subs = new SubSink();
 
   constructor(
@@ -43,6 +47,8 @@ export class PersonalBestListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.store.select(unitSystem).pipe(take(1)).subscribe(system => this.unitSystem = system);
+
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
 
@@ -81,7 +87,9 @@ export class PersonalBestListComponent implements OnInit {
       headerActions: [TableAction.create],
       enableDragAndDrop: false,
       selectionEnabled: false,
-      filterEnabled: false
+      filterEnabled: false,
+      defaultSort: 'dateAchieved',
+      defaultSortDirection: 'desc'
     });
 
     return tableConfig;
@@ -104,7 +112,7 @@ export class PersonalBestListComponent implements OnInit {
         title: 'PERSONAL_BEST.VALUE',
         sort: true,
         //TODO transform depending on exercise type to kg, lbs, watts, km, yards etc
-        displayFn: (item: PersonalBest) => item.value,
+        displayFn: (item: PersonalBest) => transformWeight(item.value, this.unitSystem),
       }),
       new CustomColumn({
         headerClass: 'personal-best-header',
@@ -113,7 +121,9 @@ export class PersonalBestListComponent implements OnInit {
         title: 'PERSONAL_BEST.BODYWEIGHT',
         sort: true,
         //TODO transform depending on exercise type to kg, lbs, watts, km, yards etc
-        displayFn: (item: PersonalBest) => item.bodyweight,
+        displayFn: (item: PersonalBest) => item.bodyweight ?
+              transformWeight(item.bodyweight, this.unitSystem)
+              : this.translateService.instant('SHARED.UNKNOWN'),
       }),
     ];
 
