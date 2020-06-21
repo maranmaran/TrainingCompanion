@@ -79,9 +79,6 @@ export class CalendarMonthViewComponent implements OnInit, OnDestroy {
     this.openEvent.emit(event);
   }
 
-  displayDateDay = (date: moment.Moment) => date.format('D');
-  displayMonthAndYear = (date: moment.Moment) => date.format('MMMM, M/YY');
-
   belongsToThisMonth = belongsToThisMonth;
   isSunday = (date: moment.Moment) => moment(date).weekday() == 0;
   isToday = (date: moment.Moment) => moment(date).isSame(new Date(), 'day');

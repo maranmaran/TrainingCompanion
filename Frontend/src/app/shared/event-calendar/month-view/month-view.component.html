@@ -11,7 +11,7 @@
         </button>
     </div>
 
-    <label class="current-month-year-label">{{ displayMonthAndYear(currentDay) }}</label>
+    <label class="current-month-year-label">{{ currentDay | formatMomentDate: 'MMMM, M/YY' }}</label>
 </div>
 <div class="month-container" fxLayout="column" fxFlexFill>
     <ng-container *ngFor="let week of calendar.weeks" >
@@ -29,7 +29,7 @@
                     <div class="top-label" fxLayout="row" fxLayoutAlign="space-between center">
 
                       <label [ngClass]=" belongsToThisMonth(calDay.day, currentDay) ? 'day-label' : 'not-relevant-day-label' ">
-                          {{ displayDateDay(calDay.day) }}
+                          {{ calDay.day | formatMomentDate: 'D'}}
                       </label>
 
                       <button *ngIf="calDay.events.length > 0" class="small-add-button" (click)="add(calDay.day)"

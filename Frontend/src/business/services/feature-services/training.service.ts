@@ -59,7 +59,7 @@ export class TrainingService extends CrudService<Training> {
       maxWidth: '18rem',
       autoFocus: false,
       data: {
-        title: this.translateService.instant('TRAINING_LOG.ADD_TRAINING_TITLE', { date: day.utc().format("DD, MMM") }),
+        title: this.translateService.instant('TRAINING_LOG.ADD_TRAINING_TITLE', { date: day.format("DD, MMM") }),
         action: CRUD.Create,
         day,
         timeOnly: true,

@@ -10,7 +10,6 @@ import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingCreated } from 'src/ngrx/training-log/training.actions';
-import { selectedTrainingBlockDayId } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { TrainingService } from './../../../../../business/services/feature-services/training.service';
 import { CreateTrainingRequest } from './../../../../../server-models/cqrs/training/create-training.request';

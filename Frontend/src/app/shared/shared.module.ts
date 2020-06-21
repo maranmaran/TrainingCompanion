@@ -13,6 +13,7 @@ import { HttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.facto
 import { ButtonSizeDirective } from 'src/business/directives/button-size.directive';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
+import { FormatMomentDatePipe } from 'src/business/pipes/format-moment-date.pipe';
 import { RepeatPipe } from 'src/business/pipes/repeat.pipe';
 import { TransformRpePipe } from 'src/business/pipes/transform-rpe.pipe';
 import { MaxCardComponent } from '../features/dashboard/dashboard-home/tracks/card-components/max-card/max-card.component';
@@ -126,6 +127,7 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         PersonalBestNotificationBodyComponent,
         ImportNotificationBodyComponent,
         RepeatPipe,
+        FormatMomentDatePipe,
         MediaCarouselComponent
     ],
     exports: [
@@ -183,7 +185,8 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         PersonalBestNotificationBodyComponent,
         ImportNotificationBodyComponent,
         RepeatPipe,
-        MediaCarouselComponent
+        MediaCarouselComponent,
+        FormatMomentDatePipe
     ],
     providers: [
     ],
