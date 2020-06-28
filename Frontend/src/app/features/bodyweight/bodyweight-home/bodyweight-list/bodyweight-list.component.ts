@@ -52,9 +52,10 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
     this.tableConfig = this.getTableConfig();
     this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
-    this.store.select(unitSystem).subscribe(system => this._unitSystem = system);
 
     this.subs.add(
+      this.store.select(unitSystem).subscribe(system => this._unitSystem = system),
+
       this.store.select(isMobile)
       .subscribe(mobile => {
         this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10;

@@ -40,7 +40,9 @@
     "SECTION_TITLE": "Personal bests",
     "VALUE": "Value",
     "BODYWEIGHT": "Bodyweight",
-    "DATE_ACHIEVED": "Achieved on"
+    "DATE_ACHIEVED": "Achieved on",
+    "DELETE_TITLE": "Delete personal best record",
+    "DELETE_BODY": "<p>Are you sure you wish to delete personal best achieved on {{date}}?</p>"
   },
   "NOTIFICATIONS": {
     "MEDIA_MESSAGE": "<b>{{username}}</b> added new media file.",

@@ -27,13 +27,13 @@ namespace Backend.API
 
                 try
                 {
-                    // stripe seed..
+                    //// stripe seed..
                     var stripeSettings = services.GetService<StripeSettings>();
                     StripeConfiguration.ConfigureProducts(stripeSettings).Wait();
 
-                    var contextInterface = services.GetService<IApplicationDbContext>();
-                    var context = (ApplicationDbContext)contextInterface;
-                    context.Database.Migrate(); //// comment if you don't want seed values in migrations
+                    //var contextInterface = services.GetService<IApplicationDbContext>();
+                    //var context = (ApplicationDbContext)contextInterface;
+                    //context.Database.Migrate(); //// comment if you don't want seed values in migrations
                     //DatabaseInitializer.Initialize(context, stripeConfiguration, passwordHasher);//<---Do your seeding here
 
                     loggingService.LogInfo("Application started. Database successfully migrated and seeded").Wait();

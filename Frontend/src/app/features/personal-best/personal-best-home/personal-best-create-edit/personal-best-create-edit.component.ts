@@ -7,16 +7,17 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PersonalBestService } from 'src/business/services/feature-services/personal-best.service';
+import { transformWeightToNumber } from 'src/business/services/shared/unit-system.service';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { personalBestCreated, personalBestUpdated } from 'src/ngrx/personal-best/personal-best.actions';
 import { CreatePersonalBestRequest } from 'src/server-models/cqrs/personal-best/create-personal-best.request';
 import { UpdatePersonalBestRequest } from 'src/server-models/cqrs/personal-best/update-personal-best.request';
 import { PersonalBest } from 'src/server-models/entities/personal-best.model';
-import { latestBodyweight, unitSystem } from './../../../../../ngrx/auth/auth.selectors';
+import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { latestBodyweight } from './../../../../../ngrx/auth/auth.selectors';
 import { selectedExerciseType } from './../../../../../ngrx/exercise-type/exercise-type.selectors';
 import { ExerciseType } from './../../../../../server-models/entities/exercise-type.model';
-import { UnitSystem } from './../../../../../server-models/enums/unit-system.enum';
 
 @Component({
   selector: 'app-personal-best-create-edit',
@@ -33,13 +34,13 @@ export class PersonalBestCreateEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       title: string,
       action: CRUD,
-      personalBest: PersonalBest
+      personalBest: PersonalBest,
+      unitSystem: UnitSystem
     }) { }
 
   form: FormGroup;
   personalBest: PersonalBest;
 
-  public unitSystem: UnitSystem;
   private _latestBodyweight: number = 0;
   private _exerciseType: ExerciseType;
   isMobile: Observable<boolean>;
@@ -49,7 +50,6 @@ export class PersonalBestCreateEditComponent implements OnInit {
 
     this.getExerciseType();
     this.getLatestBodyweight();
-    this.getUnitSystem();
 
     setTimeout(_ => console.log(this._latestBodyweight));
 
@@ -65,14 +65,9 @@ export class PersonalBestCreateEditComponent implements OnInit {
   getLatestBodyweight() {
     this.store.select(latestBodyweight)
     .pipe(take(1))
-    .subscribe(bw => this._latestBodyweight = bw.value)
+    .subscribe(bw => this._latestBodyweight = transformWeightToNumber(bw.value, this.data.unitSystem))
   }
 
-  getUnitSystem() {
-    this.store.select(unitSystem)
-    .pipe(take(1))
-    .subscribe(system => this.unitSystem = system);
-  }
 
   get dateAchieved(): AbstractControl { return this.form.get('dateAchieved'); }
   get value(): AbstractControl { return this.form.get('value'); }
@@ -128,7 +123,7 @@ export class PersonalBestCreateEditComponent implements OnInit {
       reps: this.personalBest.reps,
       value: this.personalBest.value,
       dateAchieved: this.personalBest.dateAchieved,
-      unitSystem: this.unitSystem,
+      unitSystem: this.data.unitSystem,
       exerciseTypeId: this.personalBest.exerciseTypeId,
       bodyweight: this.personalBest.bodyweight
     });
@@ -151,7 +146,7 @@ export class PersonalBestCreateEditComponent implements OnInit {
       reps: this.personalBest.reps,
       value: this.personalBest.value,
       dateAchieved: this.personalBest.dateAchieved,
-      unitSystem: this.unitSystem,
+      unitSystem: this.data.unitSystem,
       exerciseTypeId: this.personalBest.exerciseTypeId,
       bodyweight: this.personalBest.bodyweight
     });

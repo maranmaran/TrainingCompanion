@@ -8,7 +8,9 @@ import { CustomColumn } from 'src/app/shared/material-table/table-models/custom-
 import { TableAction, TableConfig, TablePagingOptions } from 'src/app/shared/material-table/table-models/table-config.model';
 import { TableDatasource } from 'src/app/shared/material-table/table-models/table-datasource.model';
 import { transformWeight } from 'src/business/services/shared/unit-system.service';
+import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { unitSystem } from 'src/ngrx/auth/auth.selectors';
 import { selectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
@@ -17,7 +19,6 @@ import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { SubSink } from 'subsink';
 import { PersonalBestService } from '../../../../../business/services/feature-services/personal-best.service';
 import { UIService } from '../../../../../business/services/shared/ui.service';
-import { unitSystem } from './../../../../../ngrx/auth/auth.selectors';
 import { PersonalBestCreateEditComponent } from './../personal-best-create-edit/personal-best-create-edit.component';
 
 @Component({
@@ -47,12 +48,12 @@ export class PersonalBestListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store.select(unitSystem).pipe(take(1)).subscribe(system => this.unitSystem = system);
 
     this.tableDatasource = new TableDatasource([]);
     this.tableConfig = this.getTableConfig();
 
     this._subs.add(
+      this.store.select(unitSystem).subscribe(system => this.unitSystem = system),
       this.fetchPRs()
     )
   }
@@ -103,7 +104,7 @@ export class PersonalBestListComponent implements OnInit {
         definition: 'dateAchieved',
         title: 'PERSONAL_BEST.DATE_ACHIEVED',
         sort: true,
-        displayFn: (item: PersonalBest) => moment(item.dateAchieved).format('L, LT'),
+        displayFn: (item: PersonalBest) => moment(item.dateAchieved).format('L'),
       }),
       new CustomColumn({
         headerClass: 'personal-best-header',
@@ -175,7 +176,7 @@ export class PersonalBestListComponent implements OnInit {
       width: '98%',
       maxWidth: '20rem',
       autoFocus: false,
-      data: { title: 'PERSONAL_BEST.ADD_TITLE', action: CRUD.Create, personalBest },
+      data: { title: 'PERSONAL_BEST.ADD_TITLE', action: CRUD.Create, personalBest, unitSystem: this.unitSystem },
       panelClass: []
     });
 
@@ -189,43 +190,35 @@ export class PersonalBestListComponent implements OnInit {
   }
 
   onDeleteSingle(pr: PersonalBest) {
-    // let deleteDialogConfig = new ConfirmDialogConfig({
-    //   title: 'TRAINING_LOG.EXERCISE_DELETE_TITLE',
-    //   confirmLabel: 'SHARED.DELETE'
-    // });
 
-    // deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.EXERCISE_DELETE_DIALOG', { name: exercise.exerciseType.name });
+    const deleteDialogConfig = new ConfirmDialogConfig({
+      title: 'PERSONAL_BEST.DELETE_TITLE',
+      confirmLabel: 'SHARED.DELETE'
+    });
 
-    // const dialogRef = this.UIService.openConfirmDialog(deleteDialogConfig);
+    deleteDialogConfig.message = this.translateService.instant(
+      'PERSONAL_BEST.DELETE_BODY',
+      { date: moment(pr.dateAchieved).format('D, MMM') }
+    );
 
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((result: ConfirmResult) => {
-    //     if (result === ConfirmResult.Confirm) {
+    const dialogRef = this.UIService.openConfirmDialog(deleteDialogConfig);
 
-    //       this.prService.delete(exercise.id)
-    //         .pipe(
-    //           take(1),
-    //           concatMap(() => this.store.select(selectedTraining)),
-    //           take(1),
-    //           map(training => Object.assign({}, training))
-    //         )
-    //         .subscribe(
-    //           (training: Training) => {
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((result: ConfirmResult) => {
 
-    //             const trainingUpdate: Update<Training> = {
-    //               id: training.id,
-    //               changes: {
-    //                 exercises: training.exercises.filter(item => item.id !== exercise.id)
-    //               }
-    //             };
+        if (result !== ConfirmResult.Confirm) {
+          return;
+        }
 
-    //             this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
-    //           },
-    //           err => console.log(err)
-    //         );
-
-    //     }
-    //   });
+        this.prService.delete(pr.id)
+          .subscribe(
+            () => {
+              this.table.onSelect(null);
+              this.tableDatasource.removeElement(pr);
+            },
+            err => console.log(err)
+          );
+      });
   }
 
 }
