@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -26,6 +27,7 @@ export class AuthEffects {
     private store: Store<AppState>,
     private authService: AuthService,
     private userService: UserService,
+    private socialAuthService: SocialAuthService
   ) { }
 
   login$ = createEffect(
@@ -100,6 +102,7 @@ export class AuthEffects {
         tap(() => {
           this.authService.signOutEvent.next(true);
           this.cookieService.delete('Bearer');
+          this.socialAuthService.signOut(true);
           this.router.navigate(['/auth/login']).then(
             _ => {
               this.store.dispatch(AuthActions.logoutClearState())

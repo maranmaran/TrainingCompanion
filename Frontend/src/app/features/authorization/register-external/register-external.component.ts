@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { SocialUser } from 'angularx-social-login';
 import { externalLogin } from './../../../../ngrx/auth/auth.actions';
@@ -15,29 +15,29 @@ import { AccountType } from './../../../../server-models/enums/account-type.enum
 export class RegisterExternalComponent implements OnInit {
 
   accountType = AccountType;
-  user: SocialUser;
 
   constructor(
-    private router: Router,
-    private store: Store<AppState>
-  ) { }
+    private store: Store<AppState>,
+    private dialogRef: MatDialogRef<RegisterExternalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { user: SocialUser }) { }
 
   ngOnInit(): void {
-    this.user = history.state;
-    if (!this.user)
-      this.router.navigate(['/auth/login']);
   }
 
   register(type) {
     const user = new ApplicationUser({
-      email: this.user.email,
-      firstName: this.user.firstName,
-      lastName: this.user.lastName,
-      avatar: this.user.photoUrl,
+      email: this.data.user.email,
+      firstName: this.data.user.firstName,
+      lastName: this.data.user.lastName,
+      avatar: this.data.user.photoUrl,
       accountType: type
     });
 
     this.store.dispatch(externalLogin({ user }));
+    this.onClose();
   }
 
+  onClose() {
+    this.dialogRef.close();
+  }
 }

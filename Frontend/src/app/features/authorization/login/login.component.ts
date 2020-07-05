@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
 import { from, Observable, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { UserService } from 'src/business/services/feature-services/user.service';
@@ -14,6 +14,8 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { disableErrorDialogs, setActiveProgressBar, switchTheme } from 'src/ngrx/user-interface/ui.actions';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
+import { UIService } from './../../../../business/services/shared/ui.service';
+import { RegisterExternalComponent } from './../register-external/register-external.component';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +36,8 @@ export class LoginComponent implements OnInit {
     private store: Store<AppState>,
     private socialAuthService: SocialAuthService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private UIService: UIService
   ) {
   }
 
@@ -83,10 +86,22 @@ export class LoginComponent implements OnInit {
         take(1)
       ).subscribe(userData => {
         if (!userData.applicationUser) {
-          this.router.navigate(['/auth/register-external'], { state: userData.socialUser })
+          // this.router.navigate(['/auth/register-external'], { state: userData.socialUser })
+          this.registerExternalUser(userData.socialUser);
         } else {
           this.store.dispatch(externalLogin({ user: userData.applicationUser }))
         }
       });
+  }
+
+  private registerExternalUser(user: SocialUser) {
+    this.UIService.openDialogFromComponent(RegisterExternalComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      data: { user },
+      panelClass: ["position-relative"]
+    })
   }
 }

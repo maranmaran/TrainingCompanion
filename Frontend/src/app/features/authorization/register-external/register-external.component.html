@@ -1,5 +1,13 @@
-Choose account type
+<button class="close" mat-icon-button color="accent" (click)="onClose()">
+    <i class="fas fa-times"></i>
+</button>
 
-<div (click)="register(accountType.Coach)">Coach</div>
+<div id="header" fxLayout="column" fxFlexAlign="center" fxLayoutAlign="space-between center">
+    <h2 id="title"> New user ? </h2>
+    <h4 id="title"> I am... </h4>
+</div>
 
-<div (click)="register(accountType.SoloAthlete)">Independent athlete</div>
+<div class="mt-2 pl-5 pr-5" fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-stroked-button color="primary" (click)="register(accountType.Coach)">Coach</button>
+    <button mat-stroked-button color="primary" (click)="register(accountType.SoloAthlete)">Athlete</button>
+</div>
