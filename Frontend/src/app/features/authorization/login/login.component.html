@@ -28,7 +28,11 @@
       <div id="actions" fxLayout="row" fxLayoutAlign="space-between center">
         <!-- <mat-checkbox formControlName="rememberMe" id="checkbox" color="primary">Remember me</mat-checkbox> -->
 
-        <a href="/auth/reset-password">{{ 'AUTHORIZATION.FORGOT_PASSWORD' | translate }}</a>
+        <div fxLayout="column" fxLayoutGap="0.5rem">
+          <a href="/auth/reset-password">{{ 'AUTHORIZATION.FORGOT_PASSWORD' | translate }}</a>
+          <a href="/auth/reset-password">{{ 'AUTHORIZATION.REGISTER' | translate }}</a>
+        </div>
+
         <button mat-flat-button color="primary" id="signin" type="submit" class="float-right"
           [disabled]="!loginForm.valid">{{ 'AUTHORIZATION.SIGN_IN' | translate }}</button>
       </div>
@@ -37,8 +41,22 @@
 
   </div>
 
-  <button mat-flat-button color="primary" id="google-provider"
-    (click)="externalLogin('Google')">{{ 'Google sign in' | translate }}</button>
+  <div class="social-login mt-4" fxLayout="column" fxLayoutGap="1rem">
+
+    <p class="social-login-header">Sign in or register via</p>
+
+    <div class="social-login-actions" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+
+      <button mat-icon-button (click)="externalLogin(googleProvider)">
+        <img style="width: 100%; height: auto" src="./../../../../assets/images/google.svg" />
+      </button>
+
+      <button mat-icon-button (click)="externalLogin(facebookProvider)">
+        <img style="width: 100%; height: auto" src="./../../../../assets/images/facebook.svg" />
+      </button>
+    </div>
+
+  </div>
 
 </div>
 

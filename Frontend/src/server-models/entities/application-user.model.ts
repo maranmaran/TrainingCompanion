@@ -4,13 +4,20 @@ import { Gender } from './../enums/gender.enum';
 import { UserSetting } from './user-settings.model';
 
 export class ApplicationUser {
+
+     constructor(data: Partial<ApplicationUser> = null) {
+          if (data) {
+               Object.assign(this, data);
+          }
+     }
+
      id: string;
      customerId: string;
      username: string;
      email: string;
      passwordHash: string;
 
-     avatar:string;
+     avatar: string;
      firstName: string;
      lastName: string;
      fullName: string;

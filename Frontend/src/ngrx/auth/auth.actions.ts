@@ -15,7 +15,7 @@ export const login = createAction(
 
 export const externalLogin = createAction(
     '[Auth API] External Login',
-    props<{ provider: string }>()
+    props<{ user: ApplicationUser }>()
 )
 
 export const loginSuccess = createAction(

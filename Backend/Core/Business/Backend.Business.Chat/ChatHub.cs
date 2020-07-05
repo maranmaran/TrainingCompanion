@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Business.Chat.ChatRequests.CreateChatMessage;
 using Backend.Business.Chat.ChatRequests.ReadMessages;
 using Backend.Business.Chat.Models;
 using Backend.Business.Users.UsersRequests.GetUser;
-using Backend.Domain.Enum;
 using Backend.Library.AmazonS3.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Chat
 {
@@ -112,7 +111,7 @@ namespace Backend.Business.Chat
             // if participant doesn't exist in disconnected dict. Fetch user and move it to Connected dictionary
             if (disconnectedParticipant == null && connectedParticipant == null)
             {
-                var user = await _mediator.Send(new GetUserRequest(Guid.Parse(userId), AccountType.User));
+                var user = await _mediator.Send(new GetUserRequest(Guid.Parse(userId)));
                 var newParticipant = _mapper.Map<ParticipantResponseViewModel>(user);
 
                 newParticipant.Participant.Status = ChatParticipantStatus.Online;

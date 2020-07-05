@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SetPasswordComponent } from './set-password/set-password.component';
+import { RegisterExternalComponent } from './register-external/register-external.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { SetPasswordComponent } from './set-password/set-password.component';
         LoginComponent,
         RegisterComponent,
         ResetPasswordComponent,
-        SetPasswordComponent
+        SetPasswordComponent,
+        RegisterExternalComponent
     ],
     exports: [
     ],

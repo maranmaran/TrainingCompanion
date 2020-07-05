@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
+﻿using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
+using Backend.Business.Authorization.AuthorizationRequests.ExternalLogin.GoogleLogin;
 using Backend.Business.Authorization.Interfaces;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
-using Backend.Domain.Enum;
 using Backend.Domain.Factories;
 using Backend.Library.Payment.Configuration;
-using Google.Apis.Auth;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
 {
@@ -20,17 +17,14 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
     {
         private readonly IApplicationDbContext _context;
         private readonly IMediator _mediator;
-        private readonly IConfiguration _configuration;
         private readonly IJwtTokenGenerator _tokenGenerator;
 
         public ExternalLoginRequestHandler(IApplicationDbContext context,
             IMediator mediator,
-            IConfiguration configuration,
             IJwtTokenGenerator tokenGenerator)
         {
             _context = context;
             _mediator = mediator;
-            _configuration = configuration;
             _tokenGenerator = tokenGenerator;
         }
 
@@ -39,34 +33,23 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
         {
             try
             {
-                var googleAuthSection = _configuration.GetSection("GoogleSettings");
-                var settings = new GoogleJsonWebSignature.ValidationSettings
-                {
-                    Audience = new List<string>() { googleAuthSection["OAuthClientID"] }
-                };
-
-                var payload = await GoogleJsonWebSignature.ValidateAsync(request.TokenId, settings);
-
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == payload.Email, cancellationToken);
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
 
                 if (user == null)
                 {
-                    // TODO
-                    // redirect to choose athlete / coach page
-                    //return Redirect("http://localhost:4200/choose-account-type");
-
+                    // call create user request..
                     user = new ApplicationUser()
                     {
-                        AccountType = AccountType.Coach,
-                        Email = payload.Email,
-                        FirstName = payload.Name.Split(" ")[0],
-                        LastName = payload.Name.Split(" ")[1],
+                        AccountType = request.AccountType,
+                        Email = request.Email,
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
                         ExternalLoginAccount = true,
                         UserSetting = new UserSetting(),
                     };
 
-                    if (payload.Picture != null)
-                        user.Avatar = payload.Picture;
+                    if (request.Avatar != null)
+                        user.Avatar = request.Avatar;
 
                     user.CustomerId = await StripeConfiguration.AddCustomer(user.FullName, user.Email); // add to stripe
 

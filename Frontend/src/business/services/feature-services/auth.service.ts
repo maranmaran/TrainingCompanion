@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { SocialUser } from 'angularx-social-login';
 import * as jwt_decode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { Subject, throwError } from 'rxjs';
@@ -10,6 +9,7 @@ import { CurrentUser } from 'src/server-models/cqrs/authorization/current-user.r
 import { SetPasswordRequest } from 'src/server-models/cqrs/authorization/set-password.request';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
 import { BaseService } from '../base.service';
+import { ApplicationUser } from './../../../server-models/entities/application-user.model';
 
 
 @Injectable({ providedIn: 'root' })
@@ -39,13 +39,18 @@ export class AuthService extends BaseService {
       );
   }
 
-  public externalLoginCallback(data: SocialUser) {
-    var request = {
-      authToken: data.authToken,
-      tokenId: data.idToken,
-      userId: data.id
+  public externalLoginCallback(data: ApplicationUser) {
+
+    const request = {
+      userId: data.id,
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      avatar: data.avatar,
+      accountType: data.accountType
     }
-    return this.http.post<CurrentUser>(this.url + 'ExternalLoginCallback/', request)
+
+    return this.http.post<CurrentUser>(this.url + 'ExternalLoginCallback', request)
       .pipe(
         catchError(this.handleError)
       );

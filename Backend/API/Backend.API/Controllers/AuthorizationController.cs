@@ -36,6 +36,7 @@ namespace Backend.API.Controllers
             return Ok(response.CurrentUserInformation);
         }
 
+
         [HttpGet("{id}")]
         public async Task<IActionResult> CurrentUserInformation(Guid id, CancellationToken cancellationToken = default)
         {

@@ -17,6 +17,6 @@ export const environment = {
 
   stripePublishableKey: 'stripePublishableKey',
 
-  googleClientID: 'OAuth2ClientID-',
-  googleSecret: 'OAuth2Secret'
+  googleClientID: 'OAuth2ClientID',
+  facebookClientID: 'OAUth2ClientID',
 };

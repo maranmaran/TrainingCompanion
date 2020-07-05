@@ -18,28 +18,28 @@ export class AppSettingsService {
    */
   public get apiUrl(): string {
     // return environment.apiUrl;
-    return environment.apiUrlNoSSL;
+    return environment.apiUrl;
   }
 
   /**
  * Returns the base URL for the Push notifications hub.
  */
   public get notificationHubUrl(): string {
-    return environment.notificationHubUrlNoSSL;
+    return environment.notificationHubUrl;
   }
 
   /**
 * Returns the base URL for the Push notifications hub.
 */
   public get feedHubUrl(): string {
-    return environment.feedHubUrlNoSSL;
+    return environment.feedHubUrl;
   }
 
   /**
 * Returns the base URL for the Chat hub.
 */
   public get chatHubUrl(): string {
-    return environment.chatHubUrlNoSSL;
+    return environment.chatHubUrl;
   }
 
   /**

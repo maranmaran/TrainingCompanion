@@ -23,8 +23,10 @@ export class UserService extends CrudService<ApplicationUser> {
             );
     }
 
-    public getOne(id?: string, accountType?: AccountType) {
-        return this.http.get<ApplicationUser>(this.url + 'Get/' + id + '/' + accountType)
+    public getOne(id: string = null, email: string = null) {
+        const request = { id, email };
+
+        return this.http.post<ApplicationUser>(this.url + 'Get/', request)
             .pipe(
                 catchError(this.handleError)
             );

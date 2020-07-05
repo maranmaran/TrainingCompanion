@@ -2,20 +2,19 @@
 //   // background: linear-gradient(to top, rgb(201, 214, 255), rgb(226, 226, 226));
 // }
 
-
 img {
-    height: 13rem;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-  }
+  height: 13rem;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
 
- #login-form {
-   max-width: 400px;
-   width: 100%;
-  }
+#login-form {
+  max-width: 400px;
+  width: 100%;
+}
 
 .login-spinner-container {
   position: absolute;
@@ -29,5 +28,18 @@ img {
 
   & .login-spinner {
     z-index: 101;
+  }
+}
+
+.social-login {
+  border: solid 2px whitesmoke;
+  border-radius: 13px;
+  padding: 18px;
+
+  .social-login-actions > button {
+    transition: 0.3s;
+  }
+  .social-login-actions > button:hover {
+    background: rgba(0, 0, 0, 0.1);
   }
 }

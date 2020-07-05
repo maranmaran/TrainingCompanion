@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Backend.Business.Authorization.AuthorizationRequests.ExternalLogin.GoogleLogin;
+using Backend.Domain.Enum;
 using MediatR;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
@@ -6,8 +7,10 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
 
     public class ExternalLoginRequest : IRequest<ExternalLoginResponse>
     {
-        public string AuthToken { get; set; }
-        public string TokenId { get; set; }
-        public string UserId { get; set; }
+        public AccountType AccountType { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Avatar { get; set; }
     }
 }

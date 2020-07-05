@@ -22,14 +22,14 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(new GetAllUsersRequest(accountType, coachId), cancellationToken));
         }
 
-        [HttpGet("{id}/{accountType}")]
-        public async Task<IActionResult> Get(Guid id, AccountType accountType, CancellationToken cancellationToken = default)
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Get(GetUserRequest request, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(new GetUserRequest(id, accountType), cancellationToken));
+            return Ok(await Mediator.Send(request, cancellationToken));
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Create([FromBody] CreateUserRequest request, CancellationToken cancellationToken = default)
         {
             return Ok(await Mediator.Send(request, cancellationToken));

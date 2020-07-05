@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { from, Observable, of } from 'rxjs';
+import { catchError, switchMap, take } from 'rxjs/operators';
+import { UserService } from 'src/business/services/feature-services/user.service';
 import { Theme } from 'src/business/shared/theme.enum';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
-import { login } from 'src/ngrx/auth/auth.actions';
+import { externalLogin, login } from 'src/ngrx/auth/auth.actions';
 import { loginError } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { disableErrorDialogs, setActiveProgressBar, switchTheme } from 'src/ngrx/user-interface/ui.actions';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
-import { externalLogin } from './../../../../ngrx/auth/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +22,9 @@ import { externalLogin } from './../../../../ngrx/auth/auth.actions';
 })
 export class LoginComponent implements OnInit {
 
+  facebookProvider = FacebookLoginProvider.PROVIDER_ID
+  googleProvider = GoogleLoginProvider.PROVIDER_ID
+
   public loginForm: FormGroup;
   public loading$: Observable<boolean>;
   public hidePassword: boolean;
@@ -26,6 +32,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
+    private socialAuthService: SocialAuthService,
+    private userService: UserService,
+    private router: Router
   ) {
   }
 
@@ -64,6 +73,20 @@ export class LoginComponent implements OnInit {
   }
 
   public externalLogin(provider: string) {
-    this.store.dispatch(externalLogin({ provider }))
+
+    from(this.socialAuthService.signIn(provider))
+      .pipe(
+        switchMap(data =>
+          this.userService.getOne(null, data.email).pipe(catchError(_ => of(null))),
+          (socialUser, applicationUser) => ({ socialUser, applicationUser })
+        ),
+        take(1)
+      ).subscribe(userData => {
+        if (!userData.applicationUser) {
+          this.router.navigate(['/auth/register-external'], { state: userData.socialUser })
+        } else {
+          this.store.dispatch(externalLogin({ user: userData.applicationUser }))
+        }
+      });
   }
 }

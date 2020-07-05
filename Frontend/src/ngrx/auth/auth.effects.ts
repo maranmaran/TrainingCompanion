@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -27,7 +26,6 @@ export class AuthEffects {
     private store: Store<AppState>,
     private authService: AuthService,
     private userService: UserService,
-    private socialAuthService: SocialAuthService
   ) { }
 
   login$ = createEffect(
@@ -52,8 +50,7 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.externalLogin),
-        switchMap((payload: { provider: string }) => this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)),
-        switchMap(data => this.authService.externalLoginCallback(data)),
+        switchMap(payload => this.authService.externalLoginCallback(payload.user)),
         map((currentUser: CurrentUser) => this.store.dispatch(AuthActions.loginSuccess(currentUser))),
         catchError((error: Error) => of(this.store.dispatch(AuthActions.loginFailure(error))))
       ),

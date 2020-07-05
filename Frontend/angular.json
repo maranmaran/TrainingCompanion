@@ -80,7 +80,7 @@
           "options": {
             "sslKey": "src/environments/https/server.key",
             "sslCert": "src/environments/https/server.crt",
-            "ssl": false,
+            "ssl": true,
             "browserTarget": "Frontend:build"
           },
           "configurations": {
