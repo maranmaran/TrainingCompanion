@@ -3,11 +3,13 @@ using Backend.Business.Authorization.AuthorizationRequests.ExternalLogin.GoogleL
 using Backend.Business.Authorization.Interfaces;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
+using Backend.Domain.Enum;
 using Backend.Domain.Factories;
 using Backend.Library.Payment.Configuration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,8 +37,15 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
             {
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
 
+                // TODO: Extract this
                 if (user == null)
                 {
+                    var notificationSettings = EnumFactory.SeedEnum<NotificationType, NotificationSetting>((value, index) => new NotificationSetting()
+                    {
+                        Id = Guid.NewGuid(),
+                        NotificationType = value,
+                    }).ToList();
+
                     // call create user request..
                     user = new ApplicationUser()
                     {
@@ -45,7 +54,10 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
                         FirstName = request.FirstName,
                         LastName = request.LastName,
                         ExternalLoginAccount = true,
-                        UserSetting = new UserSetting(),
+                        UserSetting = new UserSetting()
+                        {
+                            NotificationSettings = notificationSettings
+                        },
                     };
 
                     if (request.Avatar != null)
