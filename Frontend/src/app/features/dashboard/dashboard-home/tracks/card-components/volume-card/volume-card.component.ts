@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { ConnectableObservable, forkJoin, Observable, of } from 'rxjs';
 import { combineLatest } from 'rxjs/internal/observable/combineLatest';
-import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, skip, startWith, switchMap, take, tap, concatMap, shareReplay } from 'rxjs/operators';
+import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, shareReplay, skip, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { Theme } from 'src/business/shared/theme.enum';
@@ -22,6 +22,7 @@ import { ChartData } from 'src/server-models/entities/chart-data';
 import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
+import { dateSpansDict } from '../models/card-date-span';
 import { ExerciseTypeService } from './../../../../../../../business/services/feature-services/exercise-type.service';
 import { currentUserId } from './../../../../../../../ngrx/auth/auth.selectors';
 import { trackItemUpdated } from './../../../../../../../ngrx/dashboard/dashboard.actions';
@@ -30,64 +31,8 @@ import { exerciseTypes } from './../../../../../../../ngrx/exercise-type/exercis
 import { ExerciseType } from './../../../../../../../server-models/entities/exercise-type.model';
 import { UnitSystem } from './../../../../../../../server-models/enums/unit-system.enum';
 import { PagingModel } from './../../../../../../shared/material-table/table-models/paging.model';
+import { CardParameters } from './../models/card-params';
 import { GetVolumeCardChartConfig } from './volume-card-chart.config';
-
-// Options to choose from when on dashboard graph - fixed moving window date intervals
-export const dateSpansDict = {
-  0: { label: 'Last week', dateFrom: moment((new Date())).subtract(1, 'week').toDate() },
-  1: { label: 'Last month', dateFrom: moment((new Date())).subtract(1, 'month').toDate() },
-  2: { label: 'Last 3 months', dateFrom: moment((new Date())).subtract(3, 'month').toDate() },
-  3: { label: 'Last 5 months', dateFrom: moment((new Date())).subtract(5, 'month').toDate() },
-}
-
-// Types of options for moving window date spans
-export enum CardDateSpan {
-  Week,
-  Month,
-  ThreeMonths,
-  FiveMonths
-}
-
-// carries all data for dashboard cards 
-export class CardParameters {
-
-  constructor(jsonParams: string, setSpan: boolean) {
-
-    if (!jsonParams) return; // default
-
-    const params = JSON.parse(jsonParams);
-
-    if (setSpan) {
-
-      if (moment(params.dateTo).diff(moment(params.dateFrom), 'days') == 7) {
-        params.dateSpanType = CardDateSpan.Week;
-      } else {
-        switch (moment(params.dateTo).diff(moment(params.dateFrom), 'months')) {
-          case 1:
-            params.dateSpanType = CardDateSpan.Month;
-            break;
-          case 3:
-            params.dateSpanType = CardDateSpan.ThreeMonths;
-            break;
-          case 5:
-            params.dateSpanType = CardDateSpan.FiveMonths;
-            break;
-          default:
-            throw new Error("No date span found");
-        }
-      }
-
-    }
-
-    Object.assign(this, params)
-  }
-
-  dateSpanType?: CardDateSpan
-  dateFrom: Date = moment(new Date()).subtract(1, 'month').toDate();
-  dateTo: Date = new Date();
-  exerciseType: ExerciseType;
-
-}
 
 @Component({
   selector: 'app-volume-card',
@@ -208,7 +153,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     );
   }
 
-  /** UI Change for things char configuration uses
+  /** UI Change for things chart configuration uses
    * Theme colors 
    * unit system values (fetch new data for this)
    * User id (who's data)
@@ -309,8 +254,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     this.initListeners();
   }
 
-  /**
-   * Listeners for form changes
+  /* Listeners for form changes
    * Every time something changes we fetch new data
    * Also we listen for autocomplete typing and fetch found 
    * exercises to display to user
@@ -351,9 +295,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
     )
   }
 
-  /**
-   * Validates form and retrieves it's data if it's valid
-   */
+  /* Validates form and retrieves it's data if it's valid */
   validateAndGetFormData() {
 
     if (!this.form.valid) return null;
@@ -368,9 +310,7 @@ export class VolumeCardComponent implements OnInit, OnDestroy {
   // display for exercise type input
   displayFunction = (exerciseType: ExerciseType) => exerciseType ? exerciseType.name : null;
 
-  /**
-   * Saves current parameter configuration so user can have it's dashboard persistent
-   */
+  /* Saves current parameter configuration so user can have it's dashboard persistent */
   saveParams() {
     let params = {
       dateFrom: this.dateFromVal,

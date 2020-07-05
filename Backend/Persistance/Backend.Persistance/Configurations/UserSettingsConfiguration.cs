@@ -47,7 +47,9 @@ namespace Backend.Persistance.Configurations
                 .WithOne(x => x.UserSetting)
                 .HasForeignKey(x => x.UserSettingId);
 
-            builder.HasOne(x => x.ApplicationUser).WithOne(x => x.UserSetting)
+            builder
+                .HasOne(x => x.ApplicationUser)
+                .WithOne(x => x.UserSetting)
                 .HasForeignKey<ApplicationUser>(x => x.UserSettingId);
 
             builder.HasIndex(x => x.ApplicationUserId);

@@ -56,7 +56,7 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
                         ExternalLoginAccount = true,
                         UserSetting = new UserSetting()
                         {
-                            NotificationSettings = notificationSettings
+                            NotificationSettings = notificationSettings,
                         },
                     };
 

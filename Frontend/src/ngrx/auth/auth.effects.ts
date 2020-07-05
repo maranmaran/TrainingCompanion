@@ -101,8 +101,9 @@ export class AuthEffects {
         ofType(AuthActions.logout),
         tap(() => {
           this.authService.signOutEvent.next(true);
-          this.cookieService.delete('Bearer');
-          this.socialAuthService.signOut(true);
+          this.cookieService.deleteAll();
+          localStorage.clear();
+          // this.socialAuthService.signOut();
           this.router.navigate(['/auth/login']).then(
             _ => {
               this.store.dispatch(AuthActions.logoutClearState())
