@@ -15,6 +15,7 @@ namespace Backend.Persistance.Configurations
             builder.Property(x => x.LastModified).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
             builder.Property(x => x.TrialDuration).HasDefaultValue(15);
             builder.Property(x => x.Active).HasDefaultValue(true);
+            builder.Property(x => x.ExternalLoginAccount).HasDefaultValue(false);
             builder.Property(x => x.Avatar).HasValueGenerator<AvatarGenerator>();
             builder.Ignore(x => x.FullName);
 

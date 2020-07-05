@@ -17,6 +17,11 @@ namespace Backend.Library.AmazonS3.Interfaces
         Task WriteToS3(string key, Stream data);
 
         /// <summary>
+        /// Checks if given URL belongs to S3
+        /// </summary>
+        Task<bool> IsS3Url(string url);
+
+        /// <summary>
         /// Gets presigned url
         /// Default expiration date is 8 days
         /// </summary>

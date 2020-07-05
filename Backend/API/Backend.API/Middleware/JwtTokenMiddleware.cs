@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,8 +19,7 @@ namespace Backend.API.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            var name = "jwt";
-            var token = context.Request.Cookies[name];
+            var token = context.Request.Cookies[JwtBearerDefaults.AuthenticationScheme];
 
             if (token != null && !context.Request.Headers.ContainsKey("Authorization"))
                 context.Request.Headers.Append("Authorization", $"Bearer {token}");

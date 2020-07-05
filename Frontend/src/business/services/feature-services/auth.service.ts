@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { SocialUser } from 'angularx-social-login';
 import * as jwt_decode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { Subject, throwError } from 'rxjs';
@@ -11,7 +12,7 @@ import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.requ
 import { BaseService } from '../base.service';
 
 
-@Injectable({ providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService extends BaseService {
 
   public signOutEvent = new Subject();
@@ -26,6 +27,25 @@ export class AuthService extends BaseService {
 
   public signIn(request: SignInRequest) {
     return this.http.post<CurrentUser>(this.url + 'SignIn', request)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  public externalLogin(provider: string) {
+    return this.http.get(this.url + 'ExternalLogin')
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  public externalLoginCallback(data: SocialUser) {
+    var request = {
+      authToken: data.authToken,
+      tokenId: data.idToken,
+      userId: data.id
+    }
+    return this.http.post<CurrentUser>(this.url + 'ExternalLoginCallback/', request)
       .pipe(
         catchError(this.handleError)
       );
@@ -46,9 +66,9 @@ export class AuthService extends BaseService {
   }
 
   public getCurrentUserInfo() {
-    const userId = localStorage.getItem('id');
+    const userId = this.getUserIdFromJWT();
 
-    if(!userId) {
+    if (!userId) {
       return throwError('Could not fetch user info');
     }
 
@@ -68,7 +88,14 @@ export class AuthService extends BaseService {
   }
 
   private getToken(): string {
-    return this.cookieService.get('jwt');
+    return this.cookieService.get('Bearer');
+  }
+
+  private getUserIdFromJWT(): string {
+    const token = this.getToken();
+    const decoded = jwt_decode(token);
+
+    return decoded.unique_name;
   }
 
   private getTokenExpirationDate(token: string): Date {

@@ -71,6 +71,14 @@ namespace Backend.Library.AmazonS3
             await fileTransferUtility.UploadAsync(request);
         }
 
+        public Task<bool> IsS3Url(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return Task.FromResult(false);
+
+            return Task.FromResult(url.Contains(_s3Settings.UrlBase));
+        }
+
         public async Task<string> GetPresignedUrlAsync(string key)
         {
             if (string.IsNullOrWhiteSpace(key))

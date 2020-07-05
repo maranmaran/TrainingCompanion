@@ -36,6 +36,10 @@
     </form>
 
   </div>
+
+  <button mat-flat-button color="primary" id="google-provider"
+    (click)="externalLogin('Google')">{{ 'Google sign in' | translate }}</button>
+
 </div>
 
 <div *ngIf="(loading$ | async)" class="login-spinner-container flex-center">

@@ -1,19 +1,20 @@
-import { NotificationToastComponent } from 'src/app/shared/notifications/notification-toast/notification-toast.component';
 import { CommonModule } from '@angular/common';
 import { HttpBackend, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule, forwardRef } from '@angular/core';
+import { forwardRef, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
-import { StoreModule, Store } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxStripeModule } from 'ngx-stripe';
-import { ToastrModule, ToastrService, ToastPackage } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
+import { NotificationToastComponent } from 'src/app/shared/notifications/notification-toast/notification-toast.component';
 import { PaginatorTranslateFactory } from 'src/assets/i18n/paginator-translate.factory';
 import { HttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
 import { CurrentUserLoadedGuard } from 'src/business/guards/current-user-loaded.guard';
@@ -23,7 +24,7 @@ import { APP_SETTINGS_PROVIDER, NOTIFICATION_TOAST_TOKEN } from 'src/business/se
 import { UIService } from 'src/business/services/shared/ui.service';
 import { environment } from 'src/environments/environment';
 import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
-import { metaReducers, reducers, AppState } from 'src/ngrx/global-setup.ngrx';
+import { metaReducers, reducers } from 'src/ngrx/global-setup.ngrx';
 import { MaterialModule } from '../shared/angular-material.module';
 import { ConfirmDialogComponent } from '../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { ErrorSnackbarComponent } from '../shared/dialogs/error-snackbar/error-snackbar.component';
@@ -47,7 +48,6 @@ import { PlansComponent } from './settings/billing/plans/plans.component';
 import { StripeCheckoutComponent } from './settings/billing/stripe-checkout/stripe-checkout.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { SettingsComponent } from './settings/settings.component';
-import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { ViewAsComponent } from './view-as/view-as.component';
 
 @NgModule({
@@ -85,7 +85,8 @@ import { ViewAsComponent } from './view-as/view-as.component';
                 useFactory: HttpLoaderFactory,
                 deps: [HttpBackend]
             }
-        })
+        }),
+        SocialLoginModule
     ],
     declarations: [
         AppContainerComponent,
@@ -122,9 +123,23 @@ import { ViewAsComponent } from './view-as/view-as.component';
             provide: MatPaginatorIntl, deps: [TranslateService],
             useFactory: (translateService: TranslateService) => new PaginatorTranslateFactory(translateService).getPaginatorIntl()
         },
-        { provide: NOTIFICATION_TOAST_TOKEN, useFactory: forwardRef(() => NotificationToastComponent) }
+        { provide: NOTIFICATION_TOAST_TOKEN, useFactory: forwardRef(() => NotificationToastComponent) },
         // { provide: MAT_HAMMER_OPTIONS, useClass: CustomHammerJsConfig }
         // { provide: APP_INITIALIZER, useFactory: initApplication, multi: true, deps: [Store, Actions] }
+        {
+            provide: 'SocialAuthServiceConfig',
+            useValue: {
+                autoLogin: false,
+                providers: [
+                    {
+                        id: GoogleLoginProvider.PROVIDER_ID,
+                        provider: new GoogleLoginProvider(
+                            environment.googleClientID
+                        ),
+                    },
+                ],
+            } as SocialAuthServiceConfig,
+        }
     ],
     entryComponents: [
         ErrorSnackbarComponent,

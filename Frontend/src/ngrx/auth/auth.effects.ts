@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -25,7 +26,8 @@ export class AuthEffects {
     private cookieService: CookieService,
     private store: Store<AppState>,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private socialAuthService: SocialAuthService
   ) { }
 
   login$ = createEffect(
@@ -46,17 +48,39 @@ export class AuthEffects {
     { dispatch: false }
   );
 
+  externalLogin$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.externalLogin),
+        switchMap((payload: { provider: string }) => this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)),
+        switchMap(data => this.authService.externalLoginCallback(data)),
+        map((currentUser: CurrentUser) => this.store.dispatch(AuthActions.loginSuccess(currentUser))),
+        catchError((error: Error) => of(this.store.dispatch(AuthActions.loginFailure(error))))
+      ),
+    { dispatch: false }
+  );
+
+  // externalLogin$ = createEffect(
+  //   () =>
+  //     this.actions$.pipe(
+  //       ofType(AuthActions.externalLogin),
+  //       switchMap((payload: { provider: string }) =>
+  //         this.authService.externalLogin(payload.provider)
+  //           .pipe(
+  //             map(response => console.log(response)),
+  //             catchError((error: Error) => of(this.store.dispatch(AuthActions.loginFailure(error))))
+  //           )
+  //       )
+  //     ),
+  //   { dispatch: false }
+  // );
+
   loginSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        // TODO: Deprecated
-        // comment on 16.05.2020: what is deprecated ?
         switchMap(
-          (currentUser: CurrentUser) => {
-            localStorage.setItem('id', currentUser.id);
-            return this.router.navigate(['/app']);
-          },
+          _ => this.router.navigate(['/app']),
           (currentUser, navigationSuccess) => ({ currentUser, navigationSuccess })
         ),
         tap(
@@ -78,8 +102,7 @@ export class AuthEffects {
         ofType(AuthActions.logout),
         tap(() => {
           this.authService.signOutEvent.next(true);
-          localStorage.removeItem('id');
-          this.cookieService.delete('jwt');
+          this.cookieService.delete('Bearer');
           this.router.navigate(['/auth/login']).then(
             _ => {
               this.store.dispatch(AuthActions.logoutClearState())

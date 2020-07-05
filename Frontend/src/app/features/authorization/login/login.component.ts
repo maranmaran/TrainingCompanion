@@ -10,6 +10,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { disableErrorDialogs, setActiveProgressBar, switchTheme } from 'src/ngrx/user-interface/ui.actions';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
+import { externalLogin } from './../../../../ngrx/auth/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
   ) {
-   }
+  }
 
   ngOnInit() {
 
@@ -60,5 +61,9 @@ export class LoginComponent implements OnInit {
 
       this.store.dispatch(login(signInRequest));
     }
+  }
+
+  public externalLogin(provider: string) {
+    this.store.dispatch(externalLogin({ provider }))
   }
 }

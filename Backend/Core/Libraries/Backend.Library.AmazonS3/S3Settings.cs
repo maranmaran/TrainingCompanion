@@ -8,6 +8,8 @@ namespace Backend.Library.AmazonS3
         public string SecretAccessKey { get; set; }
         public string BucketName { get; set; }
 
+        public string UrlBase { get; set; }
+
         public S3Settings()
         {
         }

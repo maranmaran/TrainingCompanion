@@ -28,6 +28,8 @@ namespace Backend.Domain.Entities.User
         public string Avatar { get; set; }
         public Gender Gender { get; set; }
 
+        public bool ExternalLoginAccount { get; set; }
+
         public DateTime CreatedOn { get; set; }
         public DateTime LastModified { get; set; }
 

@@ -15,7 +15,6 @@ using Backend.Library.Payment.Extensions;
 using Backend.Persistance;
 using FluentValidation.AspNetCore;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -36,6 +35,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using CompressionLevel = System.IO.Compression.CompressionLevel;
 using Mappings = Backend.Business.Reports.Mappings;
 
@@ -132,7 +132,7 @@ namespace Backend.API.Extensions
                     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                     x.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                    .AddJwtBearer(x =>
+                .AddJwtBearer(x =>
                 {
                     x.RequireHttpsMetadata = true;
                     x.SaveToken = true;

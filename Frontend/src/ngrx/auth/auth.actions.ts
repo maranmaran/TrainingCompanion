@@ -13,6 +13,11 @@ export const login = createAction(
     props<SignInRequest>()
 )
 
+export const externalLogin = createAction(
+    '[Auth API] External Login',
+    props<{ provider: string }>()
+)
+
 export const loginSuccess = createAction(
     '[Auth API] Login Success',
     props<CurrentUser>()
@@ -43,8 +48,8 @@ export const updateCurrentUser = createAction(
 )
 
 export const setLatestBodyweight = createAction(
-  '[Current user] Set latest bodyweight',
-  props<{bodyweight: Bodyweight}>()
+    '[Current user] Set latest bodyweight',
+    props<{ bodyweight: Bodyweight }>()
 )
 
 //#endregion

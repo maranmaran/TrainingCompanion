@@ -15,5 +15,8 @@ export const environment = {
   chatHubUrl: 'backendURL/api/chat-hub',
   chatHubUrlNoSSL: 'backendURL/api/chat-hub',
 
-  stripePublishableKey: 'stripePublishableKey' // TODO remove from client 
+  stripePublishableKey: 'stripePublishableKey',
+
+  googleClientID: 'OAuth2ClientID-',
+  googleSecret: 'OAuth2Secret'
 };

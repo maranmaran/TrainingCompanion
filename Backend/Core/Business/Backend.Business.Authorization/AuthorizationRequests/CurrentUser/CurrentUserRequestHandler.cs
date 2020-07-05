@@ -3,7 +3,6 @@ using Backend.Business.Billing.BillingRequests.GetPlans;
 using Backend.Business.Billing.BillingRequests.GetSubscription;
 using Backend.Business.Billing.BillingRequests.GetSubscriptionStatus;
 using Backend.Business.ProgressTracking.BodyweightRequests.GetLatest;
-using Backend.Common;
 using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
@@ -67,7 +66,7 @@ namespace Backend.Business.Authorization.AuthorizationRequests.CurrentUser
         internal async Task RefreshAvatar(ApplicationUser user, CurrentUserRequestResponse response)
         {
             // refresh avatar url if needed
-            if (GenericAvatarConstructor.IsGenericAvatar(user.Avatar) == false)
+            if (await _s3Service.IsS3Url(user.Avatar))
                 response.Avatar = await _s3Service.GetPresignedUrlAsync(user.Avatar);
         }
 

@@ -20,6 +20,8 @@ namespace Backend.Business.Authorization.AuthorizationRequests.CurrentUser
         public string Email { get; set; }
         public string Avatar { get; set; }
 
+        public bool ExternalLoginAccount { get; set; } = false;
+
         public AccountType AccountType { get; set; }
         public bool Active { get; set; }
         public UserSetting UserSetting { get; set; }

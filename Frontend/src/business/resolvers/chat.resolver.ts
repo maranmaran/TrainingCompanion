@@ -37,8 +37,8 @@ export class ChatResolver implements Resolve<Observable<{ friends: IChatParticip
           return this.updateState()
         }
 
-        if(!selectedFriend) {
-          this.store.dispatch(setSelectedFriend({friend: friends[0]}))
+        if (!selectedFriend) {
+          this.store.dispatch(setSelectedFriend({ friend: friends[0] }))
         }
 
         return of({ friends, metadata });
@@ -52,7 +52,11 @@ export class ChatResolver implements Resolve<Observable<{ friends: IChatParticip
         take(1),
         map((response: ParticipantResponse[]) => {
           this.store.dispatch(friendsFetched({ response }));
-          this.store.dispatch(setSelectedFriend({friend: response[0].participant }))
+
+          if (response?.length > 0) {
+            this.store.dispatch(setSelectedFriend({ friend: response[0].participant }))
+          }
+
         }))
   }
 }
