@@ -76,7 +76,7 @@ namespace Backend.Library.AmazonS3
             if (string.IsNullOrWhiteSpace(url))
                 return Task.FromResult(false);
 
-            return Task.FromResult(url.Contains(_s3Settings.UrlBase));
+            return Task.FromResult(url.Contains(_s3Settings.UrlBase) || Guid.TryParse(url, out _));
         }
 
         public async Task<string> GetPresignedUrlAsync(string key)
