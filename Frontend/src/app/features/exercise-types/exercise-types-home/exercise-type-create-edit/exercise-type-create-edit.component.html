@@ -71,7 +71,7 @@
               <span><em>{{'EXERCISE_TYPES.NO_PROPS' | translate}}</em></span>
             </ng-template>
 
-            <mat-action-row *ngIf="getGroupTags(tagGroup.id).length > 0">
+            <mat-action-row>
               <ng-container *ngTemplateOutlet="newPropertyTemplate; context: { tagGroupId: tagGroup.id }">
               </ng-container>
             </mat-action-row>

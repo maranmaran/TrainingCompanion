@@ -20,6 +20,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/update-exercise-type.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
+import { Tag } from 'src/server-models/entities/tag.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
 import { ExerciseTypeService } from './../../../../../business/services/feature-services/exercise-type.service';
@@ -159,7 +160,20 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
           // filter out assigned tags and unactive tags
           // only relevant for updating entity...
           if (exerciseType) {
-            group.tags = group.tags.filter(tag => !!tag.active && exerciseType.properties.find(x => x.tagId !== tag.id));
+
+            var filterTags = (tag: Tag) => {
+              if (!tag.active)
+                return false;
+
+              if (exerciseType.properties.find(x => x.tagId == tag.id))
+                return false;
+
+              return true;
+            };
+
+            group.tags = group.tags.filter(filterTags);
+
+            console.log(group.tags);
           }
 
           return group;
