@@ -13,4 +13,11 @@
     <ProjectReference Include="..\..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ReportsRequests\Dashboard\GetCompetitionHistoryReport\" />
+    <Folder Include="ReportsRequests\Dashboard\GetNumberOfLiftsReport\" />
+    <Folder Include="ReportsRequests\Dashboard\GetVolumeSplitByExerciseReport\" />
+    <Folder Include="ReportsRequests\Dashboard\GetOverUnderBaselineVolumeReport\" />
+  </ItemGroup>
+
 </Project>
