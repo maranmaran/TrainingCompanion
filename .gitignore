@@ -11,6 +11,13 @@
 **/server.key
 **/server.crt
 
+*.crt
+*.key
+*.Development.json
+*.Release.json
+*.dev.ts
+*.prod.ts
+
 # User-specific files
 *.rsuser
 *.suo
