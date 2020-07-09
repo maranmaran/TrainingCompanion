@@ -42,7 +42,8 @@ import { ExerciseTypesRoutingModule } from './exercise-types-routing.module';
         PersonalBestService
     ],
     entryComponents: [
-      ExerciseTypeCreateEditComponent
+        // TODO remove after ~30 days - 09.07.20
+        //   ExerciseTypeCreateEditComponent
     ]
 })
 export class ExerciseTypesModule { }

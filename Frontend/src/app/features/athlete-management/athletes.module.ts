@@ -1,10 +1,7 @@
-import { HttpBackend } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AthleteManagementHttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { athletesReducer } from 'src/ngrx/athletes/athlete.reducers';
 import { AthletesResolver } from '../../../business/resolvers/athletes.resolver';
@@ -36,7 +33,8 @@ import { AthletesRoutingModule } from './athletes-routing.module';
         AthletesResolver
     ],
     entryComponents: [
-        AthleteCreateEditComponent,
+        // TODO remove after ~30 days - 09.07.20
+        // AthleteCreateEditComponent,
     ]
 })
 export class AthletesModule { }

@@ -1,9 +1,13 @@
-import { TagService } from 'src/business/services/feature-services/tag.service';
 import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TagService } from 'src/business/services/feature-services/tag.service';
 import { UIService } from 'src/business/services/shared/ui.service';
+import { TagGroupEffects } from 'src/ngrx/tag-group/tag-group.effects';
+import { tagGroupReducer } from 'src/ngrx/tag-group/tag-group.reducers';
+import { TagEffects } from 'src/ngrx/tag/tag.effects';
 import { TagGroupService } from '../../../business/services/feature-services/tag-group.service';
 import { TagGroupsResolver } from './../../../business/resolvers/tag-groups.resolver';
 import { ExercisePropertiesHomeComponent } from './exercise-properties-home/exercise-properties-home.component';
@@ -14,10 +18,6 @@ import { TypeDetailsComponent } from './exercise-properties-home/types/type-deta
 import { TypesCreateEditComponent } from './exercise-properties-home/types/types-create-edit/types-create-edit.component';
 import { TypesListComponent } from './exercise-properties-home/types/types-list/types-list.component';
 import { ExercisePropertiesRoutingModule } from './exercise-properties-routing.module';
-import { EffectsModule } from '@ngrx/effects';
-import { TagGroupEffects } from 'src/ngrx/tag-group/tag-group.effects';
-import { tagGroupReducer } from 'src/ngrx/tag-group/tag-group.reducers';
-import { TagEffects } from 'src/ngrx/tag/tag.effects';
 
 @NgModule({
     imports: [
@@ -45,8 +45,9 @@ import { TagEffects } from 'src/ngrx/tag/tag.effects';
         TagGroupsResolver,
     ],
     entryComponents: [
-        TypesCreateEditComponent,
-        TagsCreateEditComponent
+        // TODO remove after ~30 days - 09.07.20
+        // TypesCreateEditComponent,
+        // TagsCreateEditComponent
     ]
 })
 export class ExercisePropertiesModule { }

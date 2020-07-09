@@ -36,7 +36,8 @@ import { BodyweightRoutingModule } from './bodyweight-routing.module';
         UIService
     ],
     entryComponents: [
-      BodyweightCreateEditComponent
+        // TODO remove after ~30 days - 09.07.20
+        //BodyweightCreateEditComponent
     ]
 })
 export class BodyweightModule { }

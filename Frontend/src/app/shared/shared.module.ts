@@ -191,10 +191,11 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
     providers: [
     ],
     entryComponents: [
-        MediaDialogComponent,
-        ErrorSnackbarComponent,
-        MessageDialogComponent,
-        ConfirmDialogComponent,
+        // TODO remove after ~30 days - 09.07.20
+        // MediaDialogComponent,
+        // ErrorSnackbarComponent,
+        // MessageDialogComponent,
+        // ConfirmDialogComponent,
     ]
 })
 export class SharedModule { }

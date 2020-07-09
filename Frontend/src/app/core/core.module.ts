@@ -26,9 +26,6 @@ import { environment } from 'src/environments/environment';
 import { CustomSerializer } from 'src/ngrx/custom.router-state-serializer';
 import { metaReducers, reducers } from 'src/ngrx/global-setup.ngrx';
 import { MaterialModule } from '../shared/angular-material.module';
-import { ConfirmDialogComponent } from '../shared/dialogs/confirm-dialog/confirm-dialog.component';
-import { ErrorSnackbarComponent } from '../shared/dialogs/error-snackbar/error-snackbar.component';
-import { MessageDialogComponent } from '../shared/dialogs/message-dialog/message-dialog.component';
 import { ExportImportServicesModule } from '../shared/export-import-services.module';
 import { SharedModule } from '../shared/shared.module';
 import { SignalrHubsModule } from '../shared/signalr-hubs.module';
@@ -148,12 +145,13 @@ import { ViewAsComponent } from './view-as/view-as.component';
         }
     ],
     entryComponents: [
-        ErrorSnackbarComponent,
-        SettingsComponent,
-        StripeCheckoutComponent,
-        ConfirmDialogComponent,
-        MessageDialogComponent,
-        NotificationToastComponent
+        // TODO remove after ~30 days - 09.07.20
+        // ErrorSnackbarComponent,
+        // SettingsComponent,
+        // StripeCheckoutComponent,
+        // ConfirmDialogComponent,
+        // MessageDialogComponent,
+        // NotificationToastComponent
     ]
 })
 export class CoreModule { }
