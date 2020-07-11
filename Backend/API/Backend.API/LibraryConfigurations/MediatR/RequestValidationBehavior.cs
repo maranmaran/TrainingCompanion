@@ -1,9 +1,11 @@
 ﻿using FluentValidation;
 using MediatR;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace Backend.API.LibraryConfigurations.MediatR
 {
@@ -22,7 +24,7 @@ namespace Backend.API.LibraryConfigurations.MediatR
             var context = new ValidationContext(request);
 
             var failures = _validators
-                .Select(v => v.Validate(context))
+                .Select(v => v.Validate(request))
                 .SelectMany(result => result.Errors)
                 .Where(f => f != null)
                 .ToList();
