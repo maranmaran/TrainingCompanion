@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Token } from 'ngx-stripe';
-import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 import { BillingService } from 'src/business/services/feature-services/billing.service';
 import { addSubscription } from 'src/ngrx/auth/auth.actions';
@@ -41,12 +41,11 @@ export class BillingComponent implements OnInit, OnDestroy {
       combineLatest(
         this.store.select(currentUser),
         this.store.select(isSubscribed)
-      )
-      .subscribe(([user, isSubscribed]) => {
-          this.currentUser = user;
-          this.plans = this.currentUser.plans.data;
-          this.subscriptionValid = isSubscribed;
-        })
+      ).subscribe(([user, isSubscribed]) => {
+        this.currentUser = user;
+        this.plans = this.currentUser.plans.data;
+        this.subscriptionValid = isSubscribed;
+      })
     );
   }
 

@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, 
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { forkJoin, of } from 'rxjs';
 import { concatMap, map, take } from 'rxjs/operators';
 import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';

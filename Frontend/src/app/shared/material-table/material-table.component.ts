@@ -6,7 +6,7 @@ import { MediaObserver } from '@angular/flex-layout';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import _ from "lodash";
+import _ from 'lodash-es';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { TableConfig } from "src/app/shared/material-table/table-models/table-config.model";

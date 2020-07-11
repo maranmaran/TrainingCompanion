@@ -1,12 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { ChatState } from './chat.state';
 
 export const selectChatState = createFeatureSelector<ChatState>("chat");
 
 export const isFullScreenChatActive = createSelector(
-    selectChatState,
-    (chatState: ChatState) => chatState.fullscreenChatActive
+  selectChatState,
+  (chatState: ChatState) => chatState.fullscreenChatActive
 );
 
 export const friends = createSelector(

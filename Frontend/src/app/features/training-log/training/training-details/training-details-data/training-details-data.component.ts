@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { transformWeight } from 'src/business/services/shared/unit-system.service';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -27,7 +26,7 @@ export class TrainingDetailsDataComponent implements OnInit {
       this.store.select(sessionVolume),
       this.store.select(sessionNumberOfLifts),
     ).pipe(
-      map(([system, volume, numOfLifts]) => ( { volume: transformWeight(volume, system), numOfLifts} ) )
+      map(([system, volume, numOfLifts]) => ({ volume: transformWeight(volume, system), numOfLifts }))
     )
   }
 

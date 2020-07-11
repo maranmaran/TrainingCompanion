@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import { Guid } from 'guid-typescript';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import * as moment from 'moment';
 import { combineLatest, ConnectableObservable, forkJoin, Observable, of } from 'rxjs';
 import { debounceTime, distinct, distinctUntilChanged, filter, finalize, map, publish, shareReplay, skip, startWith, switchMap, take, tap } from 'rxjs/operators';

@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import * as _ from "lodash";
+import * as _ from 'lodash-es';
 import { concatMap, map, take } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';

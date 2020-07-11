@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import * as _ from "lodash-es";
 import { Theme } from 'src/business/shared/theme.enum';
 
 export function flatten(array) {

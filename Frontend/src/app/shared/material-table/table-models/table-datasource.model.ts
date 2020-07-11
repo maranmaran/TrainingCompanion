@@ -1,5 +1,5 @@
 import { MatTableDataSource } from '@angular/material/table';
-import * as _ from "lodash";
+import * as _ from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import { PagingModel } from './paging.model';
 

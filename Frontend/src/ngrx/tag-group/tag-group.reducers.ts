@@ -1,6 +1,6 @@
 import { Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
-import * as _ from "lodash";
+import * as _ from "lodash-es";
 import { sortBy } from 'src/business/utils/utils';
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { Tag } from '../../server-models/entities/tag.model';
@@ -81,20 +81,20 @@ export const tagGroupReducer: ActionReducer<TagGroupState, Action> = createReduc
         let second: Tag;
         let parent: TagGroup;
 
-        for(let parentId of state.ids) {
-          let parentTemp = state.entities[parentId];
+        for (let parentId of state.ids) {
+            let parentTemp = state.entities[parentId];
 
-          for(let tag of parentTemp.tags) {
+            for (let tag of parentTemp.tags) {
 
-            if(tag.id == payload.previousItem) {
-              first = Object.assign(new Tag(), tag);
-              parent = _.cloneDeep(parentTemp);
+                if (tag.id == payload.previousItem) {
+                    first = Object.assign(new Tag(), tag);
+                    parent = _.cloneDeep(parentTemp);
+                }
+                if (tag.id == payload.currentItem) {
+                    second = Object.assign(new Tag(), tag);
+                }
+
             }
-            if(tag.id == payload.currentItem) {
-              second = Object.assign(new Tag(), tag);
-            }
-
-          }
         }
 
         // switch

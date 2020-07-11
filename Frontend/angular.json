@@ -11,7 +11,7 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
@@ -34,7 +34,14 @@
               "node_modules/placeholder-loading/src/scss/placeholder-loading.scss"
             ],
             "scripts": [],
-            "es5BrowserSupport": true
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "subsink",
+              "jwt-decode",
+              "moment-timezone",
+              "chart.js",
+              "file-saver"
+            ]
           },
           "configurations": {
             "dev": {
@@ -153,7 +160,7 @@
   },
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     }
   }
 }

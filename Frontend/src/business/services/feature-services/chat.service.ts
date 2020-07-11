@@ -3,8 +3,7 @@ import { ElementRef, Injectable, OnDestroy, QueryList } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/internal/operators/map';
-import { take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { ChatParticipantStatus } from 'src/app/features/chat/models/enums/chat-participant-status.enum';
 import { ChatParticipantType } from 'src/app/features/chat/models/enums/chat-participant-type.enum';
 import { MessageType } from 'src/app/features/chat/models/enums/message-type.enum';
@@ -75,7 +74,7 @@ export class ChatService implements OnDestroy {
   ) {
     this.subs.add(
       this.signalrService.messages$
-      .subscribe(data => this.onMessageReceived(data.friend, data.message))
+        .subscribe(data => this.onMessageReceived(data.friend, data.message))
     )
   }
 
@@ -105,7 +104,7 @@ export class ChatService implements OnDestroy {
   }
 
   bootstrapChatFullscreen(window: Window) {
-    if(!this.config || !this.paramsInitialized) throw new Error("Chat configuration not initialized");
+    if (!this.config || !this.paramsInitialized) throw new Error("Chat configuration not initialized");
 
     let friend = window.participant;
 
@@ -115,13 +114,13 @@ export class ChatService implements OnDestroy {
     this.isBootstrapped = true;
 
     this.getMessageHistory(window, true)
-    .pipe(take(1))
-    .subscribe(messages => this.onFetchMessageHistoryLoaded(messages, window, ScrollDirection.Bottom));
+      .pipe(take(1))
+      .subscribe(messages => this.onFetchMessageHistoryLoaded(messages, window, ScrollDirection.Bottom));
 
   }
 
   bootstrapChatSmall(window: globalThis.Window): void {
-    if(this.config == null || !this.paramsInitialized) throw Error("Chat configuration or parameters are not set");
+    if (this.config == null || !this.paramsInitialized) throw Error("Chat configuration or parameters are not set");
     let initializationException = null;
 
     if (this.signalrService != null && this.userId != null) {
@@ -164,14 +163,14 @@ export class ChatService implements OnDestroy {
   // Sends a request to load the friends list
   fetchFriendsList(isBootstrapping: boolean): void {
     this.store.select(friends).pipe(take(1))
-    .subscribe(friends => {
-      this.friends = friends;
-      this.friendsInteractedWith = [];
+      .subscribe(friends => {
+        this.friends = friends;
+        this.friendsInteractedWith = [];
 
-      if (isBootstrapping) {
-        this.restoreWindowsState();
-      }
-    })
+        if (isBootstrapping) {
+          this.restoreWindowsState();
+        }
+      })
   }
 
   restoreWindowsState(): void {
@@ -205,7 +204,7 @@ export class ChatService implements OnDestroy {
     let newChatWindow = new Window(participant, false, collapseWindow);
 
     // Loads the chat history via an RxJs Observable
-    this.getMessageHistory(newChatWindow).subscribe(messages =>this.onFetchMessageHistoryLoaded(messages, newChatWindow, ScrollDirection.Bottom));
+    this.getMessageHistory(newChatWindow).subscribe(messages => this.onFetchMessageHistoryLoaded(messages, newChatWindow, ScrollDirection.Bottom));
 
     this.windows.unshift(newChatWindow);
 
@@ -245,12 +244,12 @@ export class ChatService implements OnDestroy {
       this.scrollChatWindow(window, direction)
     });
 
-    if(!window.hasFocus) return;
+    if (!window.hasFocus) return;
 
     const unseenMessages = messages.filter(m => !m.dateSeen);
     this.markMessagesAsRead(unseenMessages);
     this.signalrService.sendOnMessagesSeenEvent(unseenMessages);
-    this.store.dispatch(allMessagesSeen({ friendId: window.participant.id}));
+    this.store.dispatch(allMessagesSeen({ friendId: window.participant.id }));
   }
 
   markMessagesAsRead(messages: Message[]): void {
@@ -286,11 +285,11 @@ export class ChatService implements OnDestroy {
 
   // Saves current windows state into local storage if persistence is enabled
   updateWindowsState(windows: Window[]): void {
-      let participantIds = windows.map((w) => {
-        return w.participant.id;
-      });
+    let participantIds = windows.map((w) => {
+      return w.participant.id;
+    });
 
-      localStorage.setItem(this.localStorageKey, JSON.stringify(participantIds));
+    localStorage.setItem(this.localStorageKey, JSON.stringify(participantIds));
   }
 
   // Focus on the input element of the supplied window
@@ -386,7 +385,7 @@ export class ChatService implements OnDestroy {
   */
   onSendMessage(event: KeyboardEvent | MouseEvent, window: Window): void {
     event.preventDefault();
-    if(event instanceof KeyboardEvent) {
+    if (event instanceof KeyboardEvent) {
       switch (event.keyCode) {
         // enter
         case 13:
@@ -432,7 +431,7 @@ export class ChatService implements OnDestroy {
             this.onCloseChatWindow(window);
           }
       }
-    } else if(event instanceof MouseEvent) {
+    } else if (event instanceof MouseEvent) {
       if (window.newMessage && window.newMessage.trim() != "") {
 
         let message = new Message();
@@ -487,7 +486,7 @@ export class ChatService implements OnDestroy {
       if (unreadMessages && unreadMessages.length > 0) {
         this.markMessagesAsRead(unreadMessages);
         this.signalrService.sendOnMessagesSeenEvent(unreadMessages);
-        this.store.dispatch(allMessagesSeen({friendId: window.participant.id}))
+        this.store.dispatch(allMessagesSeen({ friendId: window.participant.id }))
       }
     }
   }
@@ -649,4 +648,3 @@ export class ChatService implements OnDestroy {
   }
 
 }
-

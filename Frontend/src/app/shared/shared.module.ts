@@ -62,15 +62,7 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         CKEditorModule,
 
         // https://www.npmjs.com/package/ng-dynamic-component
-        DynamicModule.withComponents([
-            ExerciseTypePreviewComponent,
-            ExerciseTypeChipComponent,
-            ExerciseTypeChipListComponent,
-            ActiveFlagComponent,
-            TrainingMonthViewDayComponent,
-            VolumeCardComponent,
-            MaxCardComponent
-        ]),
+        DynamicModule,
         AvatarModule,
         ImageCropperModule,
         // lazy loaded modules import of translate module

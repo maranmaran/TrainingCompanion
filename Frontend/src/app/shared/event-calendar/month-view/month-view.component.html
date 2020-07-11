@@ -1,72 +1,66 @@
 <div class="controls" fxLayout="row" fxLayoutAlign="space-between center">
-    <div class="actions" fxLayout="row" fxLayoutGap="5px" fxLayoutGap.xs="0px">
-        <button mat-icon-button color="accent" (click)="previousMonth()">
-            <i class="fas fa-arrow-left"></i>
-        </button>
-        <button mat-icon-button color="accent" (click)="currentMonth()">
-            <i class="fas fa-dot-circle"></i>
-        </button>
-        <button mat-icon-button color="accent" (click)="nextMonth()">
-            <i class="fas fa-arrow-right"></i>
-        </button>
-    </div>
+  <div class="actions" fxLayout="row" fxLayoutGap="5px" fxLayoutGap.xs="0px">
+    <button mat-icon-button color="accent" (click)="previousMonth()">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <button mat-icon-button color="accent" (click)="currentMonth()">
+      <i class="fas fa-dot-circle"></i>
+    </button>
+    <button mat-icon-button color="accent" (click)="nextMonth()">
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
 
-    <label class="current-month-year-label">{{ currentDay | formatMomentDate: 'MMMM, M/YY' }}</label>
+  <label class="current-month-year-label">{{ currentDay | formatMomentDate: 'MMMM, M/YY' }}</label>
 </div>
 <div class="month-container" fxLayout="column" fxFlexFill>
-    <ng-container *ngFor="let week of calendar.weeks" >
+  <ng-container *ngFor="let week of calendar.weeks">
 
-        <div class="weekdays-container" fxLayout="row" fxFlex="1 1 100%">
-            <ng-container *ngFor="let calDay of week.days">
-                <div
-                fxFlex="1 1 100%"
-                class="date"
-                [ngClass]="{'sunday': isSunday(calDay.day), 'today': isToday(calDay.day), 'pointer': calDay.events.length == 0}"
-                fxLayout="column"
-                (click)="selectDay(calDay)"
-                >
+    <div class="weekdays-container" fxLayout="row" fxFlex="1 1 100%">
+      <ng-container *ngFor="let calDay of week.days">
+        <div fxFlex="1 1 100%" class="date"
+          [ngClass]="{'sunday': isSunday(calDay.day), 'today': isToday(calDay.day), 'pointer': calDay.events.length == 0}"
+          fxLayout="column" (click)="selectDay(calDay)">
 
-                    <div class="top-label" fxLayout="row" fxLayoutAlign="space-between center">
+          <div class="top-label" fxLayout="row" fxLayoutAlign="space-between center">
 
-                      <label [ngClass]=" belongsToThisMonth(calDay.day, currentDay) ? 'day-label' : 'not-relevant-day-label' ">
-                          {{ calDay.day | formatMomentDate: 'D'}}
-                      </label>
+            <label [ngClass]=" belongsToThisMonth(calDay.day, currentDay) ? 'day-label' : 'not-relevant-day-label' ">
+              {{ calDay.day | formatMomentDate: 'D'}}
+            </label>
 
-                      <button *ngIf="calDay.events.length > 0" class="small-add-button" (click)="add(calDay.day)"
-                        mat-icon-button color="accent" button-size size="20px">
-                        <i class="fas fa-plus"></i>
-                       </button>
-                  </div>
+            <button *ngIf="calDay.events.length > 0" class="small-add-button" (click)="add(calDay.day)" mat-icon-button
+              color="accent" button-size size="20px">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
 
-                    <div class="day-content" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1px">
+          <div class="day-content" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1px">
 
-                      <button *ngIf="calDay.events.length == 0" class="add-button" mat-icon-button color="accent" (click)="add(calDay.day)">
-                          <i
-                            class="fas fa-plus"
-                            [ngClass.xs]="'fa-1-3-5x'"
-                            [ngClass.gt-xs]="'fa-1-5x'"
-                            [ngClass.gt-md]="'fa-1-7-5x'"
-                          ></i>
-                      </button>
-<!--
+            <button *ngIf="calDay.events.length == 0" class="add-button" mat-icon-button color="accent"
+              (click)="add(calDay.day)">
+              <i class="fas fa-plus" [ngClass.xs]="'fa-1-3-5x'" [ngClass.gt-xs]="'fa-1-5x'"
+                [ngClass.gt-md]="'fa-1-7-5x'"></i>
+            </button>
+            <!--
                       <button *ngIf="calDay?.events?.length > 3" class="event-button"
                         mat-icon-button color="warn" (click)="open(calEvent.event)"
                         matBadge="{{ calDay?.events?.length }}" matBadgePosition="after" matBadgeColor="accent">
                           <i class="{{ config.eventIcon }}"></i>
                       </button> -->
 
-                      <!-- <ng-container *ngIf="calDay?.events?.length <= 3"> -->
-                        <ng-container *ngFor="let calEvent of calDay.events; let i = index">
+            <!-- <ng-container *ngIf="calDay?.events?.length <= 3"> -->
+            <ng-container *ngFor="let calEvent of calDay.events; let i = index">
 
-                          <ndc-dynamic *ngIf="config.useComponent && calEvent.event" [ndcDynamicComponent]="config.component" [ndcDynamicInputs]="config.componentInputs(calEvent)"></ndc-dynamic>
+              <ndc-dynamic *ngIf="config.useComponent && calEvent.event" [ndcDynamicComponent]="config.component"
+                [ndcDynamicInputs]="config.componentInputs(calEvent)"></ndc-dynamic>
 
-                        </ng-container>
-                      <!-- </ng-container> -->
-                    </div>
-
-                </div>
             </ng-container>
-        </div>
+            <!-- </ng-container> -->
+          </div>
 
-    </ng-container>
+        </div>
+      </ng-container>
+    </div>
+
+  </ng-container>
 </div>

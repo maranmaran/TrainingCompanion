@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
 import { round } from 'src/business/utils/utils';
+import { Injectable } from "@angular/core";
 
 export class DeviceAccelerationRecord {
   X: number;
@@ -60,6 +61,7 @@ export class DeviceAccelerationManager {
 
 }
 
+@Injectable()
 export class DeviceMotionService {
 
   accelerationManager = new DeviceAccelerationManager();

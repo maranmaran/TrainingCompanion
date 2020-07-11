@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Theme } from 'src/business/shared/theme.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
@@ -35,7 +35,7 @@ export class ChatSmallComponent implements OnInit {
   private subs = new SubSink();
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    if(!this.chat.isBootstrapped) return;
+    if (!this.chat.isBootstrapped) return;
 
     this.chat.viewPortTotalArea = event.target.innerWidth;
 
@@ -58,7 +58,7 @@ export class ChatSmallComponent implements OnInit {
       ).subscribe(([userId, theme]) => {
 
         setTimeout(_ => {
-          if(!this.chat.paramsInitialized)
+          if (!this.chat.paramsInitialized)
             this.chat.setParams(userId, this.fileInputs, this.messageInputs, this.messageSections);
 
           this.chat.setConfiguration(theme)

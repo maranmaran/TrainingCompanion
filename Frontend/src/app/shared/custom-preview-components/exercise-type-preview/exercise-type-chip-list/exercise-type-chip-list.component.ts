@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import * as _ from "lodash";
+import * as _ from 'lodash-es';
 import { ExerciseTypeTag } from 'src/server-models/entities/exercise-type.model';
 import { Tag } from 'src/server-models/entities/tag.model';
 

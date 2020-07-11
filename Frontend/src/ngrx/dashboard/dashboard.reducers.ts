@@ -1,5 +1,5 @@
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from 'src/server-models/entities/track.model';
 import { Activity, UserActivitiesContainer } from './../../app/features/dashboard/models/activity.model';

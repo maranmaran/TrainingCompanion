@@ -4,7 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/internal/operators/take';
+import { take } from 'rxjs/operators';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';

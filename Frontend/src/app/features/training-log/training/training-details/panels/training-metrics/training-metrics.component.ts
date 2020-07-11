@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
-import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 import { distinctUntilChanged, map, startWith, take } from 'rxjs/operators';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { Theme } from 'src/business/shared/theme.enum';
@@ -61,8 +61,8 @@ export class TrainingMetricsComponent implements OnInit, OnDestroy {
         this.actions$.pipe(ofType(settingsUpdated), map(val => val.unitSystem), startWith(this._unitSystem)),
         this.store.select(selectedTrainingId)
       )
-      .pipe(distinctUntilChanged((a,b) => JSON.stringify(a) == JSON.stringify(b)))
-      .subscribe(val => this.prepareData(val))
+        .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) == JSON.stringify(b)))
+        .subscribe(val => this.prepareData(val))
     )
   }
 

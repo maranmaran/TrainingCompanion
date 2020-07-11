@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
-import * as _ from "lodash";
+import * as _ from "lodash-es";
 import { Observable } from 'rxjs';
 import { map, skip, take } from 'rxjs/operators';
 import { Country } from 'src/business/shared/models/country.model';

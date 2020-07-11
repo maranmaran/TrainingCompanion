@@ -3,8 +3,9 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { debounceTime, distinct, filter, finalize, skip, switchMap, take, tap } from 'rxjs/operators';
+import { isExerciseTypeValidator } from 'src/app/features/training-program/training-program-home/workout-filler/block-day/block-training/block-exercise-create-edit/block-exercise-create-edit.component';
 import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
@@ -21,7 +22,6 @@ import { Training } from 'src/server-models/entities/training.model';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
 import { ExerciseType } from './../../../../../server-models/entities/exercise-type.model';
-import { isExerciseTypeValidator } from 'src/app/features/training-program/training-program-home/workout-filler/block-day/block-training/block-exercise-create-edit/block-exercise-create-edit.component';
 
 @Component({
   selector: 'app-exercise-create-edit',

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { activeImportJobs } from 'src/ngrx/export-import/export-import.selectors';
@@ -27,7 +27,7 @@ export class ExerciseTypeImportComponent implements OnInit, OnDestroy {
     this.store.select(activeImportJobs).pipe(map(getJobsFn => getJobsFn(ImportEntities.ExerciseTypes).length > 0 ? true : false)),
     this.store.select(lastImportResponse)
   ).pipe(
-    map(([uploading, response]) => ({uploading, response}))
+    map(([uploading, response]) => ({ uploading, response }))
   )
 
 

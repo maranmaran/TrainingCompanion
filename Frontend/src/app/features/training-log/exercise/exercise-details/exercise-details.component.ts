@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import * as _ from "lodash";
+import * as _ from 'lodash-es';
 import { take } from 'rxjs/operators';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { transformWeight } from 'src/business/services/shared/unit-system.service';

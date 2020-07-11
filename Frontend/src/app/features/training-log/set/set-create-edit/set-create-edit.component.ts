@@ -5,7 +5,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
-import * as _ from "lodash";
+import * as _ from 'lodash-es';
 import { noop } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';

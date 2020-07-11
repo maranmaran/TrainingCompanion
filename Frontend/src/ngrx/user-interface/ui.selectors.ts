@@ -1,12 +1,10 @@
 import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
-import { asyncScheduler } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
-import { combineLatest } from 'rxjs/internal/observable/combineLatest';
-import { map } from 'rxjs/internal/operators/map';
-import { observeOn } from 'rxjs/operators';
+import { asyncScheduler, combineLatest, Observable } from 'rxjs';
+import { map, observeOn } from 'rxjs/operators';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { AppState } from '../global-setup.ngrx';
 import { UIState } from './ui.state';
+
 
 export const selectUIState = createFeatureSelector<UIState>("ui");
 
@@ -46,6 +44,6 @@ export function getLoadingState(store: Store<AppState>, progressBarType: UIProgr
     );
 }
 export const language = createSelector(
-  selectUIState,
-  state => state.language
+    selectUIState,
+    state => state.language
 )

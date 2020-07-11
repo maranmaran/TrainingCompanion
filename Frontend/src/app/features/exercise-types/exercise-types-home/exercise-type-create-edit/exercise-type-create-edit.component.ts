@@ -1,5 +1,3 @@
-import { exerciseTypeCreated } from './../../../../../ngrx/exercise-type/exercise-type.actions';
-import { CreateExerciseTypeRequest } from './../../../../../server-models/cqrs/exercise-type/create-exercise-type.request';
 import { AfterViewInit, Component, Inject, OnInit, QueryList, ViewChildren } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -7,18 +5,20 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Update } from '@ngrx/entity';
 import { Store } from "@ngrx/store";
-import * as _ from "lodash";
+import * as _ from 'lodash-es';
 import { take } from 'rxjs/operators';
 import { ExerciseTypeService } from "src/business/services/feature-services/exercise-type.service";
 import { TagGroupService } from "src/business/services/feature-services/tag-group.service";
 import { CRUD } from "src/business/shared/crud.enum";
+import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { exerciseTypeUpdated } from 'src/ngrx/exercise-type/exercise-type.actions';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/update-exercise-type.request';
 import { ExerciseType, ExerciseTypeTag } from "src/server-models/entities/exercise-type.model";
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { Tag } from 'src/server-models/entities/tag.model';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
+import { exerciseTypeCreated } from './../../../../../ngrx/exercise-type/exercise-type.actions';
+import { CreateExerciseTypeRequest } from './../../../../../server-models/cqrs/exercise-type/create-exercise-type.request';
 
 @Component({
   selector: "app-exercise-type-create-edit",
