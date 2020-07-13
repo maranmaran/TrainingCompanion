@@ -64,7 +64,6 @@
     "ngx-toastr": "^12.1.0",
     "normalizr": "^3.6.0",
     "placeholder-loading": "^0.2.6",
-    "rxjs-es": "^5.0.0-beta.12",
     "subsink": "^1.0.1",
     "tslib": "^2.0.0",
     "zone.js": "^0.10.3"

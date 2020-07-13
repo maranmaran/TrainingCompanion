@@ -1,33 +1,41 @@
 import { Guid } from 'guid-typescript';
 import { backgroundColors, colorHelpers, fontColor, MyChartConfiguration } from 'src/app/shared/charts/chart.helpers';
-import { Theme } from 'src/business/shared/theme.enum';
-import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
+import { UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
+import { ChartDataSet } from './../../../../../../../server-models/entities/chart-data';
+import { ExerciseType } from './../../../../../../../server-models/entities/exercise-type.model';
+import { CardSettings } from './../models/card-params';
 
 export function GetVolumeCardChartConfig(
-  setting: { theme: Theme, unitSystem: UnitSystem, mobile: boolean },
-  data: number[],
-  labels: string[]
+  setting: CardSettings,
+  dataSets: ChartDataSet<number>[],
+  labels: string[],
+  exerciseTypes: ExerciseType[]
 ): MyChartConfiguration {
+
+  var colors = backgroundColors(0, 3, setting.theme);
+  var dataSetsObj = [];
+  for (var i = 0; i < dataSets.length; i++) {
+    dataSetsObj.push({
+      data: dataSets[i].data,
+      barThickness: 10,
+      maxBarThickness: 20,
+      fill: false,
+      borderColor: colors[i],
+      backgroundColor: colors[i],
+    });
+  }
 
   return {
     generationId: Guid.create(),
     type: 'line',
     data: {
-      datasets: [
-        {
-          data,
-          barThickness: 10,
-          maxBarThickness: 20,
-          fill: false,
-          borderColor: backgroundColors(0, 1, setting.theme)[0],
-          backgroundColor: backgroundColors(0, 1, setting.theme)[0],
-        }
-      ],
+      datasets: dataSetsObj,
       labels
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      plugins: { labels: false },
       tooltips: {
         mode: 'x',
         callbacks: {
@@ -37,7 +45,6 @@ export function GetVolumeCardChartConfig(
           }
         }
       },
-      plugins: { labels: false },
       title: {
         display: false,
       },

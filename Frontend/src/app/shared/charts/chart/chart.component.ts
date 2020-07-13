@@ -3,7 +3,7 @@ import * as Chart from 'chart.js';
 import 'chartjs-plugin-labels';
 import { MyChartConfiguration } from '../chart.helpers';
 
-@Directive({selector: '[chartCanvas]'})
+@Directive({ selector: '[chartCanvas]' })
 export class ChartCanvasDirective {
   @Input() id !: string;
 
@@ -11,7 +11,7 @@ export class ChartCanvasDirective {
 
   constructor(el: ElementRef) {
     this.element = el;
- }
+  }
 
 }
 
@@ -35,7 +35,7 @@ export class ChartComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     const configurations = changes.configurations;
-    if(!configurations)
+    if (!configurations)
       return;
 
     const cur = configurations.currentValue;
@@ -43,15 +43,15 @@ export class ChartComponent implements OnChanges {
 
     // this needs to update chart because current change is different than previous potentially.
     // We see that by comparing generationIds to see which charts needs update
-    if(prev && cur) {
+    if (prev && cur) {
       cur.forEach((currentConfig, index) => {
 
         const previousConfig = prev[index];
 
-        if(!currentConfig || !previousConfig)
+        if (!currentConfig || !previousConfig)
           return;
 
-        if(currentConfig.generationId.value != previousConfig.generationId.value)
+        if (currentConfig.generationId.value != previousConfig.generationId.value)
           this.updateChart(index);
 
       });
@@ -59,10 +59,10 @@ export class ChartComponent implements OnChanges {
     }
 
     // new change.. no previous update. This needs to initialize charts
-    if(!prev && cur) {
+    if (!prev && cur) {
       cur.forEach((currentConfig, index) => {
 
-        if(!currentConfig)
+        if (!currentConfig)
           return;
 
         setTimeout(() => this.initChart(currentConfig, index));
@@ -75,16 +75,20 @@ export class ChartComponent implements OnChanges {
       return;
 
     const canvasDirective = this.canvases.toArray()[index];
-    if(!canvasDirective)
+    if (!canvasDirective)
       return;
 
-    const canvas = <HTMLCanvasElement> canvasDirective.element.nativeElement;
+    const canvas = <HTMLCanvasElement>canvasDirective.element.nativeElement;
     const ctx = canvas.getContext('2d');
-    this.charts.push(new Chart(ctx, config));
+    var chart = new Chart(ctx, config);
+    this.charts.push(chart);
   }
 
   updateChart(index) {
-    if(!this.charts || !this.configurations)
+    if (!this.charts || !this.configurations)
+      return;
+
+    if (this.charts.length != this.configurations.length)
       return;
 
     this.charts[index].options = this.configurations[index].options;

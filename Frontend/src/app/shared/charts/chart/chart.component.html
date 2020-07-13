@@ -10,7 +10,7 @@
   <canvas *ngIf="!tabs" chartCanvas id="0"></canvas>
 
   <!--Multiple charts-->
-  <div class="chart" *ngFor="let tab of tabs; let i = index" [hidden]="selectedTab != i" >
+  <div class="chart" *ngFor="let tab of tabs; let i = index" [hidden]="selectedTab != i">
     <canvas chartCanvas id="i"></canvas>
   </div>
 

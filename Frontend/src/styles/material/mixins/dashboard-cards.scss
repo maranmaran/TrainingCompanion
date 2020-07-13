@@ -2,9 +2,9 @@
 
 @mixin dashboard-cards-theme($theme) {
   .dashboard-component {
-    flex: 1 1 calc(33% - 0.25rem); // because of fxLayoutGap
+    flex: 1 1 calc(50% - 0.25rem); // because of fxLayoutGap
     padding: 3px;
-    max-height: calc(33% - 0.25rem);
+    max-height: calc(50% - 0.25rem);
   }
 
   .card-chart-container {
@@ -20,11 +20,6 @@
         position: relative;
         bottom: 1rem;
       }
-    }
-  }
-
-  @media (max-width: 600px) {
-    .dashboard-component {
     }
   }
 }

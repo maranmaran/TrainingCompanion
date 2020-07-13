@@ -14,6 +14,7 @@ export class ExerciseTypeChipComponent implements OnInit {
   @Input() value = 'Tag';
   @Input() showInactiveGroups = true;
   @Input() showInactiveTags = true;
+  @Input() disableAll = false;
 
 
   constructor() { }

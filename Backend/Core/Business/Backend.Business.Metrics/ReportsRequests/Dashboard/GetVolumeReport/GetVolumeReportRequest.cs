@@ -1,15 +1,19 @@
-﻿using AutoMapper;
-using Backend.Library.Logging.Interfaces;
+﻿using Backend.Business.Reports.Interfaces;
+using Backend.Business.Reports.Models;
 using MediatR;
 using System;
-using Backend.Business.Reports.Interfaces;
-using Backend.Business.Reports.Models;
+using System.Collections.Generic;
 
 namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
 {
 
     public class GetVolumeReportRequest : IRequest<ChartData<double, DateTime>>, IReportRequest
     {
+        public GetVolumeReportRequest()
+        {
+
+        }
+
         public GetVolumeReportRequest(Guid userId, Guid exerciseTypeId, DateTime dateFrom, DateTime dateTo)
         {
             UserId = userId;
@@ -22,5 +26,6 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
         public Guid ExerciseTypeId { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
+        public IEnumerable<Guid> ExerciseTypeIds { get; set; }
     }
 }

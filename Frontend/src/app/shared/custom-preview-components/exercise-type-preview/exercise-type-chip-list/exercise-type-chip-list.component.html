@@ -1,18 +1,13 @@
 <mat-chip-list class="property-chips-list">
 
-    <ng-container *ngFor="let property of propertyList">
+  <ng-container *ngFor="let property of propertyList">
 
-        <app-exercise-type-chip
-          [value]="property.tag.value"
-          [show]="property.show"
-          [groupActive]="property.tag.tagGroup.active"
-          [backgroundColor]="property.tag.tagGroup.hexBackground"
-          [color]="property.tag.tagGroup.hexColor"
-          [showInactiveGroups]="showInactiveGroups"
-          [showInactiveTags]="showInactiveTags"
-        >
-        </app-exercise-type-chip>
+    <app-exercise-type-chip [value]="property.tag.value" [show]="property.show"
+      [groupActive]="property.tag.tagGroup.active" [backgroundColor]="property.tag.tagGroup.hexBackground"
+      [color]="property.tag.tagGroup.hexColor" [showInactiveGroups]="showInactiveGroups"
+      [showInactiveTags]="showInactiveTags" [disableAll]="disableAll">
+    </app-exercise-type-chip>
 
-    </ng-container>
+  </ng-container>
 
 </mat-chip-list>

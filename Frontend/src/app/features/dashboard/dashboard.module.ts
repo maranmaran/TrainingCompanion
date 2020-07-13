@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TracksResolver } from 'src/business/resolvers/dashboard-tracks.resolver';
 import { FeedResolver } from 'src/business/resolvers/feed.resolver';
 import { DashboardEffects } from 'src/ngrx/dashboard/dashboard.effects';
 import { ExerciseTypesResolver } from './../../../business/resolvers/exercise-types.resolver';
@@ -20,7 +21,6 @@ import { TrackItemsSidebarComponent } from './dashboard-home/tracks/track-items-
 import { TracksComponent } from './dashboard-home/tracks/tracks.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardOutletDirective } from './directives/dashboard-outlet.directive';
-import { TracksResolver } from 'src/business/resolvers/dashboard-tracks.resolver';
 
 
 @NgModule({

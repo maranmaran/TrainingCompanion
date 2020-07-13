@@ -43,6 +43,7 @@ namespace Backend.API.Controllers
         }
 
         [HttpGet("{userId}/{exerciseTypeId}/{dateFrom}/{dateTo}")]
+        [Obsolete]
         public async Task<IActionResult> GetDashboardVolumeReport(Guid userId, Guid exerciseTypeId, DateTime dateFrom, DateTime dateTo, CancellationToken cancellationToken = default)
         {
             var key = $"Report/GetDashboardVolumeReport{userId}{exerciseTypeId}{dateFrom}{dateTo}";
@@ -54,6 +55,20 @@ namespace Backend.API.Controllers
             ));
 
             //return Ok(await Mediator.Send(new GetVolumeReportRequest(userId, exerciseTypeId, dateFrom, dateTo), cancellationToken));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetDashboardVolumeReport(GetVolumeReportRequest request, CancellationToken cancellationToken = default)
+        {
+            //var key = $"Report/GetDashboardVolumeReport{request.UserId}{request.DateFrom}{request.DateTo}";
+            //AddCacheKey(key);
+
+            //return Ok(await Cache.GetOrAddAsync(
+            //    key,
+            //    entry => Mediator.Send(request, cancellationToken)
+            //));
+
+            return Ok(await Mediator.Send(request, cancellationToken));
         }
 
         [HttpGet("{userId}/{exerciseTypeId}/{dateFrom}/{dateTo}")]

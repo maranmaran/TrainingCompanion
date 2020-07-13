@@ -168,6 +168,9 @@
     background: rgba($theme-hover, 0.3);
     // background: rgba(93,93,93,1);
   }
+  .disabled-foreground {
+    color: $theme-disabled !important;
+  }
   .disabled-background {
     background: rgba($theme-disabled, 0.2) !important;
     // background: rgba(93,93,93,1);

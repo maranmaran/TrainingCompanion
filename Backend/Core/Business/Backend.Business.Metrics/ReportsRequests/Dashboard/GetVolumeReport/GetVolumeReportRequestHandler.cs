@@ -1,4 +1,5 @@
-﻿using Backend.Business.Reports.Models;
+﻿
+using Backend.Business.Reports.Models;
 using Backend.Business.Reports.ReportsRequests.Dashboard.GetMaxReport;
 using Backend.Domain;
 using MediatR;
@@ -31,41 +32,47 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
                 if (!unitSystem.HasValue)
                     throw new ArgumentException($"No records with user id of {request.UserId}");
 
-                // get relevant trainings (for user, in between dates and that has at least one exercise of wanted type)
-                var trainings = await _context.Trainings
-                    .Include(x => x.Exercises)
-                    .ThenInclude(x => x.Sets)
-                    .Where(x => x.ApplicationUserId == request.UserId &&
-                                x.DateTrained.Date >= request.DateFrom.Date &&
-                                x.DateTrained.Date <= request.DateTo.Date &&
-                                x.Exercises.Any(y => y.ExerciseTypeId == request.ExerciseTypeId))
-                    .ToListAsync(cancellationToken);
-
-
-                var dates = new List<DateTime>();
-                var data = new List<double>();
-                foreach (var training in trainings)
+                var allDates = new List<DateTime>();
+                var dataSets = new List<ChartDataSet<double>>();
+                foreach (var exerciseTypeId in request.ExerciseTypeIds)
                 {
-                    var exercises = training.Exercises.Where(x => x.ExerciseTypeId == request.ExerciseTypeId);
-                    var sets = exercises.SelectMany(x => x.Sets);
 
-                    var date = training.DateTrained;
-                    var volume = sets.Sum(x => x.Volume).FromMetricTo(unitSystem.Value); // get
+                    // get relevant trainings (for user, in between dates and that has at least one exercise of wanted type)
+                    var trainings = await _context.Trainings
+                        .Include(x => x.Exercises)
+                        .ThenInclude(x => x.Sets)
+                        .Where(x => x.ApplicationUserId == request.UserId &&
+                                    x.DateTrained.Date >= request.DateFrom.Date &&
+                                    x.DateTrained.Date <= request.DateTo.Date &&
+                                    x.Exercises.Any(y => y.ExerciseTypeId == exerciseTypeId))
+                        .ToListAsync(cancellationToken);
 
-                    dates.Add(date);
-                    data.Add(volume);
+
+                    var dates = new List<DateTime>();
+                    var data = new List<double>();
+                    foreach (var training in trainings)
+                    {
+                        var exercises = training.Exercises.Where(x => x.ExerciseTypeId == exerciseTypeId);
+                        var sets = exercises.SelectMany(x => x.Sets);
+
+                        var date = training.DateTrained;
+                        var volume = sets.Sum(x => x.Volume).FromMetricTo(unitSystem.Value); // get
+
+                        dates.Add(date);
+                        data.Add(volume);
+                    }
+
+                    allDates.AddRange(dates);
+                    dataSets.Add(new ChartDataSet<double>()
+                    {
+                        Data = data
+                    });
                 }
 
                 return new ChartData<double, DateTime>
                 {
-                    Labels = dates,
-                    DataSets = new List<ChartDataSet<double>>
-                    {
-                        new ChartDataSet<double>
-                        {
-                            Data = data
-                        }
-                    }
+                    Labels = allDates,
+                    DataSets = dataSets
                 };
             }
             catch (Exception e)

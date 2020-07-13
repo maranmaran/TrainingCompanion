@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NguCarouselModule } from '@ngu/carousel';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { DynamicModule } from 'ng-dynamic-component';
+import { DynamicAttributesModule, DynamicModule } from 'ng-dynamic-component';
 import { AvatarModule } from 'ngx-avatar';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { HttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
@@ -23,6 +23,7 @@ import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
 import { TransformWeightPipe } from './../../business/pipes/transform-weight.pipe';
+import { GraphCardComponent } from './../features/dashboard/dashboard-home/tracks/card-components/graph-card/graph-card.component';
 import { TrainingMonthViewDayComponent } from './../features/training-log/training/training-month/training-month-view-day/training-month-view-day.component';
 import { NotificationItemComponent } from './/notifications/notification-item/notification-item.component';
 import { NotificationTypeIconComponent } from './/notifications/notification-item/notification-type-icon/notification-type-icon.component';
@@ -63,6 +64,7 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
 
         // https://www.npmjs.com/package/ng-dynamic-component
         DynamicModule,
+        DynamicAttributesModule,
         AvatarModule,
         ImageCropperModule,
         // lazy loaded modules import of translate module
@@ -112,6 +114,7 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         ImageCropperComponent,
         VolumeCardComponent,
         MaxCardComponent,
+        GraphCardComponent,
         MediaNotificationBodyComponent,
         BodyweightNotificationBodyComponent,
         TrainingNotificationBodyComponent,
@@ -134,6 +137,7 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         TranslateModule,
 
         DynamicModule,
+        DynamicAttributesModule,
 
         AvatarModule,
         MediaDialogComponent,
@@ -183,11 +187,6 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
     providers: [
     ],
     entryComponents: [
-        // TODO remove after ~30 days - 09.07.20
-        // MediaDialogComponent,
-        // ErrorSnackbarComponent,
-        // MessageDialogComponent,
-        // ConfirmDialogComponent,
     ]
 })
 export class SharedModule { }

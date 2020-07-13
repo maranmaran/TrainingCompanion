@@ -13,6 +13,7 @@ export class ExerciseTypeChipListComponent implements OnInit, OnChanges {
   @Input() propertyList: ExerciseTypeTag[];
   @Input() showInactiveGroups: boolean;
   @Input() showInactiveTags: boolean;
+  @Input() disableAll: boolean = false;
 
   constructor() {
   }

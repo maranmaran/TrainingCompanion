@@ -47,8 +47,10 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
                     }).ToList();
 
                     // call create user request..
-                    user = new ApplicationUser()
+                    var userId = Guid.NewGuid();
+                    var newUser = new ApplicationUser()
                     {
+                        Id = userId,
                         AccountType = request.AccountType,
                         Email = request.Email,
                         FirstName = request.FirstName,
@@ -56,19 +58,26 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
                         ExternalLoginAccount = true,
                         UserSetting = new UserSetting()
                         {
+                            ApplicationUserId = userId,
                             NotificationSettings = notificationSettings,
                         },
                     };
 
                     if (request.Avatar != null)
-                        user.Avatar = request.Avatar;
+                        newUser.Avatar = request.Avatar;
 
-                    user.CustomerId = await StripeConfiguration.AddCustomer(user.FullName, user.Email); // add to stripe
+                    newUser.CustomerId = await StripeConfiguration.AddCustomer(newUser.FullName, newUser.Email); // add to stripe
 
-                    user = ExerciseTagGroupsFactory.ApplyProperties<ApplicationUser>(user);
+                    newUser = ExerciseTagGroupsFactory.ApplyProperties<ApplicationUser>(newUser);
 
-                    await _context.Users.AddAsync(user, cancellationToken);
+                    await _context.Users.AddAsync(newUser, cancellationToken);
                     await _context.SaveChangesAsync(cancellationToken);
+
+                    user = newUser;
+                }
+                else if (user.ExternalLoginAccount == false)
+                {
+                    throw new Exception("Can't external login user who exists but doesn't have external login enabled");
                 }
 
                 var token = _tokenGenerator.GenerateToken(user.Id);

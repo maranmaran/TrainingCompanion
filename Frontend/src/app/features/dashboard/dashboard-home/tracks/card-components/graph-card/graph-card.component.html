@@ -1,0 +1,63 @@
+<div class="card-chart-container h-100" fxLayout="column" fxLayoutGap.lt-md="1rem" *ngIf="cardBootstrapped">
+
+    <!--ACTIONS AND INPUTS-->
+    <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem" fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
+
+        <!-- EXERCISE TYPE AUTOCOMPLETE -->
+        <mat-form-field [fxHide]="mediaObserver.isActive('lt-md') && exerciseType.disabled" fxFlexOrder.lt-md="2"
+            fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
+            <input matInput placeholder="{{'DASHBOARD.CARDS.GRAPH_CARD.EXERCISE_TYPE' | translate}}"
+                [matAutocomplete]="auto" [formControl]="exerciseType">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="exerciseTypeDisplayFunction">
+                <mat-option *ngIf="isLoading">
+                    <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
+                </mat-option>
+                <ng-container *ngIf="!isLoading">
+                    <mat-option *ngFor="let type of exerciseTypes" [value]="type">
+                        <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
+                    </mat-option>
+                </ng-container>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <div fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxFlex.lt-md="100%" fxLayoutGap="0.25rem">
+
+            <!-- FIXED DATE SPANS (1 week, 1 month, 3 month, 5 month)-->
+            <mat-form-field>
+                <mat-select [formControl]="dateSpan">
+                    <mat-select-trigger>
+                        {{ dateSpan.value?.label }}
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let dateSpan of dateSpans" [value]="dateSpan">
+                        {{ dateSpan.label }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+    </form>
+
+    <!--CHART-->
+    <app-chart #chart class="mb-4" [configuration]="config"></app-chart>
+
+    <!--LEGEND-->
+    <div *ngFor="let type of params.exerciseTypes; let i = index" class="ml-2 pointer" fxLayout="row"
+        fxLayoutAlign="start center" (click)="onToggleLegend(i)" [ngClass]="{'disabled-foreground': !!hidden[i]}">
+        <div style="border-radius: 50%; width: 7px; height: 7px" [ngStyle]="{'background-color': bulletColors[i]}">
+        </div>
+        <span class="ml-2">{{type.name}}</span>
+        <app-exercise-type-chip-list class="p-2" *ngIf="type" [propertyList]="type.properties"
+            [disableAll]="!!hidden[i]">
+        </app-exercise-type-chip-list>
+    </div>
+</div>
+
+<div class="h-100 w-100" *ngIf="!cardBootstrapped && !error" fxLayout="row" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="error" fxLayout="column" class="h-100 w-100" fxLayoutAlign="center center">
+    <h2>{{'DASHBOARD.COULD_NOT_RENDER' | translate}}</h2>
+    <h3 *ngIf="details">{{details}}</h3>
+</div>

@@ -11,36 +11,44 @@ export class ReportService extends BaseService {
 
   constructor(
     private httpDI: HttpClient,
-    ) {
+  ) {
     super(httpDI, 'Report');
   }
 
   getTrainingMetrics(trainingId: string, userId: string) {
     return this.http.get<GetTrainingMetricsResponse>(this.url + 'GetTrainingMetrics/' + trainingId + '/' + userId)
-        .pipe(
-            catchError(this.handleError)
-        );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   getBodyweightReport(userId: string, dateFrom: Date, dateTo: Date) {
     return this.http.get<GetBodyweightReportResponse>(this.url + 'GetBodyweightReport/' + userId + '/' + dateFrom.toISOString() + '/' + dateTo.toISOString())
-        .pipe(
-            catchError(this.handleError)
-        );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
-  getDashboardVolumeReport(userId: string, exerciseTypeId: string, dateFrom: Date, dateTo: Date) {
-    return this.http.get<ChartData<number, Date>>(this.url + 'GetDashboardVolumeReport/' + userId + '/' + exerciseTypeId + '/' + dateFrom.toISOString() + '/' + dateTo.toISOString())
-        .pipe(
-            catchError(this.handleError)
-        );
+  getDashboardVolumeReport(userId: string, exerciseTypeIds: string[], dateFrom: Date, dateTo: Date) {
+
+    const params = {
+      userId,
+      exerciseTypeIds,
+      dateFrom: dateFrom,
+      dateTo: dateTo
+    };
+
+    return this.http.post<ChartData<number, Date>>(this.url + 'GetDashboardVolumeReport/', params)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   getDashboardMaxReport(userId: string, exerciseTypeId: string, dateFrom: Date, dateTo: Date) {
     return this.http.get<ChartData<number, Date>>(this.url + 'GetDashboardMaxReport/' + userId + '/' + exerciseTypeId + '/' + dateFrom.toISOString() + '/' + dateTo.toISOString())
-        .pipe(
-            catchError(this.handleError)
-        );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
 }
