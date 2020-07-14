@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Actions, ofType } from '@ngrx/effects';
@@ -50,7 +50,8 @@ export class GraphCardComponent implements OnInit {
 
   // refactor this...so it goes through config
   dateSpans = Object.values(dateSpansDict);
-  autocompleteExerciseTypesList: ExerciseType[];
+  autocompleteExerciseTypesList: Set<ExerciseType>;
+  @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
 
   bulletColors: string[];
 
@@ -116,6 +117,8 @@ export class GraphCardComponent implements OnInit {
         return;
       }
 
+      this.autocompleteExerciseTypesList = new Set(allTypes.entities.filter(x => monitoredTypes.findIndex(y => y.id == x.id) == -1));
+
       // create form and initialize listeners
       this.createForm();
 
@@ -162,7 +165,7 @@ export class GraphCardComponent implements OnInit {
   createForm() {
 
     this.form = new FormGroup({
-      exerciseType: new FormControl(null, Validators.required),
+      exerciseType: new FormControl(null),
       dateSpan: new FormControl(dateSpansDict[this.params.dateSpanType], Validators.required)
     });
 
@@ -185,12 +188,25 @@ export class GraphCardComponent implements OnInit {
   }
 
   removeExerciseType(exerciseType) {
-    // remove
+    if (!exerciseType)
+      return;
+
+    // remove from params
     this.params.removeExerciseType(exerciseType);
+
+    // add back to autocomplete results
+    this.autocompleteExerciseTypesList.add(exerciseType);
+
     // update params
     this.saveParams();
+
     // refetch chart data and config
     this.fetchData.emit(this.params);
+
+    // enable autocomplete input if possible
+    if (this.params.exerciseTypes.length < this.cardConfig.maxNumberOfExerciseTypes) {
+      this.exerciseType.enable({ emitEvent: false });
+    }
   }
 
   /* Theme change needs only new config */
@@ -223,10 +239,8 @@ export class GraphCardComponent implements OnInit {
   onExerciseTypeSelected() {
     // exercise types change.. fetch new data
     return this.exerciseType.valueChanges
-      .pipe(filter(val => !!val.id), map(type => type.id))
-      .subscribe(typeId => {
-
-        const typeToAdd = this.autocompleteExerciseTypesList.find(x => x.id == typeId);
+      .pipe(filter(val => !!val))
+      .subscribe(typeToAdd => {
 
         if (this.params.exerciseTypes.length < this.cardConfig.maxNumberOfExerciseTypes) {
           this.params.addExerciseType(typeToAdd);
@@ -236,10 +250,17 @@ export class GraphCardComponent implements OnInit {
           this.exerciseType.disable({ emitEvent: false });
         }
 
+        // remove from autocomplete results
+        this.autocompleteExerciseTypesList.delete(typeToAdd);
+
         this.saveParams();
         this.fetchData.emit(this.params);
 
-        this.exerciseType.setValue('', { emitEvent: false });
+        setTimeout(_ => {
+          this.exerciseType.reset(null, { emitEvent: false });
+          this.exerciseType.disable({ emitEvent: false });
+          this.exerciseType.enable({ emitEvent: false });
+        });
       });
   }
 
@@ -262,7 +283,7 @@ export class GraphCardComponent implements OnInit {
           return data.list.filter(x => this.params.exerciseTypes.findIndex(y => y.id == x.id) == -1);
         })
       ).subscribe((data: ExerciseType[]) => {
-        this.autocompleteExerciseTypesList = data;
+        data.forEach(d => this.autocompleteExerciseTypesList.add(d));
       });
   }
 
