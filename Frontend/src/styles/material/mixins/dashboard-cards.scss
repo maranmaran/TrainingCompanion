@@ -1,25 +1,9 @@
 @import "~@angular/material/theming";
 
 @mixin dashboard-cards-theme($theme) {
-  .dashboard-component {
-    flex: 1 1 calc(50% - 0.25rem); // because of fxLayoutGap
-    padding: 3px;
-    max-height: calc(50% - 0.25rem);
-  }
-
-  .card-chart-container {
-    #tags {
-      position: relative;
-      bottom: 2rem;
+    .dashboard-component {
+        flex: 1 1 calc(50% - 0.25rem); // because of fxLayoutGap
+        padding: 3px;
+        max-height: calc(50% - 0.25rem);
     }
-  }
-
-  @media (min-width: 960px) {
-    .card-chart-container {
-      #tags {
-        position: relative;
-        bottom: 1rem;
-      }
-    }
-  }
 }

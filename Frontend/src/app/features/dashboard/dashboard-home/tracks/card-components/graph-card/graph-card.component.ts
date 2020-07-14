@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import { Guid } from 'guid-typescript';
 import * as _ from 'lodash-es';
-import { combineLatest, forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, debounceTime, distinct, filter, finalize, map, skip, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
 import { backgroundColors } from 'src/app/shared/charts/chart.helpers';
@@ -32,7 +32,7 @@ import { GraphCardConfiguration } from './../models/graph-card-config';
 @Component({
   selector: 'app-graph-card',
   templateUrl: './graph-card.component.html',
-  styleUrls: ['./graph-card.component.scss']
+  styleUrls: ['./graph-card.component.scss'],
 })
 export class GraphCardComponent implements OnInit {
 
@@ -120,9 +120,9 @@ export class GraphCardComponent implements OnInit {
       this.createForm();
 
       // map found types to params.. and fetch all chart data
-      this.params.exerciseTypes = monitoredTypes;
+      this.params.setExerciseTypes(monitoredTypes);
       if (this.params.exerciseTypes.length >= this.cardConfig.maxNumberOfExerciseTypes) {
-        this.exerciseType.disable();
+        this.exerciseType.disable({ emitEvent: false });
       }
 
       this.fetchData.emit(this.params);
@@ -147,6 +147,8 @@ export class GraphCardComponent implements OnInit {
       httpCalls.push(this.exerciseTypeService.getOne(typeIds[i]));
     }
 
+    (`Calling GetExerciseType for ${this.cardId}`);
+
     return forkJoin(...httpCalls);
   }
 
@@ -161,7 +163,7 @@ export class GraphCardComponent implements OnInit {
 
     this.form = new FormGroup({
       exerciseType: new FormControl(null, Validators.required),
-      dateSpan: new FormControl(dateSpansDict[this.params.dateSpanType] ?? dateSpansDict[0], Validators.required)
+      dateSpan: new FormControl(dateSpansDict[this.params.dateSpanType], Validators.required)
     });
 
     this.form.updateValueAndValidity();
@@ -178,12 +180,16 @@ export class GraphCardComponent implements OnInit {
       this.onUnitSystemChange(),
       this.onExerciseTypeSelected(),
       this.onSearchValueChanged(),
-      this.onParametersChanged()
+      this.onDateSpanChanged(),
     )
   }
 
   removeExerciseType(exerciseType) {
-    this.params.exerciseTypes.splice(this.params.exerciseTypes.findIndex(exerciseType), 1);
+    // remove
+    this.params.removeExerciseType(exerciseType);
+    // update params
+    this.saveParams();
+    // refetch chart data and config
     this.fetchData.emit(this.params);
   }
 
@@ -224,12 +230,16 @@ export class GraphCardComponent implements OnInit {
 
         if (this.params.exerciseTypes.length < this.cardConfig.maxNumberOfExerciseTypes) {
           this.params.addExerciseType(typeToAdd);
-        } else {
-          this.exerciseType.disable();
         }
 
+        if (this.params.exerciseTypes.length >= this.cardConfig.maxNumberOfExerciseTypes) {
+          this.exerciseType.disable({ emitEvent: false });
+        }
+
+        this.saveParams();
         this.fetchData.emit(this.params);
-        this.exerciseType.setValue('');
+
+        this.exerciseType.setValue('', { emitEvent: false });
       });
   }
 
@@ -238,7 +248,7 @@ export class GraphCardComponent implements OnInit {
     // autocomplete input changes.. fetch data for dropdown
     return this.exerciseType.valueChanges
       .pipe(
-        debounceTime(500),
+        debounceTime(300),
         distinct(),
         skip(1),
         filter(val => _.isString(val) || !val),
@@ -247,27 +257,25 @@ export class GraphCardComponent implements OnInit {
         switchMap(([val, userId]) => {
           this._pagingModel.filterQuery = val;
           return this.exerciseTypeService.getPaged(userId, this._pagingModel).pipe(finalize(() => this.isLoading = false));
-        })).subscribe((data: PagedList<ExerciseType>) => {
-          this.autocompleteExerciseTypesList = data.list;
-        });
+        }),
+        map((data: PagedList<ExerciseType>) => {
+          return data.list.filter(x => this.params.exerciseTypes.findIndex(y => y.id == x.id) == -1);
+        })
+      ).subscribe((data: ExerciseType[]) => {
+        this.autocompleteExerciseTypesList = data;
+      });
   }
 
   /* When date span changes we need to fetch new data for that date span */
   onDateSpanChanged() {
-    return this.dateSpan.valueChanges.pipe(map(span => span.dateFrom))
-      .subscribe(dateFrom => {
-        this.params.dateFrom = dateFrom;
+    return this.dateSpan.valueChanges
+      .subscribe(dateSpan => {
+
+        this.params.dateFrom = dateSpan.dateFrom;
+
+        this.saveParams();
         this.fetchData.emit(this.params);
       });
-  }
-
-  /* When any relevant parameter changes we need to save those params */
-  onParametersChanged() {
-    // any form data changes.. save current params
-    return combineLatest(
-      this.dateSpan.valueChanges,
-      this.exerciseType.valueChanges.pipe(filter(val => !!val?.id))
-    ).subscribe(_ => this.saveParams());
   }
 
   /* Validates form and retrieves it's data if it's valid */
@@ -322,5 +330,6 @@ export class GraphCardComponent implements OnInit {
 
     this.chartComponent.updateChart(0);
   }
+
 
 }

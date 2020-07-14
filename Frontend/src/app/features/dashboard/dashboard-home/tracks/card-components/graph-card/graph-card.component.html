@@ -6,14 +6,16 @@
         <!-- EXERCISE TYPE AUTOCOMPLETE -->
         <mat-form-field [fxHide]="mediaObserver.isActive('lt-md') && exerciseType.disabled" fxFlexOrder.lt-md="2"
             fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
+
             <input matInput placeholder="{{'DASHBOARD.CARDS.GRAPH_CARD.EXERCISE_TYPE' | translate}}"
                 [matAutocomplete]="auto" [formControl]="exerciseType">
+
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="exerciseTypeDisplayFunction">
                 <mat-option *ngIf="isLoading">
                     <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
                 </mat-option>
                 <ng-container *ngIf="!isLoading">
-                    <mat-option *ngFor="let type of exerciseTypes" [value]="type">
+                    <mat-option *ngFor="let type of autocompleteExerciseTypesList" [value]="type">
                         <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
                     </mat-option>
                 </ng-container>
@@ -42,14 +44,24 @@
     <app-chart #chart class="mb-4" [configuration]="config"></app-chart>
 
     <!--LEGEND-->
-    <div *ngFor="let type of params.exerciseTypes; let i = index" class="ml-2 pointer" fxLayout="row"
-        fxLayoutAlign="start center" (click)="onToggleLegend(i)" [ngClass]="{'disabled-foreground': !!hidden[i]}">
-        <div style="border-radius: 50%; width: 7px; height: 7px" [ngStyle]="{'background-color': bulletColors[i]}">
+    <div id="chart-legend-container">
+        <div *ngFor="let type of params.exerciseTypes; let i = index" class="ml-2 pointer chart-legend" fxLayout="row"
+            fxLayoutAlign="start center" (click)="onToggleLegend(i)" [ngClass]="{'disabled-foreground': !!hidden[i]}">
+
+            <div style="border-radius: 50%; width: 7px; height: 7px" [ngStyle]="{'background-color': bulletColors[i]}">
+            </div>
+
+            <span class="ml-2">{{type.name}}</span>
+
+            <app-exercise-type-chip-list class="p-2" *ngIf="type" [propertyList]="type.properties"
+                [disableAll]="!!hidden[i]">
+            </app-exercise-type-chip-list>
+
+            <!-- <button class="delete-legend-btn" mat-icon-button color="accent" -->
+            <!-- (click)="removeExerciseType(type)"> -->
+            <i class="delete-legend-btn fas fa-times accent-foreground" (click)="removeExerciseType(type)"></i>
+            <!-- </button> -->
         </div>
-        <span class="ml-2">{{type.name}}</span>
-        <app-exercise-type-chip-list class="p-2" *ngIf="type" [propertyList]="type.properties"
-            [disableAll]="!!hidden[i]">
-        </app-exercise-type-chip-list>
     </div>
 </div>
 

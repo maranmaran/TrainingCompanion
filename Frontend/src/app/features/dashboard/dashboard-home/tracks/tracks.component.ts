@@ -4,16 +4,13 @@ import { MediaObserver } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
 import { AttributesMap } from 'ng-dynamic-component';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { currentUserId } from 'src/ngrx/auth/auth.selectors';
-import { tracks, trackEditMode } from 'src/ngrx/dashboard/dashboard.selectors';
+import { removeTrackItem } from 'src/ngrx/dashboard/dashboard.actions';
+import { trackEditMode, tracks } from 'src/ngrx/dashboard/dashboard.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from 'src/server-models/entities/track.model';
 import { dashboardCards } from '../../models/dashboard-cards';
-import { DashboardService } from './../../services/dashboard.service';
-import { removeTrackItem } from 'src/ngrx/dashboard/dashboard.actions';
 
 @Component({
   selector: 'app-tracks',
@@ -40,7 +37,6 @@ export class TracksComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private dashboardService: DashboardService,
     public mediaObserver: MediaObserver
   ) { }
 
@@ -59,6 +55,9 @@ export class TracksComponent implements OnInit {
     this.store.dispatch(removeTrackItem({ item: trackItem, idx }))
   }
 
+  trackCardsFn(index, item) {
+    return item.id;
+  }
 
 
 }

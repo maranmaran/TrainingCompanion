@@ -33,23 +33,45 @@ export class CardParameters {
       }
     }
 
-
-
-    Object.assign(this, params);
+    this.dateSpanType = params.dateSpanType;
+    this.dateFrom = params.dateFrom;
+    this.dateTo = params.dateTo;
+    this._exerciseTypeIds = params.exerciseTypeIds;
   }
 
-  dateSpanType?: CardDateSpan;
+  dateSpanType: CardDateSpan = CardDateSpan.Week;
   dateFrom: Date = moment(new Date()).subtract(1, 'month').toDate();
   dateTo: Date = new Date();
 
-  exerciseTypeIds: string[]; // server
-  exerciseTypes: ExerciseType[]; // objects found by id (fresh from server)
+  _exerciseTypeIds: string[]; // server
+  public get exerciseTypeIds(): string[] {
+    return this._exerciseTypeIds;
+  }
+
+  _exerciseTypes: ExerciseType[]; // objects found by id (fresh from server)
+  public get exerciseTypes(): ExerciseType[] {
+    return this._exerciseTypes;
+  }
 
   settings: CardSettings = new CardSettings(Theme.Light, UnitSystem.Metric, false);
 
+  setExerciseTypes(exerciseTypes: ExerciseType[]) {
+    this._exerciseTypes = exerciseTypes;
+  }
+
   addExerciseType(type) {
-    this.exerciseTypes = !this.exerciseTypes ? [type] : [...this.exerciseTypes, type];
-    this.exerciseTypeIds = !this.exerciseTypeIds ? [type.id] : [...this.exerciseTypeIds, type.id];
+    this._exerciseTypes = !this._exerciseTypes ? [type] : [...this._exerciseTypes, type];
+    this._exerciseTypeIds = !this._exerciseTypeIds ? [type.id] : [...this._exerciseTypeIds, type.id];
+  }
+
+  removeExerciseType(type) {
+
+    // get index of item to remove
+    let index = this._exerciseTypes.findIndex(x => x.id == type.id);
+
+    // remove
+    this._exerciseTypes.splice(index, 1);
+    this._exerciseTypeIds.splice(index, 1);
   }
 }
 

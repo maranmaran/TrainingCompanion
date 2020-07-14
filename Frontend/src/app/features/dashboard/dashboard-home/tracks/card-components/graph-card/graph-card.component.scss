@@ -1,2 +1,11 @@
-.legend-hidden {
+.chart-legend:hover {
+    .delete-legend-btn {
+        visibility: visible;
+    }
+}
+
+.chart-legend {
+    .delete-legend-btn {
+        visibility: hidden;
+    }
 }
