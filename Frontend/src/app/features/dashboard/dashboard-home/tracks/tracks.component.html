@@ -5,7 +5,7 @@
   <div id="track1" #trackOne="cdkDropList" cdkDropList [cdkDropListConnectedTo]="['track2', 'trackItemsList']"
     [cdkDropListData]="(tracks | async)[0]?.items" (cdkDropListDropped)="drop.emit({event: $event, trackIdx: 0})"
     (cdkDragEntered)="dragEnter.emit($event)" (cdkDragEnded)="dragEnd.emit()" fxFlex="1 1 calc(50% - 0.25rem)"
-    fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem">
+    fxFlex.lt-lg="1 1 100%  - 1rem" fxLayout="column" fxLayoutGap="0.25rem" fxLayoutGap.lt-lg="0.5rem">
 
     <ng-container *ngFor="let item of (tracks | async)[0]?.items; trackBy: trackCardsFn">
       <button *ngIf="(editMode | async)" class="mat-elevation-z3" mat-icon-button color="accent"

@@ -8,7 +8,7 @@ import { ChartConfiguration } from 'chart.js';
 import { Guid } from 'guid-typescript';
 import * as _ from 'lodash-es';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, debounceTime, distinct, filter, finalize, map, skip, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { debounceTime, filter, finalize, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { DashboardService } from 'src/app/features/dashboard/services/dashboard.service';
 import { backgroundColors } from 'src/app/shared/charts/chart.helpers';
 import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
@@ -240,15 +240,11 @@ export class GraphCardComponent implements OnInit {
   onExerciseTypeSelected() {
     // exercise types change.. fetch new data
     return this.exerciseType.valueChanges
-      .pipe(filter(val => !!val))
+      .pipe(filter(val => typeof (val) == typeof (ExerciseType)))
       .subscribe(typeToAdd => {
 
         if (this.params.exerciseTypes.length < this.cardConfig.maxNumberOfExerciseTypes) {
           this.params.addExerciseType(typeToAdd);
-        }
-
-        if (this.params.exerciseTypes.length >= this.cardConfig.maxNumberOfExerciseTypes) {
-          this.exerciseType.disable({ emitEvent: false });
         }
 
         // remove from autocomplete results
@@ -260,7 +256,9 @@ export class GraphCardComponent implements OnInit {
         setTimeout(_ => {
           this.exerciseType.reset(null, { emitEvent: false });
           this.exerciseType.disable({ emitEvent: false });
-          this.exerciseType.enable({ emitEvent: false });
+          if (this.params.exerciseTypes.length < this.cardConfig.maxNumberOfExerciseTypes) {
+            this.exerciseType.enable({ emitEvent: false });
+          }
         });
       });
   }
@@ -271,19 +269,25 @@ export class GraphCardComponent implements OnInit {
     return this.exerciseType.valueChanges
       .pipe(
         debounceTime(300),
-        distinct(),
-        skip(1),
         filter(val => _.isString(val) || !val),
         tap(() => this.isLoading = true),
-        concatMap(_ => this.store.select(currentUserId), (val, userId) => [val, userId]),
+        switchMap(_ => this.store.select(currentUserId).pipe(take(1)), (val, userId) => [val, userId]),
         switchMap(([val, userId]) => {
+
           this._pagingModel.filterQuery = val;
-          return this.exerciseTypeService.getPaged(userId, this._pagingModel).pipe(finalize(() => this.isLoading = false));
+          console.log('fetching');
+
+          return this.exerciseTypeService.getPaged(userId, this._pagingModel)
+            .pipe(
+              take(1),
+              finalize(() => this.isLoading = false)
+            );
         }),
         map((data: PagedList<ExerciseType>) => {
           return data.list.filter(x => this.params.exerciseTypes.findIndex(y => y.id == x.id) == -1);
-        })
+        }),
       ).subscribe((data: ExerciseType[]) => {
+        this.autocompleteExerciseTypesList.clear();
         data.forEach(d => this.autocompleteExerciseTypesList.add(d));
       });
   }
