@@ -36,7 +36,7 @@
     "@ngu/carousel": "^2.0.3",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "@types/chart.js": "^2.9.22",
+    "@types/chart.js": "^2.9.23",
     "@types/file-saver": "^2.0.1",
     "@types/moment-timezone": "^0.5.13",
     "angularx-social-login": "^3.2.0",
