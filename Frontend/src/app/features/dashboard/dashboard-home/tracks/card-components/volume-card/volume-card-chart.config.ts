@@ -2,14 +2,12 @@ import { Guid } from 'guid-typescript';
 import { backgroundColors, colorHelpers, fontColor, MyChartConfiguration } from 'src/app/shared/charts/chart.helpers';
 import { UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
 import { ChartDataSet } from './../../../../../../../server-models/entities/chart-data';
-import { ExerciseType } from './../../../../../../../server-models/entities/exercise-type.model';
 import { CardSettings } from './../models/card-params';
 
 export function GetVolumeCardChartConfig(
   setting: CardSettings,
   dataSets: ChartDataSet<number>[],
   labels: string[],
-  exerciseTypes: ExerciseType[]
 ): MyChartConfiguration {
 
   var colors = backgroundColors(0, 3, setting.theme);

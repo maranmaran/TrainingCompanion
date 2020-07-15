@@ -74,6 +74,8 @@
       "PERSONAL_BEST_MESSAGE": "<b>{{username}}</b> hit a new PB of {{value}}!"
     },
     "CARDS": {
+      "MAX_CARD_TITLE": "Max report",
+      "VOLUME_CARD_TITLE": "Volume report",
       "GRAPH_CARD": {
         "EXERCISE_TYPE": "Exercise type"
       }

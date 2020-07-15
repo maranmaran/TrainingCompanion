@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import * as moment from 'moment';
 import { take } from 'rxjs/operators';
@@ -27,6 +28,7 @@ export class VolumeCardComponent implements OnInit {
   @Input() cardId: string;
   @Input() jsonParams: string;
 
+  title = this.translate.instant('DASHBOARD.CARDS.VOLUME_CARD_TITLE');
   config: ChartConfiguration[];
   params: CardParameters;
 
@@ -36,6 +38,7 @@ export class VolumeCardComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private reportService: ReportService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -70,7 +73,7 @@ export class VolumeCardComponent implements OnInit {
     const labels = chartData.labels.map(date => moment(date).format('L'));
 
     this.config = [
-      GetVolumeCardChartConfig(params.settings, chartData.dataSets, labels, params.exerciseTypes),
+      GetVolumeCardChartConfig(params.settings, chartData.dataSets, labels),
     ];
   }
 }

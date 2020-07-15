@@ -8,7 +8,6 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
         public GetVolumeReportRequestValidator()
         {
             RuleFor(x => x.UserId).NotEmpty();
-            RuleFor(x => x.ExerciseTypeId).NotEmpty();
             RuleFor(x => x.DateFrom).NotEmpty();
             RuleFor(x => x.DateTo).NotEmpty();
         }

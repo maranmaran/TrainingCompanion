@@ -44,8 +44,15 @@ export class ReportService extends BaseService {
       );
   }
 
-  getDashboardMaxReport(userId: string, exerciseTypeId: string, dateFrom: Date, dateTo: Date) {
-    return this.http.get<ChartData<number, Date>>(this.url + 'GetDashboardMaxReport/' + userId + '/' + exerciseTypeId + '/' + dateFrom.toISOString() + '/' + dateTo.toISOString())
+  getDashboardMaxReport(userId: string, exerciseTypeIds: string[], dateFrom: Date, dateTo: Date) {
+    const params = {
+      userId,
+      exerciseTypeIds,
+      dateFrom: dateFrom,
+      dateTo: dateTo
+    };
+
+    return this.http.post<ChartData<number, Date>>(this.url + 'GetDashboardMaxReport/', params)
       .pipe(
         catchError(this.handleError)
       );

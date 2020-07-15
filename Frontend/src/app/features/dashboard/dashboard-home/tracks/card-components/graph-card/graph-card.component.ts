@@ -39,6 +39,7 @@ export class GraphCardComponent implements OnInit {
   // relevant things for dashboard card
   // which needs to remember user input
   // and also use fixed date spans
+  @Input() title: string;
   @Input() cardId: string;
   @Input() params: CardParameters;
   @Input() config: ChartConfiguration[]; // config is main driver of chart
