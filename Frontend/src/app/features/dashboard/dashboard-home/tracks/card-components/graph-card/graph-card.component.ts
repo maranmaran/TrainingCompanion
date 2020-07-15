@@ -240,7 +240,7 @@ export class GraphCardComponent implements OnInit {
   onExerciseTypeSelected() {
     // exercise types change.. fetch new data
     return this.exerciseType.valueChanges
-      .pipe(filter(val => typeof (val) == typeof (ExerciseType)))
+      .pipe(filter(val => !!val?.id))
       .subscribe(typeToAdd => {
 
         if (this.params.exerciseTypes.length < this.cardConfig.maxNumberOfExerciseTypes) {
@@ -275,7 +275,6 @@ export class GraphCardComponent implements OnInit {
         switchMap(([val, userId]) => {
 
           this._pagingModel.filterQuery = val;
-          console.log('fetching');
 
           return this.exerciseTypeService.getPaged(userId, this._pagingModel)
             .pipe(
@@ -288,7 +287,7 @@ export class GraphCardComponent implements OnInit {
         }),
       ).subscribe((data: ExerciseType[]) => {
         this.autocompleteExerciseTypesList.clear();
-        data.forEach(d => this.autocompleteExerciseTypesList.add(d));
+        data.forEach(d => this.autocompleteExerciseTypesList.add(d as ExerciseType));
       });
   }
 
