@@ -3,7 +3,7 @@
 
   <div id="left" fxLayout="row wrap" fxLayoutAlign="center center">
 
-    <button mat-icon-button (click)="onToggleSidebar()">
+    <button *ngIf="mediaObserver.isActive('lt-lg')" mat-icon-button (click)="onToggleSidebar()">
       <i class="fas fa-bars fa-lg"></i>
     </button>
 

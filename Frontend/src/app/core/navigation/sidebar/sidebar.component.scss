@@ -1,3 +1,15 @@
 .label {
     margin-left: 0.5rem;
 }
+
+#sidebar-desktop {
+    a,
+    mat-toolbar {
+        display: flex;
+        justify-content: center;
+    }
+
+    a {
+        margin-top: 1.5rem;
+    }
+}

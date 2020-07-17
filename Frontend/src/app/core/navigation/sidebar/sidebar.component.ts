@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -11,10 +11,11 @@ import { UISidenavAction } from '../../../../business/shared/ui-sidenavs.enum';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
 
+  @Input() isMobile: boolean;
   isCoach$: Observable<boolean>;
 
   constructor(
@@ -27,13 +28,16 @@ export class SidebarComponent implements OnInit {
     this.isCoach$ = this.store.select(isCoachOrSoloAthlete);
   }
 
-  //TODO: Event source this out
   public close() {
     this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Close);
   }
 
   public onRoute(route: string) {
-    this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
+
+    if (this.isMobile) {
+      this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle);
+    }
+
     setTimeout(_ => this.router.navigate([route]), 400);
   }
 }

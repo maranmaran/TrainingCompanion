@@ -1,7 +1,8 @@
 <mat-sidenav-container class="sidenav-container">
 
-  <mat-sidenav class="sidenav" [autoFocus]="false">
-    <app-sidebar></app-sidebar>
+  <mat-sidenav class="sidenav" [autoFocus]="false" [opened]="mediaObserver.isActive('gt-md')"
+    [mode]="mediaObserver.isActive('gt-md') ? 'side' : 'over'">
+    <app-sidebar [isMobile]="!mediaObserver.isActive('gt-md')"></app-sidebar>
   </mat-sidenav>
 
   <mat-sidenav-content class="main-sidenav-content">

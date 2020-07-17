@@ -1,0 +1,47 @@
+<div id="sidebar-desktop">
+    <mat-toolbar [color]="'primary'">
+        <img class="img-fluid" src="./../../../../assets/images/compressed/logo-transparent.png">
+    </mat-toolbar>
+
+    <mat-nav-list class="navlist" id="main-navlist">
+        <mat-accordion class="headers-align" [displayMode]="'flat'">
+
+            <a mat-list-item (click)="route.emit('/app/dashboard')">
+                <i class="fas fa-home fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/athletes')">
+                <i class="fas fa-users fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a mat-list-item (click)="route.emit('/app/exercise-properties')">
+                <i class="fas fa-tools fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a mat-list-item (click)="route.emit('/app/exercise-types')">
+                <i class="fas fa-dumbbell fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a mat-list-item (click)="route.emit('/app/training-log')">
+                <i class="fas fa-calendar-alt fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a mat-list-item (click)="route.emit('/app/export-import')" *ngIf="(isCoach$ | async)">
+                <i class="fas fa-cloud-upload-alt fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a mat-list-item (click)="route.emit('/app/bodyweight')">
+                <i class="fas fa-weight fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/training-program')">
+                <i class="fas fa-newspaper fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/velocity')">
+                <i class="fas fa-tachometer-alt fa-1-5x accent-foreground"></i>
+            </a>
+
+        </mat-accordion>
+    </mat-nav-list>
+</div>
