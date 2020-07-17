@@ -19,6 +19,7 @@ import { reorderTagGroups, setSelectedTagGroup, tagGroupDeleted } from 'src/ngrx
 import { allTagGroups, tagGroupCount } from 'src/ngrx/tag-group/tag-group.selectors';
 import { TagGroup } from 'src/server-models/entities/tag-group.model';
 import { SubSink } from 'subsink';
+import { TypeDetailsComponent } from './../type-details/type-details.component';
 import { TypesCreateEditComponent } from './../types-create-edit/types-create-edit.component';
 
 @Component({
@@ -68,6 +69,10 @@ export class TypesListComponent implements OnInit, OnDestroy {
       }),
       cellActions: [TableAction.update, TableAction.delete],
       filterEnabled: true,
+      enableExpandableRows: true,
+      expandableRowComponent: TypeDetailsComponent,
+      expandableRowComponentAttributes: { class: 'type-details-expanded-row' }
+
     });
 
     this.store.select(tagGroupCount).pipe(take(1)).subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)

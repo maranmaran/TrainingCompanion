@@ -17,6 +17,7 @@ import { Tag } from 'src/server-models/entities/tag.model';
 import { SubSink } from 'subsink';
 import { TagGroup } from '../../../../../../server-models/entities/tag-group.model';
 import { TagsCreateEditComponent } from '../properties-create-edit/properties-create-edit.component';
+import { PropertyDetailsComponent } from './../property-details/property-details.component';
 
 @Component({
   selector: 'app-properties-list',
@@ -75,7 +76,10 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       }),
       cellActions: [TableAction.update, TableAction.delete],
       selectionEnabled: false,
-      filterEnabled: true
+      filterEnabled: true,
+      enableExpandableRows: true,
+      expandableRowComponent: PropertyDetailsComponent,
+      expandableRowComponentAttributes: { class: 'property-details-expanded-row' }
     });
 
     this.store.select(selectedTagGroup)

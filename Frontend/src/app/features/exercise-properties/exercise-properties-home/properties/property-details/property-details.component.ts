@@ -1,16 +1,10 @@
-import { TagGroupService } from './../../../../../../business/services/feature-services/tag-group.service';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { Tag } from 'src/server-models/entities/tag.model';
 import { selectedTag } from 'src/ngrx/tag-group/tag-group.selectors';
-import { take, map, switchMap } from 'rxjs/operators';
-import { getUpdateUserRequest } from 'src/server-models/cqrs/users/update-user.request';
-import { Update } from '@ngrx/entity';
-import { ApplicationUser } from 'src/server-models/entities/application-user.model';
-import { tagUpdated } from 'src/ngrx/tag/tag.actions';
-import { TagGroup } from 'src/server-models/entities/tag-group.model';
+import { Tag } from 'src/server-models/entities/tag.model';
+import { TagGroupService } from './../../../../../../business/services/feature-services/tag-group.service';
 
 @Component({
   selector: 'app-property-details',
