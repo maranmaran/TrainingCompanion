@@ -4,8 +4,18 @@ $theme-light-primary: mat-palette($primary, 700, 300, 900);
 $theme-light-accent: mat-palette($accent);
 $theme-light-warn: mat-palette($warning, A200);
 
-$theme-light: mat-light-theme(
-    $theme-light-primary,
-    $theme-light-accent,
-    $theme-light-warn
-);
+$theme-light: mat-light-theme($theme-light-primary, $theme-light-accent, $theme-light-warn);
+
+.theme-light mat-toolbar {
+    // background: red !important;
+}
+
+@media (min-width: 1280px) {
+    .theme-light mat-sidenav {
+        background: mat-color($theme-light-primary, default) !important;
+    }
+}
+
+.theme-light mat-sidenav-content {
+    // background: red !important;
+}

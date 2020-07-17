@@ -5,8 +5,16 @@ $theme-dark-primary: mat-palette($mat-blue, 700, 300, 900);
 $theme-dark-accent: mat-palette($mat-cyan);
 $theme-dark-warn: mat-palette($mat-red, A200);
 
-$theme-dark: mat-dark-theme(
-    $theme-dark-primary,
-    $theme-dark-accent,
-    $theme-dark-warn
-);
+$theme-dark: mat-dark-theme($theme-dark-primary, $theme-dark-accent, $theme-dark-warn);
+
+.theme-dark mat-toolbar {
+    // background: white !important;
+}
+
+.theme-dark mat-sidenav {
+    // background: white !important;
+}
+
+.theme-dark mat-sidenav-content {
+    // background: white !important;
+}
