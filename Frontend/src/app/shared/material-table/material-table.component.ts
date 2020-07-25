@@ -295,6 +295,31 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     // new selection
     this.selection.toggle(entity.id); // toggle
     this.selectEvent.emit(entity);
+
+    console.log(entity);
+    this.updatePage(entity.id);
+  }
+
+  /* Updates paginator with page index of where the item is */
+  updatePage(itemId) {
+
+    const index = this.datasource.data.findIndex(x => x.id == itemId);
+    const pageSize = this.config.pagingOptions.pageSize;
+
+    const page = Math.floor(index / pageSize);
+
+    const event = new PageEvent();
+    event.pageSize = pageSize;
+    event.pageIndex = page;
+    event.length = this.datasource.data.length;
+    event.previousPageIndex = page == 0 ? null : page - 1;
+
+    if (this.datasource.paginator.pageIndex == page) {
+      return;
+    }
+
+    this.datasource.paginator.pageIndex = page;
+    this.datasource.paginator.page.next(event);
   }
 
   handleExpandableRow(row: any) {
@@ -352,5 +377,9 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   onDragEnded() {
     this.renderer.removeClass(this.tableNative.nativeElement, 'pointer-events-none');
+  }
+
+  trackByFn(item) {
+    return item.id;
   }
 }
