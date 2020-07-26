@@ -1,4 +1,6 @@
-﻿namespace Backend.Common
+﻿using System;
+
+namespace Backend.Common
 {
     public class PaginationModel
     {
@@ -8,5 +10,6 @@
         public string SortDirection { get; set; }
         public string FilterQuery { get; set; }
         public bool FetchAll { get; set; }
+        public Guid ItemId { get; set; }
     }
 }

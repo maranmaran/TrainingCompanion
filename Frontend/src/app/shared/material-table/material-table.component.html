@@ -29,7 +29,7 @@
     </ng-container>
 
     <!-- ACTUAL DATA COLUMNS-->
-    <ng-container *ngFor="let col of columns" matColumnDef="{{ col.definition }}">
+    <ng-container *ngFor="let col of columns; trackBy: trackByFn" matColumnDef="{{ col.definition }}">
 
       <ng-container *ngIf="col.sort">
         <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef mat-sort-header matTooltip="{{col.tooltip}}">

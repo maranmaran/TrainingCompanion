@@ -1,8 +1,10 @@
 ﻿using Backend.Business.Authorization.Utils;
 using Backend.Domain;
+using Backend.Domain.Enum;
 using Backend.Library.Payment.Enums;
 using Backend.Library.Payment.Interfaces;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.SignIn
@@ -48,12 +50,18 @@ namespace Backend.Business.Authorization.AuthorizationRequests.SignIn
                 return false;
 
             // user must have active payment or be in trial
-            var paymentInfo = _paymentService.GetCustomerSubscriptionStatus(user.CustomerId).Result;
-            if (!(paymentInfo == SubscriptionStatus.Active || paymentInfo == SubscriptionStatus.Trialing))
-                return false;
+            var customerId = user.CustomerId;
 
-            // everything is valid
-            return true;
+            // for athletes.. coach is responsible for subscription
+            if (user.AccountType == AccountType.Athlete)
+            {
+                var athlete = _context.Athletes.Include(x => x.Coach).First(x => x.Id == user.Id);
+                customerId = athlete.Coach.CustomerId;
+            }
+
+            var paymentInfo = _paymentService.GetCustomerSubscriptionStatus(customerId).Result;
+
+            return paymentInfo == SubscriptionStatus.Active || paymentInfo == SubscriptionStatus.Trialing;
         }
     }
 }

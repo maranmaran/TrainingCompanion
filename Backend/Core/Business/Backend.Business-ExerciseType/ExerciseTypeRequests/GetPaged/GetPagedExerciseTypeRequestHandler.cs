@@ -59,8 +59,17 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.GetPaged
                     });
                 }
 
+                var allItems = await exerciseTypes.AsNoTracking().ToListAsync(cancellationToken);
+
+                // if we are looking for page where specific item is
+                if (request.PaginationModel.ItemId != Guid.Empty)
+                {
+                    var itemIdx = allItems.FindIndex(x => x.Id == request.PaginationModel.ItemId);
+                    paginationModel.Page = (int)Math.Floor((double)itemIdx / request.PaginationModel.PageSize);
+                }
+
                 // page --- or fetch all results 
-                var exerciseTypesPagedList = !request.PaginationModel.FetchAll ? exerciseTypes.Skip(paginationModel.Page * paginationModel.PageSize).Take(paginationModel.PageSize) : exerciseTypes;
+                var exerciseTypesPagedList = !request.PaginationModel.FetchAll ? allItems.Skip(paginationModel.Page * paginationModel.PageSize).Take(paginationModel.PageSize).ToList() : allItems;
 
                 //TODO: Technical debt.. this needs to be done better
                 foreach (var exerciseType in exerciseTypesPagedList)
@@ -68,8 +77,7 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.GetPaged
                     exerciseType.Properties = exerciseType.Properties.Where(x => x.Show).ToList();
                 }
 
-                var list = await exerciseTypesPagedList.AsNoTracking().ToListAsync(cancellationToken);
-                return new PagedList<ExerciseType>(list, totalItems);
+                return new PagedList<ExerciseType>(exerciseTypesPagedList, totalItems);
             }
             catch (Exception e)
             {
