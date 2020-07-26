@@ -1,5 +1,5 @@
-import { Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { take, tap } from 'rxjs/operators';
@@ -37,23 +37,27 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
     this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
 
     this.subs.add(
-      this.store.select(selectedTraining)
-        .pipe(tap(training => {
-          // if we didnt' get training go back to log..
-          // this can be case for view as
-          // coach has trigger view-as and this selected training is now null because we clear it.. go back to log
-          // and fetch only trainings from athlete we are viewing now
-          if (!training) {
-            this.router.navigate(['/app/training-log']);
-          }
-        }))
-        .subscribe(training => this.training = training)
+      this.onViewAsTrigger()
     );
 
   }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  onViewAsTrigger() {
+    return this.store.select(selectedTraining)
+      .pipe(tap(training => {
+        // if we didnt' get training go back to log..
+        // this can be case for view as
+        // coach has trigger view-as and this selected training is now null because we clear it.. go back to log
+        // and fetch only trainings from athlete we are viewing now
+        if (!training) {
+          this.router.navigate(['/app/training-log']);
+        }
+      }))
+      .subscribe(training => this.training = training);
   }
 
   saveNote(note: string) {

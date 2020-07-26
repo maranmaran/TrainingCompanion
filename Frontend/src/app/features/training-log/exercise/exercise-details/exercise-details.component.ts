@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash-es';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { transformWeight } from 'src/business/services/shared/unit-system.service';
 import { currentUserId, unitSystem } from 'src/ngrx/auth/auth.selectors';
@@ -32,7 +33,8 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private exerciseService: ExerciseService
+    private exerciseService: ExerciseService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -41,6 +43,8 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
     this.store.select(selectedTraining).pipe(take(1)).subscribe(training => this.training = _.cloneDeep(training));
 
     this.subs.add(
+      this.onViewAsTrigger(),
+
       this.store.select(selectedExercise)
         .subscribe(exercise => {
           this.exercise = exercise;
@@ -51,6 +55,21 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subs.unsubscribe();
   }
+
+  onViewAsTrigger() {
+    return this.store.select(selectedTraining)
+      .pipe(tap(training => {
+        // if we didnt' get training go back to log..
+        // this can be case for view as
+        // coach has trigger view-as and this selected training is now null because we clear it.. go back to log
+        // and fetch only trainings from athlete we are viewing now
+        if (!training) {
+          this.router.navigate(['/app/training-log']);
+        }
+      }))
+      .subscribe(training => this.training = training);
+  }
+
 
   get totalVolume() {
     const volume = this.exercise.sets.reduce((total, set) => total + set.volume, 0);
