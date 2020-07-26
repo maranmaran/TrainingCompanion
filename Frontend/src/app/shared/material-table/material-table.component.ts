@@ -296,7 +296,6 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.selection.toggle(entity.id); // toggle
     this.selectEvent.emit(entity);
 
-    console.log(entity);
     this.updatePage(entity.id);
   }
 
@@ -305,6 +304,14 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
     const index = this.datasource.data.findIndex(x => x.id == itemId);
     const pageSize = this.config.pagingOptions.pageSize;
+
+    if (index == -1 && this.config.pagingOptions.serverSidePaging) {
+      // load page from server
+      this.pagingModel.itemId = itemId;
+      this.pagingChangeEvent.emit(this.pagingModel);
+
+      return this.pagingModel.itemId = undefined;
+    }
 
     const page = Math.floor(index / pageSize);
 
