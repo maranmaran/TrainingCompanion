@@ -115,7 +115,7 @@ export class AccountComponent implements OnInit {
       maxWidth: '45rem',
       autoFocus: false,
       data: { config: this.config },
-      panelClass: ['image-cropper-dialog']
+      panelClass: ['image-cropper-dialog', 'dialog-container']
     });
 
     dialogRef.afterClosed().pipe(take(1))

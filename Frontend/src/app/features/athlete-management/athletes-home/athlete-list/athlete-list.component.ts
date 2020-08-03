@@ -106,7 +106,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: 'ATHLETE_MANAGEMENT.ADD_TITLE', action: CRUD.Create },
-      panelClass: []
+      panelClass: ['dialog-container']
     })
 
     dialogRef.afterClosed().pipe(take(1))
@@ -126,7 +126,7 @@ export class AthleteListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: 'ATHLETE_MANAGEMENT.UPDATE_TITLE', action: CRUD.Update, athlete: athlete },
-      panelClass: []
+      panelClass: ['dialog-container']
     })
 
     dialogRef.afterClosed().pipe(take(1))

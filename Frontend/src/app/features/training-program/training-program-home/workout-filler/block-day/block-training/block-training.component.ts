@@ -79,7 +79,7 @@ export class BlockTrainingComponent implements OnInit {
         maxWidth: '50rem',
         autoFocus: false,
         data: { titleExercise: 'TRAINING_LOG.EXERCISE_ADD_TITLE', titleSets: 'TRAINING_LOG.SETS_LABEL', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
-        panelClass: []
+        panelClass: ["dialog-container"]
       });
 
       dialogRef.afterClosed().pipe(take(1))

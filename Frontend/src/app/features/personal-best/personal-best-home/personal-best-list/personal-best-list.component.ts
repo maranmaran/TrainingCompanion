@@ -90,7 +90,8 @@ export class PersonalBestListComponent implements OnInit {
       selectionEnabled: false,
       filterEnabled: false,
       defaultSort: 'dateAchieved',
-      defaultSortDirection: 'desc'
+      defaultSortDirection: 'desc',
+      classes: 'no-elevation'
     });
 
     return tableConfig;
@@ -123,8 +124,8 @@ export class PersonalBestListComponent implements OnInit {
         sort: true,
         //TODO transform depending on exercise type to kg, lbs, watts, km, yards etc
         displayFn: (item: PersonalBest) => item.bodyweight ?
-              transformWeight(item.bodyweight, this.unitSystem)
-              : this.translateService.instant('SHARED.UNKNOWN'),
+          transformWeight(item.bodyweight, this.unitSystem)
+          : this.translateService.instant('SHARED.UNKNOWN'),
       }),
     ];
 
@@ -177,7 +178,7 @@ export class PersonalBestListComponent implements OnInit {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: 'PERSONAL_BEST.ADD_TITLE', action: CRUD.Create, personalBest, unitSystem: this.unitSystem },
-      panelClass: []
+      panelClass: ["dialog-container"]
     });
 
     dialogRef.afterClosed().pipe(take(1))

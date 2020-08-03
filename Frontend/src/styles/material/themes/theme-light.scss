@@ -6,16 +6,38 @@ $theme-light-warn: mat-palette($warning, A200);
 
 $theme-light: mat-light-theme($theme-light-primary, $theme-light-accent, $theme-light-warn);
 
-.theme-light mat-toolbar {
-    // background: red !important;
+$background-palette: map-get($theme-light, background); //palette
+
+$toolbar-gradient-1: #ff9a9e;
+$toolbar-gradient-2: #fad0c4;
+$toolbar-gradient-3: #fad0c4;
+
+.theme-light {
+    mat-toolbar {
+        // background: map-get($background-palette, background) !important;
+        // background: map-get($mat-grey, 100) !important;
+        background: linear-gradient(
+            45deg,
+            $toolbar-gradient-1 0%,
+            $toolbar-gradient-2 99%,
+            $toolbar-gradient-3 100%
+        ) !important;
+    }
+
+    app-sidebar-desktop {
+        mat-toolbar {
+            background: $toolbar-gradient-1 !important;
+        }
+    }
 }
 
 @media (min-width: 1280px) {
     .theme-light mat-sidenav {
-        background: mat-color($theme-light-primary, default) !important;
+        // background: map-get($background-palette, background) !important;
+        background: map-get($mat-grey, 100) !important;
     }
 }
 
 .theme-light mat-sidenav-content {
-    // background: red !important;
+    background: map-get($mat-grey, 100) !important;
 }

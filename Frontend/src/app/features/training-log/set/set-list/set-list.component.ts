@@ -152,7 +152,7 @@ export class SetListComponent implements OnInit, OnDestroy {
         sets: this.sets,
         prs: this._personalBests
       },
-      panelClass: 'sets-dialog-container',
+      panelClass: ['sets-dialog-container', "dialog-container"],
     })
 
     dialogRef.afterClosed().pipe(take(1))

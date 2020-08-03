@@ -173,7 +173,7 @@ export class SetCreateEditComponent implements OnInit {
         title: 'PERSONAL_BEST.SET_MAX',
         systemPR
       },
-      panelClass: 'choose-max-dialog-container',
+      panelClass: ['choose-max-dialog-container', "dialog-container"],
     })
 
     return dialogRef.afterClosed().pipe(

@@ -129,7 +129,7 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: true,
       data: { title: 'TRAINING_BLOCK.ADD_TITLE', action: CRUD.Create, trainingBlock: new TrainingBlock({ order: this.tableDatasource.data.length, durationType: BlockDurationType.Weeks }) },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed()
@@ -150,7 +150,7 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: true,
       data: { title: 'TRAINING_BLOCK.UPDATE_TITLE', action: CRUD.Update, trainingBlock: Object.assign({}, trainingBlock) },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed().pipe(take(1), filter(program => !!program)).subscribe((trainingBlock: TrainingBlock) => (this.table.onSelect(trainingBlock, true), this.onSelect(trainingBlock)))

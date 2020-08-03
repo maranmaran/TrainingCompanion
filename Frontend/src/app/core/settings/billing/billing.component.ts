@@ -76,7 +76,7 @@ export class BillingComponent implements OnInit, OnDestroy {
       width: '25rem',
       maxWidth: '100%',
       autoFocus: false,
-      panelClass: 'stripe-checkout-container'
+      panelClass: ['stripe-checkout-container', 'dialog-container']
     });
 
     // handle close

@@ -7,14 +7,47 @@ $theme-dark-warn: mat-palette($mat-red, A200);
 
 $theme-dark: mat-dark-theme($theme-dark-primary, $theme-dark-accent, $theme-dark-warn);
 
-.theme-dark mat-toolbar {
-    // background: white !important;
+$background-palette: map-get($theme-dark, background); //palette
+
+$toolbar-gradient-1: #4286f4;
+// $toolbar-gradient-2: #4286f7;
+$toolbar-gradient-3: #373b44;
+
+.theme-dark {
+    mat-toolbar {
+        // background: map-get($background-palette, background) !important;
+        // background: map-get($mat-grey, 100) !important;
+        background: linear-gradient(45deg, $toolbar-gradient-1 0%, $toolbar-gradient-3 100%) !important;
+    }
+
+    app-sidebar-desktop {
+        mat-toolbar {
+            background: $toolbar-gradient-1 !important;
+        }
+    }
 }
 
-.theme-dark mat-sidenav {
-    // background: white !important;
+@media (min-width: 1280px) {
+    .theme-dark mat-sidenav {
+        // background: map-get($background-palette, background) !important;
+        // background: map-get($mat-grey, 100) !important;
+    }
 }
 
 .theme-dark mat-sidenav-content {
-    // background: white !important;
+    // background: map-get($mat-grey, 100) !important;
 }
+
+// .theme-dark mat-toolbar {
+//     background: map-get($background-palette, background) !important;
+// }
+
+// @media (min-width: 1280px) {
+//     .theme-dark mat-sidenav {
+//         background: map-get($background-palette, background) !important;
+//     }
+// }
+
+// .theme-dark mat-sidenav-content {
+//     // background: white !important;
+// }

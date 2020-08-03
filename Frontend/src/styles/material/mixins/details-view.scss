@@ -5,13 +5,12 @@
   // $accent: mat-color(map-get($theme, accent));
   // $warn: mat-color(map-get($theme, warn));
 
-
   .details-container {
-    margin-top: 1rem;
+    // margin-top: 1rem;
 
     // min-height: calc(302px + 60.57px); // same as mat table 5 rows + paginator since they are next to each other quite often
 
-    .detail{
+    .detail {
       margin-bottom: 5px;
     }
 
@@ -45,13 +44,10 @@
   }
 
   @media (max-width: 599px) {
-
     .details-body {
       padding-top: 0.5rem !important;
       padding-left: 0.25rem !important;
       padding-right: 0.25rem !important;
     }
-
-
   }
 }

@@ -116,7 +116,7 @@ export class TrainingProgramListComponent implements OnInit {
       maxWidth: '60rem',
       autoFocus: true,
       data: { title: 'TRAINING_PROGRAM.ADD_TITLE', action: CRUD.Create, trainingProgram: new TrainingProgram() },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed()
@@ -134,7 +134,7 @@ export class TrainingProgramListComponent implements OnInit {
       maxWidth: '60rem',
       autoFocus: true,
       data: { title: 'TRAINING_PROGRAM.UPDATE_TITLE', action: CRUD.Update, trainingProgram: Object.assign({}, trainingProgram) },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed()

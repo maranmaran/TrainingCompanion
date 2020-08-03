@@ -200,7 +200,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       maxWidth: '50rem',
       autoFocus: false,
       data: { title: 'EXERCISE_TYPES.ADD_TYPE_LABEL', action: CRUD.Create, tagGroups },
-      panelClass: ['exercise-type-dialog-container']
+      panelClass: ['exercise-type-dialog-container', 'dialog-container']
     })
 
     this.onDialogClose(dialogRef);
@@ -214,7 +214,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       // maxHeight: '50vh',
       autoFocus: false,
       data: { title: this.translateService.instant('EXERCISE_TYPES.UPDATE_TYPE_LABEL', { name: exerciseType.name }), action: CRUD.Update, entity: exerciseType, tagGroups },
-      panelClass: ['exercise-type-dialog-container']
+      panelClass: ['exercise-type-dialog-container', 'dialog-container']
     })
 
     this.onDialogClose(dialogRef);

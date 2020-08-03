@@ -137,7 +137,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: this.translateService.instant('TAGS.ADD_PROPERTY', { groupName: this.tagGroupName }), action: CRUD.Create, tag: Object.assign(new Tag(), { order: this.tagsCount }) },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed().pipe(take(1))
@@ -157,7 +157,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: this.translateService.instant('TAGS.UPDATE_PROPERTY', { groupName: this.tagGroupName }), action: CRUD.Update, tag: tag },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed().pipe(take(1))

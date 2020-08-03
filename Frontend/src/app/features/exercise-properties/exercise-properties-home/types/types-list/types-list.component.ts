@@ -146,7 +146,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
           maxWidth: '20rem',
           autoFocus: false,
           data: { title: 'TAGS.ADD_TYPE', action: CRUD.Create, tagGroup: group },
-          panelClass: []
+          panelClass: ["dialog-container"]
         })
 
         dialogRef.afterClosed().pipe(take(1)).subscribe((tagGroup: TagGroup) => this.postCreateUpdate(tagGroup));
@@ -161,7 +161,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: 'TAGS.UPDATE_TYPE', action: CRUD.Update, tagGroup: tagGroup },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed().pipe(take(1)).subscribe((tagGroup: TagGroup) => this.postCreateUpdate(tagGroup));

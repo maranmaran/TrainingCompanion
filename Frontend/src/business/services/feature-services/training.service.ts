@@ -65,7 +65,7 @@ export class TrainingService extends CrudService<Training> {
         timeOnly: true,
         programDayId
       },
-      panelClass: []
+      panelClass: ["dialog-container"]
     });
 
     return dialogRef;

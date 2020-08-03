@@ -66,7 +66,7 @@ export class TrainingBlockDayListComponent implements OnInit {
       this.store.select(selectedTrainingBlockId).pipe(
         distinctUntilChanged()
       ).subscribe(id => {
-        this.pagingModel = new PagingModel({pageSize: 28})
+        this.pagingModel = new PagingModel({ pageSize: 28 })
         this.pageChange.next(this.pagingModel);
       }),
 
@@ -77,11 +77,11 @@ export class TrainingBlockDayListComponent implements OnInit {
       ).pipe(
         tap(([data, paging]) => this.hasMoreData = (paging.page + 1) * paging.pageSize < data.length)
       )
-      .subscribe(([data, paging]) => {
+        .subscribe(([data, paging]) => {
 
-        data = this.doSlice(data, paging);
-        this.tableDatasource.updateDatasource([...data])
-      })
+          data = this.doSlice(data, paging);
+          this.tableDatasource.updateDatasource([...data])
+        })
     )
 
   }
@@ -93,7 +93,7 @@ export class TrainingBlockDayListComponent implements OnInit {
   }
 
   onNextPage() {
-    if(this.hasMoreData) {
+    if (this.hasMoreData) {
 
       this.pagingModel.page += 1;
       this.pageChange.next(this.pagingModel);
@@ -101,7 +101,7 @@ export class TrainingBlockDayListComponent implements OnInit {
   }
 
   onPreviousPage() {
-    if(this.pagingModel.page == 0) return;
+    if (this.pagingModel.page == 0) return;
 
     this.pagingModel.page -= 1;
     this.hasMoreData = true;
@@ -110,8 +110,8 @@ export class TrainingBlockDayListComponent implements OnInit {
 
   onTrainingBlockSelected() {
     return this.store.select(selectedTrainingBlockId)
-    .pipe(filter(id => !!id), switchMap(blockId => this.trainingBlockDayService.getAll(blockId as string)))
-    .subscribe((blocks: TrainingBlockDay[]) => this.store.dispatch(trainingBlockDayFetched({ entities: blocks })));
+      .pipe(filter(id => !!id), switchMap(blockId => this.trainingBlockDayService.getAll(blockId as string)))
+      .subscribe((blocks: TrainingBlockDay[]) => this.store.dispatch(trainingBlockDayFetched({ entities: blocks })));
   }
 
   ngOnDestroy() {
@@ -155,7 +155,8 @@ export class TrainingBlockDayListComponent implements OnInit {
         sort: false,
         useComponent: true,
         component: ActiveFlagComponent,
-        componentInputs: (item: TrainingBlockDay) => { return { active: !item.restDay } },      }),
+        componentInputs: (item: TrainingBlockDay) => { return { active: !item.restDay } },
+      }),
     ]
   }
 
@@ -169,7 +170,7 @@ export class TrainingBlockDayListComponent implements OnInit {
       maxWidth: '60rem',
       autoFocus: true,
       data: { title: 'TRAINING_BLOCK_DAY.ADD_TITLE', action: CRUD.Create, trainingBlockDay: new TrainingBlockDay() },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed()
@@ -186,7 +187,7 @@ export class TrainingBlockDayListComponent implements OnInit {
 
     this.selectedDay.pipe(take(1)).subscribe(
       (trainingBlockDay: TrainingBlockDay) => {
-        this.deleteDialogConfig.message = this.translateService.instant('TRAINING_BLOCK_DAY.DELETE_DIALOG', { trainingBlockDay: `${this.translateService.instant("TRAINING_BLOCK_DAY.DAY_LABEL")} ${trainingBlockDay.order}`})
+        this.deleteDialogConfig.message = this.translateService.instant('TRAINING_BLOCK_DAY.DELETE_DIALOG', { trainingBlockDay: `${this.translateService.instant("TRAINING_BLOCK_DAY.DAY_LABEL")} ${trainingBlockDay.order}` })
 
         var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
