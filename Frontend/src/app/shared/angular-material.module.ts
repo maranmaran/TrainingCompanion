@@ -143,7 +143,6 @@ const MY_DATEPICKER_FORMAT = {
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true, strict: true } },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATEPICKER_FORMAT },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
-
   ]
 })
 export class MaterialModule { }

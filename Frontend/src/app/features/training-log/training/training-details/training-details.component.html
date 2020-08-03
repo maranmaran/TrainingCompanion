@@ -20,7 +20,7 @@
 
       </div>
 
-      <mat-accordion class="training-accordion" [multi]="false">
+      <mat-accordion [multi]="false">
 
         <app-training-note [note]="training.note" [coachNote]="training.coachNote" [noteRead]="training.noteRead"
           (saveNoteEvent)="saveNote($event)"></app-training-note>

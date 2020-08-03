@@ -16,27 +16,27 @@
   <div [innerHtml]="note"></div>
 </mat-expansion-panel>
 
-  <!--------- COACH NOTE ---------->
-  <mat-expansion-panel class="coach-note-panel" *ngIf="coachNote">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{'TRAINING_LOG.COACH_NOTE' | translate}}
-          </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-action-row>
-      <button mat-stroked-button color="accent" (click)="openCoachNoteEditor()">
-        <i class="fas fa-edit mr-1"></i>{{'SHARED.EDIT' | translate}}
-      </button>
-    </mat-action-row>
-    <div [innerHtml]="coachNote"></div>
-  </mat-expansion-panel>
+<!--------- COACH NOTE ---------->
+<mat-expansion-panel class="coach-note-panel" *ngIf="coachNote">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{'TRAINING_LOG.COACH_NOTE' | translate}}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-action-row>
+    <button mat-stroked-button color="accent" (click)="openCoachNoteEditor()">
+      <i class="fas fa-edit mr-1"></i>{{'SHARED.EDIT' | translate}}
+    </button>
+  </mat-action-row>
+  <div [innerHtml]="coachNote"></div>
+</mat-expansion-panel>
 
 <!----------EDITOR---------->
-<button mat-stroked-button color="accent" *ngIf="!showEditor && !note" (click)="showEditor = true">
+<button mat-raised-button class="mb-2 mt-2" color="accent" *ngIf="!showEditor && !note" (click)="showEditor = true">
   <i class="fas fa-plus mr-1"></i> {{'TRAINING_LOG.NOTE_LABEL' | translate}}
 </button>
 <ckeditor id="editor" [hidden]="!showEditor" [editor]="ckEditor" [config]="ckEditorConfig" data="{{ckEditor.note}}"
   (change)="onChange($event)"></ckeditor>
-<button mat-stroked-button color="accent" *ngIf="showEditor" (click)="saveNote()">
+<button mat-raised-button class="mb-2 mt-2" color="accent" *ngIf="showEditor" (click)="saveNote()">
   <i class="fas fa-save mr-1"></i> {{'SHARED.SAVE' | translate}}
 </button>

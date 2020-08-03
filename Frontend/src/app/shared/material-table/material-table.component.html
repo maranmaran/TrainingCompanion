@@ -2,10 +2,12 @@
 <div class="theme-material-table table-container {{config.classes}}">
 
   <!--FILTER-->
-  <mat-form-field class="filter" *ngIf="config.filterEnabled">
-    <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)"
-      placeholder="{{ 'SHARED.FILTER' | translate }}">
-  </mat-form-field>
+  <div class="filter" *ngIf="config.filterEnabled">
+    <mat-form-field>
+      <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)"
+        placeholder="{{ 'SHARED.FILTER' | translate }}">
+    </mat-form-field>
+  </div>
 
   <!--TABLE-->
   <mat-table class="mat-elevation-z1" [dataSource]="datasource" matSort [matSortActive]="config.defaultSort"
