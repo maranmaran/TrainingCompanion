@@ -39,7 +39,7 @@
     "@types/chart.js": "^2.9.23",
     "@types/file-saver": "^2.0.1",
     "@types/moment-timezone": "^0.5.13",
-    "angularx-social-login": "^3.2.0",
+    "angularx-social-login": "^3.2.1",
     "animate.css": "^4.1.0",
     "bootstrap": "^4.5.0",
     "chart.js": "^2.9.3",
