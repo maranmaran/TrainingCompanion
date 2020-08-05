@@ -41,7 +41,7 @@
     "@types/moment-timezone": "^0.5.13",
     "angularx-social-login": "^3.2.1",
     "animate.css": "^4.1.0",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^4.5.1",
     "chart.js": "^2.9.3",
     "chartjs-plugin-labels": "^1.1.0",
     "core-js": "^3.6.5",
