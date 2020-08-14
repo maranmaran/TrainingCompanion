@@ -11,3 +11,6 @@ This readme will be updated soon to more comprehensive documentation and demo
 
 For now you can see Kanban board here -> https://github.com/maranmaran/TrainingCompanion/projects/1
 
+### Future architecture (in progress)
+#### Microservices with bounded contexts
+![Future architecture (in progress)](Architecture.png)
