@@ -5,6 +5,17 @@ $primary: $mat-deep-purple;
 $accent: $mat-pink;
 $warning: $mat-amber;
 
+$toolbar-gradient-1: #ff9a9e;
+$toolbar-gradient-2: #fad0c4;
+$toolbar-gradient-3: #fad0c4;
+
+$toolbar-gradient-complete: linear-gradient(
+    45deg,
+    $toolbar-gradient-1 0%,
+    $toolbar-gradient-2 99%,
+    $toolbar-gradient-3 100%
+);
+
 // Background palette for light themes.
 // $mat-light-theme-background: (
 //     status-bar: map_get($mat-grey, 300),

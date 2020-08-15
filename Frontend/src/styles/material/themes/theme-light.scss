@@ -6,22 +6,16 @@ $theme-light-warn: mat-palette($warning, A200);
 
 $theme-light: mat-light-theme($theme-light-primary, $theme-light-accent, $theme-light-warn);
 
-$background-palette: map-get($theme-light, background); //palette
-
-$toolbar-gradient-1: #ff9a9e;
-$toolbar-gradient-2: #fad0c4;
-$toolbar-gradient-3: #fad0c4;
-
 .theme-light {
+    .sidebar-link-active {
+        border-left: 5px solid $toolbar-gradient-1 !important;
+        padding-right: 5px;
+    }
+
     mat-toolbar {
         // background: map-get($background-palette, background) !important;
         // background: map-get($mat-grey, 100) !important;
-        background: linear-gradient(
-            45deg,
-            $toolbar-gradient-1 0%,
-            $toolbar-gradient-2 99%,
-            $toolbar-gradient-3 100%
-        ) !important;
+        background: $toolbar-gradient-complete !important;
     }
 
     app-sidebar-desktop {

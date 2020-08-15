@@ -6,23 +6,28 @@
     <mat-nav-list class="navlist" id="main-navlist">
         <mat-accordion class="headers-align" [displayMode]="'flat'">
 
-            <a mat-list-item (click)="route.emit('/app/dashboard')">
+            <a mat-list-item (click)="route.emit('/app/dashboard')"
+                [class.sidebar-link-active]="router.isActive('/app/dashboard', false)">
                 <i class="fas fa-home fa-1-5x accent-foreground"></i>
             </a>
 
-            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/athletes')">
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/athletes')"
+                [class.sidebar-link-active]="router.isActive('/app/athletes', false)">
                 <i class="fas fa-users fa-1-5x accent-foreground"></i>
             </a>
 
-            <a mat-list-item (click)="route.emit('/app/exercise-properties')">
+            <a mat-list-item (click)="route.emit('/app/exercise-properties')"
+                [class.sidebar-link-active]="router.isActive('/app/exercise-properties', false)">
                 <i class="fas fa-tools fa-1-5x accent-foreground"></i>
             </a>
 
-            <a mat-list-item (click)="route.emit('/app/exercise-types')">
+            <a mat-list-item (click)="route.emit('/app/exercise-types')"
+                [class.sidebar-link-active]="router.isActive('/app/exercise-types', false)">
                 <i class="fas fa-dumbbell fa-1-5x accent-foreground"></i>
             </a>
 
-            <a mat-list-item (click)="route.emit('/app/training-log')">
+            <a mat-list-item (click)="route.emit('/app/training-log')"
+                [class.sidebar-link-active]="router.isActive('/app/training-log', false)">
                 <i class="fas fa-calendar-alt fa-1-5x accent-foreground"></i>
             </a>
 
@@ -30,11 +35,13 @@
                 <i class="fas fa-cloud-upload-alt fa-1-5x accent-foreground"></i>
             </a> -->
 
-            <a mat-list-item (click)="route.emit('/app/bodyweight')">
+            <a mat-list-item (click)="route.emit('/app/bodyweight')"
+                [class.sidebar-link-active]="router.isActive('/app/bodyweight', false)">
                 <i class="fas fa-weight fa-1-5x accent-foreground"></i>
             </a>
 
-            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/training-program')">
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/training-program')"
+                [class.sidebar-link-active]="router.isActive('/app/training-program', false)">
                 <i class="fas fa-newspaper fa-1-5x accent-foreground"></i>
             </a>
 

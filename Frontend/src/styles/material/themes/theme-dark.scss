@@ -7,17 +7,16 @@ $theme-dark-warn: mat-palette($mat-red, A200);
 
 $theme-dark: mat-dark-theme($theme-dark-primary, $theme-dark-accent, $theme-dark-warn);
 
-$background-palette: map-get($theme-dark, background); //palette
-
-$toolbar-gradient-1: #4286f4;
-// $toolbar-gradient-2: #4286f7;
-$toolbar-gradient-3: #373b44;
-
 .theme-dark {
+    .sidebar-link-active {
+        border-left: 5px solid $toolbar-gradient-1 !important;
+        padding-right: 5px;
+    }
+
     mat-toolbar {
         // background: map-get($background-palette, background) !important;
         // background: map-get($mat-grey, 100) !important;
-        background: linear-gradient(45deg, $toolbar-gradient-1 0%, $toolbar-gradient-3 100%) !important;
+        background: $toolbar-gradient-complete !important;
     }
 
     app-sidebar-desktop {

@@ -1,6 +1,12 @@
 @import "~@angular/material/theming";
 
 @mixin training-program-theme($theme) {
+    .mat-expansion-panel {
+        * {
+            box-shadow: none !important;
+        }
+    }
+
     .program-headers-align .mat-expansion-panel-header-title,
     .program-headers-align .mat-expansion-panel-header-description {
         flex-basis: 0;

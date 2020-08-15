@@ -5,6 +5,12 @@ $primary: $mat-blue;
 $accent: $mat-cyan;
 $warning: $mat-red;
 
+$toolbar-gradient-1: #4286f4;
+// $toolbar-gradient-2: #4286f7;
+$toolbar-gradient-3: #373b44;
+
+$toolbar-gradient-complete: linear-gradient(45deg, $toolbar-gradient-1 0%, $toolbar-gradient-3 100%);
+
 // // Background palette for dark themes.
 // $mat-dark-theme-background: (
 //     status-bar: black,

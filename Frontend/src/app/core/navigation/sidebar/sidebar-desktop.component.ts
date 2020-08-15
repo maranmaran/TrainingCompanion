@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -14,5 +15,6 @@ export class SidebarDesktopComponent {
     @Output() route = new EventEmitter<string>();
 
     constructor(
+        public router: Router
     ) { }
 }
