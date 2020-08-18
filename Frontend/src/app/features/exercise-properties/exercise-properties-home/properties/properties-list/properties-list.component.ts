@@ -77,7 +77,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       cellActions: [TableAction.update, TableAction.delete],
       selectionEnabled: false,
       filterEnabled: true,
-      enableExpandableRows: true,
+      enableExpandableRows: false,
       expandableRowComponent: PropertyDetailsComponent,
       expandableRowComponentAttributes: { class: 'property-details-expanded-row' }
     });

@@ -69,7 +69,7 @@ export class TypesListComponent implements OnInit, OnDestroy {
       }),
       cellActions: [TableAction.update, TableAction.delete],
       filterEnabled: true,
-      enableExpandableRows: true,
+      enableExpandableRows: false,
       expandableRowComponent: TypeDetailsComponent,
       expandableRowComponentAttributes: { class: 'type-details-expanded-row' }
 
