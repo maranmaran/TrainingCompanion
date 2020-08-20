@@ -10,7 +10,9 @@
     <!-- <app-pull-to-refresh></app-pull-to-refresh> -->
     <app-toolbar></app-toolbar>
 
-    <router-outlet class="main-router-outlet"></router-outlet>
+    <div [@easeInOut]="prepareRoute(outlet)" class="h-100 w-100">
+      <router-outlet #outlet="outlet" class="main-router-outlet"></router-outlet>
+    </div>
 
     <app-chat-small *ngIf="showSmallChat"></app-chat-small>
 

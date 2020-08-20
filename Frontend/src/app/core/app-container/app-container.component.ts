@@ -1,7 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { ChatTheme } from 'src/app/features/chat/models/enums/chat-theme.enum';
@@ -15,16 +15,19 @@ import { isFullScreenChatActive } from 'src/ngrx/chat/chat.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { SubSink } from 'subsink';
+import { easeInOut } from './../../../business/animations/ease-in-out.animation';
 import { currentUserId } from './../../../ngrx/auth/auth.selectors';
 import { ChatConfiguration } from './../../features/chat/chat.configuration';
 import { ChatSignalrService } from './../../features/chat/services/chat-signalr.service';
 import { ToolbarComponent } from './../navigation/toolbar/toolbar.component';
-
 @Component({
   selector: 'app-app-container',
   templateUrl: './app-container.component.html',
   styleUrls: ['./app-container.component.scss'],
-  providers: []
+  providers: [],
+  animations: [
+    easeInOut
+  ]
 })
 export class AppContainerComponent implements OnInit, OnDestroy {
 
@@ -109,6 +112,10 @@ export class AppContainerComponent implements OnInit, OnDestroy {
       this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle)
   }
 
-
+  // route animation
+  // https://angular.io/guide/route-animations
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
+  }
 
 }
