@@ -115,7 +115,9 @@ export class AppContainerComponent implements OnInit, OnDestroy {
   // route animation
   // https://angular.io/guide/route-animations
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
+    // return outlet && outlet.acktivatedRouteData && outlet.activatedRouteData.animation;
+    console.log(outlet?.activatedRouteData?.animation);
+    return outlet?.activatedRouteData;
   }
 
 }

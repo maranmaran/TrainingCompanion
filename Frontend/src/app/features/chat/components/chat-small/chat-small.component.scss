@@ -19,6 +19,8 @@
     border-radius: 100%;
 }
 #ng-chat-people {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     position: relative;
     width: 240px;
     height: 360px;
@@ -34,6 +36,10 @@
 .ng-chat-close {
     text-decoration: none;
     float: right;
+}
+.ng-chat-title {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 .ng-chat-title,
 .ng-chat-title:hover {
@@ -122,6 +128,9 @@
 #ng-chat-users li > .ng-chat-friends-list-selectable-offset {
     margin-left: 22px;
 }
+.ng-chat-friends-list-container:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
 #ng-chat-users li .ng-chat-friends-list-container {
     display: inline-block;
     width: 100%;
@@ -186,6 +195,8 @@
     line-height: 30px;
 }
 .ng-chat-window {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     right: 260px;
     height: 360px;
     z-index: 999;
