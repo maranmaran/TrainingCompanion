@@ -24,6 +24,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.API", "API\Backend.API\Backend.API.csproj", "{E7C49F44-2DC5-4BB8-B3DE-CF91596E7DF8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{54BC2835-0638-4EC2-A88E-C0E7A0DA8604}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{5A27F089-CD3E-4B48-99AB-056EA4A80F47}"
 EndProject
@@ -80,7 +83,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{B1224C5E-0
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Business.Email", "Core\Business\Backend.Business.Email\Backend.Business.Email.csproj", "{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend.Business.Email", "Core\Business\Backend.Business.Email\Backend.Business.Email.csproj", "{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AB7D0B4C-8F0B-48AB-B052-3AE4B6919240}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -188,6 +193,10 @@ Global
 		{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AC5B871-21AC-4A97-AE61-0DD4B5C4066A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB7D0B4C-8F0B-48AB-B052-3AE4B6919240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB7D0B4C-8F0B-48AB-B052-3AE4B6919240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB7D0B4C-8F0B-48AB-B052-3AE4B6919240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB7D0B4C-8F0B-48AB-B052-3AE4B6919240}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

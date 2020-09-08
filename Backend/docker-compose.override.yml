@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+
+    sql.data:
+        environment:
+            - SA_PASSWORD=Pass@word
+            - ACCEPT_EULA=Y
+        ports:
+            - "5433:1433"    # Important: In a production environment your should remove the external port
+    
+    seq:
+        environment:
+          - ACCEPT_EULA=Y
+        ports:
+          - "5341:80"
+
+    backend.api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:44304;http://+:80
+            - ConnectionStrings__DefaultConnection=${SQL_CONN_STRING:-Server=sql.data;Database=trainingcompanion_db;User Id=sa;Password=Pass@word}
+        ports:
+            - "80"
+            - "44304:443"
+        volumes:
+            - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+            - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
