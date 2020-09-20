@@ -19,6 +19,7 @@ For now you can see Kanban board here -> https://github.com/maranmaran/TrainingC
 ![](2.PNG)
 ![](3.PNG)
 ![](4.PNG)
+![](20.PNG)
 ![](5.PNG)
 ![](6.PNG)
 ![](7.PNG)
