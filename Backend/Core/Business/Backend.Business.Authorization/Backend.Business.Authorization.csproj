@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Apis.Auth" Version="1.49.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
   </ItemGroup>
 
