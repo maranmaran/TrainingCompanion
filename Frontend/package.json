@@ -62,7 +62,7 @@
     "ngx-material-timepicker": "^5.5.3",
     "ngx-stripe": "^9.0.4",
     "ngx-toastr": "^13.1.0",
-    "normalizr": "^3.6.0",
+    "normalizr": "^3.6.1",
     "placeholder-loading": "^0.2.6",
     "subsink": "^1.0.1",
     "tslib": "^2.0.3",
