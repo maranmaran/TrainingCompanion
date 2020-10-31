@@ -4,7 +4,7 @@ export const environment = {
   showStackTrace: true,
 
   sslRequired: true,
-  apiUrl: 'localhost:44304/api',
+  apiUrl: 'localhost:44304/api/',
 
   stripePublishableKey: 'stripePublishableKey',
   googleClientID: 'OAuth2ClientID',
