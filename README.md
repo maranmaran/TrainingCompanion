@@ -14,7 +14,7 @@ For now you can see Kanban board here -> https://github.com/maranmaran/TrainingC
 ### Future architecture (in progress)
 #### Microservices with bounded contexts
 ![Future architecture (in progress)](Assets/Architecture.png)
-
+![](Assets/LoginScreen.PNG)
 ![](Assets/1.PNG)
 ![](Assets/2.PNG)
 ![](Assets/3.PNG)
