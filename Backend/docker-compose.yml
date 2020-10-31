@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+
+   sql.data:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+ 
+    seq:
+        image: datalust/seq:latest
+        hostname: seq
+        restart: unless-stopped
+        volumes:
+            - ./seq-data:/data
+
+    backend.api:
+        image: ${DOCKER_REGISTRY-}backendapi
+        build:
+            context: .
+            dockerfile: API/Backend.API/Dockerfile
+        depends_on:
+            - sql.data

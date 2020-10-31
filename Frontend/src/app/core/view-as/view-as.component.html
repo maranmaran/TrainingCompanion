@@ -1,9 +1,9 @@
 <ng-container *ngIf="!viewAsMode && render">
-    <i class="fas fa-eye" (click)="viewAsMode=true"></i>
+    <i class="fas fa-eye accent-foreground" (click)="viewAsMode=true"></i>
 </ng-container>
 
 <ng-container *ngIf="viewAsMode && render">
-    <mat-form-field id="view-as">
+    <mat-form-field id="view-as" appearance="standard" class="accent-foreground">
         <mat-label>View as</mat-label>
 
         <!-- <input matInput placeholder="{{'TRAINING_PROGRAM.ATHLETE' | translate }}" [matAutocomplete]="auto"
@@ -22,6 +22,6 @@
                 {{ user?.fullName }}
             </mat-option>
         </mat-autocomplete> -->
-        <i matSuffix class="fas fa-times ml-2" (click)="onClear()"></i>
+        <i matSuffix class="fas fa-times ml-2 accent-foreground" (click)="onClear()"></i>
     </mat-form-field>
 </ng-container>

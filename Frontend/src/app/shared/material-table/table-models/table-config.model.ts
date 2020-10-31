@@ -1,6 +1,8 @@
 
 export class TableConfig {
 
+  classes: string;
+
   filterEnabled = false;
   selectionEnabled = false;
   enableDragAndDrop = false;

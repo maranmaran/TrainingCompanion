@@ -31,6 +31,15 @@
       background-color: rgba($highlight, 0.1) !important;
     }
 
+    .filter {
+      padding-left: 5px;
+      padding-right: 5px;
+
+      .mat-form-field-wrapper {
+        padding: 0;
+      }
+    }
+
     mat-row {
       cursor: pointer;
     }

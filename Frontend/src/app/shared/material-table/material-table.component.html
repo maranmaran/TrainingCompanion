@@ -1,11 +1,13 @@
 <!--CONTAINER-->
-<div class="theme-material-table">
+<div class="theme-material-table table-container {{config.classes}}">
 
   <!--FILTER-->
-  <mat-form-field *ngIf="config.filterEnabled">
-    <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)"
-      placeholder="{{ 'SHARED.FILTER' | translate }}">
-  </mat-form-field>
+  <div class="filter" *ngIf="config.filterEnabled">
+    <mat-form-field>
+      <input matInput #filter (keyup)="applyFilterEvent.next($event.target.value)"
+        placeholder="{{ 'SHARED.FILTER' | translate }}">
+    </mat-form-field>
+  </div>
 
   <!--TABLE-->
   <mat-table class="mat-elevation-z1" [dataSource]="datasource" matSort [matSortActive]="config.defaultSort"
@@ -29,7 +31,7 @@
     </ng-container>
 
     <!-- ACTUAL DATA COLUMNS-->
-    <ng-container *ngFor="let col of columns" matColumnDef="{{ col.definition }}">
+    <ng-container *ngFor="let col of columns; trackBy: trackByFn" matColumnDef="{{ col.definition }}">
 
       <ng-container *ngIf="col.sort">
         <mat-header-cell class="{{col.headerClass}}" *matHeaderCellDef mat-sort-header matTooltip="{{col.tooltip}}">

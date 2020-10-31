@@ -34,6 +34,8 @@ import { CoreEffects } from './../../ngrx/global-setup.ngrx';
 import { ChatModule } from './../features/chat/chat.module';
 import { AppContainerComponent } from './app-container/app-container.component';
 import { CoreRoutingModule } from './core-routing.module';
+import { SidebarDesktopComponent } from './navigation/sidebar/sidebar-desktop.component';
+import { SidebarMobileComponent } from './navigation/sidebar/sidebar-mobile.component';
 import { SidebarComponent } from './navigation/sidebar/sidebar.component';
 import { TabsComponent } from './navigation/tabs/tabs.component';
 import { ToolbarComponent } from './navigation/toolbar/toolbar.component';
@@ -88,6 +90,8 @@ import { ViewAsComponent } from './view-as/view-as.component';
     declarations: [
         AppContainerComponent,
         SidebarComponent,
+        SidebarMobileComponent,
+        SidebarDesktopComponent,
         ToolbarComponent,
         TabsComponent,
         SettingsComponent,

@@ -1,16 +1,15 @@
 @import "~@angular/material/theming";
 
 @mixin main-sidenav-component-theme($theme) {
- 
     #main-navlist {
         .mat-expansion-panel {
             box-shadow: none;
 
             .mat-expansion-panel-header {
                 padding-left: 16px !important;
-                font-size: 16px; 
+                font-size: 16px;
             }
-            
+
             .mat-expansion-panel-header-title {
                 align-items: center;
             }
@@ -24,6 +23,4 @@
             }
         }
     }
-
-    
 }

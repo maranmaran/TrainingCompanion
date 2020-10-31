@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
       maxWidth: '20rem',
       autoFocus: false,
       data: { user },
-      panelClass: ["position-relative"]
+      panelClass: ["position-relative", "dialog-container"]
     })
   }
 }

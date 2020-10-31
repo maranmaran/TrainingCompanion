@@ -23,7 +23,7 @@ export class TracksComponent implements OnInit {
 
   tracks: Observable<Track[]>;
   dashboardCards = dashboardCards;
-  attrs: AttributesMap = { class: 'dashboard-component mat-elevation-z3' };
+  attrs: AttributesMap = { class: 'dashboard-component' };
 
   editMode: Observable<boolean>;
 

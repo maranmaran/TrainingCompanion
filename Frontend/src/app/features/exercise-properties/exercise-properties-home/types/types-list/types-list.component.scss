@@ -7,26 +7,25 @@
     padding-right: 15px + 5.66px; // for that sorting thing on table
 }
 
-
 .type-cell {
     flex-grow: 1;
     flex-wrap: wrap;
 }
 
-.hex-header{
+.hex-header {
     max-width: 90px !important;
     justify-content: center;
 }
-.hex-cell{
+.hex-cell {
     max-width: 90px !important;
     justify-content: center;
 }
 
-.active-header{
+.active-header {
     max-width: 70px !important;
     justify-content: center;
 }
-.active-cell{
+.active-cell {
     max-width: 70px !important;
     justify-content: center;
 }
@@ -35,4 +34,9 @@
     border-radius: 50%;
     height: 20px;
     width: 20px;
+}
+
+.type-details-expanded-row {
+    padding: 10px;
+    width: 100%;
 }

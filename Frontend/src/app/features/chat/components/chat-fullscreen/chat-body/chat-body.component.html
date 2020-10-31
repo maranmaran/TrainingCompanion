@@ -1,4 +1,5 @@
-<div *ngIf="chat.isBootstrapped" class="chat-body-container" fxLayout="column" fxLayoutAlign="space-between">
+<div *ngIf="chat.isBootstrapped" class="chat-body-container container-background" fxLayout="column"
+  fxLayoutAlign="space-between">
 
   <!-- all messages -->
   <div #chatWindow class="messages" (scroll)="scrollEvent.next($event)">
@@ -19,7 +20,8 @@
       </ng-template>
 
       <!--Actual message body-->
-      <div class="ml-2 message mat-elevation-z3" [ngClass]="{'my-message': message.fromId == chat.userId}" fxLayout="column">
+      <div class="ml-2 message mat-elevation-z3" [ngClass]="{'my-message': message.fromId == chat.userId}"
+        fxLayout="column">
 
         <div class="body" [ngSwitch]="message.type">
 
@@ -30,8 +32,8 @@
           <img *ngSwitchCase="chat.MessageType.Image" (click)="chat.enlargeImage(message)" class="body img-fluid"
             src="{{message.downloadUrl}}" style="cursor: pointer" />
 
-            <!--Video-->
-            <video *ngSwitchCase="chat.MessageType.Video" class="body" width="100%" height="auto" controls>
+          <!--Video-->
+          <video *ngSwitchCase="chat.MessageType.Video" class="body" width="100%" height="auto" controls>
             <source src="{{message.downloadUrl}}" type="video/mp4">
           </video>
 
@@ -48,16 +50,18 @@
   <form [formGroup]="form">
     <mat-form-field class="text-input">
       <textarea #messageInput matInput cdkTextareaAutosize [cdkAutosizeMinRows]="1" [cdkAutosizeMaxRows]="5"
-        formControlName="messageText" placeholder="{{'CHAT.FULLSCREEN.TYPE_MESSAGE_LABEL' | translate}}" (keydown.enter)="onSendMessage($event)"></textarea>
+        formControlName="messageText" placeholder="{{'CHAT.FULLSCREEN.TYPE_MESSAGE_LABEL' | translate}}"
+        (keydown.enter)="onSendMessage($event)"></textarea>
 
-      <div class="ml-3" matSuffix>
+      <div class="ml-3" style="position: relative; bottom: 5px" fxLayout="row" fxLayoutGap="0.5rem" matSuffix>
+
         <button mat-icon-button color="accent" (click)="addFile($event)">
           <i class="fas fa-paperclip"></i>
         </button>
 
         <!--//&#13;-->
-        <button class="ml-1" matSuffix mat-icon-button color="accent" (click)="onSendMessage($event)"
-          [matTooltipClass]="'multiline'" matTooltip="{{'CHAT.FULLSCREEN.PRESS_ENTER_SEND' | translate}}">
+        <button mat-icon-button color="accent" (click)="onSendMessage($event)" [matTooltipClass]="'multiline'"
+          matTooltip="{{'CHAT.FULLSCREEN.PRESS_ENTER_SEND' | translate}}">
           <i class="fas fa-paper-plane"></i>
         </button>
       </div>

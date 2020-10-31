@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   width: 15rem;
+  border: unset;
 }
 
 .sidenav-container {
@@ -17,9 +18,8 @@
   height: 946px;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 1280px) {
   .sidenav {
-    width: 70%;
+    width: 70px;
   }
 }
-

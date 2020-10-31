@@ -1,3 +1,34 @@
 .label {
     margin-left: 0.5rem;
 }
+
+#sidebar-desktop {
+    a,
+    mat-toolbar {
+        display: flex;
+        justify-content: center;
+    }
+
+    a {
+        margin-top: 1.5rem;
+    }
+}
+
+#sidebar-mobile {
+    #logo {
+        max-height: 45px;
+    }
+
+    .mat-toolbar-row {
+        padding-left: 5px;
+    }
+
+    .mat-toolbar-multiple-rows {
+        min-height: 56px !important;
+        color: white;
+    }
+}
+
+.navlist {
+    padding: 5px !important;
+}

@@ -17,6 +17,7 @@ import { Tag } from 'src/server-models/entities/tag.model';
 import { SubSink } from 'subsink';
 import { TagGroup } from '../../../../../../server-models/entities/tag-group.model';
 import { TagsCreateEditComponent } from '../properties-create-edit/properties-create-edit.component';
+import { PropertyDetailsComponent } from './../property-details/property-details.component';
 
 @Component({
   selector: 'app-properties-list',
@@ -75,7 +76,10 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       }),
       cellActions: [TableAction.update, TableAction.delete],
       selectionEnabled: false,
-      filterEnabled: true
+      filterEnabled: true,
+      enableExpandableRows: false,
+      expandableRowComponent: PropertyDetailsComponent,
+      expandableRowComponentAttributes: { class: 'property-details-expanded-row' }
     });
 
     this.store.select(selectedTagGroup)
@@ -133,7 +137,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: this.translateService.instant('TAGS.ADD_PROPERTY', { groupName: this.tagGroupName }), action: CRUD.Create, tag: Object.assign(new Tag(), { order: this.tagsCount }) },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed().pipe(take(1))
@@ -153,7 +157,7 @@ export class PropertiesListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: this.translateService.instant('TAGS.UPDATE_PROPERTY', { groupName: this.tagGroupName }), action: CRUD.Update, tag: tag },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed().pipe(take(1))

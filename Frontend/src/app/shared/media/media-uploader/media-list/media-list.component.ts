@@ -45,7 +45,7 @@ export class MediaListComponent implements OnInit {
       maxHeight: '41rem',
       autoFocus: false,
       data: { media: this.mediaList, selectedMedia: media, index },
-      panelClass: 'media-carousel-container'
+      panelClass: ['media-carousel-container', "dialog-container"]
     });
   }
 
@@ -57,7 +57,7 @@ export class MediaListComponent implements OnInit {
       maxHeight: '40rem',
       autoFocus: false,
       data: { type: video.type, sourceUrl: video.downloadUrl },
-      panelClass: 'media-dialog-container'
+      panelClass: ['media-dialog-container', "dialog-container"]
     });
   }
 
@@ -69,7 +69,7 @@ export class MediaListComponent implements OnInit {
       maxHeight: '40rem',
       autoFocus: false,
       data: { type: image.type, sourceUrl: image.downloadUrl },
-      panelClass: 'media-dialog-container'
+      panelClass: ['media-dialog-container', "dialog-container"]
     });
   }
 

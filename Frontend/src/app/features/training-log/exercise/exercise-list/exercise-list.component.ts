@@ -165,7 +165,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
         maxWidth: '50rem',
         autoFocus: false,
         data: { title: 'TRAINING_LOG.EXERCISE_ADD_TITLE', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
-        panelClass: []
+        panelClass: ["dialog-container"]
       });
 
       dialogRef.afterClosed().pipe(take(1))

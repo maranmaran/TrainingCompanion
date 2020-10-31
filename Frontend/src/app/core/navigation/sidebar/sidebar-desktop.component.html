@@ -1,0 +1,61 @@
+<div id="sidebar-desktop">
+    <mat-toolbar [color]="'primary'">
+        <img class="img-fluid" src="./../../../../assets/images/compressed/logo-transparent.png">
+    </mat-toolbar>
+
+    <mat-nav-list class="navlist" id="main-navlist">
+        <mat-accordion class="headers-align" [displayMode]="'flat'">
+
+            <a mat-list-item (click)="route.emit('/app/dashboard')"
+                [class.sidebar-link-active]="router.isActive('/app/dashboard', false)"
+                matTooltip="{{'MAIN_SIDEBAR.DASHBOARD' | translate}}" matTooltipPosition="right">
+                <i class="fas fa-home fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/athletes')"
+                [class.sidebar-link-active]="router.isActive('/app/athletes', false)"
+                matTooltip="{{'MAIN_SIDEBAR.MANAGE_USERS' | translate}}" matTooltipPosition="right">
+                <i class="fas fa-users fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a mat-list-item (click)="route.emit('/app/exercise-properties')"
+                [class.sidebar-link-active]="router.isActive('/app/exercise-properties', false)"
+                matTooltip="{{'MAIN_SIDEBAR.EXERCISE_PROPERTIES' | translate}}" matTooltipPosition="right">
+                <i class="fas fa-tools fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a mat-list-item (click)="route.emit('/app/exercise-types')"
+                [class.sidebar-link-active]="router.isActive('/app/exercise-types', false)"
+                matTooltip="{{'MAIN_SIDEBAR.EXERCISES' | translate}}" matTooltipPosition="right">
+                <i class="fas fa-dumbbell fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a mat-list-item (click)="route.emit('/app/training-log')"
+                [class.sidebar-link-active]="router.isActive('/app/training-log', false)"
+                matTooltip="{{'MAIN_SIDEBAR.TRAINING_LOG' | translate}}" matTooltipPosition="right">
+                <i class="fas fa-calendar-alt fa-1-5x accent-foreground"></i>
+            </a>
+
+            <!-- <a mat-list-item (click)="route.emit('/app/export-import')" *ngIf="(isCoach$ | async)">
+                <i class="fas fa-cloud-upload-alt fa-1-5x accent-foreground"></i>
+            </a> -->
+
+            <a mat-list-item (click)="route.emit('/app/bodyweight')"
+                [class.sidebar-link-active]="router.isActive('/app/bodyweight', false)"
+                matTooltip="{{'MAIN_SIDEBAR.BODYWEIGHT' | translate}}" matTooltipPosition="right">
+                <i class="fas fa-weight fa-1-5x accent-foreground"></i>
+            </a>
+
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/training-program')"
+                [class.sidebar-link-active]="router.isActive('/app/training-program', false)"
+                matTooltip="{{'MAIN_SIDEBAR.TRAINING_PROGRAM' | translate}}" matTooltipPosition="right">
+                <i class="fas fa-newspaper fa-1-5x accent-foreground"></i>
+            </a>
+
+            <!-- <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/velocity')">
+                <i class="fas fa-tachometer-alt fa-1-5x accent-foreground"></i>
+            </a> -->
+
+        </mat-accordion>
+    </mat-nav-list>
+</div>

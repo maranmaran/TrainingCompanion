@@ -4,8 +4,35 @@ $theme-light-primary: mat-palette($primary, 700, 300, 900);
 $theme-light-accent: mat-palette($accent);
 $theme-light-warn: mat-palette($warning, A200);
 
-$theme-light: mat-light-theme(
-    $theme-light-primary,
-    $theme-light-accent,
-    $theme-light-warn
-);
+$theme-light: mat-light-theme($theme-light-primary, $theme-light-accent, $theme-light-warn);
+
+.theme-light {
+    .sidebar-link-active {
+        box-shadow: inset 5px 0 0 0px $toolbar-gradient-1 !important;
+        transition: box-shadow 0.3s ease-out !important;
+        // border-left: 5px solid $toolbar-gradient-1 !important;
+    }
+
+    mat-toolbar {
+        // background: map-get($background-palette, background) !important;
+        // background: map-get($mat-grey, 100) !important;
+        background: $toolbar-gradient-complete !important;
+    }
+
+    app-sidebar-desktop {
+        mat-toolbar {
+            background: $toolbar-gradient-1 !important;
+        }
+    }
+}
+
+@media (min-width: 1280px) {
+    .theme-light mat-sidenav {
+        // background: map-get($background-palette, background) !important;
+        background: map-get($mat-grey, 100) !important;
+    }
+}
+
+.theme-light mat-sidenav-content {
+    background: map-get($mat-grey, 100) !important;
+}

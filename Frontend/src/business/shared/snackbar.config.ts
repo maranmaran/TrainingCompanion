@@ -10,6 +10,5 @@ export interface SnackBarConfig {
 
 export const snackBarDefaultConfig = {
     duration: 5000,
-    panelClass: ['warning-snackbar']
+    panelClass: ['warning-snackbar', "dialog-container"]
 };
-

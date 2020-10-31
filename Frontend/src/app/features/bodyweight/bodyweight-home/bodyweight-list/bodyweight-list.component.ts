@@ -57,9 +57,9 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
       this.store.select(unitSystem).subscribe(system => this._unitSystem = system),
 
       this.store.select(isMobile)
-      .subscribe(mobile => {
-        this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10;
-      }),
+        .subscribe(mobile => {
+          this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10;
+        }),
       this.store.select(bodyweights)
         .subscribe((bodyweights: Bodyweight[]) => {
           this.lastLoggedValue = bodyweights[0]?.value ?? 0;
@@ -75,10 +75,10 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
   getTableConfig() {
 
     const tableConfig = new TableConfig({
-      filterFunction: (data: Bodyweight, filter: string) =>  {
+      filterFunction: (data: Bodyweight, filter: string) => {
 
         return transformWeight(data.value, this._unitSystem).trim().toLocaleLowerCase().indexOf(filter) !== -1 ||
-               moment(data.date).format('D, MMM').trim().toLocaleLowerCase().indexOf(filter) !== -1;
+          moment(data.date).format('D, MMM').trim().toLocaleLowerCase().indexOf(filter) !== -1;
       },
       cellActions: [TableAction.update, TableAction.delete],
       headerActions: [TableAction.create, TableAction.deleteMany],
@@ -126,7 +126,7 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: 'BODYWEIGHT.ADD_TITLE', action: CRUD.Create, bodyweight },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed().pipe(take(1))
@@ -146,7 +146,7 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: 'BODYWEIGHT.UPDATE_TITLE', action: CRUD.Update, bodyweight: Object.assign({}, bodyweight) },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed().pipe(take(1))
@@ -160,7 +160,7 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
 
   onDeleteSingle(bodyweight: Bodyweight) {
 
-    this.deleteDialogConfig.message = this.translateService.instant('BODYWEIGHT.DELETE_DIALOG', {bodyweight: transformWeight(bodyweight.value, this._unitSystem), date: moment(bodyweight.date).format('D, MMM')})
+    this.deleteDialogConfig.message = this.translateService.instant('BODYWEIGHT.DELETE_DIALOG', { bodyweight: transformWeight(bodyweight.value, this._unitSystem), date: moment(bodyweight.date).format('D, MMM') })
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
@@ -174,10 +174,10 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
 
   onDeleteSelection(bodyweights: Bodyweight[]) {
 
-    this.deleteDialogConfig.message = this.translateService.instant('BODYWEIGHT.DELETE_SELECTION_DIALOG', {length: bodyweights.length});
+    this.deleteDialogConfig.message = this.translateService.instant('BODYWEIGHT.DELETE_SELECTION_DIALOG', { length: bodyweights.length });
 
     this.deleteDialogConfig.action = (bodyweights: Bodyweight[]) => {
-      for(let bodyweight in bodyweights) {
+      for (let bodyweight in bodyweights) {
         this.deleteBodyweight(bodyweight);
       }
     }
@@ -189,12 +189,12 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
 
   deleteBodyweight(bodyweight) {
     this.bodyweightService.delete(bodyweight.id)
-    .subscribe(
-      () => {
-        this.store.dispatch(bodyweightDeleted({ id: bodyweight.id }))
-      },
-      err => console.log(err)
-    )
+      .subscribe(
+        () => {
+          this.store.dispatch(bodyweightDeleted({ id: bodyweight.id }))
+        },
+        err => console.log(err)
+      )
   }
 
 }

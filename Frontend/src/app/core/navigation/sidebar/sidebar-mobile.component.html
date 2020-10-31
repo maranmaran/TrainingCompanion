@@ -1,0 +1,80 @@
+<div id="sidebar-mobile">
+    <mat-toolbar>
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <img id="logo" class="img-fluid" src="./../../../../assets/images/compressed/logo-transparent.png">
+                <h2 class="toolbar-title float-left"> {{ 'MAIN_SIDEBAR.MENU' | translate}} </h2>
+            </div>
+
+            <button mat-icon-button color="accent" (click)="close.emit()">
+                <i class="fas fa-times"></i>
+            </button>
+
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+
+    <mat-nav-list class="navlist" id="main-navlist">
+        <mat-accordion class="headers-align" [displayMode]="'flat'">
+
+            <a mat-list-item (click)="route.emit('/app/dashboard')">
+                <i class="fas fa-home accent-foreground"></i>
+                <span class="label">{{ 'MAIN_SIDEBAR.DASHBOARD' | translate}}</span>
+            </a>
+
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/athletes')">
+                <i class="fas fa-users accent-foreground"></i>
+                <span class="label">{{ 'MAIN_SIDEBAR.MANAGE_USERS' | translate}}</span>
+            </a>
+
+            <mat-expansion-panel *ngIf="(isCoach$ | async)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <i class="fas fa-list accent-foreground"></i>
+                        <span class="label">{{ 'MAIN_SIDEBAR.EXERCISE_LIBRARY' | translate}}</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <a mat-list-item (click)="route.emit('/app/exercise-properties')">
+                    <i class="fas fa-tools accent-foreground"></i>
+                    <span class="label">{{ 'MAIN_SIDEBAR.EXERCISE_PROPERTIES' | translate}}</span>
+                </a>
+
+
+                <a mat-list-item (click)="route.emit('/app/exercise-types')">
+                    <i class="fas fa-dumbbell accent-foreground"></i>
+                    <span class="label"> {{ 'MAIN_SIDEBAR.EXERCISES' | translate}}</span>
+                </a>
+
+
+            </mat-expansion-panel>
+
+            <a mat-list-item (click)="route.emit('/app/training-log')">
+                <i class="fas fa-calendar-alt accent-foreground"></i>
+                <span class="label">{{ 'MAIN_SIDEBAR.TRAINING_LOG' | translate}}</span>
+            </a>
+            <!-- 
+            <a mat-list-item (click)="route.emit('/app/export-import')" *ngIf="(isCoach$ | async)">
+                <i class="fas fa-cloud-upload-alt accent-foreground"></i>
+                <span class="label">{{ 'MAIN_SIDEBAR.EXPORT_IMPORT' | translate}}</span>
+            </a> -->
+
+            <a mat-list-item (click)="route.emit('/app/bodyweight')">
+                <i class="fas fa-weight accent-foreground"></i>
+                <span class="label">{{ 'MAIN_SIDEBAR.BODYWEIGHT' | translate}}</span>
+            </a>
+
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/training-program')">
+                <i class="fas fa-newspaper accent-foreground"></i>
+                <span class="label">{{ 'MAIN_SIDEBAR.TRAINING_PROGRAM' | translate}}</span>
+            </a>
+            <!-- 
+            <a *ngIf="(isCoach$ | async)" mat-list-item (click)="route.emit('/app/velocity')">
+                <i class="fas fa-tachometer-alt accent-foreground"></i>
+                <span class="label" matBadge="B" matBadgeColor="warn">Velocity</span>
+            </a> -->
+
+        </mat-accordion>
+    </mat-nav-list>
+</div>

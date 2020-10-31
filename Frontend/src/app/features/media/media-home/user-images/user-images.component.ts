@@ -47,7 +47,7 @@ export class UserImagesComponent implements OnInit, OnDestroy {
       maxHeight: '40rem',
       autoFocus: false,
       data: { type: image.type, sourceUrl: image.downloadUrl },
-      panelClass: 'media-dialog-container'
+      panelClass: ['media-dialog-container', 'dialog-container']
     });
 
   }

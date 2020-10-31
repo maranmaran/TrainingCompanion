@@ -63,7 +63,7 @@ export class TrainingProgramDetailsComponent implements OnInit {
       maxWidth: '20rem',
       autoFocus: false,
       data: { title: 'TRAINING_PROGRAM.ASSIGN', trainingProgram, users },
-      panelClass: []
+      panelClass: ["dialog-container"]
     })
 
     dialogRef.afterClosed()

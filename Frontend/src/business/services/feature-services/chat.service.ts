@@ -340,7 +340,7 @@ export class ChatService implements OnDestroy {
       maxHeight: '40rem',
       autoFocus: false,
       data: { type: message.type, sourceUrl: message.downloadUrl },
-      panelClass: 'media-dialog-container'
+      panelClass: ['media-dialog-container', "dialog-container"]
     });
   }
 

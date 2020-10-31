@@ -1,22 +1,12 @@
 export const environment = {
-  name: 'environmentName', // 
+  name: 'development', // 
   production: false,
   showStackTrace: true,
 
-  apiUrl: 'backendURL/api/',
-  apiUrlNoSSL: 'backendURL/api/',
-
-  notificationHubUrl: 'backendURL/api/notifications-hub',
-  notificationHubUrlNoSSL: 'backendURL/api/notifications-hub',
-
-  feedHubUrl: 'backendURL/api/feed-hub',
-  feedHubUrlNoSSL: 'backendURL/api/feed-hub',
-
-  chatHubUrl: 'backendURL/api/chat-hub',
-  chatHubUrlNoSSL: 'backendURL/api/chat-hub',
+  sslRequired: true,
+  apiUrl: 'localhost:44304/api/',
 
   stripePublishableKey: 'stripePublishableKey',
-
   googleClientID: 'OAuth2ClientID',
   facebookClientID: 'OAUth2ClientID',
 };

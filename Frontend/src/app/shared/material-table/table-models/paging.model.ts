@@ -8,6 +8,7 @@ export class PagingModel {
   sortBy: string;
   sortDirection: SortDirection;
   fetchAll: boolean = false;
+  itemId: string;
 
   constructor(data?: Partial<PagingModel>) {
     Object.assign(this, data);

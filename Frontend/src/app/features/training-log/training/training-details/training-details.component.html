@@ -1,22 +1,26 @@
-<div class="container main-screen">
+<div class="container main-screen mt-2">
 
   <div fxHide fxShow.xs>
     <ng-container *ngTemplateOutlet="header, context: { training: training }"></ng-container>
   </div>
 
-  <div class="section-one" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="0.5rem" fxLayout.lt-md="column"
+  <div class="section-one" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem" fxLayout.lt-md="column"
     fxLayoutAlign.lt-md="start" fxLayoutGap.lt-md="1rem">
 
-    <div id="training-col-left" class="training-details-container details-container" fxFlex="1 1 calc(50% - 0.5rem)"
-      fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="2" fxLayout="column" fxLayoutGap="1rem">
+    <span id="left" fxFlex="1 1 calc(50% - 0.5rem)" fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="2" fxLayout="column"
+      fxLayoutGap="1rem">
 
-      <div fxShow fxHide.xs>
-        <ng-container *ngTemplateOutlet="header, context: { training: training }"></ng-container>
+      <div id="training-col-left" class="training-details-container details-container">
+
+        <div fxShow fxHide.xs>
+          <ng-container *ngTemplateOutlet="header, context: { training: training }"></ng-container>
+        </div>
+
+        <app-training-details-data></app-training-details-data>
+
       </div>
 
-      <app-training-details-data></app-training-details-data>
-
-      <mat-accordion class="training-accordion" [multi]="false">
+      <mat-accordion [multi]="false">
 
         <app-training-note [note]="training.note" [coachNote]="training.coachNote" [noteRead]="training.noteRead"
           (saveNoteEvent)="saveNote($event)"></app-training-note>
@@ -28,10 +32,11 @@
 
       </mat-accordion>
 
-    </div>
+    </span>
 
-    <app-exercise-list id="training-col-right" fxFlex="1 1 calc(50% - 0.5rem)" fxFlex.lt-md="0 1 auto"
-      fxFlexOrder.xs="1"></app-exercise-list>
+    <span id="right" fxFlex="1 1 calc(50% - 0.5rem)" fxFlex.lt-md="0 1 auto" fxFlexOrder.xs="1">
+      <app-exercise-list id="training-col-right"></app-exercise-list>
+    </span>
 
   </div>
 

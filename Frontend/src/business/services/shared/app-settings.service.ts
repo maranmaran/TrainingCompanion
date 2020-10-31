@@ -13,33 +13,39 @@ export class AppSettingsService {
     @Inject(NOTIFICATION_TOAST_TOKEN) private toastNotificationComponent: ComponentType<any>
   ) { }
 
+  public get sslRequired(): boolean {
+    return environment.sslRequired;
+  }
+
   /**
    * Returns the base URL for the API.
    */
   public get apiUrl(): string {
-    // return environment.apiUrl;
-    return environment.apiUrl;
+    if(this.sslRequired)
+      return `https://${environment.apiUrl}`
+
+    return `http://${environment.apiUrl}`
   }
 
   /**
  * Returns the base URL for the Push notifications hub.
  */
   public get notificationHubUrl(): string {
-    return environment.notificationHubUrl;
+    return environment.apiUrl + 'notification-hub';
   }
 
   /**
 * Returns the base URL for the Push notifications hub.
 */
   public get feedHubUrl(): string {
-    return environment.feedHubUrl;
+    return environment.apiUrl + 'feed-hub';
   }
 
   /**
 * Returns the base URL for the Chat hub.
 */
   public get chatHubUrl(): string {
-    return environment.chatHubUrl;
+    return environment.apiUrl + 'chat-hub';
   }
 
   /**

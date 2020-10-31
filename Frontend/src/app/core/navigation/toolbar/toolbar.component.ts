@@ -156,7 +156,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       maxWidth: '58rem',
       autoFocus: false,
       data: { title: 'SETTINGS.SETTINGS_LABEL', section },
-      panelClass: ['settings-dialog-container'],
+      panelClass: ['settings-dialog-container', 'dialog-container'],
       closeOnNavigation: true
     });
   }

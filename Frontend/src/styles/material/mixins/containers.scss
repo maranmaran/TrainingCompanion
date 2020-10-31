@@ -1,0 +1,57 @@
+@import "~@angular/material/theming";
+
+@mixin containers-theme($theme) {
+    $background-palette: map-get($theme, background); //palette
+    $container-color: map_get($background-palette, dialog);
+
+    $radius: 10px;
+    $padding: 8px;
+
+    .container-background {
+        background: $container-color;
+    }
+
+    .table-container {
+        background: $container-color;
+        border-radius: $radius;
+        @include mat-elevation(2);
+
+        mat-table {
+            border-top-left-radius: $radius;
+            border-top-right-radius: $radius;
+
+            mat-header-row {
+                border-top-left-radius: $radius;
+                border-top-right-radius: $radius;
+            }
+        }
+
+        mat-paginator {
+            border-bottom-left-radius: $radius;
+            border-bottom-right-radius: $radius;
+        }
+    }
+
+    .details-container,
+    .card-chart-container {
+        background: $container-color;
+        border-radius: $radius;
+        padding: $padding;
+        @include mat-elevation(2);
+    }
+
+    .dialog-container {
+        mat-dialog-container {
+            border-radius: $radius;
+        }
+    }
+
+    .mat-expansion-panel {
+        border-radius: $radius;
+        @include mat-elevation(2);
+    }
+
+    button {
+        border-radius: 100px;
+    }
+}

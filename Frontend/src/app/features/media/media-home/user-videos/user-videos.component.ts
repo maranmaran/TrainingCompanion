@@ -48,7 +48,7 @@ export class UserVideosComponent implements OnInit, OnDestroy {
       maxHeight: '40rem',
       autoFocus: false,
       data: { type: video.type, sourceUrl: video.downloadUrl },
-      panelClass: 'media-dialog-container'
+      panelClass: ['media-dialog-container', "dialog-container"]
     });
 
   }
