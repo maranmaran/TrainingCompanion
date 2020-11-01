@@ -20,7 +20,7 @@ export class ExerciseTypesHomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.exerciseTypes$ = this.store.select(exerciseTypes).pipe(map(state => state.entities));
+    this.exerciseTypes$ = this.store.select(exerciseTypes);
   }
 
 }

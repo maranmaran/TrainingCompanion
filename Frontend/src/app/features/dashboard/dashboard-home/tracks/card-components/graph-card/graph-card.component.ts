@@ -112,13 +112,13 @@ export class GraphCardComponent implements OnInit {
       }
 
       // no exercises in store.. means user has no exercises.. add some 
-      if (!allTypes || allTypes.entities.length == 0) {
+      if (!allTypes || allTypes.length == 0) {
         this.error = true;
         this.details = this.translationService.instant('DASHBOARD.MISSING_EXERCISES');
         return;
       }
 
-      this.autocompleteExerciseTypesList = new Set(allTypes.entities.filter(x => monitoredTypes.findIndex(y => y.id == x.id) == -1));
+      this.autocompleteExerciseTypesList = new Set(allTypes.filter(x => monitoredTypes.findIndex(y => y.id == x.id) == -1));
 
       // create form and initialize listeners
       this.createForm();

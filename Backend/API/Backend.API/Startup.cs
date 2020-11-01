@@ -113,7 +113,7 @@ namespace Backend.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<PushNotificationHub>("/api/notifications-hub");
+                endpoints.MapHub<PushNotificationHub>("/api/    -hub");
                 endpoints.MapHub<FeedHub>("/api/feed-hub");
                 endpoints.MapHub<ChatHub>("/api/chat-hub");
             });

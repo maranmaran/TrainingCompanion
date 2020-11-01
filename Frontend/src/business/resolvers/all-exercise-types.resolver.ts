@@ -38,7 +38,6 @@ export class AllExerciseTypesResolver implements Resolve<Observable<ExerciseType
       .select(exerciseTypes)
       .pipe(
         take(1),
-        map(state => state.entities),
         concatMap((exerciseTypes: ExerciseType[]) => {
 
           if (isEmpty(exerciseTypes)) {

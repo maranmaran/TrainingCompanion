@@ -16,7 +16,7 @@ import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { exerciseTypesFetched, exerciseTypeUpdated, setSelectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.actions';
-import { exerciseTypes, selectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.selectors';
+import { exerciseTypes, exerciseTypesPagingModel, exerciseTypesTotalItems, selectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/update-exercise-type.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
@@ -68,16 +68,20 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     this.subs.add(
       combineLatest([
         this.store.select(exerciseTypes),
+        this.store.select(exerciseTypesPagingModel),
+        this.store.select(exerciseTypesTotalItems),
         this.store.select(selectedExerciseType).pipe(take(1)),
-      ]).subscribe(([state, selectedEntity]) => {
+      ]).subscribe(([entities, pagingModel, totalItems, selectedEntity]) => {
 
-        this.exerciseTypes = state.entities.slice(0, state.pagingModel.pageSize);
+        console.log([entities, pagingModel, totalItems, selectedEntity]);
+        
+        this.exerciseTypes = entities.slice(0, pagingModel.pageSize);
 
         this.tableDatasource.updateDatasource([...this.exerciseTypes]);
         this.tableDatasource.selectElement(selectedEntity);
 
-        this.tableDatasource.setPagingModel(Object.assign({}, state.pagingModel));
-        this.tableDatasource.setTotalLength(state.totalItems);
+        this.tableDatasource.setPagingModel(Object.assign({}, pagingModel));
+        this.tableDatasource.setTotalLength(totalItems);
       }),
     )
   }

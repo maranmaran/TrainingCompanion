@@ -17,7 +17,19 @@ export const exerciseTypeEntities = createSelector(
 
 export const exerciseTypes = createSelector(
     selectExerciseTypeState,
-    (state) => ({ entities: state ? fromExerciseType.selectAll(state) : [], totalItems: state?.totalItems, pagingModel: state?.pagingModel }),
+    (state) => state ? fromExerciseType.selectAll(state) : [],
+    // (state, entities) => ({ entities: entities, totalItems: state.totalItems })
+);
+
+export const exerciseTypesPagingModel = createSelector(
+    selectExerciseTypeState,
+    (state) => state?.pagingModel,
+    // (state, entities) => ({ entities: entities, totalItems: state.totalItems })
+);
+
+export const exerciseTypesTotalItems = createSelector(
+    selectExerciseTypeState,
+    (state) => state?.totalItems,
     // (state, entities) => ({ entities: entities, totalItems: state.totalItems })
 );
 
