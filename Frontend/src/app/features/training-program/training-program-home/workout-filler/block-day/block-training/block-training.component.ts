@@ -106,9 +106,23 @@ export class BlockTrainingComponent implements OnInit {
     let end = previousIndex < currentIndex ? currentIndex : previousIndex;
 
     // update orders
-    this.training.exercises[start].order = end
-    for (let index = start + 1; index <= end; index++) {
-      this.training.exercises[index].order = index - 1;
+    
+    // top item moving down
+    if(previousIndex < currentIndex) 
+    {
+      this.training.exercises[start].order = end
+      // other items move up by 1 (idx - 1)
+      for (let index = start + 1; index <= end; index++) {
+        this.training.exercises[index].order = index - 1;
+      }
+    }
+    // bottom item moving up 
+    else {
+      this.training.exercises[end].order = start
+      // other items move down by 1 (idx + 1)
+      for (let index = start; index < end; index++) {
+        this.training.exercises[index].order = index + 1;
+      }
     }
 
     let exercisesToUpdate = this.training.exercises.slice(start, end + 1);
