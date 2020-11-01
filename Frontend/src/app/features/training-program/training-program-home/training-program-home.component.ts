@@ -28,6 +28,7 @@ import { TrainingProgramUser } from './../../../../server-models/entities/traini
 export class TrainingProgramHomeComponent implements OnInit, OnDestroy {
 
   private _subs = new SubSink();
+  private _plannerBootstrapped = false;
 
   blockDay: Observable<TrainingBlockDay>;
 
@@ -48,10 +49,10 @@ export class TrainingProgramHomeComponent implements OnInit, OnDestroy {
     this.blockDay = this.store.select(selectedTrainingBlockDay);
 
     this._subs.add(
-      combineLatest(
+      combineLatest([
         this.store.select(selectedTrainingProgramId),
         this.store.select(selectedTrainingBlockId),
-      ).subscribe(([programId, blockId]) => {
+      ]).subscribe(([programId, blockId]) => {
         let programSelected = !!programId;
         let blockSelected = !!programId && !!blockId;
 
@@ -71,6 +72,8 @@ export class TrainingProgramHomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this._subs.unsubscribe();
+
     // because some selects on training state will affect calendar...
     this.store.dispatch(clearTrainingState());
   }
@@ -87,10 +90,10 @@ export class TrainingProgramHomeComponent implements OnInit, OnDestroy {
 
     this._previousProgramId = id;
 
-    combineLatest(
+    combineLatest([
       this.blockService.getAll(id as string),
       this.programUserService.getAll(id as string)
-    ).pipe(
+    ]).pipe(
       take(1),
     ).subscribe(
       ([blocks, users]) => {
@@ -111,9 +114,13 @@ export class TrainingProgramHomeComponent implements OnInit, OnDestroy {
     this._previousBlockId = id;
 
     return this.dayService.getAll(id)
-      .subscribe((blocks: TrainingBlockDay[]) => {
-        this.store.dispatch(trainingBlockDayFetched({ entities: blocks }))
-        setTimeout(_ => this.tabs.selectedIndex = 1);
+      .pipe(take(1))
+      .subscribe((days: TrainingBlockDay[]) => {
+        this.store.dispatch(trainingBlockDayFetched({ entities: days }))
+
+        // switch tabs to planner (workout-filler)
+        setTimeout(_ => this.tabs.selectedIndex = 1, this._plannerBootstrapped ? 0 : 250);
+        this._plannerBootstrapped = true;
       });
   }
 

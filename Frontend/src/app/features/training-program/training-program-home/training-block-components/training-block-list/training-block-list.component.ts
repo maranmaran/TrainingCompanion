@@ -125,7 +125,7 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
     const dialogRef = this.uiService.openDialogFromComponent(TrainingBlockCreateEditComponent, {
       height: 'auto',
       width: '98%',
-      maxWidth: '20rem',
+      maxWidth: '25rem',
       autoFocus: true,
       data: { title: 'TRAINING_BLOCK.ADD_TITLE', action: CRUD.Create, trainingBlock: new TrainingBlock({ order: this.tableDatasource.data.length, durationType: BlockDurationType.Weeks }) },
       panelClass: ["dialog-container"]
@@ -146,7 +146,7 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
     const dialogRef = this.uiService.openDialogFromComponent(TrainingBlockCreateEditComponent, {
       height: 'auto',
       width: '98%',
-      maxWidth: '20rem',
+      maxWidth: '25rem',
       autoFocus: true,
       data: { title: 'TRAINING_BLOCK.UPDATE_TITLE', action: CRUD.Update, trainingBlock: Object.assign({}, trainingBlock) },
       panelClass: ["dialog-container"]
