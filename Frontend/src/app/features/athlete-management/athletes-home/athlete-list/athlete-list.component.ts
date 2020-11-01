@@ -1,3 +1,4 @@
+import { combineLatest } from 'rxjs/internal/observable/combineLatest';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -7,7 +8,7 @@ import { UserService } from 'src/business/services/feature-services/user.service
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { athleteDeleted, setSelectedAthlete } from 'src/ngrx/athletes/athlete.actions';
-import { athletes } from 'src/ngrx/athletes/athlete.selectors';
+import { athletes, selectedAthlete, selectedAthleteId } from 'src/ngrx/athletes/athlete.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { SubSink } from 'subsink';
@@ -45,11 +46,13 @@ export class AthleteListComponent implements OnInit, OnDestroy {
     this.tableColumns = this.getTableColumns() as unknown as CustomColumn[];
 
     this.subs.add(
-      this.store.select(athletes)
-        .subscribe((athletes: ApplicationUser[]) => {
-          this.tableDatasource.updateDatasource(athletes);
-        }))
-
+      combineLatest([
+        this.store.select(athletes),
+        this.store.select(selectedAthlete).pipe(take(1)),
+      ]).subscribe(([entities, selectedEntity]) => {
+          this.tableDatasource.updateDatasource(entities);
+          this.tableDatasource.selectElement(selectedEntity); 
+      }));
   }
 
   ngOnDestroy() {
@@ -62,7 +65,6 @@ export class AthleteListComponent implements OnInit, OnDestroy {
         data.firstName.trim().toLocaleLowerCase().indexOf(filter) !== -1 ||
         data.lastName.trim().toLocaleLowerCase().indexOf(filter) !== -1,
       cellActions: [TableAction.update, TableAction.delete],
-      selectionEnabled: false,
       filterEnabled: true,
     });
 
@@ -161,20 +163,4 @@ export class AthleteListComponent implements OnInit, OnDestroy {
         }
       })
   }
-
-  // onDeleteSelection(athletes: ApplicationUser[]) {
-
-  //   this.deleteDialogConfig.message =
-  //     `<p>Are you sure you wish to delete all (${athletes.length}) selected users ?</p>
-  //    <p>All data will be lost if you delete these users.</p>`;
-
-  //   this.deleteDialogConfig.action = (athletes: ApplicationUser[]) => {
-  //     console.log('delete');
-  //     console.log(athletes);
-  //   }
-
-  //   this.deleteDialogConfig.actionParams = [athletes];
-
-  //   this.uiService.openConfirmDialog(this.deleteDialogConfig)
-  // }
 }

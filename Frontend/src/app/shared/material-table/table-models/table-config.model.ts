@@ -4,7 +4,8 @@ export class TableConfig {
   classes: string;
 
   filterEnabled = false;
-  selectionEnabled = false;
+  selectionEnabled = true; // regular select 
+  multipleSelectEnabled = false; // checkbox
   enableDragAndDrop = false;
   enableExpandableRows = false;
   actionsEnabled = true;

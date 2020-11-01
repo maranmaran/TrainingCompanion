@@ -31,21 +31,21 @@ export class AppSettingsService {
  * Returns the base URL for the Push notifications hub.
  */
   public get notificationHubUrl(): string {
-    return environment.apiUrl + 'notification-hub';
+    return this.apiUrl + 'notifications-hub';
   }
 
   /**
 * Returns the base URL for the Push notifications hub.
 */
   public get feedHubUrl(): string {
-    return environment.apiUrl + 'feed-hub';
+    return this.apiUrl + 'feed-hub';
   }
 
   /**
 * Returns the base URL for the Chat hub.
 */
   public get chatHubUrl(): string {
-    return environment.apiUrl + 'chat-hub';
+    return this.apiUrl + 'chat-hub';
   }
 
   /**

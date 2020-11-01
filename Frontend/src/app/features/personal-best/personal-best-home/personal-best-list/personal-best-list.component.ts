@@ -87,7 +87,6 @@ export class PersonalBestListComponent implements OnInit {
       cellActions: [TableAction.delete],
       headerActions: [TableAction.create],
       enableDragAndDrop: false,
-      selectionEnabled: false,
       filterEnabled: false,
       defaultSort: 'dateAchieved',
       defaultSortDirection: 'desc',

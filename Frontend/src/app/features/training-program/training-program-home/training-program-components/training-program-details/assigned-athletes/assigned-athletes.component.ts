@@ -77,7 +77,6 @@ export class AssignedAthletesComponent implements OnInit, OnDestroy {
         pageSize: 5,
         serverSidePaging: false
       },
-      selectionEnabled: false,
       defaultSort: 'date',
       defaultSortDirection: 'asc'
     });

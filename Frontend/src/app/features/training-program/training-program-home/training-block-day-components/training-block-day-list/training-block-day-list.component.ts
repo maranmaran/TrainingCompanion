@@ -129,7 +129,6 @@ export class TrainingBlockDayListComponent implements OnInit {
         pageSize: 5,
         serverSidePaging: false
       },
-      selectionEnabled: false,
       defaultSort: 'name',
       defaultSortDirection: 'asc'
     });

@@ -72,7 +72,6 @@ export class TrainingListComponent implements OnInit, OnDestroy {
         pageSize: 10,
         serverSidePaging: false
       },
-      selectionEnabled: false,
       defaultSort: 'dateTrained',
       defaultSortDirection: 'desc'
     });
