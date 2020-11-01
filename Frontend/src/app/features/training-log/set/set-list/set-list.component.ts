@@ -76,7 +76,6 @@ export class SetListComponent implements OnInit, OnDestroy {
 
   getTableConfig() {
     const tableConfig = new TableConfig({
-      selectionEnabled: false,
       pagingOptions: new TablePagingOptions({
         pageSizeOptions: [5]
       }),

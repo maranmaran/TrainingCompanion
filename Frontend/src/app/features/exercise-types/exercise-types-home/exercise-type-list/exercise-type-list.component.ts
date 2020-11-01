@@ -1,3 +1,4 @@
+import { combineLatest } from 'rxjs/internal/observable/combineLatest';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -15,7 +16,7 @@ import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { exerciseTypesFetched, exerciseTypeUpdated, setSelectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.actions';
-import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
+import { exerciseTypes, selectedExerciseType } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { UpdateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/update-exercise-type.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
@@ -65,16 +66,20 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this._userId = id);
 
     this.subs.add(
-      this.store.select(exerciseTypes)
-        .subscribe((state: { entities: ExerciseType[], totalItems: number, pagingModel: PagingModel }) => {
+      combineLatest([
+        this.store.select(exerciseTypes),
+        this.store.select(selectedExerciseType).pipe(take(1)),
+      ]).subscribe(([state, selectedEntity]) => {
 
-          this.exerciseTypes = state.entities.slice(0, state.pagingModel.pageSize);
+        this.exerciseTypes = state.entities.slice(0, state.pagingModel.pageSize);
 
-          this.tableDatasource.updateDatasource([...this.exerciseTypes]);
-          this.tableDatasource.setPagingModel(Object.assign({}, state.pagingModel));
-          this.tableDatasource.setTotalLength(state.totalItems);
-        }));
+        this.tableDatasource.updateDatasource([...this.exerciseTypes]);
+        this.tableDatasource.selectElement(selectedEntity);
 
+        this.tableDatasource.setPagingModel(Object.assign({}, state.pagingModel));
+        this.tableDatasource.setTotalLength(state.totalItems);
+      }),
+    )
   }
 
   ngOnDestroy() {
@@ -88,7 +93,6 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
         serverSidePaging: true
       }),
       cellActions: [TableAction.update, TableAction.disable],
-      selectionEnabled: false,
       filterEnabled: true,
       defaultSort: 'name',
       defaultSortDirection: 'asc'

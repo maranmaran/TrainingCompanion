@@ -59,7 +59,6 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   @Output() pagingChangeEvent = new EventEmitter<PagingModel>();
 
   displayColumns: string[] = [];
-  selection = new SelectionModel<string>(true, []);
   pageSize: number;
   pageSizeOptions: number[];
   totalItems: Observable<number>;
@@ -91,6 +90,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
       this.onFilterEvent(),
       // do work on viewport change (mobile, tablet, desktop)
       this.onViewportChange(),
+      // Outputs select events
+      this.onSelectEvent()
     );
   }
 
@@ -158,6 +159,11 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.setTablePagingVariables(this.pagingModel, this.datasource.totalLength());
   }
 
+  /**Pipes selection events from datasource to outside */
+  onSelectEvent() {
+    return this.datasource.selectionEvent.subscribe(e => this.selectEvent.emit(e))
+  }
+
   onFilterEvent() {
     return this.applyFilterEvent
       .pipe(debounceTime(300))
@@ -181,7 +187,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   setupColumns(isMobile: boolean) {
     const actions = [];
 
-    if (this.config.selectionEnabled)
+    if (this.config.multipleSelectEnabled)
       actions.push('select');
 
     if (isMobile) {
@@ -252,10 +258,15 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
   masterToggle() {
     if (this.isAllSelected) {
       this.selection.clear();
-      this.selectEvent.emit(null);
+      this.datasource.selectionEvent.emit(null);
     } else {
       this.datasource.data.forEach(row => this.selection.select(row.id));
     }
+  }
+  
+  /* Retrieves selection data structure out of datasource*/
+  get selection() {
+    return this.datasource.selection;
   }
 
   get isOneSelected() {
@@ -274,28 +285,21 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   onSelect(entity: any, keepSelected: boolean = false) {
 
+    // selection is disabled
+    if(!this.config.selectionEnabled)
+      return; 
+
+    // handle row openings on selection (after everything is done hence timeout)
     setTimeout(_ => {
       if (this.config.usesExpandableRows) {
-        this.handleExpandableRow(entity);
+        this.expandRowOnSelect(entity);
       }
     })
 
-    if (!entity) {
-      this.selection.clear();
-      return this.selectEvent.emit(null);
-    }
+    // select
+    this.datasource.selectElement(entity, keepSelected);
 
-    var isSelected = this.selection.isSelected(entity.id);
-    this.selection.clear();
-
-    if (isSelected && !keepSelected) { // if it wasn't selected
-      return this.selectEvent.emit(null);
-    }
-
-    // new selection
-    this.selection.toggle(entity.id); // toggle
-    this.selectEvent.emit(entity);
-
+    // update pages to jump on selected element
     this.updatePage(entity.id);
   }
 
@@ -329,7 +333,8 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.datasource.paginator.page.next(event);
   }
 
-  handleExpandableRow(row: any) {
+  /**Handles row expanding if element is selected */
+  expandRowOnSelect(row: any) {
 
     this.expandedRow = this.expandedRow?.id == row?.id ? null : row;
 

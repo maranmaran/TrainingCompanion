@@ -82,7 +82,6 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       pagingOptions: new TablePagingOptions({
         pageSizeOptions: [5]
       }),
-      selectionEnabled: false,
     });
 
     this.store.select(selectedTrainingExercises)

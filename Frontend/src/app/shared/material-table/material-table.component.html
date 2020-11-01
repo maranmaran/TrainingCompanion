@@ -17,7 +17,7 @@
     (cdkDropListDropped)="onListDrop($event)" [multiTemplateDataRows]="config.usesExpandableRows">
 
     <!-- SELECTION ( CHECKBOXES ) COLUMN -->
-    <ng-container matColumnDef="select" *ngIf="config.selectionEnabled">
+    <ng-container matColumnDef="select" *ngIf="config.multipleSelectEnabled">
       <mat-header-cell *matHeaderCellDef>
         <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected"
           [indeterminate]="selection.hasValue() && !isAllSelected">
@@ -106,7 +106,7 @@
     <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
     <mat-row id="table-row" *matRowDef="let row; columns: displayColumns;" cdkDrag [cdkDragData]="row"
       [cdkDragStartDelay]="300" (cdkDragStarted)="onDragStarted($event)" (cdkDragEnded)="onDragEnded($event)"
-      highlightOnHover class="theme-dialog element-row" [ngClass]="{'selected-row': selection.isSelected(row.id)}"
+      highlightOnHover class="theme-dialog element-row" [ngClass]="{'selected-row': selection.isSelected(row.id), 'default-cursor': !config.selectionEnabled }"
       (click)="onSelect(row);">
     </mat-row>
 

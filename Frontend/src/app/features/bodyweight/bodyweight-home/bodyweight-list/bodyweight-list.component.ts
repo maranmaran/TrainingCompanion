@@ -1,3 +1,5 @@
+import { combineLatest } from 'rxjs/internal/observable/combineLatest';
+import { selectedBodyweight } from './../../../../../ngrx/bodyweight/bodyweight.selectors';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -60,11 +62,16 @@ export class BodyweightListComponent implements OnInit, OnDestroy {
         .subscribe(mobile => {
           this.tableConfig.pagingOptions.pageSize = mobile ? 5 : 10;
         }),
-      this.store.select(bodyweights)
-        .subscribe((bodyweights: Bodyweight[]) => {
-          this.lastLoggedValue = bodyweights[0]?.value ?? 0;
-          this.tableDatasource.updateDatasource([...bodyweights]);
-        }))
+
+      combineLatest([
+        this.store.select(bodyweights),
+        this.store.select(selectedBodyweight).pipe(take(1)),
+      ]).subscribe(([entities, selectedEntity]) => {
+        this.lastLoggedValue = bodyweights[0]?.value ?? 0;
+        this.tableDatasource.updateDatasource(entities);
+        this.tableDatasource.selectElement(selectedEntity);
+      }),
+    )
 
   }
 

@@ -73,7 +73,6 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
         pageSize: 5,
         serverSidePaging: false
       },
-      selectionEnabled: false,
       enableDragAndDrop: true,
       defaultSort: 'order',
       defaultSortDirection: 'desc'

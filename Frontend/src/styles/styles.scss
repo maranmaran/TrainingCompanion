@@ -173,6 +173,10 @@ button {
   border-radius: 50%;
 }
 
+.default-cursor {
+  cursor: default !important;
+}
+
 .no-pointer-events {
   pointer-events: none;
 }
