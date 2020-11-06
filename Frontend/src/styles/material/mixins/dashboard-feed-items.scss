@@ -1,10 +1,22 @@
 @import "~@angular/material/theming";
 
+
+@function set-feed-item-unread-color($color) {
+  @if (lightness( $color ) > 40) {
+    @return rgba(0, 0, 0, 0.15);
+  }
+  @else {
+    @return rgba(0, 0, 0, 0.4);
+  }
+}
+
 @mixin dashboard-feed-items-theme($theme) {
   $background-palette: map-get($theme, background);
   $highlight: map-get($background-palette, hover);
 
   $foreground-palette: map-get($theme, foreground);
+  $background-color: map-get($background-palette, background);
+
   $theme-disabled: map-get($foreground-palette, disabled);
 
   .user-activities-headers-align .mat-expansion-panel-header-title,
@@ -79,7 +91,7 @@
         padding-bottom: 5px;
 
         &.unread {
-          background-color: rgba(0, 0, 0, 0.4);
+          background-color: set-feed-item-unread-color($background-color);
         }
 
         &:hover {
