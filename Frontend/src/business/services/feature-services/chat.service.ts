@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { ElementRef, Injectable, OnDestroy, QueryList } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { ChatParticipantStatus } from 'src/app/features/chat/models/enums/chat-participant-status.enum';
 import { ChatParticipantType } from 'src/app/features/chat/models/enums/chat-participant-type.enum';
-import { MessageType } from 'src/app/features/chat/models/enums/message-type.enum';
+import { ConvertMessageToMediaType, MessageType } from 'src/app/features/chat/models/enums/message-type.enum';
 import { ScrollDirection } from 'src/app/features/chat/models/enums/scroll-direction.enum';
 import { Message } from 'src/app/features/chat/models/message.model';
 import { ChatUploadService } from 'src/app/features/chat/services/chat-upload.service';
-import { MediaDialogComponent } from 'src/app/shared/dialogs/media-dialog/media-dialog.component';
+import { MediaService } from 'src/business/services/feature-services/media.service';
 import { isNullOrWhitespace } from 'src/business/utils/utils';
 import { allMessagesSeen, messageFromAnotherFriend } from 'src/ngrx/chat/chat.actions';
 import { friends } from 'src/ngrx/chat/chat.selectors';
@@ -70,7 +69,7 @@ export class ChatService implements OnDestroy {
     private httpClient: HttpClient,
     private signalrService: ChatSignalrService,
     private store: Store<AppState>,
-    private dialog: MatDialog
+    private mediaService: MediaService
   ) {
     this.subs.add(
       this.signalrService.messages$
@@ -333,15 +332,9 @@ export class ChatService implements OnDestroy {
   }
 
   enlargeImage(message: Message) {
-    this.dialog.open(MediaDialogComponent, {
-      height: 'auto',
-      width: 'auto',
-      maxWidth: '58rem',
-      maxHeight: '40rem',
-      autoFocus: false,
-      data: { type: message.type, sourceUrl: message.downloadUrl },
-      panelClass: ['media-dialog-container', "dialog-container"]
-    });
+    const mediaType = ConvertMessageToMediaType(message.type);
+
+    this.mediaService.enlargeSingle(mediaType, message.downloadUrl);
   }
 
   // Gets closest open window if any. Most recent opened has priority (Right)

@@ -3,6 +3,7 @@ using Backend.Business.Media.MediaRequests.UploadChatMedia;
 using Backend.Common.Extensions;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Enum;
+using Backend.Domain.Extensions;
 using Backend.Infrastructure.Exceptions;
 using Backend.Library.AmazonS3.Interfaces;
 using MediatR;
@@ -31,7 +32,12 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
                 var info = GetFileInformationForS3(request);
 
                 // write to s3
-                var presignedUrl = await _mediator.Send(new UploadChatMediaRequest(info.key, request.File.OpenReadStream()), cancellationToken);
+                var presignedUrl = await _mediator.Send(
+                    new UploadChatMediaRequest(
+                        info.key,
+                        info.type.ConvertToMediaType(),
+                        request.File.OpenReadStream()
+                    ), cancellationToken);
 
                 // construct message to return
                 var fileMessage = new MessageViewModel()
