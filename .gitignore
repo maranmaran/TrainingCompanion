@@ -10,8 +10,6 @@
 **/environment.prod.ts
 **/environment.dev.ts
 
-*.crt
-*.key
 *.Development.json
 *.Release.json
 *.dev.ts
