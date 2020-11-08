@@ -1,5 +1,5 @@
 export const environment = {
-  name: 'development', // 
+  name: 'development',
   production: false,
   showStackTrace: true,
 
@@ -7,6 +7,12 @@ export const environment = {
   apiUrl: 'localhost:44304/api/',
 
   stripePublishableKey: 'stripePublishableKey',
-  googleClientID: 'OAuth2ClientID',
-  facebookClientID: 'OAUth2ClientID',
+
+  // CLIENT ID:
+  // https://console.developers.google.com/apis/credentials?folder=&organizationId=&project=trainingcompanion
+  googleClientID: 'ClientID',
+
+  // APP ID:
+  // https://developers.facebook.com/apps/2667219850221380/dashboard/
+  facebookClientID: 'AppID',
 };

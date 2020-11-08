@@ -31,7 +31,7 @@ export class AppSettingsService {
  * Returns the base URL for the Push notifications hub.
  */
   public get notificationHubUrl(): string {
-    return this.apiUrl + 'notifications-hub';
+    return this.apiUrl + 'notification-hub';
   }
 
   /**
