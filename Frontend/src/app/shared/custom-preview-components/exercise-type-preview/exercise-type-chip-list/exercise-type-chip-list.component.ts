@@ -26,6 +26,10 @@ export class ExerciseTypeChipListComponent implements OnInit, OnChanges {
     this.sortProperties();
   }
 
+  dragStop(event) {
+    console.log(event);
+  }
+  
   sortProperties() {
     // sort by disabled then tagGroup alphabetically and then by tag order inside that group
     this.propertyList = _.sortBy(this.propertyList, [
