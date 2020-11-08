@@ -1,6 +1,6 @@
 <h2 class="feed-activities-title" fxHide.lt-sm *ngIf="(userActivities | async)?.length > 0">User activities:</h2>
 
-<div class="feed-user-panels-container">
+<div class="feed-user-panels-container" [@.disabled]="disableAnimation">
   <mat-accordion [multi]="false" [displayMode]="'flat'" class="user-activities-headers-align">
     <mat-expansion-panel class="user-activities-panel"
       *ngFor="let user of (userActivities | async);  trackBy: trackUserId">
@@ -67,7 +67,7 @@
   </div>
 </ng-container> -->
 
-<!-- 
+<!--
 <ng-template #placeholders>
   <div class="h-100" style="overflow-y: auto;">
     <div *ngFor="let n of 10 | repeat" class="ph-item" style="border-radius: 15%; ">
