@@ -4,8 +4,9 @@
 }
 
 .chart {
-  height: 100%;
+  height: calc(100% - 0.25rem);
   width: 100%;
+  position: relative
 }
 
 .tabs-input {

@@ -29,7 +29,7 @@ export function getPieChartPreviewConfig(theme: Theme): MyChartConfiguration {
                 }
             },
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             plugins: { labels: false },
             title: { display: false },
             legend: { display: false },

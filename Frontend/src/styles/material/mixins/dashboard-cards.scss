@@ -5,5 +5,10 @@
         flex: 1 1 calc(50% - 0.25rem); // because of fxLayoutGap
         padding: 3px;
         max-height: calc(50% - 0.25rem);
+
+        .mat-form-field-wrapper {
+            padding: 0;
+        }
     }
+    
 }

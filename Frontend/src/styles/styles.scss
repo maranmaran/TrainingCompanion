@@ -39,7 +39,7 @@ body {
 .main-sidenav-content {
   display: flex !important;
   flex-direction: column;
-  height: 100%;
+  height: calc(100%) !important;
   overflow-x: unset !important;
   // overflow-y: auto !important;
   overflow-y: unset !important;
