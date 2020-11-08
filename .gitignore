@@ -9,8 +9,6 @@
 **/appsettings.Release.json
 **/environment.prod.ts
 **/environment.dev.ts
-**/server.key
-**/server.crt
 
 *.crt
 *.key
