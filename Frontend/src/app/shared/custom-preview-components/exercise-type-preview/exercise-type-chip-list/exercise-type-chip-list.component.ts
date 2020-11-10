@@ -6,7 +6,6 @@ import { Tag } from 'src/server-models/entities/tag.model';
 @Component({
   selector: 'app-exercise-type-chip-list',
   templateUrl: './exercise-type-chip-list.component.html',
-  styleUrls: ['./exercise-type-chip-list.component.scss']
 })
 export class ExerciseTypeChipListComponent implements OnInit, OnChanges {
 
@@ -29,7 +28,7 @@ export class ExerciseTypeChipListComponent implements OnInit, OnChanges {
   dragStop(event) {
     console.log(event);
   }
-  
+
   sortProperties() {
     // sort by disabled then tagGroup alphabetically and then by tag order inside that group
     this.propertyList = _.sortBy(this.propertyList, [
