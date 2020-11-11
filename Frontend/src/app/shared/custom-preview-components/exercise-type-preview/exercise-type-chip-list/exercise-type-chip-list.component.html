@@ -1,13 +1,17 @@
-<mat-chip-list class="property-chips-list" (mousedown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+<drag-scroll
+fxLayout="row"
+style="height: 100%; width: 100%;"
+[scrollbar-hidden]="true"
+[scroll-x-wheel-enabled]="true"
+[drag-scroll-y-disabled]="true"
+(mousedown)="$event.stopPropagation()"
+(click)="$event.stopPropagation()">
 
-  <drag-scroll
-    style="height: 100%; width: 100%"
-    [scrollbar-hidden]="true"
-    [scroll-x-wheel-enabled]="true"
-    [drag-scroll-y-disabled]="true">
+
+  <mat-chip-list *ngFor="let property of propertyList" class="property-chips-list">
 
     <app-exercise-type-chip
-      *ngFor="let property of propertyList"
+      style="overflow: hidden"
       [value]="property.tag.value"
       [show]="property.show"
       [groupActive]="property.tag.tagGroup.active"
@@ -18,6 +22,8 @@
       [disableAll]="disableAll">
     </app-exercise-type-chip>
 
-  </drag-scroll>
+  </mat-chip-list>
 
-</mat-chip-list>
+
+</drag-scroll>
+

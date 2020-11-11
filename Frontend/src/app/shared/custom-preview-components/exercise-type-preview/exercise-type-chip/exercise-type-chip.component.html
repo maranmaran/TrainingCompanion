@@ -1,8 +1,11 @@
 <mat-chip class="property-chip" *ngIf="(show || showInactiveTags) && (groupActive || showInactiveGroups)"
-  [disabled]="true" [ngClass]="{'disabled-chip': (!(show && groupActive) || disableAll) }" [ngStyle]="
+  [disabled]="true"
+  [ngClass]="{'disabled-chip': (!(show && groupActive) || disableAll) }"
+  [ngStyle]="
       {
           'background-color': backgroundColor,
           'color': color
       }">
+
   {{value | translate}}
 </mat-chip>

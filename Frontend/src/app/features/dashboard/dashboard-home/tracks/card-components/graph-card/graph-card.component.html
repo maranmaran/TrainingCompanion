@@ -1,78 +1,87 @@
 <div class="card-chart-container h-100" fxLayout="column" fxLayoutGap.lt-md="1rem" *ngIf="cardBootstrapped">
-    <div class="card-chart-title mb-1"><b>{{title}}</b></div>
+  <div class="card-chart-title mb-1"><b>{{title}}</b></div>
 
-    <!--ACTIONS AND INPUTS-->
-    <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem" fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
+  <!--ACTIONS AND INPUTS-->
+  <form [formGroup]="form" fxLayout="row" fxLayoutGap="0.25rem" fxLayout.lt-md="column" fxLayoutGap.lt-md="0">
 
-        <!-- EXERCISE TYPE AUTOCOMPLETE -->
-        <mat-form-field [fxHide]="mediaObserver.isActive('lt-md') && exerciseType.disabled" fxFlexOrder.lt-md="2"
-            fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
+    <!-- EXERCISE TYPE AUTOCOMPLETE -->
+    <mat-form-field [fxHide]="mediaObserver.isActive('lt-md') && exerciseType.disabled" fxFlexOrder.lt-md="2"
+      fxFlex="calc(65% - 0.25rem)" fxFlex.lt-md="100%">
 
-            <input #autocompleteInput matInput placeholder="{{'DASHBOARD.CARDS.GRAPH_CARD.EXERCISE_TYPE' | translate}}"
-                [matAutocomplete]="auto" [formControl]="exerciseType">
+      <input #autocompleteInput matInput placeholder="{{'DASHBOARD.CARDS.GRAPH_CARD.EXERCISE_TYPE' | translate}}"
+        [matAutocomplete]="auto" [formControl]="exerciseType">
 
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="exerciseTypeDisplayFunction">
-                <mat-option *ngIf="isLoading">
-                    <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
-                </mat-option>
-                <ng-container *ngIf="!isLoading">
-                    <mat-option *ngFor="let type of autocompleteExerciseTypesList" [value]="type">
-                        <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
-                    </mat-option>
-                </ng-container>
-            </mat-autocomplete>
-        </mat-form-field>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="exerciseTypeDisplayFunction">
+        <mat-option *ngIf="isLoading">
+          <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+          <mat-option *ngFor="let type of autocompleteExerciseTypesList" [value]="type">
+            <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
+    </mat-form-field>
 
-        <div fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxFlex.lt-md="100%" fxLayoutGap="0.25rem">
+    <div fxFlexOrder.lt-md="1" fxFlex="calc(35% - 0.25rem)" fxFlex.lt-md="100%" fxLayoutGap="0.25rem">
 
-            <!-- FIXED DATE SPANS (1 week, 1 month, 3 month, 5 month)-->
-            <mat-form-field>
-                <mat-select [formControl]="dateSpan">
-                    <mat-select-trigger>
-                        {{ dateSpan.value?.label }}
-                    </mat-select-trigger>
-                    <mat-option *ngFor="let dateSpan of dateSpans" [value]="dateSpan">
-                        {{ dateSpan.label }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+      <!-- FIXED DATE SPANS (1 week, 1 month, 3 month, 5 month)-->
+      <mat-form-field>
+        <mat-select [formControl]="dateSpan">
+          <mat-select-trigger>
+            {{ dateSpan.value?.label }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let dateSpan of dateSpans" [value]="dateSpan">
+            {{ dateSpan.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        </div>
-
-    </form>
-
-    <!--CHART-->
-    <div id="chart" fxFlex="1 1 100%" class="w-100 mb-1">
-        <app-chart #chart  [configuration]="config"></app-chart>
     </div>
 
-    <!--LEGEND-->
-    <div id="chart-legend-container">
-        <div *ngFor="let type of params.exerciseTypes; let i = index" class="ml-2 pointer chart-legend" fxLayout="row"
-            fxLayoutAlign="start center" (click)="onToggleLegend(i)" [ngClass]="{'disabled-foreground': !!hidden[i]}">
+  </form>
 
-            <div style="border-radius: 50%; width: 7px; height: 7px" [ngStyle]="{'background-color': bulletColors[i]}">
-            </div>
+  <!--CHART-->
+  <div id="chart" fxFlex="1 1 100%" class="w-100 mb-1">
+    <app-chart #chart [configuration]="config"></app-chart>
+  </div>
 
-            <span class="ml-2">{{type.name}}</span>
+  <!--LEGEND-->
+  <div id="chart-legend-container" fxLayout="column">
 
-            <app-exercise-type-chip-list class="p-2" *ngIf="type" [propertyList]="type.properties"
-                [disableAll]="!!hidden[i]">
-            </app-exercise-type-chip-list>
+    <div *ngFor="let type of params.exerciseTypes; let i = index"
+      class="pointer legend-row" [ngClass]="{'disabled-foreground': !!hidden[i]}"
+      fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem"
+      (click)="onToggleLegend(i)">
 
-            <!-- <button class="delete-legend-btn" mat-icon-button color="accent" -->
-            <!-- (click)="removeExerciseType(type)"> -->
-            <i class="delete-legend-btn fas fa-times accent-foreground" (click)="removeExerciseType(type)"></i>
-            <!-- </button> -->
-        </div>
+      <div id="legend-bullet" style="border-radius: 50%; width: 7px; height: 7px" [ngStyle]="{'background-color': bulletColors[i]}">
+      </div>
+
+      <span id="legend-name">{{type.name}}</span>
+
+      <div class="legend-tags" fxFlex="1 1 100%">
+        <app-exercise-type-chip-list *ngIf="type"
+          [propertyList]="type.properties"
+          [disableAll]="!!hidden[i]">
+        </app-exercise-type-chip-list>
+      </div>
+
+      <!-- <button class="delete-legend-btn" mat-icon-button color="accent" -->
+      <!-- (click)="removeExerciseType(type)"> -->
+      <div class="legend-remove-btn" fxLayout="row" fxLayoutAlign="end">
+        <i class="fas fa-times accent-foreground" (click)="removeExerciseType(type)"></i>
+        <!-- <i class="delete-legend-btn fas fa-times accent-foreground" (click)="removeExerciseType(type)"></i> -->
+      </div>
+      <!-- </button> -->
     </div>
+  </div>
 </div>
 
 <div class="h-100 w-100" *ngIf="!cardBootstrapped && !error" fxLayout="row" fxLayoutAlign="center center">
-    <mat-spinner></mat-spinner>
+  <mat-spinner></mat-spinner>
 </div>
 
 <div *ngIf="error || config?.length == 0" fxLayout="column" class="h-100 w-100" fxLayoutAlign="center center">
-    <h2>{{'DASHBOARD.COULD_NOT_RENDER' | translate}}</h2>
-    <h3 *ngIf="details">{{details}}</h3>
+  <h2>{{'DASHBOARD.COULD_NOT_RENDER' | translate}}</h2>
+  <h3 *ngIf="details">{{details}}</h3>
 </div>
