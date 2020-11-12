@@ -1,5 +1,4 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
@@ -109,7 +108,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
    */
   handlePaging() {
 
-    // set pageSize and options 
+    // set pageSize and options
     this.pageSize = this.config.pagingOptions.pageSize;
     this.pageSizeOptions = this.config.pagingOptions.pageSizeOptions;
 
@@ -263,7 +262,7 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
       this.datasource.data.forEach(row => this.selection.select(row.id));
     }
   }
-  
+
   /* Retrieves selection data structure out of datasource*/
   get selection() {
     return this.datasource.selection;
@@ -283,11 +282,23 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
 
-  onSelect(entity: any, keepSelected: boolean = false) {
+  onSelect(entity: any, keepSelected: boolean = false, event: Event = null) {
+
+    // Workaround for clicking item inside row and then dragging mouse outside
+    // of that component and releasing it on row
+    // which in turn triggered unwanted click event
+    // Example: Dragging and sliding exercise tags inside material-table
+    console.log(this.mousedownFired)
+    if(this.mousedownFired) {
+      this.mousedownFired = !this.mousedownFired;
+    } else {
+      // prevent this if mousedown event never bubbled from inner component up to material-table row
+      return;
+    }
 
     // selection is disabled
     if(!this.config.selectionEnabled)
-      return; 
+      return;
 
     // handle row openings on selection (after everything is done hence timeout)
     setTimeout(_ => {
@@ -393,5 +404,21 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   trackByFn(item) {
     return item.id;
+  }
+
+  // Workarounds for when child item is clicked on
+  // and mouse is dragged outside of child onto parent container
+  // in this case material-table row
+  // click event is fired on parent even though child
+  // sent $event.stopPropagation() to stop bubbling
+  // Example: Sliding tags from exercises and mouse runs outside of column into
+  // neighbour column (mat-row) and it triggers select on row and routes you to details...
+  mousedownFired = false
+  handleMouseDown(event: Event) {
+    this.mousedownFired = true;
+  }
+
+  handleMouseUp(event: Event) {
+    setTimeout(_ => this.mousedownFired = false, 100);
   }
 }

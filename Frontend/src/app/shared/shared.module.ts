@@ -53,6 +53,7 @@ import { MediaNotificationBodyComponent } from './notifications/notification-ite
 import { NoteNotificationBodyComponent } from './notifications/notification-item/body-templates/note-notification-body.component';
 import { PersonalBestNotificationBodyComponent } from './notifications/notification-item/body-templates/personal-best-notification-body.component';
 import { TrainingNotificationBodyComponent } from './notifications/notification-item/body-templates/training-notification-body.component';
+import { DragScrollModule } from 'ngx-drag-scroll';
 
 @NgModule({
     imports: [
@@ -78,7 +79,8 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
                 deps: [HttpBackend]
             }
         }),
-        NguCarouselModule
+        NguCarouselModule,
+        DragScrollModule
     ],
     declarations: [
         MediaDialogComponent,
@@ -182,7 +184,8 @@ import { TrainingNotificationBodyComponent } from './notifications/notification-
         ImportNotificationBodyComponent,
         RepeatPipe,
         MediaCarouselComponent,
-        FormatMomentDatePipe
+        FormatMomentDatePipe,
+        DragScrollModule
     ],
     providers: [
     ],

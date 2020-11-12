@@ -100,7 +100,7 @@ export class AppContainerComponent implements OnInit, OnDestroy {
 
   @HostListener('swiperight', ['$event']) onSwipeRight = () => {
     const opened = this.uiService.isSidenavOpened(UISidenav.App, true);
-    const mobile = this.mediaObserver.isActive('lt-lg');
+    const mobile = this.mediaObserver.isActive('lt-lg'); // TODO: Revisit
     if (!opened && mobile)
       this.uiService.doSidenavAction(UISidenav.App, UISidenavAction.Toggle)
   }

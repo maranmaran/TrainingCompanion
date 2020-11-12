@@ -3,14 +3,14 @@
   <ng-container *ngFor="let media of mediaList; let i = index">
 
     <div *ngIf="media.type === 'Image'" class="image-container" fxLayout="row" fxLayoutAlign="center center"
-      fxFlexAlign="center" (click)="enlargeCarousel(media, i)" fxFlex="1 1 25%">
+      fxFlexAlign="center" (click)="enlarge(media, i)" fxFlex="1 1 25%">
 
       <img class="img-fluid" src="{{ media.downloadUrl }}" appMaterialElevation raisedElevation="16" />
 
     </div>
 
     <div *ngIf="media.type === 'Video'" class="video-container" fxLayout="row" fxLayoutAlign="center center"
-      fxFlexAlign="center" (click)="enlargeCarousel(media, i)">
+      fxFlexAlign="center" (click)="enlarge(media, i)">
 
       <video appMaterialElevation raisedElevation="16">
         <source src="{{media.downloadUrl}}" type="video/mp4">

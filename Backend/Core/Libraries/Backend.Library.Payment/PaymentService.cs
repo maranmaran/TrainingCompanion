@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Library.Payment.Enums;
+﻿using Backend.Library.Payment.Enums;
 using Backend.Library.Payment.Interfaces;
 using Backend.Library.Payment.Models;
 using Stripe;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CustomerService = Stripe.CustomerService;
 using Plan = Stripe.Plan;
 using PlanService = Stripe.PlanService;
@@ -135,9 +135,13 @@ namespace Backend.Library.Payment
 
         public async Task<SubscriptionStatus> GetCustomerSubscriptionStatus(string customerId)
         {
-            var customerService = new CustomerService();
-            var customer = await customerService.GetAsync(customerId);
-            var subscriptions = customer.Subscriptions;
+            var service = new SubscriptionService();
+            var options = new SubscriptionListOptions()
+            {
+                Customer = customerId,
+            };
+
+            var subscriptions = await service.ListAsync(options);
 
             if (subscriptions.Any())
                 return (SubscriptionStatus)Enum.Parse(typeof(SubscriptionStatus), subscriptions.First().Status, true);

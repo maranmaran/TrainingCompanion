@@ -26,6 +26,9 @@
         margin-top: 3px !important;
         margin-bottom: 10px !important;
         margin: unset !important;
+
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
     }
 
     mat-option {

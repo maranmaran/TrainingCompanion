@@ -7,11 +7,15 @@
   </mat-form-field>
 
   <!--Single chart if there is no tabs-->
-  <canvas *ngIf="!tabs" chartCanvas id="0"></canvas>
+  <div class="chart" *ngIf="!tabs; else multipleCharts">
+    <canvas chartCanvas id="0"></canvas>
+  </div>
 
   <!--Multiple charts-->
-  <div class="chart" *ngFor="let tab of tabs; let i = index" [hidden]="selectedTab != i">
-    <canvas chartCanvas id="i"></canvas>
-  </div>
+  <ng-template #multipleCharts>
+    <div class="chart"  *ngFor="let tab of tabs; let i = index" [hidden]="selectedTab != i">
+      <canvas chartCanvas id="i"></canvas>
+    </div>
+  </ng-template>
 
 </div>

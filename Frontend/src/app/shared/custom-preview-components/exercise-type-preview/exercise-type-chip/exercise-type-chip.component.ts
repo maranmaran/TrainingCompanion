@@ -3,7 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-exercise-type-chip',
   templateUrl: './exercise-type-chip.component.html',
-  styleUrls: ['./exercise-type-chip.component.scss']
 })
 export class ExerciseTypeChipComponent implements OnInit {
 

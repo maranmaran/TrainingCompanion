@@ -1,13 +1,29 @@
-<mat-chip-list class="property-chips-list">
+<drag-scroll
+fxLayout="row"
+style="height: 100%; width: 100%;"
+[scrollbar-hidden]="true"
+[scroll-x-wheel-enabled]="true"
+[drag-scroll-y-disabled]="true"
+(mousedown)="$event.stopPropagation()"
+(click)="$event.stopPropagation()">
 
-  <ng-container *ngFor="let property of propertyList">
 
-    <app-exercise-type-chip [value]="property.tag.value" [show]="property.show"
-      [groupActive]="property.tag.tagGroup.active" [backgroundColor]="property.tag.tagGroup.hexBackground"
-      [color]="property.tag.tagGroup.hexColor" [showInactiveGroups]="showInactiveGroups"
-      [showInactiveTags]="showInactiveTags" [disableAll]="disableAll">
+  <mat-chip-list *ngFor="let property of propertyList" class="property-chips-list">
+
+    <app-exercise-type-chip
+      style="overflow: hidden"
+      [value]="property.tag.value"
+      [show]="property.show"
+      [groupActive]="property.tag.tagGroup.active"
+      [backgroundColor]="property.tag.tagGroup.hexBackground"
+      [color]="property.tag.tagGroup.hexColor"
+      [showInactiveGroups]="showInactiveGroups"
+      [showInactiveTags]="showInactiveTags"
+      [disableAll]="disableAll">
     </app-exercise-type-chip>
 
-  </ng-container>
+  </mat-chip-list>
 
-</mat-chip-list>
+
+</drag-scroll>
+

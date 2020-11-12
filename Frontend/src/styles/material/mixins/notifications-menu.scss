@@ -1,6 +1,15 @@
 @import "~@angular/material/theming";
 @import "~ngx-toastr/toastr";
 
+@function set-notification-unread-color($color) {
+  @if (lightness( $color ) > 40) {
+    @return rgba(0, 0, 0, 0.15);
+  }
+  @else {
+    @return rgba(0, 0, 0, 0.4);
+  }
+}
+
 @mixin notifications-menu-theme($theme) {
   $primary: mat-color(map-get($theme, primary));
   $accent: mat-color(map-get($theme, accent));
@@ -12,6 +21,8 @@
   $color: map-get($background-palette, foreground);
 
   $toast-color: mat-color(map-get($theme, primary), darker);
+
+
 
   .toast-notification {
     @extend .ngx-toastr;
@@ -92,7 +103,7 @@
           padding-right: 5px;
 
           &.unread {
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: set-notification-unread-color($background-color);
           }
 
           &:hover {

@@ -46,8 +46,10 @@
 
       <mat-cell class="{{col.cellClass}}" *matCellDef="let row">
         <div *ngIf="!col.useComponent" [innerHtml]="(col.displayFn(row) | sanitizeHtml)"></div>
-        <ndc-dynamic *ngIf="col.useComponent" [ndcDynamicComponent]="col.component"
-          [ndcDynamicInputs]="col.componentInputs(row)"></ndc-dynamic>
+        <ndc-dynamic *ngIf="col.useComponent"
+          [ndcDynamicComponent]="col.component"
+          [ndcDynamicInputs]="col.componentInputs(row)"
+        ></ndc-dynamic>
       </mat-cell>
 
     </ng-container>
@@ -107,7 +109,7 @@
     <mat-row id="table-row" *matRowDef="let row; columns: displayColumns;" cdkDrag [cdkDragData]="row"
       [cdkDragStartDelay]="300" (cdkDragStarted)="onDragStarted($event)" (cdkDragEnded)="onDragEnded($event)"
       highlightOnHover class="theme-dialog element-row" [ngClass]="{'selected-row': selection.isSelected(row.id), 'default-cursor': !config.selectionEnabled }"
-      (click)="onSelect(row);">
+      (click)="onSelect(row, false, $event);" (mousedown)="handleMouseDown($event)" (mouseup)="handleMouseUp($event)">
     </mat-row>
 
     <!--EXPANDABLE ROW-->

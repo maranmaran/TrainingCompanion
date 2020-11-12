@@ -67,7 +67,7 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
           this.router.navigate(['/app/training-log']);
         }
       }))
-      .subscribe(training => this.training = training);
+      .subscribe(training => this.training = _.cloneDeep(training));
   }
 
 
@@ -90,6 +90,7 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
           var index = this.training.exercises.findIndex(x => x.id == this.exercise.id);
           var exercises: Exercise[] = _.cloneDeep(this.training.exercises);
           exercises[index].media.push(media);
+
           this.training.media.push(media);
 
           var updatedTraining: Update<Training> = {

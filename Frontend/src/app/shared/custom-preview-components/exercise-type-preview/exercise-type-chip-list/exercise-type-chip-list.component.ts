@@ -6,7 +6,12 @@ import { Tag } from 'src/server-models/entities/tag.model';
 @Component({
   selector: 'app-exercise-type-chip-list',
   templateUrl: './exercise-type-chip-list.component.html',
-  styleUrls: ['./exercise-type-chip-list.component.scss']
+  // fix for container overflow on dashboard for example
+  styles: [`
+    :host {
+      display: grid
+    }
+  `]
 })
 export class ExerciseTypeChipListComponent implements OnInit, OnChanges {
 
@@ -24,6 +29,10 @@ export class ExerciseTypeChipListComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.sortProperties();
+  }
+
+  dragStop(event) {
+    console.log(event);
   }
 
   sortProperties() {

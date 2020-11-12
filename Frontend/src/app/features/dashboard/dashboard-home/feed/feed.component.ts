@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ import { ActivityType, BasicActivityInfo, UserActivitiesContainer } from './../.
   selector: 'app-feed',
   templateUrl: './feed.component.html',
 })
-export class FeedComponent implements OnInit {
+export class FeedComponent implements OnInit, AfterViewInit {
 
   userActivities: Observable<UserActivitiesContainer[]>;
   unitSystem: Observable<UnitSystem>;
@@ -32,6 +32,15 @@ export class FeedComponent implements OnInit {
     this.userActivities = this.store.select(userActivities)
     this.unitSystem = this.store.select(userSetting).pipe(map(setting => setting.unitSystem));
   }
+
+  // Workaround - https://github.com/angular/components/issues/13870
+  // tslint:disable-next-line: member-ordering
+  disableAnimation = true;
+  ngAfterViewInit(): void {
+    // timeout required to avoid the dreaded 'ExpressionChangedAfterItHasBeenCheckedError'
+    setTimeout(() => this.disableAnimation = false);
+  }
+
 
   getEntity(activity: Activity) {
     console.log(activity);
