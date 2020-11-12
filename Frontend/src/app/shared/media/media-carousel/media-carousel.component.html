@@ -43,17 +43,27 @@
             </div>
         </ngu-carousel>
 
-        <div class="actions_footer" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-            <button fxHide.xs class="leftRs" mat-fab color="accent" (click)="previous()"><i
-                    class="fas fa-chevron-left fa-1-2x"></i></button>
+        <div class="actions_footer" fxLayout="row" fxLayoutAlign="center center">
+
+            <button mat-icon-button fxHide.xs class="leftRs" color="accent" (click)="previous()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+       
+            <!-- <button fxHide.xs class="leftRs" mat-fab color="accent" (click)="previous()"><i
+                    class="fas fa-chevron-left fa-1-2x"></i></button> -->
 
             <ul class="myPoint" NguCarouselPoint>
                 <li *ngFor="let point of carousel.pointNumbers; let j = index" (click)="carousel.moveTo(j)"
                     class="accent-border" [ngClass]="{'accent-background active': j == carousel.activePoint }"></li>
             </ul>
 
-            <button fxHide.xs NguCarouselNext class="rightRs" mat-fab color="accent" (click)="next()"><i
-                    class=" fas fa-chevron-right fa-1-2x"></i></button>
+            <!-- <button fxHide.xs NguCarouselNext class="rightRs" mat-fab color="accent" (click)="next()"><i
+                    class=" fas fa-chevron-right fa-1-2x"></i></button> -->
+
+            <button mat-icon-button fxHide.xs class="rightRs" color="accent" (click)="next()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
         </div>
     </div>
 </div>
