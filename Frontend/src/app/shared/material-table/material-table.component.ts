@@ -289,7 +289,6 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     // of that component and releasing it on row
     // which in turn triggered unwanted click event
     // Example: Dragging and sliding exercise tags inside material-table
-    console.log(this.mousedownFired)
     if(this.mousedownFired) {
       this.mousedownFired = !this.mousedownFired;
     } else {
@@ -337,12 +336,15 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
     event.length = this.datasource.data.length;
     event.previousPageIndex = page == 0 ? null : page - 1;
 
-    if (this.datasource.paginator.pageIndex == page) {
-      return;
+    if(this.datasource.paginator) {
+      if (this.datasource.paginator.pageIndex == page) {
+        return;
+      }
+  
+      this.datasource.paginator.pageIndex = page;
+      this.datasource.paginator.page.next(event);
     }
-
-    this.datasource.paginator.pageIndex = page;
-    this.datasource.paginator.page.next(event);
+    
   }
 
   /**Handles row expanding if element is selected */

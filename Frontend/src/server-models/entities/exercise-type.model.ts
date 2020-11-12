@@ -6,13 +6,13 @@ export class ExerciseType {
     id: string;
     name: string;
     code: string;
-    active: boolean;
+    active: boolean = true;
 
-    requiresReps?: boolean;
-    requiresWeight?: boolean;
-    requiresSets?: boolean;
-    requiresBodyweight?: boolean;
-    requiresTime?: boolean;
+    requiresReps?: boolean = true;
+    requiresWeight?: boolean = true;
+    requiresSets?: boolean = true;
+    requiresBodyweight?: boolean = false;
+    requiresTime?: boolean = false;
 
     applicationUserId: string;
     applicationUser: ApplicationUser;

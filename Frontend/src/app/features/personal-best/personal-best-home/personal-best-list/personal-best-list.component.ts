@@ -82,7 +82,8 @@ export class PersonalBestListComponent implements OnInit {
   getTableConfig() {
     const tableConfig = new TableConfig({
       pagingOptions: new TablePagingOptions({
-        pageSizeOptions: [5]
+        pageSizeOptions: [5],
+        serverSidePaging: false
       }),
       cellActions: [TableAction.delete],
       headerActions: [TableAction.create],
