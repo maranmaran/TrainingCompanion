@@ -1,6 +1,9 @@
 <!--TODO..disable LEFT and RIGHT keyboard because calendar uses that...We can use up and down for changing tabs here-->
+<!-- (selectedIndexChange)=";changeTab1($event, true, true)" -->
+
 <mat-tab-group mat-stretch-tabs #group1 animationDuration="0ms" mat-align-tabs="center"
-  [style.display]="hideTab1 ? 'none' : 'inherit'" (selectedIndexChange)="changeTab1($event, true, true)"
+  (focusChange)="changeTab1($event.index, true, true)"
+  [style.display]="hideTab1 ? 'none' : 'inherit'" 
   [selectedIndex]="selectedTab1" dynamicHeight="false" [color]="'accent'">
   <mat-tab>
     <ng-template mat-tab-label>
@@ -20,7 +23,8 @@
 </mat-tab-group>
 
 <mat-tab-group mat-stretch-tabs #group2 animationDuration="0ms" mat-align-tabs="center"
-  [style.display]="hideTab2 ? 'none' : 'inherit'" (selectedIndexChange)="changeTab2($event)"
+  (focusChange)="changeTab2($event.index)"
+  [style.display]="hideTab2 ? 'none' : 'inherit'" 
   [selectedIndex]="selectedTab2" dynamicHeight="false" [color]="'accent'">
   <mat-tab>
     <ng-template mat-tab-label>

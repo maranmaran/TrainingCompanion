@@ -113,6 +113,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       new CustomColumn({
         definition: 'sets',
         title: 'TRAINING_LOG.SETS_LABEL',
+        headerClass: 'set-column',
+        cellClass: 'set-column',
         sort: true,
         sortFn: (item: Exercise) => item.sets?.length,
         displayFn: (item: Exercise) => item.sets?.length,
@@ -121,6 +123,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       new CustomColumn({
         definition: 'max',
         title: 'TRAINING_LOG.PROJECTED_MAX',
+        headerClass: 'max-column',
+        cellClass: 'max-column',
         sort: true,
         sortFn: (item: Exercise) => item.sets.map(x => x.projectedMax).reduce(this.reduceProjectedMax, 0),
         displayFn: (item: Exercise) => transformWeight(item.sets.map(x => x.projectedMax).reduce(this.reduceProjectedMax, 0), this.unitSystem),
