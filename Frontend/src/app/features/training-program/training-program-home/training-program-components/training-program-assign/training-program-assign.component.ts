@@ -9,7 +9,6 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
-import { AppState } from 'src/ngrx/global-ssrc/business/utils/date.validators
 import { trainingProgramUserCreated } from 'src/ngrx/training-program/training-program-user/training-program-user.actions';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
@@ -19,6 +18,7 @@ import { TrainingProgramUserService } from './../../../../../../business/service
 import { AppSettingsService } from './../../../../../../business/services/shared/app-settings.service';
 import { CreateTrainingProgramUserRequest } from './../../../../../../server-models/cqrs/training-program/create-training-program-user.request';
 import { TrainingProgramUser } from './../../../../../../server-models/entities/training-program.model';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
 
 @Component({
   selector: 'app-training-program-assign',
