@@ -1,3 +1,4 @@
+import { DateValidators } from './../../../../../../business/utils/date.validators';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { AppState } from 'src/ngrx/global-ssrc/business/utils/date.validators
 import { trainingProgramUserCreated } from 'src/ngrx/training-program/training-program-user/training-program-user.actions';
 import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { TrainingProgram } from 'src/server-models/entities/training-program.model';
@@ -59,6 +60,8 @@ export class TrainingProgramAssignComponent implements OnInit {
     this.form = new FormGroup({
       user: new FormControl(null, [Validators.required]),
       startDate: new FormControl(new Date(), [Validators.required]),
+    }, {
+      validators: DateValidators.MatchHistoryDate
     });
   }
 
