@@ -207,7 +207,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '50rem',
       autoFocus: false,
-      data: { title: 'EXERCISE_TYPES.ADD_TYPE_LABEL', action: CRUD.Create, tagGroups },
+      data: { title: 'EXERCISE_TYPES.ADD_TYPE_LABEL', action: CRUD.Create, tagGroups, entity: new ExerciseType() },
       panelClass: ['exercise-type-dialog-container', 'dialog-container']
     })
 

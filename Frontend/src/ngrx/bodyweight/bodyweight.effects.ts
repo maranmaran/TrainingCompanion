@@ -25,11 +25,11 @@ export class BodyweightEffects {
             tap(([newBodyweightRaw, currentlatestBodyweight]) => {
               const castedBodyweight = newBodyweightRaw as unknown as { entity: Bodyweight };
 
-              if(!castedBodyweight || !castedBodyweight.entity) {
+              if(!castedBodyweight?.entity) {
                 return;
               }
 
-              if(castedBodyweight.entity.date >= currentlatestBodyweight.date) {
+              if( !currentlatestBodyweight || castedBodyweight.entity.date >= currentlatestBodyweight.date) {
                 this.store.dispatch(setLatestBodyweight({bodyweight: castedBodyweight.entity }));
               }
             })

@@ -1,3 +1,4 @@
+import { MediaService } from './../../../business/services/feature-services/media.service';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -26,6 +27,7 @@ import { TrainingModule } from './training/training.module';
     exports: [
     ],
     providers: [
+        MediaService
     ],
     entryComponents: [
     ]

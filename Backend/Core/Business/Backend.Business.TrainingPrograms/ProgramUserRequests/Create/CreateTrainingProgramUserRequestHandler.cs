@@ -32,7 +32,7 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.Create
                 var program = await GetProgram(request.ProgramId, cancellationToken);
                 var user = await GetUser(request.UserId, cancellationToken);
 
-                var programUser = await _assignService.Assign(program, user, request.StartDate, cancellationToken);
+                var programUser = await _assignService.Assign(program, user, request.StartDate.ToUniversalTime(), cancellationToken);
 
                 return programUser;
             }
@@ -76,7 +76,7 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.Create
             CancellationToken cancellationToken = default)
         {
             var user =
-                await _context.Users.FirstOrDefaultAsync(x => x.Id == userId,
+                await _context.Users.Include(x => x.UserSetting).FirstOrDefaultAsync(x => x.Id == userId,
                     cancellationToken);
 
             if (user == null)

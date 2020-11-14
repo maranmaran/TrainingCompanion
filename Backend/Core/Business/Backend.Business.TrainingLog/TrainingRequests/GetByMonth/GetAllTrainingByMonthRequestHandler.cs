@@ -69,7 +69,7 @@ namespace Backend.Business.TrainingLog.TrainingRequests.GetByMonth
         /// <returns></returns>
         private async Task RefreshPresignedUrls(IEnumerable<Domain.Entities.TrainingLog.Training> trainings)
         {
-            var trainingsWithMedia = trainings.Where(x => x.Media.Count > 0);
+            var trainingsWithMedia = trainings.Where(x => x.Media.Count + x.Exercises.Aggregate(0, (cur, exercise) => cur += exercise.Media.Count) > 0);
 
             foreach (var training in trainingsWithMedia)
             {
@@ -83,6 +83,9 @@ namespace Backend.Business.TrainingLog.TrainingRequests.GetByMonth
                     foreach (var media in exercise.Media)
                     {
                         media.DownloadUrl = await _s3.RenewPresignedUrl(media.DownloadUrl, media.FtpFilePath);
+
+                        // aggregate into training media also for preview
+                        training.Media.Add(media);
                     }
                 }
             }

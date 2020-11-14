@@ -8,7 +8,7 @@ import { UserService } from 'src/business/services/feature-services/user.service
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { athleteDeleted, setSelectedAthlete } from 'src/ngrx/athletes/athlete.actions';
-import { athletes, selectedAthlete, selectedAthleteId } from 'src/ngrx/athletes/athlete.selectors';
+import { athletes, selectedAthlete } from 'src/ngrx/athletes/athlete.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { AccountType } from 'src/server-models/enums/account-type.enum';
 import { SubSink } from 'subsink';

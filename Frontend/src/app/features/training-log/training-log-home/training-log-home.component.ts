@@ -33,11 +33,13 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subsink.add(
       this.store.select(selectedTraining).subscribe((training: Training) => {
+        console.log('trainingSelected');
         this.selectedTraining = training;
         training &&
           this.changeTab1(TrainingLogTabGroup1.TrainingDetails, false, false); // TRAINING DETAILS
       }),
       this.store.select(selectedExercise).subscribe((exercise: Exercise) => {
+        console.log('exericseSelected')
         this.selectedExercise = exercise;
         exercise &&
           this.changeTab1(TrainingLogTabGroup1.ExerciseDetails, false, false); // EXERCISE DETAILS
@@ -58,6 +60,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
     allowSetTrainingNull: boolean = false,
     allowSetExerciseNull: boolean = true
   ) {
+    console.log('here');
     this.selectedTab1 = index;
 
     // bug when transitioning from display: none to inherit
@@ -80,6 +83,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
         throw new Error("No tab index like this");
     }
   }
+
   changeTab2(index: number) {
     this.selectedTab2 = index;
 
@@ -158,7 +162,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
 export enum TrainingLogTab {
   TabGroup1 = 0,
-  TabGroup2 = 0
+  TabGroup2 = 1
 }
 
 export enum TrainingLogTabGroup1 {

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.Get
 {
-    public class GetTrainingRequestHandler : IRequestHandler<GetTrainingRequest, Domain.Entities.TrainingLog.Training>
+    public class GetTrainingRequestHandler : IRequestHandler<GetTrainingRequest, Training>
     {
         private readonly IApplicationDbContext _context;
         private readonly IS3Service _s3AccessService;
@@ -26,7 +26,7 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Get
             _loggingService = loggingService;
         }
 
-        public async Task<Domain.Entities.TrainingLog.Training> Handle(GetTrainingRequest request, CancellationToken cancellationToken)
+        public async Task<Training> Handle(GetTrainingRequest request, CancellationToken cancellationToken)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Get
             }
             catch (Exception e)
             {
-                throw new NotFoundException(nameof(Domain.Entities.TrainingLog.Training), $"Could not find training for {request.TrainingId} Training", e);
+                throw new NotFoundException(nameof(Training), $"Could not find training for {request.TrainingId} Training", e);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Get
         /// </summary>
         /// <param name="training"></param>
         /// <returns></returns>
-        private async Task RefreshPresignedUrls(Domain.Entities.TrainingLog.Training training)
+        private async Task RefreshPresignedUrls(Training training)
         {
             foreach (var media in training.Media)
             {
@@ -87,6 +87,9 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Get
                 foreach (var media in exercise.Media)
                 {
                     media.DownloadUrl = await _s3AccessService.RenewPresignedUrl(media.DownloadUrl, media.FtpFilePath);
+
+                    // aggregate into training media also for preview
+                    training.Media.Add(media);
                 }
             }
         }
