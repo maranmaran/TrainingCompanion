@@ -2,6 +2,27 @@
 
 @mixin exercise-type-chips-component-theme($theme) {
 
+    // drag scroll
+    
+    .tags-drag-scroll {
+        height: 100%;
+        width: 100%;
+
+        .drag-scroll-container {
+            height: auto !important;
+        }
+
+        .drag-scroll-content {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .mat-chip-list-wrapper {
+            width: fit-content !important;
+        }
+    }
+
+
     mat-chip {
         cursor: pointer;
     }

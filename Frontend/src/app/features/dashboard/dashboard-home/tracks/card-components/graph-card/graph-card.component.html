@@ -17,7 +17,9 @@
         </mat-option>
         <ng-container *ngIf="!isLoading">
           <mat-option *ngFor="let type of autocompleteExerciseTypesList" [value]="type">
-            <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
+            <div class="auto-height-tag-scroll">
+              <app-exercise-type-preview class="auto-height-tag-scroll" [exerciseType]="type"></app-exercise-type-preview>
+            </div> 
           </mat-option>
         </ng-container>
       </mat-autocomplete>
