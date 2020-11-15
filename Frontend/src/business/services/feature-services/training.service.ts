@@ -36,6 +36,18 @@ export class TrainingService extends CrudService<Training> {
       );
   }
 
+  copy(id: string, date: string) {
+    const request = {
+      trainingId: id,
+      toDate: date
+    };
+
+    return this.http.post<Training>(this.url + 'Copy/', request)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
   uploadMedia(userId: string, trainingId: string, file: File, extension: string, type: MediaType) {
 
     const formData: FormData = new FormData();

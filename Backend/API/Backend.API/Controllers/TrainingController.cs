@@ -1,4 +1,5 @@
-﻿using Backend.Business.TrainingLog.TrainingRequests.Create;
+﻿using Backend.Business.TrainingLog.TrainingRequests.Copy;
+using Backend.Business.TrainingLog.TrainingRequests.Create;
 using Backend.Business.TrainingLog.TrainingRequests.Delete;
 using Backend.Business.TrainingLog.TrainingRequests.Get;
 using Backend.Business.TrainingLog.TrainingRequests.GetAll;
@@ -54,6 +55,12 @@ namespace Backend.API.Controllers
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
         {
             return Ok(await Mediator.Send(new DeleteTrainingRequest() { Id = id }, cancellationToken));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Copy(CopyTrainingRequest request, CancellationToken cancellationToken = default)
+        {
+            return Ok(await Mediator.Send(request, cancellationToken));
         }
     }
 }

@@ -1,3 +1,4 @@
+import { CopyTrainingComponent } from './copy-training/copy-training.component';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TrainingDetailsResolver } from 'src/business/resolvers/training-details.resolver';
@@ -29,6 +30,7 @@ import { TrainingMonthComponent } from './training-month/training-month.componen
       TrainingCreateEditComponent,
       TrainingListComponent,
       TrainingMonthComponent,
+      CopyTrainingComponent,
   ],
   exports: [
       TrainingListComponent,
