@@ -1,4 +1,4 @@
-# Short description
+# Short description 
 
 Fully featured responsive web application to help coaches track and manage athletes and their progress. 
 <br>It utilizes fatigue management features for predicting and auto-regulating training as well as training, body weight log, communication channels for program writing and coach-athlete relationship along with reports and graphs for easy insight in ongoing training and to help you progress better, plan your cycles and more. 
