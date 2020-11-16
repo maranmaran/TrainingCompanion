@@ -18,8 +18,8 @@ namespace Backend.Persistance.Configurations
                 .HasForeignKey(x => x.ApplicationUserId);
 
             builder.Property(x => x.Code).HasValueGenerator<GuidGenerator>();
-            
-            //builder.Property(x => x.Active).HasDefaultValue(true);
+
+            builder.Property(x => x.Active).HasDefaultValue(true);
             //builder.Property(x => x.RequiresReps).HasDefaultValue(true);
             //builder.Property(x => x.RequiresSets).HasDefaultValue(true);
             //builder.Property(x => x.RequiresWeight).HasDefaultValue(true);
