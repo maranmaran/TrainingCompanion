@@ -152,7 +152,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   onAdd() {
     var pagingModel = new PagingModel();
 
-    forkJoin(
+    forkJoin([
       this.exerciseTypeService.getPaged(this.userId, pagingModel).pipe(take(1)),
       this.store.select(selectedTraining).pipe(take(1), map(training => {
         const len = training.exercises?.length;
@@ -160,7 +160,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
         model.order = len;
         return model;
       }))
-    ).subscribe(([exerciseTypes, exercise]) => {
+    ]).subscribe(([exerciseTypes, exercise]) => {
 
       const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
         height: 'auto',
@@ -168,7 +168,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
         maxWidth: '50rem',
         autoFocus: false,
         data: { title: 'TRAINING_LOG.EXERCISE_ADD_TITLE', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
-        panelClass: ["dialog-container"]
+        panelClass: ["dialog-container", "exercise-create-edit-dialog"]
       });
 
       dialogRef.afterClosed().pipe(take(1))

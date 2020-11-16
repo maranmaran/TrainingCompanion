@@ -4,14 +4,16 @@ using Backend.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201116191739_RemoveNullableBooleans")]
+    partial class RemoveNullableBooleans
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,9 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Seen")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Table")
                         .HasColumnType("nvarchar(max)");
@@ -113,7 +117,7 @@ namespace Backend.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Active")
+                    b.Property<bool?>("Active")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -128,19 +132,29 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("RequiresBodyweight")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("RequiresReps")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool>("RequiresSets")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool>("RequiresTime")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("RequiresWeight")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.HasKey("Id");
 
@@ -163,7 +177,9 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Show")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("uniqueidentifier");
@@ -298,7 +314,9 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Read")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<Guid?>("ReceiverId")
                         .HasColumnType("uniqueidentifier");
@@ -524,7 +542,9 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("NoteRead")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<Guid?>("TrainingBlockDayId")
                         .HasColumnType("uniqueidentifier");
@@ -589,7 +609,9 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Modified")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("Order")
                         .HasColumnType("int");
@@ -691,7 +713,9 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("ExternalLoginAccount")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -800,10 +824,14 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("ReceiveMail")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool>("ReceiveNotification")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<Guid>("UserSettingId")
                         .HasColumnType("uniqueidentifier");
@@ -852,10 +880,14 @@ namespace Backend.Persistance.Migrations
                         .HasDefaultValue("Metric");
 
                     b.Property<bool>("UsePercentages")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("UseRpeSystem")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.HasKey("Id");
 

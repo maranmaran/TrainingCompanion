@@ -1,0 +1,13 @@
+@import "~@angular/material/theming";
+@import '~@angular/cdk/text-field/text-field';
+
+
+@mixin dialogs-theme($theme) {
+
+    .exercise-create-edit-dialog {
+        .mat-dialog-container {
+            padding-top: 0 !important;
+        }
+    }
+    
+}

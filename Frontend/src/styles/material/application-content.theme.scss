@@ -30,6 +30,7 @@
 @import "./mixins/workout-filler.scss";
 @import "./mixins/drag-drop.scss";
 @import "./mixins/containers.scss";
+@import "./mixins/dialogs.scss";
 
 @mixin custom-components-theme($theme) {
   @include splash-component-theme($theme);
@@ -59,6 +60,7 @@
   @include workout-filler-theme($theme);
   @include drag-drop-theme($theme);
   @include containers-theme($theme);
+  @include dialogs-theme($theme);
 }
 
 // ====================== MAIN CORE THEMES ======================

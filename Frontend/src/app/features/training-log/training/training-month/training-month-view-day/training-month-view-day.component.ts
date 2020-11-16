@@ -1,3 +1,5 @@
+import { MatDialog } from '@angular/material/dialog';
+import { TrainingCreateEditComponent } from 'src/app/features/training-log/training/training-create-edit/training-create-edit.component';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Store } from '@ngrx/store';
@@ -13,6 +15,8 @@ import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/trai
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
+import { CRUD } from 'src/business/shared/crud.enum';
+import { noop } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-training-month-view-day',
@@ -33,7 +37,8 @@ export class TrainingMonthViewDayComponent implements OnInit {
     private store: Store<AppState>,
     private trainingService: TrainingService,
     private uiService: UIService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private dialog: MatDialog
   ) {
   }
 
@@ -51,7 +56,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
 
   onDelete() {
 
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.TRAINING_DELETE_DIALOG', {dateTrained: moment(this.training.dateTrained).format('L')});
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.TRAINING_DELETE_DIALOG', { dateTrained: moment(this.training.dateTrained).format('L') });
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
@@ -95,8 +100,23 @@ export class TrainingMonthViewDayComponent implements OnInit {
     }
   }
 
-  onCopy() {
-    console.log("COPY");
+  onCopy(training: Training) {
+    const date = moment(training.dateTrained);
+
+    const dialogRef = this.dialog.open(TrainingCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '18rem',
+      autoFocus: false,
+      data: {
+        title: this.translateService.instant('TRAINING_LOG.COPY_TRAINING_TITLE', { date: date.format("DD, MMM") }),
+        action: 'COPY',
+        training: new Training({ id: training.id }),
+        timeOnly: false,
+        day: date
+      },
+      panelClass: ["dialog-container"]
+    });
   }
 
   onDeleteClick() {

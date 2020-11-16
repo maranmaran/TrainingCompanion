@@ -87,7 +87,7 @@ namespace Backend.Persistance
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer("Data Source = (localdb)\\mssqllocaldb;Initial Catalog=api_database;Integrated Security=True");
+            optionsBuilder.UseSqlServer("Data Source = (localdb)\\mssqllocaldb;Initial Catalog=training_companion;Integrated Security=True");
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

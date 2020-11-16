@@ -1,37 +1,76 @@
-<h2> {{data.title | translate}} </h2>
+<div class="mb-3 mt-3" fxLayout="row" fxLayoutAlign="space-between center">
+  <h2 class="no-margin"> {{data.title | translate}} </h2>
+
+  <!-- <button mat-stroked-button>{{'EXERCISE.NEW_EXERCISE' | translate}}</button> -->
+  <button mat-stroked-button *ngIf="!quickAddMode" color="accent" (click)="quickAddMode = true">Quick add</button>
+  <button mat-stroked-button *ngIf="quickAddMode" color="accent" (click)="quickAddMode = false">Existing exercises</button>
+</div>
 
 <mat-divider class="dialog-form-divider"></mat-divider>
 
 <div class="form" fxLayout="column">
-    <form [formGroup]="form">
+  <form [formGroup]="form">
 
+    <mat-form-field *ngIf="!quickAddMode; else quickAddTemplate">
+      <input matInput placeholder="{{'TRAINING_LOG.EXERCISE_TYPE_LABEL' | translate }}" [matAutocomplete]="auto"
+        [formControl]="exerciseType">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
+        <mat-option *ngIf="isLoading">
+          <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+          <mat-option *ngFor="let type of data.exerciseTypes.list" [value]="type">
+            <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <div id="tags" *ngIf="!quickAddMode">
+      <app-exercise-type-chip-list *ngIf="exerciseType.value" [propertyList]="exerciseType.value.properties">
+      </app-exercise-type-chip-list>
+    </div>
+
+    <ng-template #quickAddTemplate>
+      <!-- <input matInput placeholder="{{'TRAINING_LOG.EXERCISE_TYPE_LABEL' | translate }}" [matAutocomplete]="auto" [formControl]="exerciseType"> -->
       <mat-form-field>
-          <input matInput placeholder="{{'TRAINING_LOG.EXERCISE_TYPE_LABEL' | translate }}" [matAutocomplete]="auto" [formControl]="exerciseType">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction">
-            <mat-option *ngIf="isLoading">
-              <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
-           </mat-option>
-           <ng-container *ngIf="!isLoading">
-             <mat-option *ngFor="let type of data.exerciseTypes.list" [value]="type" >
-                 <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
-             </mat-option>
-           </ng-container>
-          </mat-autocomplete>
+        <input matInput formControlName="name" placeholder="{{ 'SHARED.NAME' | translate }}">
+        <mat-error *ngIf="name?.invalid"></mat-error>
       </mat-form-field>
 
-      <div id="tags">
-        <app-exercise-type-chip-list  *ngIf="exerciseType.value" [propertyList]="exerciseType.value.properties"></app-exercise-type-chip-list>
+      <div class="checkboxes-wrapper mb-2" fxLayout="row" fxLayoutAlign="space-evenly">
+        <div id="group1" fxLayout="column">
+          <mat-checkbox formControlName="requiresWeight" [name]="'weight'" (change)="onCheckboxChange($event)">
+            {{'EXERCISE_TYPES.WEIGHT' | translate}}
+          </mat-checkbox>
+          <mat-checkbox formControlName="requiresReps" [name]="'reps'" (change)="onCheckboxChange($event)">
+            {{'EXERCISE_TYPES.REPS' | translate}}
+          </mat-checkbox>
+          <mat-checkbox formControlName="requiresSets">
+            {{'EXERCISE_TYPES.SETS' | translate}}
+          </mat-checkbox>
+        </div>
+        <div id="group2" fxLayout="column">
+          <mat-checkbox formControlName="requiresBodyweight" [name]="'bodyweight'" (change)="onCheckboxChange($event)">
+            {{'EXERCISE_TYPES.BODYWEIGHT_ONLY' | translate}}
+          </mat-checkbox>
+          <mat-checkbox formControlName="requiresTime" [name]="'time'" (change)="onCheckboxChange($event)">
+            {{'EXERCISE_TYPES.MEASURE_TIME' | translate}}
+          </mat-checkbox>
+        </div>
       </div>
+    </ng-template>
 
-      <mat-form-field>
-        <input matInput type="number" min="0" formControlName="setsCount" placeholder="{{'TRAINING_LOG.SETS_LABEL' | translate}}">
-      </mat-form-field>
+    <mat-form-field>
+      <input matInput type="number" min="0" formControlName="setsCount"
+        placeholder="{{'TRAINING_LOG.SETS_LABEL' | translate}}">
+    </mat-form-field>
 
-    </form>
+  </form>
 </div>
 
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
-    <button  mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate }}</button>
-    <button mat-stroked-button color="accent"(click)="onSubmit()"
-      [disabled]="!form.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
-  </div>
+  <button mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate }}</button>
+  <button mat-stroked-button color="accent" (click)="onSubmit()"
+    [disabled]="!isValid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
+</div>

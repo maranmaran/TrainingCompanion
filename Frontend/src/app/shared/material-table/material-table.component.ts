@@ -283,17 +283,21 @@ export class MaterialTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   oneSelected = (row) => this.isOneSelected && this.selection.isSelected(row.id)
 
-  onSelect(entity: any, keepSelected: boolean = false, event: Event = null) {
+  onSelect(entity: any, keepSelected: boolean = false, programaticCall = false) {
 
-    // Workaround for clicking item inside row and then dragging mouse outside
-    // of that component and releasing it on row
-    // which in turn triggered unwanted click event
-    // Example: Dragging and sliding exercise tags inside material-table
-    if(this.mousedownFired) {
-      this.mousedownFired = !this.mousedownFired;
-    } else {
-      // prevent this if mousedown event never bubbled from inner component up to material-table row
-      return;
+    // Programatic call describes manual call from say exercise-type-list.component
+    // No mouse clicks involved
+    if(programaticCall == false) {
+      // Workaround for clicking item inside row and then dragging mouse outside
+      // of that component and releasing it on row
+      // which in turn triggered unwanted click event
+      // Example: Dragging and sliding exercise tags inside material-table
+      if(this.mousedownFired) {
+        this.mousedownFired = !this.mousedownFired;
+      } else {
+        // prevent this if mousedown event never bubbled from inner component up to material-table row
+        return;
+      }
     }
 
     // selection is disabled

@@ -8,7 +8,7 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<Notification> builder)
         {
-            builder.Property(x => x.Read).HasDefaultValue(false);
+            //builder.Property(x => x.Read).HasDefaultValue(false);
             builder.Property(x => x.SentAt).HasDefaultValueSql("getutcdate()");
 
             builder

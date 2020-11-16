@@ -180,8 +180,6 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
             };
 
             group.tags = group.tags.filter(filterTags);
-
-            console.log(group.tags);
           }
 
           return group;
@@ -232,7 +230,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((type: ExerciseType) => {
         if (type) {
-          this.table.onSelect(type, true);
+          this.table.onSelect(type, true, true);
           this.onSelect(type);
         }
       })

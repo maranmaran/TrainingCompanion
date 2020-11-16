@@ -1,3 +1,4 @@
+import { subscriptionStatus } from './../../../../../ngrx/auth/auth.selectors';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -29,10 +30,11 @@ export class TrainingCreateEditComponent implements OnInit {
     private dialogRef: MatDialogRef<TrainingCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       title: string,
-      action: CRUD,
+      action: CRUD | 'COPY',
       day: moment.Moment,
       timeOnly: boolean,
-      programDayId?: string
+      programDayId?: string,
+      training: Training
     }) { }
 
   form: FormGroup;
@@ -72,11 +74,33 @@ export class TrainingCreateEditComponent implements OnInit {
 
     request.dateTrained = moment(moment(this.date.value).format('L') + ' ' + this.time.value, 'L HH:mm').toDate();
 
-    this.createEntity(request);
+    switch(this.data.action) {
+      case CRUD.Create:
+        return this.createEntity(request);
+
+      case 'COPY':
+        return this.copyEntity(this.data.training.id, request.dateTrained);
+
+      default:
+        throw new Error('Invalid action')
+    };
   }
 
-  onClose(training?: Training) {
+  onClose(training?: Training) {  
     this.dialogRef.close(training);
+  }
+
+  copyEntity(id: string, date) {
+    
+    this.trainingService.copy(id, date)
+    .pipe(take(1))
+    .subscribe(
+      (training: Training) => {
+        this.store.dispatch(trainingCreated({ entity: training }))
+        this.onClose(training)
+      },
+      err => console.log(err)
+    );
   }
 
   createEntity(request: CreateTrainingRequest) {
