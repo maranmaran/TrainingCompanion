@@ -10,8 +10,8 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<NotificationSetting> builder)
         {
-            builder.Property(x => x.ReceiveMail).HasDefaultValue(true);
-            builder.Property(x => x.ReceiveNotification).HasDefaultValue(true);
+            //builder.Property(x => x.ReceiveMail).HasDefaultValue(true);
+            //builder.Property(x => x.ReceiveNotification).HasDefaultValue(true);
 
             builder.Property(x => x.NotificationType)
                 .HasConversion(

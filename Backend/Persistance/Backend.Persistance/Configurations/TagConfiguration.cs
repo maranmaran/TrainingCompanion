@@ -11,7 +11,7 @@ namespace Backend.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
-            builder.Property(x => x.Active).HasDefaultValue(true);
+            //builder.Property(x => x.Active).HasDefaultValue(true);
 
             builder
                 .HasOne(x => x.TagGroup)

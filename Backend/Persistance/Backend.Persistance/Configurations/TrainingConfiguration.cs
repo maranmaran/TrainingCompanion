@@ -9,7 +9,7 @@ namespace Backend.Persistance.Configurations
         public void Configure(EntityTypeBuilder<Training> builder)
         {
             builder.Property(x => x.DateTrained).HasDefaultValueSql("getutcdate()");
-            builder.Property(x => x.NoteRead).HasDefaultValue(false);
+            //builder.Property(x => x.NoteRead).HasDefaultValue(false);
 
             builder
                 .HasOne(x => x.ApplicationUser)
