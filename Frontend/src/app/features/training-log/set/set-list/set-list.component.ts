@@ -131,7 +131,12 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: this.userSettings.rpeSystem,
           title: this.userSettings.rpeSystem == RpeSystem.Rpe ? 'TRAINING_LOG.SET_RPE' : 'TRAINING_LOG.SET_RIR',
           sort: true,
-          displayFn: (item: Set) => this.userSettings.rpeSystem == RpeSystem.Rpe ? item.rpe : 10 - item.rpe, // transform
+          displayFn: (item: Set) => {
+            
+            if(item.usesExertion == false) return "Not used"
+
+            return this.userSettings.rpeSystem == RpeSystem.Rpe ? item.rpe : 10 - item.rpe
+          }, // transform
         }));
     }
 

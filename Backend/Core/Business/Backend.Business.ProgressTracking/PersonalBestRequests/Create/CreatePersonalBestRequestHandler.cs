@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Backend.Domain;
-using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.ProgressTracking;
 using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,9 +28,9 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.Create
 
             try
             {
-                var exerciseType = await GetExerciseType(request.ExerciseTypeId, cancellationToken);
+                //var exerciseType = await GetExerciseType(request.ExerciseTypeId, cancellationToken);
 
-                var entity = _mapper.Map<Domain.Entities.ProgressTracking.PersonalBest>(request);
+                var entity = _mapper.Map<PersonalBest>(request);
 
                 // do transformations for unit systems
                 TransformValuesToMetricSystem(entity, request.UnitSystem);
@@ -51,21 +49,21 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.Create
             }
         }
 
-        /// <summary>
-        /// Gets exercise type for personal best record
-        /// TODO: Handler exists for this however it has overhead of data
-        /// TODO: We need to reuse it but implement something that blocks extra data fetching as it's expensive
-        /// </summary>
-        internal async Task<ExerciseType> GetExerciseType(Guid id, CancellationToken cancellationToken)
-        {
+        ///// <summary>
+        ///// Gets exercise type for personal best record
+        ///// TODO: Handler exists for this however it has overhead of data
+        ///// TODO: We need to reuse it but implement something that blocks extra data fetching as it's expensive
+        ///// </summary>
+        //internal async Task<ExerciseType> GetExerciseType(Guid id, CancellationToken cancellationToken)
+        //{
 
-            var type = await _context.ExerciseTypes.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        //    var type = await _context.ExerciseTypes.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
-            if (type == null)
-                throw new NotFoundException(nameof(ExerciseType), $"Exercise type not found for new PB record id: {id}");
+        //    if (type == null)
+        //        throw new NotFoundException(nameof(ExerciseType), $"Exercise type not found for new PB record id: {id}");
 
-            return type;
-        }
+        //    return type;
+        //}
 
         /// <summary>
         /// Calculates and sets properties like wilks score or ipf points

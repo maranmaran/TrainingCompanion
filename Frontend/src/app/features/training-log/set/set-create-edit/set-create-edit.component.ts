@@ -6,7 +6,7 @@ import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
 import * as _ from 'lodash-es';
-import { noop } from 'rxjs';
+import { noop, of } from 'rxjs';
 import { switchMap, take, tap, map } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { transformWeightToNumber } from 'src/business/services/shared/unit-system.service';
@@ -52,7 +52,6 @@ export class SetCreateEditComponent implements OnInit {
 
   userMaxControl: FormControl;
 
-
   setAttributes = false;
 
   ngOnInit() {
@@ -81,9 +80,12 @@ export class SetCreateEditComponent implements OnInit {
 
   onSetRpeControl(event: MatSlideToggleChange, index: number) {
     if (!event.checked) {
+    
       this.setFormGroups[index].removeControl('rpe');
       this.setFormGroups[index].removeControl('rir');
+    
     } else {
+
       if (this.settings.rpeSystem == RpeSystem.Rpe) {
         this.setFormGroups[index].addControl('rpe', new FormControl("5", [Validators.min(0), Validators.max(100)]));
       } else {
@@ -152,6 +154,8 @@ export class SetCreateEditComponent implements OnInit {
     } else {
       this.setUserMaxControl(userPR.value);
     }
+
+    return of(null);
   }
 
   setUserMaxControl(value: number) {
@@ -251,11 +255,17 @@ export class SetCreateEditComponent implements OnInit {
       if (this.settings.rpeSystem == RpeSystem.Rir) {
         let val = set.rir ? set.rir : 10 - set.rpe;
         controls["rir"] = new FormControl(val.toString(), [Validators.required, Validators.min(0), Validators.max(10)]);
-      }
 
+        if(!set.usesExertion) 
+          (controls["rir"] as FormControl).disable() 
+      }
+      
       if (this.settings.rpeSystem == RpeSystem.Rpe) {
         let val = set.rpe ? set.rpe : 10 - set.rir;
         controls["rpe"] = new FormControl(val.toString(), [Validators.min(0), Validators.max(10)]);
+        
+        if(!set.usesExertion) 
+          (controls["rpe"] as FormControl).disable() 
       }
     }
 
@@ -314,12 +324,16 @@ export class SetCreateEditComponent implements OnInit {
     }
 
     if (this.settings.useRpeSystem) {
-      if (this.settings.rpeSystem == RpeSystem.Rpe)
+      if (this.settings.rpeSystem == RpeSystem.Rpe) {
         set.rpe = controls["rpe"]?.value;
-      if (this.settings.rpeSystem == RpeSystem.Rir)
+        set.usesExertion = controls["rpe"]?.disabled == false;
+      }
+      if (this.settings.rpeSystem == RpeSystem.Rir) {
         set.rir = controls["rir"].value;
+        set.usesExertion = controls["rir"]?.disabled == false;
+      }
     }
-
+    
     return set;
   }
 

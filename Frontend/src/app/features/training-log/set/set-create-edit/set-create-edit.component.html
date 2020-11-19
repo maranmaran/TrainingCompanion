@@ -32,7 +32,7 @@
         <div class="set-container mb-3">
 
           <div class="set-attributes pl-4" *ngIf="setAttributes" fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
-            <mat-slide-toggle color="accent" class="slide-toggle-smaller" [checked]="settings.useRpeSystem"
+            <mat-slide-toggle color="accent" class="slide-toggle-smaller" [checked]="settings.useRpeSystem && data.sets[i].usesExertion"
               (change)="onSetRpeControl($event, i)">
               {{ (settings.rpeSystem == 'Rpe' ? 'TRAINING_LOG.SET_RPE' : 'TRAINING_LOG.SET_RIR') | translate}}
             </mat-slide-toggle>
@@ -44,7 +44,7 @@
 
           <div id="control-row" fxLayout="row" fxLayoutGap="10px">
 
-            <label id="set-number">{{i + 1}}.</label>
+            <label id="set-number" class="pt-2">{{i + 1}}.</label>
 
             <ng-container *ngIf="set.controls['percentage']">
               <mat-form-field>

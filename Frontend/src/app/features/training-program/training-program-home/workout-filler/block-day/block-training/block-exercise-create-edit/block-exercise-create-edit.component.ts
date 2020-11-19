@@ -287,7 +287,6 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   }
 
   getSet(group: FormGroup): Set {
-
     const controls = group.controls;
 
     let set = new Set();
@@ -295,6 +294,7 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     set.id = controls["id"].value;
 
     // todo.. add weight attribute to application user
+    // todo.. calculate weight from percentage and one rep max
     if (this.requiresBodyweight)
       set.weight = controls["weight"].value || 0;
 
@@ -305,19 +305,41 @@ export class BlockExerciseCreateEditComponent implements OnInit {
       set.time = controls["time"].value || 0;
 
     //handle weight transformations.. everything is system is in metric
-    if (this.requiresWeight)
-      set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
+    if (this.requiresWeight && !this.requiresBodyweight) {
+      if (!this.settings.usePercentages && !controls['percentage']) {
+        set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
+      } else {
+        // get weight from percentage and 1 rep max
+        let percentage = controls["percentage"].value;
+
+        // don't need to convert unit systems because MAX will come in KGs from system
+        set.percentage = percentage;
+
+        // Weight will be dynamically assigned upon assignment to user..
+        // If max exists
+
+        // Or it will prompt user for max once he opens up the dialog...
+      }
+    }
 
     if (this.settings.useRpeSystem) {
-
       if (this.settings.rpeSystem == RpeSystem.Rpe)
-        set.rpe = controls["rpe"].value;
-
+        set.rpe = controls["rpe"]?.value;
       if (this.settings.rpeSystem == RpeSystem.Rir)
         set.rir = controls["rir"].value;
     }
 
     return set;
+  }
+
+  setAttributes = false;
+
+  setControlsState(active: boolean) {
+    if (active) {
+      this.setFormGroups.forEach(x => x.enable());
+    } else {
+      this.setFormGroups.forEach(x => x.disable());
+    }
   }
 
   addGroup(set: Set = null) {
@@ -378,31 +400,16 @@ export class BlockExerciseCreateEditComponent implements OnInit {
 
     if (event.checked) {
 
-      let setPercentageControl = (response) => {
-        if (response) {
-          this.setFormGroups[index].removeControl('weight');
-          this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
-          this.setFormGroups[index].disable();
-        } else {
-          event.source.checked = false;
-        }
-      }
-
-      // check for one rep max...
-      if (this.userMaxControl == null) {
-        this.setUserMax().subscribe(setPercentageControl);
-      } else {
-        setPercentageControl(true);
-      }
+      this.setFormGroups[index].removeControl('weight');
+      this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
+      this.setFormGroups[index].disable();
 
     } else {
+
       this.setFormGroups[index].addControl('weight', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(200)]));
       this.setFormGroups[index].removeControl('percentage');
       this.setFormGroups[index].disable();
 
-      if (!this.checkForPercentageControls()) {
-        this.userMaxControl = null;
-      }
     }
 
   }
@@ -416,70 +423,6 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     return result;
   }
 
-  //#region USER MAX
-  userMaxControl: FormControl;
-
-  /** User can't use percentages if he doesn't have at least one PR defined..
-   * He can either use HIS PR or opt to using projected max from us
-   * But if none of those exist he must manually give us PR or he can't use percentages
-   * He should be able to opt out of percentages and use weight for example in case he doesn't know max
-   */
-  setUserMax() {
-    let userPR = this.data.prs[0];
-    let systemPR = this.data.prs[1];
-
-    if (!userPR) {
-      return this.onSetMaxDialog(systemPR);
-    } else {
-      this.setUserMaxControl(userPR.value);
-    }
-  }
-
-
-  setUserMaxControl(value: number) {
-    value = transformWeightToNumber(value, this.settings.unitSystem);
-    let validators = [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]
-
-    this.userMaxControl = new FormControl(value, validators);
-  }
-
-  get weightUpperLimit() {
-    let upperLimit = 600;
-
-    if (this.settings.unitSystem == UnitSystem.Imperial) {
-      upperLimit = 1200;
-    }
-
-    return upperLimit;
-  }
-
-  onSetMaxDialog(systemPR: PersonalBest) {
-
-    const dialogRef = this.UIService.openDialogFromComponent(ChooseMaxDialogComponent, {
-      height: 'auto',
-      width: '98%',
-      maxWidth: '20rem',
-      autoFocus: false,
-      disableClose: true,
-      data: {
-        title: 'PERSONAL_BEST.SET_MAX',
-        systemPR
-      },
-      panelClass: ['choose-max-dialog-container', "dialog-container"],
-    })
-
-    return dialogRef.afterClosed().pipe(
-      take(1),
-      tap(response => {
-        if (!response) {
-          this.userMaxControl = null;
-          this.settings.usePercentages = false;
-        } else {
-          this.setUserMaxControl(response.value);
-        }
-      }))
-
-  }
   //#endregion
 
   //#endregion
@@ -488,8 +431,21 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   onSubmit() {
     let sets = <Set[]>(this.getSets(this.setFormGroups));
     this.exercise.sets = sets;
-    this.exercise.exerciseType = this.exerciseType;
-    this.exercise.exerciseTypeId = this.exerciseType.id;
+
+    if(!this.quickAddMode) {
+      this.exercise.exerciseType = this.exerciseType;
+      this.exercise.exerciseTypeId = this.exerciseType?.id;
+    } else {
+      this.exercise.exerciseType = new ExerciseType({
+        name: this.name.value,
+        applicationUserId: this._userId,
+        requiresWeight: this.requiresWeightCheckbox.value,
+        requiresBodyweight: this.requiresBodyweightCheckbox.value,
+        requiresReps: this.requiresRepsCheckbox.value,
+        requiresSets: this.requiresSetsCheckbox.value,
+        requiresTime: this.requiresTimeCheckbox.value,
+      });
+    }
 
     console.log(this.exercise);
 

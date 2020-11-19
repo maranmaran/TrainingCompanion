@@ -20,6 +20,11 @@ export class ExerciseType {
     properties: ExerciseTypeTag[] = [];
     pbs: PersonalBest[] = [];
     //exerciseMaxes: ExerciseMax[]
+
+    
+    constructor(data: Partial<ExerciseType> = null) {
+        Object.assign(this, data);
+    }
 }
 
 // JOIN TABLE

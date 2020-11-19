@@ -11,6 +11,8 @@ namespace Backend.Domain.Entities.TrainingLog
         public double Rpe { get; set; }
         public double Rir { get; set; }
         public double Reps { get; set; }
+
+        public bool UsesExertion { get; set; } // use RPE flag on frontend
         public double Percentage { get; set; } // 1-100
         public double MaxUsedForPercentage { get; set; }
 

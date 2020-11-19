@@ -19,7 +19,23 @@
     <!-- Weight column -->
     <ng-container matColumnDef="weight">
         <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element.weight | transformWeight: settings.unitSystem }} </mat-cell>
+        <mat-cell *matCellDef="let element"> 
+            
+            <ng-container *ngIf="element.percentage; else weightTemplate">
+                {{ element.percentage + '%' }}
+            </ng-container>
+            
+            <ng-template #weightTemplate>
+                {{ element.weight | transformWeight: settings.unitSystem }} 
+            </ng-template>
+
+        </mat-cell>
+    </ng-container>
+
+    <!-- Weight column -->
+    <ng-container matColumnDef="percentage" >
+        <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.percentage + '%' }} </mat-cell>
     </ng-container>
 
     <!-- Reps column -->

@@ -108,9 +108,16 @@
 
         <div fxLayout="row" fxLayoutAlign="space-between">
             <h2> {{data.titleSets | translate }} </h2>
-            <button mat-icon-button color="accent" (click)="addGroup()">
-                <i class="fas fa-plus"></i>
-            </button>
+
+            <div class="actions" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+
+                <button mat-icon-button color="accent" (click)="addGroup()">
+                  <i class="fas fa-plus"></i>
+                </button>
+                <button mat-icon-button color="accent" [ngClass]="{'active': setAttributes}" (click)="setAttributes = !setAttributes; setControlsState(!setAttributes)">
+                  <i class="fas fa-cog"></i>
+                </button>
+            </div>
         </div>
 
         <mat-divider class="dialog-form-divider"></mat-divider>
@@ -220,13 +227,13 @@
                             </ng-template>
                             
                             <div id="set-actions" fxFlexLayout="column">
-                                <button id="delete-set-{{i}}" mat-icon-button
+                                <button id="delete-set-{{i}}" mat-icon-button disabled="{{setAttributes}}"
                                     matTooltip="{{'TRAINING_LOG.REMOVE_SET' | translate}}" [matTooltipPosition]="'right'"
                                     color="accent" (click)="removeGroup(i)">
                                     <i class="fas fa-trash"></i>
                                 </button>
     
-                                <button id="copy-down-{{i}}" mat-icon-button color="accent"
+                                <button id="copy-down-{{i}}" mat-icon-button color="accent" disabled="{{setAttributes}}"
                                     matTooltip="{{'TRAINING_LOG.COPY_DOWN' | translate}}" [matTooltipPosition]="'right'"
                                     (click)="copyDown(i)">
                                     <i class="fas fa-chevron-down"></i>
@@ -235,93 +242,7 @@
 
                         </div>
                     </div>
-                    <!-- <div id="control-row" fxLayout="row" fxLayoutGap="10px">
 
-                        <label id="set-number" fxFlexAlign="center" class="pb-3">{{i + 1}}.</label>
-
-                        <ng-container *ngIf="exerciseType.requiresBodyweight">
-                            <mat-form-field>
-                                <input matInput type="number" formControlName="weight"
-                                    placeholder="{{'TRAINING_LOG.SET_BODYWEIGHT' | translate}}">
-                            </mat-form-field>
-                        </ng-container>
-
-                        <ng-container *ngIf="exerciseType.requiresWeight">
-                            <mat-form-field>
-                                <input matInput type="number" formControlName="weight"
-                                    placeholder="{{'TRAINING_LOG.SET_WEIGHT' | translate}}">
-                            </mat-form-field>
-                        </ng-container>
-
-                        <ng-container *ngIf="exerciseType.requiresReps">
-                            <mat-form-field>
-                                <input matInput type="number" formControlName="reps"
-                                    placeholder="{{'TRAINING_LOG.SET_REPS' | translate}}">
-                            </mat-form-field>
-                        </ng-container>
-
-                        <ng-container *ngIf="exerciseType.requiresTime">
-                            <mat-form-field>
-                                <input matInput type="number" formControlName="time"
-                                    placeholder="{{'TRAINING_LOG.SET_TIME' | translate}}">
-                            </mat-form-field>
-                        </ng-container>
-
-                        <ng-container *ngIf="settings.useRpeSystem">
-                            <mat-form-field *ngIf="settings.rpeSystem == 'Rpe'; else rir">
-                                <mat-label>{{'TRAINING_LOG.SET_RPE' | translate}}</mat-label>
-                                <mat-select formControlName="rpe">
-                                    <mat-option value="5">5</mat-option>
-                                    <mat-option value="5.5">5.5</mat-option>
-                                    <mat-option value="6">6</mat-option>
-                                    <mat-option value="6.5">6.5</mat-option>
-                                    <mat-option value="7">7</mat-option>
-                                    <mat-option value="7.5">7.5</mat-option>
-                                    <mat-option value="8">8</mat-option>
-                                    <mat-option value="8.5">8.5</mat-option>
-                                    <mat-option value="9">9</mat-option>
-                                    <mat-option value="9.5">9.5</mat-option>
-                                    <mat-option value="10">10</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-divider [vertical]="true"></mat-divider>
-                        </ng-container>
-
-                        <ng-template #rir>
-                            <mat-form-field>
-                                <mat-label>{{'TRAINING_LOG.SET_RIR' | translate}}</mat-label>
-                                <mat-select formControlName="rir">
-                                    <mat-option value="0">0</mat-option>
-                                    <mat-option value="0.5">0.5</mat-option>
-                                    <mat-option value="1">1</mat-option>
-                                    <mat-option value="1.5">1.5</mat-option>
-                                    <mat-option value="2">2</mat-option>
-                                    <mat-option value="2.5">2.5</mat-option>
-                                    <mat-option value="3">3</mat-option>
-                                    <mat-option value="3.5">3.5</mat-option>
-                                    <mat-option value="4">4</mat-option>
-                                    <mat-option value="4.5">4.5</mat-option>
-                                    <mat-option value="5">5</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <mat-divider [vertical]="true"></mat-divider>
-                        </ng-template>
-
-                        <div id="set-actions" fxFlexLayout="column">
-                            <button id="delete-set-{{i}}" mat-icon-button
-                                matTooltip="{{'TRAINING_LOG.REMOVE_SET' | translate}}" [matTooltipPosition]="'right'"
-                                color="accent" (click)="removeGroup(i)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-
-                            <button id="copy-down-{{i}}" mat-icon-button color="accent"
-                                matTooltip="{{'TRAINING_LOG.COPY_DOWN' | translate}}" [matTooltipPosition]="'right'"
-                                (click)="copyDown(i)">
-                                <i class="fas fa-chevron-down"></i>
-                            </button>
-                        </div>
-
-                    </div> -->
                 </form>
             </div>
         </div>
