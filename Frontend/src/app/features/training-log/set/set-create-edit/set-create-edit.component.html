@@ -48,6 +48,7 @@
 
             <ng-container *ngIf="set.controls['percentage']">
               <mat-form-field>
+                <mat-label>{{'Percentage' | translate}}</mat-label>
                 <input matInput type="number" formControlName="percentage" placeholder="Percentage">
                 <span matSuffix>%</span>
               </mat-form-field>
@@ -55,6 +56,7 @@
 
             <ng-container *ngIf="exerciseType.requiresBodyweight && set.controls['weight']">
               <mat-form-field>
+                <mat-label>{{'TRAINING_LOG.SET_BODYWEIGHT' | translate}}</mat-label>
                 <input matInput type="number" formControlName="weight"
                   placeholder="{{'TRAINING_LOG.SET_BODYWEIGHT' | translate}}">
                 <span matSuffix>{{ unitSystemUnitofMeasurement }}</span>
@@ -63,6 +65,7 @@
 
             <ng-container *ngIf="exerciseType.requiresWeight && set.controls['weight']">
               <mat-form-field>
+                <mat-label>{{'TRAINING_LOG.SET_WEIGHT' | translate}}</mat-label>
                 <input matInput type="number" formControlName="weight"
                   placeholder="{{'TRAINING_LOG.SET_WEIGHT' | translate}}">
                 <span matSuffix>{{ unitSystemUnitofMeasurement }}</span>
@@ -71,6 +74,7 @@
 
             <ng-container *ngIf="exerciseType.requiresReps && set.controls['reps']">
               <mat-form-field>
+                <mat-label>{{'TRAINING_LOG.SET_REPS' | translate}}</mat-label>
                 <input matInput type="number" formControlName="reps"
                   placeholder="{{'TRAINING_LOG.SET_REPS' | translate}}">
               </mat-form-field>
@@ -78,6 +82,7 @@
 
             <ng-container *ngIf="exerciseType.requiresTime && set.controls['time']">
               <mat-form-field>
+                <mat-label>{{'TRAINING_LOG.SET_TIME' | translate}}</mat-label>
                 <input matInput type="number" formControlName="time"
                   placeholder="{{'TRAINING_LOG.SET_TIME' | translate}}">
               </mat-form-field>

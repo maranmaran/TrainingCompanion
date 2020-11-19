@@ -1,4 +1,10 @@
-<h2> {{data.titleExercise | translate}} </h2>
+<div class="mb-3 mt-3" fxLayout="row" fxLayoutAlign="space-between center">
+    <h2> {{data.titleExercise | translate}} </h2>
+
+    <button mat-stroked-button *ngIf="!quickAddMode" color="accent" (click)="quickAddMode = true; onQuickAddModeActivated()">Quick add</button>
+    <button mat-stroked-button *ngIf="quickAddMode" color="accent" (click)="quickAddMode = false; onQuickModeDisabled()">Existing
+        exercises</button>
+</div>
 
 <mat-divider class="dialog-form-divider"></mat-divider>
 
@@ -16,7 +22,7 @@
     <div class="form" fxLayout="column">
         <form [formGroup]="exerciseForm">
 
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <input matInput placeholder="{{'TRAINING_LOG.EXERCISE_TYPE_LABEL' | translate }}"
                     [matAutocomplete]="auto" [formControl]="exerciseTypeSearchInput">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction"
@@ -34,13 +40,68 @@
 
             <app-exercise-type-chip-list id="tags" class="mb-3" *ngIf="selectedExerciseType.value"
                 [propertyList]="selectedExerciseType.value.properties">
-            </app-exercise-type-chip-list>
+            </app-exercise-type-chip-list> -->
 
+            <mat-form-field *ngIf="!quickAddMode; else quickAddTemplate">
+                <input matInput placeholder="{{'TRAINING_LOG.EXERCISE_TYPE_LABEL' | translate }}"
+                    [matAutocomplete]="auto" [formControl]="exerciseTypeSearchInput">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFunction"
+                    (optionSelected)="onExerciseTypeSelected($event)">
+                    <mat-option *ngIf="isLoading">
+                        <mat-progress-bar class="loading-bar" mode="indeterminate" color="accent"></mat-progress-bar>
+                    </mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let type of data.exerciseTypes.list" [value]="type">
+                            <app-exercise-type-preview [exerciseType]="type"></app-exercise-type-preview>
+                        </mat-option>
+                    </ng-container>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <div id="tags" *ngIf="!quickAddMode">
+                <app-exercise-type-chip-list *ngIf="selectedExerciseType.value" [propertyList]="selectedExerciseType.properties">
+                </app-exercise-type-chip-list>
+            </div>
+
+            <ng-template #quickAddTemplate>
+                <!-- <input matInput placeholder="{{'TRAINING_LOG.EXERCISE_TYPE_LABEL' | translate }}" [matAutocomplete]="auto" [formControl]="exerciseType"> -->
+                <mat-form-field>
+                    <mat-label>{{'SHARED.NAME' | translate}}</mat-label>
+                    <input matInput formControlName="name" placeholder="{{ 'SHARED.NAME' | translate }}">
+                    <mat-error *ngIf="name?.invalid"></mat-error>
+                </mat-form-field>
+
+                <div class="checkboxes-wrapper mb-2" fxLayout="row" fxLayoutAlign="space-evenly">
+                    <div id="group1" fxLayout="column">
+                        <mat-checkbox formControlName="requiresWeight" [name]="'weight'"
+                            (change)="onQuickAddCheckboxChange($event)">
+                            {{'EXERCISE_TYPES.WEIGHT' | translate}}
+                        </mat-checkbox>
+                        <mat-checkbox formControlName="requiresReps" [name]="'reps'"
+                            (change)="onQuickAddCheckboxChange($event)">
+                            {{'EXERCISE_TYPES.REPS' | translate}}
+                        </mat-checkbox>
+                        <mat-checkbox formControlName="requiresSets">
+                            {{'EXERCISE_TYPES.SETS' | translate}}
+                        </mat-checkbox>
+                    </div>
+                    <div id="group2" fxLayout="column">
+                        <mat-checkbox formControlName="requiresBodyweight" [name]="'bodyweight'"
+                            (change)="onQuickAddCheckboxChange($event)">
+                            {{'EXERCISE_TYPES.BODYWEIGHT_ONLY' | translate}}
+                        </mat-checkbox>
+                        <mat-checkbox formControlName="requiresTime" [name]="'time'"
+                            (change)="onQuickAddCheckboxChange($event)">
+                            {{'EXERCISE_TYPES.MEASURE_TIME' | translate}}
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </ng-template>
         </form>
     </div>
 </ng-template>
 <ng-template #sets_create_edit>
-    <ng-container *ngIf="selectedExerciseType.value && selectedExerciseType.valid">
+    <ng-container *ngIf="(selectedExerciseType.value && selectedExerciseType.valid || quickAddMode) && requiresSets">
 
         <mat-divider class="dialog-form-divider">
         </mat-divider>
@@ -58,7 +119,123 @@
 
             <div class="form" fxLayout="column" fxLayoutGap="1.5rem">
                 <form *ngFor="let set of setFormGroups; let i = index" [formGroup]="set">
-                    <div id="control-row" fxLayout="row" fxLayoutGap="10px">
+                    <div class="set-container mb-3">
+
+                        <div class="set-attributes pl-4" *ngIf="setAttributes" fxLayout="row" fxLayoutGap="1rem"
+                            fxLayoutAlign="start center">
+                            <mat-slide-toggle color="accent" class="slide-toggle-smaller"
+                                [checked]="settings.useRpeSystem" (change)="onSetRpeControl($event, i)">
+                                {{ (settings.rpeSystem == 'Rpe' ? 'TRAINING_LOG.SET_RPE' : 'TRAINING_LOG.SET_RIR') | translate}}
+                            </mat-slide-toggle>
+                            <mat-slide-toggle color="accent" class="slide-toggle-smaller"
+                                [checked]="settings.usePercentages" (change)="onUsePercentage($event, i)">
+                                {{'TRAINING_LOG.SET_PERCENTAGE' | translate}}
+                            </mat-slide-toggle>
+                        </div>
+
+                        <div id="control-row" fxLayout="row" fxLayoutGap="10px">
+
+                            <label id="set-number" fxFlexAlign="center" class="pb-1">{{i + 1}}.</label>
+
+                            <ng-container *ngIf="set.controls['percentage']">
+                                <mat-form-field>
+                                  <mat-label>{{'Percentage' | translate}}</mat-label>
+                                  <input matInput type="number" formControlName="percentage" placeholder="Percentage">
+                                  <span matSuffix>%</span>
+                                </mat-form-field>
+                              </ng-container>
+                  
+                              <ng-container *ngIf="requiresBodyweight && set.controls['weight']">
+                                <mat-form-field>
+                                  <mat-label>{{'TRAINING_LOG.SET_BODYWEIGHT' | translate}}</mat-label>
+                                  <input matInput type="number" formControlName="weight"
+                                    placeholder="{{'TRAINING_LOG.SET_BODYWEIGHT' | translate}}">
+                                  <span matSuffix>{{ unitSystemUnitofMeasurement }}</span>
+                                </mat-form-field>
+                              </ng-container>
+                  
+                              <ng-container *ngIf="requiresWeight && set.controls['weight']">
+                                <mat-form-field>
+                                  <mat-label>{{'TRAINING_LOG.SET_WEIGHT' | translate}}</mat-label>
+                                  <input matInput type="number" formControlName="weight"
+                                    placeholder="{{'TRAINING_LOG.SET_WEIGHT' | translate}}">
+                                  <span matSuffix>{{ unitSystemUnitofMeasurement }}</span>
+                                </mat-form-field>
+                              </ng-container>
+                  
+                              <ng-container *ngIf="requiresReps && set.controls['reps']">
+                                <mat-form-field>
+                                  <mat-label>{{'TRAINING_LOG.SET_REPS' | translate}}</mat-label>
+                                  <input matInput type="number" formControlName="reps"
+                                    placeholder="{{'TRAINING_LOG.SET_REPS' | translate}}">
+                                </mat-form-field>
+                              </ng-container>
+                  
+                              <ng-container *ngIf="requiresTime && set.controls['time']">
+                                <mat-form-field>
+                                  <mat-label>{{'TRAINING_LOG.SET_TIME' | translate}}</mat-label>
+                                  <input matInput type="number" formControlName="time"
+                                    placeholder="{{'TRAINING_LOG.SET_TIME' | translate}}">
+                                </mat-form-field>
+                              </ng-container>
+
+                            <ng-container *ngIf="settings.useRpeSystem || set.controls['rpe'] || set.controls['rir']">
+                                <mat-form-field *ngIf="settings.rpeSystem == 'Rpe'; else rir">
+                                    <mat-label>{{'TRAINING_LOG.SET_RPE' | translate}}</mat-label>
+                                    <mat-select formControlName="rpe">
+                                        <mat-option value="5">5</mat-option>
+                                        <mat-option value="5.5">5.5</mat-option>
+                                        <mat-option value="6">6</mat-option>
+                                        <mat-option value="6.5">6.5</mat-option>
+                                        <mat-option value="7">7</mat-option>
+                                        <mat-option value="7.5">7.5</mat-option>
+                                        <mat-option value="8">8</mat-option>
+                                        <mat-option value="8.5">8.5</mat-option>
+                                        <mat-option value="9">9</mat-option>
+                                        <mat-option value="9.5">9.5</mat-option>
+                                        <mat-option value="10">10</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-divider [vertical]="true"></mat-divider>
+                            </ng-container>
+
+                            <ng-template #rir>
+                                <mat-form-field>
+                                    <mat-label>{{'TRAINING_LOG.SET_RIR' | translate}}</mat-label>
+                                    <mat-select formControlName="rir">
+                                        <mat-option value="0">0</mat-option>
+                                        <mat-option value="0.5">0.5</mat-option>
+                                        <mat-option value="1">1</mat-option>
+                                        <mat-option value="1.5">1.5</mat-option>
+                                        <mat-option value="2">2</mat-option>
+                                        <mat-option value="2.5">2.5</mat-option>
+                                        <mat-option value="3">3</mat-option>
+                                        <mat-option value="3.5">3.5</mat-option>
+                                        <mat-option value="4">4</mat-option>
+                                        <mat-option value="4.5">4.5</mat-option>
+                                        <mat-option value="5">5</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-divider [vertical]="true"></mat-divider>
+                            </ng-template>
+                            
+                            <div id="set-actions" fxFlexLayout="column">
+                                <button id="delete-set-{{i}}" mat-icon-button
+                                    matTooltip="{{'TRAINING_LOG.REMOVE_SET' | translate}}" [matTooltipPosition]="'right'"
+                                    color="accent" (click)="removeGroup(i)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+    
+                                <button id="copy-down-{{i}}" mat-icon-button color="accent"
+                                    matTooltip="{{'TRAINING_LOG.COPY_DOWN' | translate}}" [matTooltipPosition]="'right'"
+                                    (click)="copyDown(i)">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- <div id="control-row" fxLayout="row" fxLayoutGap="10px">
 
                         <label id="set-number" fxFlexAlign="center" class="pb-3">{{i + 1}}.</label>
 
@@ -144,7 +321,7 @@
                             </button>
                         </div>
 
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>

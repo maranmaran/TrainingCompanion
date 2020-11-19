@@ -6,8 +6,10 @@ import { take } from 'rxjs/operators';
 import { PersonalBestService } from 'src/business/services/feature-services/personal-best.service';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { selectedExerciseType } from 'src/ngrx/training-log/training.selectors';
+import { CreatePersonalBestRequest } from 'src/server-models/cqrs/personal-best/create-personal-best.request';
+import { Bodyweight } from 'src/server-models/entities/bodyweight.model';
 import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
-import { userSetting } from './../../../../../../ngrx/auth/auth.selectors';
+import { latestBodyweight, userSetting } from './../../../../../../ngrx/auth/auth.selectors';
 import { PersonalBest } from './../../../../../../server-models/entities/personal-best.model';
 import { UserSetting } from './../../../../../../server-models/entities/user-settings.model';
 
@@ -22,6 +24,7 @@ export class ChooseMaxDialogComponent implements OnInit {
 
   _settings: UserSetting;
   _exerciseTypeId: string;
+  latestBodyweight: Bodyweight;
 
   constructor(
     private prService: PersonalBestService,
@@ -32,6 +35,7 @@ export class ChooseMaxDialogComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(userSetting).pipe(take(1)).subscribe(setting => this._settings = setting);
     this.store.select(selectedExerciseType).pipe(take(1)).subscribe(type => this._exerciseTypeId = type.id);
+    this.store.select(latestBodyweight).pipe(take(1)).subscribe(bw => this.latestBodyweight = bw);
 
     let max = 0;
     if(this.data.systemPR)
@@ -63,15 +67,16 @@ export class ChooseMaxDialogComponent implements OnInit {
       return;
 
     // todo
-    let newPersonalBest = new PersonalBest();
-    newPersonalBest.value = this.max.value;
-    newPersonalBest.dateAchieved = new Date();
-    newPersonalBest.reps = 1;
-    newPersonalBest.exerciseTypeId = this._exerciseTypeId;
+    let request = new CreatePersonalBestRequest({
+      value: this.max.value,
+      dateAchieved: new Date(),
+      reps: 1,
+      exerciseTypeId: this._exerciseTypeId,
+      unitSystem: this._settings.unitSystem,
+      bodyweight: this.latestBodyweight.value,
+    });
 
-    console.log(newPersonalBest);
-
-    this.prService.create(newPersonalBest)
+    this.prService.create(request)
     .pipe(take(1))
     .subscribe(pb => {
       this.dialogRef.close(pb);

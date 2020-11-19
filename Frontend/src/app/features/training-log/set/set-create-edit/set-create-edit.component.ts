@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
 import * as _ from 'lodash-es';
 import { noop } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { switchMap, take, tap, map } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { transformWeightToNumber } from 'src/business/services/shared/unit-system.service';
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
@@ -327,23 +327,28 @@ export class SetCreateEditComponent implements OnInit {
     // are all forms valid
     if (!this.isFormValid) return;
 
-    let sets = <Set[]>(this.getSets(this.setFormGroups));
+    let sets = this.getSets(this.setFormGroups);
+
+    this.onSubmitUpdateSets(sets, this.exerciseId);
+  }
+
+  onSubmitUpdateSets(sets: Set[], exerciseId) {
 
     var request = new UpdateManySetsRequest();
     request.sets = sets;
-    request.exerciseId = this.exerciseId;
+    request.exerciseId = exerciseId;
 
     this.setService.updateMany<UpdateManySetsRequest>(request)
       .pipe(
         switchMap(
-          (_) => this.store.select(selectedTraining),
-          (sets, training) => ({ sets, training })
+          () => this.store.select(selectedTraining).pipe(map((training: Training) => ({sets, training})))
+          // (sets, training) => ({ sets, training })
         ),
         take(1))
       .subscribe(
         (response: { sets: Set[], training: Training }) => {
 
-          var index = response.training.exercises.findIndex(x => x.id == this.exerciseId);
+          var index = response.training.exercises.findIndex(x => x.id == exerciseId);
           var exercises: Exercise[] = _.cloneDeep(response.training.exercises);
           exercises[index].sets = response.sets;
 

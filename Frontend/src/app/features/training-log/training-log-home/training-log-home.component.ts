@@ -58,7 +58,6 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
     allowSetTrainingNull: boolean = false,
     allowSetExerciseNull: boolean = true
   ) {
-    console.log('here');
     this.selectedTab1 = index;
 
     // bug when transitioning from display: none to inherit

@@ -1,13 +1,17 @@
+import { UIService } from './../../../../../../../../business/services/shared/ui.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
 import * as _ from 'lodash-es';
 import { Observable } from 'rxjs';
 import { debounceTime, distinct, filter, finalize, skip, switchMap, take, tap } from 'rxjs/operators';
 import { ExerciseCreateEditComponent } from 'src/app/features/training-log/exercise/exercise-create-edit/exercise-create-edit.component';
+import { ChooseMaxDialogComponent } from 'src/app/features/training-log/set/set-create-edit/choose-max-dialog/choose-max-dialog.component';
 import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
@@ -16,12 +20,14 @@ import { transformWeightToNumber } from 'src/business/services/shared/unit-syste
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { CreateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/create-exercise-type.request';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Exercise } from 'src/server-models/entities/exercise.model';
+import { PersonalBest } from 'src/server-models/entities/personal-best.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
-import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
+import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
 
@@ -44,7 +50,7 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     private exerciseTypeService: ExerciseTypeService,
     private store: Store<AppState>,
     private exerciseService: ExerciseService,
-    private trainingService: TrainingService,
+    private UIService: UIService,
     private dialogRef: MatDialogRef<ExerciseCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       titleExercise: string,
@@ -52,7 +58,8 @@ export class BlockExerciseCreateEditComponent implements OnInit {
       action: CRUD,
       exercise: Exercise,
       exerciseTypes: PagedList<ExerciseType>,
-      pagingModel: PagingModel
+      pagingModel: PagingModel,
+      prs: PersonalBest[] 
     }) { }
 
 
@@ -68,15 +75,16 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   private _userId: string;
 
   isLoading = false;
+  quickAddMode = false;
 
   ngOnInit() {
     this.exercise = Object.assign(new Exercise(), this.data.exercise);
     this.exerciseId = this.exercise.id;
 
+    this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
     this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.settings = settings);
 
     this.createExerciseTypeForm();
-    this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
   }
 
   //#region Exercise type form 
@@ -84,28 +92,103 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     this.exerciseForm = new FormGroup({
       exerciseTypeSearchInput: new FormControl(this.exercise.exerciseType, [Validators.required, isExerciseTypeValidator]),
       selectedExerciseType: new FormControl(this.exercise.exerciseType, [Validators.required, isExerciseTypeValidator]),
+      name: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(50)
+      ]),
+      requiresWeight: new FormControl(true),
+      requiresReps: new FormControl(true),
+      requiresSets: new FormControl(true),
+      requiresTime: new FormControl(false),
+      requiresBodyweight: new FormControl(false),
     });
 
-    this.addListeners();
+    // listeners
+    this._subs.add(
+      this.onSearchExerciseTypes(),
+    );
   }
 
   get exerciseTypeSearchInput(): AbstractControl { return this.exerciseForm.get('exerciseTypeSearchInput'); }
   get selectedExerciseType(): AbstractControl { return this.exerciseForm.get('selectedExerciseType'); }
   get exerciseType(): ExerciseType { return this.exerciseForm.get('selectedExerciseType').value as ExerciseType; }
-  displayFunction = (exerciseType: ExerciseType) => exerciseType ? exerciseType.name : null;
+  get name(): AbstractControl { return this.exerciseForm.get("name"); }
+  get requiresWeightCheckbox(): AbstractControl { return this.exerciseForm.get("requiresWeight"); }
+  get requiresBodyweightCheckbox(): AbstractControl { return this.exerciseForm.get("requiresBodyweight"); }
+  get requiresRepsCheckbox(): AbstractControl { return this.exerciseForm.get("requiresReps"); }
+  get requiresSetsCheckbox(): AbstractControl { return this.exerciseForm.get("requiresSets"); }
+  get requiresTimeCheckbox(): AbstractControl { return this.exerciseForm.get("requiresTime"); }
+  
+  get requiresWeight():boolean { return !this.quickAddMode && this.exerciseType.requiresWeight || this.quickAddMode && this.requiresWeightCheckbox.value }
+  get requiresBodyweight():boolean { return !this.quickAddMode && this.exerciseType.requiresBodyweight || this.quickAddMode && this.requiresBodyweightCheckbox.value }
+  get requiresReps():boolean { return !this.quickAddMode && this.exerciseType.requiresReps || this.quickAddMode && this.requiresRepsCheckbox.value }
+  get requiresSets():boolean { return !this.quickAddMode && this.exerciseType.requiresSets || this.quickAddMode && this.requiresSetsCheckbox.value }
+  get requiresTime():boolean { return !this.quickAddMode && this.exerciseType.requiresTime || this.quickAddMode && this.requiresTimeCheckbox.value }
+  
+  get unitSystemUnitofMeasurement() {
+    if (this.settings.unitSystem == UnitSystem.Metric)
+      return UnitSystemUnitOfMeasurement.Metric;
 
-  addListeners = () => {
-    this._subs.add(
-      this.exerciseTypeChangeSubscription(),
-    );
+    return UnitSystemUnitOfMeasurement.Imperial;
   }
+
+  displayFunction = (exerciseType: ExerciseType) => exerciseType ? exerciseType.name : null;
 
   onExerciseTypeSelected(event: MatAutocompleteSelectedEvent) {
     this.selectedExerciseType.setValue(event.option.value);
     this.createSetForms();
   }
 
-  exerciseTypeChangeSubscription = () => {
+  onQuickAddModeActivated() {
+    this.createSetForms();
+  }
+  onQuickModeDisabled() {
+    if(!this.exerciseType) {
+      this.setFormGroups = [];
+      this.sets = []
+    } else{
+      this.createSetForms();
+    }
+  }
+
+  onQuickAddCheckboxChange(change: MatCheckboxChange) {
+    switch (change.source.name) {
+      case 'time':
+        this.requiresRepsCheckbox.value && change.checked && this.requiresRepsCheckbox.setValue(false);
+        break;
+      case 'weight':
+        this.requiresBodyweightCheckbox.value && change.checked && this.requiresBodyweightCheckbox.setValue(false);
+        break;
+      case 'bodyweight':
+        this.requiresWeightCheckbox.value && change.checked && this.requiresWeightCheckbox.setValue(false);
+        break;
+      case 'reps':
+        this.requiresTimeCheckbox.value && change.checked && this.requiresTimeCheckbox.setValue(false);
+        break;
+      default:
+        throw new Error('No checkbox like that defined ' + change.source);
+    }
+  }
+
+  createExerciseType() {
+    if (this.name.valid == false)
+      return;
+
+    const request = new CreateExerciseTypeRequest({
+      name: this.name.value,
+      applicationUserId: this._userId,
+      requiresWeight: this.requiresWeightCheckbox.value,
+      requiresBodyweight: this.requiresBodyweightCheckbox.value,
+      requiresReps: this.requiresRepsCheckbox.value,
+      requiresSets: this.requiresSetsCheckbox.value,
+      requiresTime: this.requiresTimeCheckbox.value,
+    });
+
+    return this.exerciseTypeService.create(request);
+  }
+
+  onSearchExerciseTypes = () => {
     return this.exerciseTypeSearchInput.valueChanges
       .pipe(
         debounceTime(500),
@@ -153,16 +236,16 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     controls["id"] = new FormControl(set.id);
 
     // todo.. add weight attribute to application user
-    if (this.exerciseType.requiresBodyweight)
+    if (this.requiresBodyweight)
       controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(200)]);
 
-    if (this.exerciseType.requiresReps)
+    if (this.requiresReps)
       controls["reps"] = new FormControl(set.reps, [Validators.required, Validators.min(0), Validators.max(100)]);
 
-    if (this.exerciseType.requiresTime)
+    if (this.requiresTime)
       controls["time"] = new FormControl(set.time, [Validators.required]);
 
-    if (this.exerciseType.requiresWeight) {
+    if (this.requiresWeight) {
       let upperLimit = 600;
 
       if (this.settings.unitSystem == UnitSystem.Imperial) {
@@ -212,17 +295,17 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     set.id = controls["id"].value;
 
     // todo.. add weight attribute to application user
-    if (this.exerciseType.requiresBodyweight)
+    if (this.requiresBodyweight)
       set.weight = controls["weight"].value || 0;
 
-    if (this.exerciseType.requiresReps)
+    if (this.requiresReps)
       set.reps = controls["reps"].value || 0;
 
-    if (this.exerciseType.requiresTime)
+    if (this.requiresTime)
       set.time = controls["time"].value || 0;
 
     //handle weight transformations.. everything is system is in metric
-    if (this.exerciseType.requiresWeight)
+    if (this.requiresWeight)
       set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
 
     if (this.settings.useRpeSystem) {
@@ -276,6 +359,128 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     return this.setFormGroups.length > 0 && this.setFormGroups.reduce((prev, curr) => prev && curr.valid, true);
   }
 
+  onSetRpeControl(event: MatSlideToggleChange, index: number) {
+    if (!event.checked) {
+      this.setFormGroups[index].removeControl('rpe');
+      this.setFormGroups[index].removeControl('rir');
+    } else {
+      if (this.settings.rpeSystem == RpeSystem.Rpe) {
+        this.setFormGroups[index].addControl('rpe', new FormControl("5", [Validators.min(0), Validators.max(100)]));
+      } else {
+        this.setFormGroups[index].addControl('rir', new FormControl("5", [Validators.min(0), Validators.max(100)]));
+      }
+
+      this.setFormGroups[index].disable();
+    }
+  }
+
+  onUsePercentage(event: MatSlideToggleChange, index: number) {
+
+    if (event.checked) {
+
+      let setPercentageControl = (response) => {
+        if (response) {
+          this.setFormGroups[index].removeControl('weight');
+          this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
+          this.setFormGroups[index].disable();
+        } else {
+          event.source.checked = false;
+        }
+      }
+
+      // check for one rep max...
+      if (this.userMaxControl == null) {
+        this.setUserMax().subscribe(setPercentageControl);
+      } else {
+        setPercentageControl(true);
+      }
+
+    } else {
+      this.setFormGroups[index].addControl('weight', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(200)]));
+      this.setFormGroups[index].removeControl('percentage');
+      this.setFormGroups[index].disable();
+
+      if (!this.checkForPercentageControls()) {
+        this.userMaxControl = null;
+      }
+    }
+
+  }
+
+  checkForPercentageControls() {
+    let result = false;
+    this.setFormGroups.forEach(group => {
+      result = !!group['percentage']
+    });
+
+    return result;
+  }
+
+  //#region USER MAX
+  userMaxControl: FormControl;
+
+  /** User can't use percentages if he doesn't have at least one PR defined..
+   * He can either use HIS PR or opt to using projected max from us
+   * But if none of those exist he must manually give us PR or he can't use percentages
+   * He should be able to opt out of percentages and use weight for example in case he doesn't know max
+   */
+  setUserMax() {
+    let userPR = this.data.prs[0];
+    let systemPR = this.data.prs[1];
+
+    if (!userPR) {
+      return this.onSetMaxDialog(systemPR);
+    } else {
+      this.setUserMaxControl(userPR.value);
+    }
+  }
+
+
+  setUserMaxControl(value: number) {
+    value = transformWeightToNumber(value, this.settings.unitSystem);
+    let validators = [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]
+
+    this.userMaxControl = new FormControl(value, validators);
+  }
+
+  get weightUpperLimit() {
+    let upperLimit = 600;
+
+    if (this.settings.unitSystem == UnitSystem.Imperial) {
+      upperLimit = 1200;
+    }
+
+    return upperLimit;
+  }
+
+  onSetMaxDialog(systemPR: PersonalBest) {
+
+    const dialogRef = this.UIService.openDialogFromComponent(ChooseMaxDialogComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      disableClose: true,
+      data: {
+        title: 'PERSONAL_BEST.SET_MAX',
+        systemPR
+      },
+      panelClass: ['choose-max-dialog-container', "dialog-container"],
+    })
+
+    return dialogRef.afterClosed().pipe(
+      take(1),
+      tap(response => {
+        if (!response) {
+          this.userMaxControl = null;
+          this.settings.usePercentages = false;
+        } else {
+          this.setUserMaxControl(response.value);
+        }
+      }))
+
+  }
+  //#endregion
 
   //#endregion
 
