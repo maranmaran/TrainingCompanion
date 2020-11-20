@@ -4,14 +4,16 @@ using Backend.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201120172141_TrainingDateIndex")]
+    partial class TrainingDateIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -494,9 +496,6 @@ namespace Backend.Persistance.Migrations
                         .HasColumnType("time");
 
                     b.Property<bool>("UsesExertion")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("UsesPercentage")
                         .HasColumnType("bit");
 
                     b.Property<double>("Volume")

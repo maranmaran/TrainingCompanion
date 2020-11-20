@@ -19,6 +19,7 @@ import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
 import { PersonalBest } from './../../../../../server-models/entities/personal-best.model';
+import * as _ from "lodash-es";
 
 @Component({
   selector: 'app-set-list',
@@ -95,7 +96,15 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: 'weight',
           title: 'TRAINING_LOG.SET_WEIGHT',
           sort: true,
-          displayFn: (item: Set) => transformWeight(item.weight, this.userSettings.unitSystem), // transform
+          displayFn: (item: Set) => {
+            let weightDisplay = transformWeight(item.weight, this.userSettings.unitSystem);
+
+            if(item.usesPercentage) {
+              weightDisplay += ` (${item.percentage}%)`
+            }
+
+            return weightDisplay;
+          }, // transform
         }));
     }
     if (exerciseType.requiresReps) {
@@ -153,7 +162,7 @@ export class SetListComponent implements OnInit, OnDestroy {
       data: {
         title: 'TRAINING_LOG.SET_UPDATE_TITLE',
         action: CRUD.Update,
-        sets: this.sets,
+        sets: _.cloneDeep(this.sets),
         prs: this._personalBests
       },
       panelClass: ['sets-dialog-container', "dialog-container"],

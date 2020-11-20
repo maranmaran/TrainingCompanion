@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -78,12 +78,39 @@ export class SetCreateEditComponent implements OnInit {
     });
   }
 
+  isRpeControlChecked(index) {
+    if (!this.settings.useRpeSystem)
+      return false;
+
+    if (!this.sets[index].usesExertion)
+      return false
+
+    return this.setFormGroups[index].controls['rpe'] || this.setFormGroups[index].controls['rir']
+  }
+
+  isPercentageControlChecked(index) {
+    if (!this.settings.usePercentages)
+      return false;
+
+    if (!this.sets[index].usesPercentage)
+      return false;
+
+    return this.setFormGroups[index].controls['percentage']
+  }
+
   onSetRpeControl(event: MatSlideToggleChange, index: number) {
+    if (!this.settings.useRpeSystem) {
+      return false;
+    }
+
     if (!event.checked) {
-    
-      this.setFormGroups[index].removeControl('rpe');
-      this.setFormGroups[index].removeControl('rir');
-    
+
+      // this.setFormGroups[index].removeControl('rpe');
+      // this.setFormGroups[index].removeControl('rir');
+
+      this.setFormGroups[index].controls["rir"]?.disable();
+      this.setFormGroups[index].controls["rpe"]?.disable();
+
     } else {
 
       if (this.settings.rpeSystem == RpeSystem.Rpe) {
@@ -94,9 +121,14 @@ export class SetCreateEditComponent implements OnInit {
 
       this.setFormGroups[index].disable();
     }
+
+    this.sets[index].usesExertion = event.checked;
   }
 
   onUsePercentage(event: MatSlideToggleChange, index: number) {
+    if (!this.settings.usePercentages) {
+      return false;
+    }
 
     if (event.checked) {
 
@@ -104,6 +136,8 @@ export class SetCreateEditComponent implements OnInit {
         if (response) {
           this.setFormGroups[index].removeControl('weight');
           this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
+
+          // disable all again because newly added percentage control is enabled by default
           this.setFormGroups[index].disable();
         } else {
           event.source.checked = false;
@@ -118,6 +152,7 @@ export class SetCreateEditComponent implements OnInit {
       }
 
     } else {
+
       this.setFormGroups[index].addControl('weight', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(200)]));
       this.setFormGroups[index].removeControl('percentage');
       this.setFormGroups[index].disable();
@@ -127,12 +162,15 @@ export class SetCreateEditComponent implements OnInit {
       }
     }
 
+    
+    this.sets[index].usesPercentage = event.checked;
+
   }
 
   checkForPercentageControls() {
     let result = false;
     this.setFormGroups.forEach(group => {
-      result = !!group['percentage']
+      result = result || !!group.controls['percentage']
     });
 
     return result;
@@ -152,17 +190,17 @@ export class SetCreateEditComponent implements OnInit {
     if (!userPR) {
       return this.onSetMaxDialog(systemPR);
     } else {
-      this.setUserMaxControl(userPR.value);
+      return of(this.setUserMaxControl(userPR.value));
     }
-
-    return of(null);
   }
 
-  setUserMaxControl(value: number) {
+  setUserMaxControl(value: number): FormControl {
     value = transformWeightToNumber(value, this.settings.unitSystem);
     let validators = [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]
 
     this.userMaxControl = new FormControl(value, validators);
+
+    return this.userMaxControl;
   }
 
   onSetMaxDialog(systemPR: PersonalBest) {
@@ -243,7 +281,7 @@ export class SetCreateEditComponent implements OnInit {
       controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(200)]);
 
     if (this.exerciseType.requiresWeight && !this.exerciseType.requiresBodyweight) {
-      if (!this.settings.usePercentages) {
+      if (!this.settings.usePercentages || !set.usesPercentage) {
         controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]);
       } else {
         // todo calculate percentage from 1 rep max and weight
@@ -252,20 +290,21 @@ export class SetCreateEditComponent implements OnInit {
     }
 
     if (this.settings.useRpeSystem) {
+
       if (this.settings.rpeSystem == RpeSystem.Rir) {
         let val = set.rir ? set.rir : 10 - set.rpe;
         controls["rir"] = new FormControl(val.toString(), [Validators.required, Validators.min(0), Validators.max(10)]);
 
-        if(!set.usesExertion) 
-          (controls["rir"] as FormControl).disable() 
+        if (!set.usesExertion)
+          (controls["rir"] as FormControl).disable()
       }
-      
+
       if (this.settings.rpeSystem == RpeSystem.Rpe) {
         let val = set.rpe ? set.rpe : 10 - set.rir;
         controls["rpe"] = new FormControl(val.toString(), [Validators.min(0), Validators.max(10)]);
-        
-        if(!set.usesExertion) 
-          (controls["rpe"] as FormControl).disable() 
+
+        if (!set.usesExertion)
+          (controls["rpe"] as FormControl).disable()
       }
     }
 
@@ -309,7 +348,7 @@ export class SetCreateEditComponent implements OnInit {
 
     //handle weight transformations.. everything is system is in metric
     if (this.exerciseType.requiresWeight && !this.exerciseType.requiresBodyweight) {
-      if (!this.settings.usePercentages && !controls['percentage']) {
+      if (!this.settings.usePercentages || !controls['percentage']) {
         set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
       } else {
         // get weight from percentage and 1 rep max
@@ -317,6 +356,7 @@ export class SetCreateEditComponent implements OnInit {
         let calculatedWeight = percentage / 100 * this.userMaxControl.value;
 
         // don't need to convert unit systems because MAX will come in KGs from system
+        set.usesPercentage = true;
         set.percentage = percentage;
         set.maxUsedForPercentage = this.userMaxControl.value;
         set.weight = calculatedWeight;
@@ -333,7 +373,7 @@ export class SetCreateEditComponent implements OnInit {
         set.usesExertion = controls["rir"]?.disabled == false;
       }
     }
-    
+
     return set;
   }
 
@@ -355,7 +395,7 @@ export class SetCreateEditComponent implements OnInit {
     this.setService.updateMany<UpdateManySetsRequest>(request)
       .pipe(
         switchMap(
-          () => this.store.select(selectedTraining).pipe(map((training: Training) => ({sets, training})))
+          () => this.store.select(selectedTraining).pipe(map((training: Training) => ({ sets, training })))
           // (sets, training) => ({ sets, training })
         ),
         take(1))
@@ -418,7 +458,15 @@ export class SetCreateEditComponent implements OnInit {
 
   setControlsState(active: boolean) {
     if (active) {
-      this.setFormGroups.forEach(x => x.enable());
+      this.setFormGroups.forEach((group, index) => {
+        group.enable();
+
+        if (!this.sets[index].usesExertion) {
+          group.controls["rir"]?.disable();
+          group.controls["rpe"]?.disable();
+        }
+
+      });
     } else {
       this.setFormGroups.forEach(x => x.disable());
     }

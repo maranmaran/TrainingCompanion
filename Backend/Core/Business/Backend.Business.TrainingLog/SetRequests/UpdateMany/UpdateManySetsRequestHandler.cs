@@ -1,4 +1,5 @@
-﻿using Backend.Domain;
+﻿using Backend.Business.TrainingLog.Code;
+using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.User;
 using Backend.Infrastructure.Exceptions;
@@ -9,12 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.TrainingLog.Code;
 
 namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
 {
     public class UpdateManySetsRequestHandler : IRequestHandler<UpdateManySetsRequest, IEnumerable<Domain.Entities.TrainingLog.Set>>
     {
+
         private readonly IApplicationDbContext _context;
 
         public UpdateManySetsRequestHandler(IApplicationDbContext context)
@@ -59,7 +60,7 @@ namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
         {
             foreach (var set in sets)
             {
-               set.TransformSet(type, settings);
+                set.TransformSet(type, settings);
             }
         }
     }
