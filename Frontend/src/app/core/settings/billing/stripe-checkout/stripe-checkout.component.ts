@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Element as StripeElement, ElementOptions, ElementsOptions, StripeCardComponent, StripeService } from 'ngx-stripe';
+import { StripeCardComponent, StripeService } from 'ngx-stripe';
+import { StripeCardElement, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
 import { Theme } from 'src/business/shared/theme.enum';
@@ -24,7 +25,7 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy {
   countries: Country[];
   error: any;
   complete: Function;
-  element: StripeElement;
+  element: StripeCardElement;
 
   cardComponentColors: { icon: string, font: string, placeholder: string } = {
     icon: 'grey',
@@ -32,17 +33,17 @@ export class StripeCheckoutComponent implements OnInit, OnDestroy {
     placeholder: 'grey'
   };
 
-  cardOptions: ElementOptions = {
+  cardOptions: StripeCardElementOptions = {
     style: {
       base: {
         lineHeight: '40px',
-        fontWeight: 300,
+        fontWeight: '300',
         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
         fontSize: '15px',
       }
     }
   };
-  elementsOptions: ElementsOptions = {
+  elementsOptions: StripeElementsOptions = {
     locale: 'en'
   };
   checkoutForm: FormGroup;

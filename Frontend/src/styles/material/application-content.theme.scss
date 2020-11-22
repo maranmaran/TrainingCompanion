@@ -65,14 +65,14 @@
 
 // ====================== MAIN CORE THEMES ======================
 
-@import "./material/themes/theme-light.scss";
+@import "./themes/theme-light.scss";
 
 .theme-light {
   @include angular-material-theme($theme-light);
   @include custom-components-theme($theme-light);
 }
 
-@import "./material/themes/theme-dark.scss";
+@import "./themes/theme-dark.scss";
 
 .theme-dark {
   @include angular-material-theme($theme-dark);

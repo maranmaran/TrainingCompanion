@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { TrainingDetailsResolver, TrainingMediaResolver } from 'src/business/resolvers/training-details.resolver';
+import { TrainingDetailsResolver } from 'src/business/resolvers/training-details.resolver';
+import { TrainingMediaResolver } from 'src/business/resolvers/training-media.resolver';
 import { TrainingExercisesResolver } from 'src/business/resolvers/training-exercise.resolver';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
