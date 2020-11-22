@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
@@ -23,7 +23,7 @@ import { SubSink } from 'subsink';
   templateUrl: './exercise-details.component.html',
   styleUrls: ['./exercise-details.component.scss']
 })
-export class ExerciseDetailsComponent implements OnInit, OnDestroy {
+export class ExerciseDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   exercise: Exercise;
   private training: Training;
@@ -52,6 +52,15 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
           this.exercise = exercise;
         })
     );
+  }
+
+   // Like - LIFT-79 task 
+  // Workaround - https://github.com/angular/components/issues/13870
+  // tslint:disable-next-line: member-ordering
+  disableAnimation = true;
+  ngAfterViewInit(): void {
+    // timeout required to avoid the dreaded 'ExpressionChangedAfterItHasBeenCheckedError'
+    setTimeout(() => this.disableAnimation = false);
   }
 
   ngOnDestroy() {

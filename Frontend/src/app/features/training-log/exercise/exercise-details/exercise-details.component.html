@@ -29,7 +29,7 @@
       </div>
   
       <!--------- MEDIA ---------->
-      <mat-expansion-panel class="media-panel">
+      <mat-expansion-panel class="media-panel" [@.disabled]="disableAnimation">
         <mat-expansion-panel-header>
           {{'TRAINING_LOG.EXERCISE_MEDIA' | translate }}
         </mat-expansion-panel-header>

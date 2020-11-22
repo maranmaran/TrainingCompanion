@@ -1,5 +1,5 @@
 import { MediaFile } from './../../../../../server-models/entities/media-file.model';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
@@ -21,7 +21,7 @@ import { exerciseCount } from 'src/ngrx/exercise/exercise.selectors';
   templateUrl: './training-details.component.html',
   styleUrls: ['./training-details.component.scss']
 })
-export class TrainingDetailsComponent implements OnInit, OnDestroy {
+export class TrainingDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
@@ -64,6 +64,15 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
       this.onViewAsTrigger()
     );
 
+  }
+
+  // Like - LIFT-79 task 
+  // Workaround - https://github.com/angular/components/issues/13870
+  // tslint:disable-next-line: member-ordering
+  disableAnimation = true;
+  ngAfterViewInit(): void {
+    // timeout required to avoid the dreaded 'ExpressionChangedAfterItHasBeenCheckedError'
+    setTimeout(() => this.disableAnimation = false);
   }
 
   ngOnDestroy(): void {
