@@ -5,7 +5,6 @@ using Backend.Infrastructure.Exceptions;
 using Backend.Library.AmazonS3.Interfaces;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
@@ -31,23 +30,6 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Get
             try
             {
                 var training = _context.Trainings
-
-                    .Include(x => x.TrainingProgram)
-                    .Include(x => x.TrainingBlockDay)
-
-                    .Include(x => x.Media)
-
-                    .Include(x => x.Exercises)
-                    .ThenInclude(x => x.Sets)
-                    .Include(x => x.Exercises)
-                    .ThenInclude(x => x.Media)
-
-                    .Include(x => x.Exercises)
-                    .ThenInclude(x => x.ExerciseType)
-                    .ThenInclude(x => x.Properties)
-                    .ThenInclude(x => x.Tag)
-                    .ThenInclude(x => x.TagGroup)
-
                     .FirstOrDefault(x => x.Id == request.TrainingId);
 
                 if (training == null)
@@ -57,40 +39,11 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Get
                     throw ex;
                 }
 
-                // ef core can't sort include statements so we do that after fetching data
-                training.Exercises = training.Exercises.OrderBy(x => x.Order).ToArray();
-
-                await RefreshPresignedUrls(training);
-
                 return training;
             }
             catch (Exception e)
             {
                 throw new NotFoundException(nameof(Training), $"Could not find training for {request.TrainingId} Training", e);
-            }
-        }
-
-        /// <summary>
-        /// Refresh all pre-signed urls that need to be refreshed
-        /// </summary>
-        /// <param name="training"></param>
-        /// <returns></returns>
-        private async Task RefreshPresignedUrls(Training training)
-        {
-            foreach (var media in training.Media)
-            {
-                media.DownloadUrl = await _s3AccessService.RenewPresignedUrl(media.DownloadUrl, media.FtpFilePath);
-            }
-
-            foreach (var exercise in training.Exercises)
-            {
-                foreach (var media in exercise.Media)
-                {
-                    media.DownloadUrl = await _s3AccessService.RenewPresignedUrl(media.DownloadUrl, media.FtpFilePath);
-
-                    // aggregate into training media also for preview
-                    training.Media.Add(media);
-                }
             }
         }
     }

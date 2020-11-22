@@ -23,13 +23,6 @@ export class TrainingService extends CrudService<Training> {
     super(httpDI, 'Training');
   }
 
-  getDetails(trainingId: string) {
-    return this.http.get<TrainingDetailsResponse>(this.url + 'GetTrainingDetails/' + trainingId)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
   getAllByMonth(userId: string, month: number, year: number) {
     return this.http.get<Training[]>(this.url + 'GetAllByMonth/' + userId + '/' + month + '/' + year)
       .pipe(

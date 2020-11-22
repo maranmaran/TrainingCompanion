@@ -51,6 +51,15 @@ export const trainingMediaDict = createSelector(
     (state) => state.media[state.selectedTrainingId]
 );
 
+export const trainingMetrics = createSelector(
+    selectTrainingState,
+    (state) => state.metrics[state.selectedTrainingId] ?? {}
+);
+export const trainingMetricsDict = createSelector(
+    selectTrainingState,
+    (state) => state.metrics[state.selectedTrainingId]
+);
+
 export const sessionVolume = createSelector(
     selectedTraining,
     training => training?.exercises?.reduce((a, b) => a + b.sets.reduce((c, d) => c + d.volume, 0), 0)

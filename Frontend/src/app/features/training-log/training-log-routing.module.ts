@@ -17,7 +17,7 @@ const routes: Routes = [
     {
         path: '', component: TrainingLogHomeComponent, children: [
             { path: '', redirectTo: 'calendar/month' },
-            { path: 'calendar/month', resolve: { TrainingMonthResolver }, component: TrainingMonthComponent },
+            { path: 'calendar/month', component: TrainingMonthComponent },
             { path: 'calendar/week', component: NotImplementedComponent },
             { path: 'list', component: TrainingListComponent },
             { path: 'training-details', resolve: { TrainingDetailsResolver, TrainingExercisesResolver, TrainingMediaResolver, TrainingMetricsResolver }, component: TrainingDetailsComponent },

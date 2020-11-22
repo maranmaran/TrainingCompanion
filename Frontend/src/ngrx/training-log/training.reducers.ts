@@ -6,6 +6,7 @@ import { Training } from 'src/server-models/entities/training.model';
 import * as TrainingActions from './training.actions';
 import { adapterTraining, trainingInitialState, TrainingState } from './training.state';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
+import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/get-training-metrics.response';
 
 export const trainingReducer: ActionReducer<TrainingState, Action> = createReducer(
   trainingInitialState,
@@ -62,6 +63,18 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
       media: mediaDict
     };
   }),
+
+  on(TrainingActions.setTrainingMetrics, (state: TrainingState, payload: { id: string, metrics: GetTrainingMetricsResponse }) => {
+    
+    const metricsDict = { ...state.metrics };
+    metricsDict[payload.id] = payload.metrics;
+
+    return {
+      ...state,
+      metrics: metricsDict
+    };
+  }),
+
 );
 
 export const getSelectedTrainingId = (state: TrainingState) => state?.selectedTrainingId;

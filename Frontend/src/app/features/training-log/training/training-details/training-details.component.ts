@@ -8,11 +8,13 @@ import { TrainingService } from 'src/business/services/feature-services/training
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setTrainingMedia, trainingUpdated } from 'src/ngrx/training-log/training.actions';
-import { selectedTraining, trainingMedia } from 'src/ngrx/training-log/training.selectors';
+import { selectedTraining, trainingMedia, trainingMetrics } from 'src/ngrx/training-log/training.selectors';
 import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/update-training.request';
 import { Training } from 'src/server-models/entities/training.model';
 import { getMediaType } from 'src/server-models/enums/media-type.enum';
 import { SubSink } from 'subsink';
+import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/get-training-metrics.response';
+import { exerciseCount } from 'src/ngrx/exercise/exercise.selectors';
 
 @Component({
   selector: 'app-training-details',
@@ -28,9 +30,13 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
 
-  private userId: string;
+  userId: string;
+
   training: Training;
   media: MediaFile[];
+  metrics: GetTrainingMetricsResponse;
+  exerciseCount: number;
+
   private subs = new SubSink();
 
   ngOnInit() {
@@ -45,6 +51,14 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
       take(1), 
       map(media => media ?? [])
     ).subscribe(media => this.media = [...media]);
+
+    this.store.select(trainingMetrics)
+    .pipe(
+      take(1), 
+      map(metrics => metrics ?? null)
+    ).subscribe(metrics => this.metrics = metrics as GetTrainingMetricsResponse);
+
+    this.store.select(exerciseCount).pipe(take(1)).subscribe(count => this.exerciseCount = count);
 
     this.subs.add(
       this.onViewAsTrigger()

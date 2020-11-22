@@ -15,12 +15,18 @@ import { TrainingDetailsDataComponent } from './training-details/training-detail
 import { TrainingDetailsComponent } from './training-details/training-details.component';
 import { TrainingListComponent } from './training-list/training-list.component';
 import { TrainingMonthComponent } from './training-month/training-month.component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { TrainingEffects } from 'src/ngrx/training-log/training.effects';
+import { trainingReducer } from 'src/ngrx/training-log/training.reducers';
+import { TrainingMetricsResolver } from 'src/business/resolvers/training-metrics.resolver';
+import { TrainingMonthResolver } from 'src/business/resolvers/training-month.resolver';
 
 
 @NgModule({
   imports: [
       SharedModule,
-      ExerciseModule
+      ExerciseModule,
   ],
   declarations: [
       TrainingDetailsDataComponent,
@@ -41,7 +47,9 @@ import { TrainingMonthComponent } from './training-month/training-month.componen
       ReportService,
       TrainingDetailsResolver,
       TrainingExercisesResolver,
-      TrainingMediaResolver 
+      TrainingMediaResolver,
+      TrainingMetricsResolver,
+      TrainingMonthResolver 
   ],
   entryComponents: [
   ]

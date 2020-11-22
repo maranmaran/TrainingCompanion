@@ -27,7 +27,7 @@
 
         <app-training-media [media]="media" (onFileUploaded)="onFileUploaded($event)"></app-training-media>
 
-        <app-training-metrics *ngIf="training.exercises && training.exercises.length > 0" class="mt-3">
+        <app-training-metrics *ngIf="metrics && exerciseCount > 0" class="mt-3">
         </app-training-metrics>
 
       </mat-accordion>
