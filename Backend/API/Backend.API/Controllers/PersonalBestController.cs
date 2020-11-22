@@ -19,10 +19,10 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(new GetAllPersonalBestRequest(exerciseTypeId, lowerRepRage, upperRepRange), cancellationToken));
         }
 
-        [HttpGet("{exerciseTypeId}")]
-        public async Task<IActionResult> Get(Guid exerciseTypeId, CancellationToken cancellationToken = default)
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] Guid exerciseTypeId, [FromQuery] Guid exerciseId, CancellationToken cancellationToken = default)
         {
-            return Ok(await Mediator.Send(new GetPersonalBestRequest() { ExerciseTypeId = exerciseTypeId }, cancellationToken));
+            return Ok(await Mediator.Send(new GetPersonalBestRequest() { ExerciseTypeId = exerciseTypeId, ExerciseId = exerciseId }, cancellationToken));
         }
 
         [HttpPost]

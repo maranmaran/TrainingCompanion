@@ -43,11 +43,6 @@ export class TrainingMetricsResolver implements Resolve<Observable<Training> | O
                     // probably refresh
                     id = localStorage.getItem(LocalStorageKeys.trainingId);
 
-                    // either reroute back
-                    if (!id) {
-                        return of(this.router.navigate(['/app/training-log']))
-                    }
-
                     // or fetch data again
                     return this.getState(id, userId);
                 }));

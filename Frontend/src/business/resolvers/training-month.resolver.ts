@@ -11,6 +11,7 @@ import { selectedTrainingId, trainingMediaDict } from 'src/ngrx/training-log/tra
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';
 
+// TODO: Not used
 @Injectable()
 export class TrainingMonthResolver implements Resolve<Observable<Training> | Observable<unknown>> {
 
@@ -23,6 +24,7 @@ export class TrainingMonthResolver implements Resolve<Observable<Training> | Obs
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
+        throw new Error("Not Implemented.. needs state implementation");
         return combineLatest([
                 this.store.select(selectedTrainingId),
                 this.store.select(trainingMediaDict)

@@ -42,10 +42,6 @@ export class TrainingExercisesResolver implements Resolve<Observable<Training> |
 
                 id = localStorage.getItem(LocalStorageKeys.trainingId);
 
-                if (!id) {
-                    return of(this.router.navigate(['/app/training-log']))
-                }
-
                 return this.getState(id);
             }));
     }

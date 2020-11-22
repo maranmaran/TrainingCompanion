@@ -36,6 +36,10 @@ export const exercisePrs = createSelector(
     selectExerciseState,
     exerciseState => Object.values(exerciseState.exercisePrs[exerciseState.selectedExerciseId])
 )
+export const exercisePrsDict = createSelector(
+    selectExerciseState,
+    exerciseState => exerciseState.exercisePrs[exerciseState.selectedExerciseId]
+)
 
 export const selectedExerciseType = createSelector(
     selectExerciseState,
