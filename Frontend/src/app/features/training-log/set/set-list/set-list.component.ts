@@ -1,3 +1,4 @@
+
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
@@ -11,7 +12,7 @@ import { transformWeight } from 'src/business/services/shared/unit-system.servic
 import { CRUD } from 'src/business/shared/crud.enum';
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { exercisePrs, selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training.selectors';
+import { exercisePrs, selectedExercise, selectedExerciseSets } from 'src/ngrx/exercise/exercise.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
@@ -51,10 +52,10 @@ export class SetListComponent implements OnInit, OnDestroy {
 
     this.subs.add(
 
-      combineLatest(
+      combineLatest([
         this.store.select(userSetting),
         this.store.select(selectedExercise).pipe(map(exercise => exercise?.exerciseType))
-      ).subscribe(([userSetting, exerciseType]) => {
+      ]).subscribe(([userSetting, exerciseType]) => {
         this.userSettings = userSetting;
 
         if (!!exerciseType)

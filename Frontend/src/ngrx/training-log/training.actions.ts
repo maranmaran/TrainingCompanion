@@ -1,7 +1,7 @@
+import { MediaFile } from './../../server-models/entities/media-file.model';
+import { TrainingDetailsResponse } from './../../server-models/cqrs/training/training-details.response';
 import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
-import { Exercise } from 'src/server-models/entities/exercise.model';
-import { PersonalBest } from 'src/server-models/entities/personal-best.model';
 import { Training } from 'src/server-models/entities/training.model';
 
 export const trainingCreated = createAction(
@@ -33,29 +33,18 @@ export const trainingDeleted = createAction(
     '[Training] Deleted',
     props<{ id: string }>()
 );
-export const exerciseDeleted = createAction(
-    '[Training] Deleted',
-    props<{ id: string }>()
-);
 
 export const setSelectedTraining = createAction(
     '[Training] Set selected training',
-    props<{ entity: Training }>()
-);
-export const setSelectedExercise = createAction(
-    '[Training] Set selected exercise',
-    props<{ entity: Exercise }>()
+    props<{ id: string }>()
 );
 
 export const clearTrainingState = createAction(
   '[Training] Clear',
 );
-export const reorderExercises = createAction(
-  '[Training details] Reorder exercises',
-  props<{ trainingId: string, previousItem: string, currentItem: string }>()
+
+export const setTrainingMedia = createAction(
+    '[Training] Set media',
+    props<{id: string, media: MediaFile[]}>()
 );
 
-export const exercisePrsFetched = createAction(
-  '[Exercise PRs] PRs fetched',
-  props<{ prs: PersonalBest[] }>()
-);

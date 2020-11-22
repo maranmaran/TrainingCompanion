@@ -92,7 +92,7 @@ export class TrainingListComponent implements OnInit, OnDestroy {
     ]
   }
 
-  onSelect = (training: Training) => this.store.dispatch(setSelectedTraining({ entity: training }));
+  onSelect = (training: Training) => this.store.dispatch(setSelectedTraining({ id: training?.id }));
 
   onAdd() {
     this.trainingService.onAdd(TrainingCreateEditComponent, null)

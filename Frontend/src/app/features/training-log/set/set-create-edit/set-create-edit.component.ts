@@ -1,3 +1,4 @@
+import { exerciseUpdated } from './../../../../../ngrx/exercise/exercise.actions';
 import { Component, Inject, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -13,7 +14,8 @@ import { transformWeightToNumber } from 'src/business/services/shared/unit-syste
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
-import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training.selectors';
+import { selectedTraining } from 'src/ngrx/training-log/training.selectors';
+import { selectedExercise } from 'src/ngrx/exercise/exercise.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { Training } from 'src/server-models/entities/training.model';
@@ -402,18 +404,25 @@ export class SetCreateEditComponent implements OnInit {
       .subscribe(
         (response: { sets: Set[], training: Training }) => {
 
-          var index = response.training.exercises.findIndex(x => x.id == exerciseId);
-          var exercises: Exercise[] = _.cloneDeep(response.training.exercises);
-          exercises[index].sets = response.sets;
+          // var index = response.training.exercises.findIndex(x => x.id == exerciseId);
+          // var exercises: Exercise[] = _.cloneDeep(response.training.exercises);
+          // exercises[index].sets = response.sets;
+          // var updatedTraining: Update<Training> = {
+          //   id: response.training.id,
+          //   changes: {
+          //     exercises: exercises
+          //   }
+          // };
+          // this.store.dispatch(trainingUpdated({ entity: updatedTraining }));
 
-          var updatedTraining: Update<Training> = {
-            id: response.training.id,
+          var updatedExercise: Update<Exercise> = {
+            id: exerciseId,
             changes: {
-              exercises: exercises
+              sets: response.sets
             }
-          };
+          }
+          this.store.dispatch(exerciseUpdated({ trainingId: response.training.id, entity: updatedExercise }));
 
-          this.store.dispatch(trainingUpdated({ entity: updatedTraining }));
           this.onClose(response.sets);
         },
         err => console.log(err)

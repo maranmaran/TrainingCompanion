@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map, take } from 'rxjs/operators';
+import { Observable, of, combineLatest } from 'rxjs';
+import { concatMap, map, take, mergeMap } from 'rxjs/operators';
+import { MediaService } from 'src/business/services/feature-services/media.service';
+import { isEmpty } from 'src/business/utils/utils';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { exercisePrsFetched, setSelectedExercise, setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training.actions';
-import { selectedTraining, selectedTrainingId } from 'src/ngrx/training-log/training.selectors';
+import { setSelectedTraining, trainingsFetched } from 'src/ngrx/training-log/training.actions';
+import { selectedTraining, selectedTrainingId, trainingMedia, trainingMediaDict } from 'src/ngrx/training-log/training.selectors';
 import { Training } from 'src/server-models/entities/training.model';
 import { TrainingService } from '../services/feature-services/training.service';
 import { LocalStorageKeys } from '../shared/localstorage.keys.enum';
-import { PersonalBestService } from './../services/feature-services/personal-best.service';
+import { setTrainingMedia } from './../../ngrx/training-log/training.actions';
+import { MediaFile } from './../../server-models/entities/media-file.model';
 
+// Handle fetching training if we do refresh
 @Injectable()
 export class TrainingDetailsResolver implements Resolve<Observable<Training> | Observable<unknown>> {
 
@@ -18,7 +22,6 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training> | O
         private trainingService: TrainingService,
         private store: Store<AppState>,
         private router: Router,
-        private prService: PersonalBestService
     ) { }
 
 
@@ -28,18 +31,18 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training> | O
             .pipe(
                 take(1),
                 concatMap((id: string) => {
-                    if (!id) {
-                        id = localStorage.getItem(LocalStorageKeys.trainingId);
 
-                        if (!id) {
-                            this.router.navigate(['/app/training-log'])
-                            return of();
-                        }
-
-                        return this.getState(id);
+                    if (id) {
+                        return this.store.select(selectedTraining).pipe(take(1));
                     }
 
-                    return this.store.select(selectedTraining).pipe(take(1));
+                    id = localStorage.getItem(LocalStorageKeys.trainingId);
+
+                    if (!id) {
+                        return of(this.router.navigate(['/app/training-log']))
+                    }
+
+                    return this.getState(id);
                 }));
     }
 
@@ -50,19 +53,61 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training> | O
                 take(1),
                 map(((training: Training) => {
                     this.store.dispatch(trainingsFetched({ entities: [training] }));
-                    this.store.dispatch(setSelectedTraining({ entity: training }));
+                    this.store.dispatch(setSelectedTraining({ id }));
+                    return training;
+                }))
+            );
+    }
+}
 
-                    let exerciseId = localStorage.getItem(LocalStorageKeys.exerciseId);
-                    if (exerciseId) {
-                        let exercise = training.exercises.filter(x => x.id == exerciseId)[0];
-                        this.store.dispatch(setSelectedExercise({ entity: exercise }));
+@Injectable()
+export class TrainingMediaResolver implements Resolve<Observable<Training> | Observable<unknown>> {
 
-                        this.prService.get(exercise.exerciseType.id)
-                        .pipe(take(1), catchError(_ => []))
-                        .subscribe(prs => this.store.dispatch(exercisePrsFetched({prs})))
+    constructor(
+        private mediaService: MediaService,
+        private store: Store<AppState>,
+        private router: Router,
+    ) { }
+
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+
+        return combineLatest([
+                this.store.select(selectedTrainingId),
+                this.store.select(trainingMediaDict)
+            ])
+            .pipe(
+                take(1),
+                concatMap(([id, data]) => {
+
+                    // Training selected
+                    if (id) {
+
+                        // if data exists.. return it otherwise fetch new
+                        return data ? of(data) : this.getState(id as string);
                     }
 
-                    return training;
+                    // probably refresh
+                    id = localStorage.getItem(LocalStorageKeys.trainingId);
+
+                    // either reroute back
+                    if (!id) {
+                        return of(this.router.navigate(['/app/training-log']))
+                    }
+
+                    // or fetch data again
+                    return this.getState(id);
+                }));
+    }
+
+    private getState(id: string) {
+
+        return this.mediaService.getTrainingMedia(id as string)
+            .pipe(
+                take(1),
+                map(((media: MediaFile[]) => {
+                    this.store.dispatch(setTrainingMedia({ id, media }));
+                    return media;
                 }))
             );
     }

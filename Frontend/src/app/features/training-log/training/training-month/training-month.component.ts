@@ -125,7 +125,7 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
 
   onOpenEvent(trainingEvent: CalendarEvent) {
     const training = trainingEvent.event;
-    this.store.dispatch(setSelectedTraining({ entity: training }));
+    this.store.dispatch(setSelectedTraining({ id: training?.id }));
   }
 
 }

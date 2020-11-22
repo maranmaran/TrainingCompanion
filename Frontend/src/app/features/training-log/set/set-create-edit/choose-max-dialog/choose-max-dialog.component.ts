@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { PersonalBestService } from 'src/business/services/feature-services/personal-best.service';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedExerciseType } from 'src/ngrx/training-log/training.selectors';
+import { selectedExerciseType } from 'src/ngrx/exercise/exercise.selectors';
 import { CreatePersonalBestRequest } from 'src/server-models/cqrs/personal-best/create-personal-best.request';
 import { Bodyweight } from 'src/server-models/entities/bodyweight.model';
 import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';

@@ -1,3 +1,4 @@
+import { TrainingDetailsResponse } from './../../../server-models/cqrs/training/training-details.response';
 import { ComponentType } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
@@ -20,6 +21,13 @@ export class TrainingService extends CrudService<Training> {
     private translateService: TranslateService
   ) {
     super(httpDI, 'Training');
+  }
+
+  getDetails(trainingId: string) {
+    return this.http.get<TrainingDetailsResponse>(this.url + 'GetTrainingDetails/' + trainingId)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   getAllByMonth(userId: string, month: number, year: number) {

@@ -47,7 +47,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
   }
 
   onTrainingClick() {
-    this.store.dispatch(setSelectedTraining({ entity: Object.assign({}, this.training) }));
+    this.store.dispatch(setSelectedTraining({ id: this.training?.id }));
   }
 
   onCopyClick() {

@@ -17,17 +17,20 @@
       <div fxLayout="row" fxLayoutGap="1rem">
 
         <mat-form-field fxFlex="calc(50% - 1rem)">
+          <mat-label>{{'PERSONAL_BEST.WEIGHT' | translate}}</mat-label>
           <input matInput type="number" min="0" formControlName="value" placeholder="{{'PERSONAL_BEST.WEIGHT' | translate}}">
           <span matSuffix>{{ data.unitSystem | showUnitSystemLabel }}</span>
         </mat-form-field>
 
         <mat-form-field fxFlex="calc(50% - 1rem)">
+          <mat-label>{{'PERSONAL_BEST.REPS' | translate}}</mat-label>
           <input matInput type="number" min="0" formControlName="reps" placeholder="{{'PERSONAL_BEST.REPS' | translate}}">
         </mat-form-field>
 
       </div>
 
       <mat-form-field>
+        <mat-label>{{'PERSONAL_BEST.BODYWEIGHT' | translate}}</mat-label>
         <input matInput type="number" min="0" formControlName="bodyweight" placeholder="{{'PERSONAL_BEST.BODYWEIGHT' | translate}}">
         <span matSuffix>{{ data.unitSystem | showUnitSystemLabel }}</span>
       </mat-form-field>

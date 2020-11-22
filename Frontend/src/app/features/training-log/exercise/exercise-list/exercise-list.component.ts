@@ -1,3 +1,4 @@
+import { exerciseCount, exercises } from './../../../../../ngrx/exercise/exercise.selectors';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
@@ -18,11 +19,12 @@ import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { reorderExercises, setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training.actions';
+import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
+import { reorderExercises, setSelectedExercise } from 'src/ngrx/exercise/exercise.actions';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
-import { selectedTraining, selectedTrainingExercises, selectedTrainingId } from '../../../../../ngrx/training-log/training.selectors';
+import { selectedTraining, selectedTrainingId } from '../../../../../ngrx/training-log/training.selectors';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 import { unitSystem } from './../../../../../ngrx/auth/auth.selectors';
 import { UnitSystem } from './../../../../../server-models/enums/unit-system.enum';
@@ -62,7 +64,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     this.store.select(unitSystem).pipe(take(1)).subscribe(system => this.unitSystem = system);
 
     this.subs.add(
-      this.store.select(selectedTrainingExercises)
+      this.store.select(exercises)
         .pipe(map(exercises => exercises || []))
         .subscribe((exercises: Exercise[]) => {
           this.tableDatasource.updateDatasource([...exercises]);
@@ -84,9 +86,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       }),
     });
 
-    this.store.select(selectedTrainingExercises)
-      .pipe(take(1), map(x => x?.length))
-      .subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)
+    this.store.select(exerciseCount).pipe(take(1))
+    .subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)
 
     return tableConfig;
   }
@@ -135,6 +136,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   reduceProjectedMax = (prev, cur) => cur >= prev ? cur : prev;
 
   onReorder(payload: { previous: Exercise, current: Exercise }) {
+
     this.store.select(selectedTrainingId)
       .pipe(
         tap((trainingId: string) => {

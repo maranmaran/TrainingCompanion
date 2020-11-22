@@ -1,11 +1,12 @@
+import { selectedTrainingId } from './../../ngrx/training-log/training.selectors';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap, concatMap } from 'rxjs/operators';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { exercisePrsFetched } from 'src/ngrx/training-log/training.actions';
-import { selectedExercise } from 'src/ngrx/training-log/training.selectors';
+import { exercisePrsFetched } from 'src/ngrx/exercise/exercise.actions';
+import { selectedExercise } from 'src/ngrx/exercise/exercise.selectors';
 import { PersonalBest } from './../../server-models/entities/personal-best.model';
 import { PersonalBestService } from './../services/feature-services/personal-best.service';
 
@@ -22,11 +23,10 @@ export class ExercisePersonalBestResolver implements Resolve<Observable<Personal
     return this.store.select(selectedExercise)
       .pipe(
         filter(exercise => !!exercise),
-        map(exercise => exercise.exerciseType?.id),
-        switchMap(id => this.prService.get(id)),
+        switchMap(exercise => this.prService.get(exercise.exerciseType?.id).pipe(map(prs => [exercise.id, prs]))),
         catchError(_ => []),
         take(1),
-        tap(prs => this.store.dispatch(exercisePrsFetched({ prs })))
+        tap(([id, prs]) => this.store.dispatch(exercisePrsFetched({ exerciseId: id, prs })))
       )
   }
 }

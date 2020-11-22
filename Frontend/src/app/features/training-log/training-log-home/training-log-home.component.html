@@ -7,17 +7,17 @@
   [selectedIndex]="selectedTab1" dynamicHeight="false" [color]="'accent'">
   <mat-tab>
     <ng-template mat-tab-label>
-      <i class="fas fa-arrow-circle-left"></i>
+      <i class="fas fa-arrow-circle-left pointer"></i>
     </ng-template>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-      <label> {{'TRAINING_LOG.TRAINING_LABEL' | translate}} </label>
+      <label class="pointer"> {{'TRAINING_LOG.TRAINING_LABEL' | translate}} </label>
     </ng-template>
   </mat-tab>
   <mat-tab [disabled]="!selectedExercise ? true : false">
     <ng-template mat-tab-label>
-      <label> {{'TRAINING_LOG.EXERCISE_LABEL' | translate}} </label>
+      <label class="pointer"> {{'TRAINING_LOG.EXERCISE_LABEL' | translate}} </label>
     </ng-template>
   </mat-tab>
 </mat-tab-group>
@@ -28,17 +28,17 @@
   [selectedIndex]="selectedTab2" dynamicHeight="false" [color]="'accent'">
   <mat-tab>
     <ng-template mat-tab-label>
-      <label> {{'TRAINING_LOG.CALENDAR_LABEL' | translate}} </label>
+      <label class="pointer"> {{'TRAINING_LOG.CALENDAR_LABEL' | translate}} </label>
     </ng-template>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-      <label> {{'TRAINING_LOG.WEEK_LABEL' | translate}} </label>
+      <label class="pointer"> {{'TRAINING_LOG.WEEK_LABEL' | translate}} </label>
     </ng-template>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-      <label> {{'TRAINING_LOG.LIST_LABEL' | translate}} </label>
+      <label class="pointer"> {{'TRAINING_LOG.LIST_LABEL' | translate}} </label>
     </ng-template>
   </mat-tab>
 </mat-tab-group>

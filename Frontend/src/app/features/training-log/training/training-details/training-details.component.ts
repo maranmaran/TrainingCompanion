@@ -1,15 +1,15 @@
+import { MediaFile } from './../../../../../server-models/entities/media-file.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { take, tap } from 'rxjs/operators';
+import { take, tap, map } from 'rxjs/operators';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
-import { selectedTraining } from 'src/ngrx/training-log/training.selectors';
+import { setTrainingMedia, trainingUpdated } from 'src/ngrx/training-log/training.actions';
+import { selectedTraining, trainingMedia } from 'src/ngrx/training-log/training.selectors';
 import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/update-training.request';
-import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { getMediaType } from 'src/server-models/enums/media-type.enum';
 import { SubSink } from 'subsink';
@@ -30,11 +30,21 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
 
   private userId: string;
   training: Training;
+  media: MediaFile[];
   private subs = new SubSink();
 
   ngOnInit() {
 
-    this.store.select(currentUserId).pipe(take(1)).subscribe(userId => this.userId = userId);
+    this.store.select(currentUserId)
+    .pipe(
+      take(1)
+    ).subscribe(userId => this.userId = userId);
+    
+    this.store.select(trainingMedia)
+    .pipe(
+      take(1), 
+      map(media => media ?? [])
+    ).subscribe(media => this.media = [...media]);
 
     this.subs.add(
       this.onViewAsTrigger()
@@ -88,14 +98,9 @@ export class TrainingDetailsComponent implements OnInit, OnDestroy {
       .subscribe(
         (media: MediaFile) => {
 
-          const trainingUpdate: Update<Training> = {
-            id: this.training.id,
-            changes: {
-              media: [...this.training.media, media]
-            }
-          };
+          this.media = [...this.media, media];
 
-          this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
+          this.store.dispatch(setTrainingMedia({ id: this.training.id, media: this.media }));
         },
         err => console.log(err)
       );

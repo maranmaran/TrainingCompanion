@@ -1,3 +1,4 @@
+import { exerciseCreated } from './../../../../../ngrx/exercise/exercise.actions';
 import { CreateExerciseTypeRequest } from './../../../../../server-models/cqrs/exercise-type/create-exercise-type.request';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -233,15 +234,17 @@ export class ExerciseCreateEditComponent implements OnInit {
         (response: { training: Training, exercise: Exercise }) => {
 
           // create upsert command
-          const trainingUpdate: Update<Training> = {
-            id: response.training.id,
-            changes: {
-              exercises: [...response.training.exercises, response.exercise]
-            }
-          };
+          // const trainingUpdate: Update<Training> = {
+          //   id: response.training.id,
+          //   changes: {
+          //     exercises: [...response.training.exercises, response.exercise]
+          //   }
+          // };
+          // this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
 
           // update and close
-          this.store.dispatch(trainingUpdated({ entity: trainingUpdate }));
+          this.store.dispatch(exerciseCreated({ trainingId: response.training.id, entity: response.exercise }));
+
           this.onClose(response.exercise);
         },
         err => console.log(err)

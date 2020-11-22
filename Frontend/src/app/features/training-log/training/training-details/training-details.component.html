@@ -25,7 +25,7 @@
         <app-training-note [note]="training.note" [coachNote]="training.coachNote" [noteRead]="training.noteRead"
           (saveNoteEvent)="saveNote($event)"></app-training-note>
 
-        <app-training-media [media]="training.media" (onFileUploaded)="onFileUploaded($event)"></app-training-media>
+        <app-training-media [media]="media" (onFileUploaded)="onFileUploaded($event)"></app-training-media>
 
         <app-training-metrics *ngIf="training.exercises && training.exercises.length > 0" class="mt-3">
         </app-training-metrics>

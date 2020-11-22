@@ -1,3 +1,5 @@
+import { exerciseReducer } from './../../../ngrx/exercise/exercise.reducers';
+import { ExerciseEffects } from './../../../ngrx/exercise/exercise.effects';
 import { MediaService } from './../../../business/services/feature-services/media.service';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
@@ -17,6 +19,8 @@ import { TrainingModule } from './training/training.module';
         TrainingLogRoutingModule,
         StoreModule.forFeature('training', trainingReducer),
         EffectsModule.forFeature([TrainingEffects]),
+        StoreModule.forFeature('exercise', exerciseReducer),
+        EffectsModule.forFeature([ExerciseEffects]),
         TrainingModule,
         ExerciseModule,
         SetModule,

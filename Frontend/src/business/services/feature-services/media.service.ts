@@ -25,6 +25,11 @@ export class MediaService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
+  public getTrainingMedia(trainingId: string) {
+    return this.http.get<MediaFile[]>(this.url + 'GetTrainingMedia/' + trainingId)
+      .pipe(catchError(this.handleError));
+  }
+
   public uploadMedia(userId: string, file: File, extension: string, type: MediaType) {
 
     const formData: FormData = new FormData();

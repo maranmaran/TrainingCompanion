@@ -131,7 +131,7 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.setViewAs),
-        tap(_ => this.store.dispatch(setSelectedTraining({ entity: null })))
+        tap(_ => this.store.dispatch(setSelectedTraining({ id: null })))
       ),
     { dispatch: false }
   );
