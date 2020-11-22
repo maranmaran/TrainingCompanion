@@ -34,7 +34,7 @@ export class ChooseMaxDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(userSetting).pipe(take(1)).subscribe(setting => this._settings = setting);
-    this.store.select(selectedExerciseType).pipe(take(1)).subscribe(type => this._exerciseTypeId = type.id);
+    this.store.select(selectedExerciseType).pipe(take(1)).subscribe(type => this._exerciseTypeId = type?.id);
     this.store.select(latestBodyweight).pipe(take(1)).subscribe(bw => this.latestBodyweight = bw);
 
     let max = 0;

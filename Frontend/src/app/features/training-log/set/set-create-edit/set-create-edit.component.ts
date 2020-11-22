@@ -1,31 +1,30 @@
-import { exerciseUpdated } from './../../../../../ngrx/exercise/exercise.actions';
-import { Component, Inject, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
-import * as _ from 'lodash-es';
 import { noop, of } from 'rxjs';
-import { switchMap, take, tap, map } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { SetService } from 'src/business/services/feature-services/set.service';
 import { transformWeightToNumber } from 'src/business/services/shared/unit-system.service';
+import { getUniqueArr, isEmpty } from 'src/business/utils/utils';
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
-import { selectedTraining } from 'src/ngrx/training-log/training.selectors';
 import { selectedExercise } from 'src/ngrx/exercise/exercise.selectors';
+import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { selectedTraining } from 'src/ngrx/training-log/training.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
-import { Set } from 'src/server-models/entities/set.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
 import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
 import { UIService } from './../../../../../business/services/shared/ui.service';
+import { exerciseUpdated } from './../../../../../ngrx/exercise/exercise.actions';
 import { UpdateManySetsRequest } from './../../../../../server-models/cqrs/set/update-many-sets.request';
 import { Exercise } from './../../../../../server-models/entities/exercise.model';
 import { PersonalBest } from './../../../../../server-models/entities/personal-best.model';
+import { Set } from './../../../../../server-models/entities/set.model';
 import { UnitSystemUnitOfMeasurement } from './../../../../../server-models/enums/unit-system.enum';
 import { ChooseMaxDialogComponent } from './choose-max-dialog/choose-max-dialog.component';
 
@@ -84,7 +83,7 @@ export class SetCreateEditComponent implements OnInit {
     if (!this.settings.useRpeSystem)
       return false;
 
-    if (!this.sets[index].usesExertion)
+    if (!isEmpty(this.sets) && !this.sets[index].usesExertion)
       return false
 
     return this.setFormGroups[index].controls['rpe'] || this.setFormGroups[index].controls['rir']
@@ -94,7 +93,7 @@ export class SetCreateEditComponent implements OnInit {
     if (!this.settings.usePercentages)
       return false;
 
-    if (!this.sets[index].usesPercentage)
+    if (!isEmpty(this.sets) && !this.sets[index].usesPercentage)
       return false;
 
     return this.setFormGroups[index].controls['percentage']
@@ -189,9 +188,14 @@ export class SetCreateEditComponent implements OnInit {
     let userPR = this.data.prs[0];
     let systemPR = this.data.prs[1];
 
-    if (!userPR) {
+    let maxArr = getUniqueArr(this.sets.filter(x => x.maxUsedForPercentage && x.maxUsedForPercentage != 0).map(x => x.maxUsedForPercentage));
+    let usedMax = maxArr ? maxArr[0] as number : null;
+
+    if (!userPR && !usedMax) {
       return this.onSetMaxDialog(systemPR);
-    } else {
+    } else if(usedMax) {
+      return of(this.setUserMaxControl(usedMax));
+    } else if (userPR) {
       return of(this.setUserMaxControl(userPR.value));
     }
   }
@@ -470,7 +474,7 @@ export class SetCreateEditComponent implements OnInit {
       this.setFormGroups.forEach((group, index) => {
         group.enable();
 
-        if (!this.sets[index].usesExertion) {
+        if (!isEmpty(this.sets) && !this.sets[index].usesExertion) {
           group.controls["rir"]?.disable();
           group.controls["rpe"]?.disable();
         }

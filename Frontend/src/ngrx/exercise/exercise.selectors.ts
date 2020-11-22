@@ -42,7 +42,7 @@ export const selectedExerciseType = createSelector(
     exercisesDict,
     (exerciseState, exercises) => {
 
-        if(!exercises) return exercises;
+        if(!exercises) return null;
 
         let exercise = exercises[exerciseState.selectedExerciseId];
         

@@ -5,7 +5,7 @@
 
     <div class="actions" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
 
-      <div class="used-max" *ngIf="exerciseType.requiresWeight && userMaxControl" matTooltip="Click to change used max">
+      <div class="used-max" *ngIf="settings.usePercentages && exerciseType.requiresWeight && userMaxControl && checkForPercentageControls()" matTooltip="Click to change used max">
 
         <mat-form-field appearance="outline">
           <mat-label>Used max</mat-label>

@@ -7,6 +7,10 @@ export function flatten(array) {
   }, []);
 }
 
+export function getUniqueArr(arr) {
+  return Array.from(new Set(arr));
+}
+
 export function sortArrayByOrderProperty(a, b) {
 
   if (a.order > b.order) {
