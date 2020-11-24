@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TrainingDetailsResolver } from 'src/business/resolvers/training-details.resolver';
-import { TrainingMediaResolver } from 'src/business/resolvers/training-media.resolver';
 import { TrainingExercisesResolver } from 'src/business/resolvers/training-exercise.resolver';
+import { TrainingMediaResolver } from 'src/business/resolvers/training-media.resolver';
+import { TrainingMetricsResolver } from 'src/business/resolvers/training-metrics.resolver';
+import { TrainingMonthResolver } from 'src/business/resolvers/training-month.resolver';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -15,12 +17,6 @@ import { TrainingDetailsDataComponent } from './training-details/training-detail
 import { TrainingDetailsComponent } from './training-details/training-details.component';
 import { TrainingListComponent } from './training-list/training-list.component';
 import { TrainingMonthComponent } from './training-month/training-month.component';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { TrainingEffects } from 'src/ngrx/training-log/training.effects';
-import { trainingReducer } from 'src/ngrx/training-log/training.reducers';
-import { TrainingMetricsResolver } from 'src/business/resolvers/training-metrics.resolver';
-import { TrainingMonthResolver } from 'src/business/resolvers/training-month.resolver';
 
 
 @NgModule({
@@ -49,7 +45,7 @@ import { TrainingMonthResolver } from 'src/business/resolvers/training-month.res
       TrainingExercisesResolver,
       TrainingMediaResolver,
       TrainingMetricsResolver,
-      TrainingMonthResolver 
+      TrainingMonthResolver,
   ],
   entryComponents: [
   ]

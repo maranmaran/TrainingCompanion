@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { selectTrainingState } from 'src/ngrx/training-log/training.selectors';
+import { Exercise } from 'src/server-models/entities/exercise.model';
 import { ExerciseState } from './exercise.state';
 
 export const selectExerciseState = createFeatureSelector<ExerciseState>("exercise");
@@ -9,6 +10,11 @@ export const exercises = createSelector(
     selectTrainingState,
     (exerciseState, trainingState) => Object.values(exerciseState.exercises[trainingState.selectedTrainingId] ?? {}) 
 );
+
+export const exercisesForTraining = createSelector(
+    selectExerciseState,
+    (exerciseState, trainingId) => exerciseState.exercises[trainingId] ? Object.values(exerciseState.exercises[trainingId]) as Exercise[] : null
+  );
 
 export const exercisesDict = createSelector(
     selectExerciseState,

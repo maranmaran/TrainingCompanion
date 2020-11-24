@@ -1,6 +1,6 @@
 import { MatDialog } from '@angular/material/dialog';
 import { TrainingCreateEditComponent } from 'src/app/features/training-log/training/training-create-edit/training-create-edit.component';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,13 +17,16 @@ import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { noop } from '@angular/compiler/src/render3/view/util';
+import { exercisesForTraining } from 'src/ngrx/exercise/exercise.selectors';
+import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
+import { exerciseFetched } from 'src/ngrx/exercise/exercise.actions';
 
 @Component({
   selector: 'app-training-month-view-day',
   templateUrl: './training-month-view-day.component.html',
   styleUrls: ['./training-month-view-day.component.scss']
 })
-export class TrainingMonthViewDayComponent implements OnInit {
+export class TrainingMonthViewDayComponent implements OnInit, OnDestroy {
 
   @Input() training: Training;
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete training', confirmLabel: 'Delete' });
@@ -33,17 +36,34 @@ export class TrainingMonthViewDayComponent implements OnInit {
 
   showPreview = false;
 
+  exercises: Exercise[];
+  exercisesEmpty = false;
+
   constructor(
     private store: Store<AppState>,
     private trainingService: TrainingService,
     private uiService: UIService,
     private translateService: TranslateService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private exerciseService: ExerciseService
   ) {
   }
 
   ngOnInit() {
     this.store.select(isMobile).pipe(take(1)).subscribe((isMobile: boolean) => this.isMobile = isMobile);
+
+    this.store.select(exercisesForTraining, this.training.id)
+    .pipe(take(1))
+    .subscribe(exercises => {
+      this.exercises = exercises
+      if(this.exercises != null && this.exercises.length == 0) 
+        this.exercisesEmpty = true; 
+    });
+  }
+
+  ngOnDestroy() {
+    if(this.training.id == "913b5d7a-c62f-4677-c5e0-08d88986962b")
+      console.log("Destroy " + this.training.id);
   }
 
   onTrainingClick() {
@@ -52,6 +72,22 @@ export class TrainingMonthViewDayComponent implements OnInit {
 
   onCopyClick() {
     // open copy dialog...
+  }
+
+  fetchExercises() {
+    if(this.exercises != null) {
+      return;
+    }
+
+    this.exerciseService.getAll(this.training.id)
+    .pipe(take(1))
+    .subscribe(exercises => {
+      this.exercises = exercises as Exercise[];
+      this.store.dispatch(exerciseFetched({ trainingId: this.training.id, entities: this.exercises }));
+
+      if(this.exercises && this.exercises.length == 0)
+        this.exercisesEmpty = true;
+    });
   }
 
   onDelete() {
@@ -71,7 +107,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
       )
   }
 
-  filterBy(data: Exercise[], prop: string) {
+  sortBy(data: Exercise[], prop: string) {
     return sortBy(data, [prop]);
   }
 
