@@ -130,12 +130,11 @@
 
                         <div class="set-attributes pl-4" *ngIf="setAttributes" fxLayout="row" fxLayoutGap="1rem"
                             fxLayoutAlign="start center">
-                            <mat-slide-toggle color="accent" class="slide-toggle-smaller"
-                                [checked]="settings.useRpeSystem" (change)="onSetRpeControl($event, i)">
+                            <mat-slide-toggle *ngIf="settings.useRpeSystem" color="accent" class="slide-toggle-smaller" [checked]="isRpeControlChecked(i)"
+                            (change)="onSetRpeControl($event, i)">
                                 {{ (settings.rpeSystem == 'Rpe' ? 'TRAINING_LOG.SET_RPE' : 'TRAINING_LOG.SET_RIR') | translate}}
                             </mat-slide-toggle>
-                            <mat-slide-toggle color="accent" class="slide-toggle-smaller"
-                                [checked]="settings.usePercentages" (change)="onUsePercentage($event, i)">
+                            <mat-slide-toggle *ngIf="settings.usePercentages" color="accent" class="slide-toggle-smaller" [checked]="isPercentageControlChecked(i)" (change)="onUsePercentage($event, i)">
                                 {{'TRAINING_LOG.SET_PERCENTAGE' | translate}}
                             </mat-slide-toggle>
                         </div>

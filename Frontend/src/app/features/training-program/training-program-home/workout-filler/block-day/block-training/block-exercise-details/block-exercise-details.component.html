@@ -21,7 +21,7 @@
         <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
         <mat-cell *matCellDef="let element"> 
             
-            <ng-container *ngIf="element.percentage; else weightTemplate">
+            <ng-container *ngIf="element.usesPercentage; else weightTemplate">
                 {{ element.percentage + '%' }}
             </ng-container>
             
@@ -33,10 +33,10 @@
     </ng-container>
 
     <!-- Weight column -->
-    <ng-container matColumnDef="percentage" >
+    <!-- <ng-container matColumnDef="percentage" >
         <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.percentage + '%' }} </mat-cell>
-    </ng-container>
+    </ng-container> -->
 
     <!-- Reps column -->
     <ng-container matColumnDef="reps">
@@ -53,7 +53,14 @@
     <!-- RPE Column -->
     <ng-container matColumnDef="rpe">
         <mat-header-cell *matHeaderCellDef> {{ rpeLabel | translate }} </mat-header-cell>
-        <mat-cell *matCellDef="let element;"> {{ element.rpe | transformRpe: settings.rpeSystem }} </mat-cell>
+        <mat-cell *matCellDef="let element;"> 
+            <ng-container *ngIf="element.usesExertion; else unusedRpe">
+                {{ element.rpe | transformRpe: settings.rpeSystem }}
+            </ng-container>
+            <ng-template #unusedRpe>
+                {{ 'Not used' }}
+            </ng-template>
+        </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="actions">

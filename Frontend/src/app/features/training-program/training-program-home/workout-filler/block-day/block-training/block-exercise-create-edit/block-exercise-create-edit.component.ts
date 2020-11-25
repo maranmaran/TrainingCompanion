@@ -1,4 +1,3 @@
-import { UIService } from './../../../../../../../../business/services/shared/ui.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -11,13 +10,12 @@ import * as _ from 'lodash-es';
 import { Observable } from 'rxjs';
 import { debounceTime, distinct, filter, finalize, skip, switchMap, take, tap } from 'rxjs/operators';
 import { ExerciseCreateEditComponent } from 'src/app/features/training-log/exercise/exercise-create-edit/exercise-create-edit.component';
-import { ChooseMaxDialogComponent } from 'src/app/features/training-log/set/set-create-edit/choose-max-dialog/choose-max-dialog.component';
 import { PagingModel } from 'src/app/shared/material-table/table-models/paging.model';
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
-import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { transformWeightToNumber } from 'src/business/services/shared/unit-system.service';
 import { CRUD } from 'src/business/shared/crud.enum';
+import { isEmpty } from 'src/business/utils/utils';
 import { currentUser, userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { CreateExerciseTypeRequest } from 'src/server-models/cqrs/exercise-type/create-exercise-type.request';
@@ -30,6 +28,7 @@ import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { UnitSystem, UnitSystemUnitOfMeasurement } from 'src/server-models/enums/unit-system.enum';
 import { PagedList } from 'src/server-models/shared/paged-list.model';
 import { SubSink } from 'subsink';
+import { UIService } from './../../../../../../../../business/services/shared/ui.service';
 
 //TODO: This will be duplicated template code from
 // exercise-create-edit
@@ -59,7 +58,7 @@ export class BlockExerciseCreateEditComponent implements OnInit {
       exercise: Exercise,
       exerciseTypes: PagedList<ExerciseType>,
       pagingModel: PagingModel,
-      prs: PersonalBest[] 
+      prs: PersonalBest[]
     }) { }
 
 
@@ -119,13 +118,13 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   get requiresRepsCheckbox(): AbstractControl { return this.exerciseForm.get("requiresReps"); }
   get requiresSetsCheckbox(): AbstractControl { return this.exerciseForm.get("requiresSets"); }
   get requiresTimeCheckbox(): AbstractControl { return this.exerciseForm.get("requiresTime"); }
-  
-  get requiresWeight():boolean { return !this.quickAddMode && this.exerciseType.requiresWeight || this.quickAddMode && this.requiresWeightCheckbox.value }
-  get requiresBodyweight():boolean { return !this.quickAddMode && this.exerciseType.requiresBodyweight || this.quickAddMode && this.requiresBodyweightCheckbox.value }
-  get requiresReps():boolean { return !this.quickAddMode && this.exerciseType.requiresReps || this.quickAddMode && this.requiresRepsCheckbox.value }
-  get requiresSets():boolean { return !this.quickAddMode && this.exerciseType.requiresSets || this.quickAddMode && this.requiresSetsCheckbox.value }
-  get requiresTime():boolean { return !this.quickAddMode && this.exerciseType.requiresTime || this.quickAddMode && this.requiresTimeCheckbox.value }
-  
+
+  get requiresWeight(): boolean { return !this.quickAddMode && this.exerciseType.requiresWeight || this.quickAddMode && this.requiresWeightCheckbox.value }
+  get requiresBodyweight(): boolean { return !this.quickAddMode && this.exerciseType.requiresBodyweight || this.quickAddMode && this.requiresBodyweightCheckbox.value }
+  get requiresReps(): boolean { return !this.quickAddMode && this.exerciseType.requiresReps || this.quickAddMode && this.requiresRepsCheckbox.value }
+  get requiresSets(): boolean { return !this.quickAddMode && this.exerciseType.requiresSets || this.quickAddMode && this.requiresSetsCheckbox.value }
+  get requiresTime(): boolean { return !this.quickAddMode && this.exerciseType.requiresTime || this.quickAddMode && this.requiresTimeCheckbox.value }
+
   get unitSystemUnitofMeasurement() {
     if (this.settings.unitSystem == UnitSystem.Metric)
       return UnitSystemUnitOfMeasurement.Metric;
@@ -144,10 +143,10 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     this.createSetForms();
   }
   onQuickModeDisabled() {
-    if(!this.exerciseType) {
+    if (!this.exerciseType) {
       this.setFormGroups = [];
       this.sets = []
-    } else{
+    } else {
       this.createSetForms();
     }
   }
@@ -213,6 +212,27 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   //#endregion
 
   //#region Sets form
+
+  isRpeControlChecked(index) {
+    if (!this.settings.useRpeSystem)
+      return false;
+
+    if (!isEmpty(this.sets) && !this.sets[index].usesExertion)
+      return false
+
+    return this.setFormGroups[index].controls['rpe'] || this.setFormGroups[index].controls['rir']
+  }
+
+  isPercentageControlChecked(index) {
+    if (!this.settings.usePercentages)
+      return false;
+
+    if (!isEmpty(this.sets) && !this.sets[index].usesPercentage)
+      return false;
+
+    return this.setFormGroups[index].controls['percentage']
+  }
+
   createSetForms() {
     this.setFormGroups = [];
     this.sets = [this.getNewSet()]
@@ -226,8 +246,21 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   getNewSet() {
     let set = new Set();
     set.exerciseId = this.exerciseId;
+    set.usesPercentage = this.settings.usePercentages;
+    set.usesExertion = this.settings.useRpeSystem;
 
     return set;
+  }
+
+  weightUpperLimit(requiresBodyweight: boolean = false) {
+
+    let upperLimit = !requiresBodyweight ? 600 : 300; // kgs in weights vs kgs in bodyweight
+    
+    if (this.settings.unitSystem == UnitSystem.Imperial) {
+      upperLimit *= 2; // lbs
+    }
+
+    return upperLimit;
   }
 
   getControls(set: Set): { [key: string]: AbstractControl } {
@@ -235,35 +268,40 @@ export class BlockExerciseCreateEditComponent implements OnInit {
 
     controls["id"] = new FormControl(set.id);
 
-    // todo.. add weight attribute to application user
-    if (this.requiresBodyweight)
-      controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(200)]);
-
-    if (this.requiresReps)
+    if (this.exerciseType.requiresReps)
       controls["reps"] = new FormControl(set.reps, [Validators.required, Validators.min(0), Validators.max(100)]);
 
-    if (this.requiresTime)
+    if (this.exerciseType.requiresTime)
       controls["time"] = new FormControl(set.time, [Validators.required]);
 
-    if (this.requiresWeight) {
-      let upperLimit = 600;
-
-      if (this.settings.unitSystem == UnitSystem.Imperial) {
-        upperLimit = 1200;
+    // todo.. add weight attribute to application user
+    if (this.exerciseType.requiresBodyweight || this.exerciseType.requiresWeight) {
+      
+      if (this.settings.usePercentages && set.usesPercentage) {
+        // todo calculate percentage from 1 rep max and weight
+        controls["percentage"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(100)]);
+      } else {
+        controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit(this.exerciseType.requiresBodyweight))]);
       }
-
-      controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(upperLimit)]);
+      
     }
 
     if (this.settings.useRpeSystem) {
+
       if (this.settings.rpeSystem == RpeSystem.Rir) {
         let val = set.rir ? set.rir : 10 - set.rpe;
         controls["rir"] = new FormControl(val.toString(), [Validators.required, Validators.min(0), Validators.max(10)]);
+
+        if (!set.usesExertion)
+          (controls["rir"] as FormControl).disable()
       }
 
       if (this.settings.rpeSystem == RpeSystem.Rpe) {
         let val = set.rpe ? set.rpe : 10 - set.rir;
-        controls["rpe"] = new FormControl(val.toString(), [Validators.required, Validators.min(0), Validators.max(10)]);
+        controls["rpe"] = new FormControl(val.toString(), [Validators.min(0), Validators.max(10)]);
+
+        if (!set.usesExertion)
+          (controls["rpe"] as FormControl).disable()
       }
     }
 
@@ -304,9 +342,9 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     if (this.requiresTime)
       set.time = controls["time"].value || 0;
 
-    //handle weight transformations.. everything is system is in metric
+    //handle weight transformations.. everything in system is in metric
     if (this.requiresWeight && !this.requiresBodyweight) {
-      if (!this.settings.usePercentages && !controls['percentage']) {
+      if (!this.settings.usePercentages || !controls['percentage']) {
         set.weight = transformWeightToNumber(controls["weight"].value, this.settings.unitSystem) || 0;
       } else {
         // get weight from percentage and 1 rep max
@@ -314,6 +352,7 @@ export class BlockExerciseCreateEditComponent implements OnInit {
 
         // don't need to convert unit systems because MAX will come in KGs from system
         set.percentage = percentage;
+        set.usesPercentage = true;
 
         // Weight will be dynamically assigned upon assignment to user..
         // If max exists
@@ -323,10 +362,14 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     }
 
     if (this.settings.useRpeSystem) {
-      if (this.settings.rpeSystem == RpeSystem.Rpe)
+      if (this.settings.rpeSystem == RpeSystem.Rpe) {
         set.rpe = controls["rpe"]?.value;
-      if (this.settings.rpeSystem == RpeSystem.Rir)
+        set.usesExertion = controls["rpe"]?.disabled == false;
+      }
+      if (this.settings.rpeSystem == RpeSystem.Rir) {
         set.rir = controls["rir"].value;
+        set.usesExertion = controls["rir"]?.disabled == false;
+      }
     }
 
     return set;
@@ -336,7 +379,15 @@ export class BlockExerciseCreateEditComponent implements OnInit {
 
   setControlsState(active: boolean) {
     if (active) {
-      this.setFormGroups.forEach(x => x.enable());
+      this.setFormGroups.forEach((group, index) => {
+        group.enable();
+
+        if (!isEmpty(this.sets) && !this.sets[index].usesExertion) {
+          group.controls["rir"]?.disable();
+          group.controls["rpe"]?.disable();
+        }
+
+      });
     } else {
       this.setFormGroups.forEach(x => x.disable());
     }
@@ -344,12 +395,13 @@ export class BlockExerciseCreateEditComponent implements OnInit {
 
   addGroup(set: Set = null) {
 
-    set = set || new Set();
+    set = set || this.getNewSet();
 
     const controls = this.getControls(set);
     const newSetFormGroup = new FormGroup(controls);
 
     this.setFormGroups.push(newSetFormGroup);
+    this.sets.push(this.getSet(newSetFormGroup));
   }
 
   removeGroup(index: number) {
@@ -382,9 +434,13 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   }
 
   onSetRpeControl(event: MatSlideToggleChange, index: number) {
+    if (!this.settings.useRpeSystem) {
+      return false;
+    }
+
     if (!event.checked) {
-      this.setFormGroups[index].removeControl('rpe');
-      this.setFormGroups[index].removeControl('rir');
+      this.setFormGroups[index].controls["rir"]?.disable();
+      this.setFormGroups[index].controls["rpe"]?.disable();
     } else {
       if (this.settings.rpeSystem == RpeSystem.Rpe) {
         this.setFormGroups[index].addControl('rpe', new FormControl("5", [Validators.min(0), Validators.max(100)]));
@@ -394,9 +450,14 @@ export class BlockExerciseCreateEditComponent implements OnInit {
 
       this.setFormGroups[index].disable();
     }
+
+    this.sets[index].usesExertion = event.checked;
   }
 
   onUsePercentage(event: MatSlideToggleChange, index: number) {
+    if (!this.settings.usePercentages) {
+      return false;
+    }
 
     if (event.checked) {
 
@@ -412,6 +473,7 @@ export class BlockExerciseCreateEditComponent implements OnInit {
 
     }
 
+    this.sets[index].usesPercentage = event.checked;
   }
 
   checkForPercentageControls() {
@@ -432,7 +494,7 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     let sets = <Set[]>(this.getSets(this.setFormGroups));
     this.exercise.sets = sets;
 
-    if(!this.quickAddMode) {
+    if (!this.quickAddMode) {
       this.exercise.exerciseType = this.exerciseType;
       this.exercise.exerciseTypeId = this.exerciseType?.id;
     } else {

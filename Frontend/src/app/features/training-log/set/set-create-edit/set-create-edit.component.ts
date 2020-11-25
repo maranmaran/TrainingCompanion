@@ -105,13 +105,8 @@ export class SetCreateEditComponent implements OnInit {
     }
 
     if (!event.checked) {
-
-      // this.setFormGroups[index].removeControl('rpe');
-      // this.setFormGroups[index].removeControl('rir');
-
       this.setFormGroups[index].controls["rir"]?.disable();
       this.setFormGroups[index].controls["rpe"]?.disable();
-
     } else {
 
       if (this.settings.rpeSystem == RpeSystem.Rpe) {
@@ -137,12 +132,8 @@ export class SetCreateEditComponent implements OnInit {
         if (response) {
           this.setFormGroups[index].removeControl('weight');
           this.setFormGroups[index].addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
-
-          // disable all again because newly added percentage control is enabled by default
           this.setFormGroups[index].disable();
-        } else {
-          event.source.checked = false;
-        }
+        } 
       }
 
       // check for one rep max...
@@ -162,10 +153,8 @@ export class SetCreateEditComponent implements OnInit {
         this.userMaxControl = null;
       }
     }
-
     
     this.sets[index].usesPercentage = event.checked;
-
   }
 
   checkForPercentageControls() {
@@ -202,7 +191,7 @@ export class SetCreateEditComponent implements OnInit {
 
   setUserMaxControl(value: number): FormControl {
     value = transformWeightToNumber(value, this.settings.unitSystem);
-    let validators = [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]
+    let validators = [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit())]
 
     this.userMaxControl = new FormControl(value, validators);
 
@@ -238,9 +227,18 @@ export class SetCreateEditComponent implements OnInit {
   }
   //#endregion
 
+  getNewSet() {
+    let set = new Set();
+    set.exerciseId = this.exerciseId;
+    set.usesPercentage = this.settings.usePercentages;
+    set.usesExertion = this.settings.useRpeSystem;
+
+    return set;
+  }
+  
   addGroup(set: Set = null) {
 
-    set = set || new Set();
+    set = set || this.getNewSet();
 
     const controls = this.getControls(set);
     const newSetFormGroup = new FormGroup(controls);
@@ -286,12 +284,14 @@ export class SetCreateEditComponent implements OnInit {
     if (this.exerciseType.requiresBodyweight)
       controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(200)]);
 
-    if (this.exerciseType.requiresWeight && !this.exerciseType.requiresBodyweight) {
-      if (!this.settings.usePercentages || !set.usesPercentage) {
-        controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit)]);
-      } else {
+    // todo.. add weight attribute to application user
+    if (this.exerciseType.requiresBodyweight || this.exerciseType.requiresWeight) {
+      
+      if (this.settings.usePercentages && set.usesPercentage) {
         // todo calculate percentage from 1 rep max and weight
         controls["percentage"] = new FormControl(set.percentage, [Validators.required, Validators.min(0), Validators.max(100)]);
+      } else {
+        controls["weight"] = new FormControl(set.weight, [Validators.required, Validators.min(0), Validators.max(this.weightUpperLimit(this.exerciseType.requiresBodyweight))]);
       }
     }
 
@@ -455,11 +455,12 @@ export class SetCreateEditComponent implements OnInit {
     return valid;
   }
 
-  get weightUpperLimit() {
-    let upperLimit = 600;
+  weightUpperLimit(requiresBodyweight: boolean = false) {
 
+    let upperLimit = !requiresBodyweight ? 600 : 300; // kgs in weights vs kgs in bodyweight
+    
     if (this.settings.unitSystem == UnitSystem.Imperial) {
-      upperLimit = 1200;
+      upperLimit *= 2; // lbs
     }
 
     return upperLimit;
