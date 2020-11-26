@@ -113,6 +113,10 @@ mat-form-field {
   top: 0 !important;
 }
 
+.mat-select-arrow-wrapper {
+  transform: unset !important;
+}
+
 @media (max-width: 600px) {
   #view-as {
     max-width: 135px;

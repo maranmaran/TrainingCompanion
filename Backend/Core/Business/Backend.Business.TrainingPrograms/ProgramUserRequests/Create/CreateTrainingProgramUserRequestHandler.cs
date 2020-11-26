@@ -62,7 +62,7 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.Create
                     .ThenInclude(x => x.Properties)
                     .ThenInclude(x => x.Tag)
                     .ThenInclude(x => x.TagGroup)
-
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Id == trainingProgramId,
                         cancellationToken);
 
@@ -76,7 +76,10 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.Create
             CancellationToken cancellationToken = default)
         {
             var user =
-                await _context.Users.Include(x => x.UserSetting).FirstOrDefaultAsync(x => x.Id == userId,
+                await _context.Users
+                    .Include(x => x.UserSetting)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == userId,
                     cancellationToken);
 
             if (user == null)

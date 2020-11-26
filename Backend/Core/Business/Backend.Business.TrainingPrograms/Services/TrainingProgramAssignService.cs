@@ -146,6 +146,7 @@ namespace Backend.Business.TrainingPrograms.Services
                 .Include(x => x.Properties)
                 .ThenInclude(x => x.Tag)
                 .ThenInclude(x => x.TagGroup)
+                .Include(x => x.PBs)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Code == exerciseTypeCode && x.ApplicationUserId == userId);
             //_context.Entry(exerciseType).State = EntityState.Unchanged;

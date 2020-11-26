@@ -26,7 +26,7 @@ import { exerciseFetched } from 'src/ngrx/exercise/exercise.actions';
   templateUrl: './training-month-view-day.component.html',
   styleUrls: ['./training-month-view-day.component.scss']
 })
-export class TrainingMonthViewDayComponent implements OnInit, OnDestroy {
+export class TrainingMonthViewDayComponent implements OnInit {
 
   @Input() training: Training;
   private deleteDialogConfig = new ConfirmDialogConfig({ title: 'Delete training', confirmLabel: 'Delete' });
@@ -59,11 +59,6 @@ export class TrainingMonthViewDayComponent implements OnInit, OnDestroy {
       if(this.exercises != null && this.exercises.length == 0) 
         this.exercisesEmpty = true; 
     });
-  }
-
-  ngOnDestroy() {
-    if(this.training.id == "913b5d7a-c62f-4677-c5e0-08d88986962b")
-      console.log("Destroy " + this.training.id);
   }
 
   onTrainingClick() {

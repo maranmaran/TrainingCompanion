@@ -25,7 +25,7 @@
       [matBadgeHidden]="(unreadChatMessages | async) == 0" matTooltip="{{'TOOLBAR.CHAT' | translate }}"></i>
 
     <!--NOTIFICATIONS-->
-    <i id="notifications" class="fas fa-bell accent-foreground" matBadge="{{unreadNotificationCounter}}"
+    <i id="notifications" #notificationsTrigger="matMenuTrigger" class="fas fa-bell accent-foreground" matBadge="{{unreadNotificationCounter}}"
       matBadgeHidden="{{unreadNotificationCounter == 0}}" matBadgeColor="warn"
       [matMenuTriggerFor]="notificationsMenu"></i>
 

@@ -3,6 +3,7 @@ using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
+using System.Linq;
 
 namespace Backend.Business.TrainingLog.Code
 {
@@ -15,9 +16,20 @@ namespace Backend.Business.TrainingLog.Code
         /// <param name="set"></param>
         public static void TransformSet(this Set set, ExerciseType type, UserSetting settings)
         {
-            if (type.RequiresWeight && !type.RequiresBodyweight)
+            if (type.RequiresWeight)
             {
-                set.Weight = set.Weight.ToMetricSystem(settings.UnitSystem); // make sure everything going in from weight is METRIC!
+                if (set.UsesPercentage)
+                {
+                    var pb = type.PBs?.OrderByDescending(x => x.DateAchieved).FirstOrDefault();
+                    if (pb != null)
+                    {
+                        set.Weight = (set.Percentage * pb.Value / 100).ToMetricSystem(settings.UnitSystem);
+                    }
+                }
+                else
+                {
+                    set.Weight = set.Weight.ToMetricSystem(settings.UnitSystem); // make sure everything going in from weight is METRIC!
+                }
             }
 
             // update additional properties
