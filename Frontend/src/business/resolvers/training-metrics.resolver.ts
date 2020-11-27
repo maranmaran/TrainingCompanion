@@ -32,6 +32,8 @@ export class TrainingMetricsResolver implements Resolve<Observable<Training> | O
             .pipe(
                 take(1),
                 concatMap(([id, userId, data]) => {
+                    
+                    id = id || route.queryParamMap.get('trainingId');
 
                     // Training selected
                     if (id) {

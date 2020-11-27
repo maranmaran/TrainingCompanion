@@ -33,6 +33,8 @@ export class TrainingExercisesResolver implements Resolve<Observable<Training> |
             take(1),
             concatMap(([id, data]) => {
 
+                id = id || route.queryParamMap.get('trainingId');
+
                 // Training selected
                 if (id) {
 

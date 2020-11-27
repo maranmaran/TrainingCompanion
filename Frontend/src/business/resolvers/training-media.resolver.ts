@@ -31,6 +31,8 @@ export class TrainingMediaResolver implements Resolve<Observable<Training> | Obs
                 take(1),
                 concatMap(([id, data]) => {
 
+                    id = id || route.queryParamMap.get('trainingId');
+
                     // Training selected
                     if (id) {
 

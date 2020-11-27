@@ -32,12 +32,14 @@ export class TrainingDetailsResolver implements Resolve<Observable<Training> | O
                         return this.store.select(selectedTraining).pipe(take(1));
                     }
 
-                    id = localStorage.getItem(LocalStorageKeys.trainingId);
+                    id = localStorage.getItem(LocalStorageKeys.trainingId) || 
+                         route.queryParamMap.get('trainingId');
 
                     if (!id) {
                         return of(this.router.navigate(['/app/training-log']))
                     }
 
+                    console.log(route.url)
                     return this.getState(id);
                 }));
     }
