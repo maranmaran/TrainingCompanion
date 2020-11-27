@@ -1,8 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { NavigationStart, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { NotificationSignalrService } from 'src/business/services/feature-services/notification-signalr.service';
 import { UIProgressBar } from 'src/business/shared/ui-progress-bars.enum';
 import { UISidenav, UISidenavAction } from 'src/business/shared/ui-sidenavs.enum';
@@ -31,7 +33,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private notificationService: NotificationSignalrService,
     private store: Store<AppState>,
     private UIService: UIService,
-    public mediaObserver: MediaObserver
+    public mediaObserver: MediaObserver,
+    private router: Router
   ) { }
 
   subSink = new SubSink();
@@ -59,22 +62,24 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   dashboardActive$: Observable<boolean>;
 
-
+  @ViewChild("notificationsTrigger", {read: MatMenuTrigger}) notificationMenu: MatMenuTrigger;
 
   ngOnInit(): void {
 
+    
     // set observable for main progress bar
     this.loading$ = getLoadingState(this.store, UIProgressBar.MainAppScreen);
     this.dashboardActive$ = this.store.select(dashboardActive);
-
+    
     this.unreadChatMessages = this.store.select(totalUnreadChatMessages);
-
+    
     this.unitSystem$ = this.store.select(unitSystem);
-
+    
     // subscribe to notifications
     // only new ones.. in real time
     // this.notifications$ = this.notificationService.notifications$;
     this.subSink.add(
+      this.router.events.subscribe(events => events instanceof NavigationStart && this.closeMenusOnRoute()),
 
       this.store.select(currentUser)
         .subscribe(user => {
@@ -97,6 +102,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     );
 
     setTimeout(_ => this.getHistory(this.userInfo.userId, this.page++, this.pageSize));
+  }
+
+  closeMenusOnRoute(){
+    this.notificationMenu?.closeMenu();
   }
 
   ngOnDestroy(): void {

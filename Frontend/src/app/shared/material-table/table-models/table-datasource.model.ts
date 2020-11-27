@@ -37,8 +37,7 @@ export class TableDatasource<T extends Entity> extends MatTableDataSource<T> {
   }
 
   updateDatasource(elements: T[]) {
-    this._internalData = elements;
-    this.data = this._internalData;
+    this._internalData, this.data = elements;
   }
 
   private _totalItems = new BehaviorSubject<number>(0);

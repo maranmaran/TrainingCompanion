@@ -1,3 +1,4 @@
+import { exerciseCount, exercises } from './../../../../../ngrx/exercise/exercise.selectors';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
@@ -18,11 +19,12 @@ import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { reorderExercises, setSelectedExercise, trainingUpdated } from 'src/ngrx/training-log/training.actions';
+import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
+import { reorderExercises, setSelectedExercise } from 'src/ngrx/exercise/exercise.actions';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
-import { selectedTraining, selectedTrainingExercises, selectedTrainingId } from '../../../../../ngrx/training-log/training.selectors';
+import { selectedTraining, selectedTrainingId } from '../../../../../ngrx/training-log/training.selectors';
 import { ExerciseCreateEditComponent } from '../exercise-create-edit/exercise-create-edit.component';
 import { unitSystem } from './../../../../../ngrx/auth/auth.selectors';
 import { UnitSystem } from './../../../../../server-models/enums/unit-system.enum';
@@ -62,7 +64,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
     this.store.select(unitSystem).pipe(take(1)).subscribe(system => this.unitSystem = system);
 
     this.subs.add(
-      this.store.select(selectedTrainingExercises)
+      this.store.select(exercises)
         .pipe(map(exercises => exercises || []))
         .subscribe((exercises: Exercise[]) => {
           this.tableDatasource.updateDatasource([...exercises]);
@@ -84,9 +86,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       }),
     });
 
-    this.store.select(selectedTrainingExercises)
-      .pipe(take(1), map(x => x?.length))
-      .subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)
+    this.store.select(exerciseCount).pipe(take(1))
+    .subscribe(count => count > 5 ? tableConfig.pagingOptions.pageSizeOptions = [...tableConfig.pagingOptions.pageSizeOptions, count] : noop)
 
     return tableConfig;
   }
@@ -104,8 +105,6 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       new CustomColumn({
         definition: 'exercise',
         title: 'TRAINING_LOG.EXERCISE_LABEL',
-        cellClass: 'autofit-cell',
-        headerClass: 'autofit-cell',
         sort: true,
         sortFn: (item: Exercise) => item.exerciseType.name,
         useComponent: true,
@@ -115,8 +114,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       new CustomColumn({
         definition: 'sets',
         title: 'TRAINING_LOG.SETS_LABEL',
-        cellClass: 'autofit-cell',
-        headerClass: 'autofit-cell',
+        headerClass: 'set-column',
+        cellClass: 'set-column',
         sort: true,
         sortFn: (item: Exercise) => item.sets?.length,
         displayFn: (item: Exercise) => item.sets?.length,
@@ -125,8 +124,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       new CustomColumn({
         definition: 'max',
         title: 'TRAINING_LOG.PROJECTED_MAX',
-        cellClass: 'autofit-cell',
-        headerClass: 'autofit-cell',
+        headerClass: 'max-column',
+        cellClass: 'max-column',
         sort: true,
         sortFn: (item: Exercise) => item.sets.map(x => x.projectedMax).reduce(this.reduceProjectedMax, 0),
         displayFn: (item: Exercise) => transformWeight(item.sets.map(x => x.projectedMax).reduce(this.reduceProjectedMax, 0), this.unitSystem),
@@ -137,6 +136,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   reduceProjectedMax = (prev, cur) => cur >= prev ? cur : prev;
 
   onReorder(payload: { previous: Exercise, current: Exercise }) {
+
     this.store.select(selectedTrainingId)
       .pipe(
         tap((trainingId: string) => {
@@ -154,7 +154,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
   onAdd() {
     var pagingModel = new PagingModel();
 
-    forkJoin(
+    forkJoin([
       this.exerciseTypeService.getPaged(this.userId, pagingModel).pipe(take(1)),
       this.store.select(selectedTraining).pipe(take(1), map(training => {
         const len = training.exercises?.length;
@@ -162,7 +162,7 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
         model.order = len;
         return model;
       }))
-    ).subscribe(([exerciseTypes, exercise]) => {
+    ]).subscribe(([exerciseTypes, exercise]) => {
 
       const dialogRef = this.uiService.openDialogFromComponent(ExerciseCreateEditComponent, {
         height: 'auto',
@@ -170,14 +170,14 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
         maxWidth: '50rem',
         autoFocus: false,
         data: { title: 'TRAINING_LOG.EXERCISE_ADD_TITLE', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
-        panelClass: ["dialog-container"]
+        panelClass: ["dialog-container", "exercise-create-edit-dialog"]
       });
 
       dialogRef.afterClosed().pipe(take(1))
         .subscribe((exercise: Exercise) => {
           if (exercise) {
             this.table.onSelect(exercise, true);
-            // this.onSelect(exercise);
+            this.onSelect(exercise);
           }
         });
     });

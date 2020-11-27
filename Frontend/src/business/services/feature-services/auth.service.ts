@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import * as jwt_decode from 'jwt-decode';
+import jwt_decode from "jwt-decode";
 import { CookieService } from 'ngx-cookie-service';
 import { Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -98,14 +98,14 @@ export class AuthService extends BaseService {
 
   private getUserIdFromJWT(): string {
     const token = this.getToken();
-    const decoded = jwt_decode(token);
+    const decoded = jwt_decode(token) as any;
 
     return decoded.unique_name;
   }
 
   private getTokenExpirationDate(token: string): Date {
     try {
-      const decoded = jwt_decode(token);
+      const decoded = jwt_decode(token) as any;
       if (decoded.exp === undefined) { return null; }
 
       const date = new Date();

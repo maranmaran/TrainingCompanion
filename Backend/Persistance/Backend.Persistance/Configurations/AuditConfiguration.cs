@@ -11,7 +11,8 @@ namespace Backend.Persistance.Configurations
             builder.HasIndex(x => x.UserId);
             builder.HasIndex(x => x.PrimaryKey);
 
-            builder.Property(x => x.Seen).HasDefaultValue(false);
+            //builder.Property(x => x.Seen).HasDefaultValue(false);
+
             builder.Property(x => x.Date).HasDefaultValueSql("getutcdate()");
         }
     }

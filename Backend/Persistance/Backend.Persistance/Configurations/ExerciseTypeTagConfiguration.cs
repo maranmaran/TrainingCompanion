@@ -12,7 +12,7 @@ namespace Backend.Persistance.Configurations
         public void Configure(EntityTypeBuilder<ExerciseTypeTag> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Show).HasDefaultValue(true);
+            //builder.Property(x => x.Show).HasDefaultValue(true);
 
             builder.HasOne(x => x.ExerciseType)
                 .WithMany(x => x.Properties)

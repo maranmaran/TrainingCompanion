@@ -25,7 +25,12 @@ namespace Backend.Business.TrainingLog.ExerciseRequests.CreateFull
         {
             try
             {
-                _context.Entry(request.Exercise.ExerciseType).State = EntityState.Unchanged;
+
+                // existing exercise.. otherwise it's quick add mode.
+                if (request.Exercise.ExerciseTypeId != Guid.Empty)
+                {
+                    _context.Entry(request.Exercise.ExerciseType).State = EntityState.Unchanged;
+                }
                 _context.Entry(request.Exercise.Training).State = EntityState.Unchanged;
 
                 await _context.Exercises.AddAsync(request.Exercise, cancellationToken);

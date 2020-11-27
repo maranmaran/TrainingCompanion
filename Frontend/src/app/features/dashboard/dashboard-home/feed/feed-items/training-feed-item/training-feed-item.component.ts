@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Activity, BasicActivityInfo, BasicUserInfo } from 'src/app/features/dashboard/models/activity.model';
+import { BasicActivityInfo, BasicUserInfo } from 'src/app/features/dashboard/models/activity.model';
 
 @Component({
   selector: 'app-training-feed-item',
@@ -13,7 +13,7 @@ export class TrainingFeedItemComponent implements OnInit {
   message: string;
 
   constructor(
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) { }
 
   ngOnInit(): void {
@@ -23,4 +23,5 @@ export class TrainingFeedItemComponent implements OnInit {
 
     this.message = this.translateService.instant('DASHBOARD.FEED.TRAINING_MESSAGE', params);
   }
+
 }

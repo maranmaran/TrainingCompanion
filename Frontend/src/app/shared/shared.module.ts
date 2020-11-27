@@ -11,6 +11,7 @@ import { AvatarModule } from 'ngx-avatar';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { HttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
 import { ButtonSizeDirective } from 'src/business/directives/button-size.directive';
+import { AfterIfDirective } from 'src/business/directives/after-if.directive';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
 import { FormatMomentDatePipe } from 'src/business/pipes/format-moment-date.pipe';
@@ -125,7 +126,8 @@ import { DragScrollModule } from 'ngx-drag-scroll';
         ImportNotificationBodyComponent,
         RepeatPipe,
         FormatMomentDatePipe,
-        MediaCarouselComponent
+        MediaCarouselComponent,
+        AfterIfDirective 
     ],
     exports: [
         CommonModule,
@@ -185,7 +187,8 @@ import { DragScrollModule } from 'ngx-drag-scroll';
         RepeatPipe,
         MediaCarouselComponent,
         FormatMomentDatePipe,
-        DragScrollModule
+        DragScrollModule,
+        AfterIfDirective    
     ],
     providers: [
     ],

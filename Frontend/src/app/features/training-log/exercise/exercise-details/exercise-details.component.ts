@@ -1,15 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash-es';
-import { take, tap } from 'rxjs/operators';
+import { take, tap, filter } from 'rxjs/operators';
 import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { transformWeight } from 'src/business/services/shared/unit-system.service';
 import { currentUserId, unitSystem } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { trainingUpdated } from 'src/ngrx/training-log/training.actions';
-import { selectedExercise, selectedTraining } from 'src/ngrx/training-log/training.selectors';
+import { selectedExercise} from 'src/ngrx/exercise/exercise.selectors';
+import { selectedTraining } from 'src/ngrx/training-log/training.selectors';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';
@@ -22,7 +23,7 @@ import { SubSink } from 'subsink';
   templateUrl: './exercise-details.component.html',
   styleUrls: ['./exercise-details.component.scss']
 })
-export class ExerciseDetailsComponent implements OnInit, OnDestroy {
+export class ExerciseDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   exercise: Exercise;
   private training: Training;
@@ -46,10 +47,20 @@ export class ExerciseDetailsComponent implements OnInit, OnDestroy {
       this.onViewAsTrigger(),
 
       this.store.select(selectedExercise)
+        .pipe(filter(exercise => !!exercise))
         .subscribe(exercise => {
           this.exercise = exercise;
         })
     );
+  }
+
+   // Like - LIFT-79 task 
+  // Workaround - https://github.com/angular/components/issues/13870
+  // tslint:disable-next-line: member-ordering
+  disableAnimation = true;
+  ngAfterViewInit(): void {
+    // timeout required to avoid the dreaded 'ExpressionChangedAfterItHasBeenCheckedError'
+    setTimeout(() => this.disableAnimation = false);
   }
 
   ngOnDestroy() {

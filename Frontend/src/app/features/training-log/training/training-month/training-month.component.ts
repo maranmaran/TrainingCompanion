@@ -36,16 +36,16 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    setTimeout(() => this.store.dispatch(setSelectedTraining(null))); // undo selected training for certain
+    // setTimeout(() => this.store.dispatch(setSelectedTraining(null))); // undo selected training for certain
     this.calendarConfig = this.getConfig();
 
     // subscribe to changes
     this.subsink.add(
 
-      combineLatest(
+      combineLatest([
         this.store.select(currentUserId),
         this.store.select(viewAs).pipe(map(user => user?.id))
-      ).pipe(
+      ]).pipe(
         map(([userId, viewAsId]) => viewAsId ? viewAsId : userId)
       ).subscribe(id => {
         this.userId = id;
@@ -125,7 +125,7 @@ export class TrainingMonthComponent implements OnInit, OnDestroy {
 
   onOpenEvent(trainingEvent: CalendarEvent) {
     const training = trainingEvent.event;
-    this.store.dispatch(setSelectedTraining({ entity: training }));
+    this.store.dispatch(setSelectedTraining({ id: training?.id }));
   }
 
 }

@@ -109,6 +109,14 @@ mat-form-field {
   }
 }
 
+.mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix {
+  top: 0 !important;
+}
+
+.mat-select-arrow-wrapper {
+  transform: unset !important;
+}
+
 @media (max-width: 600px) {
   #view-as {
     max-width: 135px;

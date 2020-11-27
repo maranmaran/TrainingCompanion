@@ -27,9 +27,9 @@ namespace Backend.Persistance.Configurations
                     v => v.ToString(),
                     v => (UnitSystem)Enum.Parse(typeof(UnitSystem), v));
 
-            builder.Property(x => x.UsePercentages).HasDefaultValue(false);
+            //builder.Property(x => x.UsePercentages).HasDefaultValue(false);
 
-            builder.Property(x => x.UseRpeSystem).HasDefaultValue(true);
+            //builder.Property(x => x.UseRpeSystem).HasDefaultValue(true);
             builder.Property(x => x.RpeSystem)
                 .HasDefaultValue(RpeSystem.Rpe)
                 .HasConversion(

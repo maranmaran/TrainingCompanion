@@ -11,6 +11,10 @@ export class Set {
   rpe: number = 8;
   rir: number = 2;
   reps: number = 0;
+
+  usesExertion: boolean = true;
+  usesPercentage: boolean = false;
+
   percentage: number = 0;
   maxUsedForPercentage: number;
 

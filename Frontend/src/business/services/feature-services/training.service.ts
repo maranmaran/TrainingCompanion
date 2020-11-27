@@ -1,3 +1,4 @@
+import { TrainingDetailsResponse } from './../../../server-models/cqrs/training/training-details.response';
 import { ComponentType } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
@@ -34,6 +35,18 @@ export class TrainingService extends CrudService<Training> {
       .pipe(
         catchError(this.handleError)
       );
+  }
+
+  copy(id: string, date: string) {
+    const request = {
+      trainingId: id,
+      toDate: date
+    };
+
+    return this.http.post<Training>(this.url + 'Copy/', request)
+      .pipe(
+        catchError(this.handleError)
+      )
   }
 
   uploadMedia(userId: string, trainingId: string, file: File, extension: string, type: MediaType) {

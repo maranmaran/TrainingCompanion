@@ -31,7 +31,6 @@
     "NO_DATA": "No records"
   },
   "PERSONAL_BEST": {
-    "BODYWEIGHT": "Bodyweight",
     "WEIGHT": "Weight",
     "REPS": "Reps",
     "ADD_TITLE": "New personal best",
@@ -189,6 +188,7 @@
     "COACH_NOTE": "Coach note",
     "MEDIA": "Training media",
     "TRAINING_DATE": "Training date",
+    "COPY_TRAINING_TITLE": "Copy training from {{date}}",
     "ADD_TRAINING_TITLE": "Add training on {{date}}",
     "SUMMARY_LABEL": "Summary",
     "COPY_LABEL": "Copy training",

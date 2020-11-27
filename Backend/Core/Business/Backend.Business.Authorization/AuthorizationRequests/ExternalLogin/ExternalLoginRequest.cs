@@ -1,5 +1,4 @@
-﻿using Backend.Business.Authorization.AuthorizationRequests.ExternalLogin.GoogleLogin;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
 using MediatR;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin

@@ -51,8 +51,6 @@ export class PersonalBestCreateEditComponent implements OnInit {
     this.getExerciseType();
     this.getLatestBodyweight();
 
-    setTimeout(_ => console.log(this._latestBodyweight));
-
     this.createForm();
   }
 

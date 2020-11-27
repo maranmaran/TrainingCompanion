@@ -1,4 +1,5 @@
-﻿using Backend.Business.TrainingPrograms.Interfaces;
+﻿using Backend.Business.TrainingLog.SetRequests.UpdateMany;
+using Backend.Business.TrainingPrograms.Interfaces;
 using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.TrainingLog;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.TrainingLog.Code;
 
 namespace Backend.Business.TrainingPrograms.Services
 {
@@ -117,16 +119,17 @@ namespace Backend.Business.TrainingPrograms.Services
 
         private async Task<Exercise> AddExercise(int order, Exercise exercise, ApplicationUser user)
         {
+            var exerciseType = await GetExerciseType(exercise.ExerciseType.Code, user);
             var newExercise = new Exercise
             {
-                ExerciseTypeId = (await GetExerciseType(exercise.ExerciseType.Code, user)).Id,
+                ExerciseTypeId = exerciseType.Id,
                 Order = order,
                 Sets = new List<Set>()
             };
 
             foreach (var set in exercise.Sets)
             {
-                newExercise.Sets.Add(AddSet(set));
+                newExercise.Sets.Add(ModifySet(set, exerciseType, user.UserSetting));
             }
 
             return newExercise;
@@ -143,17 +146,20 @@ namespace Backend.Business.TrainingPrograms.Services
                 .Include(x => x.Properties)
                 .ThenInclude(x => x.Tag)
                 .ThenInclude(x => x.TagGroup)
+                .Include(x => x.PBs)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Code == exerciseTypeCode && x.ApplicationUserId == userId);
             //_context.Entry(exerciseType).State = EntityState.Unchanged;
 
             return exerciseType;
         }
-        private Set AddSet(Set set)
+        private Set ModifySet(Set set, ExerciseType type, UserSetting settings)
         {
             set.Id = Guid.Empty;
             set.Exercise = null;
             set.ExerciseId = Guid.Empty;
+
+            set.TransformSet(type, settings);
 
             return set;
         }

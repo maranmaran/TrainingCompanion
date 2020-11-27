@@ -5,7 +5,7 @@
 
     <div class="actions" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
 
-      <div class="used-max" *ngIf="exerciseType.requiresWeight && userMaxControl" matTooltip="Click to change used max">
+      <div class="used-max" *ngIf="settings.usePercentages && exerciseType.requiresWeight && userMaxControl && checkForPercentageControls()" matTooltip="Click to change used max">
 
         <mat-form-field appearance="outline">
           <mat-label>Used max</mat-label>
@@ -32,11 +32,11 @@
         <div class="set-container mb-3">
 
           <div class="set-attributes pl-4" *ngIf="setAttributes" fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
-            <mat-slide-toggle color="accent" class="slide-toggle-smaller" [checked]="settings.useRpeSystem"
+            <mat-slide-toggle *ngIf="settings.useRpeSystem" color="accent" class="slide-toggle-smaller" [checked]="isRpeControlChecked(i)"
               (change)="onSetRpeControl($event, i)">
               {{ (settings.rpeSystem == 'Rpe' ? 'TRAINING_LOG.SET_RPE' : 'TRAINING_LOG.SET_RIR') | translate}}
             </mat-slide-toggle>
-            <mat-slide-toggle color="accent" class="slide-toggle-smaller" [checked]="settings.usePercentages"
+            <mat-slide-toggle *ngIf="settings.usePercentages" color="accent" class="slide-toggle-smaller" [checked]="isPercentageControlChecked(i)"
               (change)="onUsePercentage($event, i)">
               {{'TRAINING_LOG.SET_PERCENTAGE' | translate}}
             </mat-slide-toggle>
@@ -44,10 +44,11 @@
 
           <div id="control-row" fxLayout="row" fxLayoutGap="10px">
 
-            <label id="set-number">{{i + 1}}.</label>
+            <label id="set-number" class="pt-2">{{i + 1}}.</label>
 
             <ng-container *ngIf="set.controls['percentage']">
               <mat-form-field>
+                <mat-label>{{'Percentage' | translate}}</mat-label>
                 <input matInput type="number" formControlName="percentage" placeholder="Percentage">
                 <span matSuffix>%</span>
               </mat-form-field>
@@ -55,6 +56,7 @@
 
             <ng-container *ngIf="exerciseType.requiresBodyweight && set.controls['weight']">
               <mat-form-field>
+                <mat-label>{{'TRAINING_LOG.SET_BODYWEIGHT' | translate}}</mat-label>
                 <input matInput type="number" formControlName="weight"
                   placeholder="{{'TRAINING_LOG.SET_BODYWEIGHT' | translate}}">
                 <span matSuffix>{{ unitSystemUnitofMeasurement }}</span>
@@ -63,6 +65,7 @@
 
             <ng-container *ngIf="exerciseType.requiresWeight && set.controls['weight']">
               <mat-form-field>
+                <mat-label>{{'TRAINING_LOG.SET_WEIGHT' | translate}}</mat-label>
                 <input matInput type="number" formControlName="weight"
                   placeholder="{{'TRAINING_LOG.SET_WEIGHT' | translate}}">
                 <span matSuffix>{{ unitSystemUnitofMeasurement }}</span>
@@ -71,6 +74,7 @@
 
             <ng-container *ngIf="exerciseType.requiresReps && set.controls['reps']">
               <mat-form-field>
+                <mat-label>{{'TRAINING_LOG.SET_REPS' | translate}}</mat-label>
                 <input matInput type="number" formControlName="reps"
                   placeholder="{{'TRAINING_LOG.SET_REPS' | translate}}">
               </mat-form-field>
@@ -78,12 +82,13 @@
 
             <ng-container *ngIf="exerciseType.requiresTime && set.controls['time']">
               <mat-form-field>
+                <mat-label>{{'TRAINING_LOG.SET_TIME' | translate}}</mat-label>
                 <input matInput type="number" formControlName="time"
                   placeholder="{{'TRAINING_LOG.SET_TIME' | translate}}">
               </mat-form-field>
             </ng-container>
 
-            <ng-container *ngIf="settings.useRpeSystem || set.controls['rpe'] || set.controls['rir']">
+            <ng-container *ngIf="settings.useRpeSystem && (set.controls['rpe'] || set.controls['rir'])">
               <mat-form-field *ngIf="settings.rpeSystem == 'Rpe'; else rir">
                 <mat-label>{{'TRAINING_LOG.SET_RPE' | translate}}</mat-label>
                 <mat-select formControlName="rpe">

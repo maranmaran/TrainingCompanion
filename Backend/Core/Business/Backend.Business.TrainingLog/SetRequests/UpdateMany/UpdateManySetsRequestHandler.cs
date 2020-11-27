@@ -2,7 +2,6 @@
 using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.User;
-using Backend.Domain.Enum;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +15,7 @@ namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
 {
     public class UpdateManySetsRequestHandler : IRequestHandler<UpdateManySetsRequest, IEnumerable<Domain.Entities.TrainingLog.Set>>
     {
+
         private readonly IApplicationDbContext _context;
 
         public UpdateManySetsRequestHandler(IApplicationDbContext context)
@@ -60,25 +60,7 @@ namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
         {
             foreach (var set in sets)
             {
-                if (type.RequiresWeight && !type.RequiresBodyweight)
-                {
-                    set.Weight = set.Weight.ToMetricSystem(settings.UnitSystem); // make sure everything going in from weight is METRIC!
-                }
-
-                // update additional properties
-                if (type.RequiresReps && type.RequiresSets)
-                {
-
-                    if (type.RequiresWeight)
-                    {
-                        set.Volume = set.Reps * set.Weight;
-                    }
-                }
-
-                if (settings.UseRpeSystem && type.RequiresReps && type.RequiresSets && (type.RequiresWeight || type.RequiresBodyweight))
-                {
-                    set.ProjectedMax = RpeRepsTable.CalculateLiftMax(set.Reps, settings.RpeSystem == RpeSystem.Rpe ? set.Rpe : 10 - set.Rir, set.Weight);
-                }
+                set.TransformSet(type, settings);
             }
         }
     }

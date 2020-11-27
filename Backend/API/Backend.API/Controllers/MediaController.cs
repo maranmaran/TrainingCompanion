@@ -1,4 +1,5 @@
-﻿using Backend.Business.Media.MediaRequests.GetUserMediaByType;
+﻿using Backend.Business.Media.MediaRequests.GetTrainingMedia;
+using Backend.Business.Media.MediaRequests.GetUserMediaByType;
 using Backend.Business.Media.MediaRequests.UploadTrainingMedia;
 using Backend.Business.Media.MediaRequests.UploadUserAvatar;
 using Backend.Domain.Enum;
@@ -16,6 +17,12 @@ namespace Backend.API.Controllers
         public async Task<IActionResult> GetUserMediaByType(Guid id, MediaType type, CancellationToken cancellationToken = default)
         {
             return Ok(await Mediator.Send(new GetUserMediaByTypeRequest() { MediaType = type, UserId = id }, cancellationToken));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTrainingMedia(Guid id, CancellationToken cancellationToken = default)
+        {
+            return Ok(await Mediator.Send(new GetTrainingMediaRequest(id), cancellationToken));
         }
 
         [HttpPost]

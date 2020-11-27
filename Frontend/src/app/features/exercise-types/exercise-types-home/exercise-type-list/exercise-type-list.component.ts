@@ -6,7 +6,7 @@ import { Update } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash-es';
-import { concatMap, map, take } from 'rxjs/operators';
+import { concatMap, map, take, distinctUntilChanged } from 'rxjs/operators';
 import { ActiveFlagComponent } from 'src/app/shared/custom-preview-components/active-flag/active-flag.component';
 import { MaterialTableComponent } from 'src/app/shared/material-table/material-table.component';
 import { CustomColumn } from "src/app/shared/material-table/table-models/custom-column.model";
@@ -65,21 +65,68 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
 
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this._userId = id);
 
+    // React to latest changes from list of types, paging and total items
     this.subs.add(
-      combineLatest([
-        this.store.select(exerciseTypes),
-        this.store.select(exerciseTypesPagingModel),
-        this.store.select(exerciseTypesTotalItems),
-        this.store.select(selectedExerciseType).pipe(take(1)),
-      ]).subscribe(([entities, pagingModel, totalItems, selectedEntity]) => {
+      this.store.select(exerciseTypes)
+      .pipe(
+        // don't repeat for same data
+        distinctUntilChanged((prev, cur) => {
 
-        console.log([entities, pagingModel, totalItems, selectedEntity]);
+          if(!prev && cur || !cur && prev)
+            return false;
+
+          // check if list is the same
+          let sameList = true;
+
+          if(prev?.length != cur.length) {
+            sameList = false;
+          } else {
+            for(let i = 0; i < prev?.length; i++) {
+              if(prev[i]?.id != cur[i]?.id){
+                sameList = false;
+                break;
+              }
+            }
+          }
+
+          return sameList;
+        }),
+        // pipe that with currently selected exercise type instead of putting it up
+        // in combine latest which would trigger infinite loop of changes and reacting to change
+        concatMap(types => {
+          return this.store.select(exerciseTypesPagingModel)
+            .pipe(
+              take(1),
+              map(paging => [types, paging])
+            )
+        }),
+        concatMap(params => {
+          return this.store.select(exerciseTypesTotalItems)
+            .pipe(
+              take(1),
+              map(total => [...params, total])
+            )
+        }),
+        concatMap(params => {
+          return this.store.select(selectedExerciseType)
+            .pipe(
+              take(1),
+              map(selectedType => [...params, selectedType])
+            )
+        })
+      )
+      .subscribe(
+        ([entities, pagingModel, totalItems, selectedEntity]: 
+              [ExerciseType[], PagingModel, number, ExerciseType]) => {
+
+        // console.log([entities, pagingModel, totalItems, selectedEntity]);
         
         this.exerciseTypes = entities.slice(0, pagingModel.pageSize);
 
         this.tableDatasource.updateDatasource([...this.exerciseTypes]);
-        this.tableDatasource.selectElement(selectedEntity);
 
+        // wait till datasource is really updated
+        this.tableDatasource.selectElement(selectedEntity, true);
         this.tableDatasource.setPagingModel(Object.assign({}, pagingModel));
         this.tableDatasource.setTotalLength(totalItems);
       }),
@@ -180,8 +227,6 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
             };
 
             group.tags = group.tags.filter(filterTags);
-
-            console.log(group.tags);
           }
 
           return group;
@@ -207,7 +252,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
       width: '98%',
       maxWidth: '50rem',
       autoFocus: false,
-      data: { title: 'EXERCISE_TYPES.ADD_TYPE_LABEL', action: CRUD.Create, tagGroups },
+      data: { title: 'EXERCISE_TYPES.ADD_TYPE_LABEL', action: CRUD.Create, tagGroups, entity: new ExerciseType() },
       panelClass: ['exercise-type-dialog-container', 'dialog-container']
     })
 
@@ -232,7 +277,7 @@ export class ExerciseTypeListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(take(1))
       .subscribe((type: ExerciseType) => {
         if (type) {
-          this.table.onSelect(type, true);
+          this.table.onSelect(type, true, true);
           this.onSelect(type);
         }
       })

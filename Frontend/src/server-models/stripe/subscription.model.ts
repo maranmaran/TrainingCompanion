@@ -3,7 +3,7 @@ import { Plan } from "./plan.model";
 
 export interface Subscription {
   id: string;
-  plan: Plan;
+  items: any;
   metadata: Metadata;
   start_date: Date;
   status: string;

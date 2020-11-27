@@ -1,16 +1,16 @@
-import { TrainingService } from 'src/business/services/feature-services/training.service';
+import { of, Observable } from 'rxjs';
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/ngrx/global-setup.ngrx";
-import { clearTrainingState, setSelectedExercise, setSelectedTraining } from "src/ngrx/training-log/training.actions";
-import { selectedExercise, selectedTraining } from "src/ngrx/training-log/training.selectors";
+import { clearTrainingState, setSelectedTraining } from "src/ngrx/training-log/training.actions";
+import { selectedTraining } from "src/ngrx/training-log/training.selectors";
+import { selectedExercise } from "src/ngrx/exercise/exercise.selectors";
 import { Exercise } from "src/server-models/entities/exercise.model";
 import { Training } from "src/server-models/entities/training.model";
 import { SubSink } from "subsink";
-import { viewAs, currentUser } from 'src/ngrx/auth/auth.selectors';
-import { filter, mergeMap, concatMap } from 'rxjs/operators';
+import { setSelectedExercise } from 'src/ngrx/exercise/exercise.actions';
 
 @Component({
   selector: "app-training-log-home",
@@ -37,7 +37,8 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
         training &&
           this.changeTab1(TrainingLogTabGroup1.TrainingDetails, false, false); // TRAINING DETAILS
       }),
-      this.store.select(selectedExercise).subscribe((exercise: Exercise) => {
+      this.store.select(selectedExercise)
+      .subscribe((exercise: Exercise) => {
         this.selectedExercise = exercise;
         exercise &&
           this.changeTab1(TrainingLogTabGroup1.ExerciseDetails, false, false); // EXERCISE DETAILS
@@ -60,32 +61,45 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
   ) {
     this.selectedTab1 = index;
 
-    // bug when transitioning from display: none to inherit
-    // group must be visible for inkbar to adjust
-    setTimeout(() => this.tabGroup1.realignInkBar());
+    // // bug when transitioning from display: none to inherit
+    // // group must be visible for inkbar to adjust
+    // setTimeout(() => this.tabGroup1.realignInkBar());
 
+    let promise: Promise<boolean>;
     switch (index) {
       case TrainingLogTabGroup1.List:
-        return (
-          allowSetTrainingNull && allowSetExerciseNull && this.goBackToList()
-        );
+        allowSetTrainingNull && allowSetExerciseNull && this.goBackToList()
+        promise = Promise.resolve<boolean>(true);
+        break;
       case TrainingLogTabGroup1.TrainingDetails:
         allowSetExerciseNull && this.store.dispatch(setSelectedExercise(null));
-        this.router.navigate(["/app/training-log/training-details"]);
+        promise = this.router.navigate(["/app/training-log/training-details"]);
         break;
       case TrainingLogTabGroup1.ExerciseDetails:
-        this.router.navigate(["/app/training-log/exercise-details"]);
+        promise = this.router.navigate(["/app/training-log/exercise-details"]);
         break;
       default:
         throw new Error("No tab index like this");
     }
+
+
+    promise.then((resolved) => {
+      if (resolved) {
+        // bug when transitioning from display: none to inherit
+        // group must be visible for inkbar to adjust
+        setTimeout(() => this.tabGroup1.realignInkBar());
+      }
+    },
+      err => console.log(err)
+    );
   }
+
   changeTab2(index: number) {
     this.selectedTab2 = index;
 
-    // bug when transitioning from display: none to inherit
-    // group must be visible for inkbar to adjust
-    setTimeout(() => this.tabGroup2.realignInkBar());
+    // // bug when transitioning from display: none to inherit
+    // // group must be visible for inkbar to adjust
+    // setTimeout(() => this.tabGroup2.realignInkBar());
 
     let promise: Promise<boolean>;
     switch (index) {
@@ -106,9 +120,14 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
       if (resolved) {
         this.store.dispatch(setSelectedExercise(null));
         this.store.dispatch(setSelectedTraining(null));
+
+        // bug when transitioning from display: none to inherit
+        // group must be visible for inkbar to adjust
+        setTimeout(() => this.tabGroup2.realignInkBar());
       }
     },
-      err => console.log(err));
+      err => console.log(err)
+    );
   }
 
   selectedTab1 = TrainingLogTabGroup1.TrainingDetails;
@@ -158,7 +177,7 @@ export class TrainingLogHomeComponent implements OnInit, OnDestroy {
 
 export enum TrainingLogTab {
   TabGroup1 = 0,
-  TabGroup2 = 0
+  TabGroup2 = 1
 }
 
 export enum TrainingLogTabGroup1 {

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { PersonalBest } from 'src/server-models/entities/personal-best.model';
@@ -25,8 +25,12 @@ export class PersonalBestService extends CrudService<PersonalBest> {
       );
   }
 
-  public get(id: string) {
-    return this.http.get<PersonalBest[]>(`${this.url}Get/${id}`)
+  public get(exerciseTypeId: string, exerciseId: string = null) {
+    let params = new HttpParams();
+    params = params.append("exerciseTypeId", exerciseTypeId);
+    params = params.append("exerciseId", exerciseId);
+
+    return this.http.get<PersonalBest[]>(`${this.url}Get`, { params })
       .pipe(
         catchError(this.handleError)
       );

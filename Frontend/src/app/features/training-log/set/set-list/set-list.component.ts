@@ -1,3 +1,4 @@
+
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest } from 'rxjs';
@@ -11,7 +12,7 @@ import { transformWeight } from 'src/business/services/shared/unit-system.servic
 import { CRUD } from 'src/business/shared/crud.enum';
 import { userSetting } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { exercisePrs, selectedExercise, selectedExerciseSets } from 'src/ngrx/training-log/training.selectors';
+import { exercisePrs, selectedExercise, selectedExerciseSets } from 'src/ngrx/exercise/exercise.selectors';
 import { ExerciseType } from 'src/server-models/entities/exercise-type.model';
 import { Set } from 'src/server-models/entities/set.model';
 import { UserSetting } from 'src/server-models/entities/user-settings.model';
@@ -19,6 +20,7 @@ import { RpeSystem } from 'src/server-models/enums/rpe-system.enum';
 import { SubSink } from 'subsink';
 import { SetCreateEditComponent } from '../set-create-edit/set-create-edit.component';
 import { PersonalBest } from './../../../../../server-models/entities/personal-best.model';
+import * as _ from "lodash-es";
 
 @Component({
   selector: 'app-set-list',
@@ -50,10 +52,10 @@ export class SetListComponent implements OnInit, OnDestroy {
 
     this.subs.add(
 
-      combineLatest(
+      combineLatest([
         this.store.select(userSetting),
         this.store.select(selectedExercise).pipe(map(exercise => exercise?.exerciseType))
-      ).subscribe(([userSetting, exerciseType]) => {
+      ]).subscribe(([userSetting, exerciseType]) => {
         this.userSettings = userSetting;
 
         if (!!exerciseType)
@@ -95,7 +97,15 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: 'weight',
           title: 'TRAINING_LOG.SET_WEIGHT',
           sort: true,
-          displayFn: (item: Set) => transformWeight(item.weight, this.userSettings.unitSystem), // transform
+          displayFn: (item: Set) => {
+            let weightDisplay = transformWeight(item.weight, this.userSettings.unitSystem);
+
+            if(item.usesPercentage) {
+              weightDisplay += ` (${item.percentage}%)`
+            }
+
+            return weightDisplay;
+          }, // transform
         }));
     }
     if (exerciseType.requiresReps) {
@@ -131,7 +141,12 @@ export class SetListComponent implements OnInit, OnDestroy {
           definition: this.userSettings.rpeSystem,
           title: this.userSettings.rpeSystem == RpeSystem.Rpe ? 'TRAINING_LOG.SET_RPE' : 'TRAINING_LOG.SET_RIR',
           sort: true,
-          displayFn: (item: Set) => this.userSettings.rpeSystem == RpeSystem.Rpe ? item.rpe : 10 - item.rpe, // transform
+          displayFn: (item: Set) => {
+            
+            if(item.usesExertion == false) return "Not used"
+
+            return this.userSettings.rpeSystem == RpeSystem.Rpe ? item.rpe : 10 - item.rpe
+          }, // transform
         }));
     }
 
@@ -148,7 +163,7 @@ export class SetListComponent implements OnInit, OnDestroy {
       data: {
         title: 'TRAINING_LOG.SET_UPDATE_TITLE',
         action: CRUD.Update,
-        sets: this.sets,
+        sets: _.cloneDeep(this.sets),
         prs: this._personalBests
       },
       panelClass: ['sets-dialog-container', "dialog-container"],

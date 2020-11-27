@@ -1,7 +1,7 @@
 @import "./bootstrap/bootstrap.styles.scss";
 @import "./material/material.styles.scss";
 @import "./mobile.scss";
-@import "./material//custom/placeholder-loading.scss";
+@import "./material/custom/placeholder-loading.scss";
 
 html,
 body {
@@ -188,3 +188,8 @@ button {
 .no-elevation {
   box-shadow: none !important;
 }
+
+.no-margin {
+  margin: 0 !important;
+}
+

@@ -3,13 +3,14 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
 import { combineLatest } from 'rxjs';
-import { distinctUntilChanged, map, startWith, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, startWith, take } from 'rxjs/operators';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { Theme } from 'src/business/shared/theme.enum';
 import { settingsUpdated } from 'src/ngrx/auth/auth.actions';
 import { currentUserId, unitSystem } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { selectedTrainingId } from 'src/ngrx/training-log/training.selectors';
+import { setTrainingMetrics } from 'src/ngrx/training-log/training.actions';
+import { selectedTrainingId, trainingMetrics } from 'src/ngrx/training-log/training.selectors';
 import { activeTheme } from 'src/ngrx/user-interface/ui.selectors';
 import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/get-training-metrics.response';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
@@ -54,13 +55,13 @@ export class TrainingMetricsComponent implements OnInit, OnDestroy {
     this.store.select(unitSystem).pipe(take(1)).subscribe(system => this._unitSystem = system);
 
     this._subs.add(
-      combineLatest(
-        this.store.select(activeTheme),
-        // listening to this action because first we need unit
-        // system to be stored in db.. then fetch all new calculated data from server
-        this.actions$.pipe(ofType(settingsUpdated), map(val => val.unitSystem), startWith(this._unitSystem)),
-        this.store.select(selectedTrainingId)
-      )
+        combineLatest([
+          this.store.select(activeTheme),
+          // listening to this action because first we need unit
+          // system to be stored in db.. then fetch all new calculated data from server
+          this.actions$.pipe(ofType(settingsUpdated), map(val => val.unitSystem), startWith(this._unitSystem)),
+          this.store.select(selectedTrainingId)
+        ])
         .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) == JSON.stringify(b)))
         .subscribe(val => this.prepareData(val))
     )
@@ -78,31 +79,43 @@ export class TrainingMetricsComponent implements OnInit, OnDestroy {
     if (this._unitSystem != unitSystem) {
       // get transformed data from server
       this._unitSystem = unitSystem;
-      this.loadTrainingMetrics(this._trainingId);
-      return;
+      return this.reloadTrainingMetrics(this._trainingId);
     }
 
     // if training data already exists.. just setup configs
     if (this._metricsData) {
-      this.getChartConfigs(this._metricsData);
-      return;
+      return this.getChartConfigs(this._metricsData);
     }
 
-    this.loadTrainingMetrics(this._trainingId);
+    this.loadTrainingMetrics();
   }
 
-  /** Fetches metric data from server */
-  loadTrainingMetrics(trainingId: string) {
+  /** Fetches metric data from store */
+  loadTrainingMetrics() {
 
-    this.reportService.getTrainingMetrics(trainingId, this._userId)
+    this.store.select(trainingMetrics).pipe(take(1), filter(data => !!data))
       .subscribe(
-        (data: GetTrainingMetricsResponse) => {
-          this._metricsData = data;
-          this.getChartConfigs(data);
+        (data) => {
+          this._metricsData = data as unknown as GetTrainingMetricsResponse;
+          this.getChartConfigs(this._metricsData);
         },
         err => console.log(err)
       )
   }
+
+    /** Fetches metric data from server */
+    reloadTrainingMetrics(trainingId: string) {
+
+      this.reportService.getTrainingMetrics(trainingId, this._userId).pipe(take(1))
+        .subscribe(
+          (data) => {
+            this._metricsData = data as unknown as GetTrainingMetricsResponse;
+            this.store.dispatch(setTrainingMetrics({ id: trainingId, metrics: this._metricsData }))
+            this.getChartConfigs(this._metricsData);
+          },
+          err => console.log(err)
+        )
+    }
 
   /** Gets all ChartJS configs */
   getChartConfigs(data: GetTrainingMetricsResponse) {

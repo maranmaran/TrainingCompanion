@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TrainingDetailsResolver } from 'src/business/resolvers/training-details.resolver';
+import { TrainingExercisesResolver } from 'src/business/resolvers/training-exercise.resolver';
+import { TrainingMediaResolver } from 'src/business/resolvers/training-media.resolver';
+import { TrainingMetricsResolver } from 'src/business/resolvers/training-metrics.resolver';
+import { TrainingMonthResolver } from 'src/business/resolvers/training-month.resolver';
 import { ReportService } from 'src/business/services/feature-services/report.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
@@ -18,7 +22,7 @@ import { TrainingMonthComponent } from './training-month/training-month.componen
 @NgModule({
   imports: [
       SharedModule,
-      ExerciseModule
+      ExerciseModule,
   ],
   declarations: [
       TrainingDetailsDataComponent,
@@ -38,6 +42,10 @@ import { TrainingMonthComponent } from './training-month/training-month.componen
       TrainingService,
       ReportService,
       TrainingDetailsResolver,
+      TrainingExercisesResolver,
+      TrainingMediaResolver,
+      TrainingMetricsResolver,
+      TrainingMonthResolver,
   ],
   entryComponents: [
   ]

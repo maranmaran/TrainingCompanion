@@ -1,7 +1,7 @@
 <div id="training-calendar-day-container" class="h-100 w-100" fxLayout="row" fxLayoutAlign="space-evenly center">
   <div class="training-label primary-background primary-background-darker-hover" fxLayout="row"
     fxLayoutAlign="space-between center" fxLayoutAlign.xs="center center"
-    [matTooltip]="training.exercises.length == 0 ? 'No training summary, click to add' : ''"
+    [matTooltip]="exercisesEmpty ? 'No training summary, click to add' : ''"
     [matTooltipPosition]="'above'" (mouseenter)="showPreview = true" (mouseleave)="showPreview = false"
     (press)="onPress()" (click)="onClick()">
 
@@ -15,11 +15,11 @@
 
     <!--SUMMARY PREVIEW - TODO put in component or ng-template -->
     <div fxHide.xs class="preview-container theme-tooltip-background mat-elevation-z16"
-      *ngIf="showPreview && training.exercises && training.exercises.length > 0" (mouseenter)="showPreview = false">
+      *ngIf="showPreview && !exercisesEmpty" after-if (after)="fetchExercises()" (mouseenter)="showPreview = false;">
       <h5><b>{{ 'TRAINING_LOG.SUMMARY_LABEL' | translate}}</b></h5>
       <mat-divider></mat-divider>
       <div class="exercise-preview-container" fxLayout="column">
-        <ng-container *ngFor="let exercise of filterBy(training.exercises, 'order'); let i = index">
+        <ng-container *ngFor="let exercise of sortBy(exercises, 'order'); let i = index">
           <label>{{i + 1}}. {{exercise.exerciseType.name}}</label>
         </ng-container>
       </div>
@@ -31,7 +31,7 @@
     <label style="cursor: pointer;"> {{ training.dateTrained | applyTimezone }} </label>
     <div id="actions" fxHide.xs fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="5px">
 
-      <button mat-icon-button color="accent" button-size size="20px" (click)="onCopy()"
+      <button mat-icon-button color="accent" button-size size="20px" (click)="onCopy(training)"
         (click)="$event.stopPropagation()" matTooltip="{{'TRAINING_LOG.COPY_LABEL' | translate}}"
         [matTooltipPosition]="'right'">
         <i class="fas fa-copy accent-foreground"></i>
@@ -49,7 +49,7 @@
   <!-- MOBILE VIEW ACTIONS -->
   <mat-menu #actionsMenu="matMenu" [hasBackdrop]="false">
     <div fxLayout="column">
-      <button mat-menu-item (click)="onCopy()" (click)="$event.stopPropagation()">
+      <button mat-menu-item (click)="onCopy(training)" (click)="$event.stopPropagation()">
         <i class="fas fa-copy accent-foreground"></i>
         <span class="ml-2">{{'TRAINING_LOG.COPY_LABEL' | translate}}</span>
       </button>

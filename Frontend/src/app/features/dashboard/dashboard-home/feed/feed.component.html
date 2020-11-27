@@ -18,7 +18,7 @@
       <!-- <div *cdkVirtualFor="let activity of user.activities" class="feed-item-container" fxLayout="column" -->
       <div class="feed-viewport">
         <div *ngFor="let activity of user.activities; trackBy: trackActivityId" class="feed-item-container"
-          fxLayout="column" fxLayoutAlign="center center">
+          fxLayout="column" fxLayoutAlign="center center" (click)="navigate(activity)">
           <!--WHOLE FEED ITEM-->
           <div (mouseenter)="markSeen(user.userId, activity)" class="feed-item mat-elevation-z3"
             [ngClass]="{'unread': !activity.seen}" fxLayout="row" fxLayoutGap="1rem">

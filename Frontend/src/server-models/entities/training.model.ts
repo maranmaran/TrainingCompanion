@@ -23,4 +23,8 @@ export class Training {
 
     trainingBlockDayId: string;
     trainingBlockDay: TrainingBlockDay;
+
+    constructor(training: Partial<Training> = null) {
+        Object.assign(this, training);
+    }
 }

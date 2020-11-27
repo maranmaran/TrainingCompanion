@@ -19,7 +19,7 @@ export class TrainingProgramUser {
 
   id: string;
   startedOn: Date;
-  endedOn: Date;
+  endedOn: Date = null;
   isActive = !!this.endedOn;
 
   trainingProgramId: string;

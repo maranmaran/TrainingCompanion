@@ -1,5 +1,4 @@
 ﻿using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
-using Backend.Business.Authorization.AuthorizationRequests.ExternalLogin.GoogleLogin;
 using Backend.Business.Authorization.Interfaces;
 using Backend.Domain;
 using Backend.Domain.Entities.User;

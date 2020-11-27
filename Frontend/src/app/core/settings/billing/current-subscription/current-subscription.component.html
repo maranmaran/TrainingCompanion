@@ -2,7 +2,7 @@
  fxLayout="row" fxLayout.xs="column" fxLayoutGap="8px" fxLayoutAlign="center center">
 
   <div id="subscription-placeholder">
-    <app-plan [plan]="subscription.plan" [showSubscribeButton]="false"
+    <app-plan [plan]="subscriptionItem.plan" [showSubscribeButton]="false"
       [colorIndex]="1"></app-plan>
   </div>
 
@@ -21,7 +21,7 @@
     <div id="actions" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5rem">
 
       <div id="cancel">
-        <button mat-button (click)="cancelSubscription.emit(subscription.id)">{{ 'SHARED.CANCEL' | translate}}</button>
+        <button mat-button color="warn" (click)="cancelSubscription.emit(subscription.id)">{{ 'SHARED.CANCEL' | translate}}</button>
       </div>
 
       <div id="change">

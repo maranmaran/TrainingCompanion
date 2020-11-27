@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Backend.Library.Payment.Models;
+using Newtonsoft.Json;
+using Stripe;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Backend.Library.Payment.Models;
-using Newtonsoft.Json;
-using Stripe;
 
 namespace Backend.Library.Payment.Configuration
 {
@@ -107,7 +107,7 @@ namespace Backend.Library.Payment.Configuration
                     Nickname = plan.Name,
                     Amount = plan.PricePerUnit,
                     Metadata = plan.Metadata,
-                    Product = new PlanProductCreateOptions
+                    Product = new PlanProductOptions()
                     {
                         Id = productId
                     },

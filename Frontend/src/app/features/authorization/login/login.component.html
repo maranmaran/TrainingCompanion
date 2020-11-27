@@ -8,12 +8,14 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" #form="ngForm" fxLayout="column wrap" fxLayoutGap="5px">
 
       <mat-form-field>
+        <mat-label>{{ 'SHARED.USERNAME' | translate }}</mat-label>
         <input matInput autofocus formControlName="username" autocomplete="username" type="text" id="username"
           placeholder="{{ 'SHARED.USERNAME' | translate }}">
         <i matSuffix class="fas fa-user"></i>
       </mat-form-field>
 
       <mat-form-field>
+        <mat-label>{{ 'AUTHORIZATION.PASSWORD' | translate }}</mat-label>
         <input #passwordInput matInput formControlName="password" autocomplete="current-password" class="form-control"
           id="password" placeholder="{{ 'AUTHORIZATION.PASSWORD' | translate }}">
 

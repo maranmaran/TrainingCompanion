@@ -1,13 +1,14 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/get-training-metrics.response';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
-import { PersonalBest } from './../../server-models/entities/personal-best.model';
+import { MediaFile } from './../../server-models/entities/media-file.model';
 
 // Exercise property type ENTITY
 export interface TrainingState extends EntityState<Training> {
     selectedTrainingId: string | number,
-    selectedExerciseId: string | number,
-    exercisePrs: PersonalBest[]
+    media: Record<string | number, MediaFile[]>
+    metrics: Record<string | number, GetTrainingMetricsResponse>
 }
 
 //sort function
@@ -23,5 +24,6 @@ export const adapterExercise = createEntityAdapter<Exercise>({});
 export const trainingInitialState: TrainingState = adapterTraining.getInitialState({
     selectedTrainingId: undefined,
     selectedExerciseId: undefined,
-    exercisePrs: []
+    media: {},
+    metrics: {}
 });

@@ -43,15 +43,13 @@
     <!--RPE system-->
     <div fxLayout="row" fxLayoutGap="1rem">
       <label>{{ 'SETTINGS.GENERAL.RPE_SYSTEM' | translate }}: </label>
+      <mat-checkbox (change)="onUseRpeSystemChecked($event)"
+        [checked]="userSetting.useRpeSystem">
+      </mat-checkbox>
       <mat-slide-toggle [disabled]="!userSetting.useRpeSystem" [color]="'accent'" [checked]="rpeSystemButtonChecked"
         (change)="onRpeSystemChange($event)">
         {{ userSetting.rpeSystem }}
       </mat-slide-toggle>
-      <mat-checkbox (change)="onUseRpeSystemChecked($event)"
-        [checked]="userSetting.useRpeSystem">
-        {{ userSetting.useRpeSystem ? 'Off' : 'On' }}
-      </mat-checkbox>
-
     </div>
 
     <!--PERCENTAGE system-->

@@ -13,12 +13,15 @@ export class CurrentSubscriptionComponent implements OnInit {
   @Input() subscription: Subscription;
   SubscriptionStatus = SubscriptionStatus;
   SubscriptionStatusTranslation = SubscriptionStatusTranslation;
+  subscriptionItem: any
+
 
   @Output() cancelSubscription = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit() {
+    this.subscriptionItem = this.subscription.items.data[0]
   }
 
 }

@@ -1,6 +1,6 @@
 ﻿using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
 
-namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin.GoogleLogin
+namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
 {
     public class ExternalLoginResponse
     {

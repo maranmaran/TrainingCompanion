@@ -1,4 +1,5 @@
 ﻿using Backend.Domain;
+using Backend.Domain.Entities.TrainingLog;
 using Backend.Infrastructure.Exceptions;
 using Backend.Library.AmazonS3.Interfaces;
 using MediatR;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.GetByMonth
 {
-    public class GetAllTrainingByMonthRequestHandler : IRequestHandler<GetAllTrainingsByMonthRequest, IEnumerable<Domain.Entities.TrainingLog.Training>>
+    public class GetAllTrainingByMonthRequestHandler : IRequestHandler<GetAllTrainingsByMonthRequest, IEnumerable<Training>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IS3Service _s3;
@@ -22,69 +23,22 @@ namespace Backend.Business.TrainingLog.TrainingRequests.GetByMonth
             _s3 = s3;
         }
 
-        public async Task<IEnumerable<Domain.Entities.TrainingLog.Training>> Handle(GetAllTrainingsByMonthRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Training>> Handle(GetAllTrainingsByMonthRequest request, CancellationToken cancellationToken)
         {
             try
             {
                 var trainings = await _context.Trainings
-
-                    .Include(x => x.TrainingProgram)
-                    .Include(x => x.TrainingBlockDay)
-
-                    .Include(x => x.Media)
-
-                    .Include(x => x.Exercises)
-                    .ThenInclude(x => x.Sets)
-                    .Include(x => x.Exercises)
-                    .ThenInclude(x => x.Media)
-
-                    .Include(x => x.Exercises)
-                    .ThenInclude(x => x.ExerciseType)
-                    .ThenInclude(x => x.Properties)
-                    .ThenInclude(x => x.Tag)
-                    .ThenInclude(x => x.TagGroup)
-
                     .Where(x => x.ApplicationUserId == request.ApplicationUserId &&
                                 x.DateTrained.Month == request.Month &&
                                 x.DateTrained.Year == request.Year)
-
                     .OrderBy(x => x.DateTrained)
                     .ToListAsync(cancellationToken);
-
-
-                await RefreshPresignedUrls(trainings);
 
                 return trainings;
             }
             catch (Exception e)
             {
-                throw new NotFoundException(nameof(Domain.Entities.TrainingLog.Training), $"Could not find training for {request.ApplicationUserId} USER", e);
-            }
-        }
-
-        /// <summary>
-        /// Refresh all pre-signed urls that need to be refreshed
-        /// </summary>
-        /// <param name="trainings"></param>
-        /// <returns></returns>
-        private async Task RefreshPresignedUrls(IEnumerable<Domain.Entities.TrainingLog.Training> trainings)
-        {
-            var trainingsWithMedia = trainings.Where(x => x.Media.Count > 0);
-
-            foreach (var training in trainingsWithMedia)
-            {
-                foreach (var media in training.Media)
-                {
-                    media.DownloadUrl = await _s3.RenewPresignedUrl(media.DownloadUrl, media.FtpFilePath);
-                }
-
-                foreach (var exercise in training.Exercises)
-                {
-                    foreach (var media in exercise.Media)
-                    {
-                        media.DownloadUrl = await _s3.RenewPresignedUrl(media.DownloadUrl, media.FtpFilePath);
-                    }
-                }
+                throw new NotFoundException(nameof(Training), $"Could not find training for {request.ApplicationUserId} USER", e);
             }
         }
     }

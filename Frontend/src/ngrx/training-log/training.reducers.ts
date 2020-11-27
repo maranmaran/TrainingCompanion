@@ -1,10 +1,12 @@
+import { TrainingDetailsResponse } from './../../server-models/cqrs/training/training-details.response';
 import { Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
-import { Exercise } from 'src/server-models/entities/exercise.model';
-import { PersonalBest } from 'src/server-models/entities/personal-best.model';
 import { Training } from 'src/server-models/entities/training.model';
+
 import * as TrainingActions from './training.actions';
 import { adapterTraining, trainingInitialState, TrainingState } from './training.state';
+import { MediaFile } from 'src/server-models/entities/media-file.model';
+import { GetTrainingMetricsResponse } from 'src/server-models/cqrs/report/get-training-metrics.response';
 
 export const trainingReducer: ActionReducer<TrainingState, Action> = createReducer(
   trainingInitialState,
@@ -36,20 +38,14 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
 
   // GET ALL - but replace state
   on(TrainingActions.trainingsFetchedReplaceState, (state: TrainingState, payload: { entities: Training[] }) => {
-    return adapterTraining.addAll(payload.entities, state);
+    return adapterTraining.setAll(payload.entities, state);
   }),
 
   // SET SELECTED
-  on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: { entity: Training }) => {
+  on(TrainingActions.setSelectedTraining, (state: TrainingState, payload: { id: string }) => {
     return {
       ...state,
-      selectedTrainingId: payload.entity ? payload.entity.id : null,
-    };
-  }),
-  on(TrainingActions.setSelectedExercise, (state: TrainingState, payload: { entity: Exercise }) => {
-    return {
-      ...state,
-      selectedExerciseId: payload.entity ? payload.entity.id : null,
+      selectedTrainingId: payload?.id,
     };
   }),
 
@@ -57,53 +53,31 @@ export const trainingReducer: ActionReducer<TrainingState, Action> = createReduc
     return undefined;
   }),
 
-  on(TrainingActions.exercisePrsFetched, (state: TrainingState, payload: { prs: PersonalBest[] }) => {
+  on(TrainingActions.setTrainingMedia, (state: TrainingState, payload: { id: string, media: MediaFile[] }) => {
+    
+    const mediaDict = { ...state.media };
+    mediaDict[payload.id] = payload.media;
+
     return {
       ...state,
-      exercisePrs: [...payload.prs]
+      media: mediaDict
     };
   }),
 
-  // REORDER
-  on(TrainingActions.reorderExercises, (state: TrainingState, payload: { trainingId:string, previousItem: string, currentItem: string }) => {
+  on(TrainingActions.setTrainingMetrics, (state: TrainingState, payload: { id: string, metrics: GetTrainingMetricsResponse }) => {
+    
+    const metricsDict = { ...state.metrics };
+    metricsDict[payload.id] = payload.metrics;
 
-    // pluck types
-    var training = state.entities[payload.trainingId];
-    const first = {...training.exercises.find(x => x.id == payload.currentItem)};
-    const second = {...training.exercises.find(x => x.id == payload.previousItem)};
-
-    // switch
-    let firstOrder = first.order;
-    let secondOrder = second.order;
-    first.order = secondOrder;
-    second.order = firstOrder;
-
-    // map
-    const exercises = training.exercises.map(x => {
-      if(x.id == first.id) {
-        return first;
-      }
-
-      if (x.id == second.id) {
-        return second;
-      }
-
-      return x;
-    })
-
-    // update statements
-    const update: Update<Training> = {
-      id: payload.trainingId,
-      changes: { exercises }
-    }
-
-    // update
-    return adapterTraining.updateOne(update, state);
+    return {
+      ...state,
+      metrics: metricsDict
+    };
   }),
+
 );
 
 export const getSelectedTrainingId = (state: TrainingState) => state?.selectedTrainingId;
-export const getSelectedExerciseId = (state: TrainingState) => state?.selectedExerciseId;
 
 // get the selectors
 export const {

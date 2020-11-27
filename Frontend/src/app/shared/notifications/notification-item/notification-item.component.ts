@@ -1,11 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { unitSystem } from 'src/ngrx/auth/auth.selectors';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { PushNotification } from 'src/server-models/entities/push-notification.model';
 import { NotificationType } from 'src/server-models/enums/notification-type.enum';
 import { UnitSystem } from 'src/server-models/enums/unit-system.enum';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notification-item',
@@ -19,7 +16,29 @@ export class NotificationItemComponent {
   notificationType = NotificationType;
 
   constructor(
+    private router: Router,
   ) { }
+
+  
+
+  navigate() {
+
+    switch(this.model.type) {
+      case NotificationType.TrainingCreated: 
+        this.navigateTraining();
+        break;
+    }
+  }
+  
+  navigateTraining() {
+    
+    const queryParams = {
+      viewAs: this.model.entity.applicationUserId,
+      trainingId: this.model.entity.id
+    };
+    
+    this.router.navigate(["/app/training-log/training-details"], { queryParams })
+  }
 
 
 }

@@ -1,4 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TrainingCreateEditComponent } from 'src/app/features/training-log/training/training-create-edit/training-create-edit.component';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,6 +15,11 @@ import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/trai
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
+import { CRUD } from 'src/business/shared/crud.enum';
+import { noop } from '@angular/compiler/src/render3/view/util';
+import { exercisesForTraining } from 'src/ngrx/exercise/exercise.selectors';
+import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
+import { exerciseFetched } from 'src/ngrx/exercise/exercise.actions';
 
 @Component({
   selector: 'app-training-month-view-day',
@@ -29,29 +36,58 @@ export class TrainingMonthViewDayComponent implements OnInit {
 
   showPreview = false;
 
+  exercises: Exercise[];
+  exercisesEmpty = false;
+
   constructor(
     private store: Store<AppState>,
     private trainingService: TrainingService,
     private uiService: UIService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private dialog: MatDialog,
+    private exerciseService: ExerciseService
   ) {
   }
 
   ngOnInit() {
     this.store.select(isMobile).pipe(take(1)).subscribe((isMobile: boolean) => this.isMobile = isMobile);
+
+    this.store.select(exercisesForTraining, this.training.id)
+    .pipe(take(1))
+    .subscribe(exercises => {
+      this.exercises = exercises
+      if(this.exercises != null && this.exercises.length == 0) 
+        this.exercisesEmpty = true; 
+    });
   }
 
   onTrainingClick() {
-    this.store.dispatch(setSelectedTraining({ entity: Object.assign({}, this.training) }));
+    this.store.dispatch(setSelectedTraining({ id: this.training?.id }));
   }
 
   onCopyClick() {
     // open copy dialog...
   }
 
+  fetchExercises() {
+    if(this.exercises != null) {
+      return;
+    }
+
+    this.exerciseService.getAll(this.training.id)
+    .pipe(take(1))
+    .subscribe(exercises => {
+      this.exercises = exercises as Exercise[];
+      this.store.dispatch(exerciseFetched({ trainingId: this.training.id, entities: this.exercises }));
+
+      if(this.exercises && this.exercises.length == 0)
+        this.exercisesEmpty = true;
+    });
+  }
+
   onDelete() {
 
-    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.TRAINING_DELETE_DIALOG', {dateTrained: moment(this.training.dateTrained).format('L')});
+    this.deleteDialogConfig.message = this.translateService.instant('TRAINING_LOG.TRAINING_DELETE_DIALOG', { dateTrained: moment(this.training.dateTrained).format('L') });
 
     var dialogRef = this.uiService.openConfirmDialog(this.deleteDialogConfig);
 
@@ -66,7 +102,7 @@ export class TrainingMonthViewDayComponent implements OnInit {
       )
   }
 
-  filterBy(data: Exercise[], prop: string) {
+  sortBy(data: Exercise[], prop: string) {
     return sortBy(data, [prop]);
   }
 
@@ -95,8 +131,23 @@ export class TrainingMonthViewDayComponent implements OnInit {
     }
   }
 
-  onCopy() {
-    console.log("COPY");
+  onCopy(training: Training) {
+    const date = moment(training.dateTrained);
+
+    const dialogRef = this.dialog.open(TrainingCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '18rem',
+      autoFocus: false,
+      data: {
+        title: this.translateService.instant('TRAINING_LOG.COPY_TRAINING_TITLE', { date: date.format("DD, MMM") }),
+        action: 'COPY',
+        training: new Training({ id: training.id }),
+        timeOnly: false,
+        day: date
+      },
+      panelClass: ["dialog-container"]
+    });
   }
 
   onDeleteClick() {
