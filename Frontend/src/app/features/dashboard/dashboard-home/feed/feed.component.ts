@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -24,7 +25,7 @@ export class FeedComponent implements OnInit, AfterViewInit {
 
   constructor(
     private store: Store<AppState>,
-    private sanitizer: DomSanitizer,
+    private router: Router,
     private dashboardService: DashboardService
   ) { }
 
@@ -59,6 +60,27 @@ export class FeedComponent implements OnInit, AfterViewInit {
         err => console.log(err)
       )
   }
+
+  
+  navigate(activity: BasicActivityInfo) {
+
+    switch(activity.type) {
+      case ActivityType.Training: 
+        this.navigateTraining(activity);
+        break;
+    }
+  }
+
+  navigateTraining(activity: BasicActivityInfo) {
+    
+    const queryParams = {
+      viewAs: activity.entity.applicationUserId,
+      trainingId: activity.entity.id
+    };
+    
+    this.router.navigate(["/app/training-log/training-details"], { queryParams })
+  }
+
 
   trackActivityId = (activity: BasicActivityInfo) => activity.id
   trackUserId = (container: UserActivitiesContainer) => container.userId

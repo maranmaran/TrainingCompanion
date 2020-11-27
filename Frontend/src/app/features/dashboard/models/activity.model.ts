@@ -28,9 +28,10 @@ export class UserActivitiesContainer {
   activities: BasicActivityInfo[];
 }
 
+
 export enum ActivityType {
   Training = "Training",
   MediaFile = "MediaFile",
   Bodyweight = "Bodyweight",
-  PersonalBest = "PersonalBest"
+  PersonalBest = "PersonalBest",
 }
