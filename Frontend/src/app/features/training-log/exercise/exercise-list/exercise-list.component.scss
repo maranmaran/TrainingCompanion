@@ -1,0 +1,14 @@
+// xs: 0, // handset portrait (small, medium, large) | handset landscape (small)
+// sm: 600px, // handset landscape (medium, large) | tablet portrait(small, large)
+// md: 960px, //  tablet landscape (small, large)
+// lg: 1280px, // laptops and desktops
+// xl: 1600px // large desktops
+
+.autofit-cell {
+  flex: 1 1 100%;
+}
+
+.max-cell {
+  max-width: -webkit-fill-available;
+  padding: 0 0.5rem;
+}

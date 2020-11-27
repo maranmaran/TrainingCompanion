@@ -104,6 +104,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       new CustomColumn({
         definition: 'exercise',
         title: 'TRAINING_LOG.EXERCISE_LABEL',
+        cellClass: 'autofit-cell',
+        headerClass: 'autofit-cell',
         sort: true,
         sortFn: (item: Exercise) => item.exerciseType.name,
         useComponent: true,
@@ -113,6 +115,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       new CustomColumn({
         definition: 'sets',
         title: 'TRAINING_LOG.SETS_LABEL',
+        cellClass: 'autofit-cell',
+        headerClass: 'autofit-cell',
         sort: true,
         sortFn: (item: Exercise) => item.sets?.length,
         displayFn: (item: Exercise) => item.sets?.length,
@@ -121,6 +125,8 @@ export class ExerciseListComponent implements OnInit, OnDestroy {
       new CustomColumn({
         definition: 'max',
         title: 'TRAINING_LOG.PROJECTED_MAX',
+        cellClass: 'autofit-cell',
+        headerClass: 'autofit-cell',
         sort: true,
         sortFn: (item: Exercise) => item.sets.map(x => x.projectedMax).reduce(this.reduceProjectedMax, 0),
         displayFn: (item: Exercise) => transformWeight(item.sets.map(x => x.projectedMax).reduce(this.reduceProjectedMax, 0), this.unitSystem),

@@ -24,6 +24,7 @@ import { PagingModel } from './table-models/paging.model';
     './../../features/exercise-types/exercise-types-home/exercise-type-list/exercise-type-list.component.scss',
     './../../features/bodyweight/bodyweight-home/bodyweight-list/bodyweight-list.component.scss',
     './../../features/training-program/training-program-home/training-program-components/training-program-list/training-program-list.component.scss',
+    './../../features/training-log/exercise/exercise-list/exercise-list.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,
   animations: [
