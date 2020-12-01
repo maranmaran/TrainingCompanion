@@ -26,7 +26,7 @@
 
     <ng-template matExpansionPanelContent>
         <mat-accordion id="trainings-accordion">
-            <app-block-training *ngFor="let training of day.trainings; let i = index" [training]="training"
+            <app-block-training *ngFor="let training of day.trainings; let i = index; trackBy: trackTrainingId" [training]="training"
                 [order]="i + 1" [dayIdx]="day.order" [weekIdx]="weekIdx" (delete)="onDelete($event)"
                 (copy)="onCopy($event)">
             </app-block-training>

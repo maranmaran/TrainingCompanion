@@ -11,6 +11,7 @@ import { MediaFile } from 'src/server-models/entities/media-file.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { MediaType } from 'src/server-models/enums/media-type.enum';
 import { CrudService } from '../crud.service';
+import { CopyTrainingRequest } from 'src/server-models/cqrs/training/copy-training.request';
 
 @Injectable()
 export class TrainingService extends CrudService<Training> {
@@ -37,11 +38,7 @@ export class TrainingService extends CrudService<Training> {
       );
   }
 
-  copy(id: string, date: string) {
-    const request = {
-      trainingId: id,
-      toDate: date
-    };
+  copy(request: CopyTrainingRequest) {
 
     return this.http.post<Training>(this.url + 'Copy/', request)
       .pipe(

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Infrastructure.Exceptions;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.Copy
 {
@@ -37,6 +38,9 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Copy
                         .AsNoTracking()
                         .FirstOrDefaultAsync(x => x.Id == request.TrainingId, cancellationToken);
 
+                if(training == null)
+                    throw new NotFoundException(nameof(training), request.TrainingId);
+
                 training.Id = Guid.Empty;
                 foreach (var exercise in training.Exercises)
                 {
@@ -50,6 +54,7 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Copy
                 }
 
                 training.DateTrained = request.ToDate;
+                training.TrainingBlockDayId = request.ToProgramDay;
 
                 await _context.Trainings.AddAsync(training, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);

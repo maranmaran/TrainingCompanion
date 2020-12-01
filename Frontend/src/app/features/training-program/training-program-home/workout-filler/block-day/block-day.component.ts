@@ -1,9 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
+import { noop } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TrainingCreateEditComponent } from 'src/app/features/training-log/training/training-create-edit/training-create-edit.component';
+import { BlockTrainingCreateEditComponent } from 'src/app/features/training-program/training-program-home/workout-filler/block-day/block-training/block-training-create-edit/block-training-create-edit.component';
 import { TrainingBlockDayService } from 'src/business/services/feature-services/training-block-day.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
@@ -32,7 +36,8 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
     private trainingService: TrainingService,
     private changeTracking: ChangeDetectorRef,
     private dayService: TrainingBlockDayService,
-    private UIService: UIService
+    private UIService: UIService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -75,8 +80,26 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // copy training
   onCopy(training: Training) {
-    throw new Error("Not implemented");
-  }
+    const date = moment(training.dateTrained);
+
+    const dialogRef = this.dialog.open(BlockTrainingCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '20rem',
+      autoFocus: false,
+      data: {
+        title: this.translateService.instant('TRAINING_BLOCK.COPY_TRAINING_TITLE'),
+        action: 'COPY',
+        training: training,
+        day: (this.day.order - 1) % 7,
+        week: this.weekIdx
+      },
+      panelClass: ["dialog-container"]
+    });
+
+    dialogRef.afterClosed().pipe(take(1))
+    .subscribe(noop);
+  } 
 
   // change state of training block day (Rest/Training day) - Slide toggle button
   onChange(event: MatSlideToggleChange) {
@@ -134,5 +157,7 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
         err => console.log(err)
       )
   }
+
+  trackTrainingId = (training: Training) => training.id
 
 }

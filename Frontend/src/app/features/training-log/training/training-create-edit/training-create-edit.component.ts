@@ -14,6 +14,7 @@ import { trainingCreated } from 'src/ngrx/training-log/training.actions';
 import { Training } from 'src/server-models/entities/training.model';
 import { TrainingService } from './../../../../../business/services/feature-services/training.service';
 import { CreateTrainingRequest } from './../../../../../server-models/cqrs/training/create-training.request';
+import { CopyTrainingRequest } from './../../../../../server-models/cqrs/training/copy-training.request';
 
 @Component({
   selector: 'app-training-create-edit',
@@ -92,7 +93,11 @@ export class TrainingCreateEditComponent implements OnInit {
 
   copyEntity(id: string, date) {
     
-    this.trainingService.copy(id, date)
+    let request = new CopyTrainingRequest();
+    request.toDate = date;
+    request.trainingId = id;
+
+    this.trainingService.copy(request)
     .pipe(take(1))
     .subscribe(
       (training: Training) => {

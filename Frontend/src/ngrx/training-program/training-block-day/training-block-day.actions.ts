@@ -1,6 +1,7 @@
 import { Update } from "@ngrx/entity";
 import { createAction, props } from "@ngrx/store";
 import { TrainingBlockDay } from "src/server-models/entities/training-program.model";
+import { Training } from 'src/server-models/entities/training.model';
 
 export const trainingBlockDayCreated = createAction(
   "[TrainingBlockDay] Created",
@@ -26,3 +27,8 @@ export const setSelectedTrainingBlockDay = createAction(
   "[TrainingBlockDay] Set selected trainingBlockDay",
   props<{ entity: TrainingBlockDay }>()
 );
+
+export const addTraining = createAction(
+  "[TrainingBlockDay] Add training",
+  props<{ dayId: string, training: Training}>()
+)

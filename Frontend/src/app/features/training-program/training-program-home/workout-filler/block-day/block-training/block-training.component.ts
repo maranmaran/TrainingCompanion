@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -48,7 +49,7 @@ export class BlockTrainingComponent implements OnInit {
     private trainingService: TrainingService,
     private store: Store<AppState>,
     private exerciseService: ExerciseService,
-    private renderer: Renderer2
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -193,10 +194,13 @@ export class BlockTrainingComponent implements OnInit {
   }
 
   onEditNote(training: Training) {
-
+    throw new Error("Not implemented")
   }
 
   onCopy(training: Training) {
+    this.onCopyEvent.emit(training);
+  }
+
     // const dialogRef = this.UIService.openDialogFromComponent(BlockExerciseCreateEditComponent, {
     //   height: 'auto',
     //   width: '98%',
@@ -217,6 +221,5 @@ export class BlockTrainingComponent implements OnInit {
     //     this.training.exercises.push(exercise);
     //     this.panel.open();
     //   });
-  }
 
 }

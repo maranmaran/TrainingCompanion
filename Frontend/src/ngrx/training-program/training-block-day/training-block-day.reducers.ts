@@ -1,9 +1,11 @@
 
-import { Update } from '@ngrx/entity';
+import { Update, Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
+import { Training } from 'src/server-models/entities/training.model';
 import * as TrainingBlockDayActions from './training-block-day.actions';
 import { adapterTrainingBlockDay, trainingBlockDayInitialState, TrainingBlockDayState } from './training-block-day.state';
+import * as _ from 'lodash-es';
 
 export const trainingBlockDayReducer: ActionReducer<TrainingBlockDayState, Action> = createReducer(
     trainingBlockDayInitialState,
@@ -26,7 +28,7 @@ export const trainingBlockDayReducer: ActionReducer<TrainingBlockDayState, Actio
 
     // GET ALL
     on(TrainingBlockDayActions.trainingBlockDayFetched, (state: TrainingBlockDayState, payload: { entities: TrainingBlockDay[] }) => {
-       return adapterTrainingBlockDay.addAll(payload.entities, state); // replace current entities with these
+       return adapterTrainingBlockDay.setAll(payload.entities, state); // replace current entities with these
     }),
 
     // SET SELECTED
@@ -35,6 +37,22 @@ export const trainingBlockDayReducer: ActionReducer<TrainingBlockDayState, Actio
             ...state,
             selectedTrainingBlockDayId: payload.entity?.id == state.selectedTrainingBlockDayId ? null : payload.entity?.id,
         };
+    }),
+
+
+    on(TrainingBlockDayActions.addTraining, (state: TrainingBlockDayState, payload: { dayId: string, training: Training }) => {
+        
+        const entities = _.cloneDeep(state.entities);
+        const day = entities[payload.dayId] as TrainingBlockDay;
+
+        let update: Update<TrainingBlockDay> = {
+            id: payload.dayId,
+            changes: {
+                trainings: [...day.trainings, payload.training]
+            }
+        };
+
+        return adapterTrainingBlockDay.updateOne(update, state);
     }),
 
 );

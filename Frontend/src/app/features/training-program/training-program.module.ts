@@ -32,6 +32,7 @@ import { TrainingProgramListComponent } from './training-program-home/training-p
 import { TrainingProgramHomeComponent } from './training-program-home/training-program-home.component';
 import { BlockDayComponent } from './training-program-home/workout-filler/block-day/block-day.component';
 import { BlockExerciseCreateEditComponent } from './training-program-home/workout-filler/block-day/block-training/block-exercise-create-edit/block-exercise-create-edit.component';
+import { BlockTrainingCreateEditComponent } from './training-program-home/workout-filler/block-day/block-training/block-training-create-edit/block-training-create-edit.component';
 import { BlockExerciseDetailsComponent } from './training-program-home/workout-filler/block-day/block-training/block-exercise-details/block-exercise-details.component';
 import { BlockTrainingComponent } from './training-program-home/workout-filler/block-day/block-training/block-training.component';
 import { WorkoutFillerComponent } from './training-program-home/workout-filler/workout-filler.component';
@@ -67,7 +68,10 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
 
         WorkoutFillerComponent,
         BlockDayComponent,
+        
         BlockTrainingComponent,
+        BlockTrainingCreateEditComponent,
+
         BlockExerciseCreateEditComponent,
         BlockExerciseDetailsComponent,
     ],

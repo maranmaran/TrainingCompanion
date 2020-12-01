@@ -2,13 +2,13 @@
     gdColumns.gt-md="repeat(3, 1fr)" gdColumns.gt-lg="repeat(4, 1fr)">
 
     <!--Weeks horizontally-->
-    <div *ngFor="let week of weeks; let weekNum = index" class="filler-week" class="mb-3">
+    <div *ngFor="let week of weeks; let weekNum = index; trackBy: trackWeekId" class="filler-week" class="mb-3">
         <h2><b class="mb-1">Week {{ weekNum + 1 }}:</b></h2>
 
         <!--Days vertically -->
         <!-- [displayMode]="'flat'" -->
         <mat-accordion multi="true" class="program-headers-align">
-            <app-block-day [day]="day" [weekIdx]="weekNum" *ngFor="let day of week; trackBy: dayId"></app-block-day>
+            <app-block-day [day]="day" [weekIdx]="weekNum" *ngFor="let day of week.days; trackBy: trackDayId"></app-block-day>
         </mat-accordion>
     </div>
 
