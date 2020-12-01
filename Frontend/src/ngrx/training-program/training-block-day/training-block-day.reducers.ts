@@ -1,5 +1,5 @@
 
-import { Update, Update } from '@ngrx/entity';
+import { Update } from '@ngrx/entity';
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
 import { Training } from 'src/server-models/entities/training.model';
