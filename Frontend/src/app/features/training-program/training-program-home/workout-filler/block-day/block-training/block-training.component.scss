@@ -1,3 +1,10 @@
+.cdk-drag-preview {
+    // workarounds because material table styles override things
+    margin: 0 !important;
+    display: block !important;
+    flex-direction: unset !important;
+}
+
 .actions-hidden {
     display: none;
     animation: collapseToRight;
@@ -5,6 +12,10 @@
 
 .actions-expanded {
     animation: expandToLeft;
+}
+
+.mat-expansion-panel-body {
+    flex-direction: column !important;
 }
 
 @keyframes collapseToRight {

@@ -24,7 +24,7 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Update
         {
             try
             {
-                var trainingToUpdate = _context.Trainings.Find(request.Id);
+                var trainingToUpdate = await _context.Trainings.FindAsync(request.Id);
                 trainingToUpdate = _mapper.Map(request, trainingToUpdate);
 
                 _context.Trainings.Update(trainingToUpdate);

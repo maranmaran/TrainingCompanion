@@ -23,6 +23,7 @@ import { ShowUnitSystemLabelPipe } from './../../business/pipes/convert-unit-sys
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
+import { TruncatePipe } from './../../business/pipes/truncate.pipe';
 import { TransformWeightPipe } from './../../business/pipes/transform-weight.pipe';
 import { GraphCardComponent } from './../features/dashboard/dashboard-home/tracks/card-components/graph-card/graph-card.component';
 import { TrainingMonthViewDayComponent } from './../features/training-log/training/training-month/training-month-view-day/training-month-view-day.component';
@@ -55,6 +56,7 @@ import { NoteNotificationBodyComponent } from './notifications/notification-item
 import { PersonalBestNotificationBodyComponent } from './notifications/notification-item/body-templates/personal-best-notification-body.component';
 import { TrainingNotificationBodyComponent } from './notifications/notification-item/body-templates/training-notification-body.component';
 import { DragScrollModule } from 'ngx-drag-scroll';
+import { TruncatedTextComponent } from 'src/app/shared/custom-preview-components/truncated-text/truncated-text.component';
 
 @NgModule({
     imports: [
@@ -110,6 +112,7 @@ import { DragScrollModule } from 'ngx-drag-scroll';
         ChartComponent,
         NotificationTypeIconComponent,
         ApplyTimezonePipe,
+        TruncatePipe,
         ButtonSizeDirective,
         TransformWeightPipe,
         TransformRpePipe,
@@ -127,7 +130,8 @@ import { DragScrollModule } from 'ngx-drag-scroll';
         RepeatPipe,
         FormatMomentDatePipe,
         MediaCarouselComponent,
-        AfterIfDirective 
+        AfterIfDirective,
+        TruncatedTextComponent,
     ],
     exports: [
         CommonModule,
@@ -152,6 +156,7 @@ import { DragScrollModule } from 'ngx-drag-scroll';
         EnumToArrayPipe,
         SplitPascalCasePipe,
         ShowUnitSystemLabelPipe,
+        TruncatePipe,
         MaterialTableComponent,
         ShowHidePasswordDirective,
         ChartCanvasDirective,
@@ -188,7 +193,8 @@ import { DragScrollModule } from 'ngx-drag-scroll';
         MediaCarouselComponent,
         FormatMomentDatePipe,
         DragScrollModule,
-        AfterIfDirective    
+        AfterIfDirective,
+        TruncatedTextComponent,
     ],
     providers: [
     ],

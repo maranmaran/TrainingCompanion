@@ -1,8 +1,8 @@
-<div class="workout-filler-container" gdGap="1rem" gdColumns.lt-md="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)"
+<div cdkDropListGroup class="workout-filler-container" gdGap="1rem" gdColumns.lt-md="repeat(1, 1fr)" gdColumns.gt-sm="repeat(2, 1fr)"
     gdColumns.gt-md="repeat(3, 1fr)" gdColumns.gt-lg="repeat(4, 1fr)">
 
     <!--Weeks horizontally-->
-    <div *ngFor="let week of weeks; let weekNum = index; trackBy: trackWeekId" class="filler-week" class="mb-3">
+    <div  *ngFor="let week of weeks; let weekNum = index; trackBy: trackWeekId" class="filler-week" class="mb-3">
         <h2><b class="mb-1">Week {{ weekNum + 1 }}:</b></h2>
 
         <!--Days vertically -->

@@ -34,8 +34,8 @@ export class BlockTrainingComponent implements OnInit {
   @Input() weekIdx: number;
   @Input() dayIdx: number;
 
-  @Output("delete") onDeleteEvent = new EventEmitter<Training>();
-  @Output("copy") onCopyEvent = new EventEmitter<Training>();
+  @Output("deleteTraining") onDeleteEvent = new EventEmitter<Training>();
+  @Output("editTraining") onEditEvent = new EventEmitter<Training>();
 
   private _userId: string;
   @ViewChild("trainingPanel") panel: MatExpansionPanel;
@@ -58,10 +58,10 @@ export class BlockTrainingComponent implements OnInit {
     this.store.select(currentUserId).pipe(take(1)).subscribe(id => this._userId = id);
   }
 
-  onAdd(training: Training) {
+  onAddExercise(training: Training) {
     var pagingModel = new PagingModel();
 
-    forkJoin(
+    forkJoin([
       this.exerciseTypeService.getPaged(this._userId, pagingModel)
         .pipe(take(1)), of(training).pipe(map(training => {
           const len = training.exercises?.length;
@@ -72,7 +72,7 @@ export class BlockTrainingComponent implements OnInit {
 
           return newExercise;
         }))
-    ).subscribe(([exerciseTypes, exercise]) => {
+    ]).subscribe(([exerciseTypes, exercise]) => {
 
       const dialogRef = this.UIService.openDialogFromComponent(BlockExerciseCreateEditComponent, {
         height: 'auto',
@@ -139,7 +139,7 @@ export class BlockTrainingComponent implements OnInit {
 
   }
 
-  onDelete(training: Training) {
+  onDeleteTraining(training: Training) {
 
     let deleteDialogConfig = new ConfirmDialogConfig({
       title: 'TRAINING_PROGRAM.DELETE_TRAINING_TITLE',
@@ -193,33 +193,8 @@ export class BlockTrainingComponent implements OnInit {
       });
   }
 
-  onEditNote(training: Training) {
-    throw new Error("Not implemented")
+  onEditTraining(training: Training) {
+    this.onEditEvent.emit(training);
   }
-
-  onCopy(training: Training) {
-    this.onCopyEvent.emit(training);
-  }
-
-    // const dialogRef = this.UIService.openDialogFromComponent(BlockExerciseCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '50rem',
-    //   autoFocus: false,
-    //   data: { titleExercise: 'TRAINING_LOG.EXERCISE_ADD_TITLE', titleSets: 'TRAINING_LOG.SETS_LABEL', action: CRUD.Create, exercise, exerciseTypes, pagingModel },
-    //   panelClass: []
-    // });
-
-    // dialogRef.afterClosed().pipe(take(1))
-    //   .subscribe((exercise: Exercise) => {
-
-    //     if (!exercise) return;
-
-    //     if (!this.training.exercises || this.training.exercises?.length == 0)
-    //       this.training.exercises = [];
-
-    //     this.training.exercises.push(exercise);
-    //     this.panel.open();
-    //   });
 
 }

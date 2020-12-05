@@ -1,22 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSliderChange } from '@angular/material/slider';
-import { Store } from '@ngrx/store';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as moment from 'moment';
 import { take } from 'rxjs/operators';
 import { TrainingCreateEditComponent } from 'src/app/features/training-log/training/training-create-edit/training-create-edit.component';
+import { applyUserTimezone } from 'src/business/pipes/apply-timezone.pipe';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { CRUD } from 'src/business/shared/crud.enum';
-import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { trainingBlockDays } from 'src/ngrx/training-program/training-block-day/training-block-day.selectors';
 import { CreateTrainingRequest } from 'src/server-models/cqrs/training/create-training.request';
-import { CopyTrainingRequest } from 'src/server-models/cqrs/training/copy-training.request';
-import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
+import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/update-training.request';
 import { Training } from 'src/server-models/entities/training.model';
-import * as _ from 'lodash-es';
-import * as moment from 'moment';
-import { applyUserTimezone } from 'src/business/pipes/apply-timezone.pipe';
-import { addTraining } from 'src/ngrx/training-program/training-block-day/training-block-day.actions';
 
 @Component({
   selector: 'app-block-training-create-edit',
@@ -24,130 +19,86 @@ import { addTraining } from 'src/ngrx/training-program/training-block-day/traini
 })
 export class BlockTrainingCreateEditComponent implements OnInit {
 
-  form: FormGroup;
-  weeks: TrainingBlockDay[][] = [];
-  daysMin = 1;
-  daysMax = 7;
+  time: FormControl;
+  note: string;
+  ckEditor = ClassicEditor;
+  ckEditorConfig = {
+      toolbar: ['bold', 'link', 'bulletedList', 'undo', 'redo', 'insertTable', 'ImageUpload', 'MediaEmbed']
+  };
 
   constructor(
     private trainingService: TrainingService,
-    private store: Store<AppState>,
     private dialogRef: MatDialogRef<TrainingCreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       title: string,
-      action: CRUD | 'COPY',
+      action: CRUD.Create | CRUD.Update,
       training: Training,
-      day: string,
-      week: number
     }) { }
 
   ngOnInit() {
-    this.getWeeksData();
+    this.createForm();
   }
 
-  getWeeksData() {
-    this.store.select(trainingBlockDays)
-      .pipe(take(1))
-      .subscribe(days => {
-
-        days = _.cloneDeep(days);
-
-        if (days.length == 0) return this.weeks = [];
-
-        let weeks = [];
-        let current = 0;
-        while (current < days.length) {
-          let week = days.slice(current, current + 7);
-          weeks.push(week);
-          current += 7;
-        }
-
-        this.weeks = weeks;
-        this.createForm(weeks);
-      });
-  }
-
-  createForm(weeks) {
+  createForm() {
     let trainingTime = applyUserTimezone(this.data.training.dateTrained).format('HH:mm');
+    this.ckEditor.note = this.data.training.note;
 
-    this.form = new FormGroup({
-      weekIdx: new FormControl(this.data.week),
-      dayIdx: new FormControl(this.data.day),
-      time: new FormControl(trainingTime)
-    });
+    this.time = new FormControl(trainingTime)
   }
-
-  weekSelected(event: MatSliderChange) {
-    let weekIdx = event.value - 1;
-    this.form.controls.weekIdx.setValue(weekIdx);
-
-    const week = this.weeks[weekIdx];
-
-    this.daysMax = week.length
-  }
-
-  daySelected(event: MatSliderChange) {
-    let dayIdx = event.value - 1;
-    this.form.controls.dayIdx.setValue(dayIdx);
+  
+  onChange( { editor }: ChangeEvent ) {
+    this.note = editor.getData();
   }
 
   onSubmit() {
-    if (!this.form.valid)
+    if (!this.time.valid)
       return;
 
-    const { weekIdx, dayIdx, time } = this.form.value;
-  
-    const week = this.weeks[weekIdx];
-
-    const day = week[dayIdx];
-    const trainingTime = moment(moment(new Date()).format('L') + ' ' + time, 'L HH:mm').toDate();
+    this.data.training.dateTrained = moment(moment(new Date()).format('L') + ' ' + this.time.value, 'L HH:mm').toDate();
+    this.data.training.note = this.note;
 
     switch (this.data.action) {
       case CRUD.Create:
-        return this.create(day.id, trainingTime);
+        return this.create(this.data.training);
 
-      case 'COPY':
-        return this.copy(day.id, trainingTime);
+      case CRUD.Update:
+        return this.edit(this.data.training);
 
       default:
         throw new Error('Invalid action')
     };
   }
 
-  onClose(dayId?: string, training?: Training) {
-
-    if(dayId && training) {
-      this.store.dispatch(addTraining({dayId, training}));
-    }
-
+  onClose(training?: Training) {
     this.dialogRef.close(training);
   }
 
-  copy(blockDayId, trainingTime) {
+  create(training) {
+    const request: CreateTrainingRequest = {
+      applicationUserId: training.applicationUserId,
+      dateTrained: training.dateTrained,
+      trainingBlockDayId: training.trainingBlockDayId
+    };
 
-    const request = new CopyTrainingRequest();
-    request.toProgramDay = blockDayId as string;
-    request.toDate = trainingTime as Date;
-    request.trainingId = this.data.training.id;
-
-    this.trainingService.copy(request)
-      .pipe(take(1))
-      .subscribe(
-        (training: Training) => this.onClose(blockDayId as string, training),
-        err => console.log(err)
-      );
+    this.trainingService.create<CreateTrainingRequest>(request).pipe(take(1))
+    .subscribe(trainingResponse => {
+      this.onClose(trainingResponse as Training);
+    }, 
+    err => console.log(err))
   }
 
-  create(blockDayId, trainingTime) {
+  edit(training) {
+    const request: UpdateTrainingRequest = {
+      dateTrained: training.dateTrained,
+      id: training.id,
+      note: training.note,
+      noteRead: false
+    }
 
-    const request = new CreateTrainingRequest();
-    request.trainingBlockDayId = blockDayId;
-    request.dateTrained = trainingTime;
-
-    this.trainingService.create(request).pipe(take(1))
-      .subscribe(
-        (training: Training) => this.onClose(blockDayId as string, training),
-        err => console.log(err)
-      );
+    this.trainingService.update<UpdateTrainingRequest>(request).pipe(take(1))
+    .subscribe(trainingResponse => {
+      this.onClose(trainingResponse as Training);
+    }, 
+    err => console.log(err))
   }
 }

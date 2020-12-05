@@ -166,7 +166,9 @@
     "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{trainingBlock}}?</p><p>All data for that training block will be lost.</p>",
     "ADD_TITLE": "Add training block",
     "UPDATE_TITLE": "Update training block",
-    "COPY_TRAINING_TITLE": "Copy training"
+    "COPY_TRAINING_TITLE": "Copy training",
+    "ADD_TRAINING_TITLE": "Add training on week {{week}} day {{day}}",
+    "EDIT_TRAINING_TITLE": "Edit training on week {{week}} day {{day}}"
   },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Import",

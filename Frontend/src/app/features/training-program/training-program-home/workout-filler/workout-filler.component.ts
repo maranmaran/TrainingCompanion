@@ -48,8 +48,6 @@ export class WorkoutFillerComponent implements OnInit, OnDestroy {
     return this.store.select(trainingBlockDays).subscribe(
       (days: TrainingBlockDay[]) => {
 
-        console.log('New days ', days);
-
         days = _.cloneDeep(days);
 
         if (days.length == 0) return this.weeks = [];

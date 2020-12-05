@@ -1,0 +1,21 @@
+<div *ngIf="text; else fallback">
+
+    <p fxLayout="column" *ngIf="!showAll">
+        <span [innerHtml]="text | truncate : characters"></span>
+        <a  fxFlexAlign="end" *ngIf="text.length > characters" class="pointer" (click)="showAll = true">
+            {{ 'TRAINING_PROGRAM.SHOW_ALL' | translate }}
+        </a>
+    </p>
+    
+    <p fxLayout="column" *ngIf="showAll">
+        <span [innerHtml]="text"></span>
+        <a fxFlexAlign="end" *ngIf="text.length > characters" class="pointer" (click)="showAll = false">
+            {{ 'TRAINING_PROGRAM.SHOW_LESS' | translate }}
+        </a>
+    </p>
+
+</div>
+
+<ng-template #fallback>
+    <i>{{fallbackText | translate}}</i>
+</ng-template>
