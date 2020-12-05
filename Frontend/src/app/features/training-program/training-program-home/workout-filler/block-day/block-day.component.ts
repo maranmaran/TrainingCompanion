@@ -251,9 +251,9 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.trainingService.update(request)
       .pipe(take(1))
       .subscribe(
-        (training: Training) => {
+        (trainingResponse: Training) => {
           this.store.dispatch(addTraining({ dayId, training }));
-          this.store.dispatch(removeTraining({ dayId: previousDayId, trainingId: training.id }));
+          this.store.dispatch(removeTraining({ dayId: previousDayId, trainingId: trainingResponse.id }));
         },
         err => console.log(err)
       );
