@@ -55,6 +55,23 @@ export const trainingBlockDayReducer: ActionReducer<TrainingBlockDayState, Actio
         return adapterTrainingBlockDay.updateOne(update, state);
     }),
 
+    
+
+    on(TrainingBlockDayActions.removeTraining, (state: TrainingBlockDayState, payload: { dayId: string, trainingId: string }) => {
+        
+        const entities = _.cloneDeep(state.entities);
+        const day = entities[payload.dayId] as TrainingBlockDay;
+
+        let update: Update<TrainingBlockDay> = {
+            id: payload.dayId,
+            changes: {
+                trainings: day.trainings.filter(t => t.id != payload.trainingId)
+            }
+        };
+
+        return adapterTrainingBlockDay.updateOne(update, state);
+    }),
+
 );
 
 export const getSelectedTrainingBlockDayId = (state: TrainingBlockDayState) => state.selectedTrainingBlockDayId;

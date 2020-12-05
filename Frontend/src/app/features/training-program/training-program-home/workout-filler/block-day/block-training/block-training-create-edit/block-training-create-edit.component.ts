@@ -92,7 +92,8 @@ export class BlockTrainingCreateEditComponent implements OnInit {
       dateTrained: training.dateTrained,
       id: training.id,
       note: training.note,
-      noteRead: false
+      noteRead: false,
+      trainingBlockDayId: training.trainingBlockDayId
     }
 
     this.trainingService.update<UpdateTrainingRequest>(request).pipe(take(1))

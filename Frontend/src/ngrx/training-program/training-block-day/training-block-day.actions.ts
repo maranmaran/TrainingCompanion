@@ -32,3 +32,8 @@ export const addTraining = createAction(
   "[TrainingBlockDay] Add training",
   props<{ dayId: string, training: Training}>()
 )
+
+export const removeTraining = createAction(
+  "[TrainingBlockDay] Remove training",
+  props<{ dayId: string, trainingId: string}>()
+)

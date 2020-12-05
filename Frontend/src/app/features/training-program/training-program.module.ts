@@ -37,6 +37,7 @@ import { BlockExerciseDetailsComponent } from './training-program-home/workout-f
 import { BlockTrainingComponent } from './training-program-home/workout-filler/block-day/block-training/block-training.component';
 import { WorkoutFillerComponent } from './training-program-home/workout-filler/workout-filler.component';
 import { TrainingProgramRoutingModule } from './training-program-routing.module';
+import { MoveCopyDialogComponent } from 'src/app/features/training-program/training-program-home/workout-filler/block-day/move-copy-dialog/move-copy-dialog.component';
 
 @NgModule({
     imports: [
@@ -74,6 +75,7 @@ import { TrainingProgramRoutingModule } from './training-program-routing.module'
 
         BlockExerciseCreateEditComponent,
         BlockExerciseDetailsComponent,
+        MoveCopyDialogComponent,
     ],
     exports: [
     ],

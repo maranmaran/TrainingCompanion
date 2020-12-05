@@ -5,17 +5,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { noop } from 'rxjs/internal/util/noop';
 import { take } from 'rxjs/operators';
 import { BlockTrainingCreateEditComponent } from 'src/app/features/training-program/training-program-home/workout-filler/block-day/block-training/block-training-create-edit/block-training-create-edit.component';
+import { MoveCopyDialogComponent } from 'src/app/features/training-program/training-program-home/workout-filler/block-day/move-copy-dialog/move-copy-dialog.component';
 import { TrainingBlockDayService } from 'src/business/services/feature-services/training-block-day.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { CRUD } from 'src/business/shared/crud.enum';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
-import { addTraining } from 'src/ngrx/training-program/training-block-day/training-block-day.actions';
+import { addTraining, removeTraining } from 'src/ngrx/training-program/training-block-day/training-block-day.actions';
 import { CopyTrainingRequest } from 'src/server-models/cqrs/training/copy-training.request';
 import { CreateTrainingRequest } from 'src/server-models/cqrs/training/create-training.request';
+import { UpdateTrainingRequest } from 'src/server-models/cqrs/training/update-training.request';
 import { TrainingBlockDay } from 'src/server-models/entities/training-program.model';
 import { Training } from 'src/server-models/entities/training.model';
 import { SubSink } from 'subsink';
@@ -68,7 +71,7 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // add training
   onAdd() {
-    
+
     let startTime = new Date();
     startTime.setHours(12, 0, 0, 0);
 
@@ -78,21 +81,21 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
       maxWidth: '18rem',
       autoFocus: false,
       data: {
-        title: this.translateService.instant('TRAINING_BLOCK.ADD_TRAINING_TITLE', { week: this.weekIdx + 1, day: this.dayIdx + 1  }),
+        title: this.translateService.instant('TRAINING_BLOCK.ADD_TRAINING_TITLE', { week: this.weekIdx + 1, day: this.dayIdx + 1 }),
         action: CRUD.Create,
-        training: new Training({dateTrained: startTime, note: '', trainingBlockDayId: this.day.id, applicationUserId: this.userId})
+        training: new Training({ dateTrained: startTime, note: '', trainingBlockDayId: this.day.id, applicationUserId: this.userId })
       },
       panelClass: ["dialog-container"]
     });
 
     dialogRef.afterClosed().pipe(take(1))
-    .subscribe((training: Training) => {
-      if(!training) return;
+      .subscribe((training: Training) => {
+        if (!training) return;
 
-      if (!this.day.trainings) this.day.trainings = [];
+        if (!this.day.trainings) this.day.trainings = [];
 
-      this.day.trainings.push(training);
-    });
+        this.day.trainings.push(training);
+      });
   }
 
   // copy training
@@ -104,7 +107,7 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
       maxWidth: '65rem',
       autoFocus: false,
       data: {
-        title: this.translateService.instant('TRAINING_BLOCK.EDIT_TRAINING_TITLE', {  week: this.weekIdx + 1, day: this.dayLabel}),
+        title: this.translateService.instant('TRAINING_BLOCK.EDIT_TRAINING_TITLE', { week: this.weekIdx + 1, day: this.dayLabel }),
         action: CRUD.Update,
         training
       },
@@ -112,13 +115,13 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     dialogRef.afterClosed().pipe(take(1))
-    .subscribe((training: Training) => {
-      if(!training) return;
+      .subscribe((training: Training) => {
+        if (!training) return;
 
-      this.day.trainings = this.day.trainings.map(t => t.id == training.id ? Object.assign(t, training) : t);
-    });
-  } 
-  
+        this.day.trainings = this.day.trainings.map(t => t.id == training.id ? Object.assign(t, training) : t);
+      });
+  }
+
   // delete training
   onDelete(training: Training) {
     let idx = this.day.trainings.indexOf(training);
@@ -186,73 +189,73 @@ export class BlockDayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   drop(event: CdkDragDrop<TrainingBlockDay, Training>) {
 
-
     const training = event.item.data as Training;
     const day = event.container.data as TrainingBlockDay;
 
-    if(training.trainingBlockDayId == day.id) 
-      return console.log("Not suitable.. returning");
+    // can't move or copy on same day
+    if (training.trainingBlockDayId == day.id)
+      return;
 
-    console.log("Moving training " + training.id + " to day " + day.id)
-    console.log("Launching dialog.. to pick copy or move action");
+    const dialogRef = this.dialog.open(MoveCopyDialogComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '14rem',
+      autoFocus: false,
+      data: {
+        title: this.translateService.instant('TRAINING_BLOCK.COPY_TRAINING_TITLE'),
+      },
+      panelClass: ["dialog-container"]
+    });
 
-    // const dialogRef = this.dialog.open(BlockTrainingCreateEditComponent, {
-    //   height: 'auto',
-    //   width: '98%',
-    //   maxWidth: '20rem',
-    //   autoFocus: false,
-    //   data: {
-    //     title: this.translateService.instant('TRAINING_BLOCK.COPY_TRAINING_TITLE'),
-    //     action: 'COPY',
-    //     training: training,
-    //     day: (this.day.order - 1) % 7,
-    //     week: this.weekIdx
-    //   },
-    //   panelClass: ["dialog-container"]
-    // });
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe(
+        (action?: 'COPY' | 'MOVE') => {
+          if (!action) return;
 
-    // dialogRef.afterClosed().pipe(take(1))
-    // .subscribe(noop);
+          // do copy
+          if (action == 'COPY')
+            this.copy(training, day.id);
 
-    let action: 'COPY' | 'MOVE';
-    
-
-    action = 'COPY';
-
-    if(action == 'COPY') {
-      // do copy
-      this.copy(training.id, day.id, training.dateTrained);
-
-    } else if(action == 'MOVE') {
-      // do move
-
-    }
-
+          // do move
+          if (action == 'MOVE')
+            this.move(training, day.id);
+        }
+      );
   }
 
-  copy(trainingId, dayId, time) {
+  copy(training, dayId) {
     const request = new CopyTrainingRequest();
     request.toProgramDay = dayId as string;
-    request.toDate = time as Date;
-    request.trainingId = trainingId;
+    request.toDate = training.dateTrained as Date;
+    request.trainingId = training.id;
 
     this.trainingService.copy(request)
       .pipe(take(1))
       .subscribe(
-        (training: Training) => this.store.dispatch(addTraining({dayId, training})),
+        (training: Training) => this.store.dispatch(addTraining({ dayId, training })),
         err => console.log(err)
       );
   }
 
-  move(trainingId, dayId, time) {
-    // const request = new CreateTrainingRequest();
-    // request.trainingBlockDayId = dayId;
-    // request.dateTrained = time;
+  move(training, dayId) {
+    const previousDayId = training.trainingBlockDayId;
 
-    // this.trainingService.create(request).pipe(take(1))
-    //   .subscribe(
-    //     (training: Training) => this.store.dispatch(addTraining({dayId, training})),
-    //     err => console.log(err)
-    //   );
+    const request = new UpdateTrainingRequest({
+      id: training.id,
+      trainingBlockDayId: dayId,
+      dateTrained: training.dateTrained,
+      note: training.note,
+      noteRead: training.noteRead
+    });
+
+    this.trainingService.update(request)
+      .pipe(take(1))
+      .subscribe(
+        (training: Training) => {
+          this.store.dispatch(addTraining({ dayId, training }));
+          this.store.dispatch(removeTraining({ dayId: previousDayId, trainingId: training.id }));
+        },
+        err => console.log(err)
+      );
   }
 }
