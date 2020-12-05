@@ -8,5 +8,6 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Copy
     {
         public Guid TrainingId { get; set; }
         public DateTime ToDate { get; set; }
+        public Guid ToProgramDay { get; set; }
     }
 }

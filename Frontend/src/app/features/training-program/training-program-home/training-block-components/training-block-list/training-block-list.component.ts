@@ -75,7 +75,7 @@ export class TrainingBlockListComponent implements OnInit, OnDestroy {
       },
       enableDragAndDrop: true,
       defaultSort: 'order',
-      defaultSortDirection: 'desc'
+      defaultSortDirection: 'asc'
     });
 
     return tableConfig;

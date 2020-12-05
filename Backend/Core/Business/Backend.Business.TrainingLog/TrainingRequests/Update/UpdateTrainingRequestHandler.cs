@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.Update
 {
@@ -24,7 +24,7 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Update
         {
             try
             {
-                var trainingToUpdate = _context.Trainings.Find(request.Id);
+                var trainingToUpdate = await _context.Trainings.FindAsync(request.Id);
                 trainingToUpdate = _mapper.Map(request, trainingToUpdate);
 
                 _context.Trainings.Update(trainingToUpdate);

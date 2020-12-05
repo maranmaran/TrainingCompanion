@@ -1,0 +1,28 @@
+<div class="dialog-container">
+    <h2 *ngIf="data.action == 'Update'"> {{data.title | translate }} </h2>
+    <h3 *ngIf="data.action == 'Create'"> {{data.title | translate }} </h3>
+    
+    <mat-divider class="dialog-form-divider"></mat-divider>
+    
+    <div class="form" fxLayout="column" fxLayoutGap="1rem">
+    
+        <ngx-timepicker-field [formControl]="time" [defaultTime]="'12:00 pm'" [format]="24"></ngx-timepicker-field>
+
+        <ckeditor 
+            *ngIf="data.action == 'Update'" 
+            style="margin: 0 -0.75rem !important"
+            id="editor" 
+            [editor]="ckEditor" 
+            [config]="ckEditorConfig" 
+            data="{{ckEditor.note}}"
+            (change)="onChange($event)"
+        ></ckeditor>
+
+    </div>
+    
+    <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
+        <button mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate}}</button>
+        <button mat-stroked-button color="accent" (click)="onSubmit()"
+            [disabled]="!time.valid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
+    </div>
+</div>

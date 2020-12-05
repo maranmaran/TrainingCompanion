@@ -1,0 +1,12 @@
+<div class="dialog-container" fxLayout="column">
+    <button id="close-btn" fxFlex fxFlexAlign="end" mat-icon-button color="accent" (click)="onClose()">
+        <i class="fas fa-times"></i>
+    </button>
+    
+    <div class="form" fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="space-between center">
+        
+        <button mat-stroked-button color="accent" (click)="onClose('MOVE')">{{'SHARED.MOVE' | translate}}</button>
+        <button mat-stroked-button color="accent" (click)="onClose('COPY')">{{'SHARED.COPY' | translate}}</button>
+
+    </div>
+</div>

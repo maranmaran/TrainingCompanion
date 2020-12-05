@@ -25,7 +25,9 @@
     "SEARCH": "Search",
     "VIDEO_NOT_SUPPORTED": "Your browser does not support this video tag",
     "ACTIVATE": "Activate",
-    "DEACTIVATE": "Deactivate"
+    "DEACTIVATE": "Deactivate",
+    "COPY": "Copy",
+    "MOVE": "Move"
   },
   "TABLE": {
     "NO_DATA": "No records"
@@ -165,7 +167,10 @@
     "DELETE_TITLE": "Delete training block",
     "DELETE_DIALOG": "<p>Are you sure you wish to delete training block {{trainingBlock}}?</p><p>All data for that training block will be lost.</p>",
     "ADD_TITLE": "Add training block",
-    "UPDATE_TITLE": "Update training block"
+    "UPDATE_TITLE": "Update training block",
+    "COPY_TRAINING_TITLE": "Copy training",
+    "ADD_TRAINING_TITLE": "Add training on week {{week}} day {{day}}",
+    "EDIT_TRAINING_TITLE": "Edit training on week {{week}} day {{day}}"
   },
   "EXPORT_IMPORT": {
     "IMPORT_LABEL": "Import",

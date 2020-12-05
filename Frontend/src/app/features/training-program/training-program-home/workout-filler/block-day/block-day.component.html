@@ -1,5 +1,11 @@
-<mat-expansion-panel class="block-day-panel" [hideToggle]="true" [expanded]="slideToggle.checked"
-    [ngClass]="{'disabled-background': !slideToggle.checked}">
+<mat-expansion-panel #dayPanel class="block-day-panel" 
+    [hideToggle]="true" 
+    [expanded]="slideToggle.checked"
+    [ngClass]="{'disabled-background': !slideToggle.checked}"
+    cdkDropList
+    [cdkDropListData]="day"
+    (cdkDropListDropped)="drop($event)"
+    (cdkDropListEntered)="dayPanel.open()">
 
     <mat-expansion-panel-header class="block-day-header" [ngClass]="{'pointer-events-none': !slideToggle.checked}">
         <mat-panel-title>
@@ -26,9 +32,9 @@
 
     <ng-template matExpansionPanelContent>
         <mat-accordion id="trainings-accordion">
-            <app-block-training *ngFor="let training of day.trainings; let i = index" [training]="training"
-                [order]="i + 1" [dayIdx]="day.order" [weekIdx]="weekIdx" (delete)="onDelete($event)"
-                (copy)="onCopy($event)">
+            <app-block-training *ngFor="let training of day.trainings; let i = index; trackBy: trackTrainingId" [training]="training"
+                [order]="i + 1" [dayIdx]="day.order" [weekIdx]="weekIdx" (deleteTraining)="onDelete($event)"
+                (editTraining)="onEdit($event)">
             </app-block-training>
         </mat-accordion>
     </ng-template>
