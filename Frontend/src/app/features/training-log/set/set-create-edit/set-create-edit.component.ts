@@ -408,17 +408,6 @@ export class SetCreateEditComponent implements OnInit {
       .subscribe(
         (response: { sets: Set[], training: Training }) => {
 
-          // var index = response.training.exercises.findIndex(x => x.id == exerciseId);
-          // var exercises: Exercise[] = _.cloneDeep(response.training.exercises);
-          // exercises[index].sets = response.sets;
-          // var updatedTraining: Update<Training> = {
-          //   id: response.training.id,
-          //   changes: {
-          //     exercises: exercises
-          //   }
-          // };
-          // this.store.dispatch(trainingUpdated({ entity: updatedTraining }));
-
           var updatedExercise: Update<Exercise> = {
             id: exerciseId,
             changes: {

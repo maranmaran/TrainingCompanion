@@ -6,7 +6,7 @@ export class UpdateTrainingRequest {
     noteRead: boolean;
     dateTrained: Date;
 
-    constructor(data: Partial<UpdateTrainingRequest>) {
+    constructor(data?: Partial<UpdateTrainingRequest>) {
         Object.assign(this, data);
     }
 }

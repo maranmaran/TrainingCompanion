@@ -168,6 +168,27 @@ export class BlockExerciseCreateEditComponent implements OnInit {
       default:
         throw new Error('No checkbox like that defined ' + change.source);
     }
+
+    // remove percentage if not needed
+    this.managePercentageControls();
+  }
+
+  managePercentageControls() {
+    this.setFormGroups.forEach((formGroup, index) => {
+      let usesPercentage = this.sets[index].usesPercentage;
+
+      if(!usesPercentage) return;
+
+      // if we have percentage control
+      // and there's no reason to have it (no weight or bodyweight controls required).. remove it
+      if(!this.requiresBodyweight && !this.requiresWeight && formGroup.controls.percentage) {
+        formGroup.removeControl('percentage');
+      } 
+      // else.. if we need to have it but we don't add it
+      else if(!formGroup.controls.percentage) {
+        formGroup.addControl('percentage', new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]));
+      }
+    })
   }
 
   createExerciseType() {
@@ -268,14 +289,14 @@ export class BlockExerciseCreateEditComponent implements OnInit {
 
     controls["id"] = new FormControl(set.id);
 
-    if (this.exerciseType.requiresReps)
+    if (this.requiresReps)
       controls["reps"] = new FormControl(set.reps, [Validators.required, Validators.min(0), Validators.max(100)]);
 
-    if (this.exerciseType.requiresTime)
+    if (this.requiresTime)
       controls["time"] = new FormControl(set.time, [Validators.required]);
 
     // todo.. add weight attribute to application user
-    if (this.exerciseType.requiresBodyweight || this.exerciseType.requiresWeight) {
+    if (this.requiresBodyweight || this.requiresWeight) {
       
       if (this.settings.usePercentages && set.usesPercentage) {
         // todo calculate percentage from 1 rep max and weight
@@ -508,8 +529,6 @@ export class BlockExerciseCreateEditComponent implements OnInit {
         requiresTime: this.requiresTimeCheckbox.value,
       });
     }
-
-    console.log(this.exercise);
 
     var result$: Observable<Exercise | Error>
     if (this.data.action == CRUD.Create) {
