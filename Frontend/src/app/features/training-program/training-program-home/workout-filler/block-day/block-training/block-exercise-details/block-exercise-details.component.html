@@ -32,12 +32,6 @@
         </mat-cell>
     </ng-container>
 
-    <!-- Weight column -->
-    <!-- <ng-container matColumnDef="percentage" >
-        <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element.percentage + '%' }} </mat-cell>
-    </ng-container> -->
-
     <!-- Reps column -->
     <ng-container matColumnDef="reps">
         <mat-header-cell *matHeaderCellDef> Reps </mat-header-cell>
@@ -98,7 +92,7 @@
 
 <!--ACTION BUTTONS-->
 <ng-template #actions>
-    <button matTooltip="Edit sets" mat-icon-button color="accent" (click)="onUpdateSets(exercise)"
+    <button matTooltip="Edit sets" mat-icon-button color="accent" (click)="onUpdateEvent.emit(exercise)"
         (click)="$event.stopPropagation()">
         <i class="fas fa-edit"></i>
     </button>

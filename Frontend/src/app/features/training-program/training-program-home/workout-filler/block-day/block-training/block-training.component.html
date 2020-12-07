@@ -47,7 +47,7 @@
                         [cdkDragStartDelay]="300">
                         <mat-divider></mat-divider>
                         <app-block-exercise-details class="h-100 w-100" [exercise]="exercise"
-                            (delete)="onDeleteExercise($event)"> </app-block-exercise-details>
+                            (delete)="onDeleteExercise($event)" (update)="onEditExercise($event)"> </app-block-exercise-details>
                     </div>
                 </div>
 

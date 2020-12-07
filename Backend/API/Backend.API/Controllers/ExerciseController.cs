@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Backend.Business.TrainingLog.ExerciseRequests.UpdateFull;
 
 namespace Backend.API.Controllers
 {
@@ -38,7 +39,7 @@ namespace Backend.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFull([FromBody] Exercise exercise, CancellationToken cancellationToken = default)
         {
-            RemoveCacheKeys($"Report/TrainingMetrics{exercise.TrainingId}");
+            //RemoveCacheKeys($"Report/TrainingMetrics{exercise.TrainingId}");
             return Ok(await Mediator.Send(new CreateFullExerciseRequest(exercise), cancellationToken));
         }
 
@@ -50,13 +51,11 @@ namespace Backend.API.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> UpdateFull([FromBody] Exercise exercise, CancellationToken cancellationToken = default)
         {
-            //RemoveCacheKeys($"Report/TrainingMetrics{request.TrainingId}");
-            //return Ok(await Mediator.Send(request, cancellationToken));
-            //return Ok(await Mediator.Send(new UpdateFullExerciseRequest(exercise), cancellationToken));
-            return Ok();
+            //RemoveCacheKeys($"Report/TrainingMetrics{exercise.TrainingId}");
+            return Ok(await Mediator.Send(new UpdateFullExerciseRequest(exercise), cancellationToken));
         }
 
         [HttpDelete("{id}")]

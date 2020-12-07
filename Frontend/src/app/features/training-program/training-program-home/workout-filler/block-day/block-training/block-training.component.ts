@@ -97,6 +97,30 @@ export class BlockTrainingComponent implements OnInit {
     });
   }
 
+  onEditExercise(exercise: Exercise) {
+    const dialogRef = this.UIService.openDialogFromComponent(BlockExerciseCreateEditComponent, {
+      height: 'auto',
+      width: '98%',
+      maxWidth: '50rem',
+      autoFocus: false,
+      data: { 
+        titleExercise: 'TRAINING_LOG.EXERCISE_UPDATE_TITLE', 
+        titleSets: 'TRAINING_LOG.SETS_LABEL', 
+        action: CRUD.Update, 
+        exercise
+      },
+      panelClass: ["dialog-container"]
+    });
+
+    dialogRef.afterClosed().pipe(take(1))
+      .subscribe((exercise: Exercise) => {
+
+        if (!exercise) return;
+
+        this.training.exercises = this.training.exercises.map(e => e.id == exercise.id ? exercise : e);
+      });
+  }
+
   onReorderExercise(event: CdkDragDrop<Exercise[]>) {
 
     let previousIndex = event.previousIndex;

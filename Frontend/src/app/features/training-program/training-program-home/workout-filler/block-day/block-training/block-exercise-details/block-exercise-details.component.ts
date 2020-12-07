@@ -17,6 +17,7 @@ export class BlockExerciseDetailsComponent implements OnInit {
 
   @Input() exercise: Exercise;
   @Output("delete") onDeleteEvent = new EventEmitter<Exercise>()
+  @Output("update") onUpdateEvent = new EventEmitter<Exercise>()
 
   settings: UserSetting;
   previewId?: number;

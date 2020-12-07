@@ -83,7 +83,11 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
     this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.settings = settings);
 
-    this.createExerciseTypeForm();
+    if(this.data.exercise.id != Guid.EMPTY) {
+      this.createSetForms(this.data.exercise.sets)
+    } else {
+      this.createExerciseTypeForm();
+    }
   }
 
   //#region Exercise type form 
@@ -110,14 +114,14 @@ export class BlockExerciseCreateEditComponent implements OnInit {
   }
 
   get exerciseTypeSearchInput(): AbstractControl { return this.exerciseForm.get('exerciseTypeSearchInput'); }
-  get selectedExerciseType(): AbstractControl { return this.exerciseForm.get('selectedExerciseType'); }
-  get exerciseType(): ExerciseType { return this.exerciseForm.get('selectedExerciseType').value as ExerciseType; }
-  get name(): AbstractControl { return this.exerciseForm.get("name"); }
-  get requiresWeightCheckbox(): AbstractControl { return this.exerciseForm.get("requiresWeight"); }
-  get requiresBodyweightCheckbox(): AbstractControl { return this.exerciseForm.get("requiresBodyweight"); }
-  get requiresRepsCheckbox(): AbstractControl { return this.exerciseForm.get("requiresReps"); }
-  get requiresSetsCheckbox(): AbstractControl { return this.exerciseForm.get("requiresSets"); }
-  get requiresTimeCheckbox(): AbstractControl { return this.exerciseForm.get("requiresTime"); }
+  get selectedExerciseType(): AbstractControl { return this.exerciseForm?.get('selectedExerciseType'); }
+  get exerciseType(): ExerciseType { return this.selectedExerciseType?.value as ExerciseType || this.data.exercise.exerciseType; }
+  get name(): AbstractControl { return this.exerciseForm?.get("name"); }
+  get requiresWeightCheckbox(): AbstractControl { return this.exerciseForm?.get("requiresWeight"); }
+  get requiresBodyweightCheckbox(): AbstractControl { return this.exerciseForm?.get("requiresBodyweight"); }
+  get requiresRepsCheckbox(): AbstractControl { return this.exerciseForm?.get("requiresReps"); }
+  get requiresSetsCheckbox(): AbstractControl { return this.exerciseForm?.get("requiresSets"); }
+  get requiresTimeCheckbox(): AbstractControl { return this.exerciseForm?.get("requiresTime"); }
 
   get requiresWeight(): boolean { return !this.quickAddMode && this.exerciseType.requiresWeight || this.quickAddMode && this.requiresWeightCheckbox.value }
   get requiresBodyweight(): boolean { return !this.quickAddMode && this.exerciseType.requiresBodyweight || this.quickAddMode && this.requiresBodyweightCheckbox.value }
@@ -254,9 +258,11 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     return this.setFormGroups[index].controls['percentage']
   }
 
-  createSetForms() {
+  createSetForms(sets = null) {
     this.setFormGroups = [];
-    this.sets = [this.getNewSet()]
+    
+    this.sets = sets ?? [this.getNewSet()]
+    
     this.sets.forEach(set => {
       this.setFormGroups.push(
         new FormGroup(this.getControls(set))
