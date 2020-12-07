@@ -15,7 +15,7 @@ import { PagingModel } from 'src/app/shared/material-table/table-models/paging.m
 import { ExerciseTypeService } from 'src/business/services/feature-services/exercise-type.service';
 import { settingsUpdated } from 'src/ngrx/auth/auth.actions';
 import { currentUserId } from 'src/ngrx/auth/auth.selectors';
-import { trackItemUpdated } from 'src/ngrx/dashboard/dashboard.actions';
+import { removeTrackItem, trackItemUpdated } from 'src/ngrx/dashboard/dashboard.actions';
 import { trackEditMode } from 'src/ngrx/dashboard/dashboard.selectors';
 import { exerciseTypes } from 'src/ngrx/exercise-type/exercise-type.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
@@ -62,6 +62,7 @@ export class GraphCardComponent implements OnInit {
   error = false;
   details: string;
   isLoading = false;
+  editMode: Observable<boolean>;
 
   // relevant for chart configuration
   _trackEditMode: boolean;
@@ -79,6 +80,8 @@ export class GraphCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.editMode = this.store.select(trackEditMode);
 
     // some internal props
     this._subs.add(
@@ -356,5 +359,8 @@ export class GraphCardComponent implements OnInit {
     this.chartComponent.updateChart(0);
   }
 
+  removeFromDashboard() {
+    this.store.dispatch(removeTrackItem({ cardId: this.cardId }))
+  }
 
 }

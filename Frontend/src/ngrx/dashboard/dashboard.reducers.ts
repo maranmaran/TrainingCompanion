@@ -146,14 +146,11 @@ export const dashboardReducer: ActionReducer<DashboardState, Action> = createRed
       dashboardUpdated: true
     }
   }),
-  on(DashboardActions.removeTrackItem, (state: DashboardState, payload: { item: TrackItem, idx: number }) => {
+  on(DashboardActions.removeTrackItem, (state: DashboardState, payload: { cardId: string }) => {
     let tracks = _.cloneDeep(state.tracks);
-
-    tracks[payload.idx].items.forEach((i, index) => {
-      if (i.id == payload.item.id) {
-        tracks[payload.idx].items.splice(index, 1);
-      }
-    });
+    
+    tracks[0].items = tracks[0].items.filter(card => card.id != payload.cardId);
+    tracks[1].items = tracks[1].items.filter(card => card.id != payload.cardId);
 
     return {
       ...state,

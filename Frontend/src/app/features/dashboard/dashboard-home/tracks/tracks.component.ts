@@ -25,7 +25,6 @@ export class TracksComponent implements OnInit {
   dashboardCards = dashboardCards;
   attrs: AttributesMap = { class: 'dashboard-component' };
 
-  editMode: Observable<boolean>;
 
   exerciseTypes: ExerciseType[];
   //TODO: Directives in ndcDynamic have trouble with angular AOT - see issue on their github
@@ -41,7 +40,6 @@ export class TracksComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.editMode = this.store.select(trackEditMode);
 
     // // TODO: use resolver for this
     // this.store.select(currentUserId).pipe(take(1)).subscribe(id => {
@@ -49,10 +47,6 @@ export class TracksComponent implements OnInit {
     // });
 
     this.tracks = this.store.select(tracks);
-  }
-
-  removeTrackItem(trackItem: TrackItem, idx: number) {
-    this.store.dispatch(removeTrackItem({ item: trackItem, idx }))
   }
 
   trackCardsFn(index, item) {

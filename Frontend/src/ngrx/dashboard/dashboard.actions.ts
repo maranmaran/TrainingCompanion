@@ -13,7 +13,7 @@ export const pushActivity = createAction('[Dashboard] Push activity', props<{ ac
 export const activitySeen = createAction('[Dashboard] Activity seen', props<{ userId: string, activityId: string }>());
 
 export const addTrackItem = createAction('[Dashboard] Add track item', props<{ item: TrackItem, idx: number }>())
-export const removeTrackItem = createAction('[Dashboard] Remove track item', props<{ item: TrackItem, idx: number }>())
+export const removeTrackItem = createAction('[Dashboard] Remove track item', props<{ cardId: string }>())
 export const saveDashboard = createAction('[Dashboard] Save', props<{ tracks: Track[] }>());
 
 export const updateTrackItem = createAction('[Dashboard] Update track item', props<{ trackItem: TrackItem }>());
