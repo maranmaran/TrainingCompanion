@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { Guid } from 'guid-typescript';
 import * as _ from 'lodash-es';
 import { forkJoin, of } from 'rxjs';
 import { concatMap, map, take } from 'rxjs/operators';
@@ -66,6 +67,7 @@ export class BlockTrainingComponent implements OnInit {
         .pipe(take(1)), of(training).pipe(map(training => {
           const len = training.exercises?.length;
           const newExercise = new Exercise();
+          newExercise.id = Guid.EMPTY;
           newExercise.order = len;
           newExercise.trainingId = training.id;
           newExercise.training = training;

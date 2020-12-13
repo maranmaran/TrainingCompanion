@@ -45,6 +45,8 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Copy
                 foreach (var exercise in training.Exercises)
                 {
                     exercise.Id = Guid.Empty;
+
+                    exercise.ExerciseType = await _context.ExerciseTypes.FindAsync(exercise.ExerciseTypeId);
                     _context.Entry(exercise.ExerciseType).State = EntityState.Unchanged;
 
                     foreach (var set in exercise.Sets)

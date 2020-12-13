@@ -83,9 +83,10 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     this.store.select(currentUser).pipe(take(1)).subscribe(user => this._userId = user.id);
     this.store.select(userSetting).pipe(take(1)).subscribe(settings => this.settings = settings);
 
-    if(this.data.exercise.id != Guid.EMPTY) {
+    if(this.data.exercise?.id != Guid.EMPTY) {
       this.createSetForms(this.data.exercise.sets)
     } else {
+      console.log('Creating new type form')
       this.createExerciseTypeForm();
     }
   }
@@ -113,7 +114,7 @@ export class BlockExerciseCreateEditComponent implements OnInit {
     );
   }
 
-  get exerciseTypeSearchInput(): AbstractControl { return this.exerciseForm.get('exerciseTypeSearchInput'); }
+  get exerciseTypeSearchInput(): AbstractControl { return this.exerciseForm?.get('exerciseTypeSearchInput'); }
   get selectedExerciseType(): AbstractControl { return this.exerciseForm?.get('selectedExerciseType'); }
   get exerciseType(): ExerciseType { return this.selectedExerciseType?.value as ExerciseType || this.data.exercise.exerciseType; }
   get name(): AbstractControl { return this.exerciseForm?.get("name"); }
@@ -516,15 +517,33 @@ export class BlockExerciseCreateEditComponent implements OnInit {
 
   //#endregion
 
+  get setFormsValid() {
+    return this.setFormGroups.map(group => group.valid).reduce((prev, cur) => prev && cur);
+  }
+
+  get exerciseFormValid() {
+    if(this.data.action == CRUD.Update) return true;
+    
+    return this.quickAddMode ? 
+           this.exerciseForm.controls.name.valid :
+           this.exerciseForm.controls.exerciseTypeSearchInput.valid && this.exerciseForm.controls.selectedExerciseType.valid
+  }
+
   //#region Dialog controlls
   onSubmit() {
     let sets = <Set[]>(this.getSets(this.setFormGroups));
     this.exercise.sets = sets;
 
     if (!this.quickAddMode) {
+
+      if(!this.exerciseFormValid || !this.setFormsValid) return;
+      
       this.exercise.exerciseType = this.exerciseType;
       this.exercise.exerciseTypeId = this.exerciseType?.id;
     } else {
+
+      if(!this.exerciseFormValid || !this.setFormsValid) return;
+
       this.exercise.exerciseType = new ExerciseType({
         name: this.name.value,
         applicationUserId: this._userId,
