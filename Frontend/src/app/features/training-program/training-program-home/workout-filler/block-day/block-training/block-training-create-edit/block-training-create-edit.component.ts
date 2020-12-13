@@ -75,7 +75,7 @@ export class BlockTrainingCreateEditComponent implements OnInit {
 
   create(training) {
     const request: CreateTrainingRequest = {
-      applicationUserId: training.applicationUserId,
+      applicationUserId: null,
       dateTrained: training.dateTrained,
       trainingBlockDayId: training.trainingBlockDayId
     };
