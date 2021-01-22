@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Stripe.net" Version="39.32.0" />
+    <PackageReference Include="Stripe.net" Version="39.33.0" />
   </ItemGroup>
 
   <ItemGroup>
