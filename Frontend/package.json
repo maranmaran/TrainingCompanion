@@ -65,7 +65,7 @@
     "ngx-stripe": "^10.1.2",
     "ngx-toastr": "^13.2.1",
     "normalizr": "^3.6.1",
-    "placeholder-loading": "^0.2.6",
+    "placeholder-loading": "^0.3.0",
     "rxjs": "^6.6.7",
     "subsink": "^1.0.2",
     "tslib": "^2.1.0",
