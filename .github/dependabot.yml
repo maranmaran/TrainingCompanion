@@ -1,0 +1,86 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/Frontend"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  reviewers:
+  - maranmaran
+  ignore:
+  - dependency-name: "@angular-devkit/build-angular"
+    versions:
+    - 0.1101.2
+    - 0.1101.3
+    - 0.1101.4
+    - 0.1102.0
+    - 0.1102.1
+    - 0.1102.10
+    - 0.1102.2
+    - 0.1102.3
+    - 0.1102.4
+    - 0.1102.5
+    - 0.1102.6
+    - 0.1102.7
+    - 0.1102.8
+    - 0.1102.9
+  - dependency-name: "@ngrx/schematics"
+    versions:
+    - 11.0.0
+    - 11.0.1
+    - 11.1.0
+  - dependency-name: placeholder-loading
+    versions:
+    - 0.3.0
+  - dependency-name: "@ckeditor/ckeditor5-build-classic"
+    versions:
+    - 25.0.0
+    - 26.0.0
+    - 27.0.0
+  - dependency-name: karma
+    versions:
+    - 6.0.3
+    - 6.0.4
+    - 6.1.0
+    - 6.1.1
+    - 6.1.2
+    - 6.2.0
+    - 6.3.0
+    - 6.3.1
+- package-ecosystem: nuget
+  directory: "/Backend"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  reviewers:
+  - maranmaran
+  ignore:
+  - dependency-name: Audit.EntityFramework.Core
+    versions:
+    - 17.0.0
+    - 17.0.1
+  - dependency-name: FluentValidation.AspNetCore
+    versions:
+    - 10.0.0
+    - 10.0.1
+    - 10.0.2
+    - 10.0.3
+    - 10.0.4
+  - dependency-name: Swashbuckle.AspNetCore
+    versions:
+    - 6.0.2
+    - 6.0.4
+    - 6.0.5
+    - 6.0.7
+    - 6.1.0
+    - 6.1.1
+    - 6.1.2
+  - dependency-name: Swashbuckle.AspNetCore.Newtonsoft
+    versions:
+    - 6.0.2
+    - 6.0.4
+    - 6.0.5
+    - 6.0.7
+    - 6.1.0
+    - 6.1.1
+    - 6.1.2
