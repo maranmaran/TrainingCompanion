@@ -14,17 +14,14 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.Create
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-
         public CreateBodyweightRequestHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-
         public async Task<Bodyweight> Handle(CreateBodyweightRequest request, CancellationToken cancellationToken)
         {
-
             try
             {
                 var entity = _mapper.Map<Bodyweight>(request);

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Backend.Library.Payment.Enums;
+﻿using Backend.Library.Payment.Enums;
 using Backend.Library.Payment.Models;
 using Stripe;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Plan = Stripe.Plan;
 
 namespace Backend.Library.Payment.Interfaces

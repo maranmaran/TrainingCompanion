@@ -16,8 +16,10 @@ namespace Backend.Library.MediaCompression
             {
                 case MediaType.Image:
                     return await CompressImage(stream);
+
                 case MediaType.Video:
                     return await CompressVideo(stream);
+
                 default:
                     throw new ArgumentException($"Media type {type} can't be compressed.");
             }

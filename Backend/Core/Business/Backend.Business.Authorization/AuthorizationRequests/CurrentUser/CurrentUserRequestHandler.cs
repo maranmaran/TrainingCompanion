@@ -19,16 +19,16 @@ namespace Backend.Business.Authorization.AuthorizationRequests.CurrentUser
     public class CurrentUserRequestHandler : IRequestHandler<CurrentUserRequest, CurrentUserRequestResponse>
     {
         private readonly IMapper _mapper;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
         private readonly IApplicationDbContext _context;
         private readonly IMediator _mediator;
 
-        public CurrentUserRequestHandler(IMapper mapper, IApplicationDbContext context, IMediator mediator, IS3Service s3Service)
+        public CurrentUserRequestHandler(IMapper mapper, IApplicationDbContext context, IMediator mediator, IStorage storage)
         {
             _mapper = mapper;
             _context = context;
             _mediator = mediator;
-            _s3Service = s3Service;
+            _storage = storage;
         }
 
         public async Task<CurrentUserRequestResponse> Handle(CurrentUserRequest request, CancellationToken cancellationToken)
@@ -66,8 +66,8 @@ namespace Backend.Business.Authorization.AuthorizationRequests.CurrentUser
         internal async Task RefreshAvatar(ApplicationUser user, CurrentUserRequestResponse response)
         {
             // refresh avatar url if needed
-            if (await _s3Service.IsS3Url(user.Avatar))
-                response.Avatar = await _s3Service.GetPresignedUrlAsync(user.Avatar);
+            if (await _storage.ValidateUrlAsync(user.Avatar))
+                response.Avatar = await _storage.GetUrlAsync(user.Avatar);
         }
 
         internal async Task GetSubscriptionInformation(ApplicationUser user,

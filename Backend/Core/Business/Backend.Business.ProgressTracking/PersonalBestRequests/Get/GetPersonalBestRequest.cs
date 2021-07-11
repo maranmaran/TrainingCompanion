@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Backend.Business.ProgressTracking.PersonalBestRequests.Get
 {
-
     public class GetPersonalBestRequest : IRequest<PersonalBest[]>
     {
         public Guid ExerciseTypeId { get; set; }
@@ -39,7 +38,6 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.Get
             _context = context;
             _logger = logger;
         }
-
 
         public async Task<PersonalBest[]> Handle(GetPersonalBestRequest request, CancellationToken cancellationToken)
         {
@@ -70,5 +68,4 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.Get
             }
         }
     }
-
 }

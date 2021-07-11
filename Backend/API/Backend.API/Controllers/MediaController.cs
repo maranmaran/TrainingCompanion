@@ -55,7 +55,6 @@ namespace Backend.API.Controllers
             }, cancellationToken));
         }
 
-
         [HttpPost]
         public async Task<IActionResult> UploadAvatar(
             [FromForm] Guid userId,

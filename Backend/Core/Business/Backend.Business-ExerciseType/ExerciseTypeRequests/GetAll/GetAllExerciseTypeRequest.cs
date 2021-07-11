@@ -10,6 +10,4 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.GetAll
         public bool FetchInactive { get; set; }
         public Guid UserId { get; set; }
     }
-
-    
 }

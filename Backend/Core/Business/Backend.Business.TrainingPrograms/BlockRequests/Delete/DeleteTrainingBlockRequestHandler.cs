@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingPrograms.BlockRequests.Delete
 {
@@ -16,7 +16,6 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Delete
         {
             _context = context;
         }
-
 
         public async Task<Unit> Handle(DeleteTrainingBlockRequest request, CancellationToken cancellationToken)
         {

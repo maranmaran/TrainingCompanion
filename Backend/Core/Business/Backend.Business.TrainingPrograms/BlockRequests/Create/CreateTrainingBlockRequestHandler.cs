@@ -28,7 +28,6 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Create
             _logger = logger;
         }
 
-
         public async Task<TrainingBlock> Handle(CreateTrainingBlockRequest request, CancellationToken cancellationToken)
         {
             try

@@ -19,7 +19,6 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.Get
             _context = context;
         }
 
-
         public async Task<ExerciseType> Handle(GetExerciseTypeRequest request, CancellationToken cancellationToken)
         {
             try

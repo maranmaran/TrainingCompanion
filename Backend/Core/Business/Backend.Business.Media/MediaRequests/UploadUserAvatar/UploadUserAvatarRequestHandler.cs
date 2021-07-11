@@ -16,14 +16,13 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
 {
     public class UploadUserAvatarRequestHandler : IRequestHandler<UploadUserAvatarRequest, string>
     {
-
         private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3;
+        private readonly IStorage _storage;
         private readonly IMediaCompressionService _compressionService;
 
-        public UploadUserAvatarRequestHandler(IS3Service s3, IApplicationDbContext context, IMediaCompressionService compressionService)
+        public UploadUserAvatarRequestHandler(IStorage storage, IApplicationDbContext context, IMediaCompressionService compressionService)
         {
-            _s3 = s3;
+            _storage = storage;
             _context = context;
             _compressionService = compressionService;
         }
@@ -32,15 +31,15 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
         {
             try
             {
-                // save everything to s3
-                var key = _s3.GetS3Key(nameof(ApplicationUser.Avatar), request.UserId);
+                // save everything to storage
+                var key = _storage.GetKey(nameof(ApplicationUser.Avatar), request.UserId);
 
                 var byteArr = Convert.FromBase64String(request.Base64.Replace("data:image/jpeg;base64,", string.Empty));
 
                 var compressedImage = await _compressionService.Compress(MediaType.Image, new MemoryStream(byteArr));
 
-                await _s3.WriteToS3(key, compressedImage);
-                var presignedUrl = await _s3.GetPresignedUrlAsync(key);
+                await _storage.WriteAsync(key, compressedImage);
+                var presignedUrl = await _storage.GetUrlAsync(key);
 
                 // add newly created media
                 var media = new MediaFile()
@@ -55,7 +54,7 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
                 };
                 await _context.MediaFiles.AddAsync(media, cancellationToken);
 
-                // fetch and update user Avatar KEY for s3.. which will be presigned on every fetch of user
+                // fetch and update user Avatar KEY for storage.. which will be presigned on every fetch of user
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
                 user.Avatar = key;
                 _context.Users.Update(user);

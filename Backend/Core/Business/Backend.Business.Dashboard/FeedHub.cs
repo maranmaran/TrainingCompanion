@@ -17,5 +17,4 @@ namespace Backend.Business.Dashboard
         {
         }
     }
-
 }

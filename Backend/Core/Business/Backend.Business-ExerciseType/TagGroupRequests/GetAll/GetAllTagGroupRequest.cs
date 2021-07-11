@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using Backend.Domain.Entities.Exercises;
+﻿using Backend.Domain.Entities.Exercises;
 using MediatR;
+using System;
+using System.Linq;
 
 namespace Backend.Business.Exercises.TagGroupRequests.GetAll
 {

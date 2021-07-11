@@ -12,7 +12,6 @@ namespace Backend.API.Controllers
 {
     public class PersonalBestController : BaseController
     {
-
         [HttpGet("{exerciseTypeId}")]
         public async Task<IActionResult> GetAll(Guid exerciseTypeId, int? lowerRepRage, int? upperRepRange, CancellationToken cancellationToken = default)
         {

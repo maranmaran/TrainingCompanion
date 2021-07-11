@@ -18,12 +18,10 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Delete
             _context = context;
         }
 
-
         public async Task<Unit> Handle(DeleteTrainingProgramRequest request, CancellationToken cancellationToken)
         {
             try
             {
-
                 var programUsers = await _context.TrainingProgramUsers
                     .Where(x => x.TrainingProgramId == request.Id).ToListAsync(cancellationToken);
                 // unassign users
@@ -52,7 +50,6 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Delete
 
                         // delete future trainings and connection
                         _context.TrainingProgramUsers.Remove(programUser);
-
                     }
                 }
 

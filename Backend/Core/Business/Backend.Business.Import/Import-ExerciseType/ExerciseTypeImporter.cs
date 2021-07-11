@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.Exercises;
 
 namespace Backend.Business.Import
 {
@@ -52,7 +52,7 @@ namespace Backend.Business.Import
         public async Task DoImport(IEnumerable<ExerciseTypeImportDto> data, CancellationToken cancellationToken = default)
         {
             //Parallel.ForEach(
-            //    source: data, 
+            //    source: data,
             //    body: DoWork,
             //    () => { }
             //);
@@ -61,7 +61,6 @@ namespace Backend.Business.Import
             {
                 DoWork(row, null);
             }
-
 
             try
             {
@@ -193,11 +192,9 @@ namespace Backend.Business.Import
 
                 resultGroups[existingGroup.Id] = existingGroup;
                 resultTags[tag.Id] = tag;
-
             }
 
             //_context.Entry(existingGroup).State = EntityState.Modified;
-
         }
 
         /// <summary>
@@ -252,7 +249,7 @@ namespace Backend.Business.Import
         {
             var tags = tagsDict.Values;
 
-            // now from all tags create exercise property 
+            // now from all tags create exercise property
             return tags.Select(tag =>
             {
                 var property = new ExerciseTypeTag

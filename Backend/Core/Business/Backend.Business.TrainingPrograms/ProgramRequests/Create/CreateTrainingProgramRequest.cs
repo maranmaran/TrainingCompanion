@@ -1,10 +1,9 @@
-﻿using System;
-using Backend.Domain.Entities.TrainingProgramMaker;
+﻿using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
+using System;
 
 namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
 {
-
     public class CreateTrainingProgramRequest : IRequest<TrainingProgram>
     {
         public Guid CreatorId { get; set; }

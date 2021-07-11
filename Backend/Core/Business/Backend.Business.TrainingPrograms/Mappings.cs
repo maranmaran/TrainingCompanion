@@ -22,6 +22,5 @@ namespace Backend.Business.TrainingPrograms
             CreateMap<CreateTrainingBlockDayRequest, TrainingBlockDay>();
             CreateMap<UpdateTrainingBlockDayRequest, TrainingBlockDay>();
         }
-
     }
 }

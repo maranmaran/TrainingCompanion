@@ -1,10 +1,9 @@
-﻿using System;
-using Backend.Domain.Entities.TrainingProgramMaker;
+﻿using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
+using System;
 
 namespace Backend.Business.TrainingPrograms.BlockRequests.Get
 {
-
     public class GetTrainingBlockRequest : IRequest<TrainingBlock>
     {
         public GetTrainingBlockRequest(Guid id)

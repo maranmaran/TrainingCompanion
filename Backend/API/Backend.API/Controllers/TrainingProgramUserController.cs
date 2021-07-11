@@ -10,7 +10,6 @@ namespace Backend.API.Controllers
 {
     public class TrainingProgramUserController : BaseController
     {
-
         [HttpGet("{programId}")]
         public async Task<IActionResult> GetAll(Guid programId, CancellationToken cancellationToken = default)
         {

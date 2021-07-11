@@ -21,7 +21,6 @@ namespace Backend.Persistance
 {
     public static partial class ServiceCollectionExtensions
     {
-
         //TODO Move all this to Dashboard project..because thats BoundedContext for FEED
         public static void ConfigureAuditEfCore(this IServiceProvider provider)
         {
@@ -84,7 +83,6 @@ namespace Backend.Persistance
                                         .Include(x => x.UserSetting)
                                         .FirstOrDefaultAsync(x =>
                                             x.AccountType == AccountType.Athlete && x.Id == user.Id);
-
 
                                     await feedAuditCoordinator.PushToCoach(audit, athlete);
                                     await notificationAuditCoordinator.PushToCoach(audit, athlete);

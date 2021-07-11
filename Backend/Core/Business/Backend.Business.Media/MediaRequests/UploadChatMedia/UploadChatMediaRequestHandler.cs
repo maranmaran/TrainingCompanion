@@ -9,18 +9,16 @@ using System.Threading.Tasks;
 
 namespace Backend.Business.Media.MediaRequests.UploadChatMedia
 {
-
     // TODO: Perhaps merge upload requests for training and chat...
     // TODO: these can be just Upload media to S3
     public class UploadChatMediaRequestHandler : IRequestHandler<UploadChatMediaRequest, string>
     {
-
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
         private readonly IMediaCompressionService _compressionService;
 
-        public UploadChatMediaRequestHandler(IS3Service s3, IMediaCompressionService compressionService)
+        public UploadChatMediaRequestHandler(IStorage s3, IMediaCompressionService compressionService)
         {
-            _s3Service = s3;
+            _storage = s3;
             _compressionService = compressionService;
         }
 
@@ -36,9 +34,9 @@ namespace Backend.Business.Media.MediaRequests.UploadChatMedia
                     data = await _compressionService.Compress(MediaType.Image, request.Data);
                 }
 
-                await _s3Service.WriteToS3(request.Key, data);
+                await _storage.WriteAsync(request.Key, data);
 
-                return await _s3Service.GetPresignedUrlAsync(request.Key);
+                return await _storage.GetUrlAsync(request.Key);
             }
             catch (Exception e)
             {

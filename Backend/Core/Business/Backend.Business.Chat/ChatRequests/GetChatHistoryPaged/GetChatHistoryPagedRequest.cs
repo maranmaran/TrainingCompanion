@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace Backend.Business.Chat.ChatRequests.GetChatHistoryPaged
 {
-
     public class GetChatHistoryPagedRequest : IRequest<IEnumerable<MessageViewModel>>
     {
         public Guid UserId { get; set; }

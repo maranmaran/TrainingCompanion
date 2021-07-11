@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
 using Stripe;
+using System.Collections.Generic;
 
 namespace Backend.Business.Billing.BillingRequests.GetPlans
 {

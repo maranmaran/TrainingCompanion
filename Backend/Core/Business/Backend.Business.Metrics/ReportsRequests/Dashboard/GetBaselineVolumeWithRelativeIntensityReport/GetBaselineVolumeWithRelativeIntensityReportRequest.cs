@@ -4,7 +4,6 @@ using System;
 
 namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetBaselineVolumeWithRelativeIntensityReport
 {
-
     public class GetBaselineVolumeWithRelativeIntensityReportRequest : IRequest<ChartData<double, DateTime>>
     {
         public GetBaselineVolumeWithRelativeIntensityReportRequest(Guid userId, Guid exerciseTypeId, DateTime dateFrom, DateTime dateTo)

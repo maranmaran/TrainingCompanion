@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using MediatR;
@@ -10,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.Exercises;
 
 namespace Backend.Business.Export.ExportTrainingData
 {

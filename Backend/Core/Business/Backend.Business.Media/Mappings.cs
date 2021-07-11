@@ -6,7 +6,6 @@ namespace Backend.Business.Media
     {
         public Mappings()
         {
-
         }
     }
 }

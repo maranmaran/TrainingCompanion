@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Library.Payment.Interfaces;
 using Backend.Library.Payment.Models;
 using MediatR;
 using Stripe;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Billing.BillingRequests.Subscribe
 {

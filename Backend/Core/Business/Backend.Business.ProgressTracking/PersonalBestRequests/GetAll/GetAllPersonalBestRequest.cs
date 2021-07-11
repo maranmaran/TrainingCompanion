@@ -17,6 +17,5 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.GetAll
         public Guid ExerciseTypeId { get; set; }
         public int? LowerRepRange { get; set; }
         public int? UpperRepRange { get; set; }
-
     }
 }

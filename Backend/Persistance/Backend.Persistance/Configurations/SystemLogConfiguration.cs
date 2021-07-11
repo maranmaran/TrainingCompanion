@@ -9,8 +9,6 @@ namespace Backend.Persistance.Configurations
         public void Configure(EntityTypeBuilder<SystemLog> builder)
         {
             builder.Property(x => x.Date).HasDefaultValueSql("getutcdate()");
-
-
         }
     }
 }

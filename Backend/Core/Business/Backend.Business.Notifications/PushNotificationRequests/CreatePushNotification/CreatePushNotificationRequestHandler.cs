@@ -27,7 +27,7 @@ namespace Backend.Business.Notifications.PushNotificationRequests.CreatePushNoti
             {
                 var newNotification = _mapper.Map<CreatePushNotificationRequest, Notification>(request);
 
-                // get sender avatar if we have one                
+                // get sender avatar if we have one
                 var avatar = string.Empty;
                 if (request.SenderId.HasValue)
                     avatar = (await _context.Users.FirstOrDefaultAsync(x => x.Id == request.SenderId.Value, cancellationToken)).Avatar;

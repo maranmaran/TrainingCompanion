@@ -237,7 +237,6 @@ namespace Backend.API.Extensions
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
         }
 
-
         /// <summary>
         /// Sets up license context for epplus
         /// </summary>
@@ -263,14 +262,14 @@ namespace Backend.API.Extensions
         {
             // AddAutoMapper is Syntactic sugar.. we can do it manually
             // needed because of chat mappings and it's constructor that needs s3Service
-            //services.AddAutoMapper(types); 
+            //services.AddAutoMapper(types);
 
             services.AddSingleton<IMapper>(provider =>
             {
                 var config = new MapperConfiguration(c =>
                 {
                     c.AddProfile<Mappings>();
-                    c.AddProfile(new Business.Chat.Mappings(provider.GetService<IS3Service>()));
+                    c.AddProfile(new Business.Chat.Mappings(provider.GetService<IStorage>()));
                     c.AddProfile<Business.Billing.Mappings>();
                     c.AddProfile<Business.Authorization.Mappings>();
                     c.AddProfile<Business.Media.Mappings>();
@@ -341,19 +340,24 @@ namespace Backend.API.Extensions
         /// Configures all core services (business and shared)
         /// </summary>
         /// <param name="services"></param>
-        public static void ConfigureCoreServices(this IServiceCollection services)
+        public static void ConfigureCoreServices(this IServiceCollection services, IConfiguration config)
         {
             services.ConfigureAuthorizationServices();
             services.ConfigureEmailServices();
             services.ConfigurePaymentServices();
-            services.ConfigureS3Services();
             services.ConfigureLoggingService();
             services.ConfigureMediaCompressionService();
             services.ConfigureHttpContextAccessor();
             services.ConfigureDashboardServices();
             services.ConfigureTrainingProgramServices();
+            services.ConfigureS3Storage(opt =>
+            {
+                opt.AccessKey = config.GetValue<string>("S3Settings:AccessKey");
+                opt.SecretKey = config.GetValue<string>("S3Settings:SecretKey");
+                opt.BucketName = config.GetValue<string>("S3Settings:BucketName");
+                opt.UrlBase = config.GetValue<string>("S3Settings:UrlBase");
+            });
         }
-
 
         /// <summary>
         /// Configures core settings
@@ -364,7 +368,6 @@ namespace Backend.API.Extensions
             services.ConfigureEmailSettings(config);
             services.ConfigurePaymentSettings(config);
             services.ConfigureAppSettings(config);
-            services.ConfigureS3Settings(config);
             services.ConfigureLogLevelSettings(config);
         }
     }

@@ -1,14 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Library.Email;
+﻿using Backend.Library.Email;
 using Backend.Library.Email.Interfaces;
 using Backend.Library.Email.Models;
 using MediatR;
 using MimeKit;
 using MimeKit.Utils;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Email.Requests.ResetPasswordEmail
 {

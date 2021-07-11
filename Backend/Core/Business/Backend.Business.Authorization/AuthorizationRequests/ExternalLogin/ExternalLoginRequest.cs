@@ -3,7 +3,6 @@ using MediatR;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
 {
-
     public class ExternalLoginRequest : IRequest<ExternalLoginResponse>
     {
         public AccountType AccountType { get; set; }

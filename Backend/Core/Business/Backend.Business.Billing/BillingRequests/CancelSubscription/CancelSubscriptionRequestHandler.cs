@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Backend.Library.Payment.Interfaces;
+using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Library.Payment.Interfaces;
-using MediatR;
 
 namespace Backend.Business.Billing.BillingRequests.CancelSubscription
 {

@@ -1,4 +1,4 @@
-﻿using Backend.Business.TrainingLog.SetRequests.UpdateMany;
+﻿using Backend.Business.TrainingLog.Code;
 using Backend.Business.TrainingPrograms.Interfaces;
 using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.TrainingLog.Code;
 
 namespace Backend.Business.TrainingPrograms.Services
 {
@@ -31,7 +30,6 @@ namespace Backend.Business.TrainingPrograms.Services
         {
             try
             {
-
                 var programUser = await AssignTrainingProgramToUser(trainingProgram.Id, user.Id, startDate);
                 await ImportTrainingDataToCalendar(trainingProgram, user, startDate);
 
@@ -106,7 +104,6 @@ namespace Backend.Business.TrainingPrograms.Services
                 TrainingProgramDay = day.Order
             };
 
-
             var order = 0;
             foreach (var exercise in training.Exercises)
             {
@@ -141,7 +138,7 @@ namespace Backend.Business.TrainingPrograms.Services
             var userId = (await _context.Athletes.FirstOrDefaultAsync(x => x.Id == user.Id))?.CoachId ?? user.Id;
 
             // handle exercise type
-            // exercise type certainly exists 
+            // exercise type certainly exists
             var exerciseType = await _context.ExerciseTypes
                 .Include(x => x.Properties)
                 .ThenInclude(x => x.Tag)
@@ -153,6 +150,7 @@ namespace Backend.Business.TrainingPrograms.Services
 
             return exerciseType;
         }
+
         private Set ModifySet(Set set, ExerciseType type, UserSetting settings)
         {
             set.Id = Guid.Empty;

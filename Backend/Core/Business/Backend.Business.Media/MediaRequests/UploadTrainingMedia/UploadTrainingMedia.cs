@@ -1,8 +1,8 @@
-﻿using System;
-using Backend.Domain.Entities.Media;
+﻿using Backend.Domain.Entities.Media;
 using Backend.Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
 {

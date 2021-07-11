@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetMaxReport
 {
-
     public class GetMaxReportRequest : IRequest<ChartData<double, DateTime>>, IReportRequest
     {
         public Guid UserId { get; set; }

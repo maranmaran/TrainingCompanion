@@ -48,7 +48,6 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(new GetGroupedUserFeedRequest(userId), cancellationToken));
         }
 
-
         [HttpGet("{userId}/{activityId}")]
         public async Task<IActionResult> ActivitySeen(Guid userId, Guid activityId, CancellationToken cancellationToken = default)
         {

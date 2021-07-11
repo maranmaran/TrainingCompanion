@@ -25,12 +25,12 @@ namespace Backend.Business.Media.MediaRequests.GetTrainingMedia
     public class GetTrainingMediaRequestHandler : IRequestHandler<GetTrainingMediaRequest, IEnumerable<MediaFile>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3;
+        private readonly IStorage _storage;
 
-        public GetTrainingMediaRequestHandler(IApplicationDbContext context, IS3Service s3)
+        public GetTrainingMediaRequestHandler(IApplicationDbContext context, IStorage storage)
         {
             _context = context;
-            _s3 = s3;
+            _storage = storage;
         }
 
         public async Task<IEnumerable<MediaFile>> Handle(GetTrainingMediaRequest request, CancellationToken cancellationToken)
@@ -61,7 +61,7 @@ namespace Backend.Business.Media.MediaRequests.GetTrainingMedia
         {
             foreach (var media in mediaList)
             {
-                media.DownloadUrl = await _s3.RenewPresignedUrl(media.DownloadUrl, media.FtpFilePath);
+                media.DownloadUrl = await _storage.RefreshUrlAsync(media.DownloadUrl, media.FtpFilePath);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Backend.Domain;
+using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.TrainingLog;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.Exercises;
 
 namespace Backend.Business.Import.ImportTraining
 {

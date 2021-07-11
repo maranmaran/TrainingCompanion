@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Backend.Domain.Entities.User.Dashboard;
+﻿using Backend.Domain.Entities.User.Dashboard;
 using MediatR;
+using System;
+using System.Collections.Generic;
 
 namespace Backend.Business.Dashboard.DashboardRequests.GetMainDashboard
 {

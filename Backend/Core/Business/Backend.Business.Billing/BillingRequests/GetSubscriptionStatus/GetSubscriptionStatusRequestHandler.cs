@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Backend.Infrastructure.Exceptions;
 using Backend.Library.Payment.Enums;
 using Backend.Library.Payment.Interfaces;
-using Backend.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Billing.BillingRequests.GetSubscriptionStatus
 {

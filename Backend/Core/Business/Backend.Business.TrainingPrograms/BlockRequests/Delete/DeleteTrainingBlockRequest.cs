@@ -1,9 +1,8 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
+using System;
 
 namespace Backend.Business.TrainingPrograms.BlockRequests.Delete
 {
-
     public class DeleteTrainingBlockRequest : IRequest<Unit>
     {
         public DeleteTrainingBlockRequest(Guid id)

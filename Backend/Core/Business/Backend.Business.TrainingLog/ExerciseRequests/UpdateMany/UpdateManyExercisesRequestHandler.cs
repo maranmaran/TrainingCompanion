@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Infrastructure.Exceptions;
 using Backend.Infrastructure.Extensions;
 using MediatR;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingLog.ExerciseRequests.UpdateMany
 {
@@ -20,7 +20,6 @@ namespace Backend.Business.TrainingLog.ExerciseRequests.UpdateMany
             _context = context;
             _mapper = mapper;
         }
-
 
         public async Task<Unit> Handle(UpdateManyExercisesRequest request, CancellationToken cancellationToken)
         {

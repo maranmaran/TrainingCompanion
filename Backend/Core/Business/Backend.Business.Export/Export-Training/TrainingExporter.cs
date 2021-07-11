@@ -139,7 +139,5 @@ namespace Backend.Business.Export
             table.Columns[index].TotalsRowLabel = "Total Volume";
             table.Columns[index].TotalsRowFunction = RowFunctions.Sum;
         }
-
-
     }
 }

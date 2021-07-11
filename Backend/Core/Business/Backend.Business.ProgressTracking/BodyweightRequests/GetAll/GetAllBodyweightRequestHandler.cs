@@ -15,16 +15,13 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.GetAll
     {
         private readonly IApplicationDbContext _context;
 
-
         public GetAllBodyweightRequestHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-
         public async Task<IEnumerable<Bodyweight>> Handle(GetAllBodyweightRequest request, CancellationToken cancellationToken)
         {
-
             try
             {
                 var entities = _context.Bodyweights.Where(x => x.UserId == request.UserId).OrderByDescending(x => x.Date);

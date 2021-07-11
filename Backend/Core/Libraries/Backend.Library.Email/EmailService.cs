@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Library.Email.Interfaces;
+﻿using Backend.Library.Email.Interfaces;
 using Backend.Library.Email.Models;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using MimeKit;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Library.Email
 {

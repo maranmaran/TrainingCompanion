@@ -14,6 +14,7 @@ namespace Backend.Business.Exercises
             this.TagGroupMappings();
             this.ExerciseTypeMappings();
         }
+
         private void TagGroupMappings()
         {
             CreateMap<TagGroup, TagGroup>();

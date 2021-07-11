@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
 {
-
     public class GetVolumeReportRequest : IRequest<ChartData<double, DateTime>>, IReportRequest
     {
         public Guid UserId { get; set; }

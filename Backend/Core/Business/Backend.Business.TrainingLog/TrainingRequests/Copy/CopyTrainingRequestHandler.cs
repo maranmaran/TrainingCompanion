@@ -1,12 +1,12 @@
 ﻿using Backend.Domain;
 using Backend.Domain.Entities.TrainingLog;
+using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Infrastructure.Exceptions;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.Copy
 {
@@ -38,7 +38,7 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Copy
                         .AsNoTracking()
                         .FirstOrDefaultAsync(x => x.Id == request.TrainingId, cancellationToken);
 
-                if(training == null)
+                if (training == null)
                     throw new NotFoundException(nameof(training), request.TrainingId);
 
                 training.Id = Guid.Empty;

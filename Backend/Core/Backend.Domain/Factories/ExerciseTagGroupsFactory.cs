@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Backend.Domain.Entities.Exercises;
+﻿using Backend.Domain.Entities.Exercises;
 using Backend.Domain.Entities.User;
+using System.Collections.Generic;
 
 namespace Backend.Domain.Factories
 {

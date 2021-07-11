@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Domain.Entities.Exercises;
+﻿using Backend.Domain.Entities.Exercises;
 using MediatR;
+using System;
 
 namespace Backend.Business.Exercises.TagRequests.Update
 {

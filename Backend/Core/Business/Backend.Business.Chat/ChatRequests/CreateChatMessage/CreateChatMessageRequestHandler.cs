@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.Chat;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Chat.ChatRequests.CreateChatMessage
 {

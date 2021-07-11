@@ -1,5 +1,5 @@
-﻿using System;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
+using System;
 
 namespace Backend.Domain.Entities.User
 {

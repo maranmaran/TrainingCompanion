@@ -20,14 +20,14 @@ namespace Backend.Business.Chat.ChatRequests.GetFriendList
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
         private readonly IMediator _mediator;
 
-        public GetFriendsListRequestHandler(IApplicationDbContext context, IMapper mapper, IS3Service s3Service, IMediator mediator)
+        public GetFriendsListRequestHandler(IApplicationDbContext context, IMapper mapper, IStorage storage, IMediator mediator)
         {
             _context = context;
             _mapper = mapper;
-            _s3Service = s3Service;
+            _storage = storage;
             _mediator = mediator;
         }
 

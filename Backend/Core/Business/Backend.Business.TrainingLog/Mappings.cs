@@ -30,6 +30,5 @@ namespace Backend.Business.TrainingLog
         {
             CreateMap<CreateSetRequest, Domain.Entities.TrainingLog.Set>();
         }
-
     }
 }

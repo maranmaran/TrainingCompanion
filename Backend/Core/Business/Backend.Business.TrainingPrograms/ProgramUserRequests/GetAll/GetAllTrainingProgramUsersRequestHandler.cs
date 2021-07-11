@@ -14,14 +14,13 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.GetAll
     public class GetAllTrainingProgramUsersRequestHandler : IRequestHandler<GetAllTrainingProgramUsersRequest, IEnumerable<TrainingProgramUser>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
 
-        public GetAllTrainingProgramUsersRequestHandler(IApplicationDbContext context, IS3Service s3Service)
+        public GetAllTrainingProgramUsersRequestHandler(IApplicationDbContext context, IStorage storage)
         {
             _context = context;
-            _s3Service = s3Service;
+            _storage = storage;
         }
-
 
         public async Task<IEnumerable<TrainingProgramUser>> Handle(GetAllTrainingProgramUsersRequest request, CancellationToken cancellationToken)
         {
@@ -30,7 +29,6 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.GetAll
                 var programUsers = await _context.TrainingProgramUsers
                     .Include(x => x.User)
                     .Where(x => x.TrainingProgramId == request.ProgramId).ToListAsync(cancellationToken);
-
 
                 await RefreshAvatars(programUsers);
 
@@ -46,7 +44,7 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.GetAll
         {
             foreach (var user in programUsers)
             {
-                user.User.Avatar = await _s3Service.GetPresignedUrlAsync(user.User.Avatar);
+                user.User.Avatar = await _storage.GetUrlAsync(user.User.Avatar);
             }
         }
     }

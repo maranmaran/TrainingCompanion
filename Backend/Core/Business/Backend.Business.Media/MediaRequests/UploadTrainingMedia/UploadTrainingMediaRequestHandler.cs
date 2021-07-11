@@ -20,12 +20,12 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
     public class UploadTrainingMediaRequestHandler : IRequestHandler<UploadTrainingMedia, MediaFile>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3AccessService;
+        private readonly IStorage _storage;
         private readonly IMediaCompressionService _compressionService;
 
-        public UploadTrainingMediaRequestHandler(IS3Service s3AccessService, IApplicationDbContext context, IMediaCompressionService compressionService)
+        public UploadTrainingMediaRequestHandler(IStorage storage, IApplicationDbContext context, IMediaCompressionService compressionService)
         {
-            _s3AccessService = s3AccessService;
+            _storage = storage;
             _context = context;
             _compressionService = compressionService;
         }
@@ -43,8 +43,8 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
                 if (request.Type == MediaType.Image)
                     file = await _compressionService.Compress(MediaType.Image, request.File.OpenReadStream());
 
-                await _s3AccessService.WriteToS3(filename, file);
-                var presignedUrl = await _s3AccessService.GetPresignedUrlAsync(filename);
+                await _storage.WriteAsync(filename, file);
+                var presignedUrl = await _storage.GetUrlAsync(filename);
 
                 // create db object and map to it
                 var media = new MediaFile()

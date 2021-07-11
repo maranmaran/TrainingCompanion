@@ -14,18 +14,14 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.Update
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-
-
         public UpdateBodyweightRequestHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-
         public async Task<Unit> Handle(UpdateBodyweightRequest request, CancellationToken cancellationToken)
         {
-
             try
             {
                 var entityToUpdate = await _context.Bodyweights.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);

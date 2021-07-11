@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Backend.Business.Chat.Models;
+﻿using Backend.Business.Chat.Models;
 using Backend.Domain.Enum;
 using MediatR;
+using System;
+using System.Collections.Generic;
 
 namespace Backend.Business.Chat.ChatRequests.GetFriendList
 {

@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
+﻿using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
 using MediatR;
+using System;
 
 namespace Backend.Business.Authorization.AuthorizationRequests.SetPassword
 {

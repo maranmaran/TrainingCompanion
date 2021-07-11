@@ -14,16 +14,13 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.GetAll
     {
         private readonly IApplicationDbContext _context;
 
-
         public GetAllPersonalBestRequestHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-
         public async Task<IEnumerable<Domain.Entities.ProgressTracking.PersonalBest>> Handle(GetAllPersonalBestRequest request, CancellationToken cancellationToken)
         {
-
             try
             {
                 var entities = _context.PBs.Where(x => x.ExerciseTypeId == request.ExerciseTypeId);

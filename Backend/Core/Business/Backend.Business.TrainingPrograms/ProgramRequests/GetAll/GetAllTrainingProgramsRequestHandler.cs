@@ -14,14 +14,13 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.GetAll
     public class GetAllTrainingProgramsRequestHandler : IRequestHandler<GetAllTrainingProgramsRequest, IEnumerable<TrainingProgram>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
 
-        public GetAllTrainingProgramsRequestHandler(IApplicationDbContext context, IS3Service s3Service)
+        public GetAllTrainingProgramsRequestHandler(IApplicationDbContext context, IStorage storage)
         {
             _context = context;
-            _s3Service = s3Service;
+            _storage = storage;
         }
-
 
         public async Task<IEnumerable<TrainingProgram>> Handle(GetAllTrainingProgramsRequest request, CancellationToken cancellationToken)
         {
@@ -45,9 +44,9 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.GetAll
         {
             foreach (var entity in entities.Where(x => !string.IsNullOrWhiteSpace(x.ImageUrl)))
             {
-                if (_s3Service.CheckIfPresignedUrlIsExpired(entity.ImageUrl))
+                if (_storage.IsUrlExpired(entity.ImageUrl))
                 {
-                    entity.ImageUrl = await _s3Service.GetPresignedUrlAsync(entity.ImageFtpFilePath);
+                    entity.ImageUrl = await _storage.GetUrlAsync(entity.ImageFtpFilePath);
                 }
             }
         }

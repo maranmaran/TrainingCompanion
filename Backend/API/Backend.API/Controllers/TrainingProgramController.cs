@@ -15,14 +15,12 @@ namespace Backend.API.Controllers
         [HttpGet("{creatorId}")]
         public async Task<IActionResult> GetAll(Guid creatorId, CancellationToken cancellationToken = default)
         {
-
             return Ok(await Mediator.Send(new GetAllTrainingProgramsRequest(creatorId), cancellationToken));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken = default)
         {
-
             return Ok(await Mediator.Send(new GetTrainingProgramRequest(id), cancellationToken));
         }
 

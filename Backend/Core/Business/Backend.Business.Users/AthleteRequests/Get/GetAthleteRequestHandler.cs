@@ -18,7 +18,6 @@ namespace Backend.Business.Users.AthleteRequests.Get
             _context = context;
         }
 
-
         public async Task<Athlete> Handle(GetAthleteRequest request, CancellationToken cancellationToken)
         {
             try

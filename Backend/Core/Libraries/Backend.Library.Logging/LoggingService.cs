@@ -101,15 +101,19 @@ namespace Backend.Library.Logging
                         case LogLevel.Trace:
                             fileLogger.Trace(exception, message);
                             return;
+
                         case LogLevel.Debug:
                             fileLogger.Debug(exception, message);
                             return;
+
                         case LogLevel.Info:
                             fileLogger.Info(exception, message);
                             return;
+
                         case LogLevel.Warn:
                             fileLogger.Warn(exception, message);
                             return;
+
                         case LogLevel.Error:
                             fileLogger.Error(exception, message);
                             return;
@@ -122,21 +126,24 @@ namespace Backend.Library.Logging
                         case LogLevel.Trace:
                             _logger.LogTrace(exception, message);
                             return;
+
                         case LogLevel.Debug:
                             _logger.LogDebug(exception, message);
                             return;
+
                         case LogLevel.Info:
                             _logger.LogInformation(exception, message);
                             return;
+
                         case LogLevel.Warn:
                             _logger.LogWarning(exception, message);
                             return;
+
                         case LogLevel.Error:
                             _logger.LogError(exception, message);
                             return;
                     }
                 }
-
             }
             catch (Exception e)
             {

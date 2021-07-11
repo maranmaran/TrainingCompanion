@@ -3,6 +3,7 @@ using Backend.Business.TrainingLog.ExerciseRequests.CreateFull;
 using Backend.Business.TrainingLog.ExerciseRequests.Delete;
 using Backend.Business.TrainingLog.ExerciseRequests.Get;
 using Backend.Business.TrainingLog.ExerciseRequests.GetAll;
+using Backend.Business.TrainingLog.ExerciseRequests.UpdateFull;
 using Backend.Business.TrainingLog.ExerciseRequests.UpdateMany;
 using Backend.Domain.Entities.TrainingLog;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.TrainingLog.ExerciseRequests.UpdateFull;
 
 namespace Backend.API.Controllers
 {
@@ -35,7 +35,6 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 
-
         [HttpPost]
         public async Task<IActionResult> CreateFull([FromBody] Exercise exercise, CancellationToken cancellationToken = default)
         {
@@ -43,13 +42,11 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(new CreateFullExerciseRequest(exercise), cancellationToken));
         }
 
-
         [HttpPut]
         public async Task<IActionResult> UpdateMany([FromBody] IEnumerable<Exercise> data, CancellationToken cancellationToken = default)
         {
             return Ok(await Mediator.Send(new UpdateManyExercisesRequest(data), cancellationToken));
         }
-
 
         [HttpPut]
         public async Task<IActionResult> UpdateFull([FromBody] Exercise exercise, CancellationToken cancellationToken = default)

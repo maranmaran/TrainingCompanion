@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Backend.Library.Payment.Enums;
+﻿using Backend.Library.Payment.Enums;
+using System.Collections.Generic;
 
 namespace Backend.Library.Payment.Models
 {

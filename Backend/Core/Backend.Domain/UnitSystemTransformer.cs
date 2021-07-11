@@ -44,8 +44,10 @@ namespace Backend.Domain
             {
                 case UnitSystem.Imperial:
                     return "lbs";
+
                 case UnitSystem.Metric:
                     return "kg";
+
                 default:
                     throw new ArgumentException("Unknown unit system.");
             }

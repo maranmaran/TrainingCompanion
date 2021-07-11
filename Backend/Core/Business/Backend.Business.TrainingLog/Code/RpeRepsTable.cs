@@ -18,10 +18,8 @@ namespace Backend.Business.TrainingLog.Code
 
     public static class RpeRepsTable
     {
-
         public static double CalculateLiftMax(double reps, double rpe, double weight)
         {
-
             if (rpe >= 6 && reps <= 10)
             {
                 var key = PercentageTable.Keys.FirstOrDefault(x => x.Reps.Equals(reps) && x.Rpe.Equals(rpe));

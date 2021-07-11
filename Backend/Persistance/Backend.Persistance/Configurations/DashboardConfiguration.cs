@@ -11,13 +11,11 @@ namespace Backend.Persistance.Configurations
         {
             builder.HasKey(x => x.Id);
 
-
             builder
                 .HasOne(x => x.UserSetting)
                 .WithOne(x => x.MainDashboard)
                 .IsRequired(false)
                 .HasForeignKey<UserSetting>(x => x.MainDashboardId);
-
         }
     }
 }

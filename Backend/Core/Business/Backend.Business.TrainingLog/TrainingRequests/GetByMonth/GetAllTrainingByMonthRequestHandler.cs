@@ -15,12 +15,12 @@ namespace Backend.Business.TrainingLog.TrainingRequests.GetByMonth
     public class GetAllTrainingByMonthRequestHandler : IRequestHandler<GetAllTrainingsByMonthRequest, IEnumerable<Training>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3;
+        private readonly IStorage _storage;
 
-        public GetAllTrainingByMonthRequestHandler(IApplicationDbContext context, IS3Service s3)
+        public GetAllTrainingByMonthRequestHandler(IApplicationDbContext context, IStorage storage)
         {
             _context = context;
-            _s3 = s3;
+            _storage = storage;
         }
 
         public async Task<IEnumerable<Training>> Handle(GetAllTrainingsByMonthRequest request, CancellationToken cancellationToken)

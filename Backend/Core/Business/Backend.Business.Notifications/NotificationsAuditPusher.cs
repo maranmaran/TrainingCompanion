@@ -28,12 +28,12 @@ namespace Backend.Business.Notifications
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IActivityService _activityService;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
 
         public NotificationsAuditPusher(IServiceProvider provider)
         {
             _mediator = provider.GetService<IMediator>();
-            _s3Service = provider.GetService<IS3Service>();
+            _storage = provider.GetService<IStorage>();
             _logger = provider.GetService<ILoggingService>();
             _context = provider.GetService<IApplicationDbContext>();
             _mapper = provider.GetService<IMapper>();
@@ -83,7 +83,7 @@ namespace Backend.Business.Notifications
         }
 
         // Possibly Deprecated
-        // TODO see if this is needed... we use i18n so proabably not 
+        // TODO see if this is needed... we use i18n so proabably not
         // 14.05.2020
         internal string GetPayload(AuditRecord audit, UserSetting settings)
         {
@@ -91,12 +91,16 @@ namespace Backend.Business.Notifications
             {
                 case nameof(Training):
                     return "added new training";
+
                 case nameof(MediaFile):
                     return "attached new media";
+
                 case nameof(Bodyweight):
                     return $"logged bodyweight of {audit.GetData<BodyweightDeserializeResult>().Entity.Value.FromMetricTo(settings.UnitSystem)} {settings.UnitSystem.GetUnitLabel()}";
+
                 case nameof(PersonalBest):
                     return "has new PR!";
+
                 default:
                     throw new ArgumentException($"Entity type is not recognized. {audit.EntityType}");
             }

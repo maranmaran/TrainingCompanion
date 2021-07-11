@@ -1,9 +1,9 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using Amazon.S3.Transfer;
 using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Domain.Entities.User;
+using Backend.Library.AmazonS3.Interfaces;
 using System;
 using System.Globalization;
 using System.IO;
@@ -11,35 +11,33 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Backend.Library.AmazonS3
+namespace Backend.Library.AmazonS3.Storages
 {
-    internal class S3Service : Interfaces.IS3Service
+    internal class S3Storage : IStorage
     {
-        private readonly S3Settings _s3Settings;
-        private readonly IAmazonS3 _s3Client;
+        private readonly IStorageSettings _settings;
+        private readonly IAmazonS3 _client;
 
-        public S3Service(S3Settings s3Settings)
+        public S3Storage(IStorageSettings settings, IAmazonS3 client)
         {
-            this._s3Settings = s3Settings;
-
-            _s3Client = new AmazonS3Client(_s3Settings.AccesKey, _s3Settings.SecretAccessKey, Amazon.RegionEndpoint.EUCentral1);
-
+            _settings = settings;
+            _client = client;
         }
 
-        public async Task<Stream> GetFromS3(string key)
+        public async Task<Stream> GetStreamAsync(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("Key cannot be null");
 
             var request = new GetObjectRequest
             {
-                BucketName = _s3Settings.BucketName,
+                BucketName = _settings.BucketName,
                 Key = key,
             };
 
             try
             {
-                var response = await _s3Client.GetObjectAsync(request);
+                var response = await _client.GetObjectAsync(request);
                 return response.ResponseStream;
             }
             catch (Exception e)
@@ -48,52 +46,21 @@ namespace Backend.Library.AmazonS3
             }
         }
 
-        public async Task WriteToS3(string key, Stream data)
+        public async Task<Stream> WriteAsync(string key, Stream data)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("Key cannot be null");
 
-            // new mem stream just in case
-            await using var stream = new MemoryStream();
-            await data.CopyToAsync(stream);
-            stream.Seek(0, SeekOrigin.Begin);
-
-            var request = new TransferUtilityUploadRequest()
+            var request = new GetObjectRequest
             {
-                BucketName = _s3Settings.BucketName,
+                BucketName = _settings.BucketName,
                 Key = key,
-                InputStream = stream,
-                AutoCloseStream = true,
-            };
-
-            var fileTransferUtility = new TransferUtility(_s3Client);
-
-            await fileTransferUtility.UploadAsync(request);
-        }
-
-        public Task<bool> IsS3Url(string url)
-        {
-            if (string.IsNullOrWhiteSpace(url))
-                return Task.FromResult(false);
-
-            return Task.FromResult(url.Contains(_s3Settings.BucketName) || url.Contains("media/"));
-        }
-
-        public async Task<string> GetPresignedUrlAsync(string key)
-        {
-            if (string.IsNullOrWhiteSpace(key))
-                throw new ArgumentException("Key cannot be null");
-
-            var request = new GetPreSignedUrlRequest()
-            {
-                BucketName = _s3Settings.BucketName,
-                Key = key,
-                Expires = GetExpirationDate(),
             };
 
             try
             {
-                return await Task.FromResult(_s3Client.GetPreSignedURL(request));
+                var response = await _client.GetObjectAsync(request);
+                return response.ResponseStream;
             }
             catch (Exception e)
             {
@@ -101,32 +68,58 @@ namespace Backend.Library.AmazonS3
             }
         }
 
-        public bool CheckIfPresignedUrlIsExpired(string url)
+        public Task<bool> ValidateUrlAsync(string url)
+        {
+            return string.IsNullOrWhiteSpace(url) ? Task.FromResult(false) : Task.FromResult(url.Contains(_settings.BucketName) || url.Contains("media/"));
+        }
+
+        public Task<string> GetUrlAsync(string key)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+                throw new ArgumentException("Key cannot be null");
+
+            var request = new GetPreSignedUrlRequest()
+            {
+                BucketName = _settings.BucketName,
+                Key = key,
+                Expires = GetExpirationDate(),
+            };
+
+            try
+            {
+                return Task.FromResult(_client.GetPreSignedURL(request));
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Key: {key}", e);
+            }
+        }
+
+        public bool IsUrlExpired(string url)
         {
             var regex = new Regex("-Expires=(\\d+)");
-            var unixExpieryTimestamp = regex.Match(url).Groups[1].Value;
+            var unixExpiryTimestamp = regex.Match(url).Groups[1].Value;
 
-            var expiryDateOffset = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(unixExpieryTimestamp));
+            var expiryDateOffset = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(unixExpiryTimestamp));
 
             var expiryDate = expiryDateOffset.UtcDateTime;
 
             return DateTime.Compare(expiryDate, DateTime.UtcNow) < 0; // t1 is earlier than t2
         }
 
-        public async Task<string> RenewPresignedUrl(string url, string filename)
+        public Task<string> RefreshUrlAsync(string url, string filename)
         {
             // get fresh presigned url for display
-            if (
-                !string.IsNullOrWhiteSpace(url) &&
-                CheckIfPresignedUrlIsExpired(url))
+            if (!string.IsNullOrWhiteSpace(url) && IsUrlExpired(url))
             {
-                return await GetPresignedUrlAsync(filename);
+                return GetUrlAsync(filename);
             }
 
-            return url;
+            return Task.FromResult(url);
         }
 
-        public string GetS3Key(string entityType, Guid userId, string filename = null)
+        // TODO: Ideally this isn't part of library but outside consumer
+        public string GetKey(string entityType, Guid userId, string filename = null)
         {
             if (string.IsNullOrWhiteSpace(filename))
                 filename = Guid.NewGuid().ToString();

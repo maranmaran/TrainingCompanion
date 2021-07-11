@@ -19,13 +19,13 @@ namespace Backend.Business.Users.UsersRequests.GetAllUsers
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
 
-        public GetAllUsersRequestHandler(IApplicationDbContext context, IMapper mapper, IS3Service s3Service)
+        public GetAllUsersRequestHandler(IApplicationDbContext context, IMapper mapper, IStorage storage)
         {
             _context = context;
             _mapper = mapper;
-            _s3Service = s3Service;
+            _storage = storage;
         }
 
         public async Task<IEnumerable<ApplicationUser>> Handle(GetAllUsersRequest request, CancellationToken cancellationToken)
@@ -63,7 +63,7 @@ namespace Backend.Business.Users.UsersRequests.GetAllUsers
             var s3Avatars = list.Where(x => GenericAvatarConstructor.IsGenericAvatar(x.Avatar) == false); // must be s3 then if not generic
             foreach (var s3Avatar in s3Avatars)
             {
-                s3Avatar.Avatar = await _s3Service.GetPresignedUrlAsync(s3Avatar.Avatar);
+                s3Avatar.Avatar = await _storage.GetUrlAsync(s3Avatar.Avatar);
             }
 
             return list;

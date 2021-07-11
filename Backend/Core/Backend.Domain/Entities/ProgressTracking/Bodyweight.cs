@@ -1,5 +1,5 @@
-﻿using System;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
+using System;
 
 namespace Backend.Domain.Entities.ProgressTracking
 {

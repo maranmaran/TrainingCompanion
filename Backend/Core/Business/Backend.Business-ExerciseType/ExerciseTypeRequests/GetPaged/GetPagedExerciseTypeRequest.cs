@@ -1,7 +1,7 @@
-﻿using System;
-using Backend.Common;
+﻿using Backend.Common;
 using Backend.Domain.Entities.Exercises;
 using MediatR;
+using System;
 
 namespace Backend.Business.Exercises.ExerciseTypeRequests.GetPaged
 {

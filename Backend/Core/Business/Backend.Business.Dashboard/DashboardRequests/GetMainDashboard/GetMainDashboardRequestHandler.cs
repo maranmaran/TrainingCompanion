@@ -35,7 +35,6 @@ namespace Backend.Business.Dashboard.DashboardRequests.GetMainDashboard
                 if (user == null)
                     throw new NotFoundException(nameof(ApplicationUser), request.UserId);
 
-
                 return user.UserSetting.MainDashboard?.Tracks ?? new Track[2] { new Track(), new Track() };
             }
             catch (Exception e)

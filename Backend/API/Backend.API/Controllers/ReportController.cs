@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {
-
     public class ReportController : BaseController
     {
         [HttpGet("{trainingId}/{userId}")]
@@ -41,7 +40,6 @@ namespace Backend.API.Controllers
 
             //return Ok(await Mediator.Send(new GetBodyweightReportRequest(userId, dateFrom, dateTo), cancellationToken));
         }
-
 
         [HttpPost]
         public async Task<IActionResult> GetDashboardVolumeReport(GetVolumeReportRequest request, CancellationToken cancellationToken = default)

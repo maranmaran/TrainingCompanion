@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.Exercises.TagGroupRequests.Create;
+﻿using Backend.Business.Exercises.TagGroupRequests.Create;
 using Backend.Business.Exercises.TagGroupRequests.Delete;
 using Backend.Business.Exercises.TagGroupRequests.GetAll;
 using Backend.Business.Exercises.TagGroupRequests.Update;
 using Backend.Business.Exercises.TagGroupRequests.UpdateMany;
 using Backend.Domain.Entities.Exercises;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.API.Controllers
 {

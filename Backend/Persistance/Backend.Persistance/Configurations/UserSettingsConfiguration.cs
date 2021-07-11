@@ -53,7 +53,6 @@ namespace Backend.Persistance.Configurations
                 .HasForeignKey<ApplicationUser>(x => x.UserSettingId);
 
             builder.HasIndex(x => x.ApplicationUserId);
-
         }
     }
 }

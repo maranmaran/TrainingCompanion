@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using System;
 
 namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
@@ -9,5 +8,4 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
         public Guid UserId { get; set; }
         public string Base64 { get; set; }
     }
-
 }

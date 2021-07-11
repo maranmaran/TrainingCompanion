@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using System;
 using Backend.Business.Authorization.AuthorizationRequests.CurrentUser;
 using Backend.Domain.Entities.User;
+using System;
 
 namespace Backend.Business.Authorization
 {
@@ -22,6 +22,5 @@ namespace Backend.Business.Authorization
 
             return user.TrialDuration - dayDifference.Days;
         }
-
     }
 }

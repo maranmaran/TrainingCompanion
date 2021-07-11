@@ -19,7 +19,6 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeWithAvgInt
             _context = context;
         }
 
-
         public async Task<ChartData<double, DateTime>> Handle(GetVolumeWithAvgIntensityReportRequest request, CancellationToken cancellationToken)
         {
             try

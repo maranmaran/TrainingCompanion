@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
 {

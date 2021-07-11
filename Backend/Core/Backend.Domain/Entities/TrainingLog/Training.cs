@@ -22,11 +22,11 @@ namespace Backend.Domain.Entities.TrainingLog
 
         // Training program and exact block day to which the training belongs
         public Guid? TrainingProgramId { get; set; }
+
         public virtual TrainingProgram TrainingProgram { get; set; }
 
         public Guid? TrainingBlockDayId { get; set; }
         public virtual TrainingBlockDay TrainingBlockDay { get; set; }
-
 
         public virtual ICollection<Exercise> Exercises { get; set; } = new HashSet<Exercise>();
         public virtual ICollection<MediaFile> Media { get; set; } = new HashSet<MediaFile>();

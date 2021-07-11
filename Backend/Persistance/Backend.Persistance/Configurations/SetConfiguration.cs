@@ -11,8 +11,6 @@ namespace Backend.Persistance.Configurations
             builder.HasIndex(x => x.ExerciseId);
             builder.Property(x => x.Rir).HasDefaultValue(2);
             builder.Property(x => x.Rpe).HasDefaultValue(8);
-
         }
-
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Backend.Domain;
+using Backend.Infrastructure.Exceptions;
+using MediatR;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain;
-using Backend.Infrastructure.Exceptions;
-using MediatR;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.GetAll
 {

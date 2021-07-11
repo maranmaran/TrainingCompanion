@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingPrograms.BlockRequests.Update
 {
@@ -20,7 +20,6 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Update
             _context = context;
             _mapper = mapper;
         }
-
 
         public async Task<TrainingBlock> Handle(UpdateTrainingBlockRequest request, CancellationToken cancellationToken)
         {

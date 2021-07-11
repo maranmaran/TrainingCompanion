@@ -1,7 +1,7 @@
-﻿using System;
-using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.User;
 using Backend.Domain.Enum;
 using MediatR;
+using System;
 
 namespace Backend.Business.Users.UsersRequests.CreateUser
 {

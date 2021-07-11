@@ -20,7 +20,6 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.GetAll
             _context = context;
         }
 
-
         public async Task<IEnumerable<ExerciseType>> Handle(GetAllExerciseTypeRequest request, CancellationToken cancellationToken)
         {
             try

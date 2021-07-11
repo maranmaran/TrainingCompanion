@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Backend.Domain;
+using Backend.Domain.Entities.TrainingProgramMaker;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Domain;
-using Backend.Domain.Entities.TrainingProgramMaker;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Business.TrainingPrograms.DayRequests.GetAll
 {
@@ -18,7 +18,6 @@ namespace Backend.Business.TrainingPrograms.DayRequests.GetAll
         {
             _context = context;
         }
-
 
         public async Task<IEnumerable<TrainingBlockDay>> Handle(GetAllTrainingBlockDaysRequest request, CancellationToken cancellationToken)
         {

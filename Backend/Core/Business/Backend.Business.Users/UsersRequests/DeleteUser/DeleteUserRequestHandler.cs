@@ -72,7 +72,6 @@ namespace Backend.Business.Users.UsersRequests.DeleteUser
                 .Include(x => x.Coach)
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-
             if (athlete == null)
                 throw new NotFoundException(nameof(Athlete), request.Id);
 

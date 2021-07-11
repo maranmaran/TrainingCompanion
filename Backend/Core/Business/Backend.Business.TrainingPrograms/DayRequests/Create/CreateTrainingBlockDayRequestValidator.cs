@@ -7,7 +7,6 @@ namespace Backend.Business.TrainingPrograms.DayRequests.Create
     {
         public CreateTrainingBlockDayRequestValidator()
         {
-
         }
     }
 }

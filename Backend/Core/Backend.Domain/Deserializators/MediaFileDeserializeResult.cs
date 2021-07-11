@@ -20,5 +20,4 @@ namespace Backend.Domain.Deserializators
 
         public Guid? ExerciseId { get; set; }
     }
-
 }

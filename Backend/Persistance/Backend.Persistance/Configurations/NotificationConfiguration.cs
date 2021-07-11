@@ -32,7 +32,6 @@ namespace Backend.Persistance.Configurations
             builder
                 .HasIndex(x => x.ReceiverId)
                 .IsUnique(false);
-
         }
     }
 }

@@ -13,6 +13,5 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.GetAll
         }
 
         public Guid UserId { get; set; }
-
     }
 }

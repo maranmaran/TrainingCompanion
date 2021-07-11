@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.Exercises;
 using FluentValidation;
+using System.Linq;
 
 namespace Backend.Business.Exercises.TagGroupRequests.Update
 {

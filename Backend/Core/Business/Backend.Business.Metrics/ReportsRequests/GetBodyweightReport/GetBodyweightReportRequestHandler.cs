@@ -12,6 +12,7 @@ namespace Backend.Business.Reports.ReportsRequests.GetBodyweightReport
     public class GetBodyweightReportRequestHandler : IRequestHandler<GetBodyweightReportRequest, GetBodyweightReportResponse>
     {
         private readonly IApplicationDbContext _context;
+
         public GetBodyweightReportRequestHandler(IApplicationDbContext context)
         {
             _context = context;
@@ -28,7 +29,7 @@ namespace Backend.Business.Reports.ReportsRequests.GetBodyweightReport
                 if (userSetting == null)
                     throw new Exception("User setting cannot be null");
 
-                var unitSystem = userSetting.UnitSystem; 
+                var unitSystem = userSetting.UnitSystem;
 
                 var data = _context.Bodyweights
                     .OrderBy(x => x.Date.Date)

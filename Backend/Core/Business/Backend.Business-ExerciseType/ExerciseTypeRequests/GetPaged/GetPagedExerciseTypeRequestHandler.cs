@@ -68,7 +68,7 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.GetPaged
                     paginationModel.Page = (int)Math.Floor((double)itemIdx / request.PaginationModel.PageSize);
                 }
 
-                // page --- or fetch all results 
+                // page --- or fetch all results
                 var exerciseTypesPagedList = !request.PaginationModel.FetchAll ? allItems.Skip(paginationModel.Page * paginationModel.PageSize).Take(paginationModel.PageSize).ToList() : allItems;
 
                 //TODO: Technical debt.. this needs to be done better
@@ -84,7 +84,5 @@ namespace Backend.Business.Exercises.ExerciseTypeRequests.GetPaged
                 throw new NotFoundException(nameof(ExerciseType), $"Could not find exercise type for {request.UserId} USER", e);
             }
         }
-
-
     }
 }

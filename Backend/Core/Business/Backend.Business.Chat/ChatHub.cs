@@ -23,13 +23,13 @@ namespace Backend.Business.Chat
 
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IS3Service _s3AccessService;
+        private readonly IStorage _storage;
 
-        public ChatHub(IMediator mediator, IMapper mapper, IS3Service s3AccessService)
+        public ChatHub(IMediator mediator, IMapper mapper, IStorage storage)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _s3AccessService = s3AccessService;
+            _storage = storage;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Backend.Business.Chat
             if (sender.Value != null)
             {
                 // get fresh presigned url for display
-                message.DownloadUrl = await _s3AccessService.RenewPresignedUrl(message.DownloadUrl, message.S3Filename);
+                message.DownloadUrl = await _storage.RefreshUrlAsync(message.DownloadUrl, message.S3Filename);
 
                 // send message
                 await Clients.User(message.ToId).SendAsync("messageReceived", sender.Value.Participant, message);

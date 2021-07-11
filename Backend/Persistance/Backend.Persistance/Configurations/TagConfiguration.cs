@@ -26,7 +26,6 @@ namespace Backend.Persistance.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(x => x.TagGroupId);
-
         }
     }
 }

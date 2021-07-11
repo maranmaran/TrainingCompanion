@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Library.Logging.Interfaces;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingPrograms.DayRequests.Create
 {
@@ -26,7 +26,6 @@ namespace Backend.Business.TrainingPrograms.DayRequests.Create
             _mediator = mediator;
             _logger = logger;
         }
-
 
         public async Task<TrainingBlockDay> Handle(CreateTrainingBlockDayRequest request, CancellationToken cancellationToken)
         {

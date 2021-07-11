@@ -42,6 +42,5 @@ namespace Backend.Common.Extensions
 
             return memStream.ToArray();
         }
-
     }
 }

@@ -6,7 +6,7 @@ namespace Backend.Domain.Deserializators
     {
         public Guid Id { get; set; }
 
-        public double Value { get; set; } //KG 
+        public double Value { get; set; } //KG
         public DateTime DateAchieved { get; set; }
 
         public double? Bodyweight { get; set; }

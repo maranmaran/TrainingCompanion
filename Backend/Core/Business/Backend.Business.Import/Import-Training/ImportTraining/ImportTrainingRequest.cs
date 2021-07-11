@@ -1,6 +1,6 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Backend.Business.Import.ImportTraining
 {

@@ -17,6 +17,5 @@ namespace Backend.Business.Reports.Models
     // default label type
     public class ChartData<TData> : ChartData<TData, string>
     {
-
     }
 }

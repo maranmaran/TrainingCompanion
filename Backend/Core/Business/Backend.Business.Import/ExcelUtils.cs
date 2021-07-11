@@ -1,16 +1,15 @@
-﻿using Backend.Common;
+﻿using Backend.Business.Import.Models;
+using Backend.Common;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Backend.Business.Import.Models;
 
 namespace Backend.Business.Import
 {
     public static class ExcelUtils
     {
-
         public static IEnumerable<T> ConvertSheetToObjects<T>(this ExcelWorksheet worksheet) where T : new()
         {
             bool IsColumn(CustomAttributeData y) => y.AttributeType == typeof(Column);
@@ -31,7 +30,6 @@ namespace Backend.Business.Import
                 .Select(cell => cell.Start.Row)
                 .Distinct()
                 .OrderBy(x => x);
-
 
             // header columns
             var importColumns = new HashSet<string>();

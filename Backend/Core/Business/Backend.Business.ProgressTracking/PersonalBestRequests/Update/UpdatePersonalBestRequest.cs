@@ -1,7 +1,6 @@
-﻿using System;
-using Backend.Domain.Entities.ProgressTracking;
+﻿using Backend.Domain.Entities.ProgressTracking;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 
 namespace Backend.Business.ProgressTracking.PersonalBestRequests.Update
 {

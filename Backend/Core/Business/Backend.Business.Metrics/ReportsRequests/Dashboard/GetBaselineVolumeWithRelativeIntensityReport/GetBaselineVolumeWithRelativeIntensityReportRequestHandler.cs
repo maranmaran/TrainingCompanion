@@ -19,7 +19,6 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetBaselineVolumeWi
             _context = context;
         }
 
-
         public async Task<ChartData<double, DateTime>> Handle(GetBaselineVolumeWithRelativeIntensityReportRequest request, CancellationToken cancellationToken)
         {
             try
@@ -50,7 +49,6 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetBaselineVolumeWi
                 var relativeIntensityData = new List<double>();
                 foreach (var training in trainings)
                 {
-
                 }
 
                 return null;

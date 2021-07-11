@@ -1,5 +1,4 @@
-﻿
-using Backend.Business.Reports.Models;
+﻿using Backend.Business.Reports.Models;
 using Backend.Business.Reports.ReportsRequests.Dashboard.GetMaxReport;
 using Backend.Domain;
 using MediatR;
@@ -21,7 +20,6 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
             _context = context;
         }
 
-
         public async Task<ChartData<double, DateTime>> Handle(GetVolumeReportRequest request, CancellationToken cancellationToken)
         {
             try
@@ -36,7 +34,6 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
                 var dataSets = new List<ChartDataSet<double>>();
                 foreach (var exerciseTypeId in request.ExerciseTypeIds)
                 {
-
                     // get relevant trainings (for user, in between dates and that has at least one exercise of wanted type)
                     var trainings = await _context.Trainings
                         .Include(x => x.Exercises)
@@ -46,7 +43,6 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
                                     x.DateTrained.Date <= request.DateTo.Date &&
                                     x.Exercises.Any(y => y.ExerciseTypeId == exerciseTypeId))
                         .ToListAsync(cancellationToken);
-
 
                     var dates = new List<DateTime>();
                     var data = new List<double>();
@@ -80,6 +76,5 @@ namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeReport
                 throw new Exception(nameof(GetMaxReportRequest), e);
             }
         }
-
     }
 }

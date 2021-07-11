@@ -20,8 +20,6 @@ namespace Backend.Persistance.Configurations
             builder.HasMany(x => x.Tags);
 
             builder.HasIndex(x => x.ApplicationUserId);
-
-
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Backend.Business.Export.ExportTrainingData
 {

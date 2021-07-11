@@ -1,11 +1,11 @@
-﻿using System.Threading;
-using Backend.Business.Billing.BillingRequests.AddPayment;
+﻿using Backend.Business.Billing.BillingRequests.AddPayment;
 using Backend.Business.Billing.BillingRequests.CancelSubscription;
 using Backend.Business.Billing.BillingRequests.GetPlans;
 using Backend.Business.Billing.BillingRequests.GetSubscription;
 using Backend.Business.Billing.BillingRequests.GetSubscriptionStatus;
 using Backend.Business.Billing.BillingRequests.Subscribe;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Backend.API.Controllers

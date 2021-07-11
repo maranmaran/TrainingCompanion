@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Domain.Enum;
+﻿using Backend.Domain.Enum;
+using System;
 
 namespace Backend.Business.Email
 {

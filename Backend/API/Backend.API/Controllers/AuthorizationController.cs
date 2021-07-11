@@ -25,7 +25,6 @@ namespace Backend.API.Controllers
             return Ok(response);
         }
 
-
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback([FromBody] ExternalLoginRequest request, CancellationToken cancellationToken = default)
@@ -35,7 +34,6 @@ namespace Backend.API.Controllers
 
             return Ok(response.CurrentUserInformation);
         }
-
 
         [HttpGet("{id}")]
         public async Task<IActionResult> CurrentUserInformation(Guid id, CancellationToken cancellationToken = default)

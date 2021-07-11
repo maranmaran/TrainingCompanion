@@ -41,7 +41,6 @@ namespace Backend.Persistance.Configurations
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(x => new { x.ApplicationUserId, x.DateTrained });
-
         }
     }
 }

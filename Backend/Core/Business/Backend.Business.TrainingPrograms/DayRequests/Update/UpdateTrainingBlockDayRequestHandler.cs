@@ -21,7 +21,6 @@ namespace Backend.Business.TrainingPrograms.DayRequests.Update
             _mapper = mapper;
         }
 
-
         public async Task<TrainingBlockDay> Handle(UpdateTrainingBlockDayRequest request, CancellationToken cancellationToken)
         {
             try

@@ -36,7 +36,6 @@ namespace Backend.Business.Import.ImportExerciseType
 
         public async Task<ImportExerciseTypeResponse> Handle(ImportExerciseTypeRequest request, CancellationToken cancellationToken)
         {
-
             try
             {
                 var result = new ImportExerciseTypeResponse(true);
@@ -99,7 +98,5 @@ namespace Backend.Business.Import.ImportExerciseType
                 await _loggingService.LogError(e, $"Failed to notify user: {receiverId}");
             }
         }
-
-
     }
 }

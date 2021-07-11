@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using Backend.Library.Email.Models;
+using System.Threading;
 using System.Threading.Tasks;
-using Backend.Library.Email.Models;
 
 namespace Backend.Library.Email.Interfaces
 {

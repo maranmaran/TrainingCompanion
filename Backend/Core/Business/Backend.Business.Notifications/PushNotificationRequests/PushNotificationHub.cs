@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.Notifications.Interfaces;
+﻿using Backend.Business.Notifications.Interfaces;
 using Backend.Business.Notifications.PushNotificationRequests.CreatePushNotification;
 using Backend.Business.Notifications.PushNotificationRequests.NotifyUser;
 using Backend.Business.Notifications.PushNotificationRequests.ReadNotification;
@@ -9,6 +6,9 @@ using Backend.Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Notifications.PushNotificationRequests
 {

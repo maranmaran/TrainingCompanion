@@ -26,6 +26,7 @@ namespace Backend.Persistance.Configurations
                 .OnDelete(DeleteBehavior.SetNull);
         }
     }
+
     public class TrainingProgramUserConfiguration : IEntityTypeConfiguration<TrainingProgramUser>
     {
         public void Configure(EntityTypeBuilder<TrainingProgramUser> builder)
@@ -45,6 +46,7 @@ namespace Backend.Persistance.Configurations
             builder.HasIndex(x => x.TrainingProgramId);
         }
     }
+
     public class TrainingBlockConfiguration : IEntityTypeConfiguration<TrainingBlock>
     {
         public void Configure(EntityTypeBuilder<TrainingBlock> builder)
@@ -62,6 +64,7 @@ namespace Backend.Persistance.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
+
     public class TrainingBlockDayConfiguration : IEntityTypeConfiguration<TrainingBlockDay>
     {
         public void Configure(EntityTypeBuilder<TrainingBlockDay> builder)
@@ -79,5 +82,4 @@ namespace Backend.Persistance.Configurations
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
-
 }

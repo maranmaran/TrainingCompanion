@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using Backend.Domain.Entities.TrainingLog;
+using MediatR;
 using System;
-using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.Copy
 {

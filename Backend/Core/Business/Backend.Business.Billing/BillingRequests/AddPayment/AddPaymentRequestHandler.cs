@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Backend.Infrastructure.Exceptions;
 using Backend.Library.Payment.Interfaces;
 using Backend.Library.Payment.Models;
-using Backend.Infrastructure.Exceptions;
 using MediatR;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Billing.BillingRequests.AddPayment
 {

@@ -25,7 +25,6 @@ namespace Backend.Business.TrainingLog.ExerciseRequests.UpdateFull
         {
             try
             {
-
                 // existing exercise.. otherwise it's quick add mode.
                 if (request.Exercise.ExerciseTypeId != Guid.Empty)
                 {

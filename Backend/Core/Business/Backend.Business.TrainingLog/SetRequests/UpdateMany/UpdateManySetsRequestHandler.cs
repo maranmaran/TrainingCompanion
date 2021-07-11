@@ -15,7 +15,6 @@ namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
 {
     public class UpdateManySetsRequestHandler : IRequestHandler<UpdateManySetsRequest, IEnumerable<Domain.Entities.TrainingLog.Set>>
     {
-
         private readonly IApplicationDbContext _context;
 
         public UpdateManySetsRequestHandler(IApplicationDbContext context)

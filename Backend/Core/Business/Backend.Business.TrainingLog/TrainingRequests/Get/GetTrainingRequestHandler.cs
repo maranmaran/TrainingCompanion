@@ -1,5 +1,4 @@
-﻿
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Infrastructure.Exceptions;
 using Backend.Library.AmazonS3.Interfaces;
@@ -15,13 +14,13 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Get
     public class GetTrainingRequestHandler : IRequestHandler<GetTrainingRequest, Training>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3AccessService;
+        private readonly IStorage _storage;
         private readonly ILoggingService _loggingService;
 
-        public GetTrainingRequestHandler(IApplicationDbContext context, IS3Service s3AccessService, ILoggingService loggingService)
+        public GetTrainingRequestHandler(IApplicationDbContext context, IStorage storage, ILoggingService loggingService)
         {
             _context = context;
-            _s3AccessService = s3AccessService;
+            _storage = storage;
             _loggingService = loggingService;
         }
 

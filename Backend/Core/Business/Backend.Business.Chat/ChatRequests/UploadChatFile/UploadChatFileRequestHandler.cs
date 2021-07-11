@@ -17,12 +17,12 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
     public class UploadChatFileRequestHandler : IRequestHandler<UploadChatFileRequest, MessageViewModel>
     {
         private readonly IMediator _mediator;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
 
-        public UploadChatFileRequestHandler(IMediator mediator, IS3Service s3Service)
+        public UploadChatFileRequestHandler(IMediator mediator, IStorage storage)
         {
             _mediator = mediator;
-            _s3Service = s3Service;
+            _storage = storage;
         }
 
         public async Task<MessageViewModel> Handle(UploadChatFileRequest request, CancellationToken cancellationToken)
@@ -85,7 +85,7 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
                     break;
             }
 
-            var key = _s3Service.GetS3Key(nameof(ChatMessage), Guid.Parse(request.UserId), filename.ToString());
+            var key = _storage.GetKey(nameof(ChatMessage), Guid.Parse(request.UserId), filename.ToString());
 
             return (type, key);
         }

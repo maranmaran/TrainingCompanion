@@ -6,7 +6,6 @@ namespace Backend.Business.Reports
     {
         public Mappings()
         {
-
         }
     }
 }

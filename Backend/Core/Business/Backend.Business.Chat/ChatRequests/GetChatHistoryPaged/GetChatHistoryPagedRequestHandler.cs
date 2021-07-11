@@ -23,7 +23,6 @@ namespace Backend.Business.Chat.ChatRequests.GetChatHistoryPaged
             _mapper = mapper;
         }
 
-
         public async Task<IEnumerable<MessageViewModel>> Handle(GetChatHistoryPagedRequest request, CancellationToken cancellationToken)
         {
             try

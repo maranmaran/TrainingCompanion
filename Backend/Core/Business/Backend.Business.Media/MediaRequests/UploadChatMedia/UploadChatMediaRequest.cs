@@ -10,7 +10,6 @@ namespace Backend.Business.Media.MediaRequests.UploadChatMedia
         public MediaType Type { get; set; }
         public Stream Data { get; set; }
 
-
         public UploadChatMediaRequest(string key, MediaType type, Stream data)
         {
             Key = key;

@@ -2,12 +2,12 @@
 using Backend.Business.Exercises.ExerciseTypeRequests.Delete;
 using Backend.Business.Exercises.ExerciseTypeRequests.Get;
 using Backend.Business.Exercises.ExerciseTypeRequests.GetAll;
+using Backend.Business.Exercises.ExerciseTypeRequests.GetPaged;
 using Backend.Business.Exercises.ExerciseTypeRequests.Update;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Backend.Business.Exercises.ExerciseTypeRequests.GetPaged;
 
 namespace Backend.API.Controllers
 {
@@ -41,7 +41,6 @@ namespace Backend.API.Controllers
             return Ok(await Mediator.Send(new GetExerciseTypeRequest(exerciseTypeId), cancellationToken));
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateExerciseTypeRequest request, CancellationToken cancellationToken = default)
         {
@@ -51,7 +50,6 @@ namespace Backend.API.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateExerciseTypeRequest request, CancellationToken cancellationToken = default)
         {
-
             return Ok(await Mediator.Send(request, cancellationToken));
         }
 

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.ProgressTracking.BodyweightRequests.Delete
 {
@@ -12,16 +12,13 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.Delete
     {
         private readonly IApplicationDbContext _context;
 
-
         public DeleteBodyweightRequestHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-
         public async Task<Unit> Handle(Delete.DeleteBodyweightRequest request, CancellationToken cancellationToken)
         {
-
             try
             {
                 var entity = await _context.Bodyweights.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);

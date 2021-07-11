@@ -36,12 +36,13 @@ namespace Backend.Persistance
         public DbSet<AuditRecord> Audits { get; set; }
 
         #region Program maker
+
         public DbSet<TrainingProgramUser> TrainingProgramUsers { get; set; }
         public DbSet<TrainingProgram> TrainingPrograms { get; set; }
         public DbSet<TrainingBlock> TrainingBlocks { get; set; }
         public DbSet<TrainingBlockDay> TrainingBlockDays { get; set; }
 
-        #endregion
+        #endregion Program maker
 
         #region Exercise type + Properties
 

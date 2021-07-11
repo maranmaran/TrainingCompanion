@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Backend.Business.Dashboard.DashboardRequests.UpdateTrackItem
 {
-
     public class UpdateTrackItemRequest : IRequest<TrackItem>
     {
         public UpdateTrackItemRequest()
@@ -44,7 +43,6 @@ namespace Backend.Business.Dashboard.DashboardRequests.UpdateTrackItem
             _context = context;
         }
 
-
         public async Task<TrackItem> Handle(UpdateTrackItemRequest request, CancellationToken cancellationToken)
         {
             try
@@ -64,5 +62,4 @@ namespace Backend.Business.Dashboard.DashboardRequests.UpdateTrackItem
             }
         }
     }
-
 }

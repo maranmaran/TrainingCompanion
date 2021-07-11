@@ -38,7 +38,6 @@ namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
             await SendNotification(request.Notification, notificationSetting);
         }
 
-
         private async Task SendNotification(Notification notification, NotificationSetting notificationSetting)
         {
             try
@@ -71,6 +70,5 @@ namespace Backend.Business.Notifications.PushNotificationRequests.NotifyUser
                 await _loggingService.LogError(e, $"Could not send mail to receiver: {notification.ReceiverId}");
             }
         }
-
     }
 }

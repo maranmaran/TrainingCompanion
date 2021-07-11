@@ -35,7 +35,6 @@ namespace Backend.Business.TrainingLog.Code
             // update additional properties
             if (type.RequiresReps && type.RequiresSets)
             {
-
                 if (type.RequiresWeight)
                 {
                     set.Volume = set.Reps * set.Weight;
@@ -47,6 +46,5 @@ namespace Backend.Business.TrainingLog.Code
                 set.ProjectedMax = RpeRepsTable.CalculateLiftMax(set.Reps, settings.RpeSystem == RpeSystem.Rpe ? set.Rpe : 10 - set.Rir, set.Weight);
             }
         }
-
     }
 }

@@ -35,15 +35,15 @@ namespace Backend.Domain
         DbSet<PersonalBest> PBs { get; set; }
         DbSet<AuditRecord> Audits { get; set; }
 
-
         #region Program maker
+
         DbSet<TrainingProgramUser> TrainingProgramUsers { get; set; }
 
         DbSet<TrainingProgram> TrainingPrograms { get; set; }
         DbSet<TrainingBlock> TrainingBlocks { get; set; }
         DbSet<TrainingBlockDay> TrainingBlockDays { get; set; }
 
-        #endregion
+        #endregion Program maker
 
         #region Exercise type + Properties
 
@@ -61,7 +61,6 @@ namespace Backend.Domain
         DbSet<Set> Sets { get; set; } // lifts
 
         #endregion Training log
-
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 

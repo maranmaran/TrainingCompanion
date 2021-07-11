@@ -21,15 +21,14 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
     {
         private readonly IApplicationDbContext _context;
         private readonly IActivityService _activityService;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
 
-        public GetUserFeedRequestHandler(IApplicationDbContext context, IActivityService activityService, IS3Service s3Service)
+        public GetUserFeedRequestHandler(IApplicationDbContext context, IActivityService activityService, IStorage storage)
         {
             _context = context;
             _activityService = activityService;
-            _s3Service = s3Service;
+            _storage = storage;
         }
-
 
         public async Task<IEnumerable<Activity>> Handle(GetUserFeedRequest request, CancellationToken cancellationToken)
         {
@@ -58,7 +57,6 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                     audits.AddRange(userActivities);
                 }
 
-
                 return await GetActivities(audits, user.UserSetting, athletes);
             }
             catch (Exception e)
@@ -75,8 +73,8 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
                 var user = athletes.First(x => x.id == audit.UserId);
 
                 // refresh avatar
-                if (!GenericAvatarConstructor.IsGenericAvatar(user.avatar) && _s3Service.CheckIfPresignedUrlIsExpired(user.avatar))
-                    user.avatar = await _s3Service.GetPresignedUrlAsync(user.avatar);
+                if (!GenericAvatarConstructor.IsGenericAvatar(user.avatar) && _storage.IsUrlExpired(user.avatar))
+                    user.avatar = await _storage.GetUrlAsync(user.avatar);
 
                 var userInfo = new BasicUserInfo
                 {

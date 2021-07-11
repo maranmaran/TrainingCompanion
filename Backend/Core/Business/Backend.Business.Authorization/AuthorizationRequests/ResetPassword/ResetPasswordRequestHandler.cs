@@ -2,8 +2,6 @@
 using Backend.Domain;
 using Backend.Domain.Entities.User;
 using Backend.Infrastructure.Exceptions;
-using Backend.Library.Email;
-using Backend.Library.Email.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;

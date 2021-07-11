@@ -4,7 +4,6 @@ using System;
 
 namespace Backend.Business.Reports.ReportsRequests.Dashboard.GetVolumeWithAvgIntensityReport
 {
-
     public class GetVolumeWithAvgIntensityReportRequest : IRequest<ChartData<double, DateTime>>
     {
         public GetVolumeWithAvgIntensityReportRequest(Guid userId, Guid exerciseTypeId, DateTime dateFrom, DateTime dateTo)

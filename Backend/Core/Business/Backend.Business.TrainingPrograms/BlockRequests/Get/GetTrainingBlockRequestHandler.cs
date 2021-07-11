@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.TrainingPrograms.BlockRequests.Get
 {
@@ -16,9 +16,7 @@ namespace Backend.Business.TrainingPrograms.BlockRequests.Get
         public GetTrainingBlockRequestHandler(IApplicationDbContext context)
         {
             _context = context;
-
         }
-
 
         public async Task<TrainingBlock> Handle(GetTrainingBlockRequest request, CancellationToken cancellationToken)
         {

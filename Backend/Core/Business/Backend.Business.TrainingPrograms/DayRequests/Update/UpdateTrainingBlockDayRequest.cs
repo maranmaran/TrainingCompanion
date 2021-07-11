@@ -4,7 +4,6 @@ using System;
 
 namespace Backend.Business.TrainingPrograms.DayRequests.Update
 {
-
     public class UpdateTrainingBlockDayRequest : IRequest<TrainingBlockDay>
     {
         public Guid Id { get; set; }

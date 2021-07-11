@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Backend.Domain.Entities.Exercises;
+﻿using Backend.Domain.Entities.Exercises;
 using MediatR;
+using System.Collections.Generic;
 
 namespace Backend.Business.Exercises.TagGroupRequests.UpdateMany
 {

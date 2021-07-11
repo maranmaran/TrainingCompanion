@@ -18,7 +18,6 @@ namespace Backend.API.Controllers
         private IMediator _mediator;
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-
         /// <summary>
         ///  Cache keys and these helper methods are here till
         /// PRs for predicate keys removal and clear all from cache are passed
@@ -46,6 +45,5 @@ namespace Backend.API.Controllers
                 }
             }
         }
-
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Domain;
+﻿using Backend.Domain;
 using Backend.Domain.Entities.ProgressTracking;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.ProgressTracking.BodyweightRequests.GetLatest
 {
@@ -17,7 +17,6 @@ namespace Backend.Business.ProgressTracking.BodyweightRequests.GetLatest
         {
             _context = context;
         }
-
 
         public async Task<Bodyweight> Handle(GetLatestBodyweightRequest request, CancellationToken cancellationToken)
         {

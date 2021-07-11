@@ -46,9 +46,7 @@ namespace Backend.Persistance.Configurations
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
             builder.HasIndex(x => x.ApplicationUserId);
-
         }
     }
 }

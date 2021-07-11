@@ -24,7 +24,6 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.Create
             _assignService = assignService;
         }
 
-
         public async Task<TrainingProgramUser> Handle(CreateTrainingProgramUserRequest request, CancellationToken cancellationToken)
         {
             try

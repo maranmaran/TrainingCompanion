@@ -4,7 +4,6 @@ using System;
 
 namespace Backend.Business.TrainingPrograms.BlockRequests.Create
 {
-
     public class CreateTrainingBlockRequest : IRequest<TrainingBlock>
     {
         public Guid TrainingProgramId { get; set; }

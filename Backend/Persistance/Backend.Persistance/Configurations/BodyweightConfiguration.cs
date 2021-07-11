@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Backend.Persistance.Configurations
 {
-
     public class BodyweightConfiguration : IEntityTypeConfiguration<Bodyweight>
     {
         public void Configure(EntityTypeBuilder<Bodyweight> builder)

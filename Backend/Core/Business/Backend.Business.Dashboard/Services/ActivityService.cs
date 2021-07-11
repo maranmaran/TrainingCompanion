@@ -16,12 +16,12 @@ namespace Backend.Business.Dashboard.Services
 {
     public class ActivityService : IActivityService
     {
-        private readonly IS3Service _s3;
+        private readonly IStorage _storage;
         private readonly JsonSerializerSettings _serializerSettings;
 
-        public ActivityService(IS3Service s3)
+        public ActivityService(IStorage storage)
         {
-            _s3 = s3;
+            _storage = storage;
             _serializerSettings = new JsonSerializerSettings()
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
@@ -52,11 +52,11 @@ namespace Backend.Business.Dashboard.Services
         private async Task<MediaFileDeserializeResult> DeserializeMediaFile(AuditRecord audit)
         {
             var mediaFile = audit.GetData<MediaFileDeserializeResult>().Entity;
-            var ftpFilepath = mediaFile.FtpFilePath; // where it is stored on ftp (in this case s3)
+            var ftpFilepath = mediaFile.FtpFilePath; // where it is stored on ftp (in this case storage)
             var publicUrl = mediaFile.DownloadUrl; // public url which may have expired already
 
-            if (_s3.CheckIfPresignedUrlIsExpired(publicUrl))
-                publicUrl = await _s3.GetPresignedUrlAsync(ftpFilepath);
+            if (_storage.IsUrlExpired(publicUrl))
+                publicUrl = await _storage.GetUrlAsync(ftpFilepath);
 
             mediaFile.DownloadUrl = publicUrl;
             return mediaFile;
@@ -71,6 +71,5 @@ namespace Backend.Business.Dashboard.Services
         {
             return await Task.FromResult(audit.GetData<PersonalBestDeserializeResult>().Entity);
         }
-
     }
 }

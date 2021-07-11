@@ -28,7 +28,6 @@ namespace Backend.Business.TrainingPrograms.ProgramUserRequests.Delete
             _logger = logger;
         }
 
-
         public async Task<Unit> Handle(DeleteTrainingProgramUserRequest request, CancellationToken cancellationToken)
         {
             try

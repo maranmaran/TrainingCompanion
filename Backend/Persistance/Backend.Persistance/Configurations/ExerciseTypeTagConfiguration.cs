@@ -26,8 +26,6 @@ namespace Backend.Persistance.Configurations
 
             builder.HasIndex(x => x.TagId);
             builder.HasIndex(x => x.ExerciseTypeId);
-
-
         }
     }
 }

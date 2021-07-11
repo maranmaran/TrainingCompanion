@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Backend.Domain;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.ProgressTracking.PersonalBestRequests.Update
 {
@@ -14,18 +14,14 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.Update
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-
-
         public UpdatePersonalBestRequestHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-
         public async Task<Unit> Handle(UpdatePersonalBestRequest request, CancellationToken cancellationToken)
         {
-
             try
             {
                 var entityToUpdate = await _context.PBs.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);

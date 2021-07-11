@@ -16,9 +16,7 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Get
         public GetTrainingProgramRequestHandler(IApplicationDbContext context)
         {
             _context = context;
-
         }
-
 
         public async Task<TrainingProgram> Handle(GetTrainingProgramRequest request, CancellationToken cancellationToken)
         {

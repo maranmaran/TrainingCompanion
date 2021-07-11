@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Backend.Domain.Entities.Notification;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Backend.Domain.Entities.Notification;
 
 namespace Backend.Business.Notifications.Interfaces
 {

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
 {
-
     public class GetUserFeedRequest : IRequest<IEnumerable<Activity>>
     {
         public GetUserFeedRequest(Guid userId, PaginationModel paginationModel = null)
@@ -18,6 +17,4 @@ namespace Backend.Business.Dashboard.FeedRequests.GetUserFeed
         public Guid UserId { get; set; }
         public PaginationModel PaginationModel { get; set; }
     }
-
-
 }

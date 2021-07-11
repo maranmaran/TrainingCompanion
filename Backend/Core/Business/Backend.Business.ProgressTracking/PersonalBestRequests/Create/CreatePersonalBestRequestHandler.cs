@@ -15,17 +15,14 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.Create
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-
         public CreatePersonalBestRequestHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-
         public async Task<Domain.Entities.ProgressTracking.PersonalBest> Handle(CreatePersonalBestRequest request, CancellationToken cancellationToken)
         {
-
             try
             {
                 //var exerciseType = await GetExerciseType(request.ExerciseTypeId, cancellationToken);
@@ -56,7 +53,6 @@ namespace Backend.Business.ProgressTracking.PersonalBestRequests.Create
         ///// </summary>
         //internal async Task<ExerciseType> GetExerciseType(Guid id, CancellationToken cancellationToken)
         //{
-
         //    var type = await _context.ExerciseTypes.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
         //    if (type == null)

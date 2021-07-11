@@ -1,7 +1,7 @@
-﻿using Backend.Domain.Entities.User;
+﻿using Backend.Domain.Entities.TrainingLog;
+using Backend.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
-using Backend.Domain.Entities.TrainingLog;
 
 namespace Backend.Domain.Entities.TrainingProgramMaker
 {
@@ -16,6 +16,7 @@ namespace Backend.Domain.Entities.TrainingProgramMaker
 
         // has one...
         public Guid CreatorId { get; set; }
+
         public virtual ApplicationUser Creator { get; set; }
 
         // has multiple ...

@@ -18,11 +18,11 @@ namespace Backend.Business.Dashboard.Services
         private readonly IHubContext<FeedHub, IFeedHub> _hub;
         private readonly ILoggingService _logger;
         private readonly IActivityService _activityService;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
 
         public FeedAuditPusher(IServiceProvider provider)
         {
-            _s3Service = provider.GetService<IS3Service>();
+            _storage = provider.GetService<IStorage>();
             _activityService = provider.GetService<IActivityService>();
             _hub = provider.GetService<IHubContext<FeedHub, IFeedHub>>();
             _logger = provider.GetService<ILoggingService>();
@@ -45,9 +45,9 @@ namespace Backend.Business.Dashboard.Services
         internal async Task<Activity> GetActivity(AuditRecord audit, ApplicationUser user)
         {
             var avatar = user.Avatar;
-            if (!GenericAvatarConstructor.IsGenericAvatar(avatar) && _s3Service.CheckIfPresignedUrlIsExpired(avatar))
+            if (!GenericAvatarConstructor.IsGenericAvatar(avatar) && _storage.IsUrlExpired(avatar))
             {
-                avatar = await _s3Service.GetPresignedUrlAsync(avatar);
+                avatar = await _storage.GetUrlAsync(avatar);
             }
 
             var userInfo = new BasicUserInfo

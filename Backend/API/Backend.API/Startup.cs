@@ -35,7 +35,7 @@ namespace Backend.API
         public void ConfigureServices(IServiceCollection services)
         {
             // setting and services from core
-            services.ConfigureCoreServices();
+            services.ConfigureCoreServices(Configuration);
             services.ConfigureCoreSettings(Configuration);
 
             // application configuration CORS, Auth, Swagger, MVC, DB

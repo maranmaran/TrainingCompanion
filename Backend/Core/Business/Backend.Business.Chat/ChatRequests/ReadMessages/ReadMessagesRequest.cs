@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Backend.Business.Chat.Models;
+﻿using Backend.Business.Chat.Models;
+using System.Collections.Generic;
 
 namespace Backend.Business.Chat.ChatRequests.ReadMessages
 {

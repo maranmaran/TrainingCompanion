@@ -8,6 +8,7 @@ namespace Backend.Domain.Entities.Auditing
         public Guid Id { get; set; }
 
         public string Data { get; set; }
+
         public AuditData<T> GetData<T>() where T : class
         {
             return JsonConvert.DeserializeObject<AuditData<T>>(string.IsNullOrEmpty(Data) ? "{}" : Data);

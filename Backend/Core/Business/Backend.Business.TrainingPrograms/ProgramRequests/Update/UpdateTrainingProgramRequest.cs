@@ -1,10 +1,9 @@
-﻿using System;
-using Backend.Domain.Entities.TrainingProgramMaker;
+﻿using Backend.Domain.Entities.TrainingProgramMaker;
 using MediatR;
+using System;
 
 namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
 {
-
     public class UpdateTrainingProgramRequest : IRequest<TrainingProgram>
     {
         public Guid Id { get; set; }

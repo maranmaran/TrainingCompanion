@@ -1,30 +1,43 @@
 ﻿using Backend.Library.AmazonS3.Interfaces;
-using Microsoft.Extensions.Configuration;
+using Backend.Library.AmazonS3.Storages;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Backend.Library.AmazonS3.Extensions
 {
     public static partial class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Gets relevant app setting from appSettings.json and maps to POCO classes and configures singleton for DI
+        /// Configure S3 as storage provider
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        public static void ConfigureS3Settings(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureS3Storage(this IServiceCollection services, Action<IStorageSettings> options = null)
         {
-            var s3Settings = new S3Settings();
-            configuration.Bind("S3Settings", s3Settings);
-            services.AddSingleton<S3Settings>(s3Settings); // add singleton for DI
+            var settings = new S3StorageSettings();
+            options?.Invoke(settings);
+
+            var validationResult = new StorageSettingsValidator().Validate(settings);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
+            services.AddSingleton<IStorageSettings>(settings);
+            services.AddTransient<IStorage, S3Storage>();
         }
 
         /// <summary>
-        /// Configures Core authorization services
+        /// Configure Firebase as storage provider
         /// </summary>
-        /// <param name="services"></param>
-        public static void ConfigureS3Services(this IServiceCollection services)
+        public static void ConfigureFirebaseStorage(this IServiceCollection services, Action<IStorageSettings> options = null)
         {
-            services.AddTransient<IS3Service, S3Service>();
+            var settings = new FirebaseStorageSettings();
+            options?.Invoke(settings);
+
+            var validationResult = new StorageSettingsValidator().Validate(settings);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
+            services.AddSingleton<IStorageSettings>(settings);
+            services.AddTransient<IStorage, FirebaseStorage>();
         }
     }
 }

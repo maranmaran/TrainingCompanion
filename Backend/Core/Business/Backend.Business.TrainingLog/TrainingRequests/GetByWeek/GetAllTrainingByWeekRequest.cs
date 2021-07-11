@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Linq;
-using MediatR;
 
 namespace Backend.Business.TrainingLog.TrainingRequests.GetByWeek
 {

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Backend.Business.Reports.Models;
+﻿using Backend.Business.Reports.Models;
 using Backend.Domain;
 using Backend.Domain.Entities.TrainingLog;
 using Backend.Domain.Entities.User;
 using Backend.Infrastructure.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Backend.Business.Reports.ReportsRequests.GetTrainingReports
 {
@@ -116,7 +116,6 @@ namespace Backend.Business.Reports.ReportsRequests.GetTrainingReports
                 return Math.Round(totalVolume, 2);
             }).ToList();
 
-
             return (totalExerciseVolume, totalExerciseVolume);
         }
 
@@ -143,7 +142,6 @@ namespace Backend.Business.Reports.ReportsRequests.GetTrainingReports
                 var peakIntensity = 0.0;
                 var relativeZoneCount = (Strength: 0, Size: 0, Endurance: 0);
 
-
                 foreach (var set in exercise.Sets)
                 {
                     var max = loggedMax ?? set.ProjectedMax;
@@ -153,7 +151,6 @@ namespace Backend.Business.Reports.ReportsRequests.GetTrainingReports
 
                     if (intensity > peakIntensity)
                         peakIntensity = intensity;
-
 
                     if (intensity > 0.75)
                     {
@@ -186,6 +183,5 @@ namespace Backend.Business.Reports.ReportsRequests.GetTrainingReports
 
             return (averageIntensityData, peakIntensityData, zoneOfIntensity);
         }
-
     }
 }

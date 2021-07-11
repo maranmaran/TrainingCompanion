@@ -16,20 +16,19 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
         private readonly IMediaCompressionService _compressionService;
 
         public CreateTrainingProgramRequestHandler(IApplicationDbContext context,
             IMapper mapper,
-            IS3Service s3Service,
+            IStorage storage,
             IMediaCompressionService compressionService)
         {
             _context = context;
             _mapper = mapper;
-            _s3Service = s3Service;
+            _storage = storage;
             _compressionService = compressionService;
         }
-
 
         public async Task<TrainingProgram> Handle(CreateTrainingProgramRequest request, CancellationToken cancellationToken)
         {
@@ -61,20 +60,18 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
 
             if (request.Image != entity.ImageFtpFilePath && request.Image.Contains("data:image/jpeg;base64,"))
             {
-                entity.ImageFtpFilePath = _s3Service.GetS3Key(nameof(TrainingProgram), request.CreatorId);
+                entity.ImageFtpFilePath = _storage.GetKey(nameof(TrainingProgram), request.CreatorId);
 
                 var file = new MemoryStream(Convert.FromBase64String(request.Image.Replace("data:image/jpeg;base64,", string.Empty)));
 
                 var compressedFile = await _compressionService.Compress(MediaType.Image, file);
 
-                await _s3Service.WriteToS3(entity.ImageFtpFilePath, compressedFile);
+                await _storage.WriteAsync(entity.ImageFtpFilePath, compressedFile);
 
-                entity.ImageUrl = await _s3Service.GetPresignedUrlAsync(entity.ImageFtpFilePath);
+                entity.ImageUrl = await _storage.GetUrlAsync(entity.ImageFtpFilePath);
             }
 
             return entity;
         }
-
-
     }
 }

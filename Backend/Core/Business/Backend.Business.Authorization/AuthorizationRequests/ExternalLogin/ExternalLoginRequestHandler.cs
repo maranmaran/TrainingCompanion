@@ -29,7 +29,6 @@ namespace Backend.Business.Authorization.AuthorizationRequests.ExternalLogin
             _tokenGenerator = tokenGenerator;
         }
 
-
         public async Task<ExternalLoginResponse> Handle(ExternalLoginRequest request, CancellationToken cancellationToken)
         {
             try

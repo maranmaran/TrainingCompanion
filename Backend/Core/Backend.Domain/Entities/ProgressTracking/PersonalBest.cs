@@ -7,10 +7,9 @@ namespace Backend.Domain.Entities.ProgressTracking
     {
         public Guid Id { get; set; }
 
-        public double Value { get; set; } //KG 
+        public double Value { get; set; } //KG
         public double? Reps { get; set; }
         public DateTime DateAchieved { get; set; }
-
 
         // meaning projected from app itself
         // false if user inserted this PR

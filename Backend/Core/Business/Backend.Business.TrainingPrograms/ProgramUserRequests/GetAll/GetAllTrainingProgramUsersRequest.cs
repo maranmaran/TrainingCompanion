@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace Backend.Business.TrainingPrograms.ProgramUserRequests.GetAll
 {
-
     public class GetAllTrainingProgramUsersRequest : IRequest<IEnumerable<TrainingProgramUser>>
     {
         public Guid ProgramId { get; set; }

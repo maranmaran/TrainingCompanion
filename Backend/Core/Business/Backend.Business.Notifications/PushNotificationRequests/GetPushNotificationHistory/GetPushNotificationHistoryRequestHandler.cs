@@ -16,12 +16,12 @@ namespace Backend.Business.Notifications.PushNotificationRequests.GetPushNotific
     public class GetPushNotificationHistoryRequestHandler : IRequestHandler<GetPushNotificationHistoryRequest, IEnumerable<Notification>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IS3Service _s3Service;
+        private readonly IStorage _storage;
 
-        public GetPushNotificationHistoryRequestHandler(IApplicationDbContext context, IS3Service s3Service)
+        public GetPushNotificationHistoryRequestHandler(IApplicationDbContext context, IStorage storage)
         {
             _context = context;
-            _s3Service = s3Service;
+            _storage = storage;
         }
 
         public async Task<IEnumerable<Notification>> Handle(GetPushNotificationHistoryRequest request, CancellationToken cancellationToken)
@@ -51,7 +51,7 @@ namespace Backend.Business.Notifications.PushNotificationRequests.GetPushNotific
                 var s3Avatars = list.Where(x => !string.IsNullOrWhiteSpace(x.SenderAvatar) && !GenericAvatarConstructor.IsGenericAvatar(x.SenderAvatar)); // must be s3 then if not generic
                 foreach (var s3Avatar in s3Avatars)
                 {
-                    s3Avatar.SenderAvatar = await _s3Service.GetPresignedUrlAsync(s3Avatar.SenderAvatar);
+                    s3Avatar.SenderAvatar = await _storage.GetUrlAsync(s3Avatar.SenderAvatar);
                 }
 
                 return list;

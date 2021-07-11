@@ -12,7 +12,6 @@ namespace Backend.Business.Import.GetImportSample
 {
     public class GetImportSampleRequestHandler : IRequestHandler<GetImportSampleRequest, FileContentResult>
     {
-
         public async Task<FileContentResult> Handle(GetImportSampleRequest request, CancellationToken cancellationToken)
         {
             try
@@ -25,7 +24,6 @@ namespace Backend.Business.Import.GetImportSample
                 {
                     FileDownloadName = title
                 };
-
             }
             catch (Exception e)
             {

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
+using System.Collections.Generic;
 
 namespace Backend.Business.TrainingLog.ExerciseRequests.UpdateMany
 {

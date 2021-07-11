@@ -4,7 +4,6 @@ namespace Backend.Business.TrainingLog.Code
 {
     public static class OneRepMaxCalculator
     {
-
         public static double EpleyFormula(double reps, double weight, double rpe)
         {
             return weight * (1 + (reps + 10 - rpe) / 30) * 0.967742;
@@ -39,6 +38,5 @@ namespace Backend.Business.TrainingLog.Code
         {
             return 100 * weight / (48.8 + 53.8 * Math.Pow(Math.E, -0.075 * reps));
         }
-
     }
 }
