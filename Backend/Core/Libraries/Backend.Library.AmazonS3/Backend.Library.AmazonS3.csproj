@@ -6,13 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\**" />
-    <EmbeddedResource Remove="Models\**" />
-    <None Remove="Models\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="3.7.0.18" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.0.21" />
     <PackageReference Include="FirebaseAdmin" Version="2.2.0" />
     <PackageReference Include="FirebaseAuthentication.net" Version="3.7.1" />
     <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />

@@ -55,16 +55,12 @@ namespace Backend.API
             services.ConfigureLazyCache();
         }
 
-
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             // ===== SPA angular setup (wwwroot folder) =====
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
 
             // ===== Require HTTPS =====
             //app.UseHttpsRedirection();
@@ -117,7 +113,6 @@ namespace Backend.API
                 endpoints.MapHub<FeedHub>("/api/feed-hub");
                 endpoints.MapHub<ChatHub>("/api/chat-hub");
             });
-
 
             // =====  AUDITING ON DATABASE =====
             app.ApplicationServices.ConfigureAuditEfCore();
