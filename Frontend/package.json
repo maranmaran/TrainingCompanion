@@ -55,7 +55,7 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.32",
     "ng-dynamic-component": "^8.0.1",
-    "ngx-avatar": "^4.0.0",
+    "ngx-avatar": "^4.1.0",
     "ngx-color-picker": "^10.1.0",
     "ngx-cookie-service": "^10.1.1",
     "ngx-drag-scroll": "^9.0.0-beta.4",
