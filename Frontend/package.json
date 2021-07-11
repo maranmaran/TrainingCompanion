@@ -38,7 +38,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "@stripe/stripe-js": "^1.13.2",
     "@types/chart.js": "^2.9.31",
-    "@types/file-saver": "^2.0.1",
+    "@types/file-saver": "^2.0.3",
     "@types/moment-timezone": "^0.5.30",
     "angularx-social-login": "^3.5.4",
     "animate.css": "^4.1.1",
