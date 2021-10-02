@@ -1,4 +1,5 @@
-﻿using Backend.Library.AmazonS3.Interfaces;
+﻿using Amazon.S3;
+using Backend.Library.AmazonS3.Interfaces;
 using Backend.Library.AmazonS3.Storages;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,7 @@ namespace Backend.Library.AmazonS3.Extensions
 
             services.AddSingleton<IStorageSettings>(settings);
             services.AddTransient<IStorage, S3Storage>();
+            services.AddTransient<IAmazonS3>(_ => new AmazonS3Client(settings.AccessKey, settings.SecretKey, Amazon.RegionEndpoint.EUCentral1));
         }
 
         /// <summary>
