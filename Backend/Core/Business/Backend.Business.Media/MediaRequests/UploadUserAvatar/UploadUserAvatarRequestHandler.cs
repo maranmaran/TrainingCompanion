@@ -6,6 +6,7 @@ using Backend.Infrastructure.Exceptions;
 using Backend.Library.AmazonS3.Interfaces;
 using Backend.Library.MediaCompression.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
@@ -38,7 +39,12 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
 
                 var compressedImage = await _compressionService.Compress(MediaType.Image, new MemoryStream(byteArr));
 
-                await _storage.WriteAsync(key, compressedImage);
+                var file = new FormFile(compressedImage, byteArr.Length, byteArr.Length, key, key)
+                {
+                    ContentType = "image/jpeg"
+                };
+
+                await _storage.WriteAsync(key, compressedImage, file, cancellationToken);
                 var presignedUrl = await _storage.GetUrlAsync(key);
 
                 // add newly created media

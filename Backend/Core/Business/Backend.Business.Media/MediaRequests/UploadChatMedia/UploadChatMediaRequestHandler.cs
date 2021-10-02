@@ -34,7 +34,7 @@ namespace Backend.Business.Media.MediaRequests.UploadChatMedia
                     data = await _compressionService.Compress(MediaType.Image, request.Data);
                 }
 
-                await _storage.WriteAsync(request.Key, data);
+                await _storage.WriteAsync(request.Key, data, request.File, cancellationToken);
 
                 return await _storage.GetUrlAsync(request.Key);
             }

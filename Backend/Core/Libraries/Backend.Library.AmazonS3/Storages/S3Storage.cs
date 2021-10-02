@@ -4,6 +4,7 @@ using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Domain.Entities.User;
 using Backend.Library.AmazonS3.Interfaces;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Globalization;
 using System.IO;
@@ -24,7 +25,7 @@ namespace Backend.Library.AmazonS3.Storages
             _client = client;
         }
 
-        public async Task<Stream> GetStreamAsync(string key)
+        public async Task<Stream> WriteAsync(string key, Stream data, IFormFile file, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("Key cannot be null");
@@ -37,7 +38,7 @@ namespace Backend.Library.AmazonS3.Storages
 
             try
             {
-                var response = await _client.GetObjectAsync(request);
+                var response = await _client.GetObjectAsync(request, cancellationToken);
                 return response.ResponseStream;
             }
             catch (Exception e)
@@ -46,34 +47,12 @@ namespace Backend.Library.AmazonS3.Storages
             }
         }
 
-        public async Task<Stream> WriteAsync(string key, Stream data)
-        {
-            if (string.IsNullOrWhiteSpace(key))
-                throw new ArgumentException("Key cannot be null");
-
-            var request = new GetObjectRequest
-            {
-                BucketName = _settings.BucketName,
-                Key = key,
-            };
-
-            try
-            {
-                var response = await _client.GetObjectAsync(request);
-                return response.ResponseStream;
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Key: {key}", e);
-            }
-        }
-
-        public Task<bool> ValidateUrlAsync(string url)
+        public Task<bool> ValidateUrlAsync(string url, CancellationToken cancellationToken = default)
         {
             return string.IsNullOrWhiteSpace(url) ? Task.FromResult(false) : Task.FromResult(url.Contains(_settings.BucketName) || url.Contains("media/"));
         }
 
-        public Task<string> GetUrlAsync(string key)
+        public Task<string> GetUrlAsync(string key, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("Key cannot be null");
@@ -107,12 +86,12 @@ namespace Backend.Library.AmazonS3.Storages
             return DateTime.Compare(expiryDate, DateTime.UtcNow) < 0; // t1 is earlier than t2
         }
 
-        public Task<string> RefreshUrlAsync(string url, string filename)
+        public Task<string> RefreshUrlAsync(string url, string filename, CancellationToken cancellationToken = default)
         {
             // get fresh presigned url for display
             if (!string.IsNullOrWhiteSpace(url) && IsUrlExpired(url))
             {
-                return GetUrlAsync(filename);
+                return GetUrlAsync(filename, cancellationToken);
             }
 
             return Task.FromResult(url);

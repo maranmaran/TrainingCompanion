@@ -36,7 +36,8 @@ namespace Backend.Business.Chat.ChatRequests.UploadChatFile
                     new UploadChatMediaRequest(
                         info.key,
                         info.type.ConvertToMediaType(),
-                        request.File.OpenReadStream()
+                        request.File.OpenReadStream(),
+                        request.File
                     ), cancellationToken);
 
                 // construct message to return
