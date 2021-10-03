@@ -2,14 +2,13 @@
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Domain.Entities.User;
 using Backend.Library.AmazonS3.Interfaces;
+using Google.Apis.Auth.OAuth2;
 using Google.Apis.Upload;
 using Google.Cloud.Storage.V1;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Google.Apis.Auth.OAuth2;
 
 namespace Backend.Library.AmazonS3.Storages
 {
@@ -25,14 +24,14 @@ namespace Backend.Library.AmazonS3.Storages
         }
 
 
-        public async Task<Stream> WriteAsync(string key, Stream data, IFormFile file, CancellationToken cancellationToken = default)
+        public async Task<Stream> WriteAsync(string key, Stream data, string contentType, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("Key cannot be null");
 
             try
             {
-                var uploader = _client.CreateObjectUploader(_settings.BucketName, key, file.ContentType, data);
+                var uploader = _client.CreateObjectUploader(_settings.BucketName, key, contentType, data);
 
                 var result = await uploader.UploadAsync(cancellationToken);
 

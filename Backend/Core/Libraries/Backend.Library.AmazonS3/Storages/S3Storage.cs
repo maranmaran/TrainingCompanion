@@ -4,7 +4,6 @@ using Backend.Domain.Entities.Chat;
 using Backend.Domain.Entities.TrainingProgramMaker;
 using Backend.Domain.Entities.User;
 using Backend.Library.AmazonS3.Interfaces;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Globalization;
 using System.IO;
@@ -25,7 +24,7 @@ namespace Backend.Library.AmazonS3.Storages
             _client = client;
         }
 
-        public async Task<Stream> WriteAsync(string key, Stream data, IFormFile file, CancellationToken cancellationToken = default)
+        public async Task<Stream> WriteAsync(string key, Stream data, string contentType, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentException("Key cannot be null");

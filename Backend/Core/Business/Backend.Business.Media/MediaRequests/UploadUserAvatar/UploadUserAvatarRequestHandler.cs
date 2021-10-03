@@ -44,7 +44,7 @@ namespace Backend.Business.Media.MediaRequests.UploadUserAvatar
                     ContentType = "image/jpeg"
                 };
 
-                await _storage.WriteAsync(key, compressedImage, file, cancellationToken);
+                await _storage.WriteAsync(key, compressedImage, file.ContentType, cancellationToken);
                 var presignedUrl = await _storage.GetUrlAsync(key);
 
                 // add newly created media

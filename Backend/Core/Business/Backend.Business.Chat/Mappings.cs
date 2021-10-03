@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Threading;
+using AutoMapper;
 using Backend.Business.Chat.ChatRequests.CreateChatMessage;
 using Backend.Business.Chat.ChatRequests.SendChatMessage;
 using Backend.Business.Chat.Models;
@@ -37,7 +38,7 @@ namespace Backend.Business.Chat
             CreateMap<ApplicationUser, ParticipantResponseViewModel>()
                 .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
                 {
-                    Avatar = GenericAvatarConstructor.IsGenericAvatar(z.Avatar) ? z.Avatar : storage.GetUrlAsync(z.Avatar).Result,
+                    Avatar = GenericAvatarConstructor.IsGenericAvatar(z.Avatar) ? z.Avatar : storage.GetUrlAsync(z.Avatar, CancellationToken.None).Result,
                     Id = z.Id.ToString(),
                     DisplayName = $"{z.FirstName} {z.LastName}",
                     Status = ChatParticipantStatus.Offline
@@ -50,7 +51,7 @@ namespace Backend.Business.Chat
             CreateMap<Athlete, ParticipantResponseViewModel>()
                 .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
                 {
-                    Avatar = GenericAvatarConstructor.IsGenericAvatar(z.Avatar) ? z.Avatar : storage.GetUrlAsync(z.Avatar).Result,
+                    Avatar = GenericAvatarConstructor.IsGenericAvatar(z.Avatar) ? z.Avatar : storage.GetUrlAsync(z.Avatar, CancellationToken.None).Result,
                     Id = z.Id.ToString(),
                     DisplayName = $"{z.FirstName} {z.LastName}",
                     Status = ChatParticipantStatus.Offline
@@ -63,7 +64,7 @@ namespace Backend.Business.Chat
             CreateMap<Coach, ParticipantResponseViewModel>()
                 .ForMember(x => x.Participant, y => y.MapFrom(z => new ChatParticipantViewModel()
                 {
-                    Avatar = GenericAvatarConstructor.IsGenericAvatar(z.Avatar) ? z.Avatar : storage.GetUrlAsync(z.Avatar).Result,
+                    Avatar = GenericAvatarConstructor.IsGenericAvatar(z.Avatar) ? z.Avatar : storage.GetUrlAsync(z.Avatar, CancellationToken.None).Result,
                     Id = z.Id.ToString(),
                     DisplayName = $"{z.FirstName} {z.LastName}",
                     Status = ChatParticipantStatus.Offline

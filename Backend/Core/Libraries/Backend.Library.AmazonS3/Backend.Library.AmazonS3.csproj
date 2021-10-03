@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.S3" Version="3.7.1.12" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.3.8" />
     <PackageReference Include="FirebaseAdmin" Version="2.2.0" />
-    <PackageReference Include="FirebaseAuthentication.net" Version="3.7.1" />
+    <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
     <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
-    <PackageReference Include="Google.Cloud.Storage.V1" Version="3.5.0" />
+    <PackageReference Include="Google.Cloud.Storage.V1" Version="3.6.0" />
   </ItemGroup>
 
   <ItemGroup>

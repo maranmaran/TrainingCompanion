@@ -70,7 +70,7 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
                 var compressedFile = await _compressionService.Compress(MediaType.Image, file);
 
                 //TODO: Delete previous image...
-                await _storage.WriteAsync(entity.ImageFtpFilePath, compressedFile);
+                await _storage.WriteAsync(entity.ImageFtpFilePath, compressedFile, "image/jpeg");
 
                 entity.ImageUrl = await _storage.GetUrlAsync(entity.ImageFtpFilePath);
             }

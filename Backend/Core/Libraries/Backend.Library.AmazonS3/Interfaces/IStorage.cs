@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace Backend.Library.AmazonS3.Interfaces
         /// <summary>
         /// Writes the given stream of data to bucket
         /// </summary>
-        Task<Stream> WriteAsync(string key, Stream data, IFormFile file, CancellationToken cancellationToken = default);
+        Task<Stream> WriteAsync(string key, Stream data, string contentType, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Checks if given URL is valid

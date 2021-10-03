@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
 {
@@ -66,7 +67,7 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Create
 
                 var compressedFile = await _compressionService.Compress(MediaType.Image, file);
 
-                await _storage.WriteAsync(entity.ImageFtpFilePath, compressedFile);
+                await _storage.WriteAsync(entity.ImageFtpFilePath, compressedFile, "image/jpeg");
 
                 entity.ImageUrl = await _storage.GetUrlAsync(entity.ImageFtpFilePath);
             }
