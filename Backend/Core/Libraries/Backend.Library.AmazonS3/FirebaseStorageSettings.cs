@@ -2,29 +2,29 @@
 
 namespace Backend.Library.AmazonS3
 {
-    public class S3Settings
+    internal class FirebaseStorageSettings : IStorageSettings
     {
-        public string AccesKey { get; set; }
-        public string SecretAccessKey { get; set; }
+        public string AccessKey { get; set; }
+        public string SecretKey { get; set; }
         public string BucketName { get; set; }
 
         public string UrlBase { get; set; }
 
-        public S3Settings()
+        public FirebaseStorageSettings()
         {
         }
 
-        public S3Settings(string accessKey, string secretAccessKey, string bucketName)
+        public FirebaseStorageSettings(string accessKey, string secretKey, string bucketName)
         {
             if (string.IsNullOrWhiteSpace(accessKey))
                 throw new ArgumentNullException(nameof(accessKey));
-            if (string.IsNullOrWhiteSpace(secretAccessKey))
-                throw new ArgumentNullException(nameof(secretAccessKey));
+            if (string.IsNullOrWhiteSpace(secretKey))
+                throw new ArgumentNullException(nameof(secretKey));
             if (string.IsNullOrWhiteSpace(bucketName))
                 throw new ArgumentNullException(nameof(bucketName));
 
-            AccesKey = accessKey;
-            SecretAccessKey = secretAccessKey;
+            AccessKey = accessKey;
+            SecretKey = secretKey;
             BucketName = bucketName;
         }
     }

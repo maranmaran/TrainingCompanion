@@ -350,7 +350,7 @@ namespace Backend.API.Extensions
             services.ConfigureHttpContextAccessor();
             services.ConfigureDashboardServices();
             services.ConfigureTrainingProgramServices();
-            services.ConfigureS3Storage(opt =>
+            services.ConfigureFirebaseStorage(opt =>
             {
                 opt.AccessKey = config.GetValue<string>("Storage:AccessKey");
                 opt.SecretKey = config.GetValue<string>("Storage:SecretKey");

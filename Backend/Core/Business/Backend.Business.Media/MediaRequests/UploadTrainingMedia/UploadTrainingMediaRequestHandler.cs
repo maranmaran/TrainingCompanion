@@ -43,7 +43,7 @@ namespace Backend.Business.Media.MediaRequests.UploadTrainingMedia
                 if (request.Type == MediaType.Image)
                     file = await _compressionService.Compress(MediaType.Image, request.File.OpenReadStream());
 
-                await _storage.WriteAsync(filename, file);
+                await _storage.WriteAsync(filename, file, request.File, cancellationToken);
                 var presignedUrl = await _storage.GetUrlAsync(filename);
 
                 // create db object and map to it
