@@ -36,7 +36,7 @@ namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
 
                 var sets = await _context.Sets.Where(x => x.ExerciseId == request.ExerciseId).AsNoTracking().ToListAsync(cancellationToken);
 
-                TransformSets(request.Sets, type, type.ApplicationUser.UserSetting);
+                request.Sets = TransformSets(request.Sets, type, type.ApplicationUser.UserSetting);
 
                 var setsToRemove = sets.Where(x => request.Sets.All(y => y.Id != x.Id));
                 var setsToAdd = request.Sets.Where(x => x.Id == Guid.Empty);
@@ -56,12 +56,14 @@ namespace Backend.Business.TrainingLog.SetRequests.UpdateMany
             }
         }
 
-        private void TransformSets(IEnumerable<Domain.Entities.TrainingLog.Set> sets, ExerciseType type, UserSetting settings)
+        private IEnumerable<Domain.Entities.TrainingLog.Set> TransformSets(IEnumerable<Domain.Entities.TrainingLog.Set> sets, ExerciseType type, UserSetting settings)
         {
             foreach (var set in sets)
             {
                 set.TransformSet(type, settings);
             }
+
+            return sets;
         }
     }
 }

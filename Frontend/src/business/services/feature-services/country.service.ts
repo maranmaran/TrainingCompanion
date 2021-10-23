@@ -1,16 +1,13 @@
-import { HttpBackend, HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Country } from 'src/business/shared/models/country.model';
+import { HttpBackend, HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Country } from "src/business/shared/models/country.model";
 
 @Injectable()
 export class CountryService {
-
   httpClient: HttpClient;
-  baseUrl = 'https://restcountries.eu/rest/v2';
+  baseUrl = "https://restcountries.com/v2";
 
-  constructor(
-    private httpBackend: HttpBackend
-  ) {
+  constructor(private httpBackend: HttpBackend) {
     this.httpClient = new HttpClient(this.httpBackend);
   }
 
@@ -19,7 +16,9 @@ export class CountryService {
   }
 
   getCountriesByCodes(...codes: string[]) {
-    let codesFormatted = codes.join(';');
-    return this.httpClient.get<Country[]>(`${this.baseUrl}/alpha?codes=${codesFormatted}`)
+    let codesFormatted = codes.join(";");
+    return this.httpClient.get<Country[]>(
+      `${this.baseUrl}/alpha?codes=${codesFormatted}`
+    );
   }
 }

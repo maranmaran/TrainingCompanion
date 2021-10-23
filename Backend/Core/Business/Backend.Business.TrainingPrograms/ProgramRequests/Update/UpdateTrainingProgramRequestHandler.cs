@@ -8,8 +8,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper.Internal;
 
 namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
 {
@@ -60,13 +62,21 @@ namespace Backend.Business.TrainingPrograms.ProgramRequests.Update
                 return entity;
             }
 
+            var base64Prefixes = new[]
+            {
+                "data:image/jpeg;base64,",
+                "data:image/png;base64,",
+            };
+
             // TODO... outsource this logic somewhere to share...
             // TODO These media stuff goes on with user avatars, training media, exercise media, chat media, training program media
-            if (request.Image != entity.ImageFtpFilePath && request.Image.Contains("data:image/jpeg;base64,"))
+            if (request.Image != entity.ImageFtpFilePath && base64Prefixes.Any(prefix => request.Image.Contains(prefix)))
             {
                 entity.ImageFtpFilePath = _s3Service.GetS3Key(nameof(TrainingProgram), entity.CreatorId);
 
-                var file = new MemoryStream(Convert.FromBase64String(request.Image.Replace("data:image/jpeg;base64,", string.Empty)));
+                base64Prefixes.ForAll(x => request.Image = request.Image.Replace(x, string.Empty));
+
+                var file = new MemoryStream(Convert.FromBase64String(request.Image));
 
                 var compressedFile = await _compressionService.Compress(MediaType.Image, file);
 
