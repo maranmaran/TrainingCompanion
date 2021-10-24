@@ -56,7 +56,10 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Copy
                 }
 
                 training.DateTrained = request.ToDate;
-                training.TrainingBlockDayId = request.ToProgramDay;
+                if(request.ToProgramDay != Guid.Empty)
+                {
+                    training.TrainingBlockDayId = request.ToProgramDay;
+                }
 
                 await _context.Trainings.AddAsync(training, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
