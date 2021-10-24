@@ -7,11 +7,13 @@
   padding-right: 5px !important;
 }
 
-@media (max-width: 600px) {
+.charts-container {
+  min-height: 50rem;
+}
 
+@media (max-width: 600px) {
   ::ng-deep .mat-expansion-panel-body {
     padding-left: 2.5px !important;
     padding-right: 2.5px !important;
   }
-
 }

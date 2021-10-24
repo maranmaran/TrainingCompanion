@@ -27,7 +27,7 @@
 <div class="mt-2 dialog-form-actions" fxLayout="row" fxLayoutAlign="space-between">
     <button mat-button (click)="onClose()">{{'SHARED.CLOSE' | translate }}</button>
     <button mat-stroked-button color="accent" (click)="onSubmit()"
-        [disabled]="!exerciseForm?.valid && !areSetsValid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
+        [disabled]="!exerciseFormValid || !setFormsValid">{{ (data.action == 'Create' ? 'SHARED.ADD' : 'SHARED.SAVE') | translate }}</button>
 </div>
 
 

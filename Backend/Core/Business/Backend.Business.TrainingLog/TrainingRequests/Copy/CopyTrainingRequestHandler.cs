@@ -45,6 +45,8 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Copy
                 foreach (var exercise in training.Exercises)
                 {
                     exercise.Id = Guid.Empty;
+
+                    exercise.ExerciseType = await _context.ExerciseTypes.FindAsync(exercise.ExerciseTypeId);
                     _context.Entry(exercise.ExerciseType).State = EntityState.Unchanged;
 
                     foreach (var set in exercise.Sets)
@@ -54,7 +56,10 @@ namespace Backend.Business.TrainingLog.TrainingRequests.Copy
                 }
 
                 training.DateTrained = request.ToDate;
-                training.TrainingBlockDayId = request.ToProgramDay;
+                if(request.ToProgramDay != Guid.Empty)
+                {
+                    training.TrainingBlockDayId = request.ToProgramDay;
+                }
 
                 await _context.Trainings.AddAsync(training, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
