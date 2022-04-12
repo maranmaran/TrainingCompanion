@@ -26,7 +26,7 @@
     "@angular/router": "^11.0.2",
     "@ckeditor/ckeditor5-angular": "^2.0.1",
     "@ckeditor/ckeditor5-build-classic": "^23.1.0",
-    "@microsoft/signalr": "^5.0.4",
+    "@microsoft/signalr": "^6.0.4",
     "@ngrx/data": "^10.0.1",
     "@ngrx/effects": "^10.0.1",
     "@ngrx/entity": "^10.0.1",
