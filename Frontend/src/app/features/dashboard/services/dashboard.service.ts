@@ -1,4 +1,3 @@
-import { UserActivitiesContainer } from './../models/activity.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Store } from '@ngrx/store';
@@ -11,13 +10,14 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { TrackItem } from 'src/server-models/entities/track-item.model';
 import { Track } from '../../../../server-models/entities/track.model';
 import { Activity } from '../models/activity.model';
+import { UserActivitiesContainer } from './../models/activity.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService extends BaseService {
 
-  saveTrackItemParams = new Subject();
+  saveTrackItemParams = new Subject<void>();
 
   constructor(
     private httpDI: HttpClient,

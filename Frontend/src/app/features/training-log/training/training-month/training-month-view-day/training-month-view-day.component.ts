@@ -1,25 +1,23 @@
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TrainingCreateEditComponent } from 'src/app/features/training-log/training/training-create-edit/training-create-edit.component';
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { take } from 'rxjs/operators';
+import { TrainingCreateEditComponent } from 'src/app/features/training-log/training/training-create-edit/training-create-edit.component';
+import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
 import { TrainingService } from 'src/business/services/feature-services/training.service';
 import { UIService } from 'src/business/services/shared/ui.service';
 import { ConfirmDialogConfig, ConfirmResult } from 'src/business/shared/confirm-dialog.config';
 import { sortBy } from 'src/business/utils/utils';
+import { exerciseFetched } from 'src/ngrx/exercise/exercise.actions';
+import { exercisesForTraining } from 'src/ngrx/exercise/exercise.selectors';
 import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { setSelectedTraining, trainingDeleted } from 'src/ngrx/training-log/training.actions';
 import { isMobile } from 'src/ngrx/user-interface/ui.selectors';
 import { Exercise } from 'src/server-models/entities/exercise.model';
 import { Training } from 'src/server-models/entities/training.model';
-import { CRUD } from 'src/business/shared/crud.enum';
-import { noop } from '@angular/compiler/src/render3/view/util';
-import { exercisesForTraining } from 'src/ngrx/exercise/exercise.selectors';
-import { ExerciseService } from 'src/business/services/feature-services/exercise.service';
-import { exerciseFetched } from 'src/ngrx/exercise/exercise.actions';
 
 @Component({
   selector: 'app-training-month-view-day',
@@ -53,12 +51,12 @@ export class TrainingMonthViewDayComponent implements OnInit {
     this.store.select(isMobile).pipe(take(1)).subscribe((isMobile: boolean) => this.isMobile = isMobile);
 
     this.store.select(exercisesForTraining, this.training.id)
-    .pipe(take(1))
-    .subscribe(exercises => {
-      this.exercises = exercises
-      if(this.exercises != null && this.exercises.length == 0) 
-        this.exercisesEmpty = true; 
-    });
+      .pipe(take(1))
+      .subscribe(exercises => {
+        this.exercises = exercises
+        if (this.exercises != null && this.exercises.length == 0)
+          this.exercisesEmpty = true;
+      });
   }
 
   onTrainingClick() {
@@ -70,19 +68,19 @@ export class TrainingMonthViewDayComponent implements OnInit {
   }
 
   fetchExercises() {
-    if(this.exercises != null) {
+    if (this.exercises != null) {
       return;
     }
 
     this.exerciseService.getAll(this.training.id)
-    .pipe(take(1))
-    .subscribe(exercises => {
-      this.exercises = exercises as Exercise[];
-      this.store.dispatch(exerciseFetched({ trainingId: this.training.id, entities: this.exercises }));
+      .pipe(take(1))
+      .subscribe(exercises => {
+        this.exercises = exercises as Exercise[];
+        this.store.dispatch(exerciseFetched({ trainingId: this.training.id, entities: this.exercises }));
 
-      if(this.exercises && this.exercises.length == 0)
-        this.exercisesEmpty = true;
-    });
+        if (this.exercises && this.exercises.length == 0)
+          this.exercisesEmpty = true;
+      });
   }
 
   onDelete() {

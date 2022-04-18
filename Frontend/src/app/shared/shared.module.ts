@@ -7,11 +7,12 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NguCarouselModule } from '@ngu/carousel';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { DynamicAttributesModule, DynamicModule } from 'ng-dynamic-component';
-import { AvatarModule } from 'ngx-avatar';
+import { DragScrollModule } from 'ngx-drag-scroll';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { TruncatedTextComponent } from 'src/app/shared/custom-preview-components/truncated-text/truncated-text.component';
 import { HttpLoaderFactory } from 'src/assets/i18n/translation-http-loader.factory';
-import { ButtonSizeDirective } from 'src/business/directives/button-size.directive';
 import { AfterIfDirective } from 'src/business/directives/after-if.directive';
+import { ButtonSizeDirective } from 'src/business/directives/button-size.directive';
 import { ShowHidePasswordDirective } from 'src/business/directives/show-hide-password.directive';
 import { ApplyTimezonePipe } from 'src/business/pipes/apply-timezone.pipe';
 import { FormatMomentDatePipe } from 'src/business/pipes/format-moment-date.pipe';
@@ -23,8 +24,8 @@ import { ShowUnitSystemLabelPipe } from './../../business/pipes/convert-unit-sys
 import { EnumToArrayPipe } from './../../business/pipes/enum-to-array.pipe';
 import { SanitizeHtmlPipe } from './../../business/pipes/sanitize-html.pipe';
 import { SplitPascalCasePipe } from './../../business/pipes/split-pascal-case.pipe';
-import { TruncatePipe } from './../../business/pipes/truncate.pipe';
 import { TransformWeightPipe } from './../../business/pipes/transform-weight.pipe';
+import { TruncatePipe } from './../../business/pipes/truncate.pipe';
 import { GraphCardComponent } from './../features/dashboard/dashboard-home/tracks/card-components/graph-card/graph-card.component';
 import { TrainingMonthViewDayComponent } from './../features/training-log/training/training-month/training-month-view-day/training-month-view-day.component';
 import { NotificationItemComponent } from './/notifications/notification-item/notification-item.component';
@@ -55,8 +56,6 @@ import { MediaNotificationBodyComponent } from './notifications/notification-ite
 import { NoteNotificationBodyComponent } from './notifications/notification-item/body-templates/note-notification-body.component';
 import { PersonalBestNotificationBodyComponent } from './notifications/notification-item/body-templates/personal-best-notification-body.component';
 import { TrainingNotificationBodyComponent } from './notifications/notification-item/body-templates/training-notification-body.component';
-import { DragScrollModule } from 'ngx-drag-scroll';
-import { TruncatedTextComponent } from 'src/app/shared/custom-preview-components/truncated-text/truncated-text.component';
 
 @NgModule({
     imports: [
@@ -69,7 +68,6 @@ import { TruncatedTextComponent } from 'src/app/shared/custom-preview-components
         // https://www.npmjs.com/package/ng-dynamic-component
         DynamicModule,
         DynamicAttributesModule,
-        AvatarModule,
         ImageCropperModule,
         // lazy loaded modules import of translate module
         // https://github.com/ngx-translate/core#1-import-the-translatemodule
@@ -147,7 +145,6 @@ import { TruncatedTextComponent } from 'src/app/shared/custom-preview-components
         DynamicModule,
         DynamicAttributesModule,
 
-        AvatarModule,
         MediaDialogComponent,
         ErrorSnackbarComponent,
         MessageDialogComponent,

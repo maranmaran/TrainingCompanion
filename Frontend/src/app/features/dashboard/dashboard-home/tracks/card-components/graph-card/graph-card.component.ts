@@ -156,7 +156,7 @@ export class GraphCardComponent implements OnInit {
 
     (`Calling GetExerciseType for ${this.cardId}`);
 
-    return forkJoin(...httpCalls);
+    return forkJoin([...httpCalls]);
   }
 
   get exerciseType(): AbstractControl { return this.form.get('exerciseType'); }

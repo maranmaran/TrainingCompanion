@@ -38,7 +38,7 @@ export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = cre
   // GET ALL PAGED
   on(ExerciseTypeActions.exerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[], totalItems: number, pagingModel: PagingModel }) => {
     return {
-      ...adapterExerciseType.addAll(payload.entities, state),
+      ...adapterExerciseType.addMany(payload.entities, state),
       totalItems: payload.totalItems,
       pagingModel: payload.pagingModel
     };
@@ -46,7 +46,7 @@ export const exerciseTypeReducer: ActionReducer<ExerciseTypeState, Action> = cre
 
   // GET ALL
   on(ExerciseTypeActions.allExerciseTypesFetched, (state: ExerciseTypeState, payload: { entities: ExerciseType[] }) => {
-    return adapterExerciseType.addAll(payload.entities, state);
+    return adapterExerciseType.addMany(payload.entities, state);
   }),
 
   // SET SELECTED

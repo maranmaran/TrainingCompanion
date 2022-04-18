@@ -15,12 +15,18 @@ export const stopAppInitializer = createAction('[App initializer] STOP')
 export const appInitialized = createAction('[App initializer] INITIALIZED')
 
 // STATE
-export const initialAppInitializeState = false;
+export interface AppInitializeState {
+    isInitialized: boolean
+};
+
+export const initialAppInitializeState: AppInitializeState = {
+    isInitialized: false
+}
 
 //REDUCER
-export const appInitializeReducer: ActionReducer<boolean, Action> = createReducer(
+export const appInitializeReducer: ActionReducer<AppInitializeState, Action> = createReducer(
     initialAppInitializeState,
-    on(appInitialized, () => true)
+    on(appInitialized, (state) => (state.isInitialized = true, state)),
 )
 
 //SELECTORS

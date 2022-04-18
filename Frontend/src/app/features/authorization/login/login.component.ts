@@ -14,6 +14,7 @@ import { AppState } from 'src/ngrx/global-setup.ngrx';
 import { disableErrorDialogs, setActiveProgressBar, switchTheme } from 'src/ngrx/user-interface/ui.actions';
 import { getLoadingState } from 'src/ngrx/user-interface/ui.selectors';
 import { SignInRequest } from 'src/server-models/cqrs/authorization/sign-in.request';
+import { ApplicationUser } from 'src/server-models/entities/application-user.model';
 import { UIService } from './../../../../business/services/shared/ui.service';
 import { RegisterExternalComponent } from './../register-external/register-external.component';
 
@@ -89,7 +90,7 @@ export class LoginComponent implements OnInit {
           // this.router.navigate(['/auth/register-external'], { state: userData.socialUser })
           this.registerExternalUser(userData.socialUser);
         } else {
-          this.store.dispatch(externalLogin({ user: userData.applicationUser }))
+          this.store.dispatch(externalLogin({ user: userData.applicationUser as ApplicationUser }))
         }
       });
   }

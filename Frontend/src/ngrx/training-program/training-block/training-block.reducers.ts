@@ -26,7 +26,7 @@ export const trainingBlockReducer: ActionReducer<TrainingBlockState, Action> = c
 
     // GET ALL
     on(TrainingBlockActions.trainingBlockFetched, (state: TrainingBlockState, payload: { entities: TrainingBlock[] }) => {
-        return adapterTrainingBlock.addAll(payload.entities, state);
+        return adapterTrainingBlock.addMany(payload.entities, state);
     }),
 
     // SET SELECTED
@@ -40,27 +40,27 @@ export const trainingBlockReducer: ActionReducer<TrainingBlockState, Action> = c
     // REORDER
     on(TrainingBlockActions.reorderTrainingBlock, (state: TrainingBlockState, payload: { previousItem: string, currentItem: string }) => {
 
-      // pluck types
-      const first = state.entities[payload.previousItem];
-      const second = state.entities[payload.currentItem];
+        // pluck types
+        const first = state.entities[payload.previousItem];
+        const second = state.entities[payload.currentItem];
 
-      // temp
-      let firstOrder = first.order;
-      let secondOrder = second.order;
+        // temp
+        let firstOrder = first.order;
+        let secondOrder = second.order;
 
-      // update statements
-      const firstUpdate: Update<TrainingBlock> = {
-          id: first.id,
-          changes: { order: secondOrder }
-      }
-      const secondUpdate: Update<TrainingBlock> = {
-          id: second.id,
-          changes: { order: firstOrder }
-      }
+        // update statements
+        const firstUpdate: Update<TrainingBlock> = {
+            id: first.id,
+            changes: { order: secondOrder }
+        }
+        const secondUpdate: Update<TrainingBlock> = {
+            id: second.id,
+            changes: { order: firstOrder }
+        }
 
-      // update
-      return adapterTrainingBlock.updateMany([firstUpdate, secondUpdate], state);
-  }),
+        // update
+        return adapterTrainingBlock.updateMany([firstUpdate, secondUpdate], state);
+    }),
 
 );
 
